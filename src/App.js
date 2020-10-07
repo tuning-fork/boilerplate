@@ -42,7 +42,7 @@ import BiosNew from './Components/BiosNew';
 import BoilerplatesNew from './Components/BoilerplatesNew';
 import CategoriesNew from './Components/CategoriesNew';
 import FundingOrgsNew from './Components/FundingOrgsNew';
-// import GrantsNew from './Components/GrantsNew';
+import GrantsNew from './Components/GrantsNew';
 import SectionsNew from './Components/SectionsNew';
 import ReportsNew from './Components/ReportsNew';
 import ReportSectionsNew from './Components/ReportSectionsNew';
@@ -75,6 +75,8 @@ export default class App extends Component {
             <Route exact path={'/dashboard'} component={Dashboard}/>
             <Route exact path={'/grants'} component={Grants} />
             <Route exact path={'/grants/:id'} component={GrantsShow} />
+            <Route exact path={'/grants-new'} component={GrantsNew} />
+            <Route exact path={'/sections-new'} component={SectionsNew} />
             <Route exact path={'/grants/:id/finalize'} component={GrantsFinalizeShow} />
             <Route exact path={'/grants/:id/printable'} component={GrantsPrintableShow} />
             <Route exact path={'/reports'} component={Reports} />
