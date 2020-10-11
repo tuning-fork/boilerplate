@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class CategoriesNew extends Component {
+class OrganizationsNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       name: "",
-      organization_id: "",
       errors: []
     };
 
@@ -17,8 +16,7 @@ class CategoriesNew extends Component {
 
   clearForm = () => {
     this.setState({
-      name: "",
-      organization_id: ""
+      name: ""
     });
   };
 
@@ -29,9 +27,9 @@ class CategoriesNew extends Component {
   }
 
   handleSubmit(event) {
-    const newCategory = this.state;
+    const newOrganization = this.state;
     axios
-      .post('/api/categories', newCategory, {
+      .post('/api/organizations', newOrganization, {
       })
       .then((response) => {
         if (response.data) {
@@ -39,7 +37,7 @@ class CategoriesNew extends Component {
         };
       })
       .catch((error) => {
-        console.log('category creation error', error);
+        console.log('organization creation error', error);
       });
     event.preventDefault();
   }
@@ -59,25 +57,10 @@ class CategoriesNew extends Component {
                 required
               />
             </div>
-            <div>
-            <label>Organization</label>
-
-            <select name="organization_id"
-            value={this.state.organization_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Organization</option>
-            {this.state.organizations.map(organization => {
-              return(
-                <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                );
-            })}
-            </select>
-            </div>
+            
             <div className="text-center">
               <button type="submit" className="btn-md">
-                Add New Category
+                Add New Organization
               </button>
             </div>
           </form>
@@ -87,4 +70,4 @@ class CategoriesNew extends Component {
   }
 }
 
-export default CategoriesNew;
+export default OrganizationsNew;
