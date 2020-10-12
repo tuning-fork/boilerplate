@@ -21,6 +21,16 @@ class FundingOrgs extends Component {
       console.log(response.data);
       })
       .catch((error) => console.log(error));
+    axios
+      .get('/api/organizations')
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
   render() {
@@ -37,7 +47,7 @@ class FundingOrgs extends Component {
               <div className="card-header">Name: {funding_org.name}</div>
               </div>
           );
-        })};
+        })}
       </div>
     );
   }

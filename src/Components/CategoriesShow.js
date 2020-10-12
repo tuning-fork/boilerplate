@@ -8,7 +8,7 @@ class CategoriesShow extends Component {
       id: "",
       name: "",
       organization_id: "",
-      organizations: "",
+      organizations: [],
       errors: [],
     };
 

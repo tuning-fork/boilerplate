@@ -7,11 +7,25 @@ class FundingOrgsNew extends Component {
     super(props);
 
     this.state = {
-      name: ''
+      name: '',
+      organization_id: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .get('/api/organizations')
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
   clearForm = () => {
@@ -33,7 +47,6 @@ class FundingOrgsNew extends Component {
 
     axios
       .post('/api/funding_orgs', newFundingOrg, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
         if (response.data) {

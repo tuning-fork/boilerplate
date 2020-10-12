@@ -40,7 +40,7 @@ class Categories extends Component {
               </div>
               </div>
           );
-        })};
+        })}
       </div>
     );
   }
