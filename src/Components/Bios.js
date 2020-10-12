@@ -36,9 +36,9 @@ class Bios extends Component {
             <div className="card bg-light mb-3" key={bio.id}>
               <div className="card-header">Name: {bio.first_name} {bio.last_name}</div>
               <div className="card-body">
-              <p>Title: {bio.Title}</p>
+              <p>Title: {bio.title}</p>
               <p>Text: {bio.text}</p>
-              <p>Organization ID: {bio.organization_id}</p>
+              <p>Organization: {bio.organization_id}</p>
               <p>Wordcount: {bio.wordcount}</p>
               </div>
               </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class BoilerplatesNew extends Component {
+class BiosNew extends Component {
   constructor(props) {
     super(props);
 

@@ -27,8 +27,9 @@ import FundingOrgs from './Components/FundingOrgs';
 
 import BiosShow from './Components/BiosShow';
 import BoilerplatesShow from './Components/BoilerplatesShow';
-// import CategoriesShow from './Components/CategoriesShow';
-// import FundingOrgsShow from './Components/FundingOrgsShow';
+import CategoriesShow from './Components/CategoriesShow';
+import FundingOrgsShow from './Components/FundingOrgsShow';
+ import OrganizationsShow from './Components/OrganizationsShow';
 import GrantsShow from './Components/GrantsShow';
 import ReportsShow from './Components/ReportsShow';
 
@@ -42,6 +43,7 @@ import BiosNew from './Components/BiosNew';
 import BoilerplatesNew from './Components/BoilerplatesNew';
 import CategoriesNew from './Components/CategoriesNew';
 import FundingOrgsNew from './Components/FundingOrgsNew';
+import OrganizationsNew from './Components/OrganizationsNew';
 import GrantsNew from './Components/GrantsNew';
 import SectionsNew from './Components/SectionsNew';
 import ReportsNew from './Components/ReportsNew';
@@ -91,6 +93,15 @@ export default class App extends Component {
             <Route exact path={'/bios/:id'} component={BiosShow} />
             <Route exact path={'/boilerplates'} component={Boilerplates} />
             <Route exact path={'/boilerplates/:id'} component={BoilerplatesShow} />
+            <Route exact path={'/categories/:id'} component={CategoriesShow} />
+            <Route exact path={'/funding_orgs/:id'} component={FundingOrgsShow} />
+            <Route exact path={'/organizations/:id'} component={OrganizationsShow} />
+
+            <Route exact path={'/bios-new'} component={BiosNew} />
+            <Route exact path={'/boilerplates-new'} component={BoilerplatesNew} />
+            <Route exact path={'/categories-new'} component={CategoriesNew} />
+            <Route exact path={'/funding_orgs-new'} component={FundingOrgsNew} />
+            <Route exact path={'/organizations-new'} component={OrganizationsNew} />
 
             {/* <Route
               exact path={"/logout"} component={Logout}

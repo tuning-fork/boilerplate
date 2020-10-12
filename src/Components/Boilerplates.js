@@ -43,7 +43,7 @@ class Boilerplates extends Component {
               </div>
               </div>
           );
-        })};
+        })}
       </div>
     );
   }

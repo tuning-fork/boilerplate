@@ -37,7 +37,7 @@ class Organizations extends Component {
               <div className="card-header">Name: {organization.name}</div>
               </div>
           );
-        })};
+        })}
       </div>
     );
   }
