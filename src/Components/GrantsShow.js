@@ -15,6 +15,7 @@ class GrantsShow extends Component {
       purpose: "",
       organization_id: "",
       funding_org_id: "",
+      isHidden: true,
       sections: [],
       reports: [],
       organizations: [],
@@ -24,6 +25,7 @@ class GrantsShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGrantDelete = this.handleGrantDelete.bind(this);
     // this.showEditAbility = this.showEditAbility.bind(this);
   }
 
@@ -108,6 +110,20 @@ class GrantsShow extends Component {
     }) 
   }
 
+  handleGrantDelete() {
+		axios
+			.delete('/api/grants/' + this.state.id)
+			.then((response) => {
+        if (response.data.message) {
+					this.props.history.push('/grants');
+				}
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -143,7 +159,7 @@ class GrantsShow extends Component {
           })}
         <br />
 
-        {/* beginning of review update if current user created review */}
+        {/* beginning of grant update if current user created grant */}
 
         <div>
             <div className="container">
@@ -246,6 +262,8 @@ class GrantsShow extends Component {
           history={this.props.history}
           updateSections={this.updateSections}
         />
+
+        <button onClick={this.handleGrantDelete}>Delete</button>
       </div>
     );
   }
