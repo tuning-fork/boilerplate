@@ -11,6 +11,7 @@ class BiosShow extends Component {
       title: "",
       text: "",
       organization_id: "",
+      organization: "",
       organizations: "",
       errors: [],
     };
@@ -30,6 +31,7 @@ class BiosShow extends Component {
           title: response.data.title,
           text: response.data.text,
           organization_id: response.data.organization_id,
+          organization: response.data.organization,
           loading: false,
         });
       })
@@ -86,7 +88,7 @@ class BiosShow extends Component {
         <h3>Last Name: {this.state.last_name}</h3>
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
-        <h3>organization_id: {this.state.organization_id}</h3>
+        <h3>organization: {this.state.organization.name}</h3>
         <h3>wordcount: {this.state.wordcount}</h3>
         <br />
 
