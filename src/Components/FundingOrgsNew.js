@@ -8,7 +8,9 @@ class FundingOrgsNew extends Component {
 
     this.state = {
       name: '',
-      organization_id: ''
+      website: '',
+      organization_id: '',
+      organizations: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);

@@ -72,6 +72,7 @@ class GrantsNew extends Component {
       })
       .then((response) => {
         if (response.data) {
+          this.props.updateGrants(response.data);
           this.clearForm();
         };
       })
