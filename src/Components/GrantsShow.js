@@ -258,7 +258,7 @@ class GrantsShow extends Component {
         </div>
 
         <SectionsNew 
-          grant_id={this.state.id}  
+          grant_id={this.state.id} 
           history={this.props.history}
           updateSections={this.updateSections}
         />

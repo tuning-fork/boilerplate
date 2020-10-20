@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 import React, { Component } from 'react';
@@ -33,11 +32,11 @@ import FundingOrgsShow from './Components/FundingOrgsShow';
 import GrantsShow from './Components/GrantsShow';
 import ReportsShow from './Components/ReportsShow';
 
-import GrantsFinalizeShow from './Components/GrantsFinalizeShow';
-import ReportsFinalizeShow from './Components/ReportsFinalizeShow';
+// import GrantsFinalizeShow from './Components/GrantsFinalizeShow';
+// import ReportsFinalizeShow from './Components/ReportsFinalizeShow';
 
-import GrantsPrintableShow from './Components/GrantsPrintableShow';
-import ReportsPrintableShow from './Components/ReportsPrintableShow';
+// import GrantsPrintableShow from './Components/GrantsPrintableShow';
+// import ReportsPrintableShow from './Components/ReportsPrintableShow';
 
 import BiosNew from './Components/BiosNew';
 import BoilerplatesNew from './Components/BoilerplatesNew';
@@ -79,13 +78,9 @@ export default class App extends Component {
             <Route exact path={'/grants/:id'} component={GrantsShow} />
             <Route exact path={'/grants-new'} component={GrantsNew} />
             <Route exact path={'/sections-new'} component={SectionsNew} />
-            <Route exact path={'/grants/:id/finalize'} component={GrantsFinalizeShow} />
-            <Route exact path={'/grants/:id/printable'} component={GrantsPrintableShow} />
             <Route exact path={'/reports'} component={Reports} />
             <Route exact path={'/reports/:id'} component={ReportsShow} />
             <Route exact path={'/reports/new'} component={ReportsNew} />
-            <Route exact path={'/reports/:id/finalize'} component={ReportsFinalizeShow} />
-            <Route exact path={'/reports/:id/printable'} component={ReportsPrintableShow} />
             <Route exact path={'/categories'} component={Categories} />
             <Route exact path={'/organizations'} component={Organizations} />
             <Route exact path={'/funding_orgs'} component={FundingOrgs} />

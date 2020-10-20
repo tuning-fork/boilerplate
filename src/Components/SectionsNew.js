@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class SectionsNew extends Component {
@@ -16,7 +15,6 @@ class SectionsNew extends Component {
       currentBoilerplate: '',
       addText: ''
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -150,7 +148,6 @@ class SectionsNew extends Component {
             <select name="currentBoilerplate"
             value={this.state.currentBoilerplate}
             onChange={this.handleSelect}
-            
             >
             <option value="" disabled>Select Boilerplate</option>
             {this.state.boilerplates.map(boilerplate => {
@@ -176,4 +173,4 @@ class SectionsNew extends Component {
   }
 }
 
-export default withRouter(SectionsNew);
+export default SectionsNew;

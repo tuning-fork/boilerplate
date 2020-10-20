@@ -14,6 +14,7 @@ class CategoriesShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCategoryDelete = this.handleCategoryDelete.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +66,20 @@ class CategoriesShow extends Component {
         console.log('category update error', error);
       });
     event.preventDefault();
+  }
+
+  handleCategoryDelete() {
+    axios
+      .delete('/api/categories/' + this.state.id)
+      .then((response) => {
+        if (response.data.message) {
+          this.props.history.push('/categories');
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -125,6 +140,7 @@ class CategoriesShow extends Component {
                 </div>
             </div>
         </div>
+        <button onClick={this.handleCategoryDelete}>Delete</button>
       </div>
     );
   }

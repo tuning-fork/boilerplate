@@ -12,6 +12,7 @@ class OrganizationsShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOrganizationDelete = this.handleOrganizationDelete.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +64,20 @@ class OrganizationsShow extends Component {
     event.preventDefault();
   }
 
+  handleOrganizationDelete() {
+    axios
+      .delete('/api/organizations/' + this.state.id)
+      .then((response) => {
+        if (response.data.message) {
+          this.props.history.push('/organizations');
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -109,6 +124,7 @@ class OrganizationsShow extends Component {
                 </div>
             </div>
         </div>
+        <button onClick={this.handleOrganizationDelete}>Delete</button>
       </div>
     );
   }

@@ -57,6 +57,7 @@ class BiosNew extends Component {
       })
       .then((response) => {
         if (response.data) {
+          this.props.updateBios(response.data);
           this.clearForm();
         };
       })

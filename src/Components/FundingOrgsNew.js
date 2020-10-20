@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class FundingOrgsNew extends Component {
@@ -10,7 +9,8 @@ class FundingOrgsNew extends Component {
       name: '',
       website: '',
       organization_id: '',
-      organizations: []
+      organizations: [],
+      waffle: this.props.waffle
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +26,7 @@ class FundingOrgsNew extends Component {
           loading: false,
         });
       console.log(response.data);
+      console.log(this.props.waffle)
       })
       .catch((error) => console.log(error));
   }

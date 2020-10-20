@@ -15,6 +15,7 @@ class FundingOrgsShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFundingOrgDelete = this.handleFundingOrgDelete.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +69,20 @@ class FundingOrgsShow extends Component {
         console.log('category update error', error);
       });
     event.preventDefault();
+  }
+
+  handleFundingOrgDelete() {
+    axios
+      .delete('/api/funding_orgs/' + this.state.id)
+      .then((response) => {
+        if (response.data.message) {
+          this.props.history.push('/funding_orgs');
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -140,6 +155,8 @@ class FundingOrgsShow extends Component {
                 </div>
             </div>
         </div>
+
+        <button onClick={this.handleFundingOrgDelete}>Delete</button>
       </div>
     );
   }
