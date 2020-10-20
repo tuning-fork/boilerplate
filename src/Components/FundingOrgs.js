@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
+import { Link } from 'react-router-dom';
 import FundingOrgsNew from './FundingOrgsNew';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ class FundingOrgs extends Component {
       loading: true,
       funding_orgs: [],
       query: '',
+      waffle: "waffle"
     };
   }
   componentDidMount() {
@@ -53,16 +55,22 @@ class FundingOrgs extends Component {
         {this.state.funding_orgs.map((funding_org) => {
           return (
             <div className="card bg-light mb-3" key={funding_org.id}>
-              <div className="card-header">Name: {funding_org.name}</div>
+              <div className="card-header">
+              Name: 
+              <Link
+                  to={`/funding_orgs/${funding_org.id}`}
+                >
+                  {funding_org.name}
+                </Link>
+              </div>
             </div>
           );
         })}
         <br />
         <h3>Add Funding Org</h3>
         <FundingOrgsNew 
-          updateFundingOrgs={this.updateFundingOrgs}
+          updateFundingOrgs={this.updateFundingOrgs} waffle={this.state.waffle}
         />
-
       </div>
     );
   }

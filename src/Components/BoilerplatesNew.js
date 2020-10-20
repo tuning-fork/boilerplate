@@ -12,7 +12,7 @@ class BoilerplatesNew extends Component {
       category_id: "",
       wordcount: "",
       organizations: [],
-      funding_orgs: [],
+      categories: [],
       errors: []
     };
 
@@ -66,6 +66,7 @@ class BoilerplatesNew extends Component {
       })
       .then((response) => {
         if (response.data) {
+          this.props.updateBoilerplates(response.data);
           this.clearForm();
         };
       })

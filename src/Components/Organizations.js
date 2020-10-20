@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Organizations extends Component {
@@ -34,7 +35,14 @@ class Organizations extends Component {
         {this.state.organizations.map((organization) => {
           return (
             <div className="card bg-light mb-3" key={organization.id}>
-              <div className="card-header">Name: {organization.name}</div>
+              <div className="card-header">
+              Name: 
+              <Link
+                  to={`/organizations/${organization.id}`}
+                >
+                  {organization.name}
+                </Link>
+              </div>
               </div>
           );
         })}

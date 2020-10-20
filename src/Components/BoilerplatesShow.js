@@ -11,11 +11,14 @@ class BoilerplatesShow extends Component {
       wordcount: "",
       organization_id: "",
       category_id: "",
+      organizations: [],
+      categories: [],
       errors: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBoilerplateDelete = this.handleBoilerplateDelete.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +41,26 @@ class BoilerplatesShow extends Component {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get('/api/organizations')
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get('/api/categories')
+      .then((response) => {
+        this.setState({
+          categories: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
   toggleHidden() {
@@ -75,6 +98,20 @@ class BoilerplatesShow extends Component {
     event.preventDefault();
   }
 
+  handleBoilerplateDelete() {
+    axios
+      .delete('/api/boilerplates/' + this.state.id)
+      .then((response) => {
+        if (response.data.message) {
+          this.props.history.push('/boilerplates');
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -91,7 +128,7 @@ class BoilerplatesShow extends Component {
         <div>
             <div className="container">
               <button onClick={this.toggleHidden.bind(this)}>
-                Update Bio
+                Update Boilerplate
               </button>
               <br />
               <br />
@@ -120,27 +157,37 @@ class BoilerplatesShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
-                        <label>Organization ID</label>
-                        <input
-                          type="text"
-                          value={this.state.organization_id}
-                          name="organization_id"
-                          placeholder={this.state.organization_id}
-                          onChange={this.handleChange}
-                          required
-                        />
+                      <div>
+                      <label>Organization</label>
+
+                      <select name="organization_id"
+                      value={this.state.organization_id}
+                      onChange={this.handleChange}
+                      required
+                      >
+                      <option value="" disabled>Select Organization</option>
+                      {this.state.organizations.map(organization => {
+                        return(
+                          <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                          );
+                      })}
+                      </select>
                       </div>
-                      <div className="form-group">
-                        <label>Category ID</label>
-                        <input
-                          type="text"
-                          value={this.state.category_id}
-                          name="category_id"
-                          placeholder={this.state.category_id}
-                          onChange={this.handleChange}
-                          required
-                        />
+                      <div>
+                      <label>Category</label>
+
+                      <select name="category_id"
+                      value={this.state.category_id}
+                      onChange={this.handleChange}
+                      required
+                      >
+                      <option value="" disabled>Select Category</option>
+                      {this.state.categories.map(category => {
+                        return(
+                          <option key={category.id} value={category.id} onChange={this.handleChange}>{category.name}</option>
+                          );
+                      })}
+                      </select>
                       </div>
                       <div className="form-group">
                         <label>Wordcount</label>
@@ -170,6 +217,7 @@ class BoilerplatesShow extends Component {
                 </div>
             </div>
         </div>
+        <button onClick={this.handleBoilerplateDelete}>Delete</button>
       </div>
     );
   }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
 
 class Boilerplates extends Component {
@@ -23,6 +25,14 @@ class Boilerplates extends Component {
       .catch((error) => console.log(error));
   }
 
+  updateBoilerplates = (newBoilerplate) => {
+    const boilerplates = this.state.boilerplates;
+    boilerplates.push(newBoilerplate);
+    this.setState({
+      boilerplates: boilerplates,
+    });
+  };
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -34,7 +44,14 @@ class Boilerplates extends Component {
         {this.state.boilerplates.map((boilerplate) => {
           return (
             <div className="card bg-light mb-3" key={boilerplate.id}>
-              <div className="card-header">Title: {boilerplate.title}</div>
+              <div className="card-header">
+              Title: 
+              <Link
+                  to={`/boilerplates/${boilerplate.id}`}
+                >
+                  {boilerplate.title}
+                </Link>
+              </div>
               <div className="card-body">
               <p>Text: {boilerplate.text}</p>
               <p>Organization ID: {boilerplate.organization_id}</p>
@@ -44,6 +61,11 @@ class Boilerplates extends Component {
               </div>
           );
         })}
+        <br />
+        <h3>Add Boilerplate</h3>
+        <BoilerplatesNew 
+          updateBoilerplates={this.updateBoilerplates}
+        />
       </div>
     );
   }

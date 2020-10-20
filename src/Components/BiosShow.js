@@ -18,6 +18,7 @@ class BiosShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBioDelete = this.handleBioDelete.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +77,20 @@ class BiosShow extends Component {
         console.log('bio update error', error);
       });
     event.preventDefault();
+  }
+
+  handleBioDelete() {
+    axios
+      .delete('/api/bios/' + this.state.id)
+      .then((response) => {
+        if (response.data.message) {
+          this.props.history.push('/bios');
+        }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -185,6 +200,7 @@ class BiosShow extends Component {
                 </div>
             </div>
         </div>
+        <button onClick={this.handleBioDelete}>Delete</button>
       </div>
     );
   }

@@ -8,6 +8,7 @@ class CategoriesNew extends Component {
     this.state = {
       name: "",
       organization_id: "",
+      organizations: [],
       errors: []
     };
 
@@ -22,6 +23,19 @@ class CategoriesNew extends Component {
     });
   };
 
+  componentDidMount() {
+    axios
+      .get('/api/organizations')
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+  }
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -35,6 +49,7 @@ class CategoriesNew extends Component {
       })
       .then((response) => {
         if (response.data) {
+          this.props.updateCategories(response.data);
           this.clearForm();
         };
       })
