@@ -34,7 +34,7 @@ class Signup extends Component {
       first_name,
       last_name,
       email,
-      active,
+      // active,
       password,
       password_confirmation,
     } = this.state;

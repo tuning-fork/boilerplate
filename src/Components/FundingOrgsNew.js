@@ -25,7 +25,7 @@ class FundingOrgsNew extends Component {
           organizations: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       console.log(this.props.waffle)
       })
       .catch((error) => console.log(error));

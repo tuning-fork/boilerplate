@@ -10,7 +10,6 @@ class SectionsNew extends Component {
       text: '',
       sort_order: '',
       wordcount: '',
-      grant_id: this.props.grant_id,
       boilerplates: [],
       currentBoilerplate: '',
       addText: ''
@@ -34,12 +33,10 @@ class SectionsNew extends Component {
     axios
       .get('/api/boilerplates') 
       .then((response) => {
-        this.setState(
-        {
+        this.setState({
           boilerplates: response.data
-        }) 
+        }); 
       })
-      console.log(this.props.grant_id)
   }
 
   handleChange(event) {
@@ -50,11 +47,11 @@ class SectionsNew extends Component {
 
   handleSubmit(event) {
     const {
-      grant_id, title, text, sort_order, wordcount
+      title, text, sort_order, wordcount
     } = this.state;
     axios
       .post('/api/sections', {
-        grant_id: grant_id,
+        grant_id: this.props.grant_id,
         title: title,
         text: text,
         sort_order: sort_order,
@@ -98,6 +95,7 @@ class SectionsNew extends Component {
     return (
       <div className="card">
         <h3>New Section:</h3>
+        <h4>{this.state.grant_id}</h4>
         <div className="card-body">
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
