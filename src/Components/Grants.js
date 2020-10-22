@@ -63,11 +63,12 @@ class Grants extends Component {
                 </div>
             </div>
           );
-        })};
+        })}
 
         <GrantsNew 
           updateGrants={this.updateGrants}
         />
+        
       </div>
     );
   }

@@ -44,7 +44,7 @@ class GrantsNew extends Component {
           organizations: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
     axios
@@ -54,7 +54,7 @@ class GrantsNew extends Component {
           funding_orgs: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
   }

@@ -30,9 +30,9 @@ class FundingOrgsShow extends Component {
           loading: false,
         });
       })
-      .then((response) => {
-        this.showEditAbility();
-      })
+      // .then((response) => {
+      //   this.showEditAbility();
+      // })
       .catch((error) => {
         console.log(error);
       });

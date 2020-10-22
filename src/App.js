@@ -28,7 +28,7 @@ import BiosShow from './Components/BiosShow';
 import BoilerplatesShow from './Components/BoilerplatesShow';
 import CategoriesShow from './Components/CategoriesShow';
 import FundingOrgsShow from './Components/FundingOrgsShow';
- import OrganizationsShow from './Components/OrganizationsShow';
+import OrganizationsShow from './Components/OrganizationsShow';
 import GrantsShow from './Components/GrantsShow';
 import ReportsShow from './Components/ReportsShow';
 
@@ -46,7 +46,7 @@ import OrganizationsNew from './Components/OrganizationsNew';
 import GrantsNew from './Components/GrantsNew';
 import SectionsNew from './Components/SectionsNew';
 import ReportsNew from './Components/ReportsNew';
-import ReportSectionsNew from './Components/ReportSectionsNew';
+// import ReportSectionsNew from './Components/ReportSectionsNew';
 
 export default class App extends Component {
   constructor() {
@@ -71,32 +71,32 @@ export default class App extends Component {
             <Route exact path="/">
               <Redirect to="/" />
             </Route>
-            <Route exact path={'/signup'} component={Signup} />
-            <Route exact path={'/login'} component={Login} />
-            <Route exact path={'/dashboard'} component={Dashboard}/>
+            <Route path={'/signup'} component={Signup} />
+            <Route path={'/login'} component={Login} />
+            <Route path={'/dashboard'} component={Dashboard}/>
             <Route exact path={'/grants'} component={Grants} />
-            <Route exact path={'/grants/:id'} component={GrantsShow} />
-            <Route exact path={'/grants-new'} component={GrantsNew} />
-            <Route exact path={'/sections-new'} component={SectionsNew} />
-            <Route exact path={'/reports'} component={Reports} />
-            <Route exact path={'/reports/:id'} component={ReportsShow} />
-            <Route exact path={'/reports/new'} component={ReportsNew} />
+            <Route path={'/grants/:id'} component={GrantsShow} />
+            <Route path={'/grants-new'} component={GrantsNew} />
+            <Route path={'/sections-new'} component={SectionsNew} />
+            <Route path={'/reports'} component={Reports} />
+            <Route path={'/reports/:id'} component={ReportsShow} />
+            <Route path={'/reports/new'} component={ReportsNew} />
             <Route exact path={'/categories'} component={Categories} />
             <Route exact path={'/organizations'} component={Organizations} />
             <Route exact path={'/funding_orgs'} component={FundingOrgs} />
             <Route exact path={'/bios'} component={Bios} />
-            <Route exact path={'/bios/:id'} component={BiosShow} />
+            <Route path={'/bios/:id'} component={BiosShow} />
             <Route exact path={'/boilerplates'} component={Boilerplates} />
-            <Route exact path={'/boilerplates/:id'} component={BoilerplatesShow} />
-            <Route exact path={'/categories/:id'} component={CategoriesShow} />
-            <Route exact path={'/funding_orgs/:id'} component={FundingOrgsShow} />
-            <Route exact path={'/organizations/:id'} component={OrganizationsShow} />
+            <Route path={'/boilerplates/:id'} component={BoilerplatesShow} />
+            <Route path={'/categories/:id'} component={CategoriesShow} />
+            <Route path={'/funding_orgs/:id'} component={FundingOrgsShow} />
+            <Route path={'/organizations/:id'} component={OrganizationsShow} />
 
-            <Route exact path={'/bios-new'} component={BiosNew} />
-            <Route exact path={'/boilerplates-new'} component={BoilerplatesNew} />
-            <Route exact path={'/categories-new'} component={CategoriesNew} />
-            <Route exact path={'/funding_orgs-new'} component={FundingOrgsNew} />
-            <Route exact path={'/organizations-new'} component={OrganizationsNew} />
+            <Route path={'/bios-new'} component={BiosNew} />
+            <Route path={'/boilerplates-new'} component={BoilerplatesNew} />
+            <Route path={'/categories-new'} component={CategoriesNew} />
+            <Route path={'/funding_orgs-new'} component={FundingOrgsNew} />
+            <Route path={'/organizations-new'} component={OrganizationsNew} />
 
             {/* <Route
               exact path={"/logout"} component={Logout}

@@ -12,7 +12,8 @@ class BiosShow extends Component {
       text: "",
       organization_id: "",
       organization: "",
-      organizations: "",
+      wordcount: "",
+      organizations: [],
       errors: [],
     };
 
@@ -33,12 +34,13 @@ class BiosShow extends Component {
           text: response.data.text,
           organization_id: response.data.organization_id,
           organization: response.data.organization,
+          wordcount: response.data.wordcount,
           loading: false,
         });
       })
-      .then((response) => {
-        this.showEditAbility();
-      })
+      // .then((response) => {
+      //   this.showEditAbility();
+      // })
       .catch((error) => {
         console.log(error);
       });
@@ -58,7 +60,7 @@ class BiosShow extends Component {
   }
 
   handleSubmit(event) {
-    const { first_name, last_name, title, text, organization_id } = this.state;
+    const { first_name, last_name, title, text, organization_id, wordcount } = this.state;
     axios
       .patch(
         '/api/bios/' + this.state.id,
@@ -67,7 +69,8 @@ class BiosShow extends Component {
           last_name: last_name,
           title: title,
           text: text,
-          organization_id: organization_id
+          organization_id: organization_id,
+          wordcount: wordcount
         }
       )
       .then((response) => {

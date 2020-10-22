@@ -48,13 +48,17 @@ class GrantsShow extends Component {
           loading: false,
         });
       })
-      .then((response) => {
-        this.showEditAbility();
-      })
+      // .then((response) => {
+      //   this.showEditAbility();
+      // })
       .catch((error) => {
         console.log(error);
       });
   }
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log("the id is ", this.props.grand_id);
+  // }
 
   toggleHidden() {
     this.setState({
@@ -122,7 +126,8 @@ class GrantsShow extends Component {
 			.catch((error) => {
 				console.log(error);
 			});
-	}
+  }
+  
 
   render() {
     if (this.state.loading) {
@@ -140,9 +145,9 @@ class GrantsShow extends Component {
         {this.state.sections.map(section => {
             return(
               <div key={section.id}>
-              <h4>{section.title}</h4>
-              <h4>{section.text}</h4>
-              <h4>{section.wordcount}</h4>
+                <h4>{section.title}</h4>
+                <h4>{section.text}</h4>
+                <h4>{section.wordcount}</h4>
               </div>
               )
         })}
@@ -151,9 +156,9 @@ class GrantsShow extends Component {
           {
             return(
               <div key={report.id}>
-              <h4>{report.title}</h4>
-              <h4>{report.deadline}</h4>
-              <h4>{report.submitted}</h4>
+                <h4>{report.title}</h4>
+                <h4>{report.deadline}</h4>
+                <h4>{report.submitted}</h4>
               </div>
               )
           })}
@@ -177,7 +182,7 @@ class GrantsShow extends Component {
                           type="text"
                           value={this.state.title}
                           name="title"
-                          placeholder={this.state.title}
+                          // placeholder={this.state.title}
                           onChange={this.handleChange}
                           required
                         />
@@ -188,7 +193,7 @@ class GrantsShow extends Component {
                           type="text"
                           value={this.state.rfp_url}
                           name="rfp_url"
-                          placeholder={this.state.rfp_url}
+                          // placeholder={this.state.rfp_url}
                           onChange={this.handleChange}
                           required
                         />
@@ -199,7 +204,7 @@ class GrantsShow extends Component {
                           type="datetime"
                           value={this.state.deadline}
                           name="deadline"
-                          placeholder={this.state.deadline}
+                          // placeholder={this.state.deadline}
                           onChange={this.handleChange}
                           required
                         />
@@ -207,10 +212,10 @@ class GrantsShow extends Component {
                       <div className="form-group">
                         <label>Submitted</label>
                         <input
-                          type="boolean"
+                          type="text"
                           value={this.state.submitted}
                           name="submitted"
-                          placeholder={this.state.submitted}
+                          // placeholder={this.state.submitted}
                           onChange={this.handleChange}
                           required
                         />
@@ -219,10 +224,10 @@ class GrantsShow extends Component {
                       <div className="form-group">
                         <label>Successful</label>
                         <input
-                          type="boolean"
+                          type="text"
                           value={this.state.successful}
                           name="successful"
-                          placeholder={this.state.successful}
+                          // placeholder={this.state.successful}
                           onChange={this.handleChange}
                           required
                         />
@@ -234,7 +239,7 @@ class GrantsShow extends Component {
                           type="text"
                           value={this.state.purpose}
                           name="purpose"
-                          placeholder={this.state.purpose}
+                          // placeholder={this.state.purpose}
                           onChange={this.handleChange}
                           required
                         />

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 class Navigation extends Component {
-  state = {};
   constructor(props) {
     super(props);
+    this.state = {}
 
     // this.handleLogoutClick = this.handleLogoutClick.bind(this);
   }
