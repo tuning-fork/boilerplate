@@ -25,7 +25,6 @@ class GrantsFinalizeShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.showEditAbility = this.showEditAbility.bind(this);
   }
 
   componentDidMount() {
@@ -54,10 +53,6 @@ class GrantsFinalizeShow extends Component {
         console.log(error);
       });
   }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log("the id is ", this.props.grand_id);
-  // }
 
   toggleHidden() {
     this.setState({
@@ -92,6 +87,7 @@ class GrantsFinalizeShow extends Component {
           submitted: submitted,
           successful: successful,
           purpose: purpose,
+          sections: [],
           organization_id: organization_id,
           funding_org_id: funding_org_id,
         }
@@ -105,12 +101,18 @@ class GrantsFinalizeShow extends Component {
     event.preventDefault();
   }
 
-  updateSections = (newSection) => {
-    const sections = this.state.sections;
-    sections.push(newSection);
-    this.setState({
-      sections: sections
-    }) 
+  handleSectionDelete() {
+    axios
+      .delete('/api/sections/' + this.props.section.id)
+      .then((response) => {
+        // if (response.data.message) {
+        //   this.props.history.push('/sections');
+        // }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -129,12 +131,11 @@ class GrantsFinalizeShow extends Component {
         {this.state.sections.map(section => {
             return(
               <div key={section.id}>
-                <h4>{section.title}</h4>
-                <h4>{section.text}</h4>
-                <h4>{section.wordcount}</h4>
+                <SectionsShow id={section.id}/>
               </div>
-              )
-        })}
+
+            )
+          })}
         <h3>Reports:</h3>
         {this.state.reports.map(report =>
           {
@@ -157,6 +158,7 @@ class GrantsFinalizeShow extends Component {
               </button>
               <br />
               <br />
+              {!this.state.isHidden ? (
                 <div className="card">
                   <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
@@ -243,6 +245,7 @@ class GrantsFinalizeShow extends Component {
                     </form>
                   </div>
                 </div>
+                ) : null}
             </div>
         </div>
       </div>

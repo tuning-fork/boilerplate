@@ -19,28 +19,27 @@ class SectionsShow extends Component {
     this.handleSectionDelete = this.handleSectionDelete.bind(this);
   }
 
-  componentDidMount() {
-    
-    // axios
-    //   .get(`/api/section/${this.props.match.params.id}`)
-    //   .then((response) => {
-    //     this.setState({
-    //       id: response.data.id,
-    //       title: response.data.title,
-    //       text: response.data.text,
-    //       sort_order: response.data.sort_order,
-    //       wordcount: response.data.word_count,
-    //       grant_id: response.data.grant_id,
-    //       errors: [],
-    //       loading: false,
-    //     });
-    //   })
-    //   // .then((response) => {
-    //   //   this.showEditAbility();
-    //   // })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  componentDidMount() {  
+    axios
+      .get(`/api/sections/${this.props.id}`)
+      .then((response) => {
+        this.setState({
+          id: response.data.id,
+          title: response.data.title,
+          text: response.data.text,
+          sort_order: response.data.sort_order,
+          wordcount: response.data.wordcount,
+          grant_id: response.data.grant_id,
+          errors: [],
+          loading: false,
+        });
+      })
+      .then((response) => {
+        this.toggleHidden();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   toggleHidden() {
@@ -50,9 +49,8 @@ class SectionsShow extends Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
     this.setState({
-      [name]: value,
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -60,15 +58,13 @@ class SectionsShow extends Component {
     const { title, text, sort_order, wordcount, grant_id } = this.state;
     axios
       .patch(
-        '/api/sections/' + this.state.id,
-        {
+        '/api/sections/' + this.state.id, {
           title: title,
           text: text,
-          sort_order: sort_order,
+          sort_order: sort_order, 
           wordcount: wordcount,
           grant_id: grant_id
-        }
-      )
+        })
       .then((response) => {
         this.toggleHidden();
       })
@@ -80,11 +76,11 @@ class SectionsShow extends Component {
 
   handleSectionDelete() {
     axios
-      .delete('/api/sections/' + this.state.id)
+      .delete('/api/sections/' + this.props.section.id)
       .then((response) => {
-        if (response.data.message) {
-          this.props.history.push('/sections');
-        }
+        // if (response.data.message) {
+        //   this.props.history.push('/sections');
+        // }
         console.log(response);
       })
       .catch((error) => {
@@ -98,6 +94,7 @@ class SectionsShow extends Component {
     }
     return (
       <div className="container">
+        <h1>Section Show</h1>
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>sort_order: {this.state.sort_order}</h3>
@@ -112,6 +109,7 @@ class SectionsShow extends Component {
               </button>
               <br />
               <br />
+              {!this.state.isHidden ? (
                 <div className="card">
                   <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
@@ -175,6 +173,7 @@ class SectionsShow extends Component {
                         <button type="submit" className="btn-lg">
                           Submit
                         </button>
+                        <button onClick={this.handleSectionDelete}>Delete</button>
                         <button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
@@ -185,9 +184,9 @@ class SectionsShow extends Component {
                     </form>
                   </div>
                 </div>
+                ) : null}
             </div>
         </div>
-        <button onClick={this.handleSectionDelete}>Delete</button>
       </div>
     );
   }

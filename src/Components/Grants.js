@@ -24,6 +24,7 @@ class Grants extends Component {
       })
       .catch((error) => console.log(error));
   }
+  
   updateGrants = (newGrant) => {
 		const grants = this.state.grants;
 		grants.push(newGrant);
