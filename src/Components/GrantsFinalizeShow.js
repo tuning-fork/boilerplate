@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsShow from './SectionsShow';
+import ReportsNew from './ReportsNew';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -25,7 +27,6 @@ class GrantsFinalizeShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.showEditAbility = this.showEditAbility.bind(this);
   }
 
   componentDidMount() {
@@ -55,13 +56,21 @@ class GrantsFinalizeShow extends Component {
       });
   }
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log("the id is ", this.props.grand_id);
-  // }
-
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
+    });
+  }
+
+  toggleHiddenReport() {
+    this.setState({
+      isReportHidden: !this.state.isReportHidden,
+    });
+  }
+
+   toggleHiddenNewReport() {
+    this.setState({
+      isNewReportHidden: !this.state.isNewReportHidden,
     });
   }
 
@@ -92,12 +101,15 @@ class GrantsFinalizeShow extends Component {
           submitted: submitted,
           successful: successful,
           purpose: purpose,
+          sections: [],
           organization_id: organization_id,
           funding_org_id: funding_org_id,
         }
       )
       .then((response) => {
         this.toggleHidden();
+        this.toggleHiddenReport();
+        this.toggleHiddenNewReport();
       })
       .catch((error) => {
         console.log('grant update error', error);
@@ -105,12 +117,26 @@ class GrantsFinalizeShow extends Component {
     event.preventDefault();
   }
 
-  updateSections = (newSection) => {
-    const sections = this.state.sections;
-    sections.push(newSection);
+  handleSectionDelete() {
+    axios
+      .delete('/api/sections/' + this.props.section.id)
+      .then((response) => {
+        // if (response.data.message) {
+        //   this.props.history.push('/sections');
+        // }
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  updateReports = (newReport) => {
+    const reports = this.state.reports;
+    reports.push(newReport);
     this.setState({
-      sections: sections
-    }) 
+      reports: reports,
+    });
   }
 
   render() {
@@ -129,24 +155,51 @@ class GrantsFinalizeShow extends Component {
         {this.state.sections.map(section => {
             return(
               <div key={section.id}>
-                <h4>{section.title}</h4>
-                <h4>{section.text}</h4>
-                <h4>{section.wordcount}</h4>
+                <SectionsShow id={section.id}/>
               </div>
-              )
-        })}
-        <h3>Reports:</h3>
-        {this.state.reports.map(report =>
-          {
-            return(
-              <div key={report.id}>
-                <h4>{report.title}</h4>
-                <h4>{report.deadline}</h4>
-                <h4>{report.submitted}</h4>
-              </div>
-              )
+
+            )
           })}
-        <br />
+        <button onClick={this.toggleHiddenReport.bind(this)}>
+            Show Reports for This Grant
+        </button>
+        {this.state.isReportHidden ? (
+          <div>
+        <h3>Reports:</h3>
+          {this.state.reports.map(report =>
+            {
+              return(
+                <div key={report.id}>
+                  Title: 
+                  <Link
+                    to={`/reports/${report.id}`}
+                  >
+                    {report.title}
+                  </Link>
+                  <h4>{report.deadline}</h4>
+                  <h4>{report.submitted}</h4>
+                </div>
+                )
+            })}
+          <br />
+        </div>
+        ) : null}
+
+        <div>
+          <div className="container">
+            <button onClick={this.toggleHiddenNewReport.bind(this)}>
+              Add New Report
+            </button>
+            <br />
+            <br />
+            {this.state.isNewReportHidden ? (
+          <ReportsNew 
+            grant_id={this.state.id}
+            updateReports={this.updateReports}
+          />
+          ) : null}
+          </div>
+        </div>
 
         {/* beginning of grant update if current user created grant */}
 
@@ -157,6 +210,7 @@ class GrantsFinalizeShow extends Component {
               </button>
               <br />
               <br />
+              {!this.state.isHidden ? (
                 <div className="card">
                   <div className="card-body">
                     <form onSubmit={this.handleSubmit}>
@@ -243,6 +297,7 @@ class GrantsFinalizeShow extends Component {
                     </form>
                   </div>
                 </div>
+                ) : null}
             </div>
         </div>
       </div>
