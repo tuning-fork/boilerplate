@@ -32,7 +32,7 @@ import OrganizationsShow from './Components/OrganizationsShow';
 import GrantsShow from './Components/GrantsShow';
 import ReportsShow from './Components/ReportsShow';
 
-// import GrantsFinalizeShow from './Components/GrantsFinalizeShow';
+import GrantsFinalizeShow from './Components/GrantsFinalizeShow';
 // import ReportsFinalizeShow from './Components/ReportsFinalizeShow';
 
 // import GrantsPrintableShow from './Components/GrantsPrintableShow';
@@ -76,6 +76,7 @@ export default class App extends Component {
             <Route path={'/dashboard'} component={Dashboard}/>
             <Route exact path={'/grants'} component={Grants} />
             <Route path={'/grants/:id'} component={GrantsShow} />
+            <Route path={'/grants-finalize/:id'} component={GrantsFinalizeShow} />
             <Route path={'/grants-new'} component={GrantsNew} />
             <Route path={'/sections-new'} component={SectionsNew} />
             <Route path={'/reports'} component={Reports} />
