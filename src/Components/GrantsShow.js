@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsNew from './SectionsNew';
 
@@ -269,6 +270,12 @@ class GrantsShow extends Component {
         />
 
         <button onClick={this.handleGrantDelete}>Delete</button>
+        <Link 
+          to={`/grants-finalize/${this.state.id}`}
+        >
+          Grant Finalize
+        </Link>
+
       </div>
     );
   }

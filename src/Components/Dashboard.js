@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import CurrentUser from './CurrentUser';
+// import OrganizationUser from './OrganizationUser';
 import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {};
   }
 
@@ -15,11 +16,14 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="container">
-      <CurrentUser history={this.props.history} />
+        <CurrentUser history={this.props.history} />
         <br />
         <Link to="/grants-new">
           <button className="btn-lg">Add New Grant</button>
         </Link>
+        <br />
+        <br />
+        {/* <OrganizationUser /> */}
       </div>
     );
   }
