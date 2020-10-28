@@ -143,20 +143,20 @@ class GrantsNew extends Component {
               ></input>
             </div>
             <div>
-            <label>Organization</label>
+              <label>Organization</label>
 
-            <select name="organization_id"
-            value={this.state.organization_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Organization</option>
-            {this.state.organizations.map(organization => {
-              return(
-                <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                );
-            })}
-            </select>
+              <select name="organization_id"
+              value={this.state.organization_id}
+              onChange={this.handleChange}
+              required
+              >
+              <option value="" disabled>Select Organization</option>
+              {this.state.organizations.map(organization => {
+                return(
+                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                  );
+              })}
+              </select>
             </div>
             <div>
             <label>Funding Organization</label>

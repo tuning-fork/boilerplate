@@ -140,6 +140,7 @@ class GrantsFinalizeShow extends Component {
   }
 
   render() {
+    console.log(this.state.reports);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -169,15 +170,17 @@ class GrantsFinalizeShow extends Component {
           {this.state.reports.map(report =>
             {
               return(
-                <div key={report.id}>
-                  Title: 
-                  <Link
-                    to={`/reports/${report.id}`}
-                  >
-                    {report.title}
-                  </Link>
-                  <h4>{report.deadline}</h4>
-                  <h4>{report.submitted}</h4>
+                <div className="card bg-light mb-3" key={report.id}>
+                  <div className="card-header">
+                    Title: 
+                    <Link
+                      to={`/reports/${report.id}`}
+                    >
+                      {report.title}
+                    </Link>
+                    <h4>{report.deadline}</h4>
+                    <h4>{report.submitted}</h4>
+                  </div>
                 </div>
                 )
             })}

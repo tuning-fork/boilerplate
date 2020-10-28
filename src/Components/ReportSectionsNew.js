@@ -11,6 +11,7 @@ class ReportSectionsNew extends Component {
       text: '',
       sort_order: '',
       wordcount: '',
+
       boilerplates: [],
       currentBoilerplate: '',
       addText: ''
@@ -51,7 +52,7 @@ class ReportSectionsNew extends Component {
       title, text, sort_order, wordcount
     } = this.state;
     axios
-      .post('/api/sections', {
+      .post('/api/report_sections', {
         report_id: this.props.report_id,
         title: title,
         text: text,

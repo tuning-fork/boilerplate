@@ -18,7 +18,7 @@ import Boilerplates from './Components/Boilerplates';
 import Categories from './Components/Categories';
 import Organizations from './Components/Organizations';
 import Grants from './Components/Grants';
-import Reports from './Components/Reports';
+// import Reports from './Components/Reports';
 
 import FundingOrgs from './Components/FundingOrgs';
 // import Sections from './Components/Sections';
@@ -31,9 +31,11 @@ import FundingOrgsShow from './Components/FundingOrgsShow';
 import OrganizationsShow from './Components/OrganizationsShow';
 import GrantsShow from './Components/GrantsShow';
 import ReportsShow from './Components/ReportsShow';
+// import OrganizationUser from './Components/OrganizationUsers'
+
 
 import GrantsFinalizeShow from './Components/GrantsFinalizeShow';
-// import ReportsFinalizeShow from './Components/ReportsFinalizeShow';
+import ReportsFinalizeShow from './Components/ReportsFinalizeShow';
 
 // import GrantsPrintableShow from './Components/GrantsPrintableShow';
 // import ReportsPrintableShow from './Components/ReportsPrintableShow';
@@ -45,11 +47,12 @@ import FundingOrgsNew from './Components/FundingOrgsNew';
 import OrganizationsNew from './Components/OrganizationsNew';
 import GrantsNew from './Components/GrantsNew';
 import SectionsNew from './Components/SectionsNew';
-import ReportsNew from './Components/ReportsNew';
+// import ReportsNew from './Components/ReportsNew';
 // import ReportSectionsNew from './Components/ReportSectionsNew';
 
 export default class App extends Component {
   constructor() {
+    // console.log(ReportsShow);
     super();
 
     this.state = {
@@ -79,9 +82,11 @@ export default class App extends Component {
             <Route path={'/grants-finalize/:id'} component={GrantsFinalizeShow} />
             <Route path={'/grants-new'} component={GrantsNew} />
             <Route path={'/sections-new'} component={SectionsNew} />
-            <Route path={'/reports'} component={Reports} />
-            <Route path={'/reports/:id'} component={ReportsShow} />
-            <Route path={'/reports/new'} component={ReportsNew} />
+            
+            <Route path={'/reports/:id'} component={ReportsShow}/>
+            <Route path={'/reports-finalize/:id'} component={ReportsFinalizeShow}/>
+             
+            {/* <Route path={'/reports/new'} component={ReportsNew} /> */}
             <Route exact path={'/categories'} component={Categories} />
             <Route exact path={'/organizations'} component={Organizations} />
             <Route exact path={'/funding_orgs'} component={FundingOrgs} />

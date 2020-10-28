@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
 
-class ReportsShow extends Component {
+export default class ReportsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,9 +45,9 @@ class ReportsShow extends Component {
       });
   }
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log("the id is ", this.props.grand_id);
-  // }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("the id is ", this.props.grand_id);
+  }
 
   toggleHidden() {
     this.setState({
@@ -73,7 +74,7 @@ class ReportsShow extends Component {
     const { grant_id, title, deadline, submitted } = this.state;
     axios
       .patch(
-        '/api/grants/' + this.state.id,
+        '/api/reports/' + this.state.id,
         {
           grant_id: grant_id,
           title: title,
@@ -82,6 +83,7 @@ class ReportsShow extends Component {
         }
       )
       .then((response) => {
+        
         this.toggleHidden();
       })
       .catch((error) => {
@@ -135,7 +137,7 @@ class ReportsShow extends Component {
         })}
         <br />
 
-        {/* beginning of grant update if current user created grant */}
+        {/* beginning of report update if current user created report */}
 
         <div>
             <div className="container">
@@ -204,9 +206,15 @@ class ReportsShow extends Component {
         />
 
         <button onClick={this.handleReportDelete}>Delete</button>
+
+        <Link 
+          to={`/reports-finalize/${this.state.id}`}
+        >
+          Report Finalize
+        </Link>
       </div>
     );
   }
 }
 
-export default ReportsShow;
+
