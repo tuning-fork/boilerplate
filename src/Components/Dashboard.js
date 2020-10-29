@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CurrentUser from './CurrentUser';
-// import OrganizationUser from './OrganizationUser';
+import OrganizationUser from './OrganizationUser';
 import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
@@ -23,7 +23,7 @@ class Dashboard extends Component {
         </Link>
         <br />
         <br />
-        {/* <OrganizationUser /> */}
+        <OrganizationUser />
       </div>
     );
   }

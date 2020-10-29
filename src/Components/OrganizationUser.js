@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class OrganizationUser extends Component () {
+class OrganizationUser extends Component {
   constructor() {
     super();
     this.state = {
@@ -9,6 +9,7 @@ class OrganizationUser extends Component () {
       organizations: []
     };
   }
+
 
   componentDidMount() {
     axios
@@ -55,10 +56,11 @@ class OrganizationUser extends Component () {
       <div>
         <label>Organization</label>
 
-        <select name="organization_id"
-        value={this.state.organization_id}
-        onChange={this.handleChange}
-        required
+        <select 
+          name="organization_id"
+          value={this.state.organization_id}
+          onChange={this.handleChange}
+          required
         >
         <option value="" disabled>Select Organization</option>
         {this.state.organizations.map(organization => {
@@ -68,10 +70,8 @@ class OrganizationUser extends Component () {
         })}
         </select>
       </div>
-
     )
   }
-
 }
 
 export default OrganizationUser;
