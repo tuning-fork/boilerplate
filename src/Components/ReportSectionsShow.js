@@ -16,6 +16,7 @@ class ReportSectionsShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.countWords = this.countWords.bind(this);
     this.handleReportSectionDelete = this.handleReportSectionDelete.bind(this);
   }
 
@@ -55,16 +56,16 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { report_id, title, text, sort_order, wordcount } = this.state;
+    const { report_id, title, text, sort_order } = this.state;
     axios
       .patch(
-        '/api/sections/' + this.state.id, 
+        '/api/report_sections/' + this.state.id, 
         {
           report_id: report_id,
           title: title,
           text: text,
           sort_order: sort_order, 
-          wordcount: wordcount,
+          wordcount: this.countWords(this.state.text),
         })
       .then((response) => {
         this.toggleHidden();
@@ -89,6 +90,14 @@ class ReportSectionsShow extends Component {
       });
   }
 
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
+  }
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -99,7 +108,7 @@ class ReportSectionsShow extends Component {
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>sort_order: {this.state.sort_order}</h3>
-        <h3>wordcount: {this.state.wordcount}</h3>
+        <h3>wordcount: {this.countWords(this.state.text)}</h3>
         <h3>report_id: {this.state.report_id}</h3>
         <br />
 
@@ -137,15 +146,8 @@ class ReportSectionsShow extends Component {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Wordcount</label>
-                        <input
-                          type="text"
-                          value={this.state.wordcount}
-                          name="wordcount"
-                          placeholder={this.state.wordcount}
-                          onChange={this.handleChange}
-                          required
-                        />
+                        <label>Word Count</label>
+                        <p>{this.countWords(this.state.text)}</p>
                       </div>
                       <div className="form-group">
                         <label>Sort Order</label>

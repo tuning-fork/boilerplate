@@ -18,6 +18,7 @@ class BoilerplatesNew extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.countWords = this.countWords.bind(this);
   }
 
   clearForm = () => {
@@ -60,9 +61,16 @@ class BoilerplatesNew extends Component {
   }
 
   handleSubmit(event) {
-    const newBoilerplate = this.state;
+    const {
+      title, text, organization_id, category_id
+    } = this.state;
     axios
-      .post('/api/boilerplates', newBoilerplate, {
+      .post('/api/boilerplates', {
+        title: title,
+        text: text,
+        organization_id: organization_id,
+        category_id: category_id,
+        wordcount: this.countWords(this.state.text)
       })
       .then((response) => {
         if (response.data) {
@@ -74,6 +82,14 @@ class BoilerplatesNew extends Component {
         console.log('boilerplate creation error', error);
       });
     event.preventDefault();
+  }
+
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
   }
 
   render() {
@@ -100,6 +116,11 @@ class BoilerplatesNew extends Component {
                 onChange={this.handleChange}
                 required
               />
+            </div>
+
+            <div className="form-group">
+              <label>Word Count</label>
+              <p>{this.countWords(this.state.text)}</p>
             </div>
             
             <div>

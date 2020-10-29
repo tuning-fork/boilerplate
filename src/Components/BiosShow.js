@@ -19,6 +19,7 @@ class BiosShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.countWords = this.countWords.bind(this);
     this.handleBioDelete = this.handleBioDelete.bind(this);
   }
 
@@ -70,7 +71,7 @@ class BiosShow extends Component {
           title: title,
           text: text,
           organization_id: organization_id,
-          wordcount: wordcount
+          wordcount: this.countWords(this.state.text)
         }
       )
       .then((response) => {
@@ -80,6 +81,14 @@ class BiosShow extends Component {
         console.log('bio update error', error);
       });
     event.preventDefault();
+  }
+
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
   }
 
   handleBioDelete() {
@@ -107,7 +116,7 @@ class BiosShow extends Component {
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>organization: {this.state.organization.name}</h3>
-        <h3>wordcount: {this.state.wordcount}</h3>
+        <h3>wordcount: {this.countWords(this.state.text)}</h3>
         <br />
 
         <div>
@@ -176,15 +185,8 @@ class BiosShow extends Component {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Wordcount</label>
-                        <input
-                          type="text"
-                          value={this.state.wordcount}
-                          name="wordcount"
-                          placeholder={this.state.wordcount}
-                          onChange={this.handleChange}
-                          required
-                        />
+                        <label>Word Count</label>
+                        <p>{this.countWords(this.state.text)}</p>
                       </div>
                       
                       <div className="text-center">

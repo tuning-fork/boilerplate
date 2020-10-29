@@ -18,6 +18,7 @@ class ReportSectionsNew extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.countWords = this.countWords.bind(this);
   }
 
   clearForm = () => {
@@ -49,7 +50,7 @@ class ReportSectionsNew extends Component {
 
   handleSubmit(event) {
     const {
-      title, text, sort_order, wordcount
+      title, text, sort_order
     } = this.state;
     axios
       .post('/api/report_sections', {
@@ -57,7 +58,7 @@ class ReportSectionsNew extends Component {
         title: title,
         text: text,
         sort_order: sort_order,
-        wordcount: wordcount
+        wordcount: this.countWords(this.state.text)
       })
       .then((response) => {
         if (response.data) {
@@ -71,19 +72,13 @@ class ReportSectionsNew extends Component {
     event.preventDefault();
   }
 
-  // addBoilerplate(addText) {
-  //   this.setState({
-  //     addText: this.state.currentBoilerplate.text
-  //   });
-  //   this.state.currentSection.text += addText;
-  // }
-
-  // addBoilerplate() {
-  //   this.setState({
-  //     currentBoilerplate: this.state.currentBoilerplate
-  //   })
-  //   console.log(this.state.currentBoilerplate);
-  // }
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+            return 0; 
+      }
+  }
 
   handleSelect = (event) => {
     let text = this.state.text;
@@ -123,13 +118,7 @@ class ReportSectionsNew extends Component {
             </div>
             <div className="form-group">
               <label>Word Count</label>
-              <input
-                type="text"
-                name="wordcount"
-                value={this.state.wordcount}
-                onChange={this.handleChange}
-                required
-              />
+              <p>{this.countWords(this.state.text)}</p>
             </div>
             <div className="form-group">
               <label>Sort Order</label>
