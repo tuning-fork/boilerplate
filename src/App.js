@@ -103,7 +103,6 @@ export default class App extends Component {
             <Route path={'/categories-new'} component={CategoriesNew} />
             <Route path={'/funding_orgs-new'} component={FundingOrgsNew} />
             <Route path={'/organizations-new'} component={OrganizationsNew} />
-
             {/* <Route
               exact path={"/logout"} component={Logout}
             /> */}

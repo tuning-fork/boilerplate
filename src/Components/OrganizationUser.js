@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class OrganizationUser extends Component () {
+class OrganizationUser extends Component {
   constructor() {
     super();
     this.state = {
+      user_id: localStorage.user_id,
       organization_id: "",
       organizations: []
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -30,29 +34,47 @@ class OrganizationUser extends Component () {
   }
 
   handleSubmit(event) {
-    const { organization_id } = this.state;
+    const newOrganizationUser = this.state;
     axios
-      .post('/api/organization_users', 
-      {
-        user_id: localStorage.user_id,
-        organization_id: organization_id
-      })
+      .post('/api/organization_users', newOrganizationUser, {})
       .then((response) => {
         if (response.data) {
-          console.log(response.data.id)
-          // this.props.updateGrants(response.data);
-          // this.clearForm();
-        };
+          console.log(response.data)
+        }
       })
       .catch((error) => {
-        console.log('grant creation error', error);
+        console.log('organization user creation error', error);
       });
-    event.preventDefault();
+      event.preventDefault();
   }
+
+  // handleSubmit(event) {
+  //   const { organization_id } = this.state;
+  //   axios
+  //     .post('/api/organization_users', 
+  //     {
+  //       user_id: localStorage.user_id,
+  //       organization_id: organization_id
+  //     })
+  //     .then((response) => {
+  //       if (response.data) {
+  //         console.log(response.data.id)
+  //         // this.props.updateGrants(response.data);
+  //         // this.clearForm();
+  //       };
+  //     })
+  //     .catch((error) => {
+  //       console.log('organization creation error', error);
+  //     });
+  //   event.preventDefault();
+  // }
   
   render () {
     return (
-      <div>
+      <div className="card">
+        <div className="card-body">
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
         <label>Organization</label>
 
         <select name="organization_id"
@@ -67,6 +89,14 @@ class OrganizationUser extends Component () {
             );
         })}
         </select>
+      </div>
+      <div className="text-center">
+        <button type="submit" className="btn-md">
+          Add New Organization User
+        </button>
+      </div>
+      </form>
+      </div>
       </div>
 
     )

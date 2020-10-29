@@ -18,6 +18,7 @@ class BiosNew extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.countWords = this.countWords.bind(this);
   }
 
   clearForm = () => {
@@ -51,9 +52,17 @@ class BiosNew extends Component {
   }
 
   handleSubmit(event) {
-    const newBio = this.state;
+    const {
+      first_name, last_name, title, text, organization_id
+    } = this.state;
     axios
-      .post('/api/bios', newBio, {
+      .post('/api/bios', {
+        first_name: first_name,
+        last_name: last_name,
+        title: title,
+        text: text,
+        organization_id: organization_id,
+        wordcount: this.countWords(this.state.text)
       })
       .then((response) => {
         if (response.data) {
@@ -66,6 +75,15 @@ class BiosNew extends Component {
       });
     event.preventDefault();
   }
+
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
+  }
+
 
   render() {
     return (
@@ -114,14 +132,8 @@ class BiosNew extends Component {
             </div>
 
             <div className="form-group">
-              <label>Wordcount</label>
-              <input
-                type="text"
-                name="wordcount"
-                value={this.state.wordcount}
-                onChange={this.handleChange}
-                required
-              />
+              <label>Word Count</label>
+              <p>{this.countWords(this.state.text)}</p>
             </div>
             
             <div>

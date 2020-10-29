@@ -9,6 +9,7 @@ class CurrentUser extends Component {
       last_name: '',
       email: '',
       isHidden: false,
+      organization_users: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,6 +24,7 @@ class CurrentUser extends Component {
           first_name: response.data.first_name,
           last_name: response.data.last_name,
           email: response.data.email,
+          organization_users: response.data.organization_users
         });
       })
       .catch(function (error) {
@@ -51,7 +53,7 @@ class CurrentUser extends Component {
         {
           first_name: first_name,
           last_name: last_name,
-          email: email,
+          email: email
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
@@ -63,10 +65,18 @@ class CurrentUser extends Component {
   }
 
   render() {
+    console.log(this.state.organization_users)
     return (
       <div>
         <h1>Welcome to your Dashboard {this.state.first_name}</h1>
         <br />
+        <div>
+        {this.state.organization_users.map((organization_user) => {
+        return (
+        <h2>Here are your current organizations: {organization_user.organization_name}</h2>
+        );
+        })}
+        </div>
         <div>
           <button onClick={this.toggleHidden.bind(this)} className="btn-lg">
             Update Account Info
