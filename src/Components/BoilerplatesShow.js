@@ -18,6 +18,7 @@ class BoilerplatesShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.countWords = this.countWords.bind(this);
     this.handleBoilerplateDelete = this.handleBoilerplateDelete.bind(this);
   }
 
@@ -77,14 +78,14 @@ class BoilerplatesShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, text, organization_id, category_id, wordcount } = this.state;
+    const { title, text, organization_id, category_id } = this.state;
     axios
       .patch(
         '/api/boilerplates/' + this.state.id,
         {
           title: title,
           text: text,
-          wordcount: wordcount,
+          wordcount: this.countWords(this.state.text),
           organization_id: organization_id,
           category_id: category_id
         }
@@ -96,6 +97,14 @@ class BoilerplatesShow extends Component {
         console.log('boilerplate update error', error);
       });
     event.preventDefault();
+  }
+
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
   }
 
   handleBoilerplateDelete() {
@@ -122,7 +131,7 @@ class BoilerplatesShow extends Component {
         <h3>text: {this.state.text}</h3>
         <h3>organization_id: {this.state.organization_id}</h3>
         <h3>category_id: {this.state.category_id}</h3>
-        <h3>wordcount: {this.state.wordcount}</h3>
+        <h3>wordcount: {this.countWords(this.state.text)}</h3>
         <br />
 
         <div>
@@ -190,15 +199,8 @@ class BoilerplatesShow extends Component {
                       </select>
                       </div>
                       <div className="form-group">
-                        <label>Wordcount</label>
-                        <input
-                          type="text"
-                          value={this.state.wordcount}
-                          name="wordcount"
-                          placeholder={this.state.wordcount}
-                          onChange={this.handleChange}
-                          required
-                        />
+                        <label>Word Count</label>
+                        <p>{this.countWords(this.state.text)}</p>
                       </div>
                       
                       <div className="text-center">

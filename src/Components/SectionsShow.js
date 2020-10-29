@@ -16,6 +16,7 @@ class SectionsShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.countWords = this.countWords.bind(this);
     this.handleSectionDelete = this.handleSectionDelete.bind(this);
   }
 
@@ -55,14 +56,14 @@ class SectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, text, sort_order, wordcount, grant_id } = this.state;
+    const { title, text, sort_order, grant_id } = this.state;
     axios
       .patch(
         '/api/sections/' + this.state.id, {
           title: title,
           text: text,
           sort_order: sort_order, 
-          wordcount: wordcount,
+          wordcount: this.countWords(this.state.text),
           grant_id: grant_id
         })
       .then((response) => {
@@ -88,6 +89,14 @@ class SectionsShow extends Component {
       });
   }
 
+  countWords(string) { 
+    if (string) {
+      return (string.split(" ").length);
+      } else {
+        return 0; 
+      }
+  }
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -98,7 +107,7 @@ class SectionsShow extends Component {
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>sort_order: {this.state.sort_order}</h3>
-        <h3>wordcount: {this.state.wordcount}</h3>
+        <h3>wordcount: {this.countWords(this.state.text)}</h3>
         <h3>grant_id: {this.state.grant_id}</h3>
         <br />
 
@@ -136,15 +145,8 @@ class SectionsShow extends Component {
                         />
                       </div>
                       <div className="form-group">
-                        <label>Wordcount</label>
-                        <input
-                          type="text"
-                          value={this.state.wordcount}
-                          name="wordcount"
-                          placeholder={this.state.wordcount}
-                          onChange={this.handleChange}
-                          required
-                        />
+                        <label>Word Count</label>
+                        <p>{this.countWords(this.state.text)}</p>
                       </div>
                       <div className="form-group">
                         <label>Sort Order</label>
