@@ -30,7 +30,7 @@ class Organizations extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="component">
         
         {this.state.organizations.map((organization) => {
           return (

@@ -90,7 +90,7 @@ class FundingOrgsShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>Name: {this.state.name}</h3>
         <h3>Website: {this.state.website}</h3>
         <h3>organization_id: {this.state.organization_id}</h3>

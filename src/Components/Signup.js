@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
 
 class Signup extends Component {
   constructor(props) {
@@ -68,75 +69,73 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                name="first_name"
-                placeholder="First Name"
-                value={this.state.first_name}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                name="last_name"
-                placeholder="Last Name"
-                value={this.state.last_name}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="password"
-                name="password_confirmation"
-                placeholder="Password Confirmation"
-                value={this.state.password_confirmation}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div>
-              {this.state.errors.map((error, index) => {
-                return (
-                  <span key={index} style={{ color: 'red' }}>
-                    {error},{' '}
-                  </span>
-                );
-              })}
-            </div>
-            <div className="text-center">
-              <button className="btn-lg" type="submit">
-                Signup
-              </button>
-            </div>
-          </form>
-        </div>
+      <div className="component">
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              value={this.state.first_name}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              name="last_name"
+              placeholder="Last Name"
+              value={this.state.last_name}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              type="password"
+              name="password_confirmation"
+              placeholder="Password Confirmation"
+              value={this.state.password_confirmation}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <div>
+            {this.state.errors.map((error, index) => {
+              return (
+                <span key={index} style={{ color: 'red' }}>
+                  {error},{' '}
+                </span>
+              );
+            })}
+          </div>
+          <div>
+            <button type="submit">
+              Signup
+            </button>
+          </div>
+        </Form>
       </div>
     );
   }

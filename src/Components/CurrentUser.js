@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import OrganizationUser from './OrganizationUser';
+import Form from 'react-bootstrap/Form';
 
 class CurrentUser extends Component {
   constructor(props) {
@@ -31,6 +33,14 @@ class CurrentUser extends Component {
         console.log(error);
       });
   }
+
+  updateOrganizationUsers = (newOrganizationUser) => {
+		const organization_users = this.state.organization_users;
+		organization_users.push(newOrganizationUser);
+		this.setState({
+			organization_users: organization_users
+		});
+	};
 
   toggleHidden() {
     this.setState({
@@ -71,9 +81,10 @@ class CurrentUser extends Component {
         <h1>Welcome to your Dashboard {this.state.first_name}</h1>
         <br />
         <div>
+        <h2>Here are your current organizations: </h2>
         {this.state.organization_users.map((organization_user) => {
         return (
-        <h2>Here are your current organizations: {organization_user.organization_name}</h2>
+        <h3>{organization_user.organization_name}</h3>
         );
         })}
         </div>
@@ -84,32 +95,31 @@ class CurrentUser extends Component {
           <br />
           <br />
           {this.state.isHidden ? (
-            <div className="card">
-              <div className="card-body">
-                <form onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    <label>First Name</label>
-                    <input
+            <div >
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group>
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
                       type="text"
                       value={this.state.first_name}
                       name="first_name"
                       placeholder={this.state.first_name}
                       onChange={this.handleChange}
                     />
-                  </div>
-                  <div className="form-group">
-                    <label>Last Name</label>
-                    <input
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control
                       type="text"
                       value={this.state.last_name}
                       name="last_name"
                       placeholder={this.state.last_name}
                       onChange={this.handleChange}
                     />
-                  </div>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
                       type="text"
                       value={this.state.email}
                       name="email"
@@ -117,7 +127,7 @@ class CurrentUser extends Component {
                       onChange={this.handleChange}
                       required
                     />
-                  </div>
+                  </Form.Group>
                   <div className="text-center">
                     <button type="submit" className="btn-lg">
                       Submit
@@ -129,7 +139,7 @@ class CurrentUser extends Component {
                       Close
                     </button>
                   </div>
-                </form>
+                </Form>
                 <br />
                 {/* <button
                   onClick={() => this.handleUserDelete()}
@@ -137,9 +147,12 @@ class CurrentUser extends Component {
                   Delete Account
                 </button> */}
               </div>
-            </div>
+            
           ) : null}
         </div>
+        <OrganizationUser 
+          updateOrganizationUsers={this.updateOrganizationUsers} 
+        />
       </div>
     );
   }

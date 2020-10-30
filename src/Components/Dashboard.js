@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CurrentUser from './CurrentUser';
-import OrganizationUser from './OrganizationUser';
-import { Link } from 'react-router-dom';
+// import OrganizationUser from './OrganizationUser';
+// import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
   constructor() {
@@ -15,15 +15,15 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="component">
         <CurrentUser history={this.props.history} />
         <br />
-        <Link to="/grants-new">
+        {/* <Link to="/grants-new">
           <button className="btn-lg">Add New Grant</button>
-        </Link>
+        </Link> */}
         <br />
         <br />
-        <OrganizationUser />
+        {/* <OrganizationUser /> */}
       </div>
     );
   }

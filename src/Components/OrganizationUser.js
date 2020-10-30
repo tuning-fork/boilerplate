@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
 
 class OrganizationUser extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user_id: localStorage.user_id,
       organization_id: "",
@@ -13,6 +14,13 @@ class OrganizationUser extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
+  clearForm = () => {
+    this.setState({
+      organization_id: ""
+    });
+  };
+
 
   componentDidMount() {
     axios
@@ -39,8 +47,9 @@ class OrganizationUser extends Component {
       .post('/api/organization_users', newOrganizationUser, {})
       .then((response) => {
         if (response.data) {
-          console.log(response.data)
-        }
+          this.props.updateOrganizationUsers(response.data);
+          this.clearForm();
+        };
       })
       .catch((error) => {
         console.log('organization user creation error', error);
@@ -71,37 +80,35 @@ class OrganizationUser extends Component {
   
   render () {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-        <label>Organization</label>
+      <div>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Select An Organization</Form.Label>
 
-        <select name="organization_id"
-        value={this.state.organization_id}
-        onChange={this.handleChange}
-        required
-        >
-        <option value="" disabled>Select Organization</option>
-        {this.state.organizations.map(organization => {
-          return(
-            <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-            );
-        })}
-        </select>
-      </div>
-      <div className="text-center">
-        <button type="submit" className="btn-md">
-          Add New Organization User
-        </button>
-      </div>
-      </form>
-      </div>
+              <Form.Control as="select" 
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+              <option value="" disabled>Select Organization</option>
+              {this.state.organizations.map(organization => {
+                return(
+                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                  );
+              })}
+              </Form.Control>
+            </Form.Group>
+            <div className="text-center">
+              <button type="submit" className="btn-md">
+                Add New Organization User
+              </button>
+            </div>
+          </Form>
       </div>
 
     )
   }
-
 }
 
 export default OrganizationUser;

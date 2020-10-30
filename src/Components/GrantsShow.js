@@ -135,7 +135,7 @@ class GrantsShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>Title: {this.state.title}</h3>
         <h3>RFP URL: {this.state.rfp_url}</h3>
         <h3>Deadline: {this.state.deadline}</h3>
@@ -174,10 +174,10 @@ class GrantsShow extends Component {
               </button>
               <br />
               <br />
-                <div className="card">
-                  <div className="card-body">
+                <div>
+                  <div>
                     <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
+                      <div >
                         <label>Title</label>
                         <input
                           type="text"
@@ -188,7 +188,7 @@ class GrantsShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div >
                         <label>RFP URL</label>
                         <input
                           type="text"
@@ -199,7 +199,7 @@ class GrantsShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div >
                         <label>Deadline</label>
                         <input
                           type="datetime"
@@ -210,7 +210,7 @@ class GrantsShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div >
                         <label>Submitted</label>
                         <input
                           type="text"
@@ -222,7 +222,7 @@ class GrantsShow extends Component {
                         />
                       </div>
 
-                      <div className="form-group">
+                      <div >
                         <label>Successful</label>
                         <input
                           type="text"
@@ -234,7 +234,7 @@ class GrantsShow extends Component {
                         />
                       </div>
 
-                      <div className="form-group">
+                      <div >
                         <label>Purpose</label>
                         <input
                           type="text"
@@ -247,12 +247,11 @@ class GrantsShow extends Component {
                       </div>
                       
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <button type="submit">
                           Submit
                         </button>
                         <button
                           onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
                         >
                           Close
                         </button>

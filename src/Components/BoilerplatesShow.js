@@ -126,7 +126,7 @@ class BoilerplatesShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>organization_id: {this.state.organization_id}</h3>

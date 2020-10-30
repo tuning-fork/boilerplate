@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GrantsNew from './GrantsNew';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class Grants extends Component {
   constructor(props) {
@@ -39,30 +40,27 @@ class Grants extends Component {
     };
 
     return (
-      <div className="container">
-        
+      <div className="component">
         {this.state.grants.map((grant) => {
           return (
-            <div className="card bg-light mb-3" key={grant.id}>
-              <div className="card-header">
-                Title: 
+            <Card key={grant.id}>
+              <Card.Header> 
                 <Link
 									to={`/grants/${grant.id}`}
 								>
 									{grant.title}
 								</Link>
-              </div>
-                <div className="card-body">
+              </Card.Header>
+                <Card.Body>
                   <p>Purpose: {grant.purpose}</p>
-                  <p>Funding Org ID: {grant.funding_org_id}</p>
+                  <p>Funding Organization: {grant.funding_org_name}</p>
                   <p>RFP URL: {grant.rfp_url}</p>
                   <p>Deadline: {grant.deadline}</p>
                   <p>Submitted: {grant.submitted}</p>
                   <p>Successful: {grant.successful}</p>
-                  <p>Organization ID: {grant.organization_id}</p>
                   <p>Organization Name: {grant.organization_name}</p>
-                </div>
-            </div>
+                </Card.Body>
+            </Card>
           );
         })}
 
