@@ -110,7 +110,7 @@ class BiosShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>First Name: {this.state.first_name}</h3>
         <h3>Last Name: {this.state.last_name}</h3>
         <h3>title: {this.state.title}</h3>

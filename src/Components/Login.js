@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
 
 class Login extends Component {
   constructor(props) {
@@ -58,40 +59,38 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-            <div>
-              <span style={{ color: 'red' }}>{this.state.errorMessage}</span>
-            </div>
-            <div className="text-center">
-              <button type="submit" className="btn-lg">
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
+    return (   
+      <div className="component">
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              required
+            />
+          </Form.Group>
+          <div>
+            <span style={{ color: 'red' }}>{this.state.errorMessage}</span>
+          </div>
+          <div>
+            <button type="submit">
+              Login
+            </button>
+          </div>
+        </Form>
       </div>
     );
   }

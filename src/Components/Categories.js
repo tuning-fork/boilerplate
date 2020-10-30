@@ -39,7 +39,7 @@ class Categories extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="component">
         
         {this.state.categories.map((category) => {
           return (

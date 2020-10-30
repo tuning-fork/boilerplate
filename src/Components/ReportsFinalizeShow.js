@@ -126,7 +126,7 @@ class ReportsFinalizeShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>Title: {this.state.title}</h3>
         <h3>Deadline: {this.state.deadline}</h3>
         <h3>Submitted: {this.state.submitted}</h3>

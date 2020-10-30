@@ -39,7 +39,7 @@ class Boilerplates extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="component">
         
         {this.state.boilerplates.map((boilerplate) => {
           return (

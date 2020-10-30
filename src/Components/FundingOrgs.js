@@ -50,7 +50,7 @@ class FundingOrgs extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="component">
         
         {this.state.funding_orgs.map((funding_org) => {
           return (

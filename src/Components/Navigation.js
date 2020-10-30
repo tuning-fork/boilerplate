@@ -17,43 +17,39 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div>
-        <nav
-          className="navbar fixed-top navbar-expand-lg navbar-light"
-        >
-          <div className="navbar-nav">
-              <ul className="nav">
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/login">Login</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/signup">Sign Up</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/dashboard">Dashboard</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/grants">Grants</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/bios">Bios</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/boilerplates">Boilerplates</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/categories">Categories</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/organizations">Organizations</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="navbar-brand" to="/funding_orgs">Funding Orgs</Link>
-                </li>
-              </ul>
-          </div>
+  
+        <nav>
+          <ul >
+            <li className="active">
+              <Link to="/login">Login</Link>
+            </li>
+            <li className="active">
+              <Link to="/signup">Sign Up</Link>
+            </li>
+            <li className="active">
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li className="active">
+              <Link to="/grants">Grants</Link>
+            </li>
+            <li className="active">
+              <Link to="/bios">Bios</Link>
+            </li>
+            <li className="active">
+              <Link to="/boilerplates">Boilerplates</Link>
+            </li>
+            <li className="active">
+              <Link to="/categories">Categories</Link>
+            </li>
+            <li className="active">
+              <Link to="/organizations">Organizations</Link>
+            </li>
+            <li className="active">
+              <Link to="/funding_orgs">Funding Orgs</Link>
+            </li>
+          </ul>
         </nav>
-      </div>
+    
     );
   }
 }

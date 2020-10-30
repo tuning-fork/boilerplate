@@ -145,7 +145,7 @@ class GrantsFinalizeShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="container">
+      <div className="component">
         <h3>Title: {this.state.title}</h3>
         <h3>RFP URL: {this.state.rfp_url}</h3>
         <h3>Deadline: {this.state.deadline}</h3>
@@ -170,8 +170,8 @@ class GrantsFinalizeShow extends Component {
           {this.state.reports.map(report =>
             {
               return(
-                <div className="card bg-light mb-3" key={report.id}>
-                  <div className="card-header">
+                <div key={report.id}>
+                  <div>
                     Title: 
                     <Link
                       to={`/reports/${report.id}`}
@@ -214,10 +214,10 @@ class GrantsFinalizeShow extends Component {
               <br />
               <br />
               {!this.state.isHidden ? (
-                <div className="card">
-                  <div className="card-body">
+                <div>
+                  <div>
                     <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
+                      <div>
                         <label>Title</label>
                         <input
                           type="text"
@@ -228,7 +228,7 @@ class GrantsFinalizeShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div>
                         <label>RFP URL</label>
                         <input
                           type="text"
@@ -239,7 +239,7 @@ class GrantsFinalizeShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div>
                         <label>Deadline</label>
                         <input
                           type="datetime"
@@ -250,7 +250,7 @@ class GrantsFinalizeShow extends Component {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div>
                         <label>Submitted</label>
                         <input
                           type="text"
@@ -262,7 +262,7 @@ class GrantsFinalizeShow extends Component {
                         />
                       </div>
 
-                      <div className="form-group">
+                      <div>
                         <label>Successful</label>
                         <input
                           type="text"
@@ -274,7 +274,7 @@ class GrantsFinalizeShow extends Component {
                         />
                       </div>
 
-                      <div className="form-group">
+                      <div>
                         <label>Purpose</label>
                         <input
                           type="text"

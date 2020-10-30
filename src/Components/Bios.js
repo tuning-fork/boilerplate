@@ -50,12 +50,12 @@ class Bios extends Component {
     };
 
     return (
-      <div className="container">
+      <div className="component">
         
         {this.state.bios.map((bio) => {
           return (
-            <div className="card bg-light mb-3" key={bio.id}>
-              <div className="card-header">
+            <div key={bio.id}>
+              <div>
               Name: 
               <Link
                   to={`/bios/${bio.id}`}
@@ -63,7 +63,7 @@ class Bios extends Component {
                   {bio.first_name} {bio.last_name}
                 </Link>
               </div>
-              <div className="card-body">
+              <div>
               <p>Title: {bio.title}</p>
               <p>Text: {bio.text}</p>
               <p>Organization: {bio.organization_id}</p>
