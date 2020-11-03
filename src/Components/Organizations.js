@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class Organizations extends Component {
   constructor(props) {
@@ -34,16 +35,16 @@ class Organizations extends Component {
         
         {this.state.organizations.map((organization) => {
           return (
-            <div className="card bg-light mb-3" key={organization.id}>
-              <div className="card-header">
+            <Card key={organization.id}>
+              <Card.Header>
               Name: 
               <Link
                   to={`/organizations/${organization.id}`}
                 >
                   {organization.name}
                 </Link>
-              </div>
-              </div>
+              </Card.Header>
+              </Card>
           );
         })}
       </div>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 
 class GrantsNew extends Component {
   constructor(props) {
@@ -84,71 +86,72 @@ class GrantsNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Title</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
                 type="text"
                 name="title"
                 value={this.state.title}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div className="form-group">
-              <label>RFP URL</label>
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>RFP URL</Form.Label>
+              <Form.Control
                 name="rfp_url"
                 value={this.state.rfp_url}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label>Deadline</label>
-              <input
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Deadline</Form.Label>
+              <Form.Control
                 name="deadline"
                 value={this.state.deadline}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label>Submitted</label>
-              <input
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Submitted</Form.Label>
+              <Form.Control
                 name="submitted"
                 value={this.state.submitted}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label>Successful</label>
-              <input
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Successful</Form.Label>
+              <Form.Control
                 name="successful"
                 value={this.state.successful}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label>Purpose</label>
-              <input
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Purpose</Form.Label>
+              <Form.Control
                 name="purpose"
                 value={this.state.purpose}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div>
-              <label>Organization</label>
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
 
-              <select name="organization_id"
-              value={this.state.organization_id}
-              onChange={this.handleChange}
-              required
+              <Form.Control as="select"
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
               >
               <option value="" disabled>Select Organization</option>
               {this.state.organizations.map(organization => {
@@ -156,15 +159,16 @@ class GrantsNew extends Component {
                   <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
                   );
               })}
-              </select>
-            </div>
-            <div>
-            <label>Funding Organization</label>
+              </Form.Control>
+              </Form.Group>
+            <Form.Group>
+            <Form.Label>Funding Organization</Form.Label>
 
-            <select name="funding_org_id"
-            value={this.state.funding_org_id}
-            onChange={this.handleChange}
-            required
+            <Form.Control as="select"
+              name="funding_org_id"
+              value={this.state.funding_org_id}
+              onChange={this.handleChange}
+              required
             >
             <option value="" disabled>Select Funding Organization</option>
             {this.state.funding_orgs.map(funding_org => {
@@ -172,16 +176,16 @@ class GrantsNew extends Component {
                 <option key={funding_org.id} value={funding_org.id} onChange={this.handleChange}>{funding_org.name}</option>
                 );
             })}
-            </select>
-            </div>
+            </Form.Control>
+            </Form.Group>
             <div className="text-center">
               <button type="submit" className="btn-md">
                 Add New Grant
               </button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }
