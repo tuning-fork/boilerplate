@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class Boilerplates extends Component {
   constructor(props) {
@@ -43,22 +44,22 @@ class Boilerplates extends Component {
         
         {this.state.boilerplates.map((boilerplate) => {
           return (
-            <div className="card bg-light mb-3" key={boilerplate.id}>
-              <div className="card-header">
+            <Card key={boilerplate.id}>
+              <Card.Header>
               Title: 
               <Link
                   to={`/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
                 </Link>
-              </div>
-              <div className="card-body">
+              </Card.Header>
+              <Card.Body>
               <p>Text: {boilerplate.text}</p>
               <p>Organization ID: {boilerplate.organization_id}</p>
               <p>Category ID: {boilerplate.category_id}</p>
               <p>Wordcount: {boilerplate.wordcount}</p>
-              </div>
-              </div>
+              </Card.Body>
+              </Card>
           );
         })}
         <br />

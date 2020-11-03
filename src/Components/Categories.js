@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CategoriesNew from './CategoriesNew';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class Categories extends Component {
   constructor(props) {
@@ -43,19 +44,19 @@ class Categories extends Component {
         
         {this.state.categories.map((category) => {
           return (
-            <div className="card bg-light mb-3" key={category.id}>
-              <div className="card-header">
+            <Card key={category.id}>
+              <Card.Header>
               Name: 
               <Link
                   to={`/categories/${category.id}`}
                 >
                   {category.name}
                 </Link>
-              </div>
-              <div className="card-body">
+              </Card.Header>
+              <Card.Body>
               <p>Organization ID: {category.organization_id}</p>
-              </div>
-              </div>
+              </Card.Body>
+              </Card>
           );
         })}
         <br />
