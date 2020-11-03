@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BiosNew from './BiosNew';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class Bios extends Component {
   constructor(props) {
@@ -54,22 +55,22 @@ class Bios extends Component {
         
         {this.state.bios.map((bio) => {
           return (
-            <div key={bio.id}>
-              <div>
+            <Card key={bio.id}>
+            <Card.Header>
               Name: 
               <Link
                   to={`/bios/${bio.id}`}
                 >
                   {bio.first_name} {bio.last_name}
                 </Link>
-              </div>
-              <div>
+              </Card.Header>
+              <Card.Body>
               <p>Title: {bio.title}</p>
               <p>Text: {bio.text}</p>
               <p>Organization: {bio.organization_id}</p>
               <p>Wordcount: {bio.wordcount}</p>
-              </div>
-              </div>
+              </Card.Body>
+            </Card>
           );
         })}
         <br />

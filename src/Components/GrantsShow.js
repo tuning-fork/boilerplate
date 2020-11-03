@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsNew from './SectionsNew';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class GrantsShow extends Component {
   constructor(props) {
@@ -16,7 +19,7 @@ class GrantsShow extends Component {
       purpose: "",
       organization_id: "",
       funding_org_id: "",
-      isHidden: true,
+      isHidden: false,
       sections: [],
       reports: [],
       organizations: [],
@@ -136,13 +139,21 @@ class GrantsShow extends Component {
     }
     return (
       <div className="component">
-        <h3>Title: {this.state.title}</h3>
-        <h3>RFP URL: {this.state.rfp_url}</h3>
-        <h3>Deadline: {this.state.deadline}</h3>
-        <h3>Submitted: {this.state.submitted}</h3>
-        <h3>Successful: {this.state.successful}</h3>
-        <h3>Purpose: {this.state.purpose}</h3>
-        <h3>Sections:</h3>
+      <Card>
+        <Card.Header>
+          <h2>Title: {this.state.title}</h2>
+        </Card.Header>
+        <Card.Body>
+          <h3>RFP URL: {this.state.rfp_url}</h3>
+          <h3>Deadline: {this.state.deadline}</h3>
+          <h3>Submitted: {this.state.submitted}</h3>
+          <h3>Successful: {this.state.successful}</h3>
+          <h3>Purpose: {this.state.purpose}</h3>
+        </Card.Body>
+        <Card.Header>
+          <h2>Sections:</h2>
+        </Card.Header>
+        <Card.Body>
         {this.state.sections.map(section => {
             return(
               <div key={section.id}>
@@ -152,7 +163,11 @@ class GrantsShow extends Component {
               </div>
               )
         })}
-        <h3>Reports:</h3>
+        </Card.Body>
+        <Card.Header>
+          <h2>Reports:</h2>
+        </Card.Header>
+        <Card.Body>
         {this.state.reports.map(report =>
           {
             return(
@@ -163,23 +178,26 @@ class GrantsShow extends Component {
               </div>
               )
           })}
+        </Card.Body>
+      </Card>
         <br />
 
         {/* beginning of grant update if current user created grant */}
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Grant
-              </button>
+              </Button>
               <br />
               <br />
+              {this.state.isHidden ? (
                 <div>
                   <div>
-                    <form onSubmit={this.handleSubmit}>
-                      <div >
-                        <label>Title</label>
-                        <input
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -187,10 +205,10 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div >
-                        <label>RFP URL</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>RFP URL</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.rfp_url}
                           name="rfp_url"
@@ -198,10 +216,10 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div >
-                        <label>Deadline</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Deadline</Form.Label>
+                        <Form.Control
                           type="datetime"
                           value={this.state.deadline}
                           name="deadline"
@@ -209,10 +227,10 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div >
-                        <label>Submitted</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Submitted</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.submitted}
                           name="submitted"
@@ -220,11 +238,11 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
 
-                      <div >
-                        <label>Successful</label>
-                        <input
+                      <Form.Group>
+                        <Form.Label>Successful</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.successful}
                           name="successful"
@@ -232,11 +250,11 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
 
-                      <div >
-                        <label>Purpose</label>
-                        <input
+                      <Form.Group>
+                        <Form.Label>Purpose</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.purpose}
                           name="purpose"
@@ -244,21 +262,23 @@ class GrantsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       
                       <div className="text-center">
-                        <button type="submit">
+                        <Button type="submit" >
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
+                          
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
+                    </Form>
                   </div>
                 </div>
+              ) : null}
             </div>
         </div>
 
@@ -268,13 +288,12 @@ class GrantsShow extends Component {
           updateSections={this.updateSections}
         />
 
-        <button onClick={this.handleGrantDelete}>Delete</button>
+        <Button onClick={this.handleGrantDelete}>Delete</Button>
         <Link 
           to={`/grants-finalize/${this.state.id}`}
         >
           Grant Finalize
         </Link>
-
       </div>
     );
   }

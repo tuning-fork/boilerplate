@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import { Link } from 'react-router-dom';
 import FundingOrgsNew from './FundingOrgsNew';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
 
 class FundingOrgs extends Component {
   constructor(props) {
@@ -54,16 +55,16 @@ class FundingOrgs extends Component {
         
         {this.state.funding_orgs.map((funding_org) => {
           return (
-            <div className="card bg-light mb-3" key={funding_org.id}>
-              <div className="card-header">
+            <Card key={funding_org.id}>
+              <Card.Header>
               Name: 
               <Link
                   to={`/funding_orgs/${funding_org.id}`}
                 >
                   {funding_org.name}
                 </Link>
-              </div>
-            </div>
+              </Card.Header>
+            </Card>
           );
         })}
         <br />
