@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class GrantsNew extends Component {
   constructor(props) {
@@ -179,9 +180,9 @@ class GrantsNew extends Component {
             </Form.Control>
             </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Grant
-              </button>
+              </Button>
             </div>
           </Form>
         </Card.Body>

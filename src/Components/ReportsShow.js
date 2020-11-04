@@ -45,13 +45,19 @@ export default class ReportsShow extends Component {
       });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("the id is ", this.props.grand_id);
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log("the id is ", this.props.grand_id);
+  // }
 
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
+    });
+  }
+
+  toggleHiddenNewReportSection() {
+    this.setState({
+      isHiddenNewReportSection: !this.state.isHiddenNewReportSection,
     });
   }
 
@@ -135,76 +141,88 @@ export default class ReportsShow extends Component {
               </div>
               )
         })}
+       
+        {/* beginning of report update */}
+
         <br />
-
-        {/* beginning of report update if current user created report */}
-
-        <div>
-            <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
-                Update Report
-              </button>
-              <br />
-              <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          // placeholder={this.state.title}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Deadline</label>
-                        <input
-                          type="datetime"
-                          value={this.state.deadline}
-                          name="deadline"
-                          // placeholder={this.state.deadline}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Submitted</label>
-                        <input
-                          type="text"
-                          value={this.state.submitted}
-                          name="submitted"
-                          // placeholder={this.state.submitted}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <div className="text-center">
-                        <button type="submit" className="btn-lg">
-                          Submit
-                        </button>
-                        <button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </form>
+          <div className="container">
+            <button onClick={this.toggleHidden.bind(this)}>
+              Update Report
+            </button>
+            <br />
+            <br />
+            <div className="card">
+              <div className="card-body">
+                <form onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      value={this.state.title}
+                      name="title"
+                      // placeholder={this.state.title}
+                      onChange={this.handleChange}
+                      required
+                    />
                   </div>
-                </div>
+                  <div className="form-group">
+                    <label>Deadline</label>
+                    <input
+                      type="datetime"
+                      value={this.state.deadline}
+                      name="deadline"
+                      // placeholder={this.state.deadline}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Submitted</label>
+                    <input
+                      type="text"
+                      value={this.state.submitted}
+                      name="submitted"
+                      // placeholder={this.state.submitted}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="text-center">
+                    <button type="submit" className="btn-lg">
+                      Submit
+                    </button>
+                    <button
+                      onClick={this.toggleHidden.bind(this)}
+                      className="btn-lg"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <ReportSectionsNew 
-          report_id={this.state.id} 
-          history={this.props.history}
-          updateReportSections={this.updateReportSections}
-        />
+        {/* beginning of new report section */}
 
+        <br />
+        <div> 
+          <div className="container">
+            <button onClick={this.toggleHiddenNewReportSection.bind(this)}>
+              Add New Report Section
+            </button>
+            {this.state.isHiddenNewReportSection ? (
+            <ReportSectionsNew 
+              report_id={this.state.id} 
+              // history={this.props.history}
+              updateReportSections={this.updateReportSections}
+              toggleHiddenNewReportSection={this.toggleHiddenNewReportSection.bind(this)}
+            />
+            ) : null}
+          </div>
+        </div> 
+        
+        <br />
         <button onClick={this.handleReportDelete}>Delete</button>
 
         <Link 

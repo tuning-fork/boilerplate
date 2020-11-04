@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import OrganizationsNew from './OrganizationsNew';
 import Card from 'react-bootstrap/Card';
 
 class Organizations extends Component {
@@ -25,6 +26,14 @@ class Organizations extends Component {
       .catch((error) => console.log(error));
   }
 
+  updateOrganizations = (newOrganization) => {
+    const organizations = this.state.organizations;
+    organizations.push(newOrganization);
+    this.setState({
+      organizations: organizations,
+    });
+  };
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -32,21 +41,26 @@ class Organizations extends Component {
 
     return (
       <div className="component">
-        
         {this.state.organizations.map((organization) => {
           return (
             <Card key={organization.id}>
               <Card.Header>
-              Name: 
-              <Link
-                  to={`/organizations/${organization.id}`}
-                >
-                  {organization.name}
-                </Link>
+                Name: 
+                <Link
+                    to={`/organizations/${organization.id}`}
+                  >
+                    {organization.name}
+                  </Link>
               </Card.Header>
-              </Card>
+            </Card>
           );
         })}
+
+        <br />
+        <h3>Add An Organization</h3>
+        <OrganizationsNew 
+          updateOrganizations={this.updateOrganizations}
+        />
       </div>
     );
   }

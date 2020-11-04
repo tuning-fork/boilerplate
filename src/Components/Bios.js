@@ -56,25 +56,25 @@ class Bios extends Component {
         {this.state.bios.map((bio) => {
           return (
             <Card key={bio.id}>
-            <Card.Header>
-              Name: 
-              <Link
+              <Card.Header>
+                Name: 
+                <Link
                   to={`/bios/${bio.id}`}
                 >
                   {bio.first_name} {bio.last_name}
                 </Link>
               </Card.Header>
               <Card.Body>
-              <p>Title: {bio.title}</p>
-              <p>Text: {bio.text}</p>
-              <p>Organization: {bio.organization_id}</p>
-              <p>Wordcount: {bio.wordcount}</p>
+                <p>Title: {bio.title}</p>
+                <p>Text: {bio.text}</p>
+                <p>Organization: {bio.organization_id}</p>
+                <p>Wordcount: {bio.wordcount}</p>
               </Card.Body>
             </Card>
           );
         })}
         <br />
-        <h3>Add Bio</h3>
+        <h3>Add A Bio</h3>
         <BiosNew 
           updateBios={this.updateBios}
         />

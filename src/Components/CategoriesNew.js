@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class CategoriesNew extends Component {
   constructor(props) {
@@ -61,43 +64,50 @@ class CategoriesNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Category Name</Form.Label>
+              <Form.Control
                 type="text"
                 name="name"
                 value={this.state.name}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div>
-            <label>Organization</label>
-
-            <select name="organization_id"
-            value={this.state.organization_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Organization</option>
-            {this.state.organizations.map(organization => {
-              return(
-                <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                );
-            })}
-            </select>
-            </div>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                as="select"
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Organization</option>
+                {this.state.organizations.map(organization => {
+                  return(
+                    <option 
+                      key={organization.id} 
+                      value={organization.id} 
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Category
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }

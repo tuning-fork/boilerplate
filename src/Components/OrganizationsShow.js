@@ -47,7 +47,7 @@ class OrganizationsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { name} = this.state;
+    const { name } = this.state;
     axios
       .patch(
         '/api/organizations/' + this.state.id,

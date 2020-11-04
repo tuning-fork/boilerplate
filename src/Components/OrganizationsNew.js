@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class OrganizationsNew extends Component {
   constructor(props) {
@@ -33,6 +36,7 @@ class OrganizationsNew extends Component {
       })
       .then((response) => {
         if (response.data) {
+          this.props.updateOrganizations(response.data);
           this.clearForm();
         };
       })
@@ -44,28 +48,27 @@ class OrganizationsNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
                 type="text"
                 name="name"
                 value={this.state.name}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            
+            </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Organization
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }

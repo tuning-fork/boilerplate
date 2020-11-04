@@ -239,7 +239,6 @@ class GrantsShow extends Component {
                           required
                         />
                       </Form.Group>
-
                       <Form.Group>
                         <Form.Label>Successful</Form.Label>
                         <Form.Control
@@ -251,7 +250,6 @@ class GrantsShow extends Component {
                           required
                         />
                       </Form.Group>
-
                       <Form.Group>
                         <Form.Label>Purpose</Form.Label>
                         <Form.Control
@@ -263,14 +261,12 @@ class GrantsShow extends Component {
                           required
                         />
                       </Form.Group>
-                      
                       <div className="text-center">
                         <Button type="submit" >
                           Submit
                         </Button>
                         <Button
                           onClick={this.toggleHidden.bind(this)}
-                          
                         >
                           Close
                         </Button>
@@ -282,11 +278,14 @@ class GrantsShow extends Component {
             </div>
         </div>
 
+        <br />
+        <h3>Add A Section:</h3>
         <SectionsNew 
           grant_id={this.state.id} 
           history={this.props.history}
           updateSections={this.updateSections}
         />
+        <br />
 
         <Button onClick={this.handleGrantDelete}>Delete</Button>
         <Link 

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class BoilerplatesNew extends Component {
   constructor(props) {
@@ -94,75 +97,91 @@ class BoilerplatesNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Title</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
                 type="text"
                 name="title"
                 value={this.state.title}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div className="form-group">
-              <label>Text</label>
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Text</Form.Label>
+              <Form.Control
+                as="textarea"
                 type="text"
                 name="text"
                 value={this.state.text}
                 onChange={this.handleChange}
+                rows="4"
+                cols="50"
                 required
               />
-            </div>
-
-            <div className="form-group">
-              <label>Word Count</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.text)}</p>
-            </div>
+            </Form.Group>
             
-            <div>
-            <label>Organization</label>
-
-            <select name="organization_id"
-            value={this.state.organization_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Organization</option>
-            {this.state.organizations.map(organization => {
-              return(
-                <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                );
-            })}
-            </select>
-            </div>
-            <div>
-            <label>Category</label>
-
-            <select name="category_id"
-            value={this.state.category_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Category</option>
-            {this.state.categories.map(category => {
-              return(
-                <option key={category.id} value={category.id} onChange={this.handleChange}>{category.name}</option>
-                );
-            })}
-            </select>
-            </div>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                as="select" 
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Organization</option>
+                {this.state.organizations.map(organization => {
+                  return(
+                    <option 
+                      key={organization.id} 
+                      value={organization.id} 
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as="select" 
+                name="category_id"
+                value={this.state.category_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Category</option>
+                {this.state.categories.map(category => {
+                  return(
+                    <option 
+                      key={category.id} 
+                      value={category.id} 
+                      onChange={this.handleChange}
+                    >
+                      {category.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Boilerplate
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }

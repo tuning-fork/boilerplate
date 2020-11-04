@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class FundingOrgsNew extends Component {
   constructor(props) {
@@ -10,7 +13,7 @@ class FundingOrgsNew extends Component {
       website: '',
       organization_id: '',
       organizations: [],
-      waffle: this.props.waffle
+      errors: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,8 +28,6 @@ class FundingOrgsNew extends Component {
           organizations: response.data,
           loading: false,
         });
-      // console.log(response.data);
-      console.log(this.props.waffle)
       })
       .catch((error) => console.log(error));
   }
@@ -47,7 +48,6 @@ class FundingOrgsNew extends Component {
 
   handleSubmit(event) {
     const newFundingOrg = this.state;
-
     axios
       .post('/api/funding_orgs', newFundingOrg, {
       })
@@ -65,56 +65,61 @@ class FundingOrgsNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Name</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Funding Organization Name</Form.Label>
+              <Form.Control
                 type="text"
                 name="name"
                 value={this.state.name}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-
-            <div className="form-group">
-              <label>Website</label>
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Website</Form.Label>
+              <Form.Control
                 type="text"
                 name="website"
                 value={this.state.website}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-
-            <div>
-            <label>Organization</label>
-
-            <select name="organization_id"
-            value={this.state.organization_id}
-            onChange={this.handleChange}
-            required
-            >
-            <option value="" disabled>Select Organization</option>
-            {this.state.organizations.map(organization => {
-              return(
-                <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                );
-            })}
-            </select>
-            </div>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control 
+                as="select"
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Organization</option>
+                {this.state.organizations.map(organization => {
+                  return(
+                    <option 
+                      key={organization.id} 
+                      value={organization.id} 
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
             
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Funding Org
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }

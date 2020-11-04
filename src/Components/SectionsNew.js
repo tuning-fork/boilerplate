@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 
 class SectionsNew extends Component {
   constructor(props) {
@@ -88,74 +92,75 @@ class SectionsNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <h3>New Section:</h3>
-        <h4>{this.state.grant_id}</h4>
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Title</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
                 type="text"
                 name="title"
                 value={this.state.title}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div className="form-group">
-              <label>Text</label>
-              <textarea
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Add Boilerplate to text field below</Form.Label>
+              <Form.Control
+                as="select" 
+                name="currentBoilerplate"
+                value={this.state.currentBoilerplate}
+                onChange={this.handleSelect}
+              >
+                <option value="" disabled>Select Boilerplate</option>
+                {this.state.boilerplates.map(boilerplate => {
+                  return(
+                    <option 
+                      key={boilerplate.id} 
+                      value={boilerplate.text} 
+                      onChange={this.handleChange}
+                    >
+                      {boilerplate.title}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Text</Form.Label>
+              <Form.Control
+                as="textarea"
                 name="text"
                 value={this.state.text}
                 onChange={this.handleChange}
                 rows="4"
                 cols="50"
                 required
-              ></textarea>
-            </div>
-            <div className="form-group">
-              <label>Word Count</label>
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.text)}</p>
-            </div>
-            <div className="form-group">
-              <label>Sort Order</label>
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Sort Order</Form.Label>
+              <Form.Control
                 type="text"
                 name="sort_order"
                 value={this.state.sort_order}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-
-            <div>
-            <label>Add Boilerplate</label>
-
-            <select name="currentBoilerplate"
-            value={this.state.currentBoilerplate}
-            onChange={this.handleSelect}
-            >
-            <option value="" disabled>Select Boilerplate</option>
-            {this.state.boilerplates.map(boilerplate => {
-              return(
-                <option key={boilerplate.id} value={boilerplate.text} onChange={this.handleChange}>{boilerplate.title}</option>
-                );
-            })}
-            </select>
-            </div>
-            <h2>
-            {this.state.text}
-            </h2>
-
+            </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Section
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }
