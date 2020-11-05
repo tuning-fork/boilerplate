@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class ReportsNew extends Component {
   constructor(props) {
@@ -69,6 +72,7 @@ class ReportsNew extends Component {
         if (response.data) {
           this.props.updateReports(response.data);
           this.clearForm();
+          this.props.toggleHiddenNewReport();
         };
       })
       .catch((error) => {
@@ -79,45 +83,45 @@ class ReportsNew extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label>Title</label>
-              <input
+      <Card>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
                 type="text"
                 name="title"
                 value={this.state.title}
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div className="form-group">
-              <label>Deadline</label>
-              <input
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Deadline</Form.Label>
+              <Form.Control
                 name="deadline"
                 value={this.state.deadline}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label>Submitted</label>
-              <input
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Submitted</Form.Label>
+              <Form.Control
                 name="submitted"
                 value={this.state.submitted}
                 onChange={this.handleChange}
                 required
-              ></input>
-            </div>
+              />
+            </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Submit New Report
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }

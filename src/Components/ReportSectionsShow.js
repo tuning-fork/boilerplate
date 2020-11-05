@@ -31,7 +31,6 @@ class ReportSectionsShow extends Component {
           text: response.data.text,
           sort_order: response.data.sort_order,
           wordcount: response.data.wordcount,
-          errors: [],
           loading: false,
         });
       })
@@ -56,12 +55,12 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { report_id, title, text, sort_order } = this.state;
+    const { title, text, sort_order } = this.state;
     axios
       .patch(
         '/api/report_sections/' + this.state.id, 
         {
-          report_id: report_id,
+          report_id: this.state.report_id,
           title: title,
           text: text,
           sort_order: sort_order, 
@@ -78,7 +77,7 @@ class ReportSectionsShow extends Component {
 
   handleReportSectionDelete() {
     axios
-      .delete('/api/report_sections/' + this.props.id)
+      .delete('/api/report_sections/' + this.state.id)
       .then((response) => {
         // if (response.data.message) {
         //   this.props.history.push('/sections');
@@ -129,7 +128,7 @@ class ReportSectionsShow extends Component {
                           type="text"
                           value={this.state.title}
                           name="title"
-                          placeholder={this.state.title}
+                          // placeholder={this.state.title}
                           onChange={this.handleChange}
                           required
                         />
@@ -140,7 +139,7 @@ class ReportSectionsShow extends Component {
                           type="text"
                           value={this.state.text}
                           name="text"
-                          placeholder={this.state.text}
+                          // placeholder={this.state.text}
                           onChange={this.handleChange}
                           required
                         />
@@ -155,7 +154,7 @@ class ReportSectionsShow extends Component {
                           type="text"
                           value={this.state.sort_order}
                           name="sort_order"
-                          placeholder={this.state.sort_order}
+                          // placeholder={this.state.sort_order}
                           onChange={this.handleChange}
                           required
                         />
@@ -164,7 +163,7 @@ class ReportSectionsShow extends Component {
                         <button type="submit" className="btn-lg">
                           Submit
                         </button>
-                        <button onClick={this.handleSectionDelete}>Delete</button>
+                        <button onClick={this.handleReportSectionDelete}>Delete</button>
                         <button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"

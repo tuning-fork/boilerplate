@@ -9,9 +9,7 @@ class FundingOrgs extends Component {
     super(props);
     this.state = {
       loading: true,
-      funding_orgs: [],
-      query: '',
-      waffle: "waffle"
+      funding_orgs: []
     };
   }
   componentDidMount() {
@@ -52,13 +50,12 @@ class FundingOrgs extends Component {
 
     return (
       <div className="component">
-        
         {this.state.funding_orgs.map((funding_org) => {
           return (
             <Card key={funding_org.id}>
               <Card.Header>
-              Name: 
-              <Link
+                Name: 
+                <Link
                   to={`/funding_orgs/${funding_org.id}`}
                 >
                   {funding_org.name}
@@ -67,10 +64,11 @@ class FundingOrgs extends Component {
             </Card>
           );
         })}
+
         <br />
         <h3>Add Funding Org</h3>
         <FundingOrgsNew 
-          updateFundingOrgs={this.updateFundingOrgs} waffle={this.state.waffle}
+          updateFundingOrgs={this.updateFundingOrgs}
         />
       </div>
     );

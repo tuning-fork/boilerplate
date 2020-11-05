@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 class OrganizationUser extends Component {
   constructor(props) {
@@ -28,7 +30,6 @@ class OrganizationUser extends Component {
       .then((response) => {
         this.setState({
           organizations: response.data,
-          // loading: false,
         });
       console.log(response.data);
       })
@@ -80,11 +81,11 @@ class OrganizationUser extends Component {
   
   render () {
     return (
-      <div>
+      <Card>
+        <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Select An Organization</Form.Label>
-
               <Form.Control as="select" 
                 name="organization_id"
                 value={this.state.organization_id}
@@ -100,14 +101,14 @@ class OrganizationUser extends Component {
               </Form.Control>
             </Form.Group>
             <div className="text-center">
-              <button type="submit" className="btn-md">
+              <Button type="submit">
                 Add New Organization User
-              </button>
+              </Button>
             </div>
           </Form>
-      </div>
-
-    )
+        </Card.Body>
+      </Card>
+    );
   }
 }
 

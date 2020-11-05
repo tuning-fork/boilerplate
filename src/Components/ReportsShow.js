@@ -48,13 +48,19 @@ export default class ReportsShow extends Component {
       });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("the id is ", this.props.grand_id);
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log("the id is ", this.props.grand_id);
+  // }
 
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
+    });
+  }
+
+  toggleHiddenNewReportSection() {
+    this.setState({
+      isHiddenNewReportSection: !this.state.isHiddenNewReportSection,
     });
   }
 
@@ -212,13 +218,9 @@ export default class ReportsShow extends Component {
                 </Card>
                 ) : null }
             </div>
-        </div>
+          </div>
 
-        <ReportSectionsNew 
-          report_id={this.state.id} 
-          history={this.props.history}
-          updateReportSections={this.updateReportSections}
-        />
+        {/* beginning of new report section */}
 
         <Button onClick={this.handleReportDelete}>
           Delete

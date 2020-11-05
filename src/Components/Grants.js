@@ -43,27 +43,30 @@ class Grants extends Component {
       <div className="component">
         {this.state.grants.map((grant) => {
           return (
-            <Card key={grant.id}>
-              <Card.Header> 
-                <Link
-									to={`/grants/${grant.id}`}
-								>
-									{grant.title}
-								</Link>
-              </Card.Header>
-                <Card.Body>
-                  <p>Purpose: {grant.purpose}</p>
-                  <p>Funding Organization: {grant.funding_org_name}</p>
-                  <p>RFP URL: {grant.rfp_url}</p>
-                  <p>Deadline: {grant.deadline}</p>
-                  <p>Submitted: {grant.submitted}</p>
-                  <p>Successful: {grant.successful}</p>
-                  <p>Organization Name: {grant.organization_name}</p>
-                </Card.Body>
-            </Card>
+            <div>
+              <Card key={grant.id}>
+                <Card.Header> 
+                  <Link
+                    to={`/grants/${grant.id}`}
+                  >
+                    {grant.title}
+                  </Link>
+                </Card.Header>
+                  <Card.Body>
+                    <p>Purpose: {grant.purpose}</p>
+                    <p>Funding Organization: {grant.funding_org_name}</p>
+                    <p>RFP URL: {grant.rfp_url}</p>
+                    <p>Deadline: {grant.deadline}</p>
+                    <p>Submitted: {grant.submitted}</p>
+                    <p>Successful: {grant.successful}</p>
+                    <p>Organization Name: {grant.organization_name}</p>
+                  </Card.Body>
+              </Card>
+              <br />
+            </div>
           );
         })}
-
+        <h1>Add A Grant</h1>
         <GrantsNew 
           updateGrants={this.updateGrants}
         />

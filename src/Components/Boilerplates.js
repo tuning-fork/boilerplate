@@ -41,27 +41,27 @@ class Boilerplates extends Component {
 
     return (
       <div className="component">
-        
         {this.state.boilerplates.map((boilerplate) => {
           return (
             <Card key={boilerplate.id}>
               <Card.Header>
-              Title: 
-              <Link
-                  to={`/boilerplates/${boilerplate.id}`}
+                Title: 
+                <Link
+                    to={`/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
                 </Link>
               </Card.Header>
               <Card.Body>
-              <p>Text: {boilerplate.text}</p>
-              <p>Organization ID: {boilerplate.organization_id}</p>
-              <p>Category ID: {boilerplate.category_id}</p>
-              <p>Wordcount: {boilerplate.wordcount}</p>
+                <p>Text: {boilerplate.text}</p>
+                <p>Organization ID: {boilerplate.organization_id}</p>
+                <p>Category ID: {boilerplate.category_id}</p>
+                <p>Wordcount: {boilerplate.wordcount}</p>
               </Card.Body>
-              </Card>
+            </Card>
           );
         })}
+
         <br />
         <h3>Add Boilerplate</h3>
         <BoilerplatesNew 

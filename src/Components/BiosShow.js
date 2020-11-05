@@ -64,7 +64,7 @@ class BiosShow extends Component {
   }
 
   handleSubmit(event) {
-    const { first_name, last_name, title, text, organization_id, wordcount } = this.state;
+    const { first_name, last_name, title, text, organization_id } = this.state;
     axios
       .patch(
         '/api/bios/' + this.state.id,

@@ -17,7 +17,9 @@ class GrantsFinalizeShow extends Component {
       purpose: "",
       organization_id: "",
       funding_org_id: "",
-      isHidden: true,
+      // isHidden: true,
+      // isNewReportHidden: false,
+      loading: true,
       sections: [],
       reports: [],
       organizations: [],
@@ -27,6 +29,7 @@ class GrantsFinalizeShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.toggleHiddenNewReport = this.toggleHiddenNewReport.bind(this);
   }
 
   componentDidMount() {
@@ -109,7 +112,6 @@ class GrantsFinalizeShow extends Component {
       .then((response) => {
         this.toggleHidden();
         this.toggleHiddenReport();
-        this.toggleHiddenNewReport();
       })
       .catch((error) => {
         console.log('grant update error', error);
@@ -139,8 +141,8 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
+
   render() {
-    console.log(this.state.reports);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -154,13 +156,16 @@ class GrantsFinalizeShow extends Component {
         <h3>Purpose: {this.state.purpose}</h3>
         <h3>Sections:</h3>
         {this.state.sections.map(section => {
-            return(
-              <div key={section.id}>
-                <SectionsShow id={section.id}/>
-              </div>
+          return(
+            <div key={section.id}>
+              <SectionsShow id={section.id}/>
+            </div>
 
-            )
-          })}
+          )
+        })}
+
+        {/* beginning of show reports */}
+
         <button onClick={this.toggleHiddenReport.bind(this)}>
             Show Reports for This Grant
         </button>
@@ -188,24 +193,26 @@ class GrantsFinalizeShow extends Component {
         </div>
         ) : null}
 
+        {/* beginning of add reports*/}
+
         <div>
           <div className="container">
             <button onClick={this.toggleHiddenNewReport.bind(this)}>
               Add New Report
             </button>
-            <br />
-            <br />
             {this.state.isNewReportHidden ? (
-          <ReportsNew 
-            grant_id={this.state.id}
-            updateReports={this.updateReports}
-          />
-          ) : null}
+            <ReportsNew 
+              grant_id={this.state.id}
+              updateReports={this.updateReports}
+              toggleHiddenNewReport={this.toggleHiddenNewReport.bind(this)}
+            />
+            ) : null}
           </div>
         </div>
 
-        {/* beginning of grant update if current user created grant */}
-
+        {/* beginning of grant update */}
+        
+        <br />
         <div>
             <div className="container">
               <button onClick={this.toggleHidden.bind(this)}>
@@ -213,7 +220,7 @@ class GrantsFinalizeShow extends Component {
               </button>
               <br />
               <br />
-              {!this.state.isHidden ? (
+              {this.state.isHidden ? (
                 <div>
                   <div>
                     <form onSubmit={this.handleSubmit}>

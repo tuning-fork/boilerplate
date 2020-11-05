@@ -41,7 +41,6 @@ class Categories extends Component {
 
     return (
       <div className="component">
-        
         {this.state.categories.map((category) => {
           return (
             <Card key={category.id}>
@@ -54,11 +53,12 @@ class Categories extends Component {
                 </Link>
               </Card.Header>
               <Card.Body>
-              <p>Organization ID: {category.organization_id}</p>
+                <p>Organization ID: {category.organization_id}</p>
               </Card.Body>
               </Card>
           );
         })}
+        
         <br />
         <h3>Add Category</h3>
         <CategoriesNew 
