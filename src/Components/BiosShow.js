@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class BiosShow extends Component {
   constructor(props) {
@@ -111,27 +114,33 @@ class BiosShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+        <Card.Header>
         <h3>First Name: {this.state.first_name}</h3>
         <h3>Last Name: {this.state.last_name}</h3>
+        </Card.Header>
+        <Card.Body>
         <h3>title: {this.state.title}</h3>
         <h3>text: {this.state.text}</h3>
         <h3>organization: {this.state.organization.name}</h3>
         <h3>wordcount: {this.countWords(this.state.text)}</h3>
+        </Card.Body>
+      </Card>
         <br />
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Bio
-              </button>
+              </Button>
               <br />
               <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>First Name</label>
-                        <input
+              {this.state.isHidden ? (
+                  <Card>
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.first_name}
                           name="first_name"
@@ -139,10 +148,10 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Last Name</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.last_name}
                           name="last_name"
@@ -150,10 +159,10 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -161,10 +170,10 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Text</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Text</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.text}
                           name="text"
@@ -172,10 +181,10 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Organization ID</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Organization ID</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.organization_id}
                           name="organization_id"
@@ -183,30 +192,31 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Word Count</label>
+                      </Form.Group>
+
+                      <Form.Group>
+                        <Form.Label>Word Count</Form.Label>
                         <p>{this.countWords(this.state.text)}</p>
-                      </div>
+                      </Form.Group>
                       
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
-                  </div>
-                </div>
+                    </Form>
+                  </Card>
+                ) : null}
+              <Button onClick={this.handleBioDelete}>Delete</Button>
             </div>
+          </div>
         </div>
-        <button onClick={this.handleBioDelete}>Delete</button>
-      </div>
     );
   }
 }
