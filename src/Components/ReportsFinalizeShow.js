@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReportSectionsShow from './ReportSectionsShow';
 // import ReportsNew from './ReportsNew';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class ReportsFinalizeShow extends Component {
   constructor(props) {
@@ -126,10 +129,18 @@ class ReportsFinalizeShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+        <Card.Header>
         <h3>Title: {this.state.title}</h3>
+      </Card.Header>
+      <Card.Body>
         <h3>Deadline: {this.state.deadline}</h3>
         <h3>Submitted: {this.state.submitted}</h3>
+      </Card.Body>
+      <Card.Header>
         <h3>Report Sections:</h3>
+      </Card.Header>
+      <Card.Body>
         {this.state.report_sections.map(report_section => {
           return(
             <div key={report_section.id}>
@@ -137,6 +148,8 @@ class ReportsFinalizeShow extends Component {
             </div>
           )
           })}
+      </Card.Body>
+      </Card>
       </div>
     );
   }
