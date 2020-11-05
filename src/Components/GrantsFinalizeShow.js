@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsShow from './SectionsShow';
 import ReportsNew from './ReportsNew';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -148,13 +151,21 @@ class GrantsFinalizeShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+        <Card.Header>
         <h3>Title: {this.state.title}</h3>
+        </Card.Header>
+        <Card.Body>
         <h3>RFP URL: {this.state.rfp_url}</h3>
         <h3>Deadline: {this.state.deadline}</h3>
         <h3>Submitted: {this.state.submitted}</h3>
         <h3>Successful: {this.state.successful}</h3>
         <h3>Purpose: {this.state.purpose}</h3>
+        </Card.Body>
+        <Card.Header>
         <h3>Sections:</h3>
+        </Card.Header>
+        <Card.Body>
         {this.state.sections.map(section => {
           return(
             <div key={section.id}>
@@ -163,15 +174,20 @@ class GrantsFinalizeShow extends Component {
 
           )
         })}
+        </Card.Body>
+        </Card>
 
         {/* beginning of show reports */}
-
-        <button onClick={this.toggleHiddenReport.bind(this)}>
+        <Button onClick={this.toggleHiddenReport.bind(this)}>
             Show Reports for This Grant
-        </button>
+        </Button>
         {this.state.isReportHidden ? (
           <div>
+        <Card>
+        <Card.Header>
         <h3>Reports:</h3>
+        </Card.Header>
+        <Card.Body>
           {this.state.reports.map(report =>
             {
               return(
@@ -189,6 +205,8 @@ class GrantsFinalizeShow extends Component {
                 </div>
                 )
             })}
+            </Card.Body>
+          </Card>
           <br />
         </div>
         ) : null}
@@ -197,9 +215,9 @@ class GrantsFinalizeShow extends Component {
 
         <div>
           <div className="container">
-            <button onClick={this.toggleHiddenNewReport.bind(this)}>
+            <Button onClick={this.toggleHiddenNewReport.bind(this)}>
               Add New Report
-            </button>
+            </Button>
             {this.state.isNewReportHidden ? (
             <ReportsNew 
               grant_id={this.state.id}
@@ -215,18 +233,18 @@ class GrantsFinalizeShow extends Component {
         <br />
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Grant
-              </button>
+              </Button>
               <br />
               <br />
               {this.state.isHidden ? (
                 <div>
                   <div>
-                    <form onSubmit={this.handleSubmit}>
-                      <div>
-                        <label>Title</label>
-                        <input
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -234,10 +252,10 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div>
-                        <label>RFP URL</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>RFP URL</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.rfp_url}
                           name="rfp_url"
@@ -245,10 +263,10 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div>
-                        <label>Deadline</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Deadline</Form.Label>
+                        <Form.Control
                           type="datetime"
                           value={this.state.deadline}
                           name="deadline"
@@ -256,10 +274,10 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div>
-                        <label>Submitted</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Submitted</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.submitted}
                           name="submitted"
@@ -267,11 +285,11 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
 
-                      <div>
-                        <label>Successful</label>
-                        <input
+                      <Form.Group>
+                        <Form.Label>Successful</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.successful}
                           name="successful"
@@ -279,11 +297,11 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
 
-                      <div>
-                        <label>Purpose</label>
-                        <input
+                      <Form.Group>
+                        <Form.Label>Purpose</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.purpose}
                           name="purpose"
@@ -291,20 +309,20 @@ class GrantsFinalizeShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
+                    </Form>
                   </div>
                 </div>
                 ) : null}
