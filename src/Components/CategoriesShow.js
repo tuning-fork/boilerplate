@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class CategoriesShow extends Component {
   constructor(props) {
@@ -88,23 +91,29 @@ class CategoriesShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+        <Card.Header>
         <h3>Name: {this.state.name}</h3>
+        </Card.Header>
+        <Card.Body>
         <h3>organization_id: {this.state.organization_id}</h3>
+        </Card.Body>
+      </Card>
         <br />
-
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Category
-              </button>
+              </Button>
               <br />
               <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Name</label>
-                        <input
+              {this.state.isHidden ? (
+                <Card>
+                  <Card.Body>
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.name}
                           name="name"
@@ -112,10 +121,10 @@ class CategoriesShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Organization ID</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Organization ID</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.organization_id}
                           name="organization_id"
@@ -123,25 +132,26 @@ class CategoriesShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <button onClick={this.handleCategoryDelete}>Delete</button>
+                    </Form>
+                    </Card.Body>
+                  </Card>
+                ) : null }
+          <Button onClick={this.handleCategoryDelete}>Delete</Button>
       </div>
+    </div>
+  </div>
     );
   }
 }

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default class ReportsShow extends Component {
   constructor(props) {
@@ -121,37 +124,48 @@ export default class ReportsShow extends Component {
     }
     return (
       <div className="component">
-        <h3>Grant ID: {this.state.grant_id}</h3>
-        <h3>Title: {this.state.title}</h3>
-        <h3>Deadline: {this.state.deadline}</h3>
-        <h3>Submitted: {this.state.submitted}</h3>
-        <h3>Report Sections:</h3>
-        {this.state.report_sections.map(report_section => {
-            return(
-              <div key={report_section.id}>
-                <h4>{report_section.title}</h4>
-                <h4>{report_section.text}</h4>
-                <h4>{report_section.wordcount}</h4>
-              </div>
+        <Card>
+          <Card.Header>
+          <h3>Grant ID: {this.state.grant_id}</h3>
+          </Card.Header>
+            <Card.Body>
+              <h3>Title: {this.state.title}</h3>
+              <h3>Deadline: {this.state.deadline}</h3>
+              <h3>Submitted: {this.state.submitted}</h3>
+            </Card.Body>
+          <Card.Header>
+            <h3>Report Sections:</h3>
+          </Card.Header>
+            <Card.Body>
+              {this.state.report_sections.map(report_section => {
+                  return(
+                    <div key={report_section.id}>
+                      <h4>{report_section.title}</h4>
+                      <h4>{report_section.text}</h4>
+                      <h4>{report_section.wordcount}</h4>
+                    </div>
               )
         })}
-        <br />
+            </Card.Body>
+          </Card>
+            <br />
 
         {/* beginning of report update if current user created report */}
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Report
-              </button>
-              <br />
-              <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
+              </Button>
+                <br />
+                <br />
+              {this.state.isHidden ? (
+                <Card>
+                  <Card.Body>
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -159,10 +173,10 @@ export default class ReportsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Deadline</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Deadline</Form.Label>
+                        <Form.Control
                           type="datetime"
                           value={this.state.deadline}
                           name="deadline"
@@ -170,10 +184,10 @@ export default class ReportsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Submitted</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Submitted</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.submitted}
                           name="submitted"
@@ -181,21 +195,22 @@ export default class ReportsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
-                  </div>
-                </div>
+                    </Form>
+                  </Card.Body>
+                </Card>
+                ) : null }
             </div>
         </div>
 
@@ -205,11 +220,12 @@ export default class ReportsShow extends Component {
           updateReportSections={this.updateReportSections}
         />
 
-        <button onClick={this.handleReportDelete}>Delete</button>
+        <Button onClick={this.handleReportDelete}>
+          Delete
+        </Button>
 
         <Link 
-          to={`/reports-finalize/${this.state.id}`}
-        >
+          to={`/reports-finalize/${this.state.id}`}>
           Report Finalize
         </Link>
       </div>
