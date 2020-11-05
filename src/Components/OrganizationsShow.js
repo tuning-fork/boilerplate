@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class OrganizationsShow extends Component {
   constructor(props) {
@@ -84,22 +87,27 @@ class OrganizationsShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+        <Card.Header>
         <h3>Name: {this.state.name}</h3>
+        </Card.Header>
+      </Card>
         <br />
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Organization
-              </button>
+              </Button>
               <br />
               <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Name</label>
-                        <input
+              {this.state.isHidden ? (
+                <Card>
+                  <Card.Body>
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.name}
                           name="name"
@@ -107,24 +115,25 @@ class OrganizationsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
-                  </div>
-                </div>
+                    </Form>
+                  </Card.Body>
+                </Card>
+                ) : null}
             </div>
         </div>
-        <button onClick={this.handleOrganizationDelete}>Delete</button>
+        <Button onClick={this.handleOrganizationDelete}>Delete</Button>
       </div>
     );
   }

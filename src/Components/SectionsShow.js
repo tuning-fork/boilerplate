@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class SectionsShow extends Component {
   constructor(props) {
@@ -103,28 +106,34 @@ class SectionsShow extends Component {
     }
     return (
       <div className="container">
-        <h1>Section Show</h1>
-        <h3>title: {this.state.title}</h3>
-        <h3>text: {this.state.text}</h3>
-        <h3>sort_order: {this.state.sort_order}</h3>
-        <h3>wordcount: {this.countWords(this.state.text)}</h3>
-        <h3>grant_id: {this.state.grant_id}</h3>
+      <Card>
+          <Card.Header>
+          <h1>Section Show</h1>
+          </Card.Header>
+          <Card.Body>
+          <h3>title: {this.state.title}</h3>
+          <h3>text: {this.state.text}</h3>
+          <h3>sort_order: {this.state.sort_order}</h3>
+          <h3>wordcount: {this.countWords(this.state.text)}</h3>
+          <h3>grant_id: {this.state.grant_id}</h3>
+          </Card.Body>
+        </Card>
         <br />
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Section
-              </button>
+              </Button>
               <br />
               <br />
               {!this.state.isHidden ? (
                 <div className="card">
                   <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -132,10 +141,10 @@ class SectionsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Text</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Text</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.text}
                           name="text"
@@ -143,14 +152,14 @@ class SectionsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Word Count</label>
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Word Count</Form.Label>
                         <p>{this.countWords(this.state.text)}</p>
-                      </div>
-                      <div className="form-group">
-                        <label>Sort Order</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Sort Order</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.sort_order}
                           name="sort_order"
@@ -158,10 +167,10 @@ class SectionsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Grant ID</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                      <Form.Label>Grant ID</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.grant_id}
                           name="grant_id"
@@ -169,21 +178,21 @@ class SectionsShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
+                      </Form.Group>
                       
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button onClick={this.handleSectionDelete}>Delete</button>
-                        <button
+                        </Button>
+                        <Button onClick={this.handleSectionDelete}>Delete</Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
+                        </Button>
                       </div>
-                    </form>
+                    </Form>
                   </div>
                 </div>
                 ) : null}

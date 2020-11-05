@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class BoilerplatesShow extends Component {
   constructor(props) {
@@ -127,26 +130,33 @@ class BoilerplatesShow extends Component {
     }
     return (
       <div className="component">
-        <h3>title: {this.state.title}</h3>
+      <Card>
+        <Card.Header>
+        <h2>title: {this.state.title}</h2>
+        </Card.Header>
+        <Card.Body>
         <h3>text: {this.state.text}</h3>
         <h3>organization_id: {this.state.organization_id}</h3>
         <h3>category_id: {this.state.category_id}</h3>
         <h3>wordcount: {this.countWords(this.state.text)}</h3>
+        </Card.Body>
+      </Card>
         <br />
 
         <div>
             <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
+              <Button onClick={this.toggleHidden.bind(this)}>
                 Update Boilerplate
-              </button>
+              </Button>
               <br />
               <br />
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
+              {this.state.isHidden ? (
+                <div>
+                  <div>
+                    <Form onSubmit={this.handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.title}
                           name="title"
@@ -154,10 +164,10 @@ class BoilerplatesShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div className="form-group">
-                        <label>Text</label>
-                        <input
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Text</Form.Label>
+                        <Form.Control
                           type="text"
                           value={this.state.text}
                           name="text"
@@ -165,9 +175,9 @@ class BoilerplatesShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </div>
-                      <div>
-                      <label>Organization</label>
+                      </Form.Group>
+                      <Form.Group>
+                      <Form.Label>Organization</Form.Label>
 
                       <select name="organization_id"
                       value={this.state.organization_id}
@@ -181,9 +191,9 @@ class BoilerplatesShow extends Component {
                           );
                       })}
                       </select>
-                      </div>
-                      <div>
-                      <label>Category</label>
+                      </Form.Group>
+                      <Form.Group>
+                      <Form.Label>Category</Form.Label>
 
                       <select name="category_id"
                       value={this.state.category_id}
@@ -197,29 +207,30 @@ class BoilerplatesShow extends Component {
                           );
                       })}
                       </select>
-                      </div>
-                      <div className="form-group">
-                        <label>Word Count</label>
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Word Count</Form.Label>
                         <p>{this.countWords(this.state.text)}</p>
-                      </div>
+                      </Form.Group>
                       
                       <div className="text-center">
-                        <button type="submit" className="btn-lg">
+                        <Button type="submit" className="btn-lg">
                           Submit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={this.toggleHidden.bind(this)}
                           className="btn-lg"
                         >
                           Close
-                        </button>
-                      </div>
-                    </form>
+                        </Button>
+                        </div>
+                    </Form>
                   </div>
-                </div>
-            </div>
-        </div>
-        <button onClick={this.handleBoilerplateDelete}>Delete</button>
+                  </div>
+                    ) : null} 
+              </div>
+              </div>
+        <Button onClick={this.handleBoilerplateDelete}>Delete</Button>
       </div>
     );
   }
