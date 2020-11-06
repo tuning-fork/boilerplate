@@ -112,6 +112,7 @@ class GrantsNew extends Component {
             <Form.Group>
               <Form.Label>Deadline</Form.Label>
               <Form.Control
+                type="datetime-local"
                 name="deadline"
                 value={this.state.deadline}
                 onChange={this.handleChange}
