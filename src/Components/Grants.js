@@ -3,6 +3,7 @@ import GrantsNew from './GrantsNew';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import Moment from 'react-moment';
 
 class Grants extends Component {
   constructor(props) {
@@ -56,7 +57,10 @@ class Grants extends Component {
                     <p>Purpose: {grant.purpose}</p>
                     <p>Funding Organization: {grant.funding_org_name}</p>
                     <p>RFP URL: {grant.rfp_url}</p>
-                    <p>Deadline: {grant.deadline}</p>
+                    <p>Deadline:</p>
+                    <Moment>{grant.deadline}</Moment>
+                    <br />
+                    <Moment fromNow>{grant.deadline}</Moment>
                     <p>Submitted: {grant.submitted}</p>
                     <p>Successful: {grant.successful}</p>
                     <p>Organization Name: {grant.organization_name}</p>
