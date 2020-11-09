@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class Boilerplates extends Component {
   constructor(props) {
@@ -55,6 +57,12 @@ class Boilerplates extends Component {
               </Card.Header>
               <Card.Body>
                 <p>Text: {boilerplate.text}</p>
+                {/* <ReactQuill
+                  value={this.state.text}
+                  readOnly={true}
+                  theme={"bubble"}
+                /> */}
+                {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
                 <p>Organization ID: {boilerplate.organization_id}</p>
                 <p>Category ID: {boilerplate.category_id}</p>
                 <p>Wordcount: {boilerplate.wordcount}</p>

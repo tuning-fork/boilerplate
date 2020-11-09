@@ -3,7 +3,8 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-// import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class BoilerplatesNew extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class BoilerplatesNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.countWords = this.countWords.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   clearForm = () => {
@@ -67,17 +69,21 @@ class BoilerplatesNew extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
     const {
-      title, text, organization_id, category_id
+      title, quill_text, organization_id, category_id
     } = this.state;
     axios
       .post('/api/boilerplates', {
         title: title,
-        text: text,
+        text: quill_text,
         organization_id: organization_id,
         category_id: category_id,
-        wordcount: this.countWords(this.state.text)
+        wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -116,7 +122,12 @@ class BoilerplatesNew extends Component {
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <ReactQuill 
+              // name="quill_text"
+              defaultValue={this.state.quill_text}
+              onChange={this.quillChange}  
+            />
+            {/* <Form.Group>
               <Form.Label>Text</Form.Label>
               <Form.Control
                 as="textarea"
@@ -128,10 +139,10 @@ class BoilerplatesNew extends Component {
                 cols="50"
                 required
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.text)}</p>
+              <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             
             <Form.Group>
