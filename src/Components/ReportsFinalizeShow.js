@@ -27,7 +27,8 @@ class ReportsFinalizeShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/reports/${this.props.match.params.id}`)
+      .get(`/api/reports/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,

@@ -22,7 +22,8 @@ class FundingOrgsNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -49,7 +50,8 @@ class FundingOrgsNew extends Component {
   handleSubmit(event) {
     const newFundingOrg = this.state;
     axios
-      .post('/api/funding_orgs', newFundingOrg, {
+      .post('/api/funding_orgs', newFundingOrg, 
+        {headers: { Authorization: `Bearer ${localStorage.token}` }
       })
       .then((response) => {
         if (response.data) {

@@ -37,7 +37,8 @@ class BiosNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -66,7 +67,8 @@ class BiosNew extends Component {
         text: text,
         organization_id: organization_id,
         wordcount: this.countWords(this.state.text)
-      })
+      },
+      {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateBios(response.data);

@@ -37,7 +37,8 @@ class GrantsFinalizeShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/grants/${this.props.match.params.id}`)
+      .get(`/api/grants/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -110,7 +111,8 @@ class GrantsFinalizeShow extends Component {
           sections: [],
           organization_id: organization_id,
           funding_org_id: funding_org_id,
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -124,7 +126,8 @@ class GrantsFinalizeShow extends Component {
 
   handleSectionDelete() {
     axios
-      .delete('/api/sections/' + this.props.section.id)
+      .delete('/api/sections/' + this.props.section.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         // if (response.data.message) {
         //   this.props.history.push('/sections');

@@ -32,8 +32,8 @@ class OrganizationsNew extends Component {
   handleSubmit(event) {
     const newOrganization = this.state;
     axios
-      .post('/api/organizations', newOrganization, {
-      })
+      .post('/api/organizations', newOrganization, 
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateOrganizations(response.data);

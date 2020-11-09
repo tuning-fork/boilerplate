@@ -28,7 +28,8 @@ class BiosShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/bios/${this.props.match.params.id}`)
+      .get(`/api/bios/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -75,7 +76,8 @@ class BiosShow extends Component {
           text: text,
           organization_id: organization_id,
           wordcount: this.countWords(this.state.text)
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -96,7 +98,8 @@ class BiosShow extends Component {
 
   handleBioDelete() {
     axios
-      .delete('/api/bios/' + this.state.id)
+      .delete('/api/bios/' + this.state.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/bios');

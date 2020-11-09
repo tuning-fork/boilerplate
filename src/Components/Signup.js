@@ -50,7 +50,8 @@ class Signup extends Component {
           active: true,
           password: password,
           password_confirmation: password_confirmation,
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
 
       .then((response) => {

@@ -22,7 +22,8 @@ class CategoriesShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/categories/${this.props.match.params.id}`)
+      .get(`/api/categories/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,

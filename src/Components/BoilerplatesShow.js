@@ -27,7 +27,8 @@ class BoilerplatesShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/boilerplates/${this.props.match.params.id}`)
+      .get(`/api/boilerplates/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -46,7 +47,8 @@ class BoilerplatesShow extends Component {
         console.log(error);
       });
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -56,7 +58,8 @@ class BoilerplatesShow extends Component {
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/categories')
+      .get('/api/categories',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           categories: response.data,
@@ -91,7 +94,8 @@ class BoilerplatesShow extends Component {
           wordcount: this.countWords(this.state.text),
           organization_id: organization_id,
           category_id: category_id
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -112,7 +116,8 @@ class BoilerplatesShow extends Component {
 
   handleBoilerplateDelete() {
     axios
-      .delete('/api/boilerplates/' + this.state.id)
+      .delete('/api/boilerplates/' + this.state.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/boilerplates');

@@ -14,7 +14,8 @@ class FundingOrgs extends Component {
   }
   componentDidMount() {
     axios
-      .get('/api/funding_orgs')
+      .get('/api/funding_orgs',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           funding_orgs: response.data,
@@ -24,7 +25,8 @@ class FundingOrgs extends Component {
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
