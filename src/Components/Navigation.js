@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+// import Nav from 'react-bootstrap/Nav';
+// import Navbar from 'react-bootstrap/Navbar';
 
 class Navigation extends Component {
   constructor(props) {
@@ -19,47 +19,47 @@ class Navigation extends Component {
 
   render() {
     return (
-        <Navbar bg="light" expand="lg">
-        <Nav>
-        {localStorage.token && localStorage.user_id ? (
-          <div>
-            <Nav.Item className="active">
-              <Nav.Link to="/dashboard">Dashboard</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/grants">Grants</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/bios">Bios</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/boilerplates">Boilerplates</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/categories">Categories</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/organizations">Organizations</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/funding_orgs">Funding Orgs</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link onClick={this.handleLogoutClick}to="/logout">Logout</Nav.Link>
-            </Nav.Item>
-            </div>
-            ) : (
-            <div>
-            <Nav.Item className="active">
-              <Nav.Link to="/login">Login</Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="active">
-              <Nav.Link to="/signup">Sign Up</Nav.Link>
-            </Nav.Item>
-          </div>
-          )}
-        </Nav>
-        </Navbar>
+        <nav>
+          <ul>
+            {localStorage.token && localStorage.user_id ? (
+              <div>
+                <li className="active">
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                <li className="active">
+                  <Link to="/grants">Grants</Link>
+                </li>
+                <li className="active">
+                  <Link to="/bios">Bios</Link>
+                </li>
+                <li className="active">
+                  <Link to="/boilerplates">Boilerplates</Link>
+                </li>
+                <li className="active">
+                  <Link to="/categories">Categories</Link>
+                </li>
+                <li className="active">
+                  <Link to="/organizations">Organizations</Link>
+                </li>
+                <li className="active">
+                  <Link to="/funding_orgs">Funding Orgs</Link>
+                </li>
+                <li>
+                  <Link onClick={this.handleLogoutClick}to="/logout">Logout</Link>
+                </li>
+                </div>
+                ) : (
+                <div>
+                <li className="active">
+                  <Link to="/login">Login</Link>
+                </li>
+                <li className="active">
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+              </div>
+            )}
+          </ul>
+        </nav>
     );
   }
 }
