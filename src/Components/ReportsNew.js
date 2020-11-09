@@ -67,7 +67,8 @@ class ReportsNew extends Component {
         title: title,
         deadline: deadline,
         submitted: submitted
-      })
+      },
+      {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateReports(response.data);

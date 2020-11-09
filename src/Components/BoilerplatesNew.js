@@ -3,12 +3,14 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+// import ReactQuill from 'react-quill';
 
 class BoilerplatesNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      quill_text: "",
       title: "",
       text: "",
       organization_id: "",
@@ -36,7 +38,8 @@ class BoilerplatesNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -46,7 +49,8 @@ class BoilerplatesNew extends Component {
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/categories')
+      .get('/api/categories',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           categories: response.data,
@@ -74,7 +78,8 @@ class BoilerplatesNew extends Component {
         organization_id: organization_id,
         category_id: category_id,
         wordcount: this.countWords(this.state.text)
-      })
+      },
+      {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateBoilerplates(response.data);
@@ -97,6 +102,7 @@ class BoilerplatesNew extends Component {
 
   render() {
     return (
+      <div>
       <Card>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
@@ -182,6 +188,7 @@ class BoilerplatesNew extends Component {
           </Form>
         </Card.Body>
       </Card>
+      </div>
     );
   }
 }

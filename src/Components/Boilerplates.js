@@ -15,7 +15,8 @@ class Boilerplates extends Component {
   }
   componentDidMount() {
     axios
-      .get('/api/boilerplates')
+      .get('/api/boilerplates',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           boilerplates: response.data,

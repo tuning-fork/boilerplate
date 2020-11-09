@@ -28,7 +28,8 @@ export default class ReportsShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/reports/${this.props.match.params.id}`)
+      .get(`/api/reports/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -89,7 +90,8 @@ export default class ReportsShow extends Component {
           title: title,
           deadline: deadline,
           submitted: submitted
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         
@@ -111,7 +113,8 @@ export default class ReportsShow extends Component {
 
   handleReportDelete() {
     axios
-      .delete('/api/reports/' + this.state.id)
+      .delete('/api/reports/' + this.state.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/grants/' + this.state.grant_id);
@@ -220,7 +223,14 @@ export default class ReportsShow extends Component {
             </div>
           </div>
 
-        {/* beginning of new report section */}
+        <br />
+        <h3>Add A Section:</h3>
+        <ReportSectionsNew 
+          report_id={this.state.id} 
+          history={this.props.history}
+          updateReportSections={this.updateReportSections}
+        />
+        <br />
 
         <Button onClick={this.handleReportDelete}>
           Delete

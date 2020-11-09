@@ -41,7 +41,8 @@ class GrantsNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -51,7 +52,8 @@ class GrantsNew extends Component {
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/funding_orgs')
+      .get('/api/funding_orgs',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           funding_orgs: response.data,
@@ -71,8 +73,8 @@ class GrantsNew extends Component {
   handleSubmit(event) {
     const newGrant = this.state;
     axios
-      .post('/api/grants', newGrant, {
-      })
+      .post('/api/grants', newGrant,
+      {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateGrants(response.data);

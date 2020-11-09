@@ -37,7 +37,8 @@ class ReportSectionsNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/boilerplates') 
+      .get('/api/boilerplates',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
       .then((response) => {
         this.setState({
           boilerplates: response.data
@@ -62,7 +63,8 @@ class ReportSectionsNew extends Component {
         text: text,
         sort_order: sort_order,
         wordcount: this.countWords(this.state.text)
-      })
+      },
+      {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateReportSections(response.data);

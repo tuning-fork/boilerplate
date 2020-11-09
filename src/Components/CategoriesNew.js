@@ -28,7 +28,8 @@ class CategoriesNew extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -48,7 +49,7 @@ class CategoriesNew extends Component {
   handleSubmit(event) {
     const newCategory = this.state;
     axios
-      .post('/api/categories', newCategory, {
+      .post('/api/categories', newCategory, {headers: { Authorization: `Bearer ${localStorage.token}` }
       })
       .then((response) => {
         if (response.data) {

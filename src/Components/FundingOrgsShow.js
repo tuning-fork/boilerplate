@@ -23,7 +23,8 @@ class FundingOrgsShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/funding_orgs/${this.props.match.params.id}`)
+      .get(`/api/funding_orgs/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -63,7 +64,8 @@ class FundingOrgsShow extends Component {
           name: name,
           website: website,
           organization_id: organization_id
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -76,7 +78,8 @@ class FundingOrgsShow extends Component {
 
   handleFundingOrgDelete() {
     axios
-      .delete('/api/funding_orgs/' + this.state.id)
+      .delete('/api/funding_orgs/' + this.state.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/funding_orgs');

@@ -35,7 +35,8 @@ class GrantsShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/grants/${this.props.match.params.id}`)
+      .get(`/api/grants/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -99,7 +100,8 @@ class GrantsShow extends Component {
           purpose: purpose,
           organization_id: organization_id,
           funding_org_id: funding_org_id,
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -120,7 +122,8 @@ class GrantsShow extends Component {
 
   handleGrantDelete() {
 		axios
-			.delete('/api/grants/' + this.state.id)
+			.delete('/api/grants/' + this.state.id, 
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
 			.then((response) => {
         if (response.data.message) {
 					this.props.history.push('/grants');

@@ -20,7 +20,8 @@ class OrganizationsShow extends Component {
 
   componentDidMount() {
     axios
-      .get(`/api/organizations/${this.props.match.params.id}`)
+      .get(`/api/organizations/${this.props.match.params.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -56,7 +57,8 @@ class OrganizationsShow extends Component {
         '/api/organizations/' + this.state.id,
         {
           name: name
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -69,7 +71,8 @@ class OrganizationsShow extends Component {
 
   handleOrganizationDelete() {
     axios
-      .delete('/api/organizations/' + this.state.id)
+      .delete('/api/organizations/' + this.state.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/organizations');

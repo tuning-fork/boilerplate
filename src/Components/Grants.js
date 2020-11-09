@@ -16,7 +16,8 @@ class Grants extends Component {
   }
   componentDidMount() {
     axios
-      .get('/api/grants')
+      .get('/api/grants',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           grants: response.data,

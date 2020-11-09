@@ -15,7 +15,8 @@ class Categories extends Component {
   }
   componentDidMount() {
     axios
-      .get('/api/categories')
+      .get('/api/categories',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           categories: response.data,

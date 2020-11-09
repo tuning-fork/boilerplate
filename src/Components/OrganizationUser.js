@@ -26,7 +26,8 @@ class OrganizationUser extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/organizations')
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -45,7 +46,8 @@ class OrganizationUser extends Component {
   handleSubmit(event) {
     const newOrganizationUser = this.state;
     axios
-      .post('/api/organization_users', newOrganizationUser, {})
+      .post('/api/organization_users', newOrganizationUser, 
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           this.props.updateOrganizationUsers(response.data);

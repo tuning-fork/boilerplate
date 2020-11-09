@@ -25,7 +25,8 @@ class SectionsShow extends Component {
 
   componentDidMount() {  
     axios
-      .get(`/api/sections/${this.props.id}`)
+      .get(`/api/sections/${this.props.id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.setState({
           id: response.data.id,
@@ -68,7 +69,8 @@ class SectionsShow extends Component {
           sort_order: sort_order, 
           wordcount: this.countWords(this.state.text),
           grant_id: grant_id
-        })
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.toggleHidden();
       })
@@ -80,7 +82,8 @@ class SectionsShow extends Component {
 
   handleSectionDelete() {
     axios
-      .delete('/api/sections/' + this.props.section.id)
+      .delete('/api/sections/' + this.props.section.id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         // if (response.data.message) {
         //   this.props.history.push('/sections');
