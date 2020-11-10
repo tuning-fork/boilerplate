@@ -3,12 +3,15 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class BoilerplatesShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: "",
+      quill_text: "",
       title: "",
       text: "",
       wordcount: "",
@@ -23,6 +26,7 @@ class BoilerplatesShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.countWords = this.countWords.bind(this);
     this.handleBoilerplateDelete = this.handleBoilerplateDelete.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -84,13 +88,13 @@ class BoilerplatesShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, text, organization_id, category_id } = this.state;
+    const { title, quill_text, organization_id, category_id } = this.state;
     axios
       .patch(
         '/api/boilerplates/' + this.state.id,
         {
           title: title,
-          text: text,
+          text: quill_text,
           wordcount: this.countWords(this.state.text),
           organization_id: organization_id,
           category_id: category_id
@@ -170,6 +174,12 @@ class BoilerplatesShow extends Component {
                           required
                         />
                       </Form.Group>
+
+                      <ReactQuill 
+                        // name="quill_text"
+                        defaultValue={this.state.quill_text}
+                        onChange={this.quillChange}  
+                      />
                       <Form.Group>
                         <Form.Label>Text</Form.Label>
                         <Form.Control
