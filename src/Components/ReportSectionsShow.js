@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class ReportSectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: "",
+      quill_text: "",
       report_id: "",
       title: "",
       text: "",
@@ -18,6 +21,7 @@ class ReportSectionsShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.countWords = this.countWords.bind(this);
     this.handleReportSectionDelete = this.handleReportSectionDelete.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {  
@@ -56,14 +60,14 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, text, sort_order } = this.state;
+    const { title, quill_text, sort_order } = this.state;
     axios
       .patch(
         '/api/report_sections/' + this.state.id, 
         {
           report_id: this.state.report_id,
           title: title,
-          text: text,
+          text: quill_text,
           sort_order: sort_order, 
           wordcount: this.countWords(this.state.text),
         },
@@ -147,6 +151,11 @@ class ReportSectionsShow extends Component {
                           required
                         />
                       </div>
+                      <ReactQuill 
+                        // name="quill_text"
+                        defaultValue={this.state.quill_text}
+                        onChange={this.quillChange}  
+                      />
                       <div className="form-group">
                         <label>Word Count</label>
                         <p>{this.countWords(this.state.text)}</p>

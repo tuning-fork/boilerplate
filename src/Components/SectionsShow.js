@@ -9,6 +9,7 @@ class SectionsShow extends Component {
     super(props);
     this.state = {
       id: "",
+      quill_text: "",
       title: "",
       text: "",
       sort_order: "",
@@ -21,6 +22,7 @@ class SectionsShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.countWords = this.countWords.bind(this);
     this.handleSectionDelete = this.handleSectionDelete.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {  
@@ -65,7 +67,7 @@ class SectionsShow extends Component {
       .patch(
         '/api/sections/' + this.state.id, {
           title: title,
-          text: text,
+          text: quill_text,
           sort_order: sort_order, 
           wordcount: this.countWords(this.state.text),
           grant_id: grant_id
@@ -145,6 +147,12 @@ class SectionsShow extends Component {
                           required
                         />
                       </Form.Group>
+                      <ReactQuill 
+                        // name="quill_text"
+                        defaultValue={this.state.quill_text}
+                        onChange={this.quillChange}  
+                      />
+                      <Form.Group>
                       <Form.Group>
                         <Form.Label>Text</Form.Label>
                         <Form.Control
