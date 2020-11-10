@@ -3,12 +3,15 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class ReportSectionsNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      quill_text: '',
       report_id: '',
       title: '',
       text: '',
@@ -22,10 +25,12 @@ class ReportSectionsNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.countWords = this.countWords.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   clearForm = () => {
     this.setState({
+      quill_text: '',
       title: '',
       text: '',
       sort_order: '',

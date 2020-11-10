@@ -4,8 +4,6 @@ import axios from 'axios';
 import ReportSectionsShow from './ReportSectionsShow';
 // import ReportsNew from './ReportsNew';
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 
 class ReportsFinalizeShow extends Component {
   constructor(props) {

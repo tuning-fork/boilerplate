@@ -3,12 +3,15 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class BiosNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      quill_text: "",
       first_name: "",
       last_name: "",
       title: "",
@@ -22,10 +25,12 @@ class BiosNew extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.countWords = this.countWords.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   clearForm = () => {
     this.setState({
+      quill_text: "",
       first_name: "",
       last_name: "",
       title: "",
@@ -55,18 +60,22 @@ class BiosNew extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
     const {
-      first_name, last_name, title, text, organization_id
+      first_name, last_name, title, quill_text, organization_id
     } = this.state;
     axios
       .post('/api/bios', {
         first_name: first_name,
         last_name: last_name,
         title: title,
-        text: text,
+        text: quill_text,
         organization_id: organization_id,
-        wordcount: this.countWords(this.state.text)
+        wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -124,7 +133,13 @@ class BiosNew extends Component {
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Label>Bio Text</Form.Label>
+            <ReactQuill 
+              // name="quill_text"
+              value={this.state.quill_text}
+              onChange={this.quillChange}  
+            />
+            {/* <Form.Group>
               <Form.Label>Text</Form.Label>
               <Form.Control
                 type="text"
@@ -133,10 +148,10 @@ class BiosNew extends Component {
                 onChange={this.handleChange}
                 required
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.text)}</p>
+              <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             <Form.Group>
               <Form.Label>Organization</Form.Label>
