@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+// import SectionsShow from './SectionsShow';
 import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 
 export default class ReportsShow extends Component {
   constructor(props) {
@@ -16,6 +20,7 @@ export default class ReportsShow extends Component {
       deadline: "",
       submitted: "",
       isHidden: true,
+      grant_sections: [],
       report_sections: [],
       errors: [],
     };
@@ -38,12 +43,34 @@ export default class ReportsShow extends Component {
           deadline: response.data.deadline,
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
-          loading: false,
+          // loading: false,
         });
       })
       // .then((response) => {
       //   this.showEditAbility();
       // })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(`/api/grants/${this.state.grant_id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          // id: response.data.id,
+          // title: response.data.title,
+          // rfp_url: response.data.rfp_url,
+          // deadline: response.data.deadline,
+          // submitted: response.data.submitted,
+          // successful: response.data.successful,
+          // purpose: response.data.purpose,
+          // organization_id: response.data.organizion_id,
+          // funding_org_id: response.data.funding_org_id,
+          grant_sections: response.data.sections,
+          // reports: response.data.reports,
+          loading: false,
+        });
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -128,6 +155,7 @@ export default class ReportsShow extends Component {
   
 
   render() {
+    console.log(this.state.grant_sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -145,30 +173,30 @@ export default class ReportsShow extends Component {
           <Card.Header>
             <h3>Report Sections:</h3>
           </Card.Header>
-            <Card.Body>
-              {this.state.report_sections.map(report_section => {
-                  return(
-                    <div key={report_section.id}>
-                      <h4>{report_section.title}</h4>
-                      <h4>{report_section.text}</h4>
-                      <h4>{report_section.wordcount}</h4>
-                    </div>
-              )
-        })}
-            </Card.Body>
-          </Card>
-            <br />
+          <Card.Body>
+            {this.state.report_sections.map(report_section => {
+                return(
+                  <div key={report_section.id}>
+                    <h4>{report_section.title}</h4>
+                    <h4>{report_section.text}</h4>
+                    <h4>{report_section.wordcount}</h4>
+                  </div>
+                )
+            })}
+          </Card.Body>
+        </Card>
+        <br />
 
         {/* beginning of report update if current user created report */}
 
         <div>
-            <div className="container">
+          <div className="container">
               <Button onClick={this.toggleHidden.bind(this)}>
                 Update Report
               </Button>
                 <br />
                 <br />
-              {this.state.isHidden ? (
+              {!this.state.isHidden ? (
                 <Card>
                   <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
@@ -220,8 +248,28 @@ export default class ReportsShow extends Component {
                   </Card.Body>
                 </Card>
                 ) : null }
-            </div>
           </div>
+        </div>
+
+        {/* <div>
+          <Container>
+              {this.state.grant_sections.map(section => {
+                return(
+                  <div key={section.id}>
+                    <Row>
+                      <Col>
+                        <SectionsShow id={section.id}/>
+                      </Col>
+                      <Col>
+                        <ReportSectionsNew 
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                )
+              })}
+          </Container>
+        </div> */}
 
         <br />
         <h3>Add A Section:</h3>

@@ -15,7 +15,7 @@ class BiosShow extends Component {
       first_name: "",
       last_name: "",
       title: "",
-      text: "",
+      // text: "",
       organization_id: "",
       organization: "",
       wordcount: "",
@@ -40,7 +40,7 @@ class BiosShow extends Component {
           first_name: response.data.first_name,
           last_name: response.data.last_name,
           title: response.data.title,
-          text: response.data.text,
+          quill_text: response.data.text,
           organization_id: response.data.organization_id,
           organization: response.data.organization,
           wordcount: response.data.wordcount,
@@ -68,6 +68,10 @@ class BiosShow extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
     const { first_name, last_name, title, quill_text, organization_id } = this.state;
     axios
@@ -79,7 +83,7 @@ class BiosShow extends Component {
           title: title,
           text: quill_text,
           organization_id: organization_id,
-          wordcount: this.countWords(this.state.text)
+          wordcount: this.countWords(this.state.quill_text)
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
@@ -128,9 +132,9 @@ class BiosShow extends Component {
         </Card.Header>
         <Card.Body>
         <h3>title: {this.state.title}</h3>
-        <h3>text: {this.state.text}</h3>
+        <h3>text: {this.state.quill_text}</h3>
         <h3>organization: {this.state.organization.name}</h3>
-        <h3>wordcount: {this.countWords(this.state.text)}</h3>
+        <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
         </Card.Body>
       </Card>
         <br />
@@ -143,14 +147,7 @@ class BiosShow extends Component {
               <br />
               <br />
               {this.state.isHidden ? (
-                  <Card>
                     <Form onSubmit={this.handleSubmit}>
-
-                      <ReactQuill 
-                        // name="quill_text"
-                        defaultValue={this.state.quill_text}
-                        onChange={this.quillChange}  
-                      />
                       <Form.Group>
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
@@ -162,7 +159,6 @@ class BiosShow extends Component {
                           required
                         />
                       </Form.Group>
-
                       <Form.Group>
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
@@ -185,7 +181,12 @@ class BiosShow extends Component {
                           required
                         />
                       </Form.Group>
-                      <Form.Group>
+                      <ReactQuill 
+                        // name="quill_text"
+                        value={this.state.quill_text}
+                        onChange={this.quillChange}  
+                      />
+                      {/* <Form.Group>
                         <Form.Label>Text</Form.Label>
                         <Form.Control
                           type="text"
@@ -195,7 +196,7 @@ class BiosShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </Form.Group>
+                      </Form.Group> */}
                       <Form.Group>
                         <Form.Label>Organization ID</Form.Label>
                         <Form.Control
@@ -210,7 +211,7 @@ class BiosShow extends Component {
 
                       <Form.Group>
                         <Form.Label>Word Count</Form.Label>
-                        <p>{this.countWords(this.state.text)}</p>
+                        <p>{this.countWords(this.state.quill_text)}</p>
                       </Form.Group>
                       
                       <div className="text-center">
@@ -224,8 +225,7 @@ class BiosShow extends Component {
                           Close
                         </Button>
                       </div>
-                    </Form>
-                  </Card>
+                    </Form> 
                 ) : null}
               <Button onClick={this.handleBioDelete}>Delete</Button>
             </div>

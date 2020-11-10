@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import SectionsShow from './SectionsShow';
+// import SectionsShow from './SectionsShow';
 import ReportsNew from './ReportsNew';
+// import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -168,7 +172,7 @@ class GrantsFinalizeShow extends Component {
         <Card.Header>
         <h3>Sections:</h3>
         </Card.Header>
-        <Card.Body>
+        {/* <Card.Body>
         {this.state.sections.map(section => {
           return(
             <div key={section.id}>
@@ -177,7 +181,7 @@ class GrantsFinalizeShow extends Component {
 
           )
         })}
-        </Card.Body>
+        </Card.Body> */}
         </Card>
 
         {/* beginning of show reports */}
@@ -223,6 +227,7 @@ class GrantsFinalizeShow extends Component {
             </Button>
             {this.state.isNewReportHidden ? (
             <ReportsNew 
+              sections={this.state.sections}
               grant_id={this.state.id}
               updateReports={this.updateReports}
               toggleHiddenNewReport={this.toggleHiddenNewReport.bind(this)}
@@ -230,6 +235,27 @@ class GrantsFinalizeShow extends Component {
             ) : null}
           </div>
         </div>
+
+        
+        {/* <Container>
+              {this.state.sections.map(section => {
+                return(
+                  <div key={section.id}>
+                    <Row>
+                      <Col>
+                        <SectionsShow id={section.id}/>
+                      </Col>
+                      <Col>
+                        <ReportSectionsNew 
+
+
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                )
+              })}
+        </Container> */}
 
         {/* beginning of grant update */}
         

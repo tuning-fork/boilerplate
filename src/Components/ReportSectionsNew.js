@@ -34,9 +34,9 @@ class ReportSectionsNew extends Component {
       title: '',
       text: '',
       sort_order: '',
-      wordcount: '',
+      wordcount: 0,
       currentBoilerplate: '',
-      addText: ''
+      // addText: ''
     });
   };
 
@@ -51,21 +51,15 @@ class ReportSectionsNew extends Component {
       })
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
   handleSubmit(event) {
     const {
-      title, text, sort_order
+      title, quill_text, sort_order
     } = this.state;
     axios
       .post('/api/report_sections', {
         report_id: this.props.report_id,
         title: title,
-        text: text,
+        text: quill_text,
         sort_order: sort_order,
         wordcount: this.countWords(this.state.text)
       },
@@ -90,12 +84,21 @@ class ReportSectionsNew extends Component {
             return 0; 
       }
   }
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
 
   handleSelect = (event) => {
-    let text = this.state.text;
-    text += ` ${event.target.value}`;
+    let quill_text = this.state.quill_text;
+    quill_text += ` ${event.target.value}`;
     this.setState({
-      text: text
+      quill_text: quill_text
     });
   };
 
@@ -131,7 +134,13 @@ class ReportSectionsNew extends Component {
                 })}
               </Form.Control>
             </Form.Group>
-            <Form.Group>
+            <Form.Label>Report Section Text</Form.Label>
+            <ReactQuill 
+              // name="quill_text"
+              value={this.state.quill_text}
+              onChange={this.quillChange}  
+            />
+            {/* <Form.Group>
               <Form.Label>Text</Form.Label>
               <Form.Control
                 as="textarea"
@@ -142,10 +151,10 @@ class ReportSectionsNew extends Component {
                 cols="50"
                 required
               ></Form.Control>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.text)}</p>
+              <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             <Form.Group>
               <Form.Label>Sort Order</Form.Label>

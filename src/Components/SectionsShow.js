@@ -3,6 +3,8 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class SectionsShow extends Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class SectionsShow extends Component {
       id: "",
       quill_text: "",
       title: "",
-      text: "",
+      // text: "",
       sort_order: "",
       wordcount: "",
       grant_id: "",
@@ -33,7 +35,7 @@ class SectionsShow extends Component {
         this.setState({
           id: response.data.id,
           title: response.data.title,
-          text: response.data.text,
+          quill_text: response.data.text,
           sort_order: response.data.sort_order,
           wordcount: response.data.wordcount,
           grant_id: response.data.grant_id,
@@ -61,15 +63,19 @@ class SectionsShow extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
-    const { title, text, sort_order, grant_id } = this.state;
+    const { title, quill_text, sort_order, grant_id } = this.state;
     axios
       .patch(
         '/api/sections/' + this.state.id, {
           title: title,
           text: quill_text,
           sort_order: sort_order, 
-          wordcount: this.countWords(this.state.text),
+          wordcount: this.countWords(this.state.quill_text),
           grant_id: grant_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -111,104 +117,103 @@ class SectionsShow extends Component {
     }
     return (
       <div className="container">
-      <Card>
-          <Card.Header>
-          <h1>Section Show</h1>
-          </Card.Header>
-          <Card.Body>
-          <h3>title: {this.state.title}</h3>
-          <h3>text: {this.state.text}</h3>
-          <h3>sort_order: {this.state.sort_order}</h3>
-          <h3>wordcount: {this.countWords(this.state.text)}</h3>
-          <h3>grant_id: {this.state.grant_id}</h3>
-          </Card.Body>
-        </Card>
+        <Card>
+            <Card.Header>
+            <h1>Section Show</h1>
+            </Card.Header>
+            <Card.Body>
+            <h3>title: {this.state.title}</h3>
+            <h3>text: {this.state.quill_text}</h3>
+            <h3>sort_order: {this.state.sort_order}</h3>
+            <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
+            <h3>grant_id: {this.state.grant_id}</h3>
+            </Card.Body>
+            <div>
+          <div className="container">
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Section
+            </Button>
+            <br />
+            <br />
+            {!this.state.isHidden ? (
+              <Card>
+                <Card.Body>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.title}
+                        name="title"
+                        placeholder={this.state.title}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <ReactQuill 
+                      // name="quill_text"
+                      value={this.state.quill_text}
+                      onChange={this.quillChange}  
+                    />
+                    {/* <Form.Group>
+                      <Form.Label>Text</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.text}
+                        name="text"
+                        placeholder={this.state.text}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group> */}
+                    <Form.Group>
+                      <Form.Label>Word Count</Form.Label>
+                      <p>{this.countWords(this.state.quill_text)}</p>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Sort Order</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.sort_order}
+                        name="sort_order"
+                        placeholder={this.state.sort_order}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                    <Form.Label>Grant ID</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.grant_id}
+                        name="grant_id"
+                        placeholder={this.state.grant_id}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <div className="text-center">
+                      <Button type="submit" className="btn-lg">
+                        Submit
+                      </Button>
+                      <Button onClick={this.handleSectionDelete}>Delete</Button>
+                      <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        className="btn-lg"
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </Form>
+                </Card.Body>
+              </Card>
+              ) : null}
+          </div>
+        </div>
+          </Card>
         <br />
 
-        <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Section
-              </Button>
-              <br />
-              <br />
-              {!this.state.isHidden ? (
-                <div className="card">
-                  <div className="card-body">
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          placeholder={this.state.title}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <ReactQuill 
-                        // name="quill_text"
-                        defaultValue={this.state.quill_text}
-                        onChange={this.quillChange}  
-                      />
-                      <Form.Group>
-                      <Form.Group>
-                        <Form.Label>Text</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.text}
-                          name="text"
-                          placeholder={this.state.text}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Word Count</Form.Label>
-                        <p>{this.countWords(this.state.text)}</p>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Sort Order</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.sort_order}
-                          name="sort_order"
-                          placeholder={this.state.sort_order}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Label>Grant ID</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.grant_id}
-                          name="grant_id"
-                          placeholder={this.state.grant_id}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button onClick={this.handleSectionDelete}>Delete</Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </Form>
-                  </div>
-                </div>
-                ) : null}
-            </div>
-        </div>
+        
       </div>
     );
   }
