@@ -3,12 +3,15 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class BiosShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: "",
+      quill_text: "",
       first_name: "",
       last_name: "",
       title: "",
@@ -24,6 +27,7 @@ class BiosShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.countWords = this.countWords.bind(this);
     this.handleBioDelete = this.handleBioDelete.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -65,7 +69,7 @@ class BiosShow extends Component {
   }
 
   handleSubmit(event) {
-    const { first_name, last_name, title, text, organization_id } = this.state;
+    const { first_name, last_name, title, quill_text, organization_id } = this.state;
     axios
       .patch(
         '/api/bios/' + this.state.id,
@@ -73,7 +77,7 @@ class BiosShow extends Component {
           first_name: first_name,
           last_name: last_name,
           title: title,
-          text: text,
+          text: quill_text,
           organization_id: organization_id,
           wordcount: this.countWords(this.state.text)
         },
@@ -141,6 +145,12 @@ class BiosShow extends Component {
               {this.state.isHidden ? (
                   <Card>
                     <Form onSubmit={this.handleSubmit}>
+
+                      <ReactQuill 
+                        // name="quill_text"
+                        defaultValue={this.state.quill_text}
+                        onChange={this.quillChange}  
+                      />
                       <Form.Group>
                         <Form.Label>First Name</Form.Label>
                         <Form.Control
@@ -152,6 +162,7 @@ class BiosShow extends Component {
                           required
                         />
                       </Form.Group>
+
                       <Form.Group>
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control
