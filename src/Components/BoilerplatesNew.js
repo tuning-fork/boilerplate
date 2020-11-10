@@ -30,6 +30,7 @@ class BoilerplatesNew extends Component {
 
   clearForm = () => {
     this.setState({
+      quill_text: "",
       title: "",
       text: "",
       organization_id: "",
@@ -122,9 +123,10 @@ class BoilerplatesNew extends Component {
                 required
               />
             </Form.Group>
+            <Form.Label>Boilerplate Text</Form.Label>
             <ReactQuill 
               // name="quill_text"
-              defaultValue={this.state.quill_text}
+              value={this.state.quill_text}
               onChange={this.quillChange}  
             />
             {/* <Form.Group>

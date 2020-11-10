@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -11,7 +14,7 @@ class ReportSectionsShow extends Component {
       quill_text: "",
       report_id: "",
       title: "",
-      text: "",
+      // text: "",
       sort_order: "",
       wordcount: "",
       errors: [],
@@ -33,7 +36,7 @@ class ReportSectionsShow extends Component {
           id: response.data.id,
           report_id: response.data.report_id,
           title: response.data.title,
-          text: response.data.text,
+          quill_text: response.data.text,
           sort_order: response.data.sort_order,
           wordcount: response.data.wordcount,
           loading: false,
@@ -59,6 +62,10 @@ class ReportSectionsShow extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
     const { title, quill_text, sort_order } = this.state;
     axios
@@ -69,7 +76,7 @@ class ReportSectionsShow extends Component {
           title: title,
           text: quill_text,
           sort_order: sort_order, 
-          wordcount: this.countWords(this.state.text),
+          wordcount: this.countWords(this.state.quill_text),
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -110,84 +117,90 @@ class ReportSectionsShow extends Component {
     }
     return (
       <div className="container">
-        <h1>Report Section Show</h1>
-        <h3>title: {this.state.title}</h3>
-        <h3>text: {this.state.text}</h3>
-        <h3>sort_order: {this.state.sort_order}</h3>
-        <h3>wordcount: {this.countWords(this.state.text)}</h3>
-        <h3>report_id: {this.state.report_id}</h3>
+        <Card>
+          <Card.Header>
+            <h1>Report Section Show</h1>
+          </Card.Header>
+          <Card.Body>
+            <h3>title: {this.state.title}</h3>
+            <h3>text: {this.state.quill_text}</h3>
+            <h3>sort_order: {this.state.sort_order}</h3>
+            <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
+            <h3>report_id: {this.state.report_id}</h3>
+          </Card.Body>
+        </Card>
         <br />
 
         <div>
-            <div className="container">
-              <button onClick={this.toggleHidden.bind(this)}>
-                Update Report Section
-              </button>
-              <br />
-              <br />
-              {!this.state.isHidden ? (
-                <div className="card">
-                  <div className="card-body">
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <label>Title</label>
-                        <input
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          // placeholder={this.state.title}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Text</label>
-                        <input
-                          type="text"
-                          value={this.state.text}
-                          name="text"
-                          // placeholder={this.state.text}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <ReactQuill 
-                        // name="quill_text"
-                        defaultValue={this.state.quill_text}
-                        onChange={this.quillChange}  
+          <div className="container">
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Report Section
+            </Button>
+            <br />
+            <br />
+            {!this.state.isHidden ? (
+              <Card>
+                <Card.Body>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.title}
+                        name="title"
+                        // placeholder={this.state.title}
+                        onChange={this.handleChange}
+                        required
                       />
-                      <div className="form-group">
-                        <label>Word Count</label>
-                        <p>{this.countWords(this.state.text)}</p>
-                      </div>
-                      <div className="form-group">
-                        <label>Sort Order</label>
-                        <input
-                          type="text"
-                          value={this.state.sort_order}
-                          name="sort_order"
-                          // placeholder={this.state.sort_order}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </div>
-                      <div className="text-center">
-                        <button type="submit" className="btn-lg">
-                          Submit
-                        </button>
-                        <button onClick={this.handleReportSectionDelete}>Delete</button>
-                        <button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                ) : null}
-            </div>
+                    </Form.Group>
+                    {/* <Form.Group>
+                      <Form.Label>Text</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.text}
+                        name="text"
+                        // placeholder={this.state.text}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </div> */}
+                    <ReactQuill 
+                      // name="quill_text"
+                      value={this.state.quill_text}
+                      onChange={this.quillChange}  
+                    />
+                    <Form.Group>
+                      <Form.Label>Word Count</Form.Label>
+                      <p>{this.countWords(this.state.quill_text)}</p>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Sort Order</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.sort_order}
+                        name="sort_order"
+                        // placeholder={this.state.sort_order}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <div className="text-center">
+                      <Button type="submit">
+                        Submit
+                      </Button>
+                      <Button onClick={this.handleReportSectionDelete}>Delete</Button>
+                      <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        className="btn-lg"
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </Form>
+                </Card.Body>
+              </Card>
+              ) : null}
+          </div>
         </div>
       </div>
     );

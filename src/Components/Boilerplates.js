@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 
 class Boilerplates extends Component {
   constructor(props) {

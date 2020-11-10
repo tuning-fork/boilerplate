@@ -3,34 +3,38 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 class SectionsNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      quill_text: '',
       title: '',
       text: '',
       sort_order: '',
       wordcount: '',
       boilerplates: [],
       currentBoilerplate: '',
-      addText: ''
+      // addText: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.countWords = this.countWords.bind(this);
+    this.quillChange = this.quillChange.bind(this);
   }
 
   clearForm = () => {
     this.setState({
+      quill_text: "",
       title: '',
       text: '',
       sort_order: '',
       wordcount: '',
       currentBoilerplate: '',
-      addText: ''
+      // addText: ''
     });
   };
 
@@ -45,23 +49,17 @@ class SectionsNew extends Component {
       })
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
   handleSubmit(event) {
     const {
-      title, text, sort_order
+      title, quill_text, sort_order
     } = this.state;
     axios
       .post('/api/sections', {
         grant_id: this.props.grant_id,
         title: title,
-        text: text,
+        text: quill_text,
         sort_order: sort_order,
-        wordcount: this.countWords(this.state.text)
+        wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -84,11 +82,21 @@ class SectionsNew extends Component {
       }
   }
 
-  handleSelect = (event) => {
-    let text = this.state.text;
-    text += ` ${event.target.value}`;
+  handleChange(event) {
     this.setState({
-      text: text
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
+  handleSelect = (event) => {
+    let quill_text = this.state.quill_text;
+    quill_text += ` ${event.target.value}`;
+    this.setState({
+      quill_text: quill_text
     });
   };
 
@@ -129,7 +137,13 @@ class SectionsNew extends Component {
                 })}
               </Form.Control>
             </Form.Group>
-            <Form.Group>
+            <Form.Label>Grant Section Text</Form.Label>
+            <ReactQuill 
+              // name="quill_text"
+              value={this.state.quill_text}
+              onChange={this.quillChange}  
+            />
+            {/* <Form.Group>
               <Form.Label>Text</Form.Label>
               <Form.Control
                 as="textarea"
@@ -140,10 +154,10 @@ class SectionsNew extends Component {
                 cols="50"
                 required
               ></Form.Control>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.text)}</p>
+              <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             <Form.Group>
               <Form.Label>Sort Order</Form.Label>

@@ -13,7 +13,7 @@ class BoilerplatesShow extends Component {
       id: "",
       quill_text: "",
       title: "",
-      text: "",
+      // text: "",
       wordcount: "",
       organization_id: "",
       category_id: "",
@@ -37,7 +37,7 @@ class BoilerplatesShow extends Component {
         this.setState({
           id: response.data.id,
           title: response.data.title,
-          text: response.data.text,
+          quill_text: response.data.text,
           wordcount: response.data.wordcount,
           organization_id: response.data.organization_id,
           category_id: response.data.category_id,
@@ -87,6 +87,10 @@ class BoilerplatesShow extends Component {
     });
   }
 
+  quillChange(value) {
+    this.setState({ quill_text: value})
+  }
+
   handleSubmit(event) {
     const { title, quill_text, organization_id, category_id } = this.state;
     axios
@@ -95,7 +99,7 @@ class BoilerplatesShow extends Component {
         {
           title: title,
           text: quill_text,
-          wordcount: this.countWords(this.state.text),
+          wordcount: this.countWords(this.state.quill_text),
           organization_id: organization_id,
           category_id: category_id
         },
@@ -144,10 +148,10 @@ class BoilerplatesShow extends Component {
         <h2>title: {this.state.title}</h2>
         </Card.Header>
         <Card.Body>
-        <h3>text: {this.state.text}</h3>
+        <h3>text: {this.state.quill_text}</h3>
         <h3>organization_id: {this.state.organization_id}</h3>
         <h3>category_id: {this.state.category_id}</h3>
-        <h3>wordcount: {this.countWords(this.state.text)}</h3>
+        <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
         </Card.Body>
       </Card>
         <br />
@@ -180,7 +184,7 @@ class BoilerplatesShow extends Component {
                         defaultValue={this.state.quill_text}
                         onChange={this.quillChange}  
                       />
-                      <Form.Group>
+                      {/* <Form.Group>
                         <Form.Label>Text</Form.Label>
                         <Form.Control
                           type="text"
@@ -190,7 +194,7 @@ class BoilerplatesShow extends Component {
                           onChange={this.handleChange}
                           required
                         />
-                      </Form.Group>
+                      </Form.Group> */}
                       <Form.Group>
                       <Form.Label>Organization</Form.Label>
 
@@ -225,7 +229,7 @@ class BoilerplatesShow extends Component {
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Word Count</Form.Label>
-                        <p>{this.countWords(this.state.text)}</p>
+                        <p>{this.countWords(this.state.quill_text)}</p>
                       </Form.Group>
                       
                       <div className="text-center">

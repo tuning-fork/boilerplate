@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+// import ReportSectionsNew from './ReportSectionsNew';
+// import SectionsShow from './SectionsShow';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 
 class ReportsNew extends Component {
   constructor(props) {
@@ -83,8 +88,12 @@ class ReportsNew extends Component {
   }
 
   render() {
+    console.log(this.props.sections);
     return (
       <Card>
+      <Card.Header>
+      <h1>New Report</h1>
+      </Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -100,6 +109,7 @@ class ReportsNew extends Component {
             <Form.Group>
               <Form.Label>Deadline</Form.Label>
               <Form.Control
+                type="datetime-local"
                 name="deadline"
                 value={this.state.deadline}
                 onChange={this.handleChange}
@@ -122,6 +132,23 @@ class ReportsNew extends Component {
             </div>
           </Form>
         </Card.Body>
+        {/* <Container>
+              {this.props.sections.map(section => {
+                return(
+                  <div key={section.id}>
+                    <Row>
+                      <Col>
+                        <SectionsShow id={section.id}/>
+                      </Col>
+                      <Col>
+                        <ReportSectionsNew 
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                )
+              })}
+        </Container> */}
       </Card>
     );
   }
