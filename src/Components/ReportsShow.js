@@ -6,9 +6,9 @@ import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default class ReportsShow extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ export default class ReportsShow extends Component {
       deadline: "",
       submitted: "",
       isHidden: true,
+      grant_title: "",
       grant_sections: [],
       report_sections: [],
       errors: [],
@@ -28,7 +29,6 @@ export default class ReportsShow extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReportDelete = this.handleReportDelete.bind(this);
-    // this.showEditAbility = this.showEditAbility.bind(this);
   }
 
   componentDidMount() {
@@ -43,42 +43,21 @@ export default class ReportsShow extends Component {
           deadline: response.data.deadline,
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
-          // loading: false,
-        });
-      })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(`/api/grants/${this.state.grant_id}`,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          // id: response.data.id,
-          // title: response.data.title,
-          // rfp_url: response.data.rfp_url,
-          // deadline: response.data.deadline,
-          // submitted: response.data.submitted,
-          // successful: response.data.successful,
-          // purpose: response.data.purpose,
-          // organization_id: response.data.organizion_id,
-          // funding_org_id: response.data.funding_org_id,
-          grant_sections: response.data.sections,
-          // reports: response.data.reports,
-          loading: false,
-        });
+        })
+        return axios.get(`/api/grants/${this.state.grant_id}`, 
+          {headers: { Authorization: `Bearer ${localStorage.token}` }})
+          .then((response => {
+            this.setState({
+              grant_title: response.data.title,
+              grant_sections: response.data.sections,
+              loading: false,
+              });
+          }))
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log("the id is ", this.props.grand_id);
-  // }
+    }
 
   toggleHidden() {
     this.setState({
@@ -91,14 +70,6 @@ export default class ReportsShow extends Component {
       isHiddenNewReportSection: !this.state.isHiddenNewReportSection,
     });
   }
-
-  // showEditAbility() {
-  //   if (this.state.user_id === parseInt(localStorage.user_id)) {
-  //     this.setState({
-  //       canEdit: !this.state.canEdit,
-  //     });
-  //   }
-  // }
 
   handleChange(event) {
     const { name, value } = event.target;
@@ -155,21 +126,12 @@ export default class ReportsShow extends Component {
   
 
   render() {
-    console.log(this.state.grant_sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
     return (
       <div className="component">
         <Card>
-          <Card.Header>
-          <h3>Grant ID: {this.state.grant_id}</h3>
-          </Card.Header>
-            <Card.Body>
-              <h3>Title: {this.state.title}</h3>
-              <h3>Deadline: {this.state.deadline}</h3>
-              <h3>Submitted: {this.state.submitted}</h3>
-            </Card.Body>
           <Card.Header>
             <h3>Report Sections:</h3>
           </Card.Header>
@@ -249,19 +211,24 @@ export default class ReportsShow extends Component {
                 </Card>
                 ) : null }
           </div>
+          <br/>
+          <br/>
         </div>
 
-        {/* <div>
+        <div>
           <Container>
               {this.state.grant_sections.map(section => {
                 return(
                   <div key={section.id}>
                     <Row>
                       <Col>
-                        <SectionsShow id={section.id}/>
+                        <h5>{section.title}</h5>
+                        <h5>{section.text}</h5>
                       </Col>
                       <Col>
                         <ReportSectionsNew 
+                        report_id={this.state.id} 
+                        updateReportSections={this.updateReportSections}
                         />
                       </Col>
                     </Row>
@@ -269,16 +236,7 @@ export default class ReportsShow extends Component {
                 )
               })}
           </Container>
-        </div> */}
-
-        <br />
-        <h3>Add A Section:</h3>
-        <ReportSectionsNew 
-          report_id={this.state.id} 
-          history={this.props.history}
-          updateReportSections={this.updateReportSections}
-        />
-        <br />
+        </div>
 
         <Button onClick={this.handleReportDelete}>
           Delete

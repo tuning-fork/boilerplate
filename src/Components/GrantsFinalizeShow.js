@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import SectionsShow from './SectionsShow';
+import SectionsShow from './SectionsShow';
 import ReportsNew from './ReportsNew';
+import ReportsShow from './ReportsShow';
+
 // import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -156,6 +158,8 @@ class GrantsFinalizeShow extends Component {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
+    console.log(this.state.submitted);
+    console.log(this.state.successful);
     return (
       <div className="component">
       <Card>
@@ -163,26 +167,45 @@ class GrantsFinalizeShow extends Component {
         <h3>Title: {this.state.title}</h3>
         </Card.Header>
         <Card.Body>
-        <h3>RFP URL: {this.state.rfp_url}</h3>
-        <h3>Deadline: {this.state.deadline}</h3>
-        <h3>Submitted: {this.state.submitted}</h3>
-        <h3>Successful: {this.state.successful}</h3>
-        <h3>Purpose: {this.state.purpose}</h3>
+        <h5>RFP URL: {this.state.rfp_url}</h5>
+        <h5>Deadline: {this.state.deadline}</h5>
+        <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
+        <h5>Successful: {this.state.successful ? "yes" : "not yet"}</h5>
+        <h5>Purpose: {this.state.purpose}</h5>
         </Card.Body>
         <Card.Header>
-        <h3>Sections:</h3>
-        </Card.Header>
-        {/* <Card.Body>
-        {this.state.sections.map(section => {
-          return(
-            <div key={section.id}>
-              <SectionsShow id={section.id}/>
-            </div>
-
-          )
-        })}
-        </Card.Body> */}
+              <h5>Sections:</h5>
+            </Card.Header>
+        <Card.Body>
+          {this.state.sections.map(section => {
+            return(
+              <div key={section.id}>
+                <SectionsShow id={section.id}/>
+              </div>
+            )
+          })}
+        </Card.Body>
         </Card>
+
+        {/* beginning of add reports*/}
+
+        <div>
+          <div className="container">
+            <Button onClick={this.toggleHiddenNewReport.bind(this)}>
+              Add New Report
+            </Button>
+            {this.state.isNewReportHidden ? (
+            <ReportsNew 
+              sections={this.state.sections}
+              grant_id={this.state.id}
+              updateReports={this.updateReports}
+              toggleHiddenNewReport={this.toggleHiddenNewReport.bind(this)}
+            />
+            ) : null}
+          </div>
+        </div>
+
+
 
         {/* beginning of show reports */}
         <Button onClick={this.toggleHiddenReport.bind(this)}>
@@ -218,45 +241,6 @@ class GrantsFinalizeShow extends Component {
         </div>
         ) : null}
 
-        {/* beginning of add reports*/}
-
-        <div>
-          <div className="container">
-            <Button onClick={this.toggleHiddenNewReport.bind(this)}>
-              Add New Report
-            </Button>
-            {this.state.isNewReportHidden ? (
-            <ReportsNew 
-              sections={this.state.sections}
-              grant_id={this.state.id}
-              updateReports={this.updateReports}
-              toggleHiddenNewReport={this.toggleHiddenNewReport.bind(this)}
-            />
-            ) : null}
-          </div>
-        </div>
-
-        
-        {/* <Container>
-              {this.state.sections.map(section => {
-                return(
-                  <div key={section.id}>
-                    <Row>
-                      <Col>
-                        <SectionsShow id={section.id}/>
-                      </Col>
-                      <Col>
-                        <ReportSectionsNew 
-
-
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                )
-              })}
-        </Container> */}
-
         {/* beginning of grant update */}
         
         <br />
@@ -277,7 +261,6 @@ class GrantsFinalizeShow extends Component {
                           type="text"
                           value={this.state.title}
                           name="title"
-                          // placeholder={this.state.title}
                           onChange={this.handleChange}
                           required
                         />
@@ -288,7 +271,6 @@ class GrantsFinalizeShow extends Component {
                           type="text"
                           value={this.state.rfp_url}
                           name="rfp_url"
-                          // placeholder={this.state.rfp_url}
                           onChange={this.handleChange}
                           required
                         />
@@ -299,7 +281,6 @@ class GrantsFinalizeShow extends Component {
                           type="datetime"
                           value={this.state.deadline}
                           name="deadline"
-                          // placeholder={this.state.deadline}
                           onChange={this.handleChange}
                           required
                         />
@@ -310,7 +291,6 @@ class GrantsFinalizeShow extends Component {
                           type="text"
                           value={this.state.submitted}
                           name="submitted"
-                          // placeholder={this.state.submitted}
                           onChange={this.handleChange}
                           required
                         />
@@ -322,7 +302,6 @@ class GrantsFinalizeShow extends Component {
                           type="text"
                           value={this.state.successful}
                           name="successful"
-                          // placeholder={this.state.successful}
                           onChange={this.handleChange}
                           required
                         />
@@ -334,7 +313,6 @@ class GrantsFinalizeShow extends Component {
                           type="text"
                           value={this.state.purpose}
                           name="purpose"
-                          // placeholder={this.state.purpose}
                           onChange={this.handleChange}
                           required
                         />

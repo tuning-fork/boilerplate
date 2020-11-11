@@ -59,8 +59,7 @@ class Bios extends Component {
           return (
             <Card key={bio.id}>
               <Card.Header>
-                Name: 
-                <Link
+                Name: <Link
                   to={`/bios/${bio.id}`}
                 >
                   {bio.first_name} {bio.last_name}
@@ -69,7 +68,7 @@ class Bios extends Component {
               <Card.Body>
                 <p>Title: {bio.title}</p>
                 <p>Text: {bio.text}</p>
-                <p>Organization: {bio.organization_id}</p>
+                <p>Organization: {bio.organization_name}</p>
                 <p>Wordcount: {bio.wordcount}</p>
               </Card.Body>
             </Card>

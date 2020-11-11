@@ -130,14 +130,14 @@ class ReportsFinalizeShow extends Component {
       <div className="component">
       <Card>
         <Card.Header>
-        <h3>Title: {this.state.title}</h3>
+        <h5>Title: {this.state.title}</h5>
       </Card.Header>
       <Card.Body>
-        <h3>Deadline: {this.state.deadline}</h3>
-        <h3>Submitted: {this.state.submitted}</h3>
+        <h5>Deadline: {this.state.deadline}</h5>
+        <h5>Submitted: {this.state.submitted}</h5>
       </Card.Body>
       <Card.Header>
-        <h3>Report Sections:</h3>
+        <h5>Report Sections:</h5>
       </Card.Header>
       <Card.Body>
         {this.state.report_sections.map(report_section => {

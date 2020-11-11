@@ -56,8 +56,7 @@ class FundingOrgs extends Component {
           return (
             <Card key={funding_org.id}>
               <Card.Header>
-                Name: 
-                <Link
+                Name: <Link
                   to={`/funding_orgs/${funding_org.id}`}
                 >
                   {funding_org.name}
