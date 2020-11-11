@@ -46,8 +46,7 @@ class Boilerplates extends Component {
           return (
             <Card key={boilerplate.id}>
               <Card.Header>
-                Title: 
-                <Link
+                Title: <Link
                     to={`/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
@@ -61,8 +60,8 @@ class Boilerplates extends Component {
                   theme={"bubble"}
                 /> */}
                 {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
-                <p>Organization ID: {boilerplate.organization_id}</p>
-                <p>Category ID: {boilerplate.category_id}</p>
+                <p>Organization: {boilerplate.organization_name}</p>
+                <p>Category: {boilerplate.category_name}</p>
                 <p>Wordcount: {boilerplate.wordcount}</p>
               </Card.Body>
             </Card>

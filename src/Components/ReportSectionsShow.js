@@ -118,15 +118,12 @@ class ReportSectionsShow extends Component {
     return (
       <div className="container">
         <Card>
-          <Card.Header>
-            <h1>Report Section Show</h1>
-          </Card.Header>
           <Card.Body>
-            <h3>title: {this.state.title}</h3>
-            <h3>text: {this.state.quill_text}</h3>
-            <h3>sort_order: {this.state.sort_order}</h3>
-            <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
-            <h3>report_id: {this.state.report_id}</h3>
+            <h5>title: {this.state.title}</h5>
+            <h5>text: {this.state.quill_text}</h5>
+            <h5>sort_order: {this.state.sort_order}</h5>
+            <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
+            <h5>report_id: {this.state.report_id}</h5>
           </Card.Body>
         </Card>
         <br />
