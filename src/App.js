@@ -48,7 +48,7 @@ import FundingOrgsNew from './Components/FundingOrgsNew';
 import OrganizationsNew from './Components/OrganizationsNew';
 import GrantsNew from './Components/GrantsNew';
 import SectionsNew from './Components/SectionsNew';
-// import ReportsNew from './Components/ReportsNew';
+import ReportsNew from './Components/ReportsNew';
 // import ReportSectionsNew from './Components/ReportSectionsNew';
 
 
@@ -89,7 +89,7 @@ export default class App extends Component {
             <Route path={'/reports/:id'} component={ReportsShow}/>
             <Route path={'/reports-finalize/:id'} component={ReportsFinalizeShow}/>
              
-            {/* <Route path={'/reports/new'} component={ReportsNew} /> */}
+            <Route path={'/reports-new'} component={ReportsNew} />
             <Route exact path={'/categories'} component={Categories} />
             <Route exact path={'/organizations'} component={Organizations} />
             <Route exact path={'/funding_orgs'} component={FundingOrgs} />

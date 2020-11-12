@@ -18,6 +18,8 @@ class SectionsNew extends Component {
       wordcount: '',
       boilerplates: [],
       currentBoilerplate: '',
+      bios: [],
+      loading: true
       // addText: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,6 +49,16 @@ class SectionsNew extends Component {
           boilerplates: response.data
         }); 
       })
+      axios
+      .get('/api/bios',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          bios: response.data,
+          loading: false,
+        });
+      })
+      .catch((error) => console.log(error));
   }
 
   handleSubmit(event) {
@@ -132,6 +144,28 @@ class SectionsNew extends Component {
                       onChange={this.handleChange}
                     >
                       {boilerplate.title}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Add Bio Text to text field below</Form.Label>
+              <Form.Control
+                as="select" 
+                name="currentBoilerplate"
+                value={this.state.currentBoilerplate}
+                onChange={this.handleSelect}
+              >
+                <option value="" disabled>Select Bio</option>
+                {this.state.bios.map(bio => {
+                  return(
+                    <option 
+                      key={bio.id} 
+                      value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
+                      onChange={this.handleChange}
+                    >
+                      {`${bio.first_name} ${bio.last_name}`}
                     </option>
                   );
                 })}

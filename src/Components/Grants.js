@@ -13,6 +13,8 @@ class Grants extends Component {
       grants: [],
       query: '',
     };
+    this.formatFromNow = this.formatFromNow.bind(this);
+
   }
   componentDidMount() {
     axios
@@ -34,7 +36,18 @@ class Grants extends Component {
 		this.setState({
 			grants: grants,
 		});
-	};
+  };
+  
+  formatFromNow(fromNowString) {
+    var splitStr = fromNowString.toLowerCase().split(' ');
+       for (var i = 0; i < splitStr.length; i++) {
+           // You do not need to check if i is larger than splitStr length, as your for does that for you
+           // Assign it back to the array
+           splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+       }
+       // Directly return the joined string
+       return splitStr.join(' '); 
+    }
 
   render() {
     if (this.state.loading) {
@@ -58,14 +71,22 @@ class Grants extends Component {
                     <p>Purpose: {grant.purpose}</p>
                     <p>Funding Organization: {grant.funding_org_name}</p>
                     <p>RFP URL: {grant.rfp_url}</p>
-                    <p>Deadline:</p>
-                    <Moment>{grant.deadline}</Moment>
-                    <br />
+                    <p>Deadline: <Moment>{grant.deadline}</Moment></p>
                     <Moment fromNow>{grant.deadline}</Moment>
-                    <p>Submitted: {grant.submitted}</p>
-                    <p>Successful: {grant.successful}</p>
+                    <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                    <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
                     <p>Organization Name: {grant.organization_name}</p>
                   </Card.Body>
+                  <Link
+                    to={{
+                      pathname: `/reports-new`,
+                      state: {
+                        grant_id: grant.id,
+                      }
+                      }}
+                  >
+                    Create Report
+                  </Link>
               </Card>
               <br />
             </div>
