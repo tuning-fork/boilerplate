@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import SectionsShow from './SectionsShow';
+import SectionsShow from './SectionsShow';
 import ReportsNew from './ReportsNew';
 // import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
@@ -158,30 +158,30 @@ class GrantsFinalizeShow extends Component {
     }
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h3>Title: {this.state.title}</h3>
-        </Card.Header>
-        <Card.Body>
-        <h3>RFP URL: {this.state.rfp_url}</h3>
-        <h3>Deadline: {this.state.deadline}</h3>
-        <h3>Submitted: {this.state.submitted}</h3>
-        <h3>Successful: {this.state.successful}</h3>
-        <h3>Purpose: {this.state.purpose}</h3>
-        </Card.Body>
-        <Card.Header>
-        <h3>Sections:</h3>
-        </Card.Header>
-        {/* <Card.Body>
-        {this.state.sections.map(section => {
-          return(
-            <div key={section.id}>
-              <SectionsShow id={section.id}/>
-            </div>
+        <Card>
+          <Card.Header>
+            <h3>Title: {this.state.title}</h3>
+          </Card.Header>
+            <Card.Body>
+              <h3>RFP URL: {this.state.rfp_url}</h3>
+              <h3>Deadline: {this.state.deadline}</h3>
+              <h3>Submitted: {this.state.submitted}</h3>
+              <h3>Successful: {this.state.successful}</h3>
+              <h3>Purpose: {this.state.purpose}</h3>
+            </Card.Body>
+          <Card.Header>
+            <h3>Sections:</h3>
+          </Card.Header>
+            <Card.Body>
+              {this.state.sections.map(section => {
+                return(
+                  <div key={section.id}>
+                    <SectionsShow id={section.id}/>
+                  </div>
 
-          )
-        })}
-        </Card.Body> */}
+                )
+              })}
+            </Card.Body>
         </Card>
 
         {/* beginning of show reports */}
