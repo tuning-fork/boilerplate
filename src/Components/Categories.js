@@ -46,16 +46,12 @@ class Categories extends Component {
           return (
             <Card key={category.id}>
               <Card.Header>
-              Name: 
-              <Link
+              Name: <Link
                   to={`/categories/${category.id}`}
                 >
                   {category.name}
                 </Link>
               </Card.Header>
-              <Card.Body>
-                <p>Organization ID: {category.organization_id}</p>
-              </Card.Body>
               </Card>
           );
         })}

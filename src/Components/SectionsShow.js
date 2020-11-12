@@ -118,15 +118,11 @@ class SectionsShow extends Component {
     return (
       <div className="container">
         <Card>
-            <Card.Header>
-            <h1>Section Show</h1>
-            </Card.Header>
             <Card.Body>
-            <h3>title: {this.state.title}</h3>
-            <h3>text: {this.state.quill_text}</h3>
-            <h3>sort_order: {this.state.sort_order}</h3>
-            <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
-            <h3>grant_id: {this.state.grant_id}</h3>
+            <h5>{this.state.title}</h5>
+            <h5>{this.state.quill_text}</h5>
+            <h5>sort_order: {this.state.sort_order}</h5>
+            <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
             </Card.Body>
             <div>
           <div className="container">

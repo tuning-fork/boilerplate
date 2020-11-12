@@ -162,7 +162,7 @@ class GrantsShow extends Component {
               <div key={section.id}>
                 <h4>{section.title}</h4>
                 <h4>{section.text}</h4>
-                <h4>{section.wordcount}</h4>
+                <h4>Wordcount: {section.wordcount}</h4>
               </div>
               )
         })}
