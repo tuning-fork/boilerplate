@@ -12,8 +12,8 @@ class GrantsNew extends Component {
       title: "",
       rfp_url: "",
       deadline: "",
-      submitted: "",
-      successful: "",
+      submitted: false,
+      successful: false,
       purpose: "",
       organization_id: "",
       funding_org_id: "",
@@ -31,8 +31,6 @@ class GrantsNew extends Component {
       title: "",
       rfp_url: "",
       deadline: "",
-      submitted: "",
-      successful: "",
       purpose: "",
       organization_id: "",
       funding_org_id: ""
@@ -117,24 +115,6 @@ class GrantsNew extends Component {
                 type="datetime-local"
                 name="deadline"
                 value={this.state.deadline}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Submitted</Form.Label>
-              <Form.Control
-                name="submitted"
-                value={this.state.submitted}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Successful</Form.Label>
-              <Form.Control
-                name="successful"
-                value={this.state.successful}
                 onChange={this.handleChange}
                 required
               />

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsShow from './SectionsShow';
-import ReportsNew from './ReportsNew';
-import ReportsShow from './ReportsShow';
+// import ReportsNew from './ReportsNew';
+// import ReportsShow from './ReportsShow';
 
 // import ReportSectionsNew from './ReportSectionsNew';
 import Card from 'react-bootstrap/Card';
@@ -21,7 +21,7 @@ class GrantsFinalizeShow extends Component {
       title: "",
       rfp_url: "",
       deadline: "",
-      submitted: "",
+      submitted: false,
       successful: "",
       purpose: "",
       organization_id: "",
@@ -96,9 +96,12 @@ class GrantsFinalizeShow extends Component {
   // }
 
   handleChange(event) {
-    const { name, value } = event.target;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -155,41 +158,40 @@ class GrantsFinalizeShow extends Component {
 
 
   render() {
+    console.log(this.state.submitted);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
-    console.log(this.state.submitted);
-    console.log(this.state.successful);
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h3>Title: {this.state.title}</h3>
-        </Card.Header>
-        <Card.Body>
-        <h5>RFP URL: {this.state.rfp_url}</h5>
-        <h5>Deadline: {this.state.deadline}</h5>
-        <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
-        <h5>Successful: {this.state.successful ? "yes" : "not yet"}</h5>
-        <h5>Purpose: {this.state.purpose}</h5>
-        </Card.Body>
-        <Card.Header>
-              <h5>Sections:</h5>
-            </Card.Header>
-        <Card.Body>
-          {this.state.sections.map(section => {
-            return(
-              <div key={section.id}>
-                <SectionsShow id={section.id}/>
-              </div>
-            )
-          })}
-        </Card.Body>
+        <Card>
+          <Card.Header>
+          <h3>Title: {this.state.title}</h3>
+          </Card.Header>
+          <Card.Body>
+            <h5>RFP URL: {this.state.rfp_url}</h5>
+            <h5>Deadline: {this.state.deadline}</h5>
+            <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
+            <h5>Successful: {this.state.successful ? "yes" : "not yet"}</h5>
+            <h5>Purpose: {this.state.purpose}</h5>
+          </Card.Body>
+          <Card.Header>
+            <h5>Sections:</h5>
+          </Card.Header>
+          <Card.Body>
+            {this.state.sections.map(section => {
+              return(
+                <div key={section.id}>
+                  <SectionsShow id={section.id}/>
+                </div>
+              )
+            })}
+          </Card.Body>
         </Card>
 
         {/* beginning of add reports*/}
 
-        <div>
+        {/* <div>
           <div className="container">
             <Button onClick={this.toggleHiddenNewReport.bind(this)}>
               Add New Report
@@ -203,43 +205,43 @@ class GrantsFinalizeShow extends Component {
             />
             ) : null}
           </div>
-        </div>
+        </div> */}
 
 
 
         {/* beginning of show reports */}
-        <Button onClick={this.toggleHiddenReport.bind(this)}>
+        {/* <Button onClick={this.toggleHiddenReport.bind(this)}>
             Show Reports for This Grant
         </Button>
         {this.state.isReportHidden ? (
           <div>
-        <Card>
-        <Card.Header>
-        <h3>Reports:</h3>
-        </Card.Header>
-        <Card.Body>
-          {this.state.reports.map(report =>
-            {
-              return(
-                <div key={report.id}>
-                  <div>
-                    Title: 
-                    <Link
-                      to={`/reports/${report.id}`}
-                    >
-                      {report.title}
-                    </Link>
-                    <h4>{report.deadline}</h4>
-                    <h4>{report.submitted}</h4>
-                  </div>
-                </div>
-                )
-            })}
-            </Card.Body>
-          </Card>
-          <br />
-        </div>
-        ) : null}
+            <Card>
+              <Card.Header>
+                <h3>Reports:</h3>
+              </Card.Header>
+              <Card.Body>
+                {this.state.reports.map(report =>
+                  {
+                    return(
+                      <div key={report.id}>
+                        <div>
+                          Title: 
+                          <Link
+                            to={`/reports/${report.id}`}
+                          >
+                            {report.title}
+                          </Link>
+                          <h4>{report.deadline}</h4>
+                          <h4>{report.submitted}</h4>
+                        </div>
+                      </div>
+                    )
+                })}
+              </Card.Body>
+            </Card>
+            <br />
+          </div>
+        ) : null} */}
 
         {/* beginning of grant update */}
         
@@ -287,19 +289,18 @@ class GrantsFinalizeShow extends Component {
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Submitted</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.submitted}
+                        <Form.Check
+                          type="checkbox"
                           name="submitted"
+                          value={this.state.submitted}
                           onChange={this.handleChange}
                           required
                         />
                       </Form.Group>
-
                       <Form.Group>
                         <Form.Label>Successful</Form.Label>
-                        <Form.Control
-                          type="text"
+                        <Form.Check
+                          type="checkbox"
                           value={this.state.successful}
                           name="successful"
                           onChange={this.handleChange}
