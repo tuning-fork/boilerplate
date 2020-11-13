@@ -291,7 +291,7 @@ class GrantsFinalizeShow extends Component {
                         <Form.Check
                           type="checkbox"
                           name="submitted"
-                          value={this.state.submitted}
+                          checked={this.state.submitted}
                           onChange={this.handleChange}
                           required
                         />
@@ -300,8 +300,8 @@ class GrantsFinalizeShow extends Component {
                         <Form.Label>Successful</Form.Label>
                         <Form.Check
                           type="checkbox"
-                          value={this.state.successful}
                           name="successful"
+                          checked={this.state.successful}
                           onChange={this.handleChange}
                           required
                         />
