@@ -53,15 +53,15 @@ class ReportSectionsNew extends Component {
 
   handleSubmit(event) {
     const {
-      title, quill_text, sort_order
+      title, quill_text
     } = this.state;
     axios
       .post('/api/report_sections', {
         report_id: this.props.report_id,
         title: title,
         text: quill_text,
-        sort_order: sort_order,
-        wordcount: this.countWords(this.state.text)
+        sort_order: this.props.grant_section_number,
+        wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -156,16 +156,7 @@ class ReportSectionsNew extends Component {
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Sort Order</Form.Label>
-              <Form.Control
-                type="text"
-                name="sort_order"
-                value={this.state.sort_order}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
+            <p>Sort Order: {this.props.grant_section_number}</p>
             {/* <h2>{this.state.text}</h2> */}
             <div className="text-center">
               <Button type="submit">

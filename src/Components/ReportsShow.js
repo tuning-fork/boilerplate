@@ -72,9 +72,12 @@ export default class ReportsShow extends Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -126,6 +129,7 @@ export default class ReportsShow extends Component {
   
 
   render() {
+    console.log(this.state.grant_sections)
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -186,11 +190,10 @@ export default class ReportsShow extends Component {
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Submitted</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.submitted}
+                        <Form.Check
+                          type="checkbox"
                           name="submitted"
-                          // placeholder={this.state.submitted}
+                          checked={this.state.submitted}
                           onChange={this.handleChange}
                           required
                         />
@@ -220,18 +223,21 @@ export default class ReportsShow extends Component {
               {this.state.grant_sections.map(section => {
                 return(
                   <div key={section.id}>
-                    <Row>
-                      <Col>
-                        <h5>{section.title}</h5>
-                        <h5>{section.text}</h5>
-                      </Col>
-                      <Col>
-                        <ReportSectionsNew 
-                        report_id={this.state.id} 
-                        updateReportSections={this.updateReportSections}
-                        />
-                      </Col>
-                    </Row>
+                  <Container>
+                      <Row style={{paddingBottom: "5%"}}>
+                        <Col>
+                          <h5>{section.title}</h5>
+                          <h5>{section.text}</h5>
+                        </Col>
+                        <Col>
+                          <ReportSectionsNew 
+                          report_id={this.state.id} 
+                          grant_section_number={section.sort_order}
+                          updateReportSections={this.updateReportSections}
+                          />
+                        </Col>
+                      </Row>
+                    </Container>
                   </div>
                 )
               })}
@@ -250,5 +256,28 @@ export default class ReportsShow extends Component {
     );
   }
 }
+
+// {this.state.report_sections.map(report_section => {
+// //                           if (report_section.sort_order === section.sort_order) {
+// //                             return(
+// //                             <Col>
+// //                             <h5>{report_section.title}</h5>
+// //                             <h5>{report_section.text}</h5>
+// //                             </Col>
+// //                           )
+// //                           }
+// //                           else {
+// //                             return(
+// //                             <Col>
+// //                             <ReportSectionsNew 
+// //                               report_id={this.state.id} 
+// //                               grant_section_number={section.sort_order}
+// //                               updateReportSections={this.updateReportSections}
+// //                             />
+// //                             </Col>
+// //                           )
+// //                           }
+// //                         })
+// //                         }
 
 

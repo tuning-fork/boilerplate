@@ -90,7 +90,7 @@ class Grants extends Component {
                     to={{
                       pathname: `/reports-new`,
                       state: {
-                        grant_id: grant.id,
+                        grant_id: grant.id
                       }
                       }}
                   >
