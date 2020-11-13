@@ -37,6 +37,14 @@ class Grants extends Component {
 			grants: grants,
 		});
   };
+
+  formatDate(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDay();
+    return `${month} ${day} ${year}`
+  }
   
   formatFromNow(fromNowString) {
     var splitStr = fromNowString.toLowerCase().split(' ');
@@ -58,8 +66,8 @@ class Grants extends Component {
       <div className="component">
         {this.state.grants.map((grant) => {
           return (
-            <div>
-              <Card key={grant.id}>
+            <div key={grant.id}>
+              <Card>
                 <Card.Header> 
                   <Link
                     to={`/grants/${grant.id}`}
@@ -71,6 +79,7 @@ class Grants extends Component {
                     <p>Purpose: {grant.purpose}</p>
                     <p>Funding Organization: {grant.funding_org_name}</p>
                     <p>RFP URL: {grant.rfp_url}</p>
+                    <p>Deadline: {this.formatDate(grant.deadline)}</p>
                     <p>Deadline: <Moment>{grant.deadline}</Moment></p>
                     <Moment fromNow>{grant.deadline}</Moment>
                     <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
