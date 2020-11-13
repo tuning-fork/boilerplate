@@ -158,7 +158,6 @@ class GrantsFinalizeShow extends Component {
 
 
   render() {
-    console.log(this.state.submitted);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }

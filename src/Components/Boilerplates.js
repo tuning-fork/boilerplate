@@ -22,7 +22,6 @@ class Boilerplates extends Component {
           boilerplates: response.data,
           loading: false,
         });
-      console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -53,6 +52,8 @@ class Boilerplates extends Component {
                 </Link>
               </Card.Header>
               <Card.Body>
+                <div dangerouslySetInnerHTML={{ __html: boilerplate.text }}>
+                </div>
                 <p>Text: {boilerplate.text}</p>
                 {/* <ReactQuill
                   value={this.state.text}
@@ -69,6 +70,8 @@ class Boilerplates extends Component {
         })}
 
         <br />
+        <h3>Add Boilerplate</h3>
+        <h3>Add Boilerplate</h3>
         <h3>Add Boilerplate</h3>
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
