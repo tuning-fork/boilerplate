@@ -18,7 +18,7 @@ class ReportsNew extends Component {
       // grant_id: "",
       title: "",
       deadline: "",
-      submitted: "",
+      submitted: false,
       grant_id: "",
       grant_title: "",
       reports: [],
@@ -94,7 +94,7 @@ class ReportsNew extends Component {
     axios
       .post('/api/reports', {
         grant_id: this.state.grant_id,
-        title: this.state.grant_title,
+        title: `Report for ${this.state.grant_title}`,
         deadline: deadline,
         submitted: submitted
       },
@@ -120,7 +120,7 @@ class ReportsNew extends Component {
       <div className="component">
         <Card>
         <Card.Header>
-        <h1>New Report for: {this.props.location.state.grant_title}</h1>
+        <h1>New Report for {this.state.grant_title}</h1>
         </Card.Header>
           <Card.Body>
             <Form onSubmit={this.handleSubmit}>
@@ -129,7 +129,7 @@ class ReportsNew extends Component {
                 <Form.Control
                   type="text"
                   name="title"
-                  value={`Report for: ${this.state.grant_title}`}
+                  value={`Report for ${this.state.grant_title}`}
                   onChange={this.handleChange}
                   required
                 />
@@ -140,15 +140,6 @@ class ReportsNew extends Component {
                   type="datetime-local"
                   name="deadline"
                   value={this.state.deadline}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Submitted</Form.Label>
-                <Form.Control
-                  name="submitted"
-                  value={this.state.submitted}
                   onChange={this.handleChange}
                   required
                 />

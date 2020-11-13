@@ -163,6 +163,7 @@ class GrantsShow extends Component {
                 <h4>{section.title}</h4>
                 <h4>{section.text}</h4>
                 <h4>Wordcount: {section.wordcount}</h4>
+                <h4>Sort Order: {section.sort_order}</h4>
               </div>
               )
         })}
@@ -284,6 +285,7 @@ class GrantsShow extends Component {
         <br />
         <h3>Add A Section:</h3>
         <SectionsNew 
+          sort_number={this.state.sections.length}
           grant_id={this.state.id} 
           history={this.props.history}
           updateSections={this.updateSections}

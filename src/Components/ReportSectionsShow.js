@@ -123,7 +123,6 @@ class ReportSectionsShow extends Component {
             <h5>text: {this.state.quill_text}</h5>
             <h5>sort_order: {this.state.sort_order}</h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
-            <h5>report_id: {this.state.report_id}</h5>
           </Card.Body>
         </Card>
         <br />

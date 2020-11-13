@@ -61,16 +61,18 @@ class SectionsNew extends Component {
       .catch((error) => console.log(error));
   }
 
+
+
   handleSubmit(event) {
     const {
-      title, quill_text, sort_order
+      title, quill_text
     } = this.state;
     axios
       .post('/api/sections', {
         grant_id: this.props.grant_id,
         title: title,
         text: quill_text,
-        sort_order: sort_order,
+        sort_order: this.props.sort_number + 1,
         wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -113,6 +115,7 @@ class SectionsNew extends Component {
   };
 
   render() {
+    console.log(this.props.sort_number);
     return (
       <Card>
         <Card.Body>
@@ -192,16 +195,6 @@ class SectionsNew extends Component {
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Sort Order</Form.Label>
-              <Form.Control
-                type="text"
-                name="sort_order"
-                value={this.state.sort_order}
-                onChange={this.handleChange}
-                required
-              />
             </Form.Group>
             <div className="text-center">
               <Button type="submit">
