@@ -71,6 +71,8 @@ class Boilerplates extends Component {
 
         <br />
         <h3>Add Boilerplate</h3>
+        <h3>Add Boilerplate</h3>
+        <h3>Add Boilerplate</h3>
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
         />
