@@ -55,7 +55,6 @@ class ReportsNew extends Component {
           this.toggleHidden();
           this.props.updateReports(response.data);
           this.clearForm();
-          // this.props.toggleHiddenNewReport();
         };
       })
       .catch((error) => {
@@ -69,9 +68,14 @@ class ReportsNew extends Component {
     // console.log(this.props.location.state);
     return (
       <div>
-        <Button onClick={this.toggleHidden.bind(this)}>
+        {this.state.isHidden ?
+          <Button onClick={this.toggleHidden.bind(this)}>
           Add Report
+        </Button> :
+        <Button onClick={this.toggleHidden.bind(this)}>
+          Close
         </Button>
+        }
         <br />
         <br />
         {!this.state.isHidden ? (

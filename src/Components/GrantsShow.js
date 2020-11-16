@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsNew from './SectionsNew';
 import ReportsNew from './ReportsNew';
+import SectionsShow from './SectionsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -31,6 +32,8 @@ class GrantsShow extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGrantDelete = this.handleGrantDelete.bind(this);
+    this.updateReports = this.updateReports.bind(this);
+    this.updateSections = this.updateSections.bind(this);
     // this.showEditAbility = this.showEditAbility.bind(this);
   }
 
@@ -153,7 +156,7 @@ class GrantsShow extends Component {
       <div className="component">
         <Card>
           <Card.Header>
-            <h2>Title: {this.state.title}</h2>
+            <h2>{this.state.title}</h2>
           </Card.Header>
           <Card.Body>
             <h3>Purpose: {this.state.purpose}</h3>
@@ -179,6 +182,17 @@ class GrantsShow extends Component {
                         value={this.state.title}
                         name="title"
                         // placeholder={this.state.title}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Purpose</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.purpose}
+                        name="purpose"
+                        // placeholder={this.state.purpose}
                         onChange={this.handleChange}
                         required
                       />
@@ -227,17 +241,6 @@ class GrantsShow extends Component {
                         required
                       />
                     </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Purpose</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.purpose}
-                        name="purpose"
-                        // placeholder={this.state.purpose}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
                     <div className="text-center">
                       <Button type="submit" >
                         Submit
@@ -263,10 +266,20 @@ class GrantsShow extends Component {
             {this.state.sections.length ? this.state.sections.map(section => {
                 return(
                   <div key={section.id}>
-                    <h4>{section.title}</h4>
-                    <h4>{section.text}</h4>
-                    <h4>Wordcount: {section.wordcount}</h4>
-                    <h4>Sort Order: {section.sort_order}</h4>
+                    <SectionsShow 
+                      section_id={section.id}
+                      section_title={section.title}
+                      section_text={section.text}
+                      section_wordcount={section.wordcount}
+                      section_sort_order={section.sort_order}
+                      section_grant_id={section.grant_id}
+                      updateSections={this.updateSections}
+
+                    />
+                      {/* <h4>{section.title}</h4>
+                      <h4>{section.text}</h4>
+                      <h4>Wordcount: {section.wordcount}</h4>
+                      <h4>Sort Order: {section.sort_order}</h4> */}
                     <br/>
                   </div>
                 )
@@ -289,7 +302,11 @@ class GrantsShow extends Component {
               {
                 return(
                   <div key={report.id}>
-                    <h4>{report.title}</h4>
+                    <Link 
+                     to={`/reports/${report.id}`}
+                    >
+                      <h4>{report.title}</h4>
+                    </Link>
                     <h4>{report.deadline}</h4>
                     <h4>{report.submitted}</h4>
                   </div>
@@ -305,18 +322,6 @@ class GrantsShow extends Component {
           </Card.Body>
         </Card>
         <br />
-
-        {/* beginning of grant update */}
-
-        
-     
-
-        {/* beginning of SectionsNew */}
-
-        <br />
-        
-        <br />
-
         <Button onClick={this.handleGrantDelete}>Delete Grant</Button>
         <Link 
           to={`/grants-finalize/${this.state.id}`}

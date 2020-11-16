@@ -22,7 +22,7 @@ class GrantsFinalizeShow extends Component {
       rfp_url: "",
       deadline: "",
       submitted: false,
-      successful: "",
+      successful: false,
       purpose: "",
       organization_id: "",
       organization_name: "",
@@ -322,7 +322,6 @@ class GrantsFinalizeShow extends Component {
                           name="submitted"
                           checked={this.state.submitted}
                           onChange={this.handleChange}
-                          required
                         />
                       </Form.Group>
                       <Form.Group>
@@ -332,7 +331,6 @@ class GrantsFinalizeShow extends Component {
                           name="successful"
                           checked={this.state.successful}
                           onChange={this.handleChange}
-                          required
                         />
                       </Form.Group>
 

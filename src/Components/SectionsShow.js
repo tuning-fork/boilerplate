@@ -10,11 +10,12 @@ class SectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
-      quill_text: "",
-      title: "",
+      // id: "",
+      quill_text: this.props.section_text,
+      title: this.props.section_title,
       // text: "",
-      sort_order: "",
+      // sort_order: "",
+      isHidden: true,
       wordcount: "",
       grant_id: "",
       errors: [],
@@ -27,29 +28,29 @@ class SectionsShow extends Component {
     this.quillChange = this.quillChange.bind(this);
   }
 
-  componentDidMount() {  
-    axios
-      .get(`/api/sections/${this.props.id}`,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          title: response.data.title,
-          quill_text: response.data.text,
-          sort_order: response.data.sort_order,
-          wordcount: response.data.wordcount,
-          grant_id: response.data.grant_id,
-          errors: [],
-          loading: false,
-        });
-      })
-      .then((response) => {
-        this.toggleHidden();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // componentDidMount() {  
+  //   axios
+  //     .get(`/api/sections/${this.props.id}`,
+  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
+  //     .then((response) => {
+  //       this.setState({
+  //         id: response.data.id,
+  //         title: response.data.title,
+  //         quill_text: response.data.text,
+  //         sort_order: response.data.sort_order,
+  //         wordcount: response.data.wordcount,
+  //         grant_id: response.data.grant_id,
+  //         errors: [],
+  //         loading: false,
+  //       });
+  //     })
+  //     .then((response) => {
+  //       this.toggleHidden();
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   toggleHidden() {
     this.setState({
@@ -68,19 +69,22 @@ class SectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, quill_text, sort_order, grant_id } = this.state;
+    const { title, quill_text } = this.state;
     axios
       .patch(
-        '/api/sections/' + this.state.id, {
+        '/api/sections/' + this.props.section_id, {
           title: title,
           text: quill_text,
-          sort_order: sort_order, 
+          sort_order: this.props.section_sort_order, 
           wordcount: this.countWords(this.state.quill_text),
-          grant_id: grant_id
+          grant_id: this.props.section_grant_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        this.toggleHidden();
+        if (response.data) {
+          this.props.updateSections(response.data);
+          this.toggleHidden();
+        }
       })
       .catch((error) => {
         console.log('section update error', error);
@@ -119,16 +123,23 @@ class SectionsShow extends Component {
       <div className="container">
         <Card>
             <Card.Body>
-            <h5>{this.state.title}</h5>
-            <h5>{this.state.quill_text}</h5>
-            <h5>sort_order: {this.state.sort_order}</h5>
+            <h5>{this.props.section_title}</h5>
+            <h5>{this.props.section_text}</h5>
+            <h5>sort_order: {this.props.section_sort_order}</h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
             </Card.Body>
             <div>
           <div className="container">
-            <Button onClick={this.toggleHidden.bind(this)}>
-              Update Section
-            </Button>
+              {this.state.isHidden ? 
+              <Button onClick={this.toggleHidden.bind(this)}>
+                Update Section
+              </Button> :
+              <Button
+                onClick={this.toggleHidden.bind(this)}
+              >
+                Close
+              </Button>
+            }
             <br />
             <br />
             {!this.state.isHidden ? (
@@ -141,7 +152,7 @@ class SectionsShow extends Component {
                         type="text"
                         value={this.state.title}
                         name="title"
-                        placeholder={this.state.title}
+                        // placeholder={this.props.section_title}
                         onChange={this.handleChange}
                         required
                       />
@@ -166,39 +177,11 @@ class SectionsShow extends Component {
                       <Form.Label>Word Count</Form.Label>
                       <p>{this.countWords(this.state.quill_text)}</p>
                     </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Sort Order</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.sort_order}
-                        name="sort_order"
-                        placeholder={this.state.sort_order}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                    <Form.Label>Grant ID</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.grant_id}
-                        name="grant_id"
-                        placeholder={this.state.grant_id}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
                     <div className="text-center">
-                      <Button type="submit" className="btn-lg">
+                      <Button type="submit">
                         Submit
                       </Button>
                       <Button onClick={this.handleSectionDelete}>Delete</Button>
-                      <Button
-                        onClick={this.toggleHidden.bind(this)}
-                        className="btn-lg"
-                      >
-                        Close
-                      </Button>
                     </div>
                   </Form>
                 </Card.Body>

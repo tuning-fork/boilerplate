@@ -83,8 +83,8 @@ class SectionsNew extends Component {
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
-          this.toggleHidden();
           this.props.updateSections(response.data);
+          this.toggleHidden();
           this.clearForm();
         }
       })
@@ -124,9 +124,14 @@ class SectionsNew extends Component {
     // console.log(this.props.sort_number);
     return (
       <div>
-        <Button onClick={this.toggleHidden.bind(this)}>
+        {this.state.isHidden ? 
+          <Button onClick={this.toggleHidden.bind(this)}>
           Add Section
+        </Button> :
+        <Button onClick={this.toggleHidden.bind(this)}>
+          Close
         </Button>
+        }
         <br />
         <br />
         {!this.state.isHidden ? (
