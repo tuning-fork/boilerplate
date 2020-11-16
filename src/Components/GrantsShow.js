@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SectionsNew from './SectionsNew';
+import ReportsNew from './ReportsNew';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -19,7 +20,7 @@ class GrantsShow extends Component {
       purpose: "",
       organization_id: "",
       funding_org_id: "",
-      isHidden: false,
+      isHidden: true,
       sections: [],
       reports: [],
       organizations: [],
@@ -147,11 +148,11 @@ class GrantsShow extends Component {
             <h2>Title: {this.state.title}</h2>
           </Card.Header>
           <Card.Body>
+            <h3>Purpose: {this.state.purpose}</h3>
             <h3>RFP URL: {this.state.rfp_url}</h3>
             <h3>Deadline: {this.state.deadline}</h3>
             <h3>Submitted: {this.state.submitted ? "yes" : "not yet"}</h3>
             <h3>Successful: {this.state.successful ? "yes" : "not yet"}</h3>
-            <h3>Purpose: {this.state.purpose}</h3>
 
             {/* beginning of grant update */}
 
@@ -159,7 +160,7 @@ class GrantsShow extends Component {
               Update Grant
             </Button>
             <br />
-            {this.state.isHidden ? (
+            {!this.state.isHidden ? (
               <div>
                 <div>
                   <Form onSubmit={this.handleSubmit}>
@@ -261,9 +262,8 @@ class GrantsShow extends Component {
                     <br/>
                   </div>
                 )
-              }) : <h3>This grant has no sections yet.</h3>
+              }) : <h4>This grant has no sections yet.</h4>
             }
-            <h3>Add A Section:</h3>
             <SectionsNew 
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
@@ -286,7 +286,7 @@ class GrantsShow extends Component {
                     <h4>{report.submitted}</h4>
                   </div>
                   )
-              }) : <h3>This grant has no reports yet.</h3>
+              }) : <h4>This grant has no reports yet.</h4>
             }
           </Card.Body>
         </Card>

@@ -18,6 +18,7 @@ class SectionsNew extends Component {
       wordcount: '',
       boilerplates: [],
       currentBoilerplate: '',
+      isHidden: true,
       bios: [],
       loading: true
       // addText: ''
@@ -40,6 +41,12 @@ class SectionsNew extends Component {
     });
   };
 
+  toggleHidden() {
+    this.setState({
+      isHidden: !this.state.isHidden,
+    });
+  }
+
   componentDidMount() {
     axios
       .get('/api/boilerplates',
@@ -60,8 +67,6 @@ class SectionsNew extends Component {
       })
       .catch((error) => console.log(error));
   }
-
-
 
   handleSubmit(event) {
     const {
@@ -115,95 +120,104 @@ class SectionsNew extends Component {
   };
 
   render() {
-    console.log(this.props.sort_number);
+    // console.log(this.props.sort_number);
     return (
-      <Card>
-        <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                value={this.state.title}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Add Boilerplate to text field below</Form.Label>
-              <Form.Control
-                as="select" 
-                name="currentBoilerplate"
-                value={this.state.currentBoilerplate}
-                onChange={this.handleSelect}
-              >
-                <option value="" disabled>Select Boilerplate</option>
-                {this.state.boilerplates.map(boilerplate => {
-                  return(
-                    <option 
-                      key={boilerplate.id} 
-                      value={boilerplate.text} 
-                      onChange={this.handleChange}
-                    >
-                      {boilerplate.title}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Add Bio Text to text field below</Form.Label>
-              <Form.Control
-                as="select" 
-                name="currentBoilerplate"
-                value={this.state.currentBoilerplate}
-                onChange={this.handleSelect}
-              >
-                <option value="" disabled>Select Bio</option>
-                {this.state.bios.map(bio => {
-                  return(
-                    <option 
-                      key={bio.id} 
-                      value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
-                      onChange={this.handleChange}
-                    >
-                      {`${bio.first_name} ${bio.last_name}`}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
-            <Form.Label>Grant Section Text</Form.Label>
-            <ReactQuill 
-              // name="quill_text"
-              value={this.state.quill_text}
-              onChange={this.quillChange}  
-            />
-            {/* <Form.Group>
-              <Form.Label>Text</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="text"
-                value={this.state.text}
-                onChange={this.handleChange}
-                rows="4"
-                cols="50"
-                required
-              ></Form.Control>
-            </Form.Group> */}
-            <Form.Group>
-              <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.quill_text)}</p>
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">
-                Add New Section
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
+      <div>
+        <Button onClick={this.toggleHidden.bind(this)}>
+          Add Section
+        </Button>
+        <br />
+        <br />
+        {!this.state.isHidden ? (
+          <Card>
+            <Card.Body>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Add Boilerplate to text field below</Form.Label>
+                  <Form.Control
+                    as="select" 
+                    name="currentBoilerplate"
+                    value={this.state.currentBoilerplate}
+                    onChange={this.handleSelect}
+                  >
+                    <option value="" disabled>Select Boilerplate</option>
+                    {this.state.boilerplates.map(boilerplate => {
+                      return(
+                        <option 
+                          key={boilerplate.id} 
+                          value={boilerplate.text} 
+                          onChange={this.handleChange}
+                        >
+                          {boilerplate.title}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Add Bio Text to text field below</Form.Label>
+                  <Form.Control
+                    as="select" 
+                    name="currentBoilerplate"
+                    value={this.state.currentBoilerplate}
+                    onChange={this.handleSelect}
+                  >
+                    <option value="" disabled>Select Bio</option>
+                    {this.state.bios.map(bio => {
+                      return(
+                        <option 
+                          key={bio.id} 
+                          value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
+                          onChange={this.handleChange}
+                        >
+                          {`${bio.first_name} ${bio.last_name}`}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Label>Grant Section Text</Form.Label>
+                <ReactQuill 
+                  // name="quill_text"
+                  value={this.state.quill_text}
+                  onChange={this.quillChange}  
+                />
+                {/* <Form.Group>
+                  <Form.Label>Text</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    name="text"
+                    value={this.state.text}
+                    onChange={this.handleChange}
+                    rows="4"
+                    cols="50"
+                    required
+                  ></Form.Control>
+                </Form.Group> */}
+                <Form.Group>
+                  <Form.Label>Word Count</Form.Label>
+                  <p>{this.countWords(this.state.quill_text)}</p>
+                </Form.Group>
+                <div className="text-center">
+                  <Button type="submit">
+                    Submit New Section
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        ) : null}
+      </div>
     );
   }
 }
