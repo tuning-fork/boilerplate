@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
+// import ReportSectionsShow from './ReportSectionsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -227,21 +228,48 @@ export default class ReportsShow extends Component {
                       <h5>{section.title}</h5>
                       <h5>{section.text}</h5>
                     </Col>
+                    {this.state.report_sections[section.sort_order - 1] ? this.state.report_sections.filter(report_section => 
+                    section.sort_order === report_section.sort_order).map(item => (
+                      <Col key={item.id}>
+                        <h5>{item.title}</h5>
+                        <h5>{item.text}</h5>
+                        <h5>{item.sort_order}</h5>
+                      </Col>
+                    ))
+                    :
+                      <Col>
+                        <ReportSectionsNew 
+                        report_id={this.state.id} 
+                        grant_section_number={section.sort_order}
+                        updateReportSections={this.updateReportSections}
+                        />
+                      </Col>
+                    }
+                    {/* {this.state.report_sections[section.sort_order - 1] ? 
+                        <h5>{this.state.report_sections[section.sort_order - 1]}</h5>
+                     : 
+                      <ReportSectionsNew 
+                        report_id={this.state.id} 
+                        grant_section_number={section.sort_order}
+                        updateReportSections={this.updateReportSections}
+                      />
+                    
+                    } */}
                     {/* <div>
                       {this.state.report_sections.filter(function(report_section) {
                           return <h5>{report_section.sort_order === section.sort_order}</h5>
                       })}
                     </div> */}
-                    <Col>
+                    {/* <Col>
                       <ReportSectionsNew 
                       report_id={this.state.id} 
                       grant_section_number={section.sort_order}
                       updateReportSections={this.updateReportSections}
                       />
-                    </Col>
+                    </Col> */}
                   </Row>
                 </Container>
-                {this.state.report_sections.length ? <h5>There are report sections!</h5> : <h5>There are no report sections :(</h5>}
+                {/* {this.state.report_sections.length ? <h5>There are report sections!</h5> : <h5>There are no report sections :(</h5>} */}
               </div>
             )
           })}
