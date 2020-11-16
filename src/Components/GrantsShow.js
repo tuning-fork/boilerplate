@@ -164,6 +164,7 @@ class GrantsShow extends Component {
                 <h4>{section.text}</h4>
                 <h4>Wordcount: {section.wordcount}</h4>
                 <h4>Sort Order: {section.sort_order}</h4>
+                <br/>
               </div>
               )
         })}
@@ -281,6 +282,8 @@ class GrantsShow extends Component {
               ) : null}
             </div>
         </div>
+
+        {/* beginning of SectionsNew */}
 
         <br />
         <h3>Add A Section:</h3>

@@ -75,17 +75,16 @@ class Grants extends Component {
                     {grant.title}
                   </Link>
                 </Card.Header>
-                  <Card.Body>
-                    <p>Purpose: {grant.purpose}</p>
-                    <p>Funding Organization: {grant.funding_org_name}</p>
-                    <p>RFP URL: {grant.rfp_url}</p>
-                    <p>Deadline: {this.formatDate(grant.deadline)}</p>
-                    <p>Deadline: <Moment>{grant.deadline}</Moment></p>
-                    <Moment fromNow>{grant.deadline}</Moment>
-                    <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                    <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                    <p>Organization Name: {grant.organization_name}</p>
-                  </Card.Body>
+                <Card.Body>
+                  <p>Purpose: {grant.purpose}</p>
+                  <p>Funding Organization: {grant.funding_org_name}</p>
+                  <p>RFP URL: {grant.rfp_url}</p>
+                  <p>Deadline: {this.formatDate(grant.deadline)}</p>
+                  <p>Deadline: <Moment>{grant.deadline}</Moment></p>
+                  <Moment fromNow>{grant.deadline}</Moment>
+                  <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                  <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
+                  <p>Organization Name: {grant.organization_name}</p>
                   <Link
                     to={{
                       pathname: `/reports-new`,
@@ -96,6 +95,7 @@ class Grants extends Component {
                   >
                     Create Report
                   </Link>
+                </Card.Body>
               </Card>
               <br />
             </div>

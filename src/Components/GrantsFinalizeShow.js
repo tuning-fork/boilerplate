@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
-import SectionsShow from './SectionsShow';
+// import SectionsShow from './SectionsShow';
 // import ReportsNew from './ReportsNew';
 // import ReportsShow from './ReportsShow';
 
@@ -9,9 +9,9 @@ import SectionsShow from './SectionsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -25,13 +25,14 @@ class GrantsFinalizeShow extends Component {
       successful: "",
       purpose: "",
       organization_id: "",
+      organization_name: "",
       funding_org_id: "",
       // isHidden: true,
       // isNewReportHidden: false,
       loading: true,
       sections: [],
       reports: [],
-      organizations: [],
+      // organizations: [],
       funding_orgs: [],
       errors: [],
     };
@@ -55,6 +56,7 @@ class GrantsFinalizeShow extends Component {
           successful: response.data.successful,
           purpose: response.data.purpose,
           organization_id: response.data.organizion_id,
+          organization_name: response.data.organization_name,
           funding_org_id: response.data.funding_org_id,
           sections: response.data.sections,
           reports: response.data.reports,
@@ -163,7 +165,34 @@ class GrantsFinalizeShow extends Component {
     }
     return (
       <div className="component">
-        <Card>
+
+        <h1>{this.state.title}</h1>
+        <h2>{this.state.organization_name}</h2>
+        <h2>{this.state.purpose}</h2>
+        
+              <div>
+              {this.state.sections.map(section => {
+                    return(
+                      <div key={section.id}>
+                      <Container>
+                        <Row>
+                          <Col>
+                          <h3>{section.title}</h3>
+                          <p>{section.text}</p>
+                          </Col>
+                          <Col>
+                            <button>edit</button>
+                          </Col>
+                        </Row>
+                      </Container>
+                      </div>
+                    )
+                  })}
+          </div>  
+            
+        
+
+        {/* <Card>
           <Card.Header>
           <h3>Title: {this.state.title}</h3>
           </Card.Header>
@@ -186,7 +215,7 @@ class GrantsFinalizeShow extends Component {
               )
             })}
           </Card.Body>
-        </Card>
+        </Card> */}
 
         {/* beginning of add reports*/}
 

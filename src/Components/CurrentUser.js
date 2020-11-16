@@ -76,18 +76,19 @@ class CurrentUser extends Component {
   }
 
   render() {
-    console.log(this.state.organization_users)
     return (
       <div>
         <h1>Welcome to your Dashboard {this.state.first_name}</h1>
         <br />
         <div>
-        <h2>Here are your current organizations: </h2>
-        {this.state.organization_users.map((organization_user) => {
-        return (
-        <h3>{organization_user.organization_name}</h3>
-        );
-        })}
+          <h2>Here are your current organizations: </h2>
+          {this.state.organization_users.map((organization_user) => {
+            return (
+              <div key={organization_user.organization_id}>
+                <h3>{organization_user.organization_name}</h3>
+              </div>
+            );
+          })}
         </div>
         <div>
           <button onClick={this.toggleHidden.bind(this)} className="btn-lg">
@@ -96,58 +97,58 @@ class CurrentUser extends Component {
           <br />
           <br />
           {this.state.isHidden ? (
-            <div >
-                <Form onSubmit={this.handleSubmit}>
-                  <Form.Group>
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={this.state.first_name}
-                      name="first_name"
-                      placeholder={this.state.first_name}
-                      onChange={this.handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={this.state.last_name}
-                      name="last_name"
-                      placeholder={this.state.last_name}
-                      onChange={this.handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={this.state.email}
-                      name="email"
-                      placeholder={this.state.email}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </Form.Group>
-                  <div className="text-center">
-                    <button type="submit" className="btn-lg">
-                      Submit
-                    </button>
-                    <button
-                      onClick={this.toggleHidden.bind(this)}
-                      className="btn-lg"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </Form>
-                <br />
-                {/* <button
-                  onClick={() => this.handleUserDelete()}
-                  className="btn btn-danger">
-                  Delete Account
-                </button> */}
-              </div>
+            <div>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.first_name}
+                    name="first_name"
+                    placeholder={this.state.first_name}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.last_name}
+                    name="last_name"
+                    placeholder={this.state.last_name}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.email}
+                    name="email"
+                    placeholder={this.state.email}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <div className="text-center">
+                  <button type="submit" className="btn-lg">
+                    Submit
+                  </button>
+                  <button
+                    onClick={this.toggleHidden.bind(this)}
+                    className="btn-lg"
+                  >
+                    Close
+                  </button>
+                </div>
+              </Form>
+              <br />
+              {/* <button
+                onClick={() => this.handleUserDelete()}
+                className="btn btn-danger">
+                Delete Account
+              </button> */}
+            </div>
             
           ) : null}
         </div>
