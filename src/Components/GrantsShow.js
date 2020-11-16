@@ -121,6 +121,14 @@ class GrantsShow extends Component {
     }) 
   }
 
+  updateReports = (newReport) => {
+    const reports = this.state.reports;
+    reports.push(newReport);
+    this.setState({
+      reports: reports
+    }) 
+  }
+
   handleGrantDelete() {
 		axios
 			.delete('/api/grants/' + this.state.id, 
@@ -262,7 +270,7 @@ class GrantsShow extends Component {
                     <br/>
                   </div>
                 )
-              }) : <h4>This grant has no sections yet.</h4>
+              }) : <h4>There are no sections yet.</h4>
             }
             <SectionsNew 
               sort_number={this.state.sections.length}
@@ -286,8 +294,14 @@ class GrantsShow extends Component {
                     <h4>{report.submitted}</h4>
                   </div>
                   )
-              }) : <h4>This grant has no reports yet.</h4>
+              }) : <h4>There are no reports yet.</h4>
             }
+            <ReportsNew 
+              sort_number={this.state.sections.length}
+              grant_id={this.state.id} 
+              grant_title={this.state.title} 
+              updateReports={this.updateReports}
+            />
           </Card.Body>
         </Card>
         <br />

@@ -83,6 +83,7 @@ class SectionsNew extends Component {
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
+          this.toggleHidden();
           this.props.updateSections(response.data);
           this.clearForm();
         }
