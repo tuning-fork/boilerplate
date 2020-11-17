@@ -36,6 +36,7 @@ export default class ReportsShow extends Component {
       .get(`/api/reports/${this.props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
+        console.log(response.data);
         this.setState({
           id: response.data.id,
           grant_id: response.data.grant_id,
@@ -43,7 +44,7 @@ export default class ReportsShow extends Component {
           deadline: response.data.deadline,
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
-          grant_sections: response.data.grant.grant_sections,
+          grant_sections: response.data.grant_sections,
           loading: false
         })
         // return axios.get(`/api/grants/${this.state.grant_id}`, 
@@ -221,33 +222,35 @@ export default class ReportsShow extends Component {
         
 
         <div>
-          {this.state.grant_sections.map(section => {
+          {this.state.grant_sections.map(grant_section => {
             return(
-              <div key={section.id}>
+              <div key={grant_section.id}>
                 <Container>
                   <Row style={{paddingBottom: "5%"}}>
-                    <Col>
-                      <h5>{section.title}</h5>
-                      <h5>{section.text}</h5>
-                      <h5>Sort Order: {section.sort_order}</h5>
+                    <Col key={grant_section.id}>
+                      <h5>{grant_section.section.title}</h5>
+                      <h5>{grant_section.section.text}</h5>
+                      <h5>Sort Order: {grant_section.section.sort_order}</h5>
                     </Col>
-                    {section.grant_section_match ? 
+                    <div key={grant_section.id}>
+                    {grant_section.grant_section_match ? 
                       (
-                        <Col key={section.grant_section_match.id}>
-                        <h5>{section.grant_section_match.title}</h5>
-                        <h5>{section.grant_section_match.text}</h5>
-                        <h5>Sort Order: {section.grant_section_match.sort_order}</h5>
-                      </Col>
+                        <Col key={grant_section.grant_section_match.id}>
+                          <h5>{grant_section.grant_section_match.title}</h5>
+                          <h5>{grant_section.grant_section_match.text}</h5>
+                          <h5>Sort Order: {grant_section.grant_section_match.sort_order}</h5>
+                        </Col>
                       )
                     :
                       <Col>
                         <ReportSectionsNew 
                         report_id={this.state.id} 
-                        grant_section_number={section.sort_order}
+                        grant_section_number={grant_section.section.sort_order}
                         updateReportSections={this.updateReportSections}
                         />
                       </Col>
                     }
+                    </div>
                     {/* {this.state.report_sections[section.sort_order - 1] ? 
                         <h5>{this.state.report_sections[section.sort_order - 1]}</h5>
                      : 

@@ -149,6 +149,7 @@ class GrantsShow extends Component {
   
 
   render() {
+    console.log(this.state.sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }

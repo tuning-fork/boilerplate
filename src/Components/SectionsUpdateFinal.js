@@ -4,9 +4,10 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
+import Container from 'react-bootstrap/Container';
 import 'react-quill/dist/quill.snow.css';
 
-class SectionsShow extends Component {
+class SectionsUpdateFinal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -122,24 +123,23 @@ class SectionsShow extends Component {
     }
     return (
       <div className="container">
-        <Card>
-            <Card.Body>
-            <h5>{this.props.section_title}</h5>
-            <h5>{this.props.section_text}</h5>
-            <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
-            </Card.Body>
-            <div>
+            <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
+              <h5>{this.props.section_title}</h5>
+              <h5>{this.props.section_text}</h5>
+            </Container>
+            
+         
           <div className="container">
-              {this.state.isHidden ? 
-              <Button onClick={this.toggleHidden.bind(this)}>
+              {/* {this.state.isHidden ? 
+              <button style={{ display: "block"}} onClick={this.toggleHidden.bind(this)}>
                 Update Section
-              </Button> :
-              <Button
+              </button> :
+              <button
                 onClick={this.toggleHidden.bind(this)}
               >
                 Close
-              </Button>
-            }
+              </button>
+            } */}
             <br />
             <br />
             {!this.state.isHidden ? (
@@ -188,14 +188,10 @@ class SectionsShow extends Component {
               </Card>
               ) : null}
           </div>
-        </div>
-          </Card>
-        <br />
 
-        
       </div>
     );
   }
 }
 
-export default SectionsShow;
+export default SectionsUpdateFinal;

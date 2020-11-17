@@ -43,6 +43,10 @@ nav {
   border-bottom: 5px solid cyan;
 }
 
+.whatever:hover {
+  background-color: orange;
+}
+
 
 
 

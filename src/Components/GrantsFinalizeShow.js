@@ -6,6 +6,7 @@ import axios from 'axios';
 // import ReportsShow from './ReportsShow';
 
 // import ReportSectionsNew from './ReportSectionsNew';
+import SectionsUpdateFinal from './SectionsUpdateFinal';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -158,6 +159,13 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
+  // updateSections = (newSection) => {
+  //   const sections = this.state.sections;
+  //   sections.push(newSection);
+  //   this.setState({
+  //     sections: sections
+  //   }) 
+  // }
 
   render() {
     if (this.state.loading) {
@@ -174,17 +182,11 @@ class GrantsFinalizeShow extends Component {
               {this.state.sections.map(section => {
                     return(
                       <div key={section.id}>
-                      <Container>
-                        <Row>
-                          <Col>
-                          <h3>{section.title}</h3>
-                          <p>{section.text}</p>
-                          </Col>
-                          <Col>
-                            <button>edit</button>
-                          </Col>
-                        </Row>
-                      </Container>
+                        <SectionsUpdateFinal 
+                          section_id={section.id}
+                          section_title={section.title}
+                          section_text={section.text}
+                        />
                       </div>
                     )
                   })}
