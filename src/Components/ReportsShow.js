@@ -43,16 +43,18 @@ export default class ReportsShow extends Component {
           deadline: response.data.deadline,
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
+          grant_sections: response.data.grant.grant_sections,
+          loading: false
         })
-        return axios.get(`/api/grants/${this.state.grant_id}`, 
-          {headers: { Authorization: `Bearer ${localStorage.token}` }})
-          .then((response => {
-            this.setState({
-              grant_title: response.data.title,
-              grant_sections: response.data.sections,
-              loading: false,
-              });
-          }))
+        // return axios.get(`/api/grants/${this.state.grant_id}`, 
+        //   {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        //   .then((response => {
+        //     this.setState({
+        //       grant_title: response.data.title,
+        //       grant_sections: response.data.sections,
+        //       loading: false,
+        //       });
+        //   }))
       })
       .catch((error) => {
         console.log(error);
@@ -227,15 +229,16 @@ export default class ReportsShow extends Component {
                     <Col>
                       <h5>{section.title}</h5>
                       <h5>{section.text}</h5>
+                      <h5>Sort Order: {section.sort_order}</h5>
                     </Col>
-                    {this.state.report_sections[section.sort_order - 1] ? this.state.report_sections.filter(report_section => 
-                    section.sort_order === report_section.sort_order).map(item => (
-                      <Col key={item.id}>
-                        <h5>{item.title}</h5>
-                        <h5>{item.text}</h5>
-                        <h5>{item.sort_order}</h5>
+                    {section.grant_section_match ? 
+                      (
+                        <Col key={section.grant_section_match.id}>
+                        <h5>{section.grant_section_match.title}</h5>
+                        <h5>{section.grant_section_match.text}</h5>
+                        <h5>Sort Order: {section.grant_section_match.sort_order}</h5>
                       </Col>
-                    ))
+                      )
                     :
                       <Col>
                         <ReportSectionsNew 
