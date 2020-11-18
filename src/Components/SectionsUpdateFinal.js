@@ -29,31 +29,7 @@ class SectionsUpdateFinal extends Component {
     this.quillChange = this.quillChange.bind(this);
   }
 
-  // componentDidMount() {  
-  //   axios
-  //     .get(`/api/sections/${this.props.id}`,
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         id: response.data.id,
-  //         title: response.data.title,
-  //         quill_text: response.data.text,
-  //         sort_order: response.data.sort_order,
-  //         wordcount: response.data.wordcount,
-  //         grant_id: response.data.grant_id,
-  //         errors: [],
-  //         loading: false,
-  //       });
-  //     })
-  //     .then((response) => {
-  //       this.toggleHidden();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
@@ -84,8 +60,8 @@ class SectionsUpdateFinal extends Component {
       .then((response) => {
         if (response.data) {
           console.log(response.data);
-          this.props.updateSections(response.data);
           this.toggleHidden();
+          this.props.updateSections(response.data);
         }
       })
       .catch((error) => {
@@ -180,6 +156,9 @@ class SectionsUpdateFinal extends Component {
                     <div className="text-center">
                       <Button type="submit">
                         Submit
+                      </Button>
+                      <Button onClick={this.toggleHidden}>
+                        Close
                       </Button>
                       <Button onClick={this.handleSectionDelete}>Delete</Button>
                     </div>
