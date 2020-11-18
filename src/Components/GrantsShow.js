@@ -32,8 +32,8 @@ class GrantsShow extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGrantDelete = this.handleGrantDelete.bind(this);
-    this.updateReports = this.updateReports.bind(this);
-    this.updateSections = this.updateSections.bind(this);
+    // this.updateNewReports = this.updateNewReports.bind(this);
+    // this.updateNewSections = this.updateNewSections.bind(this);
   }
 
   componentDidMount() {
@@ -100,7 +100,7 @@ class GrantsShow extends Component {
     event.preventDefault();
   }
 
-  updateSections = (newSection) => {
+  updateNewSections = (newSection) => {
     const sections = this.state.sections;
     sections.push(newSection);
     this.setState({
@@ -108,7 +108,11 @@ class GrantsShow extends Component {
     }) 
   }
 
-  updateReports = (newReport) => {
+  // updateSections() {
+
+  // }
+
+  updateNewReports = (newReport) => {
     const reports = this.state.reports;
     reports.push(newReport);
     this.setState({
@@ -268,7 +272,7 @@ class GrantsShow extends Component {
             <SectionsNew 
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
-              updateSections={this.updateSections}
+              updateNewSections={this.updateNewSections}
             />
           </Card.Body>
         
@@ -297,7 +301,7 @@ class GrantsShow extends Component {
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
               grant_title={this.state.title} 
-              updateReports={this.updateReports}
+              updateNewReports={this.updateNewReports}
             />
           </Card.Body>
         </Card>

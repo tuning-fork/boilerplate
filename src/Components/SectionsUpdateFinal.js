@@ -72,12 +72,9 @@ class SectionsUpdateFinal extends Component {
 
   handleSectionDelete() {
     axios
-      .delete('/api/sections/' + this.props.section.id,
+      .delete('/api/sections/' + this.props.section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
@@ -94,80 +91,51 @@ class SectionsUpdateFinal extends Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    }
     return (
       <div className="container">
-            <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
-              <h5>{this.props.section_title}</h5>
-              <h5>{this.props.section_text}</h5>
-            </Container>
-            
-         
-          <div className="container">
-              {/* {this.state.isHidden ? 
-              <button style={{ display: "block"}} onClick={this.toggleHidden.bind(this)}>
-                Update Section
-              </button> :
-              <button
-                onClick={this.toggleHidden.bind(this)}
-              >
-                Close
-              </button>
-            } */}
-            <br />
-            <br />
-            {!this.state.isHidden ? (
-              <Card>
-                <Card.Body>
-                  <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.title}
-                        name="title"
-                        // placeholder={this.props.section_title}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <ReactQuill 
-                      // name="quill_text"
-                      value={this.state.quill_text}
-                      onChange={this.quillChange}  
+        <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
+          <h5>{this.props.section_title}</h5>
+          <h5>{this.props.section_text}</h5>
+        </Container>
+        <br />
+        {!this.state.isHidden ? (
+          <div>
+            <Card>
+            <Button onClick={this.toggleHidden}>
+              Close
+            </Button>
+              <Card.Body>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group>
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={this.state.title}
+                      name="title"
+                      onChange={this.handleChange}
+                      required
                     />
-                    {/* <Form.Group>
-                      <Form.Label>Text</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.text}
-                        name="text"
-                        placeholder={this.state.text}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group> */}
-                    <Form.Group>
-                      <Form.Label>Word Count</Form.Label>
-                      <p>{this.countWords(this.state.quill_text)}</p>
-                    </Form.Group>
-                    <div className="text-center">
-                      <Button type="submit">
-                        Submit
-                      </Button>
-                      <Button onClick={this.toggleHidden}>
-                        Close
-                      </Button>
-                      <Button onClick={this.handleSectionDelete}>Delete</Button>
-                    </div>
-                  </Form>
-                </Card.Body>
-              </Card>
-              ) : null}
+                  </Form.Group>
+                  <ReactQuill 
+                    value={this.state.quill_text}
+                    onChange={this.quillChange}  
+                  />
+                  <Form.Group>
+                    <Form.Label>Word Count</Form.Label>
+                    <p>{this.countWords(this.state.quill_text)}</p>
+                  </Form.Group>
+                  <div className="text-center">
+                    <Button type="submit">
+                      Submit
+                    </Button>
+                    <Button variant="danger" onClick={this.handleSectionDelete}>Delete</Button>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+            <br />
           </div>
-
+        ) : null}
       </div>
     );
   }

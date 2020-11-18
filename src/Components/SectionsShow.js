@@ -81,8 +81,8 @@ class SectionsShow extends Component {
       .then((response) => {
         if (response.data) {
           console.log(response.data);
-          this.props.updateSections(response.data);
           this.toggleHidden();
+          // this.props.updateSections(response.data);
         }
       })
       .catch((error) => {
@@ -96,9 +96,6 @@ class SectionsShow extends Component {
       .delete('/api/sections/' + this.props.section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
@@ -115,20 +112,16 @@ class SectionsShow extends Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    }
     return (
       <div className="container">
         <Card>
-            <Card.Body>
+          <Card.Body>
             <h5>{this.props.section_title}</h5>
             <h5>{this.props.section_text}</h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
-            </Card.Body>
-            <div>
+          </Card.Body>
           <div className="container">
-              {this.state.isHidden ? 
+            {this.state.isHidden ? 
               <Button onClick={this.toggleHidden.bind(this)}>
                 Update Section
               </Button> :
@@ -167,18 +160,15 @@ class SectionsShow extends Component {
                       <Button type="submit">
                         Submit
                       </Button>
-                      <Button onClick={this.handleSectionDelete}>Delete</Button>
+                      <Button variant="danger" onClick={this.handleSectionDelete}>Delete</Button>
                     </div>
                   </Form>
                 </Card.Body>
               </Card>
-              ) : null}
+            ) : null}
           </div>
-        </div>
-          </Card>
+        </Card>
         <br />
-
-        
       </div>
     );
   }

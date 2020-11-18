@@ -53,7 +53,7 @@ class ReportsNew extends Component {
       .then((response) => {
         if (response.data) {
           this.toggleHidden();
-          this.props.updateReports(response.data);
+          this.props.updateNewReports(response.data);
           this.clearForm();
         };
       })

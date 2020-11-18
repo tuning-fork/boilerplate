@@ -25,7 +25,7 @@ class Grants extends Component {
           grants: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
   }

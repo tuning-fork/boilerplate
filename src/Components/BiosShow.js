@@ -15,11 +15,11 @@ class BiosShow extends Component {
       first_name: "",
       last_name: "",
       title: "",
-      // text: "",
       organization_id: "",
       organization: "",
       wordcount: "",
       organizations: [],
+      isHidden: true,
       errors: [],
     };
 
@@ -47,9 +47,6 @@ class BiosShow extends Component {
           loading: false,
         });
       })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
       .catch((error) => {
         console.log(error);
       });
@@ -125,112 +122,101 @@ class BiosShow extends Component {
     }
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h3>First Name: {this.state.first_name}</h3>
-        <h3>Last Name: {this.state.last_name}</h3>
-        </Card.Header>
-        <Card.Body>
-        <h3>title: {this.state.title}</h3>
-        <h3>text: {this.state.quill_text}</h3>
-        <h3>organization: {this.state.organization.name}</h3>
-        <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
-        </Card.Body>
-      </Card>
+        <Card>
+          <Card.Header>
+          <h3>{this.state.first_name} {this.state.last_name}</h3>
+          </Card.Header>
+          <Card.Body>
+          <h3>{this.state.title}</h3>
+          <h4>{this.state.quill_text}</h4>
+          <h4>Organization: {this.state.organization.name}</h4>
+          <h4>wordcount: {this.countWords(this.state.quill_text)}</h4>
+          </Card.Body>
+        </Card>
         <br />
 
-        <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Bio
-              </Button>
-              <br />
-              <br />
-              {this.state.isHidden ? (
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.first_name}
-                          name="first_name"
-                          placeholder={this.state.first_name}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.last_name}
-                          name="last_name"
-                          placeholder={this.state.last_name}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          placeholder={this.state.title}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <ReactQuill 
-                        // name="quill_text"
-                        value={this.state.quill_text}
-                        onChange={this.quillChange}  
-                      />
-                      {/* <Form.Group>
-                        <Form.Label>Text</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.text}
-                          name="text"
-                          placeholder={this.state.text}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group> */}
-                      <Form.Group>
-                        <Form.Label>Organization ID</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.organization_id}
-                          name="organization_id"
-                          placeholder={this.state.organization_id}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-
-                      <Form.Group>
-                        <Form.Label>Word Count</Form.Label>
-                        <p>{this.countWords(this.state.quill_text)}</p>
-                      </Form.Group>
-                      
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </Form> 
-                ) : null}
-              <Button onClick={this.handleBioDelete}>Delete</Button>
-            </div>
-          </div>
+        <div className="container">
+          {this.state.isHidden ?
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Bio
+            </Button> :
+            <Button
+              onClick={this.toggleHidden.bind(this)}
+            >
+              Close
+            </Button>
+          }
+          <br />
+          <br />
+          {!this.state.isHidden ? (
+            <Card>
+            <Card.Body>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group>
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={this.state.first_name}
+                  name="first_name"
+                  placeholder={this.state.first_name}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={this.state.last_name}
+                  name="last_name"
+                  placeholder={this.state.last_name}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={this.state.title}
+                  name="title"
+                  placeholder={this.state.title}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <ReactQuill 
+                value={this.state.quill_text}
+                onChange={this.quillChange}  
+              />
+              <Form.Group>
+                <Form.Label>Organization ID</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={this.state.organization_id}
+                  name="organization_id"
+                  placeholder={this.state.organization_id}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Word Count</Form.Label>
+                <p>{this.countWords(this.state.quill_text)}</p>
+              </Form.Group>
+              <div className="text-center">
+                <Button type="submit">
+                  Submit
+                </Button>
+              </div>
+            </Form>
+            </Card.Body>
+            </Card> 
+          ) : null}
+          <br />
+          <Button variant="danger" onClick={this.handleBioDelete}>Delete</Button>
         </div>
+      </div>
     );
   }
 }
