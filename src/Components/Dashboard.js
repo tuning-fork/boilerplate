@@ -14,7 +14,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div className="component">
-        <CurrentUser history={this.props.history} />
+        <CurrentUser />
       </div>
     );
   }

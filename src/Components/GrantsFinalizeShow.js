@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import SectionsShow from './SectionsShow';
-// import ReportsNew from './ReportsNew';
-// import ReportsShow from './ReportsShow';
-
-// import ReportSectionsNew from './ReportSectionsNew';
 import SectionsUpdateFinal from './SectionsUpdateFinal';
-// import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -28,19 +18,16 @@ class GrantsFinalizeShow extends Component {
       organization_id: "",
       organization_name: "",
       funding_org_id: "",
-      // isHidden: true,
-      // isNewReportHidden: false,
-      loading: true,
       sections: [],
       reports: [],
-      // organizations: [],
       funding_orgs: [],
-      errors: [],
+      isHidden: true,
+      loading: true,
+      errors: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.toggleHiddenNewReport = this.toggleHiddenNewReport.bind(this);
   }
 
   componentDidMount() {
@@ -64,9 +51,6 @@ class GrantsFinalizeShow extends Component {
           loading: false,
         });
       })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
       .catch((error) => {
         console.log(error);
       });
@@ -77,26 +61,6 @@ class GrantsFinalizeShow extends Component {
       isHidden: !this.state.isHidden,
     });
   }
-
-  toggleHiddenReport() {
-    this.setState({
-      isReportHidden: !this.state.isReportHidden,
-    });
-  }
-
-   toggleHiddenNewReport() {
-    this.setState({
-      isNewReportHidden: !this.state.isNewReportHidden,
-    });
-  }
-
-  // showEditAbility() {
-  //   if (this.state.user_id === parseInt(localStorage.user_id)) {
-  //     this.setState({
-  //       canEdit: !this.state.canEdit,
-  //     });
-  //   }
-  // }
 
   handleChange(event) {
     const target = event.target;
@@ -128,7 +92,6 @@ class GrantsFinalizeShow extends Component {
       )
       .then((response) => {
         this.toggleHidden();
-        this.toggleHiddenReport();
       })
       .catch((error) => {
         console.log('grant update error', error);
@@ -141,22 +104,11 @@ class GrantsFinalizeShow extends Component {
       .delete('/api/sections/' + this.props.section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  updateReports = (newReport) => {
-    const reports = this.state.reports;
-    reports.push(newReport);
-    this.setState({
-      reports: reports,
-    });
   }
 
   // updateSections = (newSection) => {
@@ -173,115 +125,108 @@ class GrantsFinalizeShow extends Component {
     }
     return (
       <div className="component">
-
         <h1>{this.state.title}</h1>
         <h2>{this.state.organization_name}</h2>
         <h2>{this.state.purpose}</h2>
-        
-              <div>
-              {this.state.sections.map(section => {
-                    return(
-                      <div key={section.id}>
-                        <SectionsUpdateFinal 
-                          section_id={section.id}
-                          section_title={section.title}
-                          section_text={section.text}
-                        />
-                      </div>
-                    )
-                  })}
-          </div>  
+        <div>
+          {this.state.sections.map(section => {
+            return(
+              <div key={section.id}>
+                <SectionsUpdateFinal 
+                  section_id={section.id}
+                  section_title={section.title}
+                  section_text={section.text}
+                  section_grant_id={this.state.id}
+                />
+              </div>
+            )
+          })}
+        </div>  
 
         {/* beginning of grant update */}
         
-        <br />
-        <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Grant
-              </Button>
-              <br />
-              <br />
-              {this.state.isHidden ? (
-                <div>
-                  <div>
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>RFP URL</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.rfp_url}
-                          name="rfp_url"
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Deadline</Form.Label>
-                        <Form.Control
-                          type="datetime"
-                          value={this.state.deadline}
-                          name="deadline"
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Submitted</Form.Label>
-                        <Form.Check
-                          type="checkbox"
-                          name="submitted"
-                          checked={this.state.submitted}
-                          onChange={this.handleChange}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Successful</Form.Label>
-                        <Form.Check
-                          type="checkbox"
-                          name="successful"
-                          checked={this.state.successful}
-                          onChange={this.handleChange}
-                        />
-                      </Form.Group>
-
-                      <Form.Group>
-                        <Form.Label>Purpose</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.purpose}
-                          name="purpose"
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </Form>
-                  </div>
+        <div className="container">
+          {this.state.isHidden ?
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Grant
+            </Button> :
+            <Button
+              onClick={this.toggleHidden.bind(this)}
+            >
+              Close
+            </Button>
+          }
+          <br />
+          <br />
+          {!this.state.isHidden ? (
+            <div>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.title}
+                    name="title"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>RFP URL</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.rfp_url}
+                    name="rfp_url"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Deadline</Form.Label>
+                  <Form.Control
+                    type="datetime"
+                    value={this.state.deadline}
+                    name="deadline"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Submitted</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="submitted"
+                    checked={this.state.submitted}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Successful</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="successful"
+                    checked={this.state.successful}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Purpose</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.purpose}
+                    name="purpose"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <div className="text-center">
+                  <Button type="submit">
+                    Submit
+                  </Button>
                 </div>
-                ) : null}
+              </Form>
             </div>
+          ) : null}
         </div>
       </div>
     );

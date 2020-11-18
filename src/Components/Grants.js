@@ -25,7 +25,7 @@ class Grants extends Component {
           grants: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -90,16 +90,6 @@ class Grants extends Component {
                   <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
                   <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
                   <p>Organization Name: {grant.organization_name}</p>
-                  {/* <Link
-                    to={{
-                      pathname: `/reports-new`,
-                      state: {
-                        grant_id: grant.id
-                      }
-                      }}
-                  >
-                    Create Report
-                  </Link> */}
                 </Card.Body>
               </Card>
               <br />

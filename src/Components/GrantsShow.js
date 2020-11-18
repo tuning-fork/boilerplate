@@ -32,9 +32,8 @@ class GrantsShow extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGrantDelete = this.handleGrantDelete.bind(this);
-    this.updateReports = this.updateReports.bind(this);
-    this.updateSections = this.updateSections.bind(this);
-    // this.showEditAbility = this.showEditAbility.bind(this);
+    // this.updateNewReports = this.updateNewReports.bind(this);
+    // this.updateNewSections = this.updateNewSections.bind(this);
   }
 
   componentDidMount() {
@@ -57,31 +56,16 @@ class GrantsShow extends Component {
           loading: false,
         });
       })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
       .catch((error) => {
         console.log(error);
       });
   }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log("the id is ", this.props.grand_id);
-  // }
 
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
-
-  // showEditAbility() {
-  //   if (this.state.user_id === parseInt(localStorage.user_id)) {
-  //     this.setState({
-  //       canEdit: !this.state.canEdit,
-  //     });
-  //   }
-  // }
 
   handleChange(event) {
     const { name, value } = event.target;
@@ -116,7 +100,7 @@ class GrantsShow extends Component {
     event.preventDefault();
   }
 
-  updateSections = (newSection) => {
+  updateNewSections = (newSection) => {
     const sections = this.state.sections;
     sections.push(newSection);
     this.setState({
@@ -124,7 +108,11 @@ class GrantsShow extends Component {
     }) 
   }
 
-  updateReports = (newReport) => {
+  // updateSections() {
+
+  // }
+
+  updateNewReports = (newReport) => {
     const reports = this.state.reports;
     reports.push(newReport);
     this.setState({
@@ -149,7 +137,6 @@ class GrantsShow extends Component {
   
 
   render() {
-    console.log(this.state.sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -168,9 +155,16 @@ class GrantsShow extends Component {
 
             {/* beginning of grant update */}
 
-            <Button onClick={this.toggleHidden.bind(this)}>
-              Update Grant
-            </Button>
+            {this.state.isHidden ?
+              <Button onClick={this.toggleHidden.bind(this)}>
+                Update Grant
+              </Button> :
+              <Button
+                onClick={this.toggleHidden.bind(this)}
+              >
+                Close
+              </Button>
+            }
             <br />
             {!this.state.isHidden ? (
               <div>
@@ -246,11 +240,6 @@ class GrantsShow extends Component {
                       <Button type="submit" >
                         Submit
                       </Button>
-                      <Button
-                        onClick={this.toggleHidden.bind(this)}
-                      >
-                        Close
-                      </Button>
                     </div>
                   </Form>
                 </div>
@@ -275,7 +264,6 @@ class GrantsShow extends Component {
                       section_sort_order={section.sort_order}
                       section_grant_id={section.grant_id}
                       updateSections={this.updateSections}
-
                     />
                   </div>
                 )
@@ -284,7 +272,7 @@ class GrantsShow extends Component {
             <SectionsNew 
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
-              updateSections={this.updateSections}
+              updateNewSections={this.updateNewSections}
             />
           </Card.Body>
         
@@ -313,16 +301,16 @@ class GrantsShow extends Component {
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
               grant_title={this.state.title} 
-              updateReports={this.updateReports}
+              updateNewReports={this.updateNewReports}
             />
           </Card.Body>
         </Card>
         <br />
-        <Button onClick={this.handleGrantDelete}>Delete Grant</Button>
+        <Button variant="danger" onClick={this.handleGrantDelete}>Delete Grant</Button>
         <Link 
           to={`/grants-finalize/${this.state.id}`}
         >
-          Grant Finalize
+          <Button>Grant Finalize</Button>
         </Link>
       </div>
     );

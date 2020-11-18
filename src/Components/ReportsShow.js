@@ -36,7 +36,7 @@ export default class ReportsShow extends Component {
       .get(`/api/reports/${this.props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({
           id: response.data.id,
           grant_id: response.data.grant_id,
