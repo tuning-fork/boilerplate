@@ -6,12 +6,13 @@ import axios from 'axios';
 // import ReportsShow from './ReportsShow';
 
 // import ReportSectionsNew from './ReportSectionsNew';
-import Card from 'react-bootstrap/Card';
+import SectionsUpdateFinal from './SectionsUpdateFinal';
+// import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class GrantsFinalizeShow extends Component {
       rfp_url: "",
       deadline: "",
       submitted: false,
-      successful: "",
+      successful: false,
       purpose: "",
       organization_id: "",
       organization_name: "",
@@ -158,6 +159,13 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
+  // updateSections = (newSection) => {
+  //   const sections = this.state.sections;
+  //   sections.push(newSection);
+  //   this.setState({
+  //     sections: sections
+  //   }) 
+  // }
 
   render() {
     if (this.state.loading) {
@@ -174,17 +182,11 @@ class GrantsFinalizeShow extends Component {
               {this.state.sections.map(section => {
                     return(
                       <div key={section.id}>
-                      <Container>
-                        <Row>
-                          <Col>
-                          <h3>{section.title}</h3>
-                          <p>{section.text}</p>
-                          </Col>
-                          <Col>
-                            <button>edit</button>
-                          </Col>
-                        </Row>
-                      </Container>
+                        <SectionsUpdateFinal 
+                          section_id={section.id}
+                          section_title={section.title}
+                          section_text={section.text}
+                        />
                       </div>
                     )
                   })}
@@ -322,7 +324,6 @@ class GrantsFinalizeShow extends Component {
                           name="submitted"
                           checked={this.state.submitted}
                           onChange={this.handleChange}
-                          required
                         />
                       </Form.Group>
                       <Form.Group>
@@ -332,7 +333,6 @@ class GrantsFinalizeShow extends Component {
                           name="successful"
                           checked={this.state.successful}
                           onChange={this.handleChange}
-                          required
                         />
                       </Form.Group>
 

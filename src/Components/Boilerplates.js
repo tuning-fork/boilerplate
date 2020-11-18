@@ -41,6 +41,11 @@ class Boilerplates extends Component {
 
     return (
       <div className="component">
+        <h3>Add Boilerplate</h3>
+        <BoilerplatesNew 
+          updateBoilerplates={this.updateBoilerplates}
+        />
+        <br/>
         {this.state.boilerplates.map((boilerplate) => {
           return (
             <Card key={boilerplate.id}>
@@ -68,14 +73,6 @@ class Boilerplates extends Component {
             </Card>
           );
         })}
-
-        <br />
-        <h3>Add Boilerplate</h3>
-        <h3>Add Boilerplate</h3>
-        <h3>Add Boilerplate</h3>
-        <BoilerplatesNew 
-          updateBoilerplates={this.updateBoilerplates}
-        />
       </div>
     );
   }

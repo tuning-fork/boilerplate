@@ -64,6 +64,11 @@ class Grants extends Component {
 
     return (
       <div className="component">
+        <h3>Add A Grant</h3>
+        <GrantsNew 
+          updateGrants={this.updateGrants}
+        />
+        <br/>
         {this.state.grants.map((grant) => {
           return (
             <div key={grant.id}>
@@ -85,7 +90,7 @@ class Grants extends Component {
                   <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
                   <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
                   <p>Organization Name: {grant.organization_name}</p>
-                  <Link
+                  {/* <Link
                     to={{
                       pathname: `/reports-new`,
                       state: {
@@ -94,18 +99,13 @@ class Grants extends Component {
                       }}
                   >
                     Create Report
-                  </Link>
+                  </Link> */}
                 </Card.Body>
               </Card>
               <br />
             </div>
           );
         })}
-        <h1>Add A Grant</h1>
-        <GrantsNew 
-          updateGrants={this.updateGrants}
-        />
-        
       </div>
     );
   }

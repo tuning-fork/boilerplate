@@ -68,7 +68,7 @@ class ReportSectionsNew extends Component {
         if (response.data) {
           this.props.updateReportSections(response.data);
           this.clearForm();
-          this.props.toggleHiddenNewReportSection();
+          // this.props.toggleHiddenNewReportSection();
         }
       })
       .catch((error) => {
