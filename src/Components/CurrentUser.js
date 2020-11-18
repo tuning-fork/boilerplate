@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import OrganizationUser from './OrganizationUser';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 
 class CurrentUser extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class CurrentUser extends Component {
       first_name: '',
       last_name: '',
       email: '',
-      isHidden: false,
+      isHidden: true,
       organization_users: []
     };
 
@@ -85,18 +87,25 @@ class CurrentUser extends Component {
           {this.state.organization_users.map((organization_user) => {
             return (
               <div key={organization_user.organization_id}>
-                <h3>{organization_user.organization_name}</h3>
+                <h4>{organization_user.organization_name}</h4>
               </div>
             );
           })}
         </div>
         <div>
-          <button onClick={this.toggleHidden.bind(this)} className="btn-lg">
-            Update Account Info
-          </button>
+          {this.state.isHidden ? 
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Account Info
+            </Button> :
+            <Button
+              onClick={this.toggleHidden.bind(this)}
+            >
+              Close
+            </Button>
+          }
           <br />
           <br />
-          {this.state.isHidden ? (
+          {!this.state.isHidden ? (
             <div>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Group>
@@ -131,15 +140,9 @@ class CurrentUser extends Component {
                   />
                 </Form.Group>
                 <div className="text-center">
-                  <button type="submit" className="btn-lg">
+                  <Button type="submit">
                     Submit
-                  </button>
-                  <button
-                    onClick={this.toggleHidden.bind(this)}
-                    className="btn-lg"
-                  >
-                    Close
-                  </button>
+                  </Button>
                 </div>
               </Form>
               <br />
