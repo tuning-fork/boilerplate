@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsShow from './ReportSectionsShow';
-// import ReportsNew from './ReportsNew';
-import Card from 'react-bootstrap/Card';
+import ReportSectionsUpdateFinal from './ReportSectionsUpdateFinal';
+// // import ReportsNew from './ReportsNew';
+// import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class ReportsFinalizeShow extends Component {
   constructor(props) {
@@ -19,8 +22,8 @@ class ReportsFinalizeShow extends Component {
       errors: [],
     };
 
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -45,11 +48,11 @@ class ReportsFinalizeShow extends Component {
       });
   }
 
-  // toggleHidden() {
-  //   this.setState({
-  //     isHidden: !this.state.isHidden,
-  //   });
-  // }
+  toggleHidden() {
+    this.setState({
+      isHidden: !this.state.isHidden,
+    });
+  }
 
   // toggleHiddenReport() {
   //   this.setState({
@@ -71,56 +74,37 @@ class ReportsFinalizeShow extends Component {
   //   }
   // }
 
-  // handleChange(event) {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
 
-  // handleSubmit(event) {
-  //   const { title, text, sort_order, wordcount } = this.state;
-  //   axios
-  //     .patch(
-  //       '/api/report_sections/' + this.state.id,
-  //       {
-  //         report_id: this.state.id,
-  //         title: title,
-  //         text: text,
-  //         sort_order: sort_order,
-  //         wordcount: wordcount
-  //       }
-  //     )
-  //     .then((response) => {
-  //       this.toggleHidden();
-  //     })
-  //     .catch((error) => {
-  //       console.log('report_sections update error', error);
-  //     });
-  //   event.preventDefault();
-  // }
+    this.setState({
+      [name]: value
+    });
+  }
 
-  // handleSectionDelete() {
-  //   axios
-  //     .delete('/api/report_sections/' + this.props.section.id)
-  //     .then((response) => {
-  //       // if (response.data.message) {
-  //       //   this.props.history.push('/sections');
-  //       // }
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // updateReports = (newReport) => {
-  //   const reports = this.state.reports;
-  //   reports.push(newReport);
-  //   this.setState({
-  //     reports: reports,
-  //   });
-  // }
+  handleSubmit(event) {
+    const { title, deadline, submitted } = this.state;
+    axios
+      .patch(
+        '/api/reports/' + this.state.id,
+        {
+          title: title,
+          deadline: deadline,
+          submitted: submitted,
+          report_sections: []
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      )
+      .then((response) => {
+        this.toggleHidden();
+      })
+      .catch((error) => {
+        console.log('report update error', error);
+      });
+    event.preventDefault();
+  }
 
   render() {
     if (this.state.loading) {
@@ -128,28 +112,87 @@ class ReportsFinalizeShow extends Component {
     }
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h5>Title: {this.state.title}</h5>
-      </Card.Header>
-      <Card.Body>
-        <h5>Deadline: {this.state.deadline}</h5>
-        <h5>Submitted: {this.state.submitted}</h5>
-      </Card.Body>
-      <Card.Header>
-        <h5>Report Sections:</h5>
-      </Card.Header>
-      <Card.Body>
+        <div>
+        <h5>{this.state.title}</h5>
+      </div>
+      <div>
+        <h5>{this.state.deadline}</h5>
+        <h5>{this.state.submitted}</h5>
+      </div>
+      <div>
         {this.state.report_sections.map(report_section => {
           return(
             <div key={report_section.id}>
-              <ReportSectionsShow id={report_section.id}/>
+              <ReportSectionsUpdateFinal 
+              report_section_id={report_section.id}
+              report_section_title={report_section.title}
+              report_section_text={report_section.text}
+              />
             </div>
           )
           })}
-      </Card.Body>
-      </Card>
       </div>
+        <div>
+          <div className="container">
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Report
+            </Button>
+            <br />
+            <br />
+            {this.state.isHidden ? (
+              <div>
+                <div>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.title}
+                        name="title"
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Deadline</Form.Label>
+                      <Form.Control
+                        type="datetime"
+                        value={this.state.deadline}
+                        name="deadline"
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Submitted</Form.Label>
+                      <Form.Check
+                        type="checkbox"
+                        name="submitted"
+                        checked={this.state.submitted}
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
+                    <div className="text-center">
+                      <Button type="submit" className="btn-lg">
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        className="btn-lg"
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
+                </div>
+                ) : null}
+            </div>
+        </div>
+
+      </div>
+
+
     );
   }
 }

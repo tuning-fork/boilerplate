@@ -10,13 +10,12 @@ class ReportSectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
-      quill_text: "",
-      report_id: "",
-      title: "",
-      // text: "",
+      quill_text: this.props.report_section_text,
+      title: this.props.report_section_title,
+      isHidden: true,
       sort_order: "",
       wordcount: "",
+      report_id: "",
       errors: [],
     };
 
@@ -27,28 +26,28 @@ class ReportSectionsShow extends Component {
     this.quillChange = this.quillChange.bind(this);
   }
 
-  componentDidMount() {  
-    axios
-      .get(`/api/report_sections/${this.props.id}`,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          report_id: response.data.report_id,
-          title: response.data.title,
-          quill_text: response.data.text,
-          sort_order: response.data.sort_order,
-          wordcount: response.data.wordcount,
-          loading: false,
-        });
-      })
-      .then((response) => {
-        this.toggleHidden();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // componentDidMount() {  
+  //   axios
+  //     .get(`/api/report_sections/${this.props.id}`,
+  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
+  //     .then((response) => {
+  //       this.setState({
+  //         id: response.data.id,
+  //         report_id: response.data.report_id,
+  //         title: response.data.title,
+  //         quill_text: response.data.text,
+  //         sort_order: response.data.sort_order,
+  //         wordcount: response.data.wordcount,
+  //         loading: false,
+  //       });
+  //     })
+  //     .then((response) => {
+  //       this.toggleHidden();
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   toggleHidden() {
     this.setState({
@@ -67,30 +66,30 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, quill_text, sort_order } = this.state;
+    const { title, quill_text} = this.state;
     axios
       .patch(
-        '/api/report_sections/' + this.state.id, 
+        '/api/report_sections/' + this.props.report_section_id, 
         {
-          report_id: this.state.report_id,
           title: title,
           text: quill_text,
-          sort_order: sort_order, 
+          sort_order: this.props.report_section_sort_order, 
           wordcount: this.countWords(this.state.quill_text),
+          report_id: this.props.section_report_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.toggleHidden();
       })
       .catch((error) => {
-        console.log('section update error', error);
+        console.log('report section update error', error);
       });
     event.preventDefault();
   }
 
   handleReportSectionDelete() {
     axios
-      .delete('/api/report_sections/' + this.state.id,
+      .delete('/api/report_sections/' + this.props.report_section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         // if (response.data.message) {
@@ -119,19 +118,24 @@ class ReportSectionsShow extends Component {
       <div className="container">
         <Card>
           <Card.Body>
-            <h5>title: {this.state.title}</h5>
-            <h5>text: {this.state.quill_text}</h5>
-            <h5>sort_order: {this.state.sort_order}</h5>
+            <h5>title: {this.props.report_section_title}</h5>
+            <h5>text: {this.props.report_section_text}</h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
           </Card.Body>
         </Card>
         <br />
-
         <div>
           <div className="container">
+            {this.state.isHidden ? 
             <Button onClick={this.toggleHidden.bind(this)}>
               Update Report Section
-            </Button>
+            </Button> :
+              <Button
+                onClick={this.toggleHidden.bind(this)}
+              >
+                Close
+              </Button>
+            }
             <br />
             <br />
             {!this.state.isHidden ? (
@@ -144,41 +148,17 @@ class ReportSectionsShow extends Component {
                         type="text"
                         value={this.state.title}
                         name="title"
-                        // placeholder={this.state.title}
                         onChange={this.handleChange}
                         required
                       />
                     </Form.Group>
-                    {/* <Form.Group>
-                      <Form.Label>Text</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.text}
-                        name="text"
-                        // placeholder={this.state.text}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </div> */}
                     <ReactQuill 
-                      // name="quill_text"
                       value={this.state.quill_text}
                       onChange={this.quillChange}  
                     />
                     <Form.Group>
                       <Form.Label>Word Count</Form.Label>
                       <p>{this.countWords(this.state.quill_text)}</p>
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Sort Order</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.sort_order}
-                        name="sort_order"
-                        // placeholder={this.state.sort_order}
-                        onChange={this.handleChange}
-                        required
-                      />
                     </Form.Group>
                     <div className="text-center">
                       <Button type="submit">

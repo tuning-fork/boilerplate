@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
-// import ReportSectionsShow from './ReportSectionsShow';
+import ReportSectionsShow from './ReportSectionsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -47,15 +47,6 @@ export default class ReportsShow extends Component {
           grant_sections: response.data.grant_sections,
           loading: false
         })
-        // return axios.get(`/api/grants/${this.state.grant_id}`, 
-        //   {headers: { Authorization: `Bearer ${localStorage.token}` }})
-        //   .then((response => {
-        //     this.setState({
-        //       grant_title: response.data.title,
-        //       grant_sections: response.data.sections,
-        //       loading: false,
-        //       });
-        //   }))
       })
       .catch((error) => {
         console.log(error);
@@ -98,7 +89,6 @@ export default class ReportsShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
-        
         this.toggleHidden();
       })
       .catch((error) => {
@@ -139,87 +129,101 @@ export default class ReportsShow extends Component {
     }
     return (
       <div className="component">
+      <Card>
+          <Card.Header>
+            <h2>{this.state.title}</h2>
+          </Card.Header>
+          <Card.Body>
+            <h3>Deadline: {this.state.deadline}</h3>
+            <h3>Submitted: {this.state.submitted ? "yes" : "not yet"}</h3>
+          </Card.Body>
+      </Card>
+
+      {/* beginning of report update if current user created report */}
+      <div className="container">
+        <Button onClick={this.toggleHidden.bind(this)}>
+          Update Report
+        </Button>
+        <br />
+        <br />
+        {!this.state.isHidden ? (
+          <Card>
+            <Card.Body>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={this.state.title}
+                    name="title"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Deadline</Form.Label>
+                  <Form.Control
+                    type="datetime"
+                    value={this.state.deadline}
+                    name="deadline"
+                    // placeholder={this.state.deadline}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Submitted</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="submitted"
+                    checked={this.state.submitted}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Form.Group>
+                <div className="text-center">
+                  <Button type="submit" className="btn-lg">
+                    Submit
+                  </Button>
+                  <Button
+                    onClick={this.toggleHidden.bind(this)}
+                    className="btn-lg"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        ) : null }
+      </div>
+
+      <br/>
+      <br/>
+
         <Card>
           <Card.Header>
             <h3>Report Sections:</h3>
           </Card.Header>
           <Card.Body>
-            {this.state.report_sections.map(report_section => {
+            {this.state.report_sections.length ? this.state.report_sections.map(report_section => {
                 return(
                   <div key={report_section.id}>
-                    <h4>{report_section.title}</h4>
-                    <h4>{report_section.text}</h4>
-                    <h4>Wordcount: {report_section.wordcount}</h4>
+                  <ReportSectionsShow
+                  report_section_id={report_section.id}
+                  report_section_title={report_section.title}
+                  report_section_text={report_section.text}
+                  report_section_wordcount={report_section.wordcount}
+                  report_section_report_id={report_section.report_id}
+                  updateReportSections={this.updateReportSections}
+                  />
                   </div>
                 )
-            })}
+            }) : <h4>There are no report sections yet.</h4>
+          }
           </Card.Body>
         </Card>
-        <br />
-
-            {/* beginning of report update if current user created report */}
-
-        <div className="container">
-          <Button onClick={this.toggleHidden.bind(this)}>
-            Update Report
-          </Button>
-          <br />
-          <br />
-          {!this.state.isHidden ? (
-            <Card>
-              <Card.Body>
-                <Form onSubmit={this.handleSubmit}>
-                  <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={this.state.title}
-                      name="title"
-                      // placeholder={this.state.title}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Deadline</Form.Label>
-                    <Form.Control
-                      type="datetime"
-                      value={this.state.deadline}
-                      name="deadline"
-                      // placeholder={this.state.deadline}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Submitted</Form.Label>
-                    <Form.Check
-                      type="checkbox"
-                      name="submitted"
-                      checked={this.state.submitted}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </Form.Group>
-                  <div className="text-center">
-                    <Button type="submit" className="btn-lg">
-                      Submit
-                    </Button>
-                    <Button
-                      onClick={this.toggleHidden.bind(this)}
-                      className="btn-lg"
-                    >
-                      Close
-                    </Button>
-                  </div>
-                </Form>
-              </Card.Body>
-            </Card>
-          ) : null }
-        </div>
-        <br/>
-        <br/>
-        
+        <br />    
 
         <div>
           {this.state.grant_sections.map(grant_section => {
@@ -232,72 +236,31 @@ export default class ReportsShow extends Component {
                       <h5>{grant_section.section.text}</h5>
                       <h5>Sort Order: {grant_section.section.sort_order}</h5>
                     </Col>
-                    <div key={grant_section.id}>
+                    <Col key={grant_section.id}>
                     {grant_section.grant_section_match ? 
                       (
-                        <Col key={grant_section.grant_section_match.id}>
+                        <div key={grant_section.grant_section_match.id}>
                           <h5>{grant_section.grant_section_match.title}</h5>
                           <h5>{grant_section.grant_section_match.text}</h5>
                           <h5>Sort Order: {grant_section.grant_section_match.sort_order}</h5>
-                        </Col>
+                        </div>
                       )
                     :
-                      <Col>
+                      <div>
                         <ReportSectionsNew 
                         report_id={this.state.id} 
                         grant_section_number={grant_section.section.sort_order}
                         updateReportSections={this.updateReportSections}
                         />
-                      </Col>
+                      </div>
                     }
-                    </div>
-                    {/* {this.state.report_sections[section.sort_order - 1] ? 
-                        <h5>{this.state.report_sections[section.sort_order - 1]}</h5>
-                     : 
-                      <ReportSectionsNew 
-                        report_id={this.state.id} 
-                        grant_section_number={section.sort_order}
-                        updateReportSections={this.updateReportSections}
-                      />
-                    
-                    } */}
-                    {/* <div>
-                      {this.state.report_sections.filter(function(report_section) {
-                          return <h5>{report_section.sort_order === section.sort_order}</h5>
-                      })}
-                    </div> */}
-                    {/* <Col>
-                      <ReportSectionsNew 
-                      report_id={this.state.id} 
-                      grant_section_number={section.sort_order}
-                      updateReportSections={this.updateReportSections}
-                      />
-                    </Col> */}
+                    </Col>
                   </Row>
                 </Container>
-                {/* {this.state.report_sections.length ? <h5>There are report sections!</h5> : <h5>There are no report sections :(</h5>} */}
               </div>
             )
           })}
         </div>
-
-        {/* <div>
-          {this.state.report_sections.map(report_section => {
-            return(
-              <div key={report_section.id}>
-                <Container>
-                  <Row style={{paddingBottom: "5%"}}>
-                    <Col>
-                      <h5>{report_section.title}</h5>
-                      <h5>{report_section.text}</h5>
-                    </Col>
-                  </Row>
-                </Container>
-                {this.state.report_sections.length ? <h5>There are report sections!</h5> : <h5>There are no report sections :(</h5>}
-              </div>
-            )
-          })}
-        </div> */}
 
         <Button onClick={this.handleReportDelete}>
           Delete
@@ -312,27 +275,5 @@ export default class ReportsShow extends Component {
   }
 }
 
-// {this.state.report_sections.map(report_section => {
-// //                           if (report_section.sort_order === section.sort_order) {
-// //                             return(
-// //                             <Col>
-// //                             <h5>{report_section.title}</h5>
-// //                             <h5>{report_section.text}</h5>
-// //                             </Col>
-// //                           )
-// //                           }
-// //                           else {
-// //                             return(
-// //                             <Col>
-// //                             <ReportSectionsNew 
-// //                               report_id={this.state.id} 
-// //                               grant_section_number={section.sort_order}
-// //                               updateReportSections={this.updateReportSections}
-// //                             />
-// //                             </Col>
-// //                           )
-// //                           }
-// //                         })
-// //                         }
 
 

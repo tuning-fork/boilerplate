@@ -277,11 +277,6 @@ class GrantsShow extends Component {
                       updateSections={this.updateSections}
 
                     />
-                      {/* <h4>{section.title}</h4>
-                      <h4>{section.text}</h4>
-                      <h4>Wordcount: {section.wordcount}</h4>
-                      <h4>Sort Order: {section.sort_order}</h4> */}
-                    <br/>
                   </div>
                 )
               }) : <h4>There are no sections yet.</h4>
