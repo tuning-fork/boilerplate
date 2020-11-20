@@ -82,7 +82,7 @@ class SectionsShow extends Component {
         if (response.data) {
           console.log(response.data);
           this.toggleHidden();
-          // this.props.updateSections(response.data);
+          this.props.updateSections(response.data);
         }
       })
       .catch((error) => {

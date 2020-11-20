@@ -111,13 +111,20 @@ class GrantsFinalizeShow extends Component {
       });
   }
 
-  // updateSections = (newSection) => {
-  //   const sections = this.state.sections;
-  //   sections.push(newSection);
-  //   this.setState({
-  //     sections: sections
-  //   }) 
-  // }
+  updateSections = (newSection) => {
+    const sections = this.state.sections.map(section => 
+      {
+        if (section.id === newSection.id) {
+        section.title = newSection.title
+        section.text = newSection.text
+        section.wordcount = newSection.wordcount
+      }
+      return section
+      });
+    this.setState({
+      sections: sections
+    })
+  }
 
   render() {
     if (this.state.loading) {
@@ -137,6 +144,7 @@ class GrantsFinalizeShow extends Component {
                   section_title={section.title}
                   section_text={section.text}
                   section_grant_id={this.state.id}
+                  updateSections={this.updateSections}
                 />
               </div>
             )
