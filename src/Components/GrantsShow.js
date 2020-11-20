@@ -108,6 +108,21 @@ class GrantsShow extends Component {
     }) 
   }
 
+  updateSections = (newSection) => {
+    const sections = this.state.sections.map(section => 
+      {
+        if (section.id === newSection.id) {
+        section.title = newSection.title
+        section.text = newSection.text
+        section.wordcount = newSection.wordcount
+      }
+      return section
+      });
+    this.setState({
+      sections: sections
+    })
+  }
+
   // updateSections() {
 
   // }

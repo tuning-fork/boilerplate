@@ -80,6 +80,7 @@ class ReportSectionsShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.toggleHidden();
+        this.props.updateReportSections(response.data);
       })
       .catch((error) => {
         console.log('report section update error', error);
