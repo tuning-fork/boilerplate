@@ -228,7 +228,7 @@ export default class ReportsShow extends Component {
         <div>
           {this.state.grant_sections.map(grant_section => {
             return(
-              <div key={grant_section.id}>
+              <div key={grant_section.section.id}>
                 <Container>
                   <Row style={{paddingBottom: "5%"}}>
                     <Col key={grant_section.id}>

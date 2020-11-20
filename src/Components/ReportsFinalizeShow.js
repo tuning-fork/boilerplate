@@ -24,6 +24,7 @@ class ReportsFinalizeShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateReportSections = this.updateReportSections.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +74,20 @@ class ReportsFinalizeShow extends Component {
   //     });
   //   }
   // }
+
+  updateReportSections = (newReportSection) => {
+    let report_sections = this.state.report_sections.map(report_section => {
+      if (report_section.id === newReportSection.id) {
+        report_section.title = newReportSection.title
+        report_section.text = newReportSection.text
+        report_section.wordcount = newReportSection.wordcount
+      }
+      return report_section
+    });
+    this.setState({
+      report_sections: report_sections
+    }) 
+  }
 
   handleChange(event) {
     const target = event.target;
@@ -127,6 +142,7 @@ class ReportsFinalizeShow extends Component {
               report_section_id={report_section.id}
               report_section_title={report_section.title}
               report_section_text={report_section.text}
+              updateReportSections={this.updateReportSections}
               />
             </div>
           )
