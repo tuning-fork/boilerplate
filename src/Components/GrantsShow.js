@@ -157,6 +157,7 @@ class GrantsShow extends Component {
     }
     return (
       <div className="component">
+        <h1>Grants Show Page - Build Grant Sections</h1>
         <Card>
           <Card.Header>
             <h2>{this.state.title}</h2>

@@ -132,6 +132,7 @@ class GrantsFinalizeShow extends Component {
     }
     return (
       <div className="component">
+      <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
         <h1>{this.state.title}</h1>
         <h2>{this.state.organization_name}</h2>
         <h2>{this.state.purpose}</h2>
