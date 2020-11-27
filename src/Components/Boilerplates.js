@@ -41,6 +41,7 @@ class Boilerplates extends Component {
 
     return (
       <div className="component">
+        <h1>Boilerplates Index</h1>
         <h3>Add Boilerplate</h3>
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
