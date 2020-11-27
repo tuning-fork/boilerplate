@@ -42,6 +42,7 @@ class Categories extends Component {
 
     return (
       <div className="component">
+        <h1>Categories Index</h1>
         {this.state.categories.map((category) => {
           return (
             <Card key={category.id}>

@@ -42,6 +42,7 @@ class Organizations extends Component {
 
     return (
       <div className="component">
+      <h1>Organizations Index</h1>
         {this.state.organizations.map((organization) => {
           return (
             <Card key={organization.id}>

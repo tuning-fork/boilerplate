@@ -53,6 +53,7 @@ class Bios extends Component {
 
     return (
       <div className="component">
+        <h1>Bios Index</h1>
         <h3>Add A Bio</h3>
         <BiosNew 
           updateBios={this.updateBios}
