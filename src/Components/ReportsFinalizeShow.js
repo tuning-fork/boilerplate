@@ -127,6 +127,7 @@ class ReportsFinalizeShow extends Component {
     }
     return (
       <div className="component">
+        <h1>Report Finalize - View and Finalize Report Draft</h1>
         <div>
         <h5>{this.state.title}</h5>
       </div>
