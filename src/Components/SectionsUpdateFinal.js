@@ -12,12 +12,14 @@ class SectionsUpdateFinal extends Component {
     super(props);
     this.state = {
       // id: "",
-      quill_text: this.props.section_text,
-      title: this.props.section_title,
-      // text: "",
-      // sort_order: "",
+      quill_text: "",
+      title: "",
+      sort_order: "", 
       isHidden: true,
       wordcount: "",
+      // boilerplates: [],
+      currentBoilerplate: '',
+      // bios: [],
       grant_id: "",
       errors: [],
     };
@@ -41,20 +43,44 @@ class SectionsUpdateFinal extends Component {
     });
   }
 
+  handleSelect = (event) => {
+    let quill_text = this.state.quill_text;
+    quill_text += ` ${event.target.value}`;
+    this.setState({
+      quill_text: quill_text
+    });
+  };
+
   quillChange(value) {
     this.setState({ quill_text: value})
   }
 
+  componentDidMount() {
+    axios
+      .get('/api/sections/' + this.props.section_id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .then((response) => {
+        this.setState({
+          title: response.data.title,
+          quill_text: response.data.text,
+          wordcount: response.data.wordcount,
+          sort_order: response.data.sort_order,
+          grant_id: response.data.grant_id
+        }); 
+      })
+      .catch((error) => console.log(error));
+  }
+
   handleSubmit(event) {
-    const { title, quill_text } = this.state;
+    const { title, quill_text, sort_order, grant_id } = this.state;
     axios
       .patch(
         '/api/sections/' + this.props.section_id, {
           title: title,
           text: quill_text,
-          sort_order: this.props.section_sort_order, 
+          sort_order: sort_order, 
           wordcount: this.countWords(this.state.quill_text),
-          grant_id: this.props.section_grant_id
+          grant_id: grant_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -94,8 +120,8 @@ class SectionsUpdateFinal extends Component {
     return (
       <div className="container">
         <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
-          <h5>{this.props.section_title}</h5>
-          <h5>{this.props.section_text}</h5>
+          <h5>{this.state.title}</h5>
+          <h5>{this.state.quill_text}</h5>
         </Container>
         <br />
         {!this.state.isHidden ? (
@@ -115,6 +141,50 @@ class SectionsUpdateFinal extends Component {
                       onChange={this.handleChange}
                       required
                     />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Add Boilerplate to text field below</Form.Label>
+                    <Form.Control
+                      as="select" 
+                      name="currentBoilerplate"
+                      value={this.state.currentBoilerplate}
+                      onChange={this.handleSelect}
+                    >
+                      <option value="" disabled>Select Boilerplate</option>
+                      {this.props.boilerplates.map(boilerplate => {
+                        return(
+                          <option 
+                            key={boilerplate.id} 
+                            value={boilerplate.text} 
+                            onChange={this.handleChange}
+                          >
+                            {boilerplate.title}
+                          </option>
+                        );
+                      })}
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Add Bio Text to text field below</Form.Label>
+                    <Form.Control
+                      as="select" 
+                      name="currentBoilerplate"
+                      value={this.state.currentBoilerplate}
+                      onChange={this.handleSelect}
+                    >
+                      <option value="" disabled>Select Bio</option>
+                      {this.props.bios.map(bio => {
+                        return(
+                          <option 
+                            key={bio.id} 
+                            value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
+                            onChange={this.handleChange}
+                          >
+                            {`${bio.first_name} ${bio.last_name}`}
+                          </option>
+                        );
+                      })}
+                    </Form.Control>
                   </Form.Group>
                   <ReactQuill 
                     value={this.state.quill_text}

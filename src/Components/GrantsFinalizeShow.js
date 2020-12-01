@@ -23,7 +23,9 @@ class GrantsFinalizeShow extends Component {
       funding_orgs: [],
       isHidden: true,
       loading: true,
-      errors: []
+      errors: [],
+      bios: [],
+      boilerplates: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -48,6 +50,23 @@ class GrantsFinalizeShow extends Component {
           funding_org_id: response.data.funding_org_id,
           sections: response.data.sections,
           reports: response.data.reports,
+          loading: false,
+        });
+      })
+    axios
+      .get('/api/boilerplates',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .then((response) => {
+        this.setState({
+          boilerplates: response.data
+        }); 
+      })
+    axios
+      .get('/api/bios',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          bios: response.data,
           loading: false,
         });
       })
@@ -142,9 +161,11 @@ class GrantsFinalizeShow extends Component {
               <div key={section.id}>
                 <SectionsUpdateFinal 
                   section_id={section.id}
-                  section_title={section.title}
-                  section_text={section.text}
-                  section_grant_id={this.state.id}
+                  boilerplates={this.state.boilerplates}
+                  bios={this.state.bios}
+                  // section_title={section.title}
+                  // section_text={section.text}
+                  // section_grant_id={this.state.id}
                   updateSections={this.updateSections}
                 />
               </div>
