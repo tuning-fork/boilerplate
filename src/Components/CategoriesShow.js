@@ -13,6 +13,7 @@ class CategoriesShow extends Component {
       organization_id: "",
       isHidden: true,
       organizations: [],
+      organization_name: "",
       errors: [],
     };
 
@@ -30,6 +31,7 @@ class CategoriesShow extends Component {
           id: response.data.id,
           name: response.data.name,
           organization_id: response.data.organization_id,
+          organization_name: response.data.organization.name,
           loading: false,
         });
       })
@@ -39,6 +41,17 @@ class CategoriesShow extends Component {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false,
+        });
+      console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
   toggleHidden() {
@@ -63,9 +76,10 @@ class CategoriesShow extends Component {
           name: name,
           organization_id: organization_id
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
-      )
+        {headers: { Authorization: `Bearer ${localStorage.token}` }
+      })
       .then((response) => {
+        this.updateOrganizationName(response.data.organization.name);
         this.toggleHidden();
       })
       .catch((error) => {
@@ -90,6 +104,12 @@ class CategoriesShow extends Component {
       });
   }
 
+  updateOrganizationName = (organizationName) => {
+    this.setState({
+      organization_name: organizationName,
+    });
+  };
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -101,7 +121,7 @@ class CategoriesShow extends Component {
         <h3>Name: {this.state.name}</h3>
         </Card.Header>
         <Card.Body>
-        <h3>organization_id: {this.state.organization_id}</h3>
+        <h3>organization: {this.state.organization_name}</h3>
         </Card.Body>
       </Card>
         <br />
@@ -127,17 +147,26 @@ class CategoriesShow extends Component {
                           required
                         />
                       </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Organization ID</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.organization_id}
-                          name="organization_id"
-                          placeholder={this.state.organization_id}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
+                      <Form.Control
+                        as="select"
+                        name="organization_id"
+                        value={this.state.organization_id}
+                        onChange={this.handleChange}
+                        required
+                      >
+                        <option value="" disabled>Select Organization</option>
+                        {this.state.organizations.map(organization => {
+                          return(
+                            <option 
+                              key={organization.id} 
+                              value={organization.id} 
+                              onChange={this.handleChange}
+                            >
+                              {organization.name}
+                            </option>
+                          );
+                        })}
+                      </Form.Control>
                       <div className="text-center">
                         <Button type="submit" className="btn-lg">
                           Submit

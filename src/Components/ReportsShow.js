@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
@@ -23,6 +23,7 @@ export default class ReportsShow extends Component {
       grant_title: "",
       grant_sections: [],
       report_sections: [],
+      grant_section_match: [],
       errors: [],
     };
 
@@ -45,6 +46,7 @@ export default class ReportsShow extends Component {
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
           grant_sections: response.data.grant_sections,
+          grant_section_match: response.data.grant_section_match,
           loading: false
         })
       })
@@ -98,11 +100,20 @@ export default class ReportsShow extends Component {
   }
 
   updateReportSections = (newReportSection) => {
-    const report_sections = this.state.report_sections;
-    report_sections.push(newReportSection);
+    const report_sections = this.state.report_sections.map(report_section => 
+      {
+        if (report_section.id === newReportSection.id) {
+        report_section.title = newReportSection.title
+        report_section.text = newReportSection.text
+        report_section.wordcount = newReportSection.wordcount
+      }
+      return report_section
+      });
     this.setState({
-      report_sections: report_sections
-    }) 
+      report_sections: report_sections,
+      grant_sections: this.state.grant_sections,
+      grant_section_match: this.state.grant_section_match
+    })
   }
 
   handleReportDelete() {
@@ -129,6 +140,7 @@ export default class ReportsShow extends Component {
     }
     return (
       <div className="component">
+      <h1>Report Show - Build Draft Report Sections</h1>
       <Card>
           <Card.Header>
             <h2>{this.state.title}</h2>
@@ -228,7 +240,7 @@ export default class ReportsShow extends Component {
         <div>
           {this.state.grant_sections.map(grant_section => {
             return(
-              <div key={grant_section.id}>
+              <div key={grant_section.section.id}>
                 <Container>
                   <Row style={{paddingBottom: "5%"}}>
                     <Col key={grant_section.id}>
@@ -240,9 +252,14 @@ export default class ReportsShow extends Component {
                     {grant_section.grant_section_match ? 
                       (
                         <div key={grant_section.grant_section_match.id}>
-                          <h5>{grant_section.grant_section_match.title}</h5>
-                          <h5>{grant_section.grant_section_match.text}</h5>
-                          <h5>Sort Order: {grant_section.grant_section_match.sort_order}</h5>
+                          <ReportSectionsShow
+                          report_section_id={grant_section.grant_section_match.id}
+                          report_section_title={grant_section.grant_section_match.title}
+                          report_section_text={grant_section.grant_section_match.text}
+                          report_section_wordcount={grant_section.grant_section_match.wordcount}
+                          report_section_report_id={grant_section.grant_section_match.report_id}
+                          updateReportSections={this.updateReportSections}
+                          />
                         </div>
                       )
                     :

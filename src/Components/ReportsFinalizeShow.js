@@ -15,7 +15,7 @@ class ReportsFinalizeShow extends Component {
       id: "",
       title: "",
       deadline: "",
-      submitted: "",
+      submitted: false,
       // isHidden: true,
       report_sections: [],
       loading: true,
@@ -24,6 +24,7 @@ class ReportsFinalizeShow extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateReportSections = this.updateReportSections.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +75,20 @@ class ReportsFinalizeShow extends Component {
   //   }
   // }
 
+  updateReportSections = (newReportSection) => {
+    let report_sections = this.state.report_sections.map(report_section => {
+      if (report_section.id === newReportSection.id) {
+        report_section.title = newReportSection.title
+        report_section.text = newReportSection.text
+        report_section.wordcount = newReportSection.wordcount
+      }
+      return report_section
+    });
+    this.setState({
+      report_sections: report_sections
+    }) 
+  }
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -112,12 +127,13 @@ class ReportsFinalizeShow extends Component {
     }
     return (
       <div className="component">
+        <h1>Report Finalize - View and Finalize Report Draft</h1>
         <div>
         <h5>{this.state.title}</h5>
       </div>
       <div>
         <h5>{this.state.deadline}</h5>
-        <h5>{this.state.submitted}</h5>
+        <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
       </div>
       <div>
         {this.state.report_sections.map(report_section => {
@@ -127,6 +143,7 @@ class ReportsFinalizeShow extends Component {
               report_section_id={report_section.id}
               report_section_title={report_section.title}
               report_section_text={report_section.text}
+              updateReportSections={this.updateReportSections}
               />
             </div>
           )

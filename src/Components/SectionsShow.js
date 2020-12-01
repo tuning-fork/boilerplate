@@ -10,12 +10,14 @@ class SectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quill_text: this.props.section_text,
-      title: this.props.section_title,
+      quill_text: "",
+      title: "",
+      sort_order: "",
       isHidden: true,
       wordcount: "",
       grant_id: "",
       errors: [],
+      currentBoilerplate: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,29 +27,23 @@ class SectionsShow extends Component {
     this.quillChange = this.quillChange.bind(this);
   }
 
-  // componentDidMount() {  
-  //   axios
-  //     .get(`/api/sections/${this.props.id}`,
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         id: response.data.id,
-  //         title: response.data.title,
-  //         quill_text: response.data.text,
-  //         sort_order: response.data.sort_order,
-  //         wordcount: response.data.wordcount,
-  //         grant_id: response.data.grant_id,
-  //         errors: [],
-  //         loading: false,
-  //       });
-  //     })
-  //     .then((response) => {
-  //       this.toggleHidden();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+  componentDidMount() {
+    axios
+      .get('/api/sections/' + this.props.section_id,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .then((response) => {
+        this.setState({
+          title: response.data.title,
+          quill_text: response.data.text,
+          wordcount: response.data.wordcount,
+          sort_order: response.data.sort_order,
+          grant_id: response.data.grant_id
+        }); 
+      })
+      .catch((error) => console.log(error));
+  }
+
+
 
   toggleHidden() {
     this.setState({
@@ -61,28 +57,36 @@ class SectionsShow extends Component {
     });
   }
 
+  handleSelect = (event) => {
+    let quill_text = this.state.quill_text;
+    quill_text += ` ${event.target.value}`;
+    this.setState({
+      quill_text: quill_text
+    });
+  };
+
   quillChange(value) {
     this.setState({ quill_text: value})
   }
 
   handleSubmit(event) {
-    const { title, quill_text } = this.state;
+    const { title, quill_text, sort_order, grant_id } = this.state;
     axios
       .patch(
         '/api/sections/' + this.props.section_id, 
         {
           title: title,
           text: quill_text,
-          sort_order: this.props.section_sort_order, 
+          sort_order: sort_order, 
           wordcount: this.countWords(this.state.quill_text),
-          grant_id: this.props.section_grant_id
+          grant_id: grant_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
           console.log(response.data);
           this.toggleHidden();
-          // this.props.updateSections(response.data);
+          this.props.updateSections(response.data);
         }
       })
       .catch((error) => {
@@ -116,8 +120,8 @@ class SectionsShow extends Component {
       <div className="container">
         <Card>
           <Card.Body>
-            <h5>{this.props.section_title}</h5>
-            <h5>{this.props.section_text}</h5>
+            <h5>{this.state.title}</h5>
+            <h5>{this.state.quill_text}</h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
           </Card.Body>
           <div className="container">
@@ -147,6 +151,50 @@ class SectionsShow extends Component {
                         onChange={this.handleChange}
                         required
                       />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Add Boilerplate to text field below</Form.Label>
+                      <Form.Control
+                        as="select" 
+                        name="currentBoilerplate"
+                        value={this.state.currentBoilerplate}
+                        onChange={this.handleSelect}
+                      >
+                        <option value="" disabled>Select Boilerplate</option>
+                        {this.props.boilerplates.map(boilerplate => {
+                          return(
+                            <option 
+                              key={boilerplate.id} 
+                              value={boilerplate.text} 
+                              onChange={this.handleChange}
+                            >
+                              {boilerplate.title}
+                            </option>
+                          );
+                        })}
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Add Bio Text to text field below</Form.Label>
+                      <Form.Control
+                        as="select" 
+                        name="currentBoilerplate"
+                        value={this.state.currentBoilerplate}
+                        onChange={this.handleSelect}
+                      >
+                        <option value="" disabled>Select Bio</option>
+                        {this.props.bios.map(bio => {
+                          return(
+                            <option 
+                              key={bio.id} 
+                              value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
+                              onChange={this.handleChange}
+                            >
+                              {`${bio.first_name} ${bio.last_name}`}
+                            </option>
+                          );
+                        })}
+                      </Form.Control>
                     </Form.Group>
                     <ReactQuill 
                       value={this.state.quill_text}

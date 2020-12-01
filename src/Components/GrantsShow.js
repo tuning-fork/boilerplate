@@ -16,8 +16,8 @@ class GrantsShow extends Component {
       title: "",
       rfp_url: "",
       deadline: "",
-      submitted: "",
-      successful: "",
+      submitted: false,
+      successful: false,
       purpose: "",
       organization_id: "",
       funding_org_id: "",
@@ -59,6 +59,29 @@ class GrantsShow extends Component {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get('/api/boilerplates',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .then((response) => {
+        this.setState({
+          boilerplates: response.data
+        }); 
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get('/api/bios',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          bios: response.data,
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   toggleHidden() {
@@ -68,9 +91,12 @@ class GrantsShow extends Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
     this.setState({
-      [name]: value,
+      [name]: value
     });
   }
 
@@ -108,6 +134,21 @@ class GrantsShow extends Component {
     }) 
   }
 
+  updateSections = (newSection) => {
+    const sections = this.state.sections.map(section => 
+      {
+        if (section.id === newSection.id) {
+        section.title = newSection.title
+        section.text = newSection.text
+        section.wordcount = newSection.wordcount
+      }
+      return section
+      });
+    this.setState({
+      sections: sections
+    })
+  }
+
   // updateSections() {
 
   // }
@@ -142,6 +183,7 @@ class GrantsShow extends Component {
     }
     return (
       <div className="component">
+        <h1>Grants Show Page - Build Grant Sections</h1>
         <Card>
           <Card.Header>
             <h2>{this.state.title}</h2>
@@ -215,27 +257,23 @@ class GrantsShow extends Component {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Submitted</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.submitted}
-                        name="submitted"
-                        // placeholder={this.state.submitted}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Successful</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.successful}
-                        name="successful"
-                        // placeholder={this.state.successful}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
+                  <Form.Label>Submitted</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="submitted"
+                    checked={this.state.submitted}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Successful</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="successful"
+                    checked={this.state.successful}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
                     <div className="text-center">
                       <Button type="submit" >
                         Submit
@@ -258,12 +296,10 @@ class GrantsShow extends Component {
                   <div key={section.id}>
                     <SectionsShow 
                       section_id={section.id}
-                      section_title={section.title}
-                      section_text={section.text}
-                      section_wordcount={section.wordcount}
-                      section_sort_order={section.sort_order}
-                      section_grant_id={section.grant_id}
                       updateSections={this.updateSections}
+                      bios={this.state.bios}
+                      boilerplates={this.state.boilerplates}
+
                     />
                   </div>
                 )
