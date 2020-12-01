@@ -11,6 +11,7 @@ class CategoriesShow extends Component {
       id: "",
       name: "",
       organization_id: "",
+      isHidden: true,
       organizations: [],
       errors: [],
     };
@@ -61,7 +62,8 @@ class CategoriesShow extends Component {
         {
           name: name,
           organization_id: organization_id
-        }
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         this.toggleHidden();
@@ -74,7 +76,9 @@ class CategoriesShow extends Component {
 
   handleCategoryDelete() {
     axios
-      .delete('/api/categories/' + this.state.id)
+      .delete('/api/categories/' + this.state.id,
+      {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      )
       .then((response) => {
         if (response.data.message) {
           this.props.history.push('/categories');
@@ -108,7 +112,7 @@ class CategoriesShow extends Component {
               </Button>
               <br />
               <br />
-              {this.state.isHidden ? (
+              {!this.state.isHidden ? (
                 <Card>
                   <Card.Body>
                     <Form onSubmit={this.handleSubmit}>
