@@ -10,6 +10,7 @@ class OrganizationsShow extends Component {
     this.state = {
       id: "",
       name: "",
+      isHidden: true,
       errors: [],
     };
 
@@ -104,7 +105,7 @@ class OrganizationsShow extends Component {
               </Button>
               <br />
               <br />
-              {this.state.isHidden ? (
+              {!this.state.isHidden ? (
                 <Card>
                   <Card.Body>
                     <Form onSubmit={this.handleSubmit}>

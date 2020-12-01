@@ -135,7 +135,7 @@ class FundingOrgsShow extends Component {
               </Button>
               <br />
               <br />
-              {this.state.isHidden ? (
+              {!this.state.isHidden ? (
                 <div className="card">
                   <div className="card-body">
                     <Form onSubmit={this.handleSubmit}>
