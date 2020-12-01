@@ -15,7 +15,7 @@ class ReportsFinalizeShow extends Component {
       id: "",
       title: "",
       deadline: "",
-      submitted: "",
+      submitted: false,
       // isHidden: true,
       report_sections: [],
       loading: true,
@@ -133,7 +133,7 @@ class ReportsFinalizeShow extends Component {
       </div>
       <div>
         <h5>{this.state.deadline}</h5>
-        <h5>{this.state.submitted}</h5>
+        <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
       </div>
       <div>
         {this.state.report_sections.map(report_section => {

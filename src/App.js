@@ -75,7 +75,7 @@ export default class App extends Component {
           <Header />
           <Switch>
             <Route exact path="/">
-              <Redirect to="/" />
+              <Redirect to="/login" />
             </Route>
             <Route path={'/signup'} component={Signup} />
             <Route path={'/login'} component={Login} />
