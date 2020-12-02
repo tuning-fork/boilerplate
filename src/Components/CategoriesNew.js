@@ -54,6 +54,7 @@ class CategoriesNew extends Component {
       .then((response) => {
         if (response.data) {
           this.props.updateCategories(response.data);
+          this.props.toggleHiddenCategoriesNew();
           this.clearForm();
         };
       })

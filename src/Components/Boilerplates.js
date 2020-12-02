@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BoilerplatesNew from './BoilerplatesNew';
+import CategoriesNew from './CategoriesNew';
+import OrganizationsNew from './OrganizationsNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
@@ -9,9 +11,15 @@ class Boilerplates extends Component {
     super(props);
     this.state = {
       loading: true,
+      categories: [],
+      organizations: [],
       boilerplates: [],
+      isHiddenOrganizationsNew: true,
+      isHiddenCategoriesNew: true,
       query: '',
     };
+    this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
+    this.toggleHiddenCategoriesNew = this.toggleHiddenCategoriesNew.bind(this);
   }
   componentDidMount() {
     axios
@@ -20,8 +28,27 @@ class Boilerplates extends Component {
       .then((response) => {
         this.setState({
           boilerplates: response.data,
+        });
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+        });
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get('/api/categories',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          categories: response.data,
           loading: false,
         });
+      console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -34,6 +61,34 @@ class Boilerplates extends Component {
     });
   };
 
+  toggleHiddenCategoriesNew() {
+    this.setState({
+      isHiddenCategoriesNew: !this.state.isHiddenCategoriesNew,
+    });
+  }
+
+  toggleHiddenOrganizationsNew() {
+    this.setState({
+      isHiddenOrganizationsNew: !this.state.isHiddenOrganizationsNew,
+    });
+  }
+
+  updateOrganizations = (newOrganization) => {
+		const organizations = this.state.organizations;
+		organizations.push(newOrganization);
+		this.setState({
+			organizations: organizations,
+		});
+  };
+  
+  updateCategories = (newCategories) => {
+    const categories = this.state.categories;
+    categories.push(newCategories);
+    this.setState({
+      categories: categories,
+    });
+  };
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -43,8 +98,26 @@ class Boilerplates extends Component {
       <div className="component">
         <h1>Boilerplates Index</h1>
         <h3>Add Boilerplate</h3>
+        {!this.state.isHiddenCategoriesNew ?
+              <CategoriesNew 
+              updateCategories={this.updateCategories}
+              toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
+            /> : null
+            }
+        <br/>
+        {!this.state.isHiddenOrganizationsNew ?
+              <OrganizationsNew 
+              updateOrganizations={this.updateOrganizations}
+              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+            /> : null
+            }
+        <br/>
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
+          organizations={this.state.organizations}
+          categories={this.state.categories}
+          toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+          toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
         />
         <br/>
         {this.state.boilerplates.map((boilerplate) => {

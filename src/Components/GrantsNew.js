@@ -37,28 +37,9 @@ class GrantsNew extends Component {
     });
   };
 
-  componentDidMount() {
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
-    axios
-      .get('/api/funding_orgs',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          funding_orgs: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
-  }
+  // componentDidMount() {
+    
+  // }
 
   handleChange(event) {
     this.setState({
@@ -83,11 +64,47 @@ class GrantsNew extends Component {
     event.preventDefault();
   }
 
+  
+
   render() {
     return (
       <Card>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control as="select"
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+              <option value="" disabled>Select Organization</option>
+              {this.props.organizations.map(organization => {
+                return(
+                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                  );
+              })}
+              </Form.Control>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization</Button>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Select Funding Organization</Form.Label>
+              <Form.Control as="select"
+                name="funding_org_id"
+                value={this.state.funding_org_id}
+                onChange={this.handleChange}
+                required
+              >
+              <option value="" disabled>Select Funding Organization</option>
+              {this.props.funding_orgs.map(funding_org => {
+                return(
+                  <option key={funding_org.id} value={funding_org.id} onChange={this.handleChange}>{funding_org.name}</option>
+                  );
+              })}
+              </Form.Control>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenFundingOrgsNew}>Add Funding Organization</Button>
+            </Form.Group>
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -125,40 +142,6 @@ class GrantsNew extends Component {
                 onChange={this.handleChange}
                 required
               />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Organization</Form.Label>
-
-              <Form.Control as="select"
-                name="organization_id"
-                value={this.state.organization_id}
-                onChange={this.handleChange}
-                required
-              >
-              <option value="" disabled>Select Organization</option>
-              {this.state.organizations.map(organization => {
-                return(
-                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                  );
-              })}
-              </Form.Control>
-              </Form.Group>
-            <Form.Group>
-            <Form.Label>Funding Organization</Form.Label>
-
-            <Form.Control as="select"
-              name="funding_org_id"
-              value={this.state.funding_org_id}
-              onChange={this.handleChange}
-              required
-            >
-            <option value="" disabled>Select Funding Organization</option>
-            {this.state.funding_orgs.map(funding_org => {
-              return(
-                <option key={funding_org.id} value={funding_org.id} onChange={this.handleChange}>{funding_org.name}</option>
-                );
-            })}
-            </Form.Control>
             </Form.Group>
             <div className="text-center">
               <Button type="submit">
