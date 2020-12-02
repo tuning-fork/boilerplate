@@ -18,7 +18,6 @@ class BiosNew extends Component {
       text: "",
       organization_id: "",
       wordcount: "",
-      organizations: [],
       errors: []
     };
 
@@ -40,19 +39,9 @@ class BiosNew extends Component {
     });
   };
 
-  componentDidMount() {
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      console.log(response.data);
-      })
-      .catch((error) => console.log(error));
-  }
+  // componentDidMount() {
+    
+  // }
 
   handleChange(event) {
     this.setState({
@@ -104,6 +93,34 @@ class BiosNew extends Component {
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                as="select" 
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Organization</option>
+                {this.props.organizations.map(organization => {
+                  return(
+                    <option 
+                      key={organization.id} 
+                      value={organization.id} 
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization
+              </Button>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>First Name</Form.Label>
               <Form.Control
                 type="text"
@@ -139,42 +156,9 @@ class BiosNew extends Component {
               value={this.state.quill_text}
               onChange={this.quillChange}  
             />
-            {/* <Form.Group>
-              <Form.Label>Text</Form.Label>
-              <Form.Control
-                type="text"
-                name="text"
-                value={this.state.text}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select" 
-                name="organization_id"
-                value={this.state.organization_id}
-                onChange={this.handleChange}
-                required
-              >
-                <option value="" disabled>Select Organization</option>
-                {this.state.organizations.map(organization => {
-                  return(
-                    <option 
-                      key={organization.id} 
-                      value={organization.id} 
-                      onChange={this.handleChange}
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
             </Form.Group>
             <div className="text-center">
               <Button type="submit">

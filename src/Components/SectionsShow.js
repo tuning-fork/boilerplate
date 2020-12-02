@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -135,6 +136,17 @@ class SectionsShow extends Component {
                 Close
               </Button>
             }
+            <Link 
+              to={'/boilerplates'}
+            >
+              Add To Boilerplates
+            </Link>
+            <Link to={{
+              pathname: '/boilerplates',
+              state: {
+                text: this.state.quilltext
+              }
+            }}>Add To Boilerplates</Link>
             <br />
             <br />
             {!this.state.isHidden ? (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BiosNew from './BiosNew';
+import OrganizationsNew from './OrganizationsNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
@@ -11,6 +12,7 @@ class Bios extends Component {
       loading: true,
       bios: [],
       organizations: [],
+      isHiddenOrganizationsNew: true,
       query: '',
       errors: []
     };
@@ -46,6 +48,20 @@ class Bios extends Component {
     });
   };
 
+  updateOrganizations = (newOrganization) => {
+    const organizations = this.state.organizations;
+    organizations.push(newOrganization);
+    this.setState({
+      organizations: organizations,
+    });
+  };
+
+  toggleHiddenOrganizationsNew = () => {
+    this.setState({
+      isHiddenOrganizationsNew: !this.state.isHiddenOrganizationsNew,
+    });
+  }
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -55,8 +71,17 @@ class Bios extends Component {
       <div className="component">
         <h1>Bios Index</h1>
         <h3>Add A Bio</h3>
+        {!this.state.isHiddenOrganizationsNew ?
+              <OrganizationsNew 
+              updateOrganizations={this.updateOrganizations}
+              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+            /> : null
+            }
+        <br/>
         <BiosNew 
           updateBios={this.updateBios}
+          organizations={this.state.organizations}
+          toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
         />
         <br />
         {this.state.bios.map((bio) => {

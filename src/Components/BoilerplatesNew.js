@@ -17,8 +17,6 @@ class BoilerplatesNew extends Component {
       organization_id: "",
       category_id: "",
       wordcount: "",
-      organizations: [],
-      categories: [],
       errors: []
     };
 
@@ -39,28 +37,28 @@ class BoilerplatesNew extends Component {
     });
   };
 
-  componentDidMount() {
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
-    axios
-      .get('/api/categories',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          categories: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
-  }
+  // componentDidMount() {
+  //   axios
+  //     .get('/api/organizations',
+  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
+  //     .then((response) => {
+  //       this.setState({
+  //         organizations: response.data,
+  //         loading: false,
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  //   axios
+  //     .get('/api/categories',
+  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
+  //     .then((response) => {
+  //       this.setState({
+  //         categories: response.data,
+  //         loading: false,
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
   handleChange(event) {
     this.setState({
@@ -112,6 +110,54 @@ class BoilerplatesNew extends Component {
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                as="select" 
+                name="organization_id"
+                value={this.state.organization_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Organization</option>
+                {this.props.organizations.map(organization => {
+                  return(
+                    <option 
+                      key={organization.id} 
+                      value={organization.id} 
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization</Button>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as="select" 
+                name="category_id"
+                value={this.state.category_id}
+                onChange={this.handleChange}
+                required
+              >
+                <option value="" disabled>Select Category</option>
+                {this.props.categories.map(category => {
+                  return(
+                    <option 
+                      key={category.id} 
+                      value={category.id} 
+                      onChange={this.handleChange}
+                    >
+                      {category.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenCategoriesNew}>Add Category</Button>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
@@ -127,70 +173,12 @@ class BoilerplatesNew extends Component {
               value={this.state.quill_text}
               onChange={this.quillChange}  
             />
-            {/* <Form.Group>
-              <Form.Label>Text</Form.Label>
-              <Form.Control
-                as="textarea"
-                type="text"
-                name="text"
-                value={this.state.text}
-                onChange={this.handleChange}
-                rows="4"
-                cols="50"
-                required
-              />
-            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             
-            <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select" 
-                name="organization_id"
-                value={this.state.organization_id}
-                onChange={this.handleChange}
-                required
-              >
-                <option value="" disabled>Select Organization</option>
-                {this.state.organizations.map(organization => {
-                  return(
-                    <option 
-                      key={organization.id} 
-                      value={organization.id} 
-                      onChange={this.handleChange}
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                as="select" 
-                name="category_id"
-                value={this.state.category_id}
-                onChange={this.handleChange}
-                required
-              >
-                <option value="" disabled>Select Category</option>
-                {this.state.categories.map(category => {
-                  return(
-                    <option 
-                      key={category.id} 
-                      value={category.id} 
-                      onChange={this.handleChange}
-                    >
-                      {category.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
+            
             <div className="text-center">
               <Button type="submit">
                 Add New Boilerplate
