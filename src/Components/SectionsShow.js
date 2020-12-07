@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -43,8 +43,6 @@ class SectionsShow extends Component {
       })
       .catch((error) => console.log(error));
   }
-
-
 
   toggleHidden() {
     this.setState({
@@ -136,7 +134,7 @@ class SectionsShow extends Component {
                 Close
               </Button>
             }
-            <Link 
+            {/* <Link 
               to={'/boilerplates'}
             >
               Add To Boilerplates
@@ -148,7 +146,7 @@ class SectionsShow extends Component {
               }
             }}>Add To Boilerplates</Link>
             <br />
-            <br />
+            <br /> */}
             {!this.state.isHidden ? (
               <Card>
                 <Card.Body>

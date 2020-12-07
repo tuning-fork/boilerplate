@@ -9,7 +9,6 @@ import 'react-quill/dist/quill.snow.css';
 class SectionsNew extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       quill_text: '',
       title: '',
@@ -17,10 +16,13 @@ class SectionsNew extends Component {
       sort_order: '',
       wordcount: '',
       boilerplates: [],
+      items: ['boilerplate', 'text', 'things', 'stuff', 'staple'],
       currentBoilerplate: '',
       isHidden: true,
       bios: [],
-      loading: true
+      loading: true,
+      suggestions: [],
+      searchText: '',
       // addText: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -108,6 +110,49 @@ class SectionsNew extends Component {
     });
   }
 
+  onTextChanged = (event) => {
+    const value = event.target.value;
+    let suggestions = [];
+    if (value.length > 0) {
+      const regex = new RegExp(`^${value}`, 'i');
+      suggestions = this.state.items.sort().filter(v => regex.test(v));
+      // suggestions = this.state.boilerplates.sort(function(a, b) {
+      //   let titleA = a.title.toLowerCase();
+      //   let titleB = b.title.toLowerCase();
+      //   if ( titleA < titleB) {
+      //     return -1;
+      //   }
+      //   if (titleA > titleB) {
+      //     return 1;
+      //   }
+      // })
+      
+      // suggestions = sorted.title.filter(v => regex.test(v));
+
+    }
+    this.setState(() => ({suggestions, searchText: value}));
+  }
+
+  suggestionSelected (value) {
+    this.setState(() => ({
+      searchText: value,
+      suggestions: []
+    }));
+  }
+
+  renderSuggestions () {
+    console.log(this.state.suggestions);
+    // const { suggestions } = this.state;
+    if (this.state.suggestions.length === 0) {
+      return null;
+    } 
+    return (
+      <div>
+        {this.state.suggestions.map((item, index) => (<p key={index}>{item}</p>))}
+      </div>
+    );
+  }
+
   quillChange(value) {
     this.setState({ quill_text: value})
   }
@@ -170,6 +215,17 @@ class SectionsNew extends Component {
                     })}
                   </Form.Control>
                 </Form.Group>
+                {/* <Form.Group> */}
+                <div>
+                  <label>Search Boilerplate by title</label>
+                  <input
+                    type="text"
+                    value={this.state.searchText}
+                    onChange={this.onTextChanged}
+                  />
+                    {this.renderSuggestions()}
+                  </div>
+                {/* </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Add Bio Text to text field below</Form.Label>
                   <Form.Control
