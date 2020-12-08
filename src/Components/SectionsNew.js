@@ -123,35 +123,12 @@ class SectionsNew extends Component {
   onTextChanged = (event) => {
     const value = event.target.value;
     let suggestions = [];
-    // this.state.title_array = this.state.boilerplates.map((boilerplate) => {
-    //   boilerplate.title
-    // })
     if (value.length > 0) {
-      const regex = new RegExp(`^${value}`, 'i');
-      suggestions = this.state.boilerplates.filter(boilerplate => boilerplate.title.regex.test.map(boilerplate => {
-        boilerplate.title
+      // const regex = new RegExp(`^${value}`, 'i');
+      suggestions = this.state.boilerplates.filter((boilerplate) => {
+        return boilerplate.title.toLowerCase().indexOf(value.title) !== -1;
       })
-    // suggestions = this.state.items.filter(v => regex.test(v));
-    // suggestions = this.state.boilerplates.filter((boilerplate) => {
-    //   return boilerplate.title.indexOf(value) != -1;
-    // })
-    // suggestions = this.state.title_array.filter((title) => {
-    //   regex.test(title)
-    // })
-    // suggestions = this.state.boilerplates.sort(function(a, b) {
-    //   let titleA = a.title.toLowerCase();
-    //   let titleB = b.title.toLowerCase();
-    //   if ( titleA < titleB) {
-    //     return -1;
-    //   }
-    //   if (titleA > titleB) {
-    //     return 1;
-    //   }
-    // })
-
-    // suggestions = sorted.title.filter(v => regex.test(v));
-
-  }
+    }
     this.setState(() => ({ suggestions, searchText: value }));
   }
 
@@ -170,12 +147,12 @@ class SectionsNew extends Component {
     }
     return (
       <div>
-        {this.state.suggestions.map((item, index) => (
+        {this.state.suggestions.map((boilerplate) => (
           <li
-            key={index}
-            onClick={() => this.suggestionSelected(item)}
+            key={boilerplate.id}
+            onClick={() => this.suggestionSelected(boilerplate)}
           >
-            {item}
+            {boilerplate.title}
           </li>
         ))}
       </div>
@@ -196,7 +173,7 @@ class SectionsNew extends Component {
 
   render() {
     // console.log(this.props.sort_number);
-    console.log(this.state.title_array)
+    console.log(this.state.searchText);
     return (
       <div>
         {this.state.isHidden ?
