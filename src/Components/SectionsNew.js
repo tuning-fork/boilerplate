@@ -115,7 +115,7 @@ class SectionsNew extends Component {
     let suggestions = [];
     if (value.length > 0) {
       const regex = new RegExp(`^${value}`, 'i');
-      suggestions = this.state.items.sort().filter(v => regex.test(v));
+      suggestions = this.state.items.filter(v => regex.test(v));
       // suggestions = this.state.boilerplates.sort(function(a, b) {
       //   let titleA = a.title.toLowerCase();
       //   let titleB = b.title.toLowerCase();
@@ -148,7 +148,14 @@ class SectionsNew extends Component {
     } 
     return (
       <div>
-        {this.state.suggestions.map((item, index) => (<p key={index}>{item}</p>))}
+        {this.state.suggestions.map((item, index) => (
+          <li 
+            key={index}
+            onClick={() => this.suggestionSelected(item)}
+          >
+            {item}
+          </li>
+        ))}
       </div>
     );
   }
@@ -167,6 +174,7 @@ class SectionsNew extends Component {
 
   render() {
     // console.log(this.props.sort_number);
+    console.log(this.state.boilerplates);
     return (
       <div>
         {this.state.isHidden ? 
