@@ -20,6 +20,7 @@ class SectionsNew extends Component {
       currentBoilerplate: '',
       isHidden: true,
       bios: [],
+      title_array: [],
       loading: true,
       suggestions: [],
       searchText: '',
@@ -52,15 +53,15 @@ class SectionsNew extends Component {
   componentDidMount() {
     axios
       .get('/api/boilerplates',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+        { headers: { Authorization: `Bearer ${localStorage.token}` } })
       .then((response) => {
         this.setState({
           boilerplates: response.data
-        }); 
+        });
       })
-      axios
+    axios
       .get('/api/bios',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        { headers: { Authorization: `Bearer ${localStorage.token}` } })
       .then((response) => {
         this.setState({
           bios: response.data,
@@ -82,7 +83,7 @@ class SectionsNew extends Component {
         sort_order: this.props.sort_number + 1,
         wordcount: this.countWords(this.state.quill_text)
       },
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        { headers: { Authorization: `Bearer ${localStorage.token}` } })
       .then((response) => {
         if (response.data) {
           this.props.updateNewSections(response.data);
@@ -96,12 +97,12 @@ class SectionsNew extends Component {
     event.preventDefault();
   }
 
-  countWords(string) { 
+  countWords(string) {
     if (string) {
       return (string.split(" ").length);
-      } else {
-            return 0; 
-      }
+    } else {
+      return 0;
+    }
   }
 
   handleChange(event) {
@@ -110,46 +111,67 @@ class SectionsNew extends Component {
     });
   }
 
+  // users = users.filter(function(user) {
+  //   return user.name.toLowerCase().indexOf(q) != -1; // returns true or false
+  // });
+
+  // const result = words.filter(word => word.length > 6);
+
+  // const devReact = devs.filter(obj => obj.tech.includes("React")).map(obj => ({"name":obj.name, "tech":obj.tech}));
+  // console.log(devReact);
+
   onTextChanged = (event) => {
     const value = event.target.value;
     let suggestions = [];
+    // this.state.title_array = this.state.boilerplates.map((boilerplate) => {
+    //   boilerplate.title
+    // })
     if (value.length > 0) {
       const regex = new RegExp(`^${value}`, 'i');
-      suggestions = this.state.items.filter(v => regex.test(v));
-      // suggestions = this.state.boilerplates.sort(function(a, b) {
-      //   let titleA = a.title.toLowerCase();
-      //   let titleB = b.title.toLowerCase();
-      //   if ( titleA < titleB) {
-      //     return -1;
-      //   }
-      //   if (titleA > titleB) {
-      //     return 1;
-      //   }
-      // })
-      
-      // suggestions = sorted.title.filter(v => regex.test(v));
+      suggestions = this.state.boilerplates.filter(boilerplate => boilerplate.title.regex.test.map(boilerplate => {
+        boilerplate.title
+      })
+    // suggestions = this.state.items.filter(v => regex.test(v));
+    // suggestions = this.state.boilerplates.filter((boilerplate) => {
+    //   return boilerplate.title.indexOf(value) != -1;
+    // })
+    // suggestions = this.state.title_array.filter((title) => {
+    //   regex.test(title)
+    // })
+    // suggestions = this.state.boilerplates.sort(function(a, b) {
+    //   let titleA = a.title.toLowerCase();
+    //   let titleB = b.title.toLowerCase();
+    //   if ( titleA < titleB) {
+    //     return -1;
+    //   }
+    //   if (titleA > titleB) {
+    //     return 1;
+    //   }
+    // })
 
-    }
-    this.setState(() => ({suggestions, searchText: value}));
+    // suggestions = sorted.title.filter(v => regex.test(v));
+
+  }
+    this.setState(() => ({ suggestions, searchText: value }));
   }
 
-  suggestionSelected (value) {
+  suggestionSelected(value) {
     this.setState(() => ({
       searchText: value,
       suggestions: []
     }));
   }
 
-  renderSuggestions () {
+  renderSuggestions() {
     console.log(this.state.suggestions);
     // const { suggestions } = this.state;
     if (this.state.suggestions.length === 0) {
       return null;
-    } 
+    }
     return (
       <div>
         {this.state.suggestions.map((item, index) => (
-          <li 
+          <li
             key={index}
             onClick={() => this.suggestionSelected(item)}
           >
@@ -161,7 +183,7 @@ class SectionsNew extends Component {
   }
 
   quillChange(value) {
-    this.setState({ quill_text: value})
+    this.setState({ quill_text: value })
   }
 
   handleSelect = (event) => {
@@ -174,15 +196,15 @@ class SectionsNew extends Component {
 
   render() {
     // console.log(this.props.sort_number);
-    console.log(this.state.boilerplates);
+    console.log(this.state.title_array)
     return (
       <div>
-        {this.state.isHidden ? 
+        {this.state.isHidden ?
           <Button onClick={this.toggleHidden.bind(this)}>
-          Add Section
+            Add Section
         </Button> :
-        <Button onClick={this.toggleHidden.bind(this)}>
-          Close
+          <Button onClick={this.toggleHidden.bind(this)}>
+            Close
         </Button>
         }
         <br />
@@ -204,17 +226,17 @@ class SectionsNew extends Component {
                 <Form.Group>
                   <Form.Label>Add Boilerplate to text field below</Form.Label>
                   <Form.Control
-                    as="select" 
+                    as="select"
                     name="currentBoilerplate"
                     value={this.state.currentBoilerplate}
                     onChange={this.handleSelect}
                   >
                     <option value="" disabled>Select Boilerplate</option>
                     {this.state.boilerplates.map(boilerplate => {
-                      return(
-                        <option 
-                          key={boilerplate.id} 
-                          value={boilerplate.text} 
+                      return (
+                        <option
+                          key={boilerplate.id}
+                          value={boilerplate.text}
                           onChange={this.handleChange}
                         >
                           {boilerplate.title}
@@ -231,23 +253,23 @@ class SectionsNew extends Component {
                     value={this.state.searchText}
                     onChange={this.onTextChanged}
                   />
-                    {this.renderSuggestions()}
-                  </div>
+                  {this.renderSuggestions()}
+                </div>
                 {/* </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Add Bio Text to text field below</Form.Label>
                   <Form.Control
-                    as="select" 
+                    as="select"
                     name="currentBoilerplate"
                     value={this.state.currentBoilerplate}
                     onChange={this.handleSelect}
                   >
                     <option value="" disabled>Select Bio</option>
                     {this.state.bios.map(bio => {
-                      return(
-                        <option 
-                          key={bio.id} 
-                          value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
+                      return (
+                        <option
+                          key={bio.id}
+                          value={`${bio.first_name} ${bio.last_name}: ${bio.text}`}
                           onChange={this.handleChange}
                         >
                           {`${bio.first_name} ${bio.last_name}`}
@@ -257,10 +279,10 @@ class SectionsNew extends Component {
                   </Form.Control>
                 </Form.Group>
                 <Form.Label>Grant Section Text</Form.Label>
-                <ReactQuill 
+                <ReactQuill
                   // name="quill_text"
                   value={this.state.quill_text}
-                  onChange={this.quillChange}  
+                  onChange={this.quillChange}
                 />
                 {/* <Form.Group>
                   <Form.Label>Text</Form.Label>
