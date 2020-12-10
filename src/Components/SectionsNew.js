@@ -122,11 +122,12 @@ class SectionsNew extends Component {
 
   onTextChanged = (event) => {
     const value = event.target.value;
+    console.log(value);
     let suggestions = [];
     if (value.length > 0) {
       // const regex = new RegExp(`^${value}`, 'i');
       suggestions = this.state.boilerplates.filter((boilerplate) => {
-        return boilerplate.title.toLowerCase().indexOf(value.title) !== -1;
+        return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       })
     }
     this.setState(() => ({ suggestions, searchText: value }));
@@ -152,7 +153,7 @@ class SectionsNew extends Component {
             key={boilerplate.id}
             onClick={() => this.suggestionSelected(boilerplate)}
           >
-            {boilerplate.title}
+            {boilerplate}
           </li>
         ))}
       </div>
@@ -174,6 +175,7 @@ class SectionsNew extends Component {
   render() {
     // console.log(this.props.sort_number);
     console.log(this.state.searchText);
+    // console.log(this.state.boilerplates);
     return (
       <div>
         {this.state.isHidden ?
