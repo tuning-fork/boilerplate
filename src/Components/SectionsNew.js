@@ -121,7 +121,8 @@ class SectionsNew extends Component {
   // console.log(devReact);
 
   onTextChanged = (event) => {
-    const value = event.target.value;
+    const value = event.target.value.toLowerCase();
+    // console.log(value);
     let suggestions = [];
     if (value.length > 0) {
       // const regex = new RegExp(`^${value}`, 'i');
@@ -133,28 +134,18 @@ class SectionsNew extends Component {
     this.setState(() => ({ suggestions, searchText: value }));
   }
 
-  // suggestionSelected(value) {
-  //   let newValue = value.title
-  //   this.setState(() => ({
-  //     searchText: newValue,
-  //     suggestions: []
-  //   }));
-  // }
-
-  handleSuggestionSelect = (value) => {
-    // let newValue = value.title
+  suggestionSelected(value) {
     let quill_text = this.state.quill_text;
     quill_text += value.text;
-    this.setState({
+    this.setState(() => ({
       searchText: '',
       suggestions: [],
       quill_text: quill_text
-    });
-  };
+    }));
+  }
 
   renderSuggestions() {
-    console.log(this.state.suggestions);
-    // const { suggestions } = this.state;
+    // console.log(this.state.suggestions);
     if (this.state.suggestions.length === 0) {
       return null;
     }
@@ -186,7 +177,8 @@ class SectionsNew extends Component {
 
   render() {
     // console.log(this.props.sort_number);
-    console.log(this.state.searchText);
+    // console.log(this.state.searchText);
+    // console.log(this.state.boilerplates);
     return (
       <div>
         {this.state.isHidden ?
