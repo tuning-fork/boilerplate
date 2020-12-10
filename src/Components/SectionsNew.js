@@ -129,6 +129,7 @@ class SectionsNew extends Component {
       suggestions = this.state.boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       })
+      console.log(suggestions);
     }
     this.setState(() => ({ suggestions, searchText: value }));
   }
@@ -153,9 +154,9 @@ class SectionsNew extends Component {
         {this.state.suggestions.map((boilerplate) => (
           <li
             key={boilerplate.id}
-            onClick={() => this.suggestionSelected(boilerplate)}
+            onClick={() => this.handleSuggestionSelect(boilerplate)}
           >
-            {boilerplate.title}
+            {boilerplate.title}, {boilerplate.wordcount} words
           </li>
         ))}
       </div>
@@ -206,6 +207,17 @@ class SectionsNew extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Add Boilerplate to text field below</Form.Label>
+                  {/* <Form.Group> */}
+                  <div>
+                    <label>Search Boilerplate by title </label>
+                    <input
+                      type="text"
+                      value={this.state.searchText}
+                      onChange={this.onTextChanged}
+                    />
+                    {this.renderSuggestions()}
+                  </div>
+                  {/* </Form.Group> */}
                   <Form.Control
                     as="select"
                     name="currentBoilerplate"
@@ -226,17 +238,6 @@ class SectionsNew extends Component {
                     })}
                   </Form.Control>
                 </Form.Group>
-                {/* <Form.Group> */}
-                <div>
-                  <label>Search Boilerplate by title</label>
-                  <input
-                    type="text"
-                    value={this.state.searchText}
-                    onChange={this.onTextChanged}
-                  />
-                  {this.renderSuggestions()}
-                </div>
-                {/* </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Add Bio Text to text field below</Form.Label>
                   <Form.Control
