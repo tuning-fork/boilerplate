@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
+import { onSearchTextChanged, renderSearchSuggestions, handleSearchSuggestionSelect } from '../Services/infofunctions';
 import 'react-quill/dist/quill.snow.css';
 
 class SectionsNew extends Component {
@@ -22,7 +23,7 @@ class SectionsNew extends Component {
       bios: [],
       title_array: [],
       loading: true,
-      suggestions: [],
+      searchSuggestions: [],
       searchText: '',
       // addText: ''
     };
@@ -120,57 +121,47 @@ class SectionsNew extends Component {
   // const devReact = devs.filter(obj => obj.tech.includes("React")).map(obj => ({"name":obj.name, "tech":obj.tech}));
   // console.log(devReact);
 
-  onTextChanged = (event) => {
-    const value = event.target.value;
-    let suggestions = [];
-    if (value.length > 0) {
-      // const regex = new RegExp(`^${value}`, 'i');
-      suggestions = this.state.boilerplates.filter((boilerplate) => {
-        return boilerplate.title.toLowerCase().indexOf(value) !== -1;
-      })
-      console.log(suggestions);
-    }
-    this.setState(() => ({ suggestions, searchText: value }));
-  }
-
-  // suggestionSelected(value) {
-  //   let newValue = value.title
-  //   this.setState(() => ({
-  //     searchText: newValue,
-  //     suggestions: []
-  //   }));
+  // onSearchTextChanged = (event) => {
+  //   const value = event.target.value;
+  //   let searchSuggestions = [];
+  //   if (value.length > 0) {
+  //     // const regex = new RegExp(`^${value}`, 'i');
+  //     searchSuggestions = this.state.boilerplates.filter((boilerplate) => {
+  //       return boilerplate.title.toLowerCase().indexOf(value) !== -1;
+  //     })
+  //     console.log(searchSuggestions);
+  //   }
+  //   this.setState(() => ({ searchSuggestions, searchText: value }));
   // }
 
-  handleSuggestionSelect = (value) => {
-    // let newValue = value.title
-    let quill_text = this.state.quill_text;
-    quill_text += value.text;
-    this.setState({
-      searchText: '',
-      suggestions: [],
-      quill_text: quill_text
-    });
-  };
+  // handleSearchSuggestionSelect = (value) => {
+  //   let quill_text = this.state.quill_text;
+  //   quill_text += value.text;
+  //   this.setState({
+  //     searchText: '',
+  //     searchSuggestions: [],
+  //     quill_text: quill_text
+  //   });
+  // };
 
-  renderSuggestions() {
-    console.log(this.state.suggestions);
-    // const { suggestions } = this.state;
-    if (this.state.suggestions.length === 0) {
-      return null;
-    }
-    return (
-      <div>
-        {this.state.suggestions.map((boilerplate) => (
-          <li
-            key={boilerplate.id}
-            onClick={() => this.handleSuggestionSelect(boilerplate)}
-          >
-            {boilerplate.title}, {boilerplate.wordcount} words
-          </li>
-        ))}
-      </div>
-    );
-  }
+  // renderSearchSuggestions() {
+  //   console.log(this.state.searchSuggestions);
+  //   if (this.state.searchSuggestions.length === 0) {
+  //     return null;
+  //   }
+  //   return (
+  //     <div>
+  //       {this.state.searchSuggestions.map((boilerplate) => (
+  //         <li
+  //           key={boilerplate.id}
+  //           onClick={() => this.handleSearchSuggestionSelect(boilerplate)}
+  //         >
+  //           {boilerplate.title}, {boilerplate.wordcount} words
+  //         </li>
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   quillChange(value) {
     this.setState({ quill_text: value })
@@ -221,9 +212,9 @@ class SectionsNew extends Component {
                     <input
                       type="text"
                       value={this.state.searchText}
-                      onChange={this.onTextChanged}
+                      onChange={onSearchTextChanged}
                     />
-                    {this.renderSuggestions()}
+                    {renderSearchSuggestions()}
                   </div>
                   {/* </Form.Group> */}
                   <Form.Control
