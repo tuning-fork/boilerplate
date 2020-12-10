@@ -126,18 +126,31 @@ class SectionsNew extends Component {
     if (value.length > 0) {
       // const regex = new RegExp(`^${value}`, 'i');
       suggestions = this.state.boilerplates.filter((boilerplate) => {
-        return boilerplate.title.toLowerCase().indexOf(value.title) !== -1;
+        return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       })
+      console.log(suggestions);
     }
     this.setState(() => ({ suggestions, searchText: value }));
   }
 
-  suggestionSelected(value) {
-    this.setState(() => ({
-      searchText: value,
-      suggestions: []
-    }));
-  }
+  // suggestionSelected(value) {
+  //   let newValue = value.title
+  //   this.setState(() => ({
+  //     searchText: newValue,
+  //     suggestions: []
+  //   }));
+  // }
+
+  handleSuggestionSelect = (value) => {
+    // let newValue = value.title
+    let quill_text = this.state.quill_text;
+    quill_text += value.text;
+    this.setState({
+      searchText: '',
+      suggestions: [],
+      quill_text: quill_text
+    });
+  };
 
   renderSuggestions() {
     console.log(this.state.suggestions);
@@ -150,9 +163,9 @@ class SectionsNew extends Component {
         {this.state.suggestions.map((boilerplate) => (
           <li
             key={boilerplate.id}
-            onClick={() => this.suggestionSelected(boilerplate)}
+            onClick={() => this.handleSuggestionSelect(boilerplate)}
           >
-            {boilerplate.title}
+            {boilerplate.title}, {boilerplate.wordcount} words
           </li>
         ))}
       </div>
@@ -202,6 +215,17 @@ class SectionsNew extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Add Boilerplate to text field below</Form.Label>
+                  {/* <Form.Group> */}
+                  <div>
+                    <label>Search Boilerplate by title </label>
+                    <input
+                      type="text"
+                      value={this.state.searchText}
+                      onChange={this.onTextChanged}
+                    />
+                    {this.renderSuggestions()}
+                  </div>
+                  {/* </Form.Group> */}
                   <Form.Control
                     as="select"
                     name="currentBoilerplate"
@@ -222,17 +246,6 @@ class SectionsNew extends Component {
                     })}
                   </Form.Control>
                 </Form.Group>
-                {/* <Form.Group> */}
-                <div>
-                  <label>Search Boilerplate by title</label>
-                  <input
-                    type="text"
-                    value={this.state.searchText}
-                    onChange={this.onTextChanged}
-                  />
-                  {this.renderSuggestions()}
-                </div>
-                {/* </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Add Bio Text to text field below</Form.Label>
                   <Form.Control
