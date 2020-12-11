@@ -37,29 +37,6 @@ class BoilerplatesNew extends Component {
     });
   };
 
-  // componentDidMount() {
-  //   axios
-  //     .get('/api/organizations',
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         organizations: response.data,
-  //         loading: false,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  //   axios
-  //     .get('/api/categories',
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         categories: response.data,
-  //         loading: false,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -102,6 +79,23 @@ class BoilerplatesNew extends Component {
         return 0; 
       }
   }
+  modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'],
+      ['clean'],
+      [{'color': []}]
+    ],
+  }
+ 
+  formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'color'
+  ]
 
   render() {
     return (
@@ -174,6 +168,8 @@ class BoilerplatesNew extends Component {
             <Form.Label>Boilerplate Text</Form.Label>
             <ReactQuill 
               // name="quill_text"
+              modules={this.modules}
+              format={this.formats}
               value={this.state.quill_text}
               onChange={this.quillChange}  
             />
@@ -181,7 +177,6 @@ class BoilerplatesNew extends Component {
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
-            
             
             <div className="text-center">
               <Button type="submit">

@@ -44,9 +44,6 @@ class BoilerplatesShow extends Component {
           loading: false,
         });
       })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
       .catch((error) => {
         console.log(error);
       });
