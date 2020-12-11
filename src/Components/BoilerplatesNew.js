@@ -7,8 +7,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 class BoilerplatesNew extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       quill_text: "",
@@ -79,12 +79,12 @@ class BoilerplatesNew extends Component {
         return 0; 
       }
   }
+  
   modules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline','strike', 'blockquote'],
       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
       ['clean'],
       [{'color': []}]
     ],
@@ -93,8 +93,7 @@ class BoilerplatesNew extends Component {
   formats = [
     'header',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image', 'color'
+    'list', 'bullet', 'indent', 'color'
   ]
 
   render() {

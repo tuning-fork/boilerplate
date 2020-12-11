@@ -16,7 +16,9 @@ class BoilerplatesShow extends Component {
       // text: "",
       wordcount: "",
       organization_id: "",
+      organization_name: "",
       category_id: "",
+      category_name: "",
       organizations: [],
       categories: [],
       errors: [],
@@ -40,7 +42,9 @@ class BoilerplatesShow extends Component {
           quill_text: response.data.text,
           wordcount: response.data.wordcount,
           organization_id: response.data.organization_id,
+          organization_name: response.data.organization.name,
           category_id: response.data.category_id,
+          category_name: response.data.category.name,
           loading: false,
         });
       })
@@ -132,6 +136,22 @@ class BoilerplatesShow extends Component {
       });
   }
 
+  modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['clean'],
+      [{'color': []}]
+    ],
+  }
+ 
+  formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent', 'color'
+  ]
+
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -140,13 +160,13 @@ class BoilerplatesShow extends Component {
       <div className="component">
       <Card>
         <Card.Header>
-        <h2>title: {this.state.title}</h2>
+          <h3>{this.state.title}</h3>
         </Card.Header>
         <Card.Body>
-        <h3>text: {this.state.quill_text}</h3>
-        <h3>organization_id: {this.state.organization_id}</h3>
-        <h3>category_id: {this.state.category_id}</h3>
-        <h3>wordcount: {this.countWords(this.state.quill_text)}</h3>
+          <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
+          <h5>Organization {this.state.organization_name}</h5>
+          <h5>Category: {this.state.category_name}</h5>
+          <h5>Word Count: {this.countWords(this.state.quill_text)}</h5>
         </Card.Body>
       </Card>
         <br />
@@ -176,6 +196,8 @@ class BoilerplatesShow extends Component {
 
                       <ReactQuill 
                         // name="quill_text"
+                        modules={this.modules}
+                        format={this.formats}
                         defaultValue={this.state.quill_text}
                         onChange={this.quillChange}  
                       />
