@@ -98,13 +98,7 @@ class Boilerplates extends Component {
       <div className="component">
         <h1>Boilerplates Index</h1>
         <h3>Add Boilerplate</h3>
-        {!this.state.isHiddenCategoriesNew ?
-              <CategoriesNew 
-              updateCategories={this.updateCategories}
-              toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
-            /> : null
-            }
-        <br/>
+        
         {!this.state.isHiddenOrganizationsNew ?
               <OrganizationsNew 
               updateOrganizations={this.updateOrganizations}
@@ -112,6 +106,14 @@ class Boilerplates extends Component {
             /> : null
             }
         <br/>
+        {!this.state.isHiddenCategoriesNew ?
+              <CategoriesNew 
+              updateCategories={this.updateCategories}
+              toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
+            /> : null
+            }
+        <br/>
+        
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
           organizations={this.state.organizations}

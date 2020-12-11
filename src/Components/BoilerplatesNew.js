@@ -131,7 +131,9 @@ class BoilerplatesNew extends Component {
                   );
                 })}
               </Form.Control>
+
               <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization</Button>
+
             </Form.Group>
             <Form.Group>
               <Form.Label>Category</Form.Label>
@@ -155,7 +157,9 @@ class BoilerplatesNew extends Component {
                   );
                 })}
               </Form.Control>
+
               <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenCategoriesNew}>Add Category</Button>
+              
             </Form.Group>
             <Form.Group>
               <Form.Label>Title</Form.Label>
