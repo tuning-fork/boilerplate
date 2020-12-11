@@ -21,6 +21,7 @@ class BoilerplatesShow extends Component {
       category_name: "",
       organizations: [],
       categories: [],
+      isHidden: true,
       errors: [],
     };
 
@@ -178,7 +179,7 @@ class BoilerplatesShow extends Component {
               </Button>
               <br />
               <br />
-              {this.state.isHidden ? (
+              {!this.state.isHidden ? (
                 <div>
                   <div>
                     <Form onSubmit={this.handleSubmit}>

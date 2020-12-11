@@ -26,29 +26,6 @@ class ReportSectionsShow extends Component {
     this.quillChange = this.quillChange.bind(this);
   }
 
-  // componentDidMount() {  
-  //   axios
-  //     .get(`/api/report_sections/${this.props.id}`,
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         id: response.data.id,
-  //         report_id: response.data.report_id,
-  //         title: response.data.title,
-  //         quill_text: response.data.text,
-  //         sort_order: response.data.sort_order,
-  //         wordcount: response.data.wordcount,
-  //         loading: false,
-  //       });
-  //     })
-  //     .then((response) => {
-  //       this.toggleHidden();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
@@ -119,9 +96,9 @@ class ReportSectionsShow extends Component {
       <div className="container">
         <Card>
           <Card.Body>
-            <h5>title: {this.props.report_section_title}</h5>
-            <h5>text: {this.props.report_section_text}</h5>
-            <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
+            <h5>{this.props.report_section_title}</h5>
+            <p dangerouslySetInnerHTML={{__html: this.props.report_section_text}}></p>
+            <p>wordcount: {this.countWords(this.state.quill_text)}</p>
           </Card.Body>
         </Card>
         <br />

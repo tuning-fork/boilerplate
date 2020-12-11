@@ -133,8 +133,8 @@ export default class ReportsShow extends Component {
   
 
   render() {
-    console.log(this.state.grant_sections);
-    console.log(this.state.report_sections);
+    // console.log(this.state.grant_sections);
+    // console.log(this.state.report_sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -151,7 +151,7 @@ export default class ReportsShow extends Component {
           </Card.Body>
       </Card>
 
-      {/* beginning of report update if current user created report */}
+      {/* beginning of report update */}
       <div className="container">
         <Button onClick={this.toggleHidden.bind(this)}>
           Update Report
@@ -235,7 +235,9 @@ export default class ReportsShow extends Component {
           }
           </Card.Body>
         </Card>
-        <br />    
+        <br />  
+
+          {/* ReportSectionsShow and ReportSectionsNew  */}
 
         <div>
           {this.state.grant_sections.map(grant_section => {
@@ -245,7 +247,7 @@ export default class ReportsShow extends Component {
                   <Row style={{paddingBottom: "5%"}}>
                     <Col key={grant_section.id}>
                       <h5>{grant_section.section.title}</h5>
-                      <h5>{grant_section.section.text}</h5>
+                      <h5 dangerouslySetInnerHTML={{__html: grant_section.section.text}}></h5>
                       <h5>Sort Order: {grant_section.section.sort_order}</h5>
                     </Col>
                     <Col key={grant_section.id}>
@@ -279,13 +281,13 @@ export default class ReportsShow extends Component {
           })}
         </div>
 
-        <Button onClick={this.handleReportDelete}>
+        <Button variant="danger" onClick={this.handleReportDelete}>
           Delete
         </Button>
 
         <Link 
           to={`/reports-finalize/${this.state.id}`}>
-          Report Finalize
+          <Button>Report Finalize</Button>
         </Link>
       </div>
     );

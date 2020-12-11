@@ -120,7 +120,7 @@ class SectionsShow extends Component {
         <Card>
           <Card.Body>
             <h5>{this.state.title}</h5>
-            <h5>{this.state.quill_text}</h5>
+            <h5 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h5>
             <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
           </Card.Body>
           <div className="container">
