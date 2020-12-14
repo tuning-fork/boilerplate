@@ -75,9 +75,6 @@ class ReportSectionsUpdateFinal extends Component {
       .delete('/api/report_sections/' + this.props.section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
@@ -101,10 +98,9 @@ class ReportSectionsUpdateFinal extends Component {
       <div className="container">
             <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
               <h5>{this.props.report_section_title}</h5>
-              <h5>{this.props.report_section_text}</h5>
+              <h5 dangerouslySetInnerHTML={{__html: this.props.report_section_text}}></h5>
             </Container>
             
-         
           <div className="container">
             <br />
             <br />
@@ -118,7 +114,6 @@ class ReportSectionsUpdateFinal extends Component {
                         type="text"
                         value={this.state.title}
                         name="title"
-                        // placeholder={this.props.section_title}
                         onChange={this.handleChange}
                         required
                       />
@@ -128,17 +123,6 @@ class ReportSectionsUpdateFinal extends Component {
                       value={this.state.quill_text}
                       onChange={this.quillChange}  
                     />
-                    {/* <Form.Group>
-                      <Form.Label>Text</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.text}
-                        name="text"
-                        placeholder={this.state.text}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group> */}
                     <Form.Group>
                       <Form.Label>Word Count</Form.Label>
                       <p>{this.countWords(this.state.quill_text)}</p>

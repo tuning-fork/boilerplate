@@ -14,6 +14,7 @@ class FundingOrgsShow extends Component {
       organization_id: "",
       organizations: [],
       organization_name: "",
+      isHidden: true,
       errors: [],
     };
 

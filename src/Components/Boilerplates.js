@@ -98,13 +98,7 @@ class Boilerplates extends Component {
       <div className="component">
         <h1>Boilerplates Index</h1>
         <h3>Add Boilerplate</h3>
-        {!this.state.isHiddenCategoriesNew ?
-              <CategoriesNew 
-              updateCategories={this.updateCategories}
-              toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
-            /> : null
-            }
-        <br/>
+        
         {!this.state.isHiddenOrganizationsNew ?
               <OrganizationsNew 
               updateOrganizations={this.updateOrganizations}
@@ -112,6 +106,14 @@ class Boilerplates extends Component {
             /> : null
             }
         <br/>
+        {!this.state.isHiddenCategoriesNew ?
+              <CategoriesNew 
+              updateCategories={this.updateCategories}
+              toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
+            /> : null
+            }
+        <br/>
+        
         <BoilerplatesNew 
           updateBoilerplates={this.updateBoilerplates}
           organizations={this.state.organizations}
@@ -131,14 +133,7 @@ class Boilerplates extends Component {
                 </Link>
               </Card.Header>
               <Card.Body>
-                <div dangerouslySetInnerHTML={{ __html: boilerplate.text }}>
-                </div>
-                <p>Text: {boilerplate.text}</p>
-                {/* <ReactQuill
-                  value={this.state.text}
-                  readOnly={true}
-                  theme={"bubble"}
-                /> */}
+                <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
                 {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
                 <p>Organization: {boilerplate.organization_name}</p>
                 <p>Category: {boilerplate.category_name}</p>

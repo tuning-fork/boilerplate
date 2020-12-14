@@ -121,7 +121,7 @@ class SectionsUpdateFinal extends Component {
       <div className="container">
         <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
           <h5>{this.state.title}</h5>
-          <h5>{this.state.quill_text}</h5>
+          <h5 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h5>
         </Container>
         <br />
         {!this.state.isHidden ? (

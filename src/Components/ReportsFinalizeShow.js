@@ -16,7 +16,7 @@ class ReportsFinalizeShow extends Component {
       title: "",
       deadline: "",
       submitted: false,
-      // isHidden: true,
+      isHidden: true,
       report_sections: [],
       loading: true,
       errors: [],
@@ -128,88 +128,86 @@ class ReportsFinalizeShow extends Component {
     return (
       <div className="component">
         <h1>Report Finalize - View and Finalize Report Draft</h1>
-        <div>
         <h5>{this.state.title}</h5>
-      </div>
-      <div>
         <h5>{this.state.deadline}</h5>
         <h5>Submitted: {this.state.submitted ? "yes" : "not yet"}</h5>
-      </div>
-      <div>
-        {this.state.report_sections.map(report_section => {
-          return(
-            <div key={report_section.id}>
-              <ReportSectionsUpdateFinal 
-              report_section_id={report_section.id}
-              report_section_title={report_section.title}
-              report_section_text={report_section.text}
-              updateReportSections={this.updateReportSections}
-              />
-            </div>
-          )
-          })}
-      </div>
+
+        {/* Report sections */}
+
+        <br />
         <div>
-          <div className="container">
-            <Button onClick={this.toggleHidden.bind(this)}>
-              Update Report
-            </Button>
-            <br />
-            <br />
-            {this.state.isHidden ? (
-              <div>
-                <div>
-                  <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.title}
-                        name="title"
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Deadline</Form.Label>
-                      <Form.Control
-                        type="datetime"
-                        value={this.state.deadline}
-                        name="deadline"
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Submitted</Form.Label>
-                      <Form.Check
-                        type="checkbox"
-                        name="submitted"
-                        checked={this.state.submitted}
-                        onChange={this.handleChange}
-                      />
-                    </Form.Group>
-                    <div className="text-center">
-                      <Button type="submit" className="btn-lg">
-                        Submit
-                      </Button>
-                      <Button
-                        onClick={this.toggleHidden.bind(this)}
-                        className="btn-lg"
-                      >
-                        Close
-                      </Button>
-                    </div>
-                  </Form>
-                </div>
-                </div>
-                ) : null}
-            </div>
+          {this.state.report_sections.map(report_section => {
+            return(
+              <div key={report_section.id}>
+                <ReportSectionsUpdateFinal 
+                report_section_id={report_section.id}
+                report_section_title={report_section.title}
+                report_section_text={report_section.text}
+                updateReportSections={this.updateReportSections}
+                />
+              </div>
+            )
+          })}
         </div>
 
+         {/* Report update */}
+
+        <div className="container">
+          <Button onClick={this.toggleHidden.bind(this)}>
+            Update Report
+          </Button>
+          <br />
+          <br />
+          {!this.state.isHidden ? (
+            <div>
+              <div>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group>
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={this.state.title}
+                      name="title"
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Deadline</Form.Label>
+                    <Form.Control
+                      type="datetime"
+                      value={this.state.deadline}
+                      name="deadline"
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Submitted</Form.Label>
+                    <Form.Check
+                      type="checkbox"
+                      name="submitted"
+                      checked={this.state.submitted}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+                  <div className="text-center">
+                    <Button type="submit" className="btn-lg">
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={this.toggleHidden.bind(this)}
+                      className="btn-lg"
+                    >
+                      Close
+                    </Button>
+                  </div>
+                </Form>
+              </div>
+              </div>
+              ) : null}
+          </div>
       </div>
-
-
     );
   }
 }

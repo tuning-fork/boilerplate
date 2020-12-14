@@ -97,7 +97,7 @@ class Bios extends Component {
                 </Card.Header>
                 <Card.Body>
                   <p>Title: {bio.title}</p>
-                  <p>Text: {bio.text}</p>
+                  <p dangerouslySetInnerHTML={{__html: bio.text}}></p>
                   <p>Organization: {bio.organization_name}</p>
                   <p>Wordcount: {bio.wordcount}</p>
                 </Card.Body>

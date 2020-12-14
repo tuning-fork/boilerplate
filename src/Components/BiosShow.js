@@ -128,9 +128,9 @@ class BiosShow extends Component {
           </Card.Header>
           <Card.Body>
           <h3>{this.state.title}</h3>
-          <h4>{this.state.quill_text}</h4>
+          <h4 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h4>
           <h4>Organization: {this.state.organization.name}</h4>
-          <h4>wordcount: {this.countWords(this.state.quill_text)}</h4>
+          <h4>Word Count: {this.countWords(this.state.quill_text)}</h4>
           </Card.Body>
         </Card>
         <br />
