@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { countWords } from '../Services/infofunctions';
 
 class SectionsNew extends Component {
   constructor(props) {
@@ -16,7 +17,6 @@ class SectionsNew extends Component {
       sort_order: '',
       wordcount: '',
       boilerplates: [],
-      items: ['boilerplate', 'text', 'things', 'stuff', 'staple'],
       currentBoilerplate: '',
       isHidden: true,
       bios: [],
@@ -28,8 +28,11 @@ class SectionsNew extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.countWords = this.countWords.bind(this);
+    // this.countWords = this.countWords.bind(this);
     this.quillChange = this.quillChange.bind(this);
+    // this.suggestionSelected = this.suggestionSelected.bind(this);
+    // this.onTextChanged = this.onTextChanged.bind(this);
+    // this.renderSuggestions = this.renderSuggestions.bind(this);
   }
 
   clearForm = () => {
@@ -81,7 +84,7 @@ class SectionsNew extends Component {
         title: title,
         text: quill_text,
         sort_order: this.props.sort_number + 1,
-        wordcount: this.countWords(this.state.quill_text)
+        wordcount: countWords(this.state.quill_text)
       },
         { headers: { Authorization: `Bearer ${localStorage.token}` } })
       .then((response) => {
@@ -97,13 +100,13 @@ class SectionsNew extends Component {
     event.preventDefault();
   }
 
-  countWords(string) {
-    if (string) {
-      return (string.split(" ").length);
-    } else {
-      return 0;
-    }
-  }
+  // countWords(string) {
+  //   if (string) {
+  //     return (string.split(" ").length);
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   handleChange(event) {
     this.setState({
@@ -129,6 +132,7 @@ class SectionsNew extends Component {
       suggestions = this.state.boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       })
+      console.log(suggestions);
     }
     this.setState(() => ({ suggestions, searchText: value }));
   }
@@ -155,7 +159,7 @@ class SectionsNew extends Component {
             key={boilerplate.id}
             onClick={() => this.suggestionSelected(boilerplate)}
           >
-            {boilerplate.title}
+            {boilerplate.title}, {boilerplate.wordcount} words
           </li>
         ))}
       </div>
@@ -206,6 +210,17 @@ class SectionsNew extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Add Boilerplate to text field below</Form.Label>
+                  {/* <Form.Group> */}
+                  <div>
+                    <label>Search Boilerplate by title </label>
+                    <input
+                      type="text"
+                      value={this.state.searchText}
+                      onChange={this.onTextChanged}
+                    />
+                    {this.renderSuggestions()}
+                  </div>
+                  {/* </Form.Group> */}
                   <Form.Control
                     as="select"
                     name="currentBoilerplate"
@@ -226,17 +241,6 @@ class SectionsNew extends Component {
                     })}
                   </Form.Control>
                 </Form.Group>
-                {/* <Form.Group> */}
-                <div>
-                  <label>Search Boilerplate by title</label>
-                  <input
-                    type="text"
-                    value={this.state.searchText}
-                    onChange={this.onTextChanged}
-                  />
-                  {this.renderSuggestions()}
-                </div>
-                {/* </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Add Bio Text to text field below</Form.Label>
                   <Form.Control
@@ -279,7 +283,7 @@ class SectionsNew extends Component {
                 </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p>{this.countWords(this.state.quill_text)}</p>
+                  <p>{countWords(this.state.quill_text)}</p>
                 </Form.Group>
                 <div className="text-center">
                   <Button type="submit">
