@@ -74,6 +74,7 @@ class Boilerplates extends Component {
   }
 
   updateOrganizations = (newOrganization) => {
+    console.log("waffle");
 		const organizations = this.state.organizations;
 		organizations.push(newOrganization);
 		this.setState({

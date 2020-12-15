@@ -38,6 +38,7 @@ class OrganizationsNew extends Component {
         if (response.data) {
           this.props.updateOrganizations(response.data);
           this.props.toggleHiddenOrganizationsNew();
+          this.props.toggleHiddenCategoriesOrganizationsNew();
           this.clearForm();
         };
       })
