@@ -22,14 +22,13 @@ export const onTextChanged = (event) => {
     this.setState(() => ({ suggestions, searchText: value }));
   }
 
-export const renderSuggestions = () => {
-    // console.log(this.state.suggestions);
-    if (this.state.suggestions.length === 0) {
+export const renderSuggestions = (suggestions) => {
+    if (suggestions.length === 0) {
       return null;
     }
     return (
       <div>
-        {this.state.suggestions.map((boilerplate) => (
+        {suggestions.map((boilerplate) => (
           <li
             key={boilerplate.id}
             onClick={() => suggestionSelected(boilerplate)}

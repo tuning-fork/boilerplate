@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CategoriesNew from './CategoriesNew';
+import OrganizationsNew from './OrganizationsNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 
@@ -10,8 +11,11 @@ class Categories extends Component {
     this.state = {
       loading: true,
       categories: [],
+      organizations: [],
+      isHiddenCategoriesOrganizationsNew: true,
       query: '',
     };
+    this.toggleHiddenCategoriesOrganizationsNew = this.toggleHiddenCategoriesOrganizationsNew.bind(this);
   }
   componentDidMount() {
     axios
@@ -27,12 +31,28 @@ class Categories extends Component {
       .catch((error) => console.log(error));
   }
 
+  toggleHiddenCategoriesOrganizationsNew() {
+    this.setState({
+      isHiddenCategoriesOrganizationsNew: !this.state.isHiddenCategoriesOrganizationsNew,
+    });
+  }
+
   updateCategories = (newCategory) => {
     const categories = this.state.categories;
     categories.push(newCategory);
     this.setState({
       categories: categories,
     });
+  };
+
+  updateOrganizations = (newOrganization) => {
+		const organizations = this.state.organizations;
+    organizations.push(newOrganization);
+		this.setState({
+			organizations: organizations,
+    });
+    // this.props.toggleHiddenOrganizationsNew()
+    this.props.toggleHiddenCategoriesOrganizationsNew()
   };
 
   render() {
@@ -43,6 +63,7 @@ class Categories extends Component {
     return (
       <div className="component">
         <h1>Categories Index</h1>
+
         {this.state.categories.map((category) => {
           return (
             <Card key={category.id}>
@@ -61,7 +82,16 @@ class Categories extends Component {
         <h3>Add Category</h3>
         <CategoriesNew 
           updateCategories={this.updateCategories}
+          organizations={this.organizations}
+          toggleHiddenCategoriesOrganizationsNew={this.toggleHiddenCategoriesOrganizationsNew}
         />
+
+        {!this.state.isHiddenCategoriesOrganizationsNew ?
+              <OrganizationsNew 
+              updateOrganizations={this.updateOrganizations}
+              toggleHiddenCategoriesOrganizationsNew={this.toggleHiddenCategoriesOrganizationsNew}
+            /> : null
+          }
       </div>
     );
   }

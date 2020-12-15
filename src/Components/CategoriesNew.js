@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+
 class CategoriesNew extends Component {
   constructor(props) {
     super(props);
@@ -64,6 +65,24 @@ class CategoriesNew extends Component {
     event.preventDefault();
   }
 
+  updateOrganizationsDropdown = () => {
+    const organizations = this.props.organizations;
+		this.setState({
+			organizations: organizations,
+    });
+
+  }
+
+  // updateOrganizations = (newOrganization) => {
+	// 	const organizations = this.state.organizations;
+  //   organizations.push(newOrganization);
+	// 	this.setState({
+	// 		organizations: organizations,
+  //   });
+  //   // this.props.toggleHiddenOrganizationsNew()
+  //   this.props.toggleHiddenCategoriesOrganizationsNew()
+  // };
+
   render() {
     return (
       <Card>
@@ -101,6 +120,8 @@ class CategoriesNew extends Component {
                   );
                 })}
               </Form.Control>
+
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenCategoriesOrganizationsNew}>Add Organization</Button>
             </Form.Group>
             <div className="text-center">
               <Button type="submit">
