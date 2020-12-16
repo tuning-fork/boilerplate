@@ -14,11 +14,11 @@ class Boilerplates extends Component {
       categories: [],
       organizations: [],
       boilerplates: [],
-      isHiddenOrganizationsNew: true,
+      isHiddenNew: true,
       isHiddenCategoriesNew: true,
       query: '',
     };
-    this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
+    // this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
     this.toggleHiddenCategoriesNew = this.toggleHiddenCategoriesNew.bind(this);
   }
   componentDidMount() {
@@ -67,19 +67,19 @@ class Boilerplates extends Component {
     });
   }
 
-  toggleHiddenOrganizationsNew() {
+  toggleHiddenNew = () => {
     this.setState({
-      isHiddenOrganizationsNew: !this.state.isHiddenOrganizationsNew,
+      isHiddenNew: !this.state.isHiddenNew,
     });
   }
 
   updateOrganizations = (newOrganization) => {
-    console.log("waffle");
 		const organizations = this.state.organizations;
 		organizations.push(newOrganization);
 		this.setState({
 			organizations: organizations,
-		});
+    });
+    console.log("waffle");
   };
   
   updateCategories = (newCategories) => {
@@ -100,10 +100,11 @@ class Boilerplates extends Component {
         <h1>Boilerplates Index</h1>
         <h3>Add Boilerplate</h3>
         
-        {!this.state.isHiddenOrganizationsNew ?
+        {!this.state.isHiddenNew ?
               <OrganizationsNew 
               updateOrganizations={this.updateOrganizations}
-              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+              // toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+              toggleHiddenNew={this.toggleHiddenNew}
             /> : null
             }
         <br/>
@@ -119,7 +120,7 @@ class Boilerplates extends Component {
           updateBoilerplates={this.updateBoilerplates}
           organizations={this.state.organizations}
           categories={this.state.categories}
-          toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+          toggleHiddenNew={this.toggleHiddenNew}
           toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
         />
         <br/>

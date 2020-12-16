@@ -125,7 +125,7 @@ class BoilerplatesNew extends Component {
                 })}
               </Form.Control>
 
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization</Button>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenNew}>Add Organization</Button>
 
             </Form.Group>
             <Form.Group>
