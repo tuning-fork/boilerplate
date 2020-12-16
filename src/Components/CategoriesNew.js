@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import OrganizationsNew from './OrganizationsNew';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -13,11 +14,9 @@ class CategoriesNew extends Component {
       name: "",
       organization_id: "",
       organizations: [],
+      isHiddenNew: true,
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   clearForm = () => {
@@ -41,13 +40,13 @@ class CategoriesNew extends Component {
       .catch((error) => console.log(error));
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const newCategory = this.state;
     axios
       .post('/api/categories', newCategory, {headers: { Authorization: `Bearer ${localStorage.token}` }
@@ -55,7 +54,6 @@ class CategoriesNew extends Component {
       .then((response) => {
         if (response.data) {
           this.props.updateCategories(response.data);
-          this.props.toggleHiddenCategoriesNew();
           this.clearForm();
         };
       })
@@ -65,23 +63,20 @@ class CategoriesNew extends Component {
     event.preventDefault();
   }
 
-  updateOrganizationsDropdown = () => {
-    const organizations = this.props.organizations;
+  updateOrganizations = (newOrganization) => {
+		const organizations = this.state.organizations;
+		organizations.push(newOrganization);
 		this.setState({
 			organizations: organizations,
     });
+    console.log("pancake");
+  };
 
+  toggleHiddenNew = () => {
+    this.setState({
+      isHiddenNew: !this.state.isHiddenNew,
+    });
   }
-
-  // updateOrganizations = (newOrganization) => {
-	// 	const organizations = this.state.organizations;
-  //   organizations.push(newOrganization);
-	// 	this.setState({
-	// 		organizations: organizations,
-  //   });
-  //   // this.props.toggleHiddenOrganizationsNew()
-  //   this.props.toggleHiddenCategoriesOrganizationsNew()
-  // };
 
   render() {
     return (
@@ -121,7 +116,8 @@ class CategoriesNew extends Component {
                 })}
               </Form.Control>
 
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenCategoriesOrganizationsNew}>Add Organization</Button>
+              <Button variant="secondary" size="sm" onClick={this.toggleHiddenNew}>Add Organization</Button>
+
             </Form.Group>
             <div className="text-center">
               <Button type="submit">
@@ -129,6 +125,12 @@ class CategoriesNew extends Component {
               </Button>
             </div>
           </Form>
+          {!this.state.isHiddenNew ?
+            <OrganizationsNew 
+              updateOrganizations={this.updateOrganizations}
+              toggleHiddenNew={this.toggleHiddenNew}
+            /> : null
+          }
         </Card.Body>
       </Card>
     );

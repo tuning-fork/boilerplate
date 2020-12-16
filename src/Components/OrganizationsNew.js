@@ -37,8 +37,8 @@ class OrganizationsNew extends Component {
       .then((response) => {
         if (response.data) {
           this.props.updateOrganizations(response.data);
-          this.props.toggleHiddenOrganizationsNew();
-          this.props.toggleHiddenCategoriesOrganizationsNew();
+          // this.props.toggleHiddenOrganizationsNew();
+          this.props.toggleHiddenNew();
           this.clearForm();
         };
       })
