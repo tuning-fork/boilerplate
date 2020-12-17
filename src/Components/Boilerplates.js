@@ -5,6 +5,8 @@ import CategoriesNew from './CategoriesNew';
 import OrganizationsNew from './OrganizationsNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class Boilerplates extends Component {
   constructor(props) {
@@ -17,6 +19,10 @@ class Boilerplates extends Component {
       isHiddenNew: true,
       isHiddenCategoriesNew: true,
       query: '',
+      searchText: '',
+      filterWordCount: false,
+      filterTitle: false,
+      filterText: false
     };
     // this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
     this.toggleHiddenCategoriesNew = this.toggleHiddenCategoriesNew.bind(this);
@@ -90,7 +96,43 @@ class Boilerplates extends Component {
     });
   };
 
+  handleChange = (event) => {
+    this.setState({
+      searchText: event.target.value
+    })
+  }
+
+  handleSubmit = (event) => {
+
+  }
+
+  //Filter by: 
+
+  //Wordcount
+
+  // filterWordCount = (searchParam) => {
+  //   this.state.boilerplates.filter((boilerplate) => {
+  //     return boilerplate.wordcount <= searchParam
+  //   })
+  // }
+
+  //Title (filter title - search)
+
+  filterTitle = (searchParam) => {
+
+  }
+  
+  //Text (search in text)
+
+  filterText = (searchParam) => {
+
+  }
+  
+
   render() {
+    console.log(this.state.filterWordCount, "waffle")
+    console.log(this.state.filterTitle, "pancake")
+    console.log(this.state.filterText, "crepe")
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     };
@@ -98,6 +140,7 @@ class Boilerplates extends Component {
     return (
       <div className="component">
         <h1>Boilerplates Index</h1>
+
         <h3>Add Boilerplate</h3>
         
         {!this.state.isHiddenNew ?
@@ -124,6 +167,24 @@ class Boilerplates extends Component {
           toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
         />
         <br/>
+
+        <button onClick={(event) => this.setState({filterWordCount: !this.state.filterWordCount})}>Filter by WordCount</button>
+        <button onClick={(event) => this.setState({filterTitle: !this.state.filterTitle})}>Filter by Title</button>
+        <button onClick={(event) => this.setState({filterText: !this.state.filterText})}>Filter by Text</button>
+        
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+          <Form.Label></Form.Label>
+          <Form.Control 
+            type="text" 
+            value={this.state.searchText} 
+            onChange={this.handleChange} />
+          </Form.Group>
+          <Button
+          type="submit"
+          >Search</Button>
+        </Form>
+
         {this.state.boilerplates.map((boilerplate) => {
           return (
             <Card key={boilerplate.id}>
