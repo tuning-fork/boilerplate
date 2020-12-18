@@ -1,74 +1,76 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import OrganizationsNew from './OrganizationsNew';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-class FundingOrgsNew extends Component {
+class FundingOrgsOrganizationsNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',
-      website: '',
-      organization_id: '',
-      organizations: [],
+      fundingOrgName: "",
+      website: "",
+      organizationName: "",
+      organization_id: "",
+      isHiddenNew: true,
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
-  }
-
-  updateOrganizations = (newOrganization) => {
-		const organizations = this.state.organizations;
-		organizations.push(newOrganization);
-		this.setState({
-			organizations: organizations,
-    });
-    // console.log("updated organizations");
   }
 
   clearForm = () => {
     this.setState({
-      name: '',
-      website: '',
-      organization_id: ''
+      fundingOrgName: "",
+      website: "",
+      organizationName: "",
+      organization_id: "",
     });
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  handleSubmit(event) {
-    const newFundingOrg = this.state;
+  handleSubmitOrganization = (event) => {
+    const { organizationName } = this.state;
     axios
-      .post('/api/funding_orgs', newFundingOrg, 
+      .post('/api/organizations',
+        {
+          name: organizationName
+        }, 
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        if (response.data) {
+          this.props.updateOrganizations(response.data);
+          this.props.toggleHiddenFundingOrgsOrganizationsNew();
+          this.clearForm();
+        };
+      })
+      .catch((error) => {
+        console.log('organization creation error', error);
+      });
+    event.preventDefault();
+  }
+
+  handleSubmitFundingOrgs = (event) => {
+    const { fundingOrgName, organization_id, website } = this.state;
+    axios
+      .post('/api/funding_orgs', 
+        {
+          name: fundingOrgName,
+          organization_id: organization_id,
+          website: website
+        }, 
         {headers: { Authorization: `Bearer ${localStorage.token}` }
       })
       .then((response) => {
         if (response.data) {
           this.props.updateFundingOrgs(response.data);
-          this.props.toggleHiddenFundingOrgsNew();
+          this.props.toggleHiddenFundingOrgsOrganizationsNew();
           this.clearForm();
-        }
+        };
       })
       .catch((error) => {
         console.log('funding org creation error', error);
@@ -80,13 +82,38 @@ class FundingOrgsNew extends Component {
     return (
       <Card>
         <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
+
+          {/* New Organization */}
+          
+          <Form onSubmit={this.handleSubmitOrganization}>
             <Form.Group>
-              <Form.Label>Funding Organization Name</Form.Label>
+              <Form.Label>New Organization Name</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={this.state.name}
+                name="organizationName"
+                value={this.state.organizationName}
+                onChange={this.handleChange}
+                required
+              />
+            </Form.Group>
+            <div className="text-center">
+              <Button type="submit">
+                Add New Organization
+              </Button>
+            </div>
+          </Form>
+          <br />
+          <br />
+
+          {/* New FundingOrg */}
+
+          <Form onSubmit={this.handleSubmitFundingOrgs}>
+            <Form.Group>
+              <Form.Label>New Funding Org Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="fundingOrgName"
+                value={this.state.fundingOrgName}
                 onChange={this.handleChange}
                 required
               />
@@ -103,7 +130,7 @@ class FundingOrgsNew extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Organization</Form.Label>
-              <Form.Control 
+              <Form.Control
                 as="select"
                 name="organization_id"
                 value={this.state.organization_id}
@@ -111,7 +138,7 @@ class FundingOrgsNew extends Component {
                 required
               >
                 <option value="" disabled>Select Organization</option>
-                {this.state.organizations.map(organization => {
+                {this.props.organizations.map(organization => {
                   return(
                     <option 
                       key={organization.id} 
@@ -124,21 +151,16 @@ class FundingOrgsNew extends Component {
                 })}
               </Form.Control>
             </Form.Group>
-            
             <div className="text-center">
               <Button type="submit">
                 Add New Funding Org
               </Button>
             </div>
           </Form>
-          <br />
-          <OrganizationsNew 
-            updateOrganizations={this.updateOrganizations}
-          />
         </Card.Body>
       </Card>
     );
   }
 }
 
-export default FundingOrgsNew;
+export default FundingOrgsOrganizationsNew;

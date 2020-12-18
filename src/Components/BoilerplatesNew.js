@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
+import CategoriesOrganizationsNew from './CategoriesOrganizationsNew';
 import 'react-quill/dist/quill.snow.css';
 
 class BoilerplatesNew extends Component {
@@ -17,14 +18,53 @@ class BoilerplatesNew extends Component {
       organization_id: "",
       category_id: "",
       wordcount: "",
+      categories: [],
+      organizations: [],
+      isHiddenCategoriesOrganizationsNew: true,
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
+
+  componentDidMount() {
+    axios
+      .get('/api/categories',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          categories: response.data,
+          loading: false,
+        });
+      // console.log(response.data);
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  updateCategories = (newCategories) => {
+    const categories = this.state.categories;
+    categories.push(newCategories);
+    this.setState({
+      categories: categories,
+    });
+    // console.log("updated categories");
+  };
+
+  updateOrganizations = (newOrganization) => {
+		const organizations = this.state.organizations;
+		organizations.push(newOrganization);
+		this.setState({
+			organizations: organizations,
+    });
+    // console.log("updated organizations");
+  };
 
   clearForm = () => {
     this.setState({
@@ -37,17 +77,23 @@ class BoilerplatesNew extends Component {
     });
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  toggleHiddenCategoriesOrganizationsNew = () => {
+    this.setState({
+      isHiddenCategoriesOrganizationsNew: !this.state.isHiddenCategoriesOrganizationsNew,
+    });
+  }
+
+  handleSubmit = (event) => {
     const {
       title, quill_text, organization_id, category_id
     } = this.state;
@@ -72,12 +118,12 @@ class BoilerplatesNew extends Component {
     event.preventDefault();
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
-      } else {
-        return 0; 
-      }
+    } else {
+      return 0; 
+    }
   }
   
   modules = {
@@ -100,6 +146,15 @@ class BoilerplatesNew extends Component {
     return (
       <div>
       <Card>
+        {!this.state.isHiddenCategoriesOrganizationsNew ?
+          <CategoriesOrganizationsNew 
+          categories={this.state.categories}
+          organizations={this.state.organizations}
+          updateCategories={this.updateCategories}
+          updateOrganizations={this.updateOrganizations}
+          toggleHiddenCategoriesOrganizationsNew={this.toggleHiddenCategoriesOrganizationsNew}
+          /> : null
+        }
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -112,7 +167,7 @@ class BoilerplatesNew extends Component {
                 required
               >
                 <option value="" disabled>Select Organization</option>
-                {this.props.organizations.map(organization => {
+                {this.state.organizations.map(organization => {
                   return(
                     <option 
                       key={organization.id} 
@@ -124,9 +179,6 @@ class BoilerplatesNew extends Component {
                   );
                 })}
               </Form.Control>
-
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenNew}>Add Organization</Button>
-
             </Form.Group>
             <Form.Group>
               <Form.Label>Category</Form.Label>
@@ -138,7 +190,7 @@ class BoilerplatesNew extends Component {
                 required
               >
                 <option value="" disabled>Select Category</option>
-                {this.props.categories.map(category => {
+                {this.state.categories.map(category => {
                   return(
                     <option 
                       key={category.id} 
@@ -151,7 +203,7 @@ class BoilerplatesNew extends Component {
                 })}
               </Form.Control>
 
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenCategoriesNew}>Add Category</Button>
+              <Button variant="secondary" size="sm" onClick={this.toggleHiddenCategoriesOrganizationsNew}>Add New Category and/or Organization</Button>
               
             </Form.Group>
             <Form.Group>

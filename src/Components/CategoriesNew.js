@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-
 class CategoriesNew extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +13,6 @@ class CategoriesNew extends Component {
       name: "",
       organization_id: "",
       organizations: [],
-      isHiddenNew: true,
       errors: []
     };
   }
@@ -35,7 +33,7 @@ class CategoriesNew extends Component {
           organizations: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -69,7 +67,6 @@ class CategoriesNew extends Component {
 		this.setState({
 			organizations: organizations,
     });
-    console.log("pancake");
   };
 
   toggleHiddenNew = () => {
@@ -115,9 +112,6 @@ class CategoriesNew extends Component {
                   );
                 })}
               </Form.Control>
-
-              <Button variant="secondary" size="sm" onClick={this.toggleHiddenNew}>Add Organization</Button>
-
             </Form.Group>
             <div className="text-center">
               <Button type="submit">
@@ -125,12 +119,11 @@ class CategoriesNew extends Component {
               </Button>
             </div>
           </Form>
-          {!this.state.isHiddenNew ?
-            <OrganizationsNew 
-              updateOrganizations={this.updateOrganizations}
-              toggleHiddenNew={this.toggleHiddenNew}
-            /> : null
-          }
+
+          <br />
+          <OrganizationsNew 
+            updateOrganizations={this.updateOrganizations}
+          />
         </Card.Body>
       </Card>
     );

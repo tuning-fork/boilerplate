@@ -46,8 +46,7 @@ class Organizations extends Component {
         {this.state.organizations.map((organization) => {
           return (
             <Card key={organization.id}>
-              <Card.Header>
-                Name: 
+              <Card.Header> 
                 <Link
                     to={`/organizations/${organization.id}`}
                   >
