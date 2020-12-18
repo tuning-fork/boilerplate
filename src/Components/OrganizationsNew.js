@@ -37,8 +37,6 @@ class OrganizationsNew extends Component {
       .then((response) => {
         if (response.data) {
           this.props.updateOrganizations(response.data);
-          // this.props.toggleHiddenOrganizationsNew();
-          // this.props.toggleHiddenNew();
           this.clearForm();
         };
       })
@@ -54,7 +52,7 @@ class OrganizationsNew extends Component {
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
-              <Form.Label>Name</Form.Label>
+              <Form.Label>New Orgnaization Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"

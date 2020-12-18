@@ -34,7 +34,7 @@ class BoilerplatesNew extends Component {
           categories: response.data,
           loading: false,
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
     axios
@@ -54,7 +54,7 @@ class BoilerplatesNew extends Component {
     this.setState({
       categories: categories,
     });
-    console.log("updated categories")
+    // console.log("updated categories");
   };
 
   updateOrganizations = (newOrganization) => {
@@ -63,7 +63,7 @@ class BoilerplatesNew extends Component {
 		this.setState({
 			organizations: organizations,
     });
-    console.log("updated organizations");
+    // console.log("updated organizations");
   };
 
   clearForm = () => {

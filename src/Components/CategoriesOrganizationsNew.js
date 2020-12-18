@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-
 class CategoriesOrganizationsNew extends Component {
   constructor(props) {
     super(props);
@@ -77,37 +76,15 @@ class CategoriesOrganizationsNew extends Component {
   }
 
   render() {
-    console.log(this.state.categoryName);
-    console.log(this.state.organizationName);
     return (
       <Card>
         <Card.Body>
-
-          {/* New Organization */}
-          
-          <Form onSubmit={this.handleSubmitOrganization}>
-            <Form.Group>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="organizationName"
-                value={this.state.organizationName}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">
-                Add New Organization
-              </Button>
-            </div>
-          </Form>
 
           {/* New Category */}
 
           <Form onSubmit={this.handleSubmitCategory}>
             <Form.Group>
-              <Form.Label>Category Name</Form.Label>
+              <Form.Label>New Category Name</Form.Label>
               <Form.Control
                 type="text"
                 name="categoryName"
@@ -145,6 +122,29 @@ class CategoriesOrganizationsNew extends Component {
               </Button>
             </div>
           </Form>
+          <br />
+          <br />
+
+          {/* New Organization */}
+          
+          <Form onSubmit={this.handleSubmitOrganization}>
+            <Form.Group>
+              <Form.Label>New Organization Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="organizationName"
+                value={this.state.organizationName}
+                onChange={this.handleChange}
+                required
+              />
+            </Form.Group>
+            <div className="text-center">
+              <Button type="submit">
+                Add New Organization
+              </Button>
+            </div>
+          </Form>
+
         </Card.Body>
       </Card>
     );

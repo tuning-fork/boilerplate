@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GrantsNew from './GrantsNew';
-import FundingOrgsNew from './FundingOrgsNew'
-import OrganizationsNew from './OrganizationsNew'
+// import FundingOrgsNew from './FundingOrgsNew'
+// import OrganizationsNew from './OrganizationsNew'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
@@ -14,8 +14,8 @@ class Grants extends Component {
     this.state = {
       loading: true,
       grants: [],
-      funding_orgs: [],
-      organizations: [],
+      // funding_orgs: [],
+      // organizations: [],
       isHiddenFundingOrgsNew: true,
       isHiddenOrganizationsNew: true,
       query: '',
@@ -32,29 +32,30 @@ class Grants extends Component {
       .then((response) => {
         this.setState({
           grants: response.data,
+          loading: false
         });
       // console.log(response.data);
       })
       .catch((error) => console.log(error));
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-        });
-      })
-      .catch((error) => console.log(error));
-    axios
-      .get('/api/funding_orgs',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          funding_orgs: response.data,
-          loading: false,
-        });
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get('/api/organizations',
+    //     {headers: { Authorization: `Bearer ${localStorage.token}` }})
+    //   .then((response) => {
+    //     this.setState({
+    //       organizations: response.data,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
+    // axios
+    //   .get('/api/funding_orgs',
+    //     {headers: { Authorization: `Bearer ${localStorage.token}` }})
+    //   .then((response) => {
+    //     this.setState({
+    //       funding_orgs: response.data,
+    //       loading: false,
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   }
   
   updateGrants = (newGrant) => {
@@ -122,7 +123,7 @@ class Grants extends Component {
         <h1>Grants Index</h1>
         <h3>Add A Grant</h3>
         
-            {!this.state.isHiddenFundingOrgsNew ?
+            {/* {!this.state.isHiddenFundingOrgsNew ?
               <FundingOrgsNew 
               updateFundingOrgs={this.updateFundingOrgs}
               toggleHiddenFundingOrgsNew={this.toggleHiddenFundingOrgsNew}
@@ -135,7 +136,7 @@ class Grants extends Component {
               toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
             /> : null
             }
-        <br/>
+        <br/> */}
         <GrantsNew 
           updateGrants={this.updateGrants}
           organizations={this.state.organizations}

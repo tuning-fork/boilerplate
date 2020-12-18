@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import OrganizationsNew from './OrganizationsNew';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -31,6 +32,15 @@ class FundingOrgsNew extends Component {
         });
       })
       .catch((error) => console.log(error));
+  }
+
+  updateOrganizations = (newOrganization) => {
+		const organizations = this.state.organizations;
+		organizations.push(newOrganization);
+		this.setState({
+			organizations: organizations,
+    });
+    // console.log("updated organizations");
   }
 
   clearForm = () => {
@@ -121,6 +131,10 @@ class FundingOrgsNew extends Component {
               </Button>
             </div>
           </Form>
+          <br />
+          <OrganizationsNew 
+            updateOrganizations={this.updateOrganizations}
+          />
         </Card.Body>
       </Card>
     );

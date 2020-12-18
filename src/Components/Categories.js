@@ -10,6 +10,7 @@ class Categories extends Component {
     this.state = {
       loading: true,
       categories: [],
+      organizations: [],
       query: '',
     };
   }
@@ -21,11 +22,21 @@ class Categories extends Component {
       .then((response) => {
         this.setState({
           categories: response.data,
-          loading: false,
+          loading: false
         });
-      console.log(response.data);
+      // console.log(response.data);
       })
       .catch((error) => console.log(error));
+    axios
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false
+        });
+      })
+      .catch((error) => console.log(error));  
   }
 
   updateCategories = (newCategory) => {
@@ -49,7 +60,7 @@ class Categories extends Component {
           return (
             <Card key={category.id}>
               <Card.Header>
-              Name: <Link
+              <Link
                   to={`/categories/${category.id}`}
                 >
                   {category.name}
@@ -61,9 +72,7 @@ class Categories extends Component {
         
         <br />
         <h3>Add Category</h3>
-        <CategoriesNew 
-          updateCategories={this.updateCategories}
-        />
+        <CategoriesNew />
       </div>
     );
   }

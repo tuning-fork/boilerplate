@@ -103,7 +103,7 @@ class GrantsNew extends Component {
                   );
               })}
               </Form.Control>
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenFundingOrgsNew}>Add Funding Organization</Button>
+              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenFundingOrgsNew}>Add New Funding Organization and/or Organization</Button>
             </Form.Group>
             <Form.Group>
               <Form.Label>Title</Form.Label>
