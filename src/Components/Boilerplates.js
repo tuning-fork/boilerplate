@@ -148,22 +148,25 @@ class Boilerplates extends Component {
 
         {this.state.filteredBoilerplates.map((boilerplate) => {
           return (
-            <Card key={boilerplate.id}>
-              <Card.Header>
-                Title: <Link
-                    to={`/boilerplates/${boilerplate.id}`}
-                >
-                  {boilerplate.title}
-                </Link>
-              </Card.Header>
-              <Card.Body>
-                <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
-                <p>Organization: {boilerplate.organization_name}</p>
-                <p>Category: {boilerplate.category_name}</p>
-                <p>Wordcount: {boilerplate.wordcount}</p>
-              </Card.Body>
-            </Card>
+            <div key={boilerplate.id}>
+              <Card >
+                <Card.Header>
+                  Title: <Link
+                      to={`/boilerplates/${boilerplate.id}`}
+                  >
+                    {boilerplate.title}
+                  </Link>
+                </Card.Header>
+                <Card.Body>
+                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                  {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
+                  <p>Organization: {boilerplate.organization_name}</p>
+                  <p>Category: {boilerplate.category_name}</p>
+                  <p>Wordcount: {boilerplate.wordcount}</p>
+                </Card.Body>
+              </Card>
+              <br />
+            </div>
           );
         })}
       </div>

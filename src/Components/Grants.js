@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import GrantsNew from './GrantsNew';
-// import FundingOrgsNew from './FundingOrgsNew'
-// import OrganizationsNew from './OrganizationsNew'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-// import Button from 'react-bootstrap/Button';
 import Moment from 'react-moment';
 
 class Grants extends Component {
@@ -14,17 +11,11 @@ class Grants extends Component {
     this.state = {
       loading: true,
       grants: [],
-      // funding_orgs: [],
-      // organizations: [],
-      isHiddenFundingOrgsNew: true,
-      isHiddenOrganizationsNew: true,
       query: '',
     };
     this.formatFromNow = this.formatFromNow.bind(this);
-    this.toggleHiddenFundingOrgsNew = this.toggleHiddenFundingOrgsNew.bind(this);
-    this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
-
   }
+
   componentDidMount() {
     axios
       .get('/api/grants',
@@ -37,25 +28,6 @@ class Grants extends Component {
       // console.log(response.data);
       })
       .catch((error) => console.log(error));
-    // axios
-    //   .get('/api/organizations',
-    //     {headers: { Authorization: `Bearer ${localStorage.token}` }})
-    //   .then((response) => {
-    //     this.setState({
-    //       organizations: response.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
-    // axios
-    //   .get('/api/funding_orgs',
-    //     {headers: { Authorization: `Bearer ${localStorage.token}` }})
-    //   .then((response) => {
-    //     this.setState({
-    //       funding_orgs: response.data,
-    //       loading: false,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
   }
   
   updateGrants = (newGrant) => {
@@ -85,34 +57,6 @@ class Grants extends Component {
        return splitStr.join(' '); 
   }
 
-  toggleHiddenFundingOrgsNew() {
-    this.setState({
-      isHiddenFundingOrgsNew: !this.state.isHiddenFundingOrgsNew,
-    });
-  }
-
-  toggleHiddenOrganizationsNew() {
-    this.setState({
-      isHiddenOrganizationsNew: !this.state.isHiddenOrganizationsNew,
-    });
-  }
-
-  updateFundingOrgs = (newFundingOrg) => {
-		const funding_orgs = this.state.funding_orgs;
-		funding_orgs.push(newFundingOrg);
-		this.setState({
-			funding_orgs: funding_orgs,
-		});
-  };
-  
-  updateOrganizations = (newOrganization) => {
-    const organizations = this.state.organizations;
-    organizations.push(newOrganization);
-    this.setState({
-      organizations: organizations,
-    });
-  };
-
   render() {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -122,28 +66,10 @@ class Grants extends Component {
       <div className="component">
         <h1>Grants Index</h1>
         <h3>Add A Grant</h3>
-        
-            {/* {!this.state.isHiddenFundingOrgsNew ?
-              <FundingOrgsNew 
-              updateFundingOrgs={this.updateFundingOrgs}
-              toggleHiddenFundingOrgsNew={this.toggleHiddenFundingOrgsNew}
-            /> : null
-            }
-        <br/>
-        {!this.state.isHiddenOrganizationsNew ?
-              <OrganizationsNew 
-              updateOrganizations={this.updateOrganizations}
-              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-            /> : null
-            }
-        <br/> */}
         <GrantsNew 
           updateGrants={this.updateGrants}
-          organizations={this.state.organizations}
-          funding_orgs={this.state.funding_orgs}
-          toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-          toggleHiddenFundingOrgsNew={this.toggleHiddenFundingOrgsNew}
         />
+        <br />
         
         {this.state.grants.map((grant) => {
           return (

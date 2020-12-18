@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import FundingOrgsOrganizationsNew from './FundingOrgsOrganizationsNew';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -9,6 +10,7 @@ class GrantsNew extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       title: "",
       rfp_url: "",
       deadline: "",
@@ -19,11 +21,41 @@ class GrantsNew extends Component {
       funding_org_id: "",
       organizations: [],
       funding_orgs: [],
+      isHiddenFundingOrgsOrganizationsNew: true,
       errors: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .get('/api/organizations',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          organizations: response.data,
+          loading: false
+        });
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get('/api/funding_orgs',
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.setState({
+          funding_orgs: response.data,
+          loading: false
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+
+  toggleHiddenFundingOrgsOrganizationsNew = () => {
+    this.setState({
+      isHiddenFundingOrgsOrganizationsNew: !this.state.isHiddenFundingOrgsOrganizationsNew,
+    });
   }
 
   clearForm = () => {
@@ -37,15 +69,27 @@ class GrantsNew extends Component {
     });
   };
 
-  // componentDidMount() {
-    
-  // }
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
+
+  updateFundingOrgs = (newFundingOrg) => {
+		const funding_orgs = this.state.funding_orgs;
+		funding_orgs.push(newFundingOrg);
+		this.setState({
+			funding_orgs: funding_orgs,
+		});
+  };
+  
+  updateOrganizations = (newOrganization) => {
+    const organizations = this.state.organizations;
+    organizations.push(newOrganization);
+    this.setState({
+      organizations: organizations,
+    });
+  };
 
   handleSubmit(event) {
     const newGrant = this.state;
@@ -64,11 +108,18 @@ class GrantsNew extends Component {
     event.preventDefault();
   }
 
-  
-
   render() {
     return (
       <Card>
+        {!this.state.isHiddenFundingOrgsOrganizationsNew ?
+          <FundingOrgsOrganizationsNew 
+            organizations={this.state.organizations}
+            funding_orgs={this.state.funding_orgs}
+            updateOrganizations={this.updateOrganizations}
+            updateFundingOrgs={this.updateFundingOrgs}
+            toggleHiddenFundingOrgsOrganizationsNew={this.toggleHiddenFundingOrgsOrganizationsNew}
+          /> : null
+        }
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -80,13 +131,18 @@ class GrantsNew extends Component {
                 required
               >
               <option value="" disabled>Select Organization</option>
-              {this.props.organizations.map(organization => {
+              {this.state.organizations.map(organization => {
                 return(
-                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                  <option 
+                    key={organization.id} 
+                    value={organization.id} 
+                    onChange={this.handleChange}  
+                  >
+                    {organization.name}
+                  </option>
                   );
               })}
               </Form.Control>
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization</Button>
             </Form.Group>
             <Form.Group>
               <Form.Label>Select Funding Organization</Form.Label>
@@ -97,14 +153,16 @@ class GrantsNew extends Component {
                 required
               >
               <option value="" disabled>Select Funding Organization</option>
-              {this.props.funding_orgs.map(funding_org => {
+              {this.state.funding_orgs.map(funding_org => {
                 return(
                   <option key={funding_org.id} value={funding_org.id} onChange={this.handleChange}>{funding_org.name}</option>
                   );
               })}
               </Form.Control>
-              <Button variant="secondary" size="sm" onClick={this.props.toggleHiddenFundingOrgsNew}>Add New Funding Organization and/or Organization</Button>
             </Form.Group>
+            <Button variant="secondary" size="sm" onClick={this.toggleHiddenFundingOrgsOrganizationsNew}>Add New Funding Organization and/or Organization</Button>
+            <br />
+            <br />
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
