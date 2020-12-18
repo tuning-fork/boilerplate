@@ -16,6 +16,7 @@ class Boilerplates extends Component {
       categories: [],
       organizations: [],
       boilerplates: [],
+      filteredBoilerplates: [],
       isHiddenNew: true,
       isHiddenCategoriesNew: true,
       query: '',
@@ -25,7 +26,6 @@ class Boilerplates extends Component {
       filterTitle: false,
       filterText: false
     };
-    // this.toggleHiddenOrganizationsNew = this.toggleHiddenOrganizationsNew.bind(this);
     this.toggleHiddenCategoriesNew = this.toggleHiddenCategoriesNew.bind(this);
   }
   componentDidMount() {
@@ -35,6 +35,7 @@ class Boilerplates extends Component {
       .then((response) => {
         this.setState({
           boilerplates: response.data,
+          filteredBoilerplates: response.data
         });
       })
       .catch((error) => console.log(error));
@@ -97,107 +98,45 @@ class Boilerplates extends Component {
     });
   };
 
-  // <button type="button" onclick="alert(output)">Click Me!</button>
-  // <script>
-  // var input = new Array(9,3,4.3,24,54,8,19,23,46,87,3.14);
-  // var output = new Array();
-  // for (var i = 0; i < input.length; i ++) {
-  // if(input[i] > 10)
-  // {
-  // output.push(input[i]);
-  // }
-  // }
-
-//   var input = new Array(9,3,4.3,24,54,8,19,23,46,87,3.14);
-    //var output = new Array();
-
-    // input = input.sort(function(a, b) {
-    //   return a - b
-    // }).filter(function(val, key) {
-    //   return val < 10 ? val : output.push(val) && null
-    // })
-
-// console.log(input, output);
-
-
   handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase()
+    this.setState({
+      searchText: event.target.value,
+    })
+    if (!searchValue) {
+      this.setState({filteredBoilerplates: this.state.boilerplates});
+      return
+    }
     if (this.state.filterWordCount === true) {
       console.log(searchValue, "wordcount filter")
       let filteredByWordCount = [];
-      filteredByWordCount = this.state.boilerplates.filter((boilerplate) => {
-        return boilerplate.wordcount < searchValue ? boilerplate : null
-      })
-      this.setState({filteredByWordCount: this.state.filteredByWordCount})
-      console.log(this.filteredByWordCount)
+      filteredByWordCount = this.state.boilerplates.filter((boilerplate) => (
+        boilerplate.wordcount < searchValue)
+      )
+      this.setState({filteredBoilerplates: filteredByWordCount})
+      console.log(filteredByWordCount);
     }
     else if (this.state.filterTitle) {
       console.log(searchValue, "title filter")
-      console.log(this.state.boilerplates)
       let filteredByTitle = [];
       filteredByTitle = this.state.boilerplates.filter((boilerplate) => {
-        return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1
+        return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
       })
+      this.setState({filteredBoilerplates: filteredByTitle})
       console.log(filteredByTitle)
     }
-
     else if (this.state.filterText) {
       console.log(searchValue, "text filter")
       let filteredByText = [];
-    }
-    this.setState({
-      searchText: event.target.value
-    })
+      filteredByText = this.state.boilerplates.filter((boilerplate) => {
+        return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
+      })
+      this.setState({filteredBoilerplates: filteredByText})
+      console.log(filteredByText)
+    } 
   }
-
-  // handleSubmit = (event) => {
-  //   const value = this.state.searchText
-  //   if (this.state.filterWordCount === true) {
-  //     console.log(value)
-  //     // let filteredByWordCount = [];
-  //     // filteredByWordCount = this.state.boilerplates.filter((boilerplate) => {
-  //     //   return boilerplate.wordcount <= value.parseInt()
-  //     // })
-  //     // this.setState({filteredByWordCount: this.state.filteredByWordCount})
-  //   }
-  //   else if (this.state.filterTitle) {
-
-  //   }
-
-  //   else if (this.state.filterText) {
-
-  //   }
-  // }
-
-  //Filter by: 
-
-  //Wordcount
-
-  // filterWordCount = (searchParam) => {
-  //   this.state.boilerplates.filter((boilerplate) => {
-  //     return boilerplate.wordcount <= searchParam
-  //   })
-  // }
-
-  //Title (filter title - search)
-
-  filterTitle = (searchParam) => {
-
-  }
-  
-  //Text (search in text)
-
-  filterText = (searchParam) => {
-
-  }
-  
 
   render() {
-    // console.log(this.state.filterWordCount, "waffle")
-    // console.log(this.state.filterTitle, "pancake")
-    // console.log(this.state.filterText, "crepe")
-
-    console.log(this.state.filteredByWordCount)
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     };
@@ -232,40 +171,53 @@ class Boilerplates extends Component {
           toggleHiddenCategoriesNew={this.toggleHiddenCategoriesNew}
         />
         <br/>
-
-        <button onClick={(event) => 
-          this.setState({
+        <h3>Select a filter to search boilerplate</h3>
+        <Button 
+          variant="secondary" 
+          size="sm"
+          onClick={(event) => this.setState({
             filterWordCount: true,
             filterTitle: false,
             filterText: false
           })}
-            >Filter by WordCount</button>
-        <button onClick={(event) => 
-          this.setState({
+        >
+          Filter by WordCount
+        </Button>
+        <Button
+          variant="secondary" 
+          size="sm" 
+          onClick={(event) => this.setState({
             filterTitle: true,
             filterWordCount: false,
             filterText: false
           })}
-            >Filter by Title</button>
-        <button onClick={(event) => 
-          this.setState({
+        >
+          Filter by Title
+        </Button>
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          onClick={(event) => this.setState({
             filterText: true,
             filterTitle: false,
             filterWordCount: false
           })}
-            >Filter by Text</button>
+        >
+          Filter by Text
+        </Button>
         
         <Form>
           <Form.Group>
           <Form.Label></Form.Label>
           <Form.Control 
-            type="text" 
+            type="text"
+            placeholder="Search text..." 
             value={this.state.searchText} 
             onChange={this.handleChange} />
           </Form.Group>
         </Form>
 
-        {this.state.boilerplates.map((boilerplate) => {
+        {this.state.filteredBoilerplates.map((boilerplate) => {
           return (
             <Card key={boilerplate.id}>
               <Card.Header>
