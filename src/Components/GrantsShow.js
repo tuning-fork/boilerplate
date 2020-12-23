@@ -176,6 +176,61 @@ class GrantsShow extends Component {
 			});
   }
   
+  dragstartHandler(ev) {
+    ev.dataTransfer.setData("text/plain", ev.target.getAttribute('data--section_id'));
+  }
+  dragoverHandler(ev) {
+    ev.preventDefault();
+  }
+  dropHandler = (ev) => {
+    ev.preventDefault();
+    const sourceSectionId = ev.dataTransfer.getData("text/plain");
+    const closestSection = ev.target.closest('div[data--section_id]');
+    if (!closestSection) {
+      return;
+    }
+
+    const closestSectionId = closestSection.getAttribute('data--section_id');
+
+    const [sourceSection] = this.state.sections.filter(s => {
+      return s.id == sourceSectionId;
+    });
+
+    const newSections = [];
+    this.state.sections.forEach(s => {
+      if(s.id == closestSectionId) {
+        newSections.push(sourceSection)
+        if(sourceSectionId === closestSectionId) {
+          return;
+        }
+      }
+      if(s.id == sourceSectionId) {
+        return;
+      }
+
+      newSections.push(s);
+    });
+
+    const newOrders = newSections.reduce((data, section, i) => {
+      data[section.id] = i;
+      return data;
+    }, {});
+
+    axios
+      .post(
+        '/api/grants/' + this.state.id + '/actions/reordersections',
+        newOrders,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      )
+      .then((response) => {
+        this.setState({
+          sections: newSections
+        });
+      })
+      .catch((error) => {
+        console.log('grant update error', error);
+      });
+}
 
   render() {
     if (this.state.loading) {
@@ -290,10 +345,10 @@ class GrantsShow extends Component {
           <Card.Header>
             <h2>Sections:</h2>
           </Card.Header>
-          <Card.Body>
+          <Card.Body onDrop={this.dropHandler} onDragOver={this.dragoverHandler}>
             {this.state.sections.length ? this.state.sections.map(section => {
                 return(
-                  <div key={section.id}>
+                  <div id={'section-' + section.id} key={section.id} data--section_id={section.id} draggable="true" onDragStart={this.dragstartHandler}>
                     <SectionsShow 
                       section_id={section.id}
                       updateSections={this.updateSections}
