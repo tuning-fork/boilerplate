@@ -211,9 +211,25 @@ class GrantsShow extends Component {
       newSections.push(s);
     });
 
-    this.setState({
-      sections: newSections
-    });
+    const newOrders = newSections.reduce((data, section, i) => {
+      data[section.id] = i;
+      return data;
+    }, {});
+
+    axios
+      .post(
+        '/api/grants/' + this.state.id + '/actions/reordersections',
+        newOrders,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      )
+      .then((response) => {
+        this.setState({
+          sections: newSections
+        });
+      })
+      .catch((error) => {
+        console.log('grant update error', error);
+      });
 }
 
   render() {
