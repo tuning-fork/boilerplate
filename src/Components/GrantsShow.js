@@ -49,7 +49,7 @@ class GrantsShow extends Component {
           submitted: response.data.submitted,
           successful: response.data.successful,
           purpose: response.data.purpose,
-          organization_id: response.data.organizion_id,
+          organization_id: response.data.organization_id,
           funding_org_id: response.data.funding_org_id,
           sections: response.data.sections,
           reports: response.data.reports,
@@ -354,7 +354,7 @@ class GrantsShow extends Component {
                       updateSections={this.updateSections}
                       bios={this.state.bios}
                       boilerplates={this.state.boilerplates}
-
+                      organization_id={this.state.organization_id}
                     />
                   </div>
                 )

@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import SectionToBoilerplateNew from './SectionToBoilerplateNew';
 
 class SectionsShow extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class SectionsShow extends Component {
       title: "",
       sort_order: "",
       isHidden: true,
+      isBoilerplateHidden: true,
       wordcount: "",
       grant_id: "",
       errors: [],
@@ -47,6 +49,12 @@ class SectionsShow extends Component {
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
+    });
+  }
+
+  toggleBoilerplateHidden() {
+    this.setState({
+      isBoilerplateHidden: !this.state.isBoilerplateHidden,
     });
   }
 
@@ -134,6 +142,20 @@ class SectionsShow extends Component {
                 Close
               </Button>
             }
+            {this.state.isBoilerplateHidden ? 
+              <Button onClick={this.toggleBoilerplateHidden.bind(this)}>
+                Save Section as Boilerplate
+              </Button> :
+              <Button
+                onClick={this.toggleBoilerplateHidden.bind(this)}
+              >
+                Close
+              </Button>
+            }
+            {!this.state.isBoilerplateHidden ? 
+                <SectionToBoilerplateNew toggleBoilerplateHidden={this.toggleBoilerplateHidden} organization_id={this.props.organization_id} title={this.state.title} text={this.state.quill_text}/>
+                : null
+              }
             {/* <Link 
               to={'/boilerplates'}
             >
@@ -225,6 +247,10 @@ class SectionsShow extends Component {
               </Card>
             ) : null}
           </div>
+          {/* {!this.state.isBoilerplateHidden ? 
+              <BoilerplatesNew />
+              : null
+            } */}
         </Card>
         <br />
       </div>
