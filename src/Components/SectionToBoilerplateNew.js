@@ -86,7 +86,7 @@ class SectionToBoilerplateNew extends Component {
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
-          console.log("waffle")
+          console.log("waffle");
           this.props.toggleBoilerplateHidden();
         };
       })
