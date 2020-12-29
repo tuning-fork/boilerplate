@@ -35,8 +35,7 @@ class ReportSectionsNew extends Component {
       text: '',
       sort_order: '',
       wordcount: 0,
-      currentBoilerplate: '',
-      // addText: ''
+      currentBoilerplate: ''
     });
   };
 
@@ -60,7 +59,7 @@ class ReportSectionsNew extends Component {
         report_id: this.props.report_id,
         title: title,
         text: quill_text,
-        sort_order: this.props.grant_section_number,
+        sort_order: this.props.sort_number + 1,
         wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -68,7 +67,6 @@ class ReportSectionsNew extends Component {
         if (response.data) {
           this.props.updateReportSections(response.data);
           this.clearForm();
-          // this.props.toggleHiddenNewReportSection();
         }
       })
       .catch((error) => {
@@ -140,24 +138,11 @@ class ReportSectionsNew extends Component {
               value={this.state.quill_text}
               onChange={this.quillChange}  
             />
-            {/* <Form.Group>
-              <Form.Label>Text</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="text"
-                value={this.state.text}
-                onChange={this.handleChange}
-                rows="4"
-                cols="50"
-                required
-              ></Form.Control>
-            </Form.Group> */}
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
             <p>Sort Order: {this.props.grant_section_number}</p>
-            {/* <h2>{this.state.text}</h2> */}
             <div className="text-center">
               <Button type="submit">
                 Add New Report Section

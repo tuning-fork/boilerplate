@@ -10,12 +10,14 @@ class ReportSectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quill_text: this.props.report_section_text,
-      title: this.props.report_section_title,
-      isHidden: true,
+      quill_text: "",
+      id: "",
+      title: "",
+      text: "",
       sort_order: "",
       wordcount: "",
       report_id: "",
+      isHidden: true,
       errors: [],
     };
 
@@ -25,6 +27,28 @@ class ReportSectionsShow extends Component {
     this.handleReportSectionDelete = this.handleReportSectionDelete.bind(this);
     this.quillChange = this.quillChange.bind(this);
   }
+
+  componentDidMount() {
+    axios
+      .get(`/api/report_sections/${this.props.report_section_id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          id: response.data.id,
+          title: response.data.title,
+          text: response.data.text,
+          quill_text: response.data.text,
+          sort_order: response.data.sort_order,
+          wordcount: response.data.wordcount,
+          report_id: response.data.report_id,
+          loading: false
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
 
   toggleHidden() {
     this.setState({
@@ -43,16 +67,16 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, quill_text} = this.state;
+    const { title, quill_text, sort_order, report_id} = this.state;
     axios
       .patch(
         '/api/report_sections/' + this.props.report_section_id, 
         {
           title: title,
           text: quill_text,
-          sort_order: this.props.report_section_sort_order, 
+          sort_order: sort_order, 
           wordcount: this.countWords(this.state.quill_text),
-          report_id: this.props.section_report_id
+          report_id: report_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -70,9 +94,6 @@ class ReportSectionsShow extends Component {
       .delete('/api/report_sections/' + this.props.report_section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
@@ -96,9 +117,10 @@ class ReportSectionsShow extends Component {
       <div className="container">
         <Card>
           <Card.Body>
-            <h5>{this.props.report_section_title}</h5>
-            <p dangerouslySetInnerHTML={{__html: this.props.report_section_text}}></p>
-            <p>wordcount: {this.countWords(this.state.quill_text)}</p>
+            <h5>{this.state.title}</h5>
+            <p dangerouslySetInnerHTML={{__html: this.state.text}}></p>
+            <p>wordcount: {this.countWords(this.state.text)}</p>
+            <p>sort order: {this.state.sort_order}</p>
           </Card.Body>
         </Card>
         <br />

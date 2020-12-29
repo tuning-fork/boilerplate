@@ -23,7 +23,6 @@ export default class ReportsShow extends Component {
       grant_title: "",
       grant_sections: [],
       report_sections: [],
-      grant_section_match: [],
       errors: [],
     };
 
@@ -37,7 +36,6 @@ export default class ReportsShow extends Component {
       .get(`/api/reports/${this.props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // console.log(response.data);
         this.setState({
           id: response.data.id,
           grant_id: response.data.grant_id,
@@ -46,7 +44,6 @@ export default class ReportsShow extends Component {
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
           grant_sections: response.data.grant_sections,
-          grant_section_match: response.data.grant_section_match,
           loading: false
         })
       })
@@ -100,20 +97,14 @@ export default class ReportsShow extends Component {
   }
 
   updateReportSections = (newReportSection) => {
-    const report_sections = this.state.report_sections.map(report_section => 
-      {
-        if (report_section.id === newReportSection.id) {
-        report_section.title = newReportSection.title
-        report_section.text = newReportSection.text
-        report_section.wordcount = newReportSection.wordcount
-      }
-      return report_section
-      });
+    console.log("waffle");
+    const report_sections = this.state.report_sections;
+    report_sections.push(newReportSection);
     this.setState({
-      report_sections: report_sections,
-      grant_sections: this.state.grant_sections,
-      grant_section_match: this.state.grant_section_match
+      report_sections: report_sections
     })
+    console.log(newReportSection);
+    console.log(this.state.report_sections)
   }
 
   handleReportDelete() {
@@ -133,8 +124,6 @@ export default class ReportsShow extends Component {
   
 
   render() {
-    // console.log(this.state.grant_sections);
-    // console.log(this.state.report_sections);
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -178,7 +167,6 @@ export default class ReportsShow extends Component {
                     type="datetime"
                     value={this.state.deadline}
                     name="deadline"
-                    // placeholder={this.state.deadline}
                     onChange={this.handleChange}
                     required
                   />
@@ -218,15 +206,18 @@ export default class ReportsShow extends Component {
             <h3>Report Sections:</h3>
           </Card.Header>
           <Card.Body>
+            <div>
+              <ReportSectionsNew 
+              report_id={this.state.id} 
+              sort_number={this.state.report_sections.length}
+              updateReportSections={this.updateReportSections}
+              />
+            </div>
             {this.state.report_sections.length ? this.state.report_sections.map(report_section => {
                 return(
                   <div key={report_section.id}>
                   <ReportSectionsShow
                   report_section_id={report_section.id}
-                  report_section_title={report_section.title}
-                  report_section_text={report_section.text}
-                  report_section_wordcount={report_section.wordcount}
-                  report_section_report_id={report_section.report_id}
                   updateReportSections={this.updateReportSections}
                   />
                   </div>
@@ -236,50 +227,6 @@ export default class ReportsShow extends Component {
           </Card.Body>
         </Card>
         <br />  
-
-          {/* ReportSectionsShow and ReportSectionsNew  */}
-
-        <div>
-          {this.state.grant_sections.map(grant_section => {
-            return(
-              <div key={grant_section.section.id}>
-                <Container>
-                  <Row style={{paddingBottom: "5%"}}>
-                    <Col key={grant_section.id}>
-                      <h5>{grant_section.section.title}</h5>
-                      <h5 dangerouslySetInnerHTML={{__html: grant_section.section.text}}></h5>
-                      <h5>Sort Order: {grant_section.section.sort_order}</h5>
-                    </Col>
-                    <Col key={grant_section.id}>
-                    {grant_section.grant_section_match ? 
-                      (
-                        <div key={grant_section.grant_section_match.id}>
-                          <ReportSectionsShow
-                          report_section_id={grant_section.grant_section_match.id}
-                          report_section_title={grant_section.grant_section_match.title}
-                          report_section_text={grant_section.grant_section_match.text}
-                          report_section_wordcount={grant_section.grant_section_match.wordcount}
-                          report_section_report_id={grant_section.grant_section_match.report_id}
-                          updateReportSections={this.updateReportSections}
-                          />
-                        </div>
-                      )
-                    :
-                      <div>
-                        <ReportSectionsNew 
-                        report_id={this.state.id} 
-                        grant_section_number={grant_section.section.sort_order}
-                        updateReportSections={this.updateReportSections}
-                        />
-                      </div>
-                    }
-                    </Col>
-                  </Row>
-                </Container>
-              </div>
-            )
-          })}
-        </div>
 
         <Button variant="danger" onClick={this.handleReportDelete}>
           Delete
