@@ -10,7 +10,7 @@ class ReportSectionsShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quill_text: this.props.report_section_text,
+      quill_text: "",
       id: "",
       title: "",
       text: "",
@@ -38,6 +38,7 @@ class ReportSectionsShow extends Component {
           id: response.data.id,
           title: response.data.title,
           text: response.data.text,
+          quill_text: response.data.text,
           sort_order: response.data.sort_order,
           wordcount: response.data.wordcount,
           report_id: response.data.report_id,
@@ -66,16 +67,16 @@ class ReportSectionsShow extends Component {
   }
 
   handleSubmit(event) {
-    const { title, quill_text} = this.state;
+    const { title, quill_text, sort_order, report_id} = this.state;
     axios
       .patch(
         '/api/report_sections/' + this.props.report_section_id, 
         {
           title: title,
           text: quill_text,
-          sort_order: this.props.report_section_sort_order, 
+          sort_order: sort_order, 
           wordcount: this.countWords(this.state.quill_text),
-          report_id: this.props.section_report_id
+          report_id: report_id
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
@@ -93,9 +94,6 @@ class ReportSectionsShow extends Component {
       .delete('/api/report_sections/' + this.props.report_section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        // if (response.data.message) {
-        //   this.props.history.push('/sections');
-        // }
         console.log(response);
       })
       .catch((error) => {
