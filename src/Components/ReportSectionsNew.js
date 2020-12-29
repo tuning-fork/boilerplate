@@ -60,7 +60,7 @@ class ReportSectionsNew extends Component {
         report_id: this.props.report_id,
         title: title,
         text: quill_text,
-        sort_order: this.props.grant_section_number,
+        sort_order: this.props.sort_number + 1,
         wordcount: this.countWords(this.state.quill_text)
       },
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -68,7 +68,6 @@ class ReportSectionsNew extends Component {
         if (response.data) {
           this.props.updateReportSections(response.data);
           this.clearForm();
-          // this.props.toggleHiddenNewReportSection();
         }
       })
       .catch((error) => {

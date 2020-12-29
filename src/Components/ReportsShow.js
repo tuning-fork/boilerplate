@@ -23,7 +23,6 @@ export default class ReportsShow extends Component {
       grant_title: "",
       grant_sections: [],
       report_sections: [],
-      grant_section_match: [],
       errors: [],
     };
 
@@ -46,7 +45,6 @@ export default class ReportsShow extends Component {
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
           grant_sections: response.data.grant_sections,
-          grant_section_match: response.data.grant_section_match,
           loading: false
         })
       })
@@ -100,21 +98,20 @@ export default class ReportsShow extends Component {
   }
 
   updateReportSections = (newReportSection) => {
-    const report_sections = this.state.report_sections.map(report_section => 
-      {
-        if (report_section.id === newReportSection.id) {
-        report_section.title = newReportSection.title
-        report_section.text = newReportSection.text
-        report_section.wordcount = newReportSection.wordcount
-      }
-      return report_section
-      });
+    const report_sections = this.state.report_sections;
+    report_sections.push(newReportSection);
     this.setState({
       report_sections: report_sections,
-      grant_sections: this.state.grant_sections,
-      grant_section_match: this.state.grant_section_match
     })
   }
+
+  // updateNewReports = (newReport) => {
+  //   const reports = this.state.reports;
+  //   reports.push(newReport);
+  //   this.setState({
+  //     reports: reports
+  //   }) 
+  // }
 
   handleReportDelete() {
     axios
@@ -218,15 +215,22 @@ export default class ReportsShow extends Component {
             <h3>Report Sections:</h3>
           </Card.Header>
           <Card.Body>
+            <div>
+              <ReportSectionsNew 
+              report_id={this.state.id} 
+              sort_number={this.state.report_sections.length}
+              updateReportSections={this.updateReportSections}
+              />
+            </div>
             {this.state.report_sections.length ? this.state.report_sections.map(report_section => {
                 return(
                   <div key={report_section.id}>
                   <ReportSectionsShow
                   report_section_id={report_section.id}
-                  report_section_title={report_section.title}
-                  report_section_text={report_section.text}
-                  report_section_wordcount={report_section.wordcount}
-                  report_section_report_id={report_section.report_id}
+                  // report_section_title={report_section.title}
+                  // report_section_text={report_section.text}
+                  // report_section_wordcount={report_section.wordcount}
+                  // report_section_report_id={report_section.report_id}
                   updateReportSections={this.updateReportSections}
                   />
                   </div>
@@ -239,7 +243,7 @@ export default class ReportsShow extends Component {
 
           {/* ReportSectionsShow and ReportSectionsNew  */}
 
-        <div>
+        {/* <div>
           {this.state.grant_sections.map(grant_section => {
             return(
               <div key={grant_section.section.id}>
@@ -279,7 +283,7 @@ export default class ReportsShow extends Component {
               </div>
             )
           })}
-        </div>
+        </div> */}
 
         <Button variant="danger" onClick={this.handleReportDelete}>
           Delete

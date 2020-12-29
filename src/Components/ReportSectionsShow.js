@@ -11,11 +11,13 @@ class ReportSectionsShow extends Component {
     super(props);
     this.state = {
       quill_text: this.props.report_section_text,
-      title: this.props.report_section_title,
-      isHidden: true,
+      id: "",
+      title: "",
+      text: "",
       sort_order: "",
       wordcount: "",
       report_id: "",
+      isHidden: true,
       errors: [],
     };
 
@@ -25,6 +27,27 @@ class ReportSectionsShow extends Component {
     this.handleReportSectionDelete = this.handleReportSectionDelete.bind(this);
     this.quillChange = this.quillChange.bind(this);
   }
+
+  componentDidMount() {
+    axios
+      .get(`/api/report_sections/${this.props.report_section_id}`,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          id: response.data.id,
+          title: response.data.title,
+          text: response.data.text,
+          sort_order: response.data.sort_order,
+          wordcount: response.data.wordcount,
+          report_id: response.data.report_id,
+          loading: false
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
 
   toggleHidden() {
     this.setState({
@@ -96,9 +119,10 @@ class ReportSectionsShow extends Component {
       <div className="container">
         <Card>
           <Card.Body>
-            <h5>{this.props.report_section_title}</h5>
-            <p dangerouslySetInnerHTML={{__html: this.props.report_section_text}}></p>
-            <p>wordcount: {this.countWords(this.state.quill_text)}</p>
+            <h5>{this.state.title}</h5>
+            <p dangerouslySetInnerHTML={{__html: this.state.text}}></p>
+            <p>wordcount: {this.countWords(this.state.text)}</p>
+            <p>sort order: {this.state.sort_order}</p>
           </Card.Body>
         </Card>
         <br />
