@@ -52,9 +52,9 @@ class SectionsShow extends Component {
     });
   }
 
-  toggleBoilerplateHidden() {
+  toggleBoilerplateHidden = () => {
     this.setState({
-      isBoilerplateHidden: !this.state.isBoilerplateHidden,
+      isBoilerplateHidden: !this.state.isBoilerplateHidden
     });
   }
 
@@ -143,18 +143,22 @@ class SectionsShow extends Component {
               </Button>
             }
             {this.state.isBoilerplateHidden ? 
-              <Button onClick={this.toggleBoilerplateHidden.bind(this)}>
+              <Button onClick={this.toggleBoilerplateHidden}>
                 Save Section as Boilerplate
               </Button> :
               <Button
-                onClick={this.toggleBoilerplateHidden.bind(this)}
+                onClick={this.toggleBoilerplateHidden}
               >
                 Close
               </Button>
             }
             {!this.state.isBoilerplateHidden ? 
-                <SectionToBoilerplateNew toggleBoilerplateHidden={this.toggleBoilerplateHidden} organization_id={this.props.organization_id} title={this.state.title} text={this.state.quill_text}/>
-                : null
+                <SectionToBoilerplateNew 
+                  toggleBoilerplateHidden={this.toggleBoilerplateHidden} 
+                  organization_id={this.props.organization_id} 
+                  title={this.state.title} 
+                  text={this.state.quill_text}
+                /> : null
               }
             {/* <Link 
               to={'/boilerplates'}

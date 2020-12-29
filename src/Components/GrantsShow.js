@@ -149,10 +149,6 @@ class GrantsShow extends Component {
     })
   }
 
-  // updateSections() {
-
-  // }
-
   updateNewReports = (newReport) => {
     const reports = this.state.reports;
     reports.push(newReport);

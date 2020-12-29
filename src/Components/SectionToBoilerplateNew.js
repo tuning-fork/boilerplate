@@ -3,7 +3,6 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 class SectionToBoilerplateNew extends Component {
@@ -74,7 +73,6 @@ class SectionToBoilerplateNew extends Component {
   }
 
   handleSubmit = (event) => {
-      console.log(this.props.organization_id)
     axios
       .post('/api/boilerplates', {
         title: this.props.title,
@@ -86,7 +84,6 @@ class SectionToBoilerplateNew extends Component {
       {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
-          console.log("waffle");
           this.props.toggleBoilerplateHidden();
         };
       })
