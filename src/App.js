@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { Component } from 'react';
+// import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Signup from './Components/Signup';
@@ -68,7 +69,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div>
         <BrowserRouter>
           <Navigation />
           <Header />
