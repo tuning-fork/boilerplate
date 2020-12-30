@@ -81,7 +81,7 @@ class ReportSectionsShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.toggleHidden();
-        this.props.updateReportSections(response.data);
+        this.props.editReportSections(response.data);
       })
       .catch((error) => {
         console.log('report section update error', error);
@@ -91,7 +91,7 @@ class ReportSectionsShow extends Component {
 
   handleReportSectionDelete() {
     axios
-      .delete('/api/report_sections/' + this.props.report_section.id,
+      .delete('/api/report_sections/' + this.props.report_section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         console.log(response);
@@ -118,8 +118,8 @@ class ReportSectionsShow extends Component {
         <Card>
           <Card.Body>
             <h5>{this.state.title}</h5>
-            <p dangerouslySetInnerHTML={{__html: this.state.text}}></p>
-            <p>wordcount: {this.countWords(this.state.text)}</p>
+            <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
+            <p>wordcount: {this.countWords(this.state.quill_text)}</p>
             <p>sort order: {this.state.sort_order}</p>
           </Card.Body>
         </Card>

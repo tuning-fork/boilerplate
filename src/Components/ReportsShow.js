@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
 import ReportSectionsShow from './ReportSectionsShow';
+import GrantsShow from './GrantsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -43,7 +44,7 @@ export default class ReportsShow extends Component {
           deadline: response.data.deadline,
           submitted: response.data.submitted,
           report_sections: response.data.report_sections,
-          grant_sections: response.data.grant_sections,
+          grant_sections: response.data.grant.grant_sections,
           loading: false
         })
       })
@@ -97,14 +98,26 @@ export default class ReportsShow extends Component {
   }
 
   updateReportSections = (newReportSection) => {
-    console.log("waffle");
-    const report_sections = this.state.report_sections;
+    let report_sections = this.state.report_sections;
     report_sections.push(newReportSection);
     this.setState({
       report_sections: report_sections
     })
     console.log(newReportSection);
     console.log(this.state.report_sections)
+  }
+
+  editReportSections = (editedReportSection) => {
+    console.log(editedReportSection)
+    let report_sections = this.state.report_sections;
+    report_sections = report_sections.map((report_section) => {
+      if (report_section.id === editedReportSection.id) {
+        report_section = editedReportSection
+      }
+    })
+    this.setState({
+      report_sections: report_sections
+    })
   }
 
   handleReportDelete() {
@@ -121,9 +134,20 @@ export default class ReportsShow extends Component {
         console.log(error);
       });
   }
-  
 
   render() {
+
+    const renderedSections = this.state.grant_sections.map((grant_section) => {
+      return (
+      <div>
+        <h3>{grant_section.title}</h3>
+        <h3>{grant_section.text}</h3>
+        <h3>{grant_section.wordcount}</h3>
+      </div> )
+    })
+
+    console.log(this.state.grant_sections)
+
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
@@ -138,6 +162,16 @@ export default class ReportsShow extends Component {
             <h3>Deadline: {this.state.deadline}</h3>
             <h3>Submitted: {this.state.submitted ? "yes" : "not yet"}</h3>
           </Card.Body>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <h2>{this.state.grant_title}</h2>
+        </Card.Header>
+
+        <Card.Body>
+          {renderedSections}
+        </Card.Body>
       </Card>
 
       {/* beginning of report update */}
@@ -213,14 +247,15 @@ export default class ReportsShow extends Component {
               updateReportSections={this.updateReportSections}
               />
             </div>
-            {this.state.report_sections.length ? this.state.report_sections.map(report_section => {
+            {this.state.report_sections.length ? this.state.report_sections.map((report_section, id) => {
                 return(
-                  <div key={report_section.id}>
+                  <React.Fragment key={id}>
                   <ReportSectionsShow
-                  report_section_id={report_section.id}
-                  updateReportSections={this.updateReportSections}
+                  report_section_id={id}
+                  // updateReportSections={this.updateReportSections}
+                  editReportSections={this.editReportSections}
                   />
-                  </div>
+                  </React.Fragment>
                 )
             }) : <h4>There are no report sections yet.</h4>
           }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 class Navigation extends Component {
   constructor(props) {
@@ -19,47 +19,51 @@ class Navigation extends Component {
 
   render() {
     return (
-        <nav>
+        <Navbar bg="light" expand="lg" sticky="top">
           <ul>
             {localStorage.token && localStorage.user_id ? (
               <div>
-                <li className="active">
+              <Nav>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/dashboard">Dashboard</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/grants">Grants</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/bios">Bios</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/boilerplates">Boilerplates</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/categories">Categories</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/organizations">Organizations</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/funding_orgs">Funding Orgs</Link>
-                </li>
-                <li>
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}}>
                   <Link onClick={this.handleLogoutClick}to="/logout">Logout</Link>
-                </li>
+                </Nav.Link>
+                </Nav>
                 </div>
                 ) : (
                 <div>
-                <li className="active">
+                <Nav>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/login">Login</Link>
-                </li>
-                <li className="active">
+                </Nav.Link>
+                <Nav.Link style={{fontSize: "150%"}} className="active">
                   <Link to="/signup">Sign Up</Link>
-                </li>
+                </Nav.Link>
+                </Nav>
               </div>
             )}
           </ul>
-        </nav>
+        </Navbar>
     );
   }
 }
