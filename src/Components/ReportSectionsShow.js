@@ -50,7 +50,7 @@ class ReportSectionsShow extends Component {
       });
     }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
@@ -94,12 +94,16 @@ class ReportSectionsShow extends Component {
       .delete('/api/report_sections/' + this.props.report_section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
+        this.props.deleteReportSections(response.data);
+        this.toggleHidden();
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   }
+
+
 
   countWords(string) { 
     if (string) {
@@ -127,11 +131,11 @@ class ReportSectionsShow extends Component {
         <div>
           <div className="container">
             {this.state.isHidden ? 
-            <Button onClick={this.toggleHidden.bind(this)}>
+            <Button onClick={this.toggleHidden}>
               Update Report Section
             </Button> :
               <Button
-                onClick={this.toggleHidden.bind(this)}
+                onClick={this.toggleHidden}
               >
                 Close
               </Button>
