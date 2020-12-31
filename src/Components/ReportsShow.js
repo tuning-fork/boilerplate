@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReportSectionsNew from './ReportSectionsNew';
 import ReportSectionsShow from './ReportSectionsShow';
-import GrantsShow from './GrantsShow';
+// import GrantsShow from './GrantsShow';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 
 export default class ReportsShow extends Component {
   constructor(props) {
@@ -250,11 +250,11 @@ export default class ReportsShow extends Component {
             {this.state.report_sections.length ? this.state.report_sections.map((report_section, id) => {
                 return(
                   <React.Fragment key={id}>
-                  <ReportSectionsShow
-                  report_section_id={id}
-                  // updateReportSections={this.updateReportSections}
-                  editReportSections={this.editReportSections}
-                  />
+                    <ReportSectionsShow
+                    report_section_id={id}
+                    // updateReportSections={this.updateReportSections}
+                    editReportSections={this.editReportSections}
+                    />
                   </React.Fragment>
                 )
             }) : <h4>There are no report sections yet.</h4>
