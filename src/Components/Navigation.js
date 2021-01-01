@@ -23,42 +23,42 @@ class Navigation extends Component {
           <ul>
             {localStorage.token && localStorage.user_id ? (
               <div>
-              <Nav>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/dashboard">Dashboard</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/grants">Grants</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/bios">Bios</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/boilerplates">Boilerplates</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/categories">Categories</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/organizations">Organizations</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/funding_orgs">Funding Orgs</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}}>
-                  <Link onClick={this.handleLogoutClick}to="/logout">Logout</Link>
-                </Nav.Link>
+              <Nav className="mr-auto">
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/grants">Grants</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/bios">Bios</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/boilerplates">Boilerplates</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/categories">Categories</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/organizations">Organizations</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}}>
+                  <Nav.Link onClick={this.handleLogoutClick}to="/logout">Logout</Nav.Link>
+                </Nav.Item>
                 </Nav>
                 </div>
                 ) : (
                 <div>
                 <Nav>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/login">Login</Link>
-                </Nav.Link>
-                <Nav.Link style={{fontSize: "150%"}} className="active">
-                  <Link to="/signup">Sign Up</Link>
-                </Nav.Link>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/login">Login</Nav.Link>
+                </Nav.Item>
+                <Nav.Item style={{fontSize: "150%"}} className="active">
+                  <Nav.Link href="/signup">Sign Up</Nav.Link>
+                </Nav.Item>
                 </Nav>
               </div>
             )}

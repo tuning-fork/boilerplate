@@ -128,17 +128,34 @@ export default class ReportsShow extends Component {
   }
 
   deleteReportSections = (deletedReportSection) => {
-    console.log("blintz", deletedReportSection)
+    // console.log("blintz", deletedReportSection);
     let report_sections = this.state.report_sections;
-    report_sections = report_sections.map((report_section, index) => {
-      if (report_section.id === deletedReportSection.id) {
-        report_sections.splice(index, 1)
+    let newArr = [];
+    report_sections.forEach((report_section) => {
+      if (report_section.id !== deletedReportSection.id) {
+        newArr.push(report_section);
       }
     })
+    console.log(newArr);
     this.setState({
-      report_sections: report_sections
+      report_sections: newArr
     })
-    console.log("blini", this.state.report_sections)
+    // console.log("blini", this.state.report_sections)
+  }
+
+  handleReportSectionDelete = (reportSectionId) => {
+    // console.log(this.props.report_section_id);
+    axios
+      .delete('/api/report_sections/' + reportSectionId,
+        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .then((response) => {
+        this.deleteReportSections(response.data);
+        this.toggleHidden();
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handleReportDelete() {
@@ -149,7 +166,7 @@ export default class ReportsShow extends Component {
         if (response.data.message) {
           this.props.history.push('/grants/' + this.state.grant_id);
         }
-        console.log(response);
+        console.log(`report delete ${response}`);
       })
       .catch((error) => {
         console.log(error);
@@ -167,7 +184,7 @@ export default class ReportsShow extends Component {
       </div> )
     })
 
-    console.log(this.state.report_sections);
+    // console.log(this.state.report_sections);
 
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -276,14 +293,15 @@ export default class ReportsShow extends Component {
               />
             </div>
             {this.state.report_sections.length ? this.state.report_sections.map((report_section) => {
-                console.log("cupcake", report_section.id)
-                return(
+                /* console.log("cupcake", report_section.id) */
+                return (
                   <div key={report_section.id}>
                   <ReportSectionsShow
-                  report_section_id={report_section.id}
-                  editReportSections={this.editReportSections}
-                  deleteReportSections={this.deleteReportSections}
+                    report_section_id={report_section.id}
+                    editReportSections={this.editReportSections}
+                    deleteReportSections={this.deleteReportSections}
                   />
+                  <Button onClick={() => this.handleReportSectionDelete(report_section.id)}>Delete</Button>
                   </div>
                 )
             }) : <h4>There are no report sections yet.</h4>
