@@ -104,7 +104,7 @@ class SectionsShow extends Component {
 
   handleSectionDelete() {
     axios
-      .delete('/api/sections/' + this.props.section.id,
+      .delete('/api/sections/' + this.props.section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         console.log(response);

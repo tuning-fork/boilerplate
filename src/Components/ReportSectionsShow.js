@@ -33,7 +33,7 @@ class ReportSectionsShow extends Component {
       .get(`/api/report_sections/${this.props.report_section_id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({
           id: response.data.id,
           title: response.data.title,
@@ -90,20 +90,19 @@ class ReportSectionsShow extends Component {
   }
 
   handleReportSectionDelete() {
+    // console.log(this.props.report_section_id);
     axios
       .delete('/api/report_sections/' + this.props.report_section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         this.props.deleteReportSections(response.data);
         this.toggleHidden();
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   }
-
-
 
   countWords(string) { 
     if (string) {
