@@ -21,6 +21,7 @@ export default class ReportsShow extends Component {
       deadline: "",
       submitted: "",
       isHidden: true,
+      isGrantHidden: true,
       grant_title: "",
       grant_sections: [],
       report_sections: [],
@@ -56,6 +57,12 @@ export default class ReportsShow extends Component {
   toggleHidden() {
     this.setState({
       isHidden: !this.state.isHidden,
+    });
+  }
+
+  toggleHiddenGrant = () => {
+    this.setState({
+      isGrantHidden: !this.state.isGrantHidden,
     });
   }
 
@@ -120,6 +127,20 @@ export default class ReportsShow extends Component {
     })
   }
 
+  deleteReportSections = (deletedReportSection) => {
+    console.log("blintz", deletedReportSection)
+    let report_sections = this.state.report_sections;
+    report_sections = report_sections.map((report_section, index) => {
+      if (report_section.id === deletedReportSection.id) {
+        report_sections.splice(index, 1)
+      }
+    })
+    this.setState({
+      report_sections: report_sections
+    })
+    console.log("blini", this.state.report_sections)
+  }
+
   handleReportDelete() {
     axios
       .delete('/api/reports/' + this.state.id,
@@ -141,12 +162,12 @@ export default class ReportsShow extends Component {
       return (
       <div>
         <h3>{grant_section.title}</h3>
-        <h3>{grant_section.text}</h3>
+        <h3 dangerouslySetInnerHTML={{__html: grant_section.text}}></h3>
         <h3>{grant_section.wordcount}</h3>
       </div> )
     })
 
-    console.log(this.state.grant_sections)
+    console.log(this.state.report_sections);
 
     if (this.state.loading) {
       return <h1>Loading....</h1>;
@@ -164,15 +185,22 @@ export default class ReportsShow extends Component {
           </Card.Body>
       </Card>
 
-      <Card>
-        <Card.Header>
-          <h2>{this.state.grant_title}</h2>
-        </Card.Header>
+      <Button onClick={this.toggleHiddenGrant}>
+        Show Associated Grant
+      </Button>
 
-        <Card.Body>
-          {renderedSections}
-        </Card.Body>
-      </Card>
+      {!this.state.isGrantHidden ? 
+        <Card>
+          <Card.Header>
+            <h1>Associated Grant</h1>
+            <h2>{this.state.grant_title}</h2>
+          </Card.Header>
+
+          <Card.Body>
+            {renderedSections}
+          </Card.Body>
+        </Card>
+      : null }
 
       {/* beginning of report update */}
       <div className="container">
@@ -247,15 +275,16 @@ export default class ReportsShow extends Component {
               updateReportSections={this.updateReportSections}
               />
             </div>
-            {this.state.report_sections.length ? this.state.report_sections.map((report_section, id) => {
+            {this.state.report_sections.length ? this.state.report_sections.map((report_section) => {
+                console.log("cupcake", report_section.id)
                 return(
-                  <React.Fragment key={id}>
-                    <ReportSectionsShow
-                    report_section_id={id}
-                    // updateReportSections={this.updateReportSections}
-                    editReportSections={this.editReportSections}
-                    />
-                  </React.Fragment>
+                  <div key={report_section.id}>
+                  <ReportSectionsShow
+                  report_section_id={report_section.id}
+                  editReportSections={this.editReportSections}
+                  deleteReportSections={this.deleteReportSections}
+                  />
+                  </div>
                 )
             }) : <h4>There are no report sections yet.</h4>
           }
