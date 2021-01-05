@@ -257,7 +257,6 @@ export default class ReportsShow extends Component {
                     name="submitted"
                     checked={this.state.submitted}
                     onChange={this.handleChange}
-                    required
                   />
                 </Form.Group>
                 <div className="text-center">

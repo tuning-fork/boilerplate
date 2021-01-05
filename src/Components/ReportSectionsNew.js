@@ -142,7 +142,7 @@ class ReportSectionsNew extends Component {
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.state.quill_text)}</p>
             </Form.Group>
-            <p>Sort Order: {this.props.grant_section_number}</p>
+            {/* <p>Sort Order: {this.props.grant_section_number}</p> */}
             <div className="text-center">
               <Button type="submit">
                 Add New Report Section
