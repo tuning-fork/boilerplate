@@ -3,6 +3,7 @@ import axios from 'axios';
 import SectionsUpdateFinal from './SectionsUpdateFinal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -22,10 +23,14 @@ class GrantsFinalizeShow extends Component {
       reports: [],
       funding_orgs: [],
       isHidden: true,
+      isCopyGrantHidden: true,
       loading: true,
       errors: [],
       bios: [],
-      boilerplates: []
+      boilerplates: [],
+      copy_title: "",
+      copy_rfp_url: "",
+      copy_deadline: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -81,6 +86,12 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
+  toggleCopyGrantHidden = () => {
+    this.setState({
+      isCopyGrantHidden: !this.state.isCopyGrantHidden,
+    });
+  }
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -88,6 +99,12 @@ class GrantsFinalizeShow extends Component {
 
     this.setState({
       [name]: value
+    });
+  }
+
+  handleCopyChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
     });
   }
 
@@ -116,6 +133,25 @@ class GrantsFinalizeShow extends Component {
         console.log('grant update error', error);
       });
     event.preventDefault();
+  }
+
+  copyGrant = () => {
+    const { copy_title, copy_rfp_url, copy_deadline} = this.state;
+    axios
+      .post('/api/grants/' + this.state.id + '/copy', 
+        {
+          title: copy_title,
+          rfp_url: copy_rfp_url,
+          deadline: copy_deadline
+        },
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      )
+      .then((response) => {
+        this.toggleCopyGrantHidden();
+      })
+      .catch((error) => {
+        console.log('grant copy error', error);
+      })
   }
 
   handleSectionDelete() {
@@ -156,26 +192,9 @@ class GrantsFinalizeShow extends Component {
         <h2>{this.state.organization_name}</h2>
         <h2>{this.state.purpose}</h2>
         <div>
-          {this.state.sections.map(section => {
-            return(
-              <div key={section.id}>
-                <SectionsUpdateFinal 
-                  section_id={section.id}
-                  boilerplates={this.state.boilerplates}
-                  bios={this.state.bios}
-                  // section_title={section.title}
-                  // section_text={section.text}
-                  // section_grant_id={this.state.id}
-                  updateSections={this.updateSections}
-                />
-              </div>
-            )
-          })}
-        </div>  
-
         {/* beginning of grant update */}
-        
-        <div className="container">
+          <div className="container">
+          <br />
           {this.state.isHidden ?
             <Button onClick={this.toggleHidden.bind(this)}>
               Update Grant
@@ -186,7 +205,6 @@ class GrantsFinalizeShow extends Component {
               Close
             </Button>
           }
-          <br />
           <br />
           {!this.state.isHidden ? (
             <div>
@@ -258,6 +276,63 @@ class GrantsFinalizeShow extends Component {
             </div>
           ) : null}
         </div>
+        <Button onClick={this.toggleCopyGrantHidden}>Copy Grant</Button>
+        <Card>
+        {!this.state.isCopyGrantHidden ? (
+        <Card.Body>
+        <Form onSubmit={this.copyGrant}>
+        <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="copy_title"
+                value={this.state.copy_title}
+                onChange={this.handleCopyChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>RFP URL</Form.Label>
+              <Form.Control
+                name="copy_rfp_url"
+                value={this.state.copy_rfp_url}
+                onChange={this.handleCopyChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Deadline</Form.Label>
+              <Form.Control
+                type="datetime-local"
+                name="copy_deadline"
+                value={this.state.copy_deadline}
+                onChange={this.handleCopyChange}
+                required
+              />
+            </Form.Group>
+            <Button type="submit">
+                Create Copy
+            </Button>
+          </Form>
+          </Card.Body>
+          ) : null}
+          </Card>
+          {this.state.sections.map(section => {
+            return(
+              <div key={section.id}>
+                <SectionsUpdateFinal 
+                  section_id={section.id}
+                  boilerplates={this.state.boilerplates}
+                  bios={this.state.bios}
+                  // section_title={section.title}
+                  // section_text={section.text}
+                  // section_grant_id={this.state.id}
+                  updateSections={this.updateSections}
+                />
+              </div>
+            )
+          })}
+        </div>  
       </div>
     );
   }
