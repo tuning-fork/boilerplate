@@ -63,7 +63,7 @@ class Grants extends Component {
     };
 
     return (
-      <div className="component">
+      <div className="component container">
         <h1>Grants Index</h1>
         <h3>Add A Grant</h3>
         <GrantsNew 

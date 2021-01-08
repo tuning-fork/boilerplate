@@ -61,6 +61,9 @@ class OrganizationUser extends Component {
   render () {
     return (
       <Card>
+        <Card.Header>
+          <h3>Add Your Organizations</h3>
+        </Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>

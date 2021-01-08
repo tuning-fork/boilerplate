@@ -66,7 +66,7 @@ class FundingOrgsNew extends Component {
       .then((response) => {
         if (response.data) {
           this.props.updateFundingOrgs(response.data);
-          this.props.toggleHiddenFundingOrgsNew();
+          // this.props.toggleHiddenFundingOrgsNew();
           this.clearForm();
         }
       })

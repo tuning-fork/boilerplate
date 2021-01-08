@@ -138,11 +138,9 @@ class GrantsShow extends Component {
     const sections = this.state.sections.map(section => 
       {
         if (section.id === newSection.id) {
-        section.title = newSection.title
-        section.text = newSection.text
-        section.wordcount = newSection.wordcount
+          section = newSection
       }
-      return section
+      return section;
       });
     this.setState({
       sections: sections

@@ -68,7 +68,7 @@ class Bios extends Component {
     };
 
     return (
-      <div className="component">
+      <div className="component container">
         <h1>Bios Index</h1>
         <h3>Add A Bio</h3>
         {!this.state.isHiddenOrganizationsNew ?

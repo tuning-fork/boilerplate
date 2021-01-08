@@ -72,7 +72,9 @@ class Categories extends Component {
         
         <br />
         <h3>Add Category</h3>
-        <CategoriesNew />
+        <CategoriesNew 
+          updateCategories={this.updateCategories}
+        />
       </div>
     );
   }

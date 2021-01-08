@@ -148,7 +148,7 @@ class SectionToBoilerplateNew extends Component {
               
             </Form.Group>
             <p>{this.props.title}</p>
-            <p>{this.props.text}</p>
+            <p dangerouslySetInnerHTML={{__html: this.props.text}}></p>
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
               <p>{this.countWords(this.props.text)}</p>

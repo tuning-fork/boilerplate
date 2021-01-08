@@ -13,7 +13,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="component">
+      <div className="component container">
         <CurrentUser />
       </div>
     );

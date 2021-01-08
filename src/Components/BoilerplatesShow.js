@@ -215,11 +215,12 @@ class BoilerplatesShow extends Component {
                       </Form.Group> */}
                       <Form.Group>
                       <Form.Label>Organization</Form.Label>
-
-                      <select name="organization_id"
-                      value={this.state.organization_id}
-                      onChange={this.handleChange}
-                      required
+                      <Form.Control 
+                        as="select"
+                        name="organization_id"
+                        value={this.state.organization_id}
+                        onChange={this.handleChange}
+                        required
                       >
                       <option value="" disabled>Select Organization</option>
                       {this.state.organizations.map(organization => {
@@ -227,15 +228,17 @@ class BoilerplatesShow extends Component {
                           <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
                           );
                       })}
-                      </select>
+                      </Form.Control>
                       </Form.Group>
                       <Form.Group>
                       <Form.Label>Category</Form.Label>
 
-                      <select name="category_id"
-                      value={this.state.category_id}
-                      onChange={this.handleChange}
-                      required
+                      <Form.Control 
+                        as="select"
+                        name="category_id"
+                        value={this.state.category_id}
+                        onChange={this.handleChange}
+                        required
                       >
                       <option value="" disabled>Select Category</option>
                       {this.state.categories.map(category => {
@@ -243,7 +246,7 @@ class BoilerplatesShow extends Component {
                           <option key={category.id} value={category.id} onChange={this.handleChange}>{category.name}</option>
                           );
                       })}
-                      </select>
+                      </Form.Control>
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Word Count</Form.Label>

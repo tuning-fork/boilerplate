@@ -157,7 +157,6 @@ class CurrentUser extends Component {
         </div>
 
         <br />
-        <h3>Add Your Organizations</h3>
         <OrganizationUser 
           updateOrganizationUsers={this.updateOrganizationUsers} 
         />
