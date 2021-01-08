@@ -86,14 +86,12 @@ class Boilerplates extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return <h1 className="container">Loading....</h1>;
     };
 
     return (
-      <div className="component">
+      <div className="component container">
         <h1>Boilerplates Index</h1>
-
-        <h3>Add Boilerplate</h3>
         <br/>
         
         <BoilerplatesNew 

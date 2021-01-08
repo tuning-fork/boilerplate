@@ -146,6 +146,9 @@ class BoilerplatesNew extends Component {
     return (
       <div>
       <Card>
+        <Card.Header>
+          <h3>Add Boilerplate</h3>
+        </Card.Header>
         {!this.state.isHiddenCategoriesOrganizationsNew ?
           <CategoriesOrganizationsNew 
           categories={this.state.categories}

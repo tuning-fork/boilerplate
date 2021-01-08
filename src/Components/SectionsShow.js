@@ -91,9 +91,9 @@ class SectionsShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
-          this.toggleHidden();
+          // console.log(response.data);
           this.props.updateSections(response.data);
+          this.toggleHidden();
         }
       })
       .catch((error) => {
@@ -173,6 +173,9 @@ class SectionsShow extends Component {
             }}>Add To Boilerplates</Link>
             <br />
             <br /> */}
+
+            {/* Beginning of section update form */}
+
             {!this.state.isHidden ? (
               <Card>
                 <Card.Body>

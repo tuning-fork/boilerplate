@@ -121,7 +121,7 @@ class BiosShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="component">
+      <div className="component container">
         <Card>
           <Card.Header>
           <h3>{this.state.first_name} {this.state.last_name}</h3>
@@ -208,13 +208,13 @@ class BiosShow extends Component {
                 <Button type="submit">
                   Submit
                 </Button>
+                <Button variant="danger" onClick={this.handleBioDelete}>Delete</Button>
               </div>
             </Form>
             </Card.Body>
             </Card> 
           ) : null}
-          <br />
-          <Button variant="danger" onClick={this.handleBioDelete}>Delete</Button>
+          
         </div>
       </div>
     );

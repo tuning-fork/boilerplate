@@ -115,12 +115,11 @@ export default class ReportsShow extends Component {
   }
 
   editReportSections = (editedReportSection) => {
-    console.log(editedReportSection)
-    let report_sections = this.state.report_sections;
-    report_sections = report_sections.map((report_section) => {
+    const report_sections = this.state.report_sections.map((report_section) => {
       if (report_section.id === editedReportSection.id) {
         report_section = editedReportSection
       }
+      return report_section;
     })
     this.setState({
       report_sections: report_sections
@@ -143,20 +142,20 @@ export default class ReportsShow extends Component {
     // console.log("blini", this.state.report_sections)
   }
 
-  handleReportSectionDelete = (reportSectionId) => {
-    // console.log(this.props.report_section_id);
-    axios
-      .delete('/api/report_sections/' + reportSectionId,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.deleteReportSections(response.data);
-        this.toggleHidden();
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // handleReportSectionDelete = (reportSectionId) => {
+  //   // console.log(this.props.report_section_id);
+  //   axios
+  //     .delete('/api/report_sections/' + reportSectionId,
+  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
+  //     .then((response) => {
+  //       this.deleteReportSections(response.data);
+  //       this.toggleHidden();
+  //       // console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   handleReportDelete() {
     axios
@@ -177,7 +176,7 @@ export default class ReportsShow extends Component {
 
     const renderedSections = this.state.grant_sections.map((grant_section) => {
       return (
-      <div>
+      <div key={grant_section.id}>
         <h3>{grant_section.title}</h3>
         <h3 dangerouslySetInnerHTML={{__html: grant_section.text}}></h3>
         <h3>{grant_section.wordcount}</h3>
@@ -190,7 +189,7 @@ export default class ReportsShow extends Component {
       return <h1>Loading....</h1>;
     }
     return (
-      <div className="component">
+      <div className="component container">
       <h1>Report Show - Build Draft Report Sections</h1>
       <Card>
           <Card.Header>
@@ -202,8 +201,13 @@ export default class ReportsShow extends Component {
           </Card.Body>
       </Card>
 
+      {/* Associated grant */}
+
       <Button onClick={this.toggleHiddenGrant}>
         Show Associated Grant
+      </Button>
+      <Button onClick={this.toggleHidden.bind(this)}>
+        Update Report
       </Button>
 
       {!this.state.isGrantHidden ? 
@@ -220,10 +224,9 @@ export default class ReportsShow extends Component {
       : null }
 
       {/* beginning of report update */}
+
       <div className="container">
-        <Button onClick={this.toggleHidden.bind(this)}>
-          Update Report
-        </Button>
+        
         <br />
         <br />
         {!this.state.isHidden ? (
@@ -276,21 +279,22 @@ export default class ReportsShow extends Component {
         ) : null }
       </div>
 
-      <br/>
-      <br/>
+      {/* New report section */}
+
+      <ReportSectionsNew 
+        report_id={this.state.id} 
+        sort_number={this.state.report_sections.length}
+        updateReportSections={this.updateReportSections}
+      />
+      <br />
+
+      {/* Report sections */}
 
         <Card>
           <Card.Header>
             <h3>Report Sections:</h3>
           </Card.Header>
           <Card.Body>
-            <div>
-              <ReportSectionsNew 
-              report_id={this.state.id} 
-              sort_number={this.state.report_sections.length}
-              updateReportSections={this.updateReportSections}
-              />
-            </div>
             {this.state.report_sections.length ? this.state.report_sections.map((report_section) => {
                 /* console.log("cupcake", report_section.id) */
                 return (
@@ -300,7 +304,7 @@ export default class ReportsShow extends Component {
                     editReportSections={this.editReportSections}
                     deleteReportSections={this.deleteReportSections}
                   />
-                  <Button onClick={() => this.handleReportSectionDelete(report_section.id)}>Delete</Button>
+                  {/* <Button onClick={() => this.handleReportSectionDelete(report_section.id)}>Delete</Button> */}
                   </div>
                 )
             }) : <h4>There are no report sections yet.</h4>

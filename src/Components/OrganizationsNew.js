@@ -36,6 +36,7 @@ class OrganizationsNew extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
+          this.props.toggleHiddenOrganizationsNew();
           this.props.updateOrganizations(response.data);
           this.clearForm();
         };

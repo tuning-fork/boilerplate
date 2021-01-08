@@ -103,7 +103,9 @@ class ReportSectionsNew extends Component {
   render() {
     return (
       <Card>
+       <Card.Header>
         <h3>New Report Section:</h3>
+      </Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>

@@ -21,11 +21,6 @@ class ReportSectionsShow extends Component {
       errors: [],
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.handleReportSectionDelete = this.handleReportSectionDelete.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -56,17 +51,17 @@ class ReportSectionsShow extends Component {
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { title, quill_text, sort_order, report_id} = this.state;
     axios
       .patch(
@@ -80,8 +75,8 @@ class ReportSectionsShow extends Component {
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        this.toggleHidden();
         this.props.editReportSections(response.data);
+        this.toggleHidden();
       })
       .catch((error) => {
         console.log('report section update error', error);
@@ -89,14 +84,14 @@ class ReportSectionsShow extends Component {
     event.preventDefault();
   }
 
-  handleReportSectionDelete() {
-    // console.log(this.props.report_section_id);
+  handleReportSectionDelete = () => {
     axios
       .delete('/api/report_sections/' + this.props.report_section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        this.props.deleteReportSections(response.data);
         this.toggleHidden();
+        this.props.deleteReportSections(response.data);
+        
         // console.log(response);
       })
       .catch((error) => {
@@ -104,7 +99,7 @@ class ReportSectionsShow extends Component {
       });
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
       } else {
@@ -168,12 +163,12 @@ class ReportSectionsShow extends Component {
                         Submit
                       </Button>
                       <Button onClick={this.handleReportSectionDelete}>Delete</Button>
-                      <Button
+                      {/* <Button
                         onClick={this.toggleHidden.bind(this)}
                         className="btn-lg"
                       >
                         Close
-                      </Button>
+                      </Button> */}
                     </div>
                   </Form>
                 </Card.Body>
