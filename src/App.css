@@ -41,7 +41,9 @@ Nav.Link.active {
   background-color: orange;
 }
 
-
+.highlighted {
+  background-color: yellow;
+}
 
 
 

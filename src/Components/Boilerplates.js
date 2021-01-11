@@ -80,8 +80,23 @@ class Boilerplates extends Component {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
       })
       this.setState({filteredBoilerplates: filteredByText})
+      this.highlightSearchResults(this.state.filteredBoilerplates);
       console.log(filteredByText)
     } 
+  }
+
+  highlightSearchResults = (filteredBoilerplates) => {
+    this.state.filteredBoilerplates.map((filteredBoilerplate) => {
+      let highlightArray = filteredBoilerplate.text.split(" ") 
+      highlightArray.map((chunk) => {
+        if (chunk === this.state.searchValue) {
+          classList.add("highlighted")
+        }
+      })
+      this.setState({filteredBoilerplates: 
+        highlightArray.join()
+      })
+    })
   }
 
   render() {
@@ -156,6 +171,12 @@ class Boilerplates extends Component {
                   </Link>
                 </Card.Header>
                 <Card.Body>
+                  {/* {boilerplate.text.filter((chunk) => {
+                    if (chunk === this.state.searchText) {
+                      return chunk.classList.add("highlighted")
+                    }
+                  })
+                  } */}
                   <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
                   {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
                   <p>Organization: {boilerplate.organization_name}</p>
