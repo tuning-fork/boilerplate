@@ -80,34 +80,17 @@ class Boilerplates extends Component {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
       })
 
-      const highlightBoilerplate = filteredByText.map((boilerplate) => {
+      // highlighting of filteredByText
+      // filteredByText.map((boilerplate) => {
 
-        boilerplate.text.replace(searchValue, 
-          (match) => `<mark>${match}</mark>`);
+      //   boilerplate.text = boilerplate.text.replace(searchValue, 
+      //     (match) => `<mark>${match}</mark>`);
+          
+      //   return filteredByText;
+      // })
 
-        return boilerplate;
-      })
-
-      // const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
-    //   const results = boilerplate.text.replace(this.state.searchText, 
-    //     (match) => `<mark>${match}</mark>`);
-    //   if (this.state.searchText) {
-    //     return (
-    //       <div key={boilerplate.id}>
-    //         <p dangerouslySetInnerHTML={{__html: results}}></p>
-    //       </div> )
-    //   } else {
-    //     return (
-    //       <div key={boilerplate.id}>
-    //           <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-    //       </div>
-    //     )
-    //   } 
-    // })
-
-      this.setState({filteredBoilerplates: highlightBoilerplate})
-      // this.highlightSearchResults(this.state.filteredBoilerplates);
-      console.log(highlightBoilerplate)
+      this.setState({filteredBoilerplates: filteredByText})
+      console.log(filteredByText)
     } 
   }
 
@@ -130,22 +113,23 @@ class Boilerplates extends Component {
       return <h1 className="container">Loading....</h1>;
     };
     
-    // const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
-    //   const results = boilerplate.text.replace(this.state.searchText, 
-    //     (match) => `<mark>${match}</mark>`);
-    //   if (this.state.searchText) {
-    //     return (
-    //       <div key={boilerplate.id}>
-    //         <p dangerouslySetInnerHTML={{__html: results}}></p>
-    //       </div> )
-    //   } else {
-    //     return (
-    //       <div key={boilerplate.id}>
-    //           <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-    //       </div>
-    //     )
-    //   } 
-    // })
+    const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
+      const results = boilerplate.text.replace(this.state.searchText, 
+        (match) => `<mark>${match}</mark>`);
+      if (this.state.searchText) {
+        return (
+          <div key={boilerplate.id}>
+            <p dangerouslySetInnerHTML={{__html: results}}></p>
+          </div> )
+      } 
+        // else {
+        //   return (
+        //     <div key={boilerplate.id}>
+        //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+        //     </div>
+        //   )
+        // }
+    })
 
     return (
       <div className="component container">
@@ -202,7 +186,7 @@ class Boilerplates extends Component {
           </Form.Group>
         </Form>
 
-        {/* {this.state.filteredBoilerplates} */}
+        {highlightBoilerplate}
 
         {this.state.filteredBoilerplates.map((boilerplate) => {
           return (
@@ -216,25 +200,11 @@ class Boilerplates extends Component {
                   </Link>
                 </Card.Header>
                   <Card.Body>
-                  {/* {highlightBoilerplate} */}
                   <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
                   <p>Organization: {boilerplate.organization_name}</p>
                   <p>Category: {boilerplate.category_name}</p>
                   <p>Wordcount: {boilerplate.wordcount}</p>
                   </Card.Body>
-                {/* <Card.Body>
-                  {/* {boilerplate.text.filter((chunk) => {
-                    if (chunk === this.state.searchText) {
-                      return chunk.classList.add("highlighted")
-                    }
-                  })
-                  } */}
-                  {/* <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p> */}
-                  {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
-                  {/* <p>Organization: {boilerplate.organization_name}</p> */}
-                  {/* <p>Category: {boilerplate.category_name}</p> */}
-                  {/* <p>Wordcount: {boilerplate.wordcount}</p> */}
-                {/* </Card.Body> */}
               </Card>
               <br />
             </div>
