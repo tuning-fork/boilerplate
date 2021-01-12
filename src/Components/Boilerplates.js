@@ -55,7 +55,7 @@ class Boilerplates extends Component {
       this.setState({filteredBoilerplates: this.state.boilerplates});
       return
     }
-    if (this.state.filterWordCount === true) {
+    if (this.state.filterWordCount) {
       console.log(searchValue, "wordcount filter")
       let filteredByWordCount = [];
       filteredByWordCount = this.state.boilerplates.filter((boilerplate) => (
@@ -79,30 +79,73 @@ class Boilerplates extends Component {
       filteredByText = this.state.boilerplates.filter((boilerplate) => {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
       })
-      this.setState({filteredBoilerplates: filteredByText})
-      this.highlightSearchResults(this.state.filteredBoilerplates);
-      console.log(filteredByText)
+
+      const highlightBoilerplate = filteredByText.map((boilerplate) => {
+
+        boilerplate.text.replace(searchValue, 
+          (match) => `<mark>${match}</mark>`);
+
+        return boilerplate;
+      })
+
+      // const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
+    //   const results = boilerplate.text.replace(this.state.searchText, 
+    //     (match) => `<mark>${match}</mark>`);
+    //   if (this.state.searchText) {
+    //     return (
+    //       <div key={boilerplate.id}>
+    //         <p dangerouslySetInnerHTML={{__html: results}}></p>
+    //       </div> )
+    //   } else {
+    //     return (
+    //       <div key={boilerplate.id}>
+    //           <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+    //       </div>
+    //     )
+    //   } 
+    // })
+
+      this.setState({filteredBoilerplates: highlightBoilerplate})
+      // this.highlightSearchResults(this.state.filteredBoilerplates);
+      console.log(highlightBoilerplate)
     } 
   }
 
-  highlightSearchResults = (filteredBoilerplates) => {
-    this.state.filteredBoilerplates.map((filteredBoilerplate) => {
-      let highlightArray = filteredBoilerplate.text.split(" ") 
-      highlightArray.map((chunk) => {
-        if (chunk === this.state.searchValue) {
-          classList.add("highlighted")
-        }
-      })
-      this.setState({filteredBoilerplates: 
-        highlightArray.join()
-      })
-    })
-  }
+  // highlightSearchResults = (filteredBoilerplates) => {
+  //   this.state.filteredBoilerplates.map((filteredBoilerplate) => {
+  //     let highlightArray = filteredBoilerplate.text.split(" ") 
+  //     highlightArray.map((chunk) => {
+  //       if (chunk === this.state.searchValue) {
+  //         classList.add("highlighted")
+  //       }
+  //     })
+  //     this.setState({filteredBoilerplates: 
+  //       highlightArray.join()
+  //     })
+  //   })
+  // }
 
   render() {
     if (this.state.loading) {
       return <h1 className="container">Loading....</h1>;
     };
+    
+    // const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
+    //   const results = boilerplate.text.replace(this.state.searchText, 
+    //     (match) => `<mark>${match}</mark>`);
+    //   if (this.state.searchText) {
+    //     return (
+    //       <div key={boilerplate.id}>
+    //         <p dangerouslySetInnerHTML={{__html: results}}></p>
+    //       </div> )
+    //   } else {
+    //     return (
+    //       <div key={boilerplate.id}>
+    //           <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+    //       </div>
+    //     )
+    //   } 
+    // })
 
     return (
       <div className="component container">
@@ -159,6 +202,8 @@ class Boilerplates extends Component {
           </Form.Group>
         </Form>
 
+        {/* {this.state.filteredBoilerplates} */}
+
         {this.state.filteredBoilerplates.map((boilerplate) => {
           return (
             <div key={boilerplate.id}>
@@ -170,19 +215,26 @@ class Boilerplates extends Component {
                     {boilerplate.title}
                   </Link>
                 </Card.Header>
-                <Card.Body>
+                  <Card.Body>
+                  {/* {highlightBoilerplate} */}
+                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                  <p>Organization: {boilerplate.organization_name}</p>
+                  <p>Category: {boilerplate.category_name}</p>
+                  <p>Wordcount: {boilerplate.wordcount}</p>
+                  </Card.Body>
+                {/* <Card.Body>
                   {/* {boilerplate.text.filter((chunk) => {
                     if (chunk === this.state.searchText) {
                       return chunk.classList.add("highlighted")
                     }
                   })
                   } */}
-                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                  {/* <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p> */}
                   {/* <div dangerouslySetInnerHTML={{__html: this.state.text}}></div> */}
-                  <p>Organization: {boilerplate.organization_name}</p>
-                  <p>Category: {boilerplate.category_name}</p>
-                  <p>Wordcount: {boilerplate.wordcount}</p>
-                </Card.Body>
+                  {/* <p>Organization: {boilerplate.organization_name}</p> */}
+                  {/* <p>Category: {boilerplate.category_name}</p> */}
+                  {/* <p>Wordcount: {boilerplate.wordcount}</p> */}
+                {/* </Card.Body> */}
               </Card>
               <br />
             </div>
