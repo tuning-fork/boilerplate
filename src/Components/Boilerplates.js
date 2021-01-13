@@ -20,7 +20,8 @@ class Boilerplates extends Component {
       filterWordCount: false,
       filteredByWordCount: [],
       filterTitle: false,
-      filterText: false
+      filterText: false,
+      // highlightedBoilerplates: []
     };
   }
 
@@ -88,48 +89,104 @@ class Boilerplates extends Component {
           
       //   return filteredByText;
       // })
-
+      
       this.setState({filteredBoilerplates: filteredByText})
+      // this.highlightBoilerplates(filteredByText);
       console.log(filteredByText)
     } 
   }
 
-  // highlightSearchResults = (filteredBoilerplates) => {
-  //   this.state.filteredBoilerplates.map((filteredBoilerplate) => {
-  //     let highlightArray = filteredBoilerplate.text.split(" ") 
-  //     highlightArray.map((chunk) => {
-  //       if (chunk === this.state.searchValue) {
-  //         classList.add("highlighted")
-  //       }
-  //     })
-  //     this.setState({filteredBoilerplates: 
-  //       highlightArray.join()
-  //     })
+  // highlightBoilerplates = (filteredArr) => {
+  //   filteredArr.map((boilerplate) => {
+  //     boilerplate.text = boilerplate.text.replace(this.state.searchText, 
+  //       (match) => `<mark>${match}</mark>`);
+  //     if (this.state.searchText) {
+  //       return filteredArr;
+        
+  //     } 
+  //   //     // else {
+  //   //     //   return (
+  //   //     //     <div key={boilerplate.id}>
+  //   //     //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+  //   //     //     </div>
+  //   //     //   )
+  //   //     // }
   //   })
+  //   this.setState({ highlightedBoilerplates: filteredArr })
   // }
+    
 
   render() {
     if (this.state.loading) {
       return <h1 className="container">Loading....</h1>;
     };
     
-    const highlightBoilerplate = this.state.filteredBoilerplates.map((boilerplate) => {
-      const results = boilerplate.text.replace(this.state.searchText, 
-        (match) => `<mark>${match}</mark>`);
-      if (this.state.searchText) {
-        return (
-          <div key={boilerplate.id}>
-            <p dangerouslySetInnerHTML={{__html: results}}></p>
-          </div> )
-      } 
-        // else {
-        //   return (
-        //     <div key={boilerplate.id}>
-        //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-        //     </div>
-        //   )
-        // }
-    })
+    // let highlightBoilerplates = this.state.filteredBoilerplates;
+    // highlightBoilerplates.map((boilerplate) => {
+    //   boilerplate.text = boilerplate.text.replace(this.state.searchText, 
+    //     (match) => `<mark>${match}</mark>`);
+    //   if (this.state.searchText) {
+    //     return highlightBoilerplates;
+    //   } 
+    // //     // else {
+    // //     //   return (
+    // //     //     <div key={boilerplate.id}>
+    // //     //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+    // //     //     </div>
+    // //     //   )
+    // //     // }
+    // })
+
+    
+      let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
+        let results = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
+          (match) => `<mark>${match}</mark>`);
+        if (this.state.searchText) {
+          return (
+            <div key={boilerplate.id}>
+              <Card >
+                  <Card.Header>
+                    Title: <Link
+                        to={`/boilerplates/${boilerplate.id}`}
+                    >
+                      {boilerplate.title}
+                    </Link>
+                  </Card.Header>
+                    <Card.Body>
+                    <p dangerouslySetInnerHTML={{__html: results}}></p>
+                    <p>Organization: {boilerplate.organization_name}</p>
+                    <p>Category: {boilerplate.category_name}</p>
+                    <p>Wordcount: {boilerplate.wordcount}</p>
+                    </Card.Body>
+                </Card>
+            </div> )
+        } else {
+          this.state.filteredBoilerplates.map((boilerplate) => {
+            return (
+              <div key={boilerplate.id}>
+                <Card >
+                  <Card.Header>
+                    Title: <Link
+                        to={`/boilerplates/${boilerplate.id}`}
+                    >
+                      {boilerplate.title}
+                    </Link>
+                  </Card.Header>
+                    <Card.Body>
+                    <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                    <p>Organization: {boilerplate.organization_name}</p>
+                    <p>Category: {boilerplate.category_name}</p>
+                    <p>Wordcount: {boilerplate.wordcount}</p>
+                    </Card.Body>
+                </Card>
+                <br />
+              </div>
+            );
+          })
+          }
+        })
+
+    console.log(highlightedBoilerplates);
 
     return (
       <div className="component container">
@@ -186,9 +243,12 @@ class Boilerplates extends Component {
           </Form.Group>
         </Form>
 
-        {highlightBoilerplate}
+        {highlightedBoilerplates}
 
-        {this.state.filteredBoilerplates.map((boilerplate) => {
+        {/* {this.state.searchText ?
+          {highlightedBoilerplates}
+        : 
+        this.state.filteredBoilerplates.map((boilerplate) => {
           return (
             <div key={boilerplate.id}>
               <Card >
@@ -209,7 +269,31 @@ class Boilerplates extends Component {
               <br />
             </div>
           );
-        })}
+        })
+        } */}
+
+        {/* {this.state.filteredBoilerplates.map((boilerplate) => {
+          return (
+            <div key={boilerplate.id}>
+              <Card >
+                <Card.Header>
+                  Title: <Link
+                      to={`/boilerplates/${boilerplate.id}`}
+                  >
+                    {boilerplate.title}
+                  </Link>
+                </Card.Header>
+                  <Card.Body>
+                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                  <p>Organization: {boilerplate.organization_name}</p>
+                  <p>Category: {boilerplate.category_name}</p>
+                  <p>Wordcount: {boilerplate.wordcount}</p>
+                  </Card.Body>
+              </Card>
+              <br />
+            </div>
+          );
+        })} */}
       </div>
     );
   }
