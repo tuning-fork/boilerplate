@@ -138,53 +138,53 @@ class Boilerplates extends Component {
     // })
 
     
-      let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
-        let results = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
-          (match) => `<mark>${match}</mark>`);
-        if (this.state.searchText) {
+    let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
+      let results = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
+        (match) => `<mark>${match}</mark>`);
+      if (this.state.searchText) {
+        return (
+          <div key={boilerplate.id}>
+            <Card >
+                <Card.Header>
+                  Title: <Link
+                      to={`/boilerplates/${boilerplate.id}`}
+                  >
+                    {boilerplate.title}
+                  </Link>
+                </Card.Header>
+                  <Card.Body>
+                  <p dangerouslySetInnerHTML={{__html: results}}></p>
+                  <p>Organization: {boilerplate.organization_name}</p>
+                  <p>Category: {boilerplate.category_name}</p>
+                  <p>Wordcount: {boilerplate.wordcount}</p>
+                  </Card.Body>
+              </Card>
+          </div> )
+      } else {
+        this.state.filteredBoilerplates.map((boilerplate) => {
           return (
             <div key={boilerplate.id}>
               <Card >
-                  <Card.Header>
-                    Title: <Link
-                        to={`/boilerplates/${boilerplate.id}`}
-                    >
-                      {boilerplate.title}
-                    </Link>
-                  </Card.Header>
-                    <Card.Body>
-                    <p dangerouslySetInnerHTML={{__html: results}}></p>
-                    <p>Organization: {boilerplate.organization_name}</p>
-                    <p>Category: {boilerplate.category_name}</p>
-                    <p>Wordcount: {boilerplate.wordcount}</p>
-                    </Card.Body>
-                </Card>
-            </div> )
-        } else {
-          this.state.filteredBoilerplates.map((boilerplate) => {
-            return (
-              <div key={boilerplate.id}>
-                <Card >
-                  <Card.Header>
-                    Title: <Link
-                        to={`/boilerplates/${boilerplate.id}`}
-                    >
-                      {boilerplate.title}
-                    </Link>
-                  </Card.Header>
-                    <Card.Body>
-                    <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                    <p>Organization: {boilerplate.organization_name}</p>
-                    <p>Category: {boilerplate.category_name}</p>
-                    <p>Wordcount: {boilerplate.wordcount}</p>
-                    </Card.Body>
-                </Card>
-                <br />
-              </div>
-            );
-          })
-          }
+                <Card.Header>
+                  Title: <Link
+                      to={`/boilerplates/${boilerplate.id}`}
+                  >
+                    {boilerplate.title}
+                  </Link>
+                </Card.Header>
+                  <Card.Body>
+                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                  <p>Organization: {boilerplate.organization_name}</p>
+                  <p>Category: {boilerplate.category_name}</p>
+                  <p>Wordcount: {boilerplate.wordcount}</p>
+                  </Card.Body>
+              </Card>
+              <br />
+            </div>
+          );
         })
+        }
+      })
 
     console.log(highlightedBoilerplates);
 
