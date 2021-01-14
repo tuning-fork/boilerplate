@@ -17,10 +17,8 @@ class Boilerplates extends Component {
       isHiddenCategoriesNew: true,
       query: '',
       searchText: '',
-      filterWordCount: false,
+      filterParam: '',
       filteredByWordCount: [],
-      filterTitle: false,
-      filterText: false,
       // highlightedBoilerplates: []
     };
   }
@@ -47,16 +45,23 @@ class Boilerplates extends Component {
     });
   };
 
+  handleSearchParamSelect = (event) => {
+    let filterParam = this.state.filterParam
+    this.setState({
+      filterParam: event.target.value
+    })
+  }
+
   handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase()
     this.setState({
       searchText: event.target.value,
     })
-    if (!searchValue) {
+    if (searchValue.length <= 0) {
       this.setState({filteredBoilerplates: this.state.boilerplates});
       return
     }
-    if (this.state.filterWordCount) {
+    if (this.state.filterParam === "filterWordCount") {
       console.log(searchValue, "wordcount filter")
       let filteredByWordCount = [];
       filteredByWordCount = this.state.boilerplates.filter((boilerplate) => (
@@ -65,7 +70,7 @@ class Boilerplates extends Component {
       this.setState({filteredBoilerplates: filteredByWordCount})
       console.log(filteredByWordCount);
     }
-    else if (this.state.filterTitle) {
+    else if (this.state.filterParam === "filterTitle") {
       console.log(searchValue, "title filter")
       let filteredByTitle = [];
       filteredByTitle = this.state.boilerplates.filter((boilerplate) => {
@@ -74,7 +79,7 @@ class Boilerplates extends Component {
       this.setState({filteredBoilerplates: filteredByTitle})
       console.log(filteredByTitle)
     }
-    else if (this.state.filterText) {
+    else if (this.state.filterParam === "filterText") {
       console.log(searchValue, "text filter")
       let filteredByText = [];
       filteredByText = this.state.boilerplates.filter((boilerplate) => {
@@ -198,39 +203,37 @@ class Boilerplates extends Component {
         />
         <br/>
         <h3>Select a filter to search boilerplate</h3>
-        <Button 
-          variant="secondary" 
-          size="sm"
-          onClick={(event) => this.setState({
-            filterWordCount: true,
-            filterTitle: false,
-            filterText: false
-          })}
-        >
-          Filter by WordCount
-        </Button>
-        <Button
-          variant="secondary" 
-          size="sm" 
-          onClick={(event) => this.setState({
-            filterTitle: true,
-            filterWordCount: false,
-            filterText: false
-          })}
-        >
-          Filter by Title
-        </Button>
-        <Button 
-          variant="secondary" 
-          size="sm" 
-          onClick={(event) => this.setState({
-            filterText: true,
-            filterTitle: false,
-            filterWordCount: false
-          })}
-        >
-          Filter by Text
-        </Button>
+
+        <Form.Group>
+          <Form.Label>Search Parameter</Form.Label>
+          <Form.Control
+            as="select" 
+            name="filterParam"
+            value={this.state.filterParam}
+            onChange={this.handleSearchParamSelect}
+            required
+          >
+            <option value="" disabled>Search By</option>
+            <option value="filterWordCount" >Word Count</option>
+            <option value="filterTitle" >Title</option>
+            <option value="filterText" >Text</option>
+
+            {/* {this.state.searchOptions.map(searchOption, index => {
+              return(
+                <option 
+                  key={index} 
+                  value={searchOption} 
+                  onChange={this.handleChange}
+                >
+                  {searchOption}
+                </option>
+              );
+            })} */}
+          </Form.Control>
+
+          {/* <Button variant="secondary" size="sm" onClick={this.toggleHiddenCategoriesOrganizationsNew}>Add New Category and/or Organization</Button> */}
+              
+        </Form.Group>
         
         <Form>
           <Form.Group>
@@ -243,7 +246,7 @@ class Boilerplates extends Component {
           </Form.Group>
         </Form>
 
-        {highlightedBoilerplates}
+        {/* {highlightedBoilerplates} */}
 
         {/* {this.state.searchText ?
           {highlightedBoilerplates}
@@ -272,7 +275,7 @@ class Boilerplates extends Component {
         })
         } */}
 
-        {/* {this.state.filteredBoilerplates.map((boilerplate) => {
+        {this.state.filteredBoilerplates.map((boilerplate) => {
           return (
             <div key={boilerplate.id}>
               <Card >
@@ -293,7 +296,7 @@ class Boilerplates extends Component {
               <br />
             </div>
           );
-        })} */}
+        })}
       </div>
     );
   }
