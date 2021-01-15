@@ -158,6 +158,7 @@ class BoilerplatesNew extends Component {
           toggleHiddenCategoriesOrganizationsNew={this.toggleHiddenCategoriesOrganizationsNew}
           /> : null
         }
+        
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
