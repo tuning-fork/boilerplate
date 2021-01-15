@@ -10,12 +10,14 @@ export default class ForgotPassword extends Component {
   forgotPassword = (email) => {
     axios
       .post('/api/forgot_password', 
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        {email: this.state.email}
+      )
       .then((response) => {
-          alert(response.alert)
+          alert(response.data.message);
+          console.log(response.data.message)
       })
       .catch((error) => console.log(error));
-  }
+    }
 
   handleChange = (event) => {
     const { name, value } = event.target
@@ -30,7 +32,7 @@ export default class ForgotPassword extends Component {
     this.setState({
       email: ""
     })
-    this.props.history.push('/')
+    // this.props.history.push('/')
   }
 
   render() {
