@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class Signup extends Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="component">
+      <div className="container">
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Control
@@ -132,9 +133,9 @@ class Signup extends Component {
             })}
           </div>
           <div>
-            <button type="submit">
+            <Button type="submit">
               Signup
-            </button>
+            </Button>
           </div>
         </Form>
       </div>
