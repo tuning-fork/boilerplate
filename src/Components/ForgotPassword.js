@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+// import { forgotPassword } from '../helpers/passwords';
 
 export default class ForgotPassword extends Component {
   state = {
