@@ -7,6 +7,8 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Signup from './Components/Signup';
 import Login from './Components/Login';
+import ResetPassword from './Components/ResetPassword';
+import ForgotPassword from './Components/ForgotPassword';
 
 import Dashboard from './Components/Dashboard';
 import Navigation from './Components/Navigation';
@@ -79,6 +81,9 @@ export default class App extends Component {
             </Route>
             <Route path={'/signup'} component={Signup} />
             <Route path={'/login'} component={Login} />
+            <Route path={'/reset_password'} component={ResetPassword} />
+            <Route path={'/forgot_password'} component={ForgotPassword} />
+
             <Route path={'/dashboard'} component={Dashboard}/>
             <Route exact path={'/grants'} component={Grants} />
             <Route path={'/grants/:id'} component={GrantsShow} />
