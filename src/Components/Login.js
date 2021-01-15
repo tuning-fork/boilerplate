@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 
@@ -63,7 +64,7 @@ class Login extends Component {
 
   render() {
     return (   
-      <div className="component">
+      <div className="container">
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Control
@@ -86,23 +87,23 @@ class Login extends Component {
             />
           </Form.Group>
           <div>
-                <span style={{ color: 'red' }}>
-                  {this.state.errorType} {this.state.errorText}
-                </span>
+            <span style={{ color: 'red' }}>
+              {this.state.errorType} {this.state.errorText}
+            </span>
           </div>
           <div>
-            <button type="submit">
+            <Button type="submit">
               Login
-            </button>
+            </Button>
           </div>
         </Form>
-        <Card>
+        <br />
           <Link
             to={`/forgot_password`}
           >
             Forgot your password?
           </Link>
-        </Card>
+        
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import { forgotPassword } from '../helpers/passwords';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 export default class ForgotPassword extends Component {
   state = {
@@ -13,11 +15,10 @@ export default class ForgotPassword extends Component {
         {email: this.state.email}
       )
       .then((response) => {
-          alert(response.data.message);
-          console.log(response.data.message)
+        alert(response.data.message);
       })
       .catch((error) => console.log(error));
-    }
+  }
 
   handleChange = (event) => {
     const { name, value } = event.target
@@ -37,12 +38,29 @@ export default class ForgotPassword extends Component {
 
   render() {
     return (
-    <div>
-        <p>Request password reset:</p>
-        <form onSubmit={this.handleSubmit}>
-            <input required id="forgotpasswordemail" onChange={this.handleChange} name="email" placeholder="email" type="email" value={this.state.email}/>
-            <button >Submit</button>
-        </form>
+    <div className="container">
+      <Card>
+        <Card.Header>
+          <p>Enter the email address associated with your Boilerplate account</p>
+        </Card.Header>
+        <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Password reset request:</Form.Label>
+              <Form.Control
+                required 
+                id="forgotpasswordemail" 
+                onChange={this.handleChange} 
+                name="email" 
+                placeholder="email" 
+                type="email" 
+                value={this.state.email}
+              />
+              <Button>Submit</Button>
+            </Form.Group>
+          </Form>
+        </Card.Body>
+      </Card>
     </div>
     );
   }
