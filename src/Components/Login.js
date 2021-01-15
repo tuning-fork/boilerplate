@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
+
 
 class Login extends Component {
   constructor(props) {
@@ -93,6 +96,13 @@ class Login extends Component {
             </button>
           </div>
         </Form>
+        <Card>
+          <Link
+            to={`/forgot_password`}
+          >
+            Forgot your password?
+          </Link>
+        </Card>
       </div>
     );
   }

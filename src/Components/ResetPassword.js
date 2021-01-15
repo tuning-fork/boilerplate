@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { resetPassword } from '../helpers/passwords';
-import { connect } from 'react-redux';
+// import { resetPassword } from '../helpers/passwords';
+// import { connect } from 'react-redux';
+import axios from 'axios';
 
 class ResetPassword extends Component {
   state = {
@@ -27,14 +28,28 @@ class ResetPassword extends Component {
         password_confirmation: ""
       })
     } else {
-      this.props.resetPassword(this.state)
+      this.resetPassword(this.state)
       this.setState({
         token: "",
         email: "",
         password: "",
         password_confirmation: ""
       })
+      this.props.history.push('/login')
     }
+  }
+
+ resetPassword = (credentials) => {
+      axios
+        .post('api/reset_password', credentials)
+        .then((response) => {
+            if (!!response.error) {
+                alert(response.error)
+            } else {
+                alert(response.alert)
+            }
+        })
+      .catch((error) => console.log(error));
   }
 
   render() {
@@ -59,10 +74,4 @@ class ResetPassword extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    resetPassword: (credentials) => dispatch(resetPassword(credentials))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(ResetPassword);
+export default ResetPassword;

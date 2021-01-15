@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { forgotPassword } from '../helpers/passwords';
+import axios from 'axios';
 
 export default class ForgotPassword extends Component {
   state = {
     email: ""
   }
 
-    const baseURL = "http://localhost:3000/api/v1"
-
-    forgotPassword = (email) => {
-        axios
-            .post('/api/forgot_password', 
-            {headers: { Authorization: `Bearer ${localStorage.token}` }})
-            .then((response) => {
-                alert(response.alert)
-            })
-            .catch((error) => console.log(error));
+  forgotPassword = (email) => {
+    axios
+      .post('/api/forgot_password', 
+        {email: this.state.email}
+      )
+      .then((response) => {
+          alert(response.data.message);
+          console.log(response.data.message)
+      })
+      .catch((error) => console.log(error));
     }
 
   handleChange = (event) => {
@@ -27,11 +27,11 @@ export default class ForgotPassword extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    forgotPassword(this.state.email)
+    this.forgotPassword(this.state.email)
     this.setState({
       email: ""
     })
-    this.props.history.push('/')
+    // this.props.history.push('/')
   }
 
   render() {
