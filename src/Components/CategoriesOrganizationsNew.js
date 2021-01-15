@@ -80,6 +80,26 @@ class CategoriesOrganizationsNew extends Component {
       <Card>
         <Card.Body>
 
+          {/* New Organization */}
+          
+          <Form onSubmit={this.handleSubmitOrganization}>
+            <Form.Group>
+              <Form.Label>New Organization Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="organizationName"
+                value={this.state.organizationName}
+                onChange={this.handleChange}
+                required
+              />
+            </Form.Group>
+            <div className="text-center">
+              <Button type="submit">
+                Add New Organization
+              </Button>
+            </div>
+          </Form>
+
           {/* New Category */}
 
           <Form onSubmit={this.handleSubmitCategory}>
@@ -124,26 +144,6 @@ class CategoriesOrganizationsNew extends Component {
           </Form>
           <br />
           <br />
-
-          {/* New Organization */}
-          
-          <Form onSubmit={this.handleSubmitOrganization}>
-            <Form.Group>
-              <Form.Label>New Organization Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="organizationName"
-                value={this.state.organizationName}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">
-                Add New Organization
-              </Button>
-            </div>
-          </Form>
 
         </Card.Body>
       </Card>

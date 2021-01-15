@@ -4,7 +4,7 @@ import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 
 class Boilerplates extends Component {
   constructor(props) {
@@ -166,32 +166,30 @@ class Boilerplates extends Component {
               </Card>
           </div> )
       } else {
-        this.state.filteredBoilerplates.map((boilerplate) => {
-          return (
-            <div key={boilerplate.id}>
-              <Card >
-                <Card.Header>
-                  Title: <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                  >
-                    {boilerplate.title}
-                  </Link>
-                </Card.Header>
-                  <Card.Body>
-                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                  <p>Organization: {boilerplate.organization_name}</p>
-                  <p>Category: {boilerplate.category_name}</p>
-                  <p>Wordcount: {boilerplate.wordcount}</p>
-                  </Card.Body>
-              </Card>
-              <br />
-            </div>
-          );
-        })
+          return this.state.filteredBoilerplates.map((boilerplate) => {
+            return (
+              <div key={boilerplate.id}>
+                <Card >
+                  <Card.Header>
+                    Title: <Link
+                        to={`/boilerplates/${boilerplate.id}`}
+                    >
+                      {boilerplate.title}
+                    </Link>
+                  </Card.Header>
+                    <Card.Body>
+                    <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
+                    <p>Organization: {boilerplate.organization_name}</p>
+                    <p>Category: {boilerplate.category_name}</p>
+                    <p>Wordcount: {boilerplate.wordcount}</p>
+                    </Card.Body>
+                </Card>
+                <br />
+              </div>
+            );
+          })
         }
       })
-
-    console.log(highlightedBoilerplates);
 
     return (
       <div className="component container">
@@ -217,22 +215,7 @@ class Boilerplates extends Component {
             <option value="filterWordCount" >Word Count</option>
             <option value="filterTitle" >Title</option>
             <option value="filterText" >Text</option>
-
-            {/* {this.state.searchOptions.map(searchOption, index => {
-              return(
-                <option 
-                  key={index} 
-                  value={searchOption} 
-                  onChange={this.handleChange}
-                >
-                  {searchOption}
-                </option>
-              );
-            })} */}
-          </Form.Control>
-
-          {/* <Button variant="secondary" size="sm" onClick={this.toggleHiddenCategoriesOrganizationsNew}>Add New Category and/or Organization</Button> */}
-              
+          </Form.Control>   
         </Form.Group>
         
         <Form>
@@ -246,57 +229,8 @@ class Boilerplates extends Component {
           </Form.Group>
         </Form>
 
-        {/* {highlightedBoilerplates} */}
+        {highlightedBoilerplates}
 
-        {/* {this.state.searchText ?
-          {highlightedBoilerplates}
-        : 
-        this.state.filteredBoilerplates.map((boilerplate) => {
-          return (
-            <div key={boilerplate.id}>
-              <Card >
-                <Card.Header>
-                  Title: <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                  >
-                    {boilerplate.title}
-                  </Link>
-                </Card.Header>
-                  <Card.Body>
-                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                  <p>Organization: {boilerplate.organization_name}</p>
-                  <p>Category: {boilerplate.category_name}</p>
-                  <p>Wordcount: {boilerplate.wordcount}</p>
-                  </Card.Body>
-              </Card>
-              <br />
-            </div>
-          );
-        })
-        } */}
-
-        {this.state.filteredBoilerplates.map((boilerplate) => {
-          return (
-            <div key={boilerplate.id}>
-              <Card >
-                <Card.Header>
-                  Title: <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                  >
-                    {boilerplate.title}
-                  </Link>
-                </Card.Header>
-                  <Card.Body>
-                  <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                  <p>Organization: {boilerplate.organization_name}</p>
-                  <p>Category: {boilerplate.category_name}</p>
-                  <p>Wordcount: {boilerplate.wordcount}</p>
-                  </Card.Body>
-              </Card>
-              <br />
-            </div>
-          );
-        })}
       </div>
     );
   }
