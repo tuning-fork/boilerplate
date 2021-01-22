@@ -26,7 +26,7 @@ class OrganizationUser extends Component {
   componentDidMount() {
     axios
       .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        {withCredentials: true})
       .then((response) => {
         this.setState({
           organizations: response.data,

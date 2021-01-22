@@ -35,19 +35,25 @@ class Login extends Component {
   handleSubmit(event) {
     const { email, password } = this.state;
 
-    axios
-      .post(
-        '/api/sessions',
-        {
-          email: email,
-          password: password,
-        }
-        // { withCredentials: true }
-      )
+    // axios
+    //   .post(
+    //     '/api/sessions',
+    //     {
+    //       email: email,
+    //       password: password
+    //     },
+    //     {headers: { withCredentials: true }},
+    //   )
 
+      axios({
+        method: 'post',
+        url: '/api/sessions',
+        withCredentials: true,
+        data: {email: email, password: password}
+      })
       .then((response) => {
-        if (response.data.jwt) {
-          localStorage.setItem('token', response.data.jwt);
+        if (response.data) {
+          // localStorage.setItem('token', response.data.jwt);
           localStorage.setItem('user_id', response.data.user_id);
           this.props.history.push('/dashboard');
         }
