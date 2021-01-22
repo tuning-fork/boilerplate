@@ -48,12 +48,14 @@ class Login extends Component {
       axios({
         method: 'post',
         url: '/api/sessions',
-        withCredentials: true,
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+        // withCredentials: true,
+
         data: {email: email, password: password}
       })
       .then((response) => {
         if (response.data) {
-          // localStorage.setItem('token', response.data.jwt);
+          localStorage.setItem('token', response.data.jwt);
           localStorage.setItem('user_id', response.data.user_id);
           this.props.history.push('/dashboard');
         }
