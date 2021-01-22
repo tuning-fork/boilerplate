@@ -20,7 +20,8 @@ class Bios extends Component {
   componentDidMount() {
     axios
       .get('/api/bios',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        // {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        {withCredentials: true})
       .then((response) => {
         this.setState({
           bios: response.data,
@@ -30,7 +31,8 @@ class Bios extends Component {
       .catch((error) => console.log(error));
     axios
       .get('/api/organizations', 
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        // {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        {withCredentials: true})
       .then((response) => {
         this.setState({
           organizations: response.data,
