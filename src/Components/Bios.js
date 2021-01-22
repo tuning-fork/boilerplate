@@ -20,8 +20,9 @@ class Bios extends Component {
   componentDidMount() {
     axios
       .get('/api/bios',
-        // {headers: { Authorization: `Bearer ${localStorage.token}` }}
-        {withCredentials: true})
+        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        // {withCredentials: true}
+        )
       .then((response) => {
         this.setState({
           bios: response.data,
@@ -66,23 +67,28 @@ class Bios extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     };
 
     return (
-      <div className="component container">
+      <div className="container">
         <h1>Bios Index</h1>
-        <h3>Add A Bio</h3>
+        <br />
         {!this.state.isHiddenOrganizationsNew ?
-              <OrganizationsNew 
-              updateOrganizations={this.updateOrganizations}
-              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-            /> : null
-            }
+          <OrganizationsNew 
+            updateOrganizations={this.updateOrganizations}
+            toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+          /> : null
+        }
         <br/>
         <BiosNew 
           updateBios={this.updateBios}
           organizations={this.state.organizations}
+          isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
           toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
         />
         <br />
@@ -91,7 +97,8 @@ class Bios extends Component {
             <div key={bio.id}>
               <Card>
                 <Card.Header>
-                  Name: <Link
+                  Name: 
+                  <Link
                     to={`/bios/${bio.id}`}
                   >
                     {bio.first_name} {bio.last_name}

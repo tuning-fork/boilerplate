@@ -17,10 +17,6 @@ class FundingOrgsShow extends Component {
       isHidden: true,
       errors: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFundingOrgDelete = this.handleFundingOrgDelete.bind(this);
   }
 
   componentDidMount() {
@@ -56,20 +52,20 @@ class FundingOrgsShow extends Component {
       });
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { name, website, organization_id } = this.state;
     axios
       .patch(
@@ -91,7 +87,7 @@ class FundingOrgsShow extends Component {
     event.preventDefault();
   }
 
-  handleFundingOrgDelete() {
+  handleFundingOrgDelete = () => {
     axios
       .delete('/api/funding_orgs/' + this.state.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -118,88 +114,84 @@ class FundingOrgsShow extends Component {
     }
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h3>Name: {this.state.name}</h3>
-        </Card.Header>
-        <Card.Body>
-        <h3>Website: {this.state.website}</h3>
-        <h3>Organization Name: {this.state.organization_name}</h3>
-        </Card.Body>
+        <Card>
+          <Card.Header>
+            <h3>Name: {this.state.name}</h3>
+          </Card.Header>
+          <Card.Body>
+            <h3>Website: {this.state.website}</h3>
+            <h3>Organization Name: {this.state.organization_name}</h3>
+          </Card.Body>
         </Card>
         <br />
-
-        <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Category
-              </Button>
-              <br />
-              <br />
-              {!this.state.isHidden ? (
-                <div className="card">
-                  <div className="card-body">
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.name}
-                          name="name"
-                          placeholder={this.state.name}
+        <div className="container">
+          <Button onClick={this.toggleHidden.bind(this)}>
+            Update Category
+          </Button>
+          <br />
+          <br />
+          {!this.state.isHidden ? (
+            <div className="card">
+              <div className="card-body">
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={this.state.name}
+                      name="name"
+                      placeholder={this.state.name}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Website</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={this.state.website}
+                      name="website"
+                      placeholder={this.state.website}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Control
+                    as="select"
+                    name="organization_id"
+                    value={this.state.organization_id}
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="" disabled>Select Organization</option>
+                    {this.state.organizations.map(organization => {
+                      return(
+                        <option 
+                          key={organization.id} 
+                          value={organization.id} 
                           onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Website</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.website}
-                          name="website"
-                          placeholder={this.state.website}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Control
-                        as="select"
-                        name="organization_id"
-                        value={this.state.organization_id}
-                        onChange={this.handleChange}
-                        required
-                      >
-                        <option value="" disabled>Select Organization</option>
-                        {this.state.organizations.map(organization => {
-                          return(
-                            <option 
-                              key={organization.id} 
-                              value={organization.id} 
-                              onChange={this.handleChange}
-                            >
-                              {organization.name}
-                            </option>
-                          );
-                        })}
-                      </Form.Control>
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
                         >
-                          Close
-                        </Button>
-                      </div>
-                    </Form>
+                          {organization.name}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                  <div className="text-center">
+                    <Button type="submit" className="btn-lg">
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={this.toggleHidden.bind(this)}
+                      className="btn-lg"
+                    >
+                      Close
+                    </Button>
                   </div>
-                </div>
-                ) : null}
+                </Form>
+              </div>
             </div>
+          ) : null}
         </div>
-
         <Button onClick={this.handleFundingOrgDelete}>Delete</Button>
       </div>
     );

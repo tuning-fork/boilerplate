@@ -15,9 +15,6 @@ class CurrentUser extends Component {
       isHidden: true,
       organization_users: []
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -47,20 +44,20 @@ class CurrentUser extends Component {
 		});
 	};
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { first_name, last_name, email } = this.state;
     axios
       .patch(

@@ -12,9 +12,6 @@ class OrganizationsNew extends Component {
       name: "",
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   clearForm = () => {
@@ -23,13 +20,13 @@ class OrganizationsNew extends Component {
     });
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const newOrganization = this.state;
     axios
       .post('/api/organizations', newOrganization, 
@@ -50,6 +47,9 @@ class OrganizationsNew extends Component {
   render() {
     return (
       <Card>
+        <Card.Header>
+          <h3>Add An Organization</h3>
+        </Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>

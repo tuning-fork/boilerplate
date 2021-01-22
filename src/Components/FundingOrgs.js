@@ -12,6 +12,7 @@ class FundingOrgs extends Component {
       funding_orgs: []
     };
   }
+  
   componentDidMount() {
     axios
       .get('/api/funding_orgs',

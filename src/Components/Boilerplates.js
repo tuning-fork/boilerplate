@@ -46,7 +46,7 @@ class Boilerplates extends Component {
   };
 
   handleSearchParamSelect = (event) => {
-    let filterParam = this.state.filterParam
+    // let filterParam = this.state.filterParam
     this.setState({
       filterParam: event.target.value
     })
@@ -150,20 +150,22 @@ class Boilerplates extends Component {
         return (
           <div key={boilerplate.id}>
             <Card >
-                <Card.Header>
-                  Title: <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                  >
-                    {boilerplate.title}
-                  </Link>
-                </Card.Header>
-                  <Card.Body>
-                  <p dangerouslySetInnerHTML={{__html: results}}></p>
-                  <p>Organization: {boilerplate.organization_name}</p>
-                  <p>Category: {boilerplate.category_name}</p>
-                  <p>Wordcount: {boilerplate.wordcount}</p>
-                  </Card.Body>
-              </Card>
+              <Card.Header>
+                Title: 
+                <Link
+                  to={`/boilerplates/${boilerplate.id}`}
+                >
+                  {boilerplate.title}
+                </Link>
+              </Card.Header>
+              <Card.Body>
+                <p dangerouslySetInnerHTML={{__html: results}}></p>
+                <p>Organization: {boilerplate.organization_name}</p>
+                <p>Category: {boilerplate.category_name}</p>
+                <p>Wordcount: {boilerplate.wordcount}</p>
+              </Card.Body>
+            </Card>
+            <br />
           </div> )
       } else {
           return this.state.filteredBoilerplates.map((boilerplate) => {
@@ -171,18 +173,19 @@ class Boilerplates extends Component {
               <div key={boilerplate.id}>
                 <Card >
                   <Card.Header>
-                    Title: <Link
-                        to={`/boilerplates/${boilerplate.id}`}
+                    Title: 
+                    <Link
+                      to={`/boilerplates/${boilerplate.id}`}
                     >
                       {boilerplate.title}
                     </Link>
                   </Card.Header>
-                    <Card.Body>
+                  <Card.Body>
                     <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
                     <p>Organization: {boilerplate.organization_name}</p>
                     <p>Category: {boilerplate.category_name}</p>
                     <p>Wordcount: {boilerplate.wordcount}</p>
-                    </Card.Body>
+                  </Card.Body>
                 </Card>
                 <br />
               </div>
@@ -192,7 +195,7 @@ class Boilerplates extends Component {
       })
 
     return (
-      <div className="component container">
+      <div className="container">
         <h1>Boilerplates Index</h1>
         <br/>
         
@@ -202,30 +205,32 @@ class Boilerplates extends Component {
         <br/>
         <h3>Select a filter to search boilerplate</h3>
 
-        <Form.Group>
-          <Form.Label>Search Parameter</Form.Label>
-          <Form.Control
-            as="select" 
-            name="filterParam"
-            value={this.state.filterParam}
-            onChange={this.handleSearchParamSelect}
-            required
-          >
-            <option value="" disabled>Search By</option>
-            <option value="filterWordCount" >Word Count</option>
-            <option value="filterTitle" >Title</option>
-            <option value="filterText" >Text</option>
-          </Form.Control>   
-        </Form.Group>
-        
+        {/* Search input field */}
+
         <Form>
           <Form.Group>
-          <Form.Label></Form.Label>
-          <Form.Control 
-            type="text"
-            placeholder="Search text..." 
-            value={this.state.searchText} 
-            onChange={this.handleChange} />
+            <Form.Label>Search Filter</Form.Label>
+            <Form.Control
+              as="select" 
+              name="filterParam"
+              value={this.state.filterParam}
+              onChange={this.handleSearchParamSelect}
+              required
+            >
+              <option value="" disabled>Search By</option>
+              <option value="filterWordCount" >Word Count</option>
+              <option value="filterTitle" >Title</option>
+              <option value="filterText" >Text</option>
+            </Form.Control>   
+          </Form.Group>
+          <Form.Group>
+            <Form.Label></Form.Label>
+            <Form.Control 
+              type="text"
+              placeholder="Search text..." 
+              value={this.state.searchText} 
+              onChange={this.handleChange} 
+            />
           </Form.Group>
         </Form>
 
