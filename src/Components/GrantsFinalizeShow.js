@@ -4,6 +4,8 @@ import SectionsUpdateFinal from './SectionsUpdateFinal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
 class GrantsFinalizeShow extends Component {
   constructor(props) {
@@ -31,6 +33,8 @@ class GrantsFinalizeShow extends Component {
       copy_title: "",
       copy_rfp_url: "",
       copy_deadline: "",
+      successful_copy: false,
+      copied_grant_id: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -148,9 +152,16 @@ class GrantsFinalizeShow extends Component {
       )
       .then((response) => {
         this.toggleCopyGrantHidden();
+        this.setState({
+          successful_copy: true,
+          copied_grant_id: response.data.id
+        }) 
       })
       .catch((error) => {
         console.log('grant copy error', error);
+        this.setState({
+          successful_copy: false
+        }) 
       })
   }
 
@@ -276,7 +287,28 @@ class GrantsFinalizeShow extends Component {
             </div>
           ) : null}
         </div>
+        {/* beginning of copy grant feature */}
         <Button onClick={this.toggleCopyGrantHidden}>Copy Grant</Button>
+        {/* modal for grant copy confirm message */}
+        <Modal>
+          {this.state.successful_copy ? (
+            <Card>
+              <Card.Header></Card.Header>
+              <Card.Body></Card.Body>
+              <Alert variant="success">
+                <Alert.Heading>Congrats! You've created a copy. View your copy 
+                <Alert.Link href={`/grants/${this.state.copied_grant_id}`}>here</Alert.Link>.
+                </Alert.Heading>
+              </Alert>
+            </Card>
+            ) : 
+            <Card>
+              <Alert variant="danger">
+                <Alert.Heading>Oops! You haven't created a copy. Please close this pop up and try again.</Alert.Heading>
+              </Alert>
+            </Card>
+          }
+        </Modal>
         <Card>
         {!this.state.isCopyGrantHidden ? (
         <Card.Body>
@@ -317,6 +349,7 @@ class GrantsFinalizeShow extends Component {
           </Card.Body>
           ) : null}
           </Card>
+          {/* end of copy grant feature */}
           {this.state.sections.map(section => {
             return(
               <div key={section.id}>

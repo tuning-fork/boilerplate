@@ -23,7 +23,9 @@ class CurrentUser extends Component {
   componentDidMount() {
     axios
       .get('/api/users/' + localStorage.user_id, 
-        {withCredentials: true})
+      {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        // {withCredentials: true}
+        )
       .then((response) => {
         this.setState({
           first_name: response.data.first_name,
