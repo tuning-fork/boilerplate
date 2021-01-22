@@ -16,9 +16,6 @@ class FundingOrgsNew extends Component {
       organizations: [],
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -51,13 +48,13 @@ class FundingOrgsNew extends Component {
     });
   };
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const newFundingOrg = this.state;
     axios
       .post('/api/funding_orgs', newFundingOrg, 

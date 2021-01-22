@@ -24,12 +24,6 @@ class BoilerplatesShow extends Component {
       isHidden: true,
       errors: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.handleBoilerplateDelete = this.handleBoilerplateDelete.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -74,24 +68,24 @@ class BoilerplatesShow extends Component {
       .catch((error) => console.log(error));
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { title, quill_text, organization_id, category_id } = this.state;
     axios
       .patch(
@@ -114,7 +108,7 @@ class BoilerplatesShow extends Component {
     event.preventDefault();
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
       } else {
@@ -122,7 +116,7 @@ class BoilerplatesShow extends Component {
       }
   }
 
-  handleBoilerplateDelete() {
+  handleBoilerplateDelete = () => {
     axios
       .delete('/api/boilerplates/' + this.state.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -155,122 +149,129 @@ class BoilerplatesShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    }
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
+    };
+
     return (
-      <div className="component">
-      <Card>
-        <Card.Header>
-          <h3>{this.state.title}</h3>
-        </Card.Header>
-        <Card.Body>
-          <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
-          <h5>Organization {this.state.organization_name}</h5>
-          <h5>Category: {this.state.category_name}</h5>
-          <h5>Word Count: {this.countWords(this.state.quill_text)}</h5>
-        </Card.Body>
-      </Card>
+      <div className="container">
+        <Card>
+          <Card.Header>
+            <h3>{this.state.title}</h3>
+          </Card.Header>
+          <Card.Body>
+            <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
+            <h5>Organization {this.state.organization_name}</h5>
+            <h5>Category: {this.state.category_name}</h5>
+            <h5>Word Count: {this.countWords(this.state.quill_text)}</h5>
+          </Card.Body>
+        </Card>
         <br />
 
         <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Boilerplate
-              </Button>
-              <br />
-              <br />
-              {!this.state.isHidden ? (
+          <div className="container">
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Boilerplate
+            </Button>
+            <Button variant="danger" onClick={this.handleBoilerplateDelete}>
+              Delete Boilerplate
+            </Button>
+            <br />
+            <br />
+            {!this.state.isHidden ? (
+              <div>
                 <div>
-                  <div>
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.title}
-                          name="title"
-                          placeholder={this.state.title}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
-
-                      <ReactQuill 
-                        // name="quill_text"
-                        modules={this.modules}
-                        format={this.formats}
-                        defaultValue={this.state.quill_text}
-                        onChange={this.quillChange}  
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.title}
+                        name="title"
+                        placeholder={this.state.title}
+                        onChange={this.handleChange}
+                        required
                       />
-                      {/* <Form.Group>
-                        <Form.Label>Text</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.text}
-                          name="text"
-                          placeholder={this.state.text}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group> */}
-                      <Form.Group>
-                      <Form.Label>Organization</Form.Label>
-                      <Form.Control 
-                        as="select"
-                        name="organization_id"
-                        value={this.state.organization_id}
+                    </Form.Group>
+                    <ReactQuill 
+                      // name="quill_text"
+                      modules={this.modules}
+                      format={this.formats}
+                      defaultValue={this.state.quill_text}
+                      onChange={this.quillChange}  
+                    />
+                    {/* <Form.Group>
+                      <Form.Label>Text</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={this.state.text}
+                        name="text"
+                        placeholder={this.state.text}
                         onChange={this.handleChange}
                         required
-                      >
-                      <option value="" disabled>Select Organization</option>
-                      {this.state.organizations.map(organization => {
-                        return(
-                          <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
-                          );
-                      })}
-                      </Form.Control>
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Label>Category</Form.Label>
+                      />
+                    </Form.Group> */}
+                    <Form.Group>
+                    <Form.Label>Organization</Form.Label>
+                    <Form.Control 
+                      as="select"
+                      name="organization_id"
+                      value={this.state.organization_id}
+                      onChange={this.handleChange}
+                      required
+                    >
+                    <option value="" disabled>Select Organization</option>
+                    {this.state.organizations.map(organization => {
+                      return(
+                        <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                        );
+                    })}
+                    </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                    <Form.Label>Category</Form.Label>
 
-                      <Form.Control 
-                        as="select"
-                        name="category_id"
-                        value={this.state.category_id}
-                        onChange={this.handleChange}
-                        required
+                    <Form.Control 
+                      as="select"
+                      name="category_id"
+                      value={this.state.category_id}
+                      onChange={this.handleChange}
+                      required
+                    >
+                    <option value="" disabled>Select Category</option>
+                    {this.state.categories.map(category => {
+                      return(
+                        <option key={category.id} value={category.id} onChange={this.handleChange}>{category.name}</option>
+                        );
+                    })}
+                    </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Word Count</Form.Label>
+                      <p>{this.countWords(this.state.quill_text)}</p>
+                    </Form.Group>
+                    <div className="text-center">
+                      <Button type="submit" className="btn-lg">
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        className="btn-lg"
                       >
-                      <option value="" disabled>Select Category</option>
-                      {this.state.categories.map(category => {
-                        return(
-                          <option key={category.id} value={category.id} onChange={this.handleChange}>{category.name}</option>
-                          );
-                      })}
-                      </Form.Control>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Word Count</Form.Label>
-                        <p>{this.countWords(this.state.quill_text)}</p>
-                      </Form.Group>
-                      
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </Button>
-                        </div>
-                    </Form>
-                  </div>
-                  </div>
-                    ) : null} 
+                        Close
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
               </div>
-              </div>
-        <Button onClick={this.handleBoilerplateDelete}>Delete</Button>
+            ) : null} 
+          </div>
+          
+        </div>
+        
       </div>
     );
   }

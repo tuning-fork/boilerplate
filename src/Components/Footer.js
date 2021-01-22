@@ -1,6 +1,6 @@
-import React from "react"
+import React from "react";
 
-function Footer() {
+const Footer = () => {
     return (
         <footer className="component container">
             <p>Copyright J/M Productions</p>
@@ -8,4 +8,4 @@ function Footer() {
     )
 }
 
-export default Footer
+export default Footer;

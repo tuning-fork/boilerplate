@@ -49,27 +49,30 @@ class Categories extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     };
 
     return (
-      <div className="component">
+      <div className="container">
         <h1>Categories Index</h1>
 
         {this.state.categories.map((category) => {
           return (
             <Card key={category.id}>
               <Card.Header>
-              <Link
+                <Link
                   to={`/categories/${category.id}`}
                 >
                   {category.name}
                 </Link>
               </Card.Header>
-              </Card>
+            </Card>
           );
         })}
-        
         <br />
         <h3>Add Category</h3>
         <CategoriesNew 

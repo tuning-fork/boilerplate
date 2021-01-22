@@ -22,12 +22,6 @@ class BiosShow extends Component {
       isHidden: true,
       errors: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.handleBioDelete = this.handleBioDelete.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -52,24 +46,24 @@ class BiosShow extends Component {
       });
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { first_name, last_name, title, quill_text, organization_id } = this.state;
     axios
       .patch(
@@ -93,7 +87,7 @@ class BiosShow extends Component {
     event.preventDefault();
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
       } else {
@@ -101,7 +95,7 @@ class BiosShow extends Component {
       }
   }
 
-  handleBioDelete() {
+  handleBioDelete = () => {
     axios
       .delete('/api/bios/' + this.state.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -118,10 +112,15 @@ class BiosShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    }
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
+    };
+
     return (
-      <div className="component container">
+      <div className="container">
         <Card>
           <Card.Header>
           <h3>{this.state.first_name} {this.state.last_name}</h3>
@@ -134,7 +133,6 @@ class BiosShow extends Component {
           </Card.Body>
         </Card>
         <br />
-
         <div className="container">
           {this.state.isHidden ?
             <Button onClick={this.toggleHidden.bind(this)}>
@@ -208,13 +206,12 @@ class BiosShow extends Component {
                 <Button type="submit">
                   Submit
                 </Button>
-                <Button variant="danger" onClick={this.handleBioDelete}>Delete</Button>
+                <Button variant="danger" onClick={this.handleBioDelete}>Delete Bio</Button>
               </div>
             </Form>
             </Card.Body>
             </Card> 
           ) : null}
-          
         </div>
       </div>
     );

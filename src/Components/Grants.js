@@ -44,7 +44,7 @@ class Grants extends Component {
   };
 
   handleSearchParamSelect = (event) => {
-    let filterParam = this.state.filterParam
+    // let filterParam = this.state.filterParam
     this.setState({
       filterParam: event.target.value
     })
@@ -111,24 +111,26 @@ class Grants extends Component {
         return (
           <div key={grant.id}>
             <Card>
-                <Card.Header >
-                  Title: <a dangerouslySetInnerHTML={{__html: results}}
-                      href={`/grants/${grant.id}`}
-                  >
-                  </a>
-                </Card.Header>
-                  <Card.Body>
-                    <p>Purpose: {grant.purpose}</p>
-                    <p>Funding Organization: {grant.funding_org_name}</p>
-                    <p>RFP URL: {grant.rfp_url}</p>
-                    <p>Deadline: {this.formatDate(grant.deadline)}</p>
-                    <p>Deadline: <Moment>{grant.deadline}</Moment></p>
-                    <Moment fromNow>{grant.deadline}</Moment>
-                    <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                    <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                    <p>Organization Name: {grant.organization_name}</p>
-                  </Card.Body>
-              </Card>
+              <Card.Header >
+                Title: 
+                <a 
+                  dangerouslySetInnerHTML={{__html: results}}
+                  href={`/grants/${grant.id}`}
+                ></a>
+              </Card.Header>
+              <Card.Body>
+                <p>Purpose: {grant.purpose}</p>
+                <p>Funding Organization: {grant.funding_org_name}</p>
+                <p>RFP URL: {grant.rfp_url}</p>
+                <p>Deadline: {this.formatDate(grant.deadline)}</p>
+                <p>Deadline: <Moment>{grant.deadline}</Moment></p>
+                <Moment fromNow>{grant.deadline}</Moment>
+                <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
+                <p>Organization Name: {grant.organization_name}</p>
+              </Card.Body>
+            </Card>
+            <br />
           </div> )
         }
       else if (this.state.searchText && (this.state.filterParam === "filterPurpose")) {
@@ -137,27 +139,29 @@ class Grants extends Component {
         return (
           <div key={grant.id}>
             <Card>
-                <Card.Header>
-                  Title: <Link
-                      to={`/grants/${grant.id}`}
-                  >
-                    {grant.title}
-                  </Link>
-                </Card.Header>
-                  <Card.Body>
-                    <p>Purpose:
-                      <span dangerouslySetInnerHTML={{__html: results}}></span>
-                    </p>
-                    <p>Funding Organization: {grant.funding_org_name}</p>
-                    <p>RFP URL: {grant.rfp_url}</p>
-                    <p>Deadline: {this.formatDate(grant.deadline)}</p>
-                    <p>Deadline: <Moment>{grant.deadline}</Moment></p>
-                    <Moment fromNow>{grant.deadline}</Moment>
-                    <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                    <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                    <p>Organization Name: {grant.organization_name}</p>
-                  </Card.Body>
-              </Card>
+              <Card.Header>
+                Title: 
+                <Link
+                  to={`/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
+              </Card.Header>
+              <Card.Body>
+                <p>Purpose:
+                  <span dangerouslySetInnerHTML={{__html: results}}></span>
+                </p>
+                <p>Funding Organization: {grant.funding_org_name}</p>
+                <p>RFP URL: {grant.rfp_url}</p>
+                <p>Deadline: {this.formatDate(grant.deadline)}</p>
+                <p>Deadline: <Moment>{grant.deadline}</Moment></p>
+                <Moment fromNow>{grant.deadline}</Moment>
+                <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
+                <p>Organization Name: {grant.organization_name}</p>
+              </Card.Body>
+            </Card>
+            <br />
           </div> )
       } else {
           return this.state.filteredGrants.map((grant) => {
@@ -171,17 +175,17 @@ class Grants extends Component {
                       {grant.title}
                     </Link>
                   </Card.Header>
-                    <Card.Body>
-                      <p>Purpose: {grant.purpose}</p>
-                      <p>Funding Organization: {grant.funding_org_name}</p>
-                      <p>RFP URL: {grant.rfp_url}</p>
-                      <p>Deadline: {this.formatDate(grant.deadline)}</p>
-                      <p>Deadline: <Moment>{grant.deadline}</Moment></p>
-                      <Moment fromNow>{grant.deadline}</Moment>
-                      <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                      <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                      <p>Organization Name: {grant.organization_name}</p>
-                    </Card.Body>
+                  <Card.Body>
+                    <p>Purpose: {grant.purpose}</p>
+                    <p>Funding Organization: {grant.funding_org_name}</p>
+                    <p>RFP URL: {grant.rfp_url}</p>
+                    <p>Deadline: {this.formatDate(grant.deadline)}</p>
+                    <p>Deadline: <Moment>{grant.deadline}</Moment></p>
+                    <Moment fromNow>{grant.deadline}</Moment>
+                    <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                    <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
+                    <p>Organization Name: {grant.organization_name}</p>
+                  </Card.Body>
                 </Card>
                 <br />
               </div>
@@ -194,27 +198,29 @@ class Grants extends Component {
       <div className="component container">
         <h1>Grants Index</h1>
         <h3>Add A Grant</h3>
+
         <GrantsNew 
           updateGrants={this.updateGrants}
         />
         <br />
 
-        <Form.Group>
-          <Form.Label>Search Parameter</Form.Label>
-          <Form.Control
-            as="select" 
-            name="filterParam"
-            value={this.state.filterParam}
-            onChange={this.handleSearchParamSelect}
-            required
-          >
-            <option value="" disabled>Search By</option>
-            <option value="filterPurpose" >Purpose</option>
-            <option value="filterTitle" >Title</option>
-          </Form.Control>   
-        </Form.Group>
-        
+        {/* Grant search input */}
+
         <Form>
+          <Form.Group>
+            <Form.Label>Search Parameter</Form.Label>
+            <Form.Control
+              as="select" 
+              name="filterParam"
+              value={this.state.filterParam}
+              onChange={this.handleSearchParamSelect}
+              required
+            >
+              <option value="" disabled>Search By</option>
+              <option value="filterPurpose" >Purpose</option>
+              <option value="filterTitle" >Title</option>
+            </Form.Control>   
+          </Form.Group>
           <Form.Group>
           <Form.Label></Form.Label>
           <Form.Control 

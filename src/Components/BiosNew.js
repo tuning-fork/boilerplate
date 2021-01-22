@@ -20,11 +20,6 @@ class BiosNew extends Component {
       wordcount: "",
       errors: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
 
   clearForm = () => {
@@ -39,21 +34,17 @@ class BiosNew extends Component {
     });
   };
 
-  // componentDidMount() {
-    
-  // }
-
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const {
       first_name, last_name, title, quill_text, organization_id
     } = this.state;
@@ -79,7 +70,7 @@ class BiosNew extends Component {
     event.preventDefault();
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
       } else {
@@ -90,6 +81,9 @@ class BiosNew extends Component {
   render() {
     return (
       <Card>
+        <Card.Header>
+          <h3>Add A Bio</h3>
+        </Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -114,11 +108,19 @@ class BiosNew extends Component {
                   );
                 })}
               </Form.Control>
+              {this.props.isHiddenOrganizationsNew ?
+                <Button 
+                  variant="primary" 
+                  size="sm" 
+                  onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization
+                </Button> 
+              :
               <Button 
-                variant="secondary" 
-                size="sm" 
-                onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization
-              </Button>
+                  variant="warning" 
+                  size="sm" 
+                  onClick={this.props.toggleHiddenOrganizationsNew}>Close Add Organization
+                </Button>
+              }
             </Form.Group>
             <Form.Group>
               <Form.Label>First Name</Form.Label>

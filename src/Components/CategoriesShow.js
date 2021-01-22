@@ -16,10 +16,6 @@ class CategoriesShow extends Component {
       organization_name: "",
       errors: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCategoryDelete = this.handleCategoryDelete.bind(this);
   }
 
   componentDidMount() {
@@ -54,20 +50,20 @@ class CategoriesShow extends Component {
       .catch((error) => console.log(error));
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { name, organization_id } = this.state;
     axios
       .patch(
@@ -88,7 +84,7 @@ class CategoriesShow extends Component {
     event.preventDefault();
   }
 
-  handleCategoryDelete() {
+  handleCategoryDelete = () => {
     axios
       .delete('/api/categories/' + this.state.id,
       {headers: { Authorization: `Bearer ${localStorage.token}` }}
@@ -116,76 +112,76 @@ class CategoriesShow extends Component {
     }
     return (
       <div className="component">
-      <Card>
-        <Card.Header>
-        <h3>Name: {this.state.name}</h3>
-        </Card.Header>
-        <Card.Body>
-        <h3>organization: {this.state.organization_name}</h3>
-        </Card.Body>
-      </Card>
+        <Card>
+          <Card.Header>
+          <h3>Name: {this.state.name}</h3>
+          </Card.Header>
+          <Card.Body>
+          <h3>organization: {this.state.organization_name}</h3>
+          </Card.Body>
+        </Card>
         <br />
         <div>
-            <div className="container">
-              <Button onClick={this.toggleHidden.bind(this)}>
-                Update Category
-              </Button>
-              <br />
-              <br />
-              {!this.state.isHidden ? (
-                <Card>
-                  <Card.Body>
-                    <Form onSubmit={this.handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={this.state.name}
-                          name="name"
-                          placeholder={this.state.name}
-                          onChange={this.handleChange}
-                          required
-                        />
-                      </Form.Group>
+          <div className="container">
+            <Button onClick={this.toggleHidden.bind(this)}>
+              Update Category
+            </Button>
+            <br />
+            <br />
+            {!this.state.isHidden ? (
+              <Card>
+                <Card.Body>
+                  <Form onSubmit={this.handleSubmit}>
+                    <Form.Group>
+                      <Form.Label>Name</Form.Label>
                       <Form.Control
-                        as="select"
-                        name="organization_id"
-                        value={this.state.organization_id}
+                        type="text"
+                        value={this.state.name}
+                        name="name"
+                        placeholder={this.state.name}
                         onChange={this.handleChange}
                         required
+                      />
+                    </Form.Group>
+                    <Form.Control
+                      as="select"
+                      name="organization_id"
+                      value={this.state.organization_id}
+                      onChange={this.handleChange}
+                      required
+                    >
+                      <option value="" disabled>Select Organization</option>
+                      {this.state.organizations.map(organization => {
+                        return(
+                          <option 
+                            key={organization.id} 
+                            value={organization.id} 
+                            onChange={this.handleChange}
+                          >
+                            {organization.name}
+                          </option>
+                        );
+                      })}
+                    </Form.Control>
+                    <div className="text-center">
+                      <Button type="submit" className="btn-lg">
+                        Submit
+                      </Button>
+                      <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        className="btn-lg"
                       >
-                        <option value="" disabled>Select Organization</option>
-                        {this.state.organizations.map(organization => {
-                          return(
-                            <option 
-                              key={organization.id} 
-                              value={organization.id} 
-                              onChange={this.handleChange}
-                            >
-                              {organization.name}
-                            </option>
-                          );
-                        })}
-                      </Form.Control>
-                      <div className="text-center">
-                        <Button type="submit" className="btn-lg">
-                          Submit
-                        </Button>
-                        <Button
-                          onClick={this.toggleHidden.bind(this)}
-                          className="btn-lg"
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </Form>
-                    </Card.Body>
-                  </Card>
-                ) : null }
-          <Button onClick={this.handleCategoryDelete}>Delete</Button>
+                        Close
+                      </Button>
+                    </div>
+                  </Form>
+                </Card.Body>
+              </Card>
+            ) : null }
+            <Button onClick={this.handleCategoryDelete}>Delete</Button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
     );
   }
 }

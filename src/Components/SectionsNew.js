@@ -28,11 +28,7 @@ class SectionsNew extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.countWords = this.countWords.bind(this);
     this.quillChange = this.quillChange.bind(this);
-    // this.suggestionSelected = this.suggestionSelected.bind(this);
-    // this.onTextChanged = this.onTextChanged.bind(this);
-    // this.renderSuggestions = this.renderSuggestions.bind(this);
   }
   clearForm = () => {
     this.setState({
@@ -95,6 +91,7 @@ class SectionsNew extends Component {
       });
     event.preventDefault();
   }
+
   // countWords(string) {
   //   if (string) {
   //     return (string.split(" ").length);
@@ -102,17 +99,20 @@ class SectionsNew extends Component {
   //     return 0;
   //   }
   // }
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
+
   // users = users.filter(function(user) {
   //   return user.name.toLowerCase().indexOf(q) != -1; // returns true or false
   // });
   // const result = words.filter(word => word.length > 6);
   // const devReact = devs.filter(obj => obj.tech.includes("React")).map(obj => ({"name":obj.name, "tech":obj.tech}));
   // console.log(devReact);
+
   onTextChanged = (event) => {
     const value = event.target.value.toLowerCase();
     // console.log(value);
@@ -126,6 +126,7 @@ class SectionsNew extends Component {
     }
     this.setState(() => ({ suggestions, searchText: value }));
   }
+
   suggestionSelected(value) {
     let quill_text = this.state.quill_text;
     quill_text += value.text;
@@ -135,6 +136,7 @@ class SectionsNew extends Component {
       quill_text: quill_text
     }));
   }
+  
   renderSuggestions() {
     // console.log(this.state.suggestions);
     if (this.state.suggestions.length === 0) {
