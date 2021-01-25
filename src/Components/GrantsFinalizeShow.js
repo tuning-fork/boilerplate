@@ -35,6 +35,7 @@ class GrantsFinalizeShow extends Component {
       copy_deadline: "",
       successful_copy: false,
       copied_grant_id: "",
+      showCopyModal: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -96,6 +97,18 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
+  handleShowCopyModal = () => {
+    this.setState({
+      showCopyModal: true
+    })
+  }
+
+  handleHideCopyModal = () => {
+    this.setState({
+      showCopyModal: false
+    })
+  }
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -151,11 +164,15 @@ class GrantsFinalizeShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
-        this.toggleCopyGrantHidden();
         this.setState({
           successful_copy: true,
-          copied_grant_id: response.data.id
-        }) 
+          copied_grant_id: response.data.id,
+          showCopyModal: true
+        })
+        // this.toggleCopyGrantHidden();
+        // this.handleShowCopyModal();
+        // console.log(this.state.showCopyModal, 'waffle')
+        // console.log(this.state.copied_grant_id)
       })
       .catch((error) => {
         console.log('grant copy error', error);
@@ -163,6 +180,12 @@ class GrantsFinalizeShow extends Component {
           successful_copy: false
         }) 
       })
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.copied_grant_id !== "") {
+      this.handleShowCopyModal()
+    }
   }
 
   handleSectionDelete() {
@@ -196,6 +219,9 @@ class GrantsFinalizeShow extends Component {
     if (this.state.loading) {
       return <h1>Loading....</h1>;
     }
+
+    // console.log(this.state.showCopyModal, 'waffle')
+    // console.log(this.state.copied_grant_id)
     return (
       <div className="component">
       <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
@@ -290,7 +316,11 @@ class GrantsFinalizeShow extends Component {
         {/* beginning of copy grant feature */}
         <Button onClick={this.toggleCopyGrantHidden}>Copy Grant</Button>
         {/* modal for grant copy confirm message */}
-        <Modal>
+        {/* <Modal show={this.state.showCopyModal} onHide={this.handleHideCopyModal}> */}
+        <Button onClick={this.handleShowCopyModal}>Show Modal</Button>
+        <Modal show={this.state.showCopyModal} onHide={this.handleHideCopyModal}>
+          <Modal.Header closeButton></Modal.Header>
+          <Button onClick={this.handleHideCopyModal}>Hide Modal</Button>
           {this.state.successful_copy ? (
             <Card>
               <Card.Header></Card.Header>
