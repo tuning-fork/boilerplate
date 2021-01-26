@@ -110,8 +110,13 @@ class Grants extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     };
+
     let highlightedGrants = this.state.filteredGrants.map((grant) => {
       if (this.state.searchText && (this.state.filterParam === "filterTitle")) {
         let results = grant.title.replace(new RegExp(this.state.searchText, 'gi'),

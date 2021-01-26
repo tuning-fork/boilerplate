@@ -48,11 +48,15 @@ class FundingOrgs extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    };
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
+    }
 
     return (
-      <div className="component">
+      <div className="container">
         {this.state.funding_orgs.map((funding_org) => {
           return (
             <Card key={funding_org.id}>

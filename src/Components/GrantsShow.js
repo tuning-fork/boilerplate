@@ -28,12 +28,6 @@ class GrantsShow extends Component {
       funding_orgs: [],
       errors: [],
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleGrantDelete = this.handleGrantDelete.bind(this);
-    // this.updateNewReports = this.updateNewReports.bind(this);
-    // this.updateNewSections = this.updateNewSections.bind(this);
   }
 
   componentDidMount() {
@@ -90,7 +84,7 @@ class GrantsShow extends Component {
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -100,7 +94,7 @@ class GrantsShow extends Component {
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { title, rfp_url, deadline, submitted, successful, purpose, organization_id, funding_org_id } = this.state;
     axios
       .patch(
@@ -155,7 +149,7 @@ class GrantsShow extends Component {
     }) 
   }
 
-  handleGrantDelete() {
+  handleGrantDelete = () => {
 		axios
 			.delete('/api/grants/' + this.state.id, 
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
@@ -170,10 +164,10 @@ class GrantsShow extends Component {
 			});
   }
   
-  dragstartHandler(ev) {
+  dragstartHandler = (ev) => {
     ev.dataTransfer.setData("text/plain", ev.target.getAttribute('data--section_id'));
   }
-  dragoverHandler(ev) {
+  dragoverHandler = (ev) => {
     ev.preventDefault();
   }
   dropHandler = (ev) => {
@@ -228,10 +222,15 @@ class GrantsShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    }
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
+    };
+
     return (
-      <div className="component">
+      <div className="container">
         <h1>Grants Show Page - Build Grant Sections</h1>
         <Card>
           <Card.Header>
@@ -391,12 +390,15 @@ class GrantsShow extends Component {
           </Card.Body>
         </Card>
         <br />
-        <Button variant="danger" onClick={this.handleGrantDelete}>Delete Grant</Button>
+        
         <Link 
           to={`/grants-finalize/${this.state.id}`}
         >
           <Button>Grant Finalize</Button>
         </Link>
+        <Button variant="danger" onClick={this.handleGrantDelete}>
+          Delete Grant
+        </Button>
       </div>
     );
   }

@@ -37,11 +37,15 @@ class Organizations extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
-    };
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
+    }
 
     return (
-      <div className="component">
+      <div className="container">
       <h1>Organizations Index</h1>
         {this.state.organizations.map((organization) => {
           return (

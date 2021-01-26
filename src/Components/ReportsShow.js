@@ -186,8 +186,13 @@ export default class ReportsShow extends Component {
     // console.log(this.state.report_sections);
 
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     }
+
     return (
       <div className="component container">
       <h1>Report Show - Build Draft Report Sections</h1>
@@ -311,16 +316,16 @@ export default class ReportsShow extends Component {
           }
           </Card.Body>
         </Card>
-        <br />  
-
-        <Button variant="danger" onClick={this.handleReportDelete}>
-          Delete
-        </Button>
+        <br /> 
 
         <Link 
           to={`/reports-finalize/${this.state.id}`}>
           <Button>Report Finalize</Button>
-        </Link>
+        </Link> 
+
+        <Button variant="danger" onClick={this.handleReportDelete}>
+          Delete Report
+        </Button>
       </div>
     );
   }

@@ -123,10 +123,15 @@ class ReportsFinalizeShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     }
+
     return (
-      <div className="component">
+      <div className="container">
         <h1>Report Finalize - View and Finalize Report Draft</h1>
         <h5>{this.state.title}</h5>
         <h5>{this.state.deadline}</h5>
