@@ -87,10 +87,15 @@ class OrganizationsShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     }
+
     return (
-      <div className="component">
+      <div className="container">
       <Card>
         <Card.Header>
         <h3>Name: {this.state.name}</h3>
@@ -102,6 +107,9 @@ class OrganizationsShow extends Component {
             <div className="container">
               <Button onClick={this.toggleHidden.bind(this)}>
                 Update Organization
+              </Button>
+              <Button variant="danger" onClick={this.handleOrganizationDelete}>
+                Delete Organization
               </Button>
               <br />
               <br />
@@ -137,7 +145,7 @@ class OrganizationsShow extends Component {
                 ) : null}
             </div>
         </div>
-        <Button onClick={this.handleOrganizationDelete}>Delete</Button>
+        
       </div>
     );
   }

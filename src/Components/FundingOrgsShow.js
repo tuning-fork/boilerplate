@@ -110,10 +110,15 @@ class FundingOrgsShow extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h1>Loading....</h1>;
+      return (
+        <div className="container">
+          <h1>Loading....</h1>
+        </div>
+      );
     }
+
     return (
-      <div className="component">
+      <div className="container">
         <Card>
           <Card.Header>
             <h3>Name: {this.state.name}</h3>
@@ -127,6 +132,9 @@ class FundingOrgsShow extends Component {
         <div className="container">
           <Button onClick={this.toggleHidden.bind(this)}>
             Update Category
+          </Button>
+          <Button variant="danger" onClick={this.handleFundingOrgDelete}>
+            Delete Funding Org
           </Button>
           <br />
           <br />
@@ -192,7 +200,6 @@ class FundingOrgsShow extends Component {
             </div>
           ) : null}
         </div>
-        <Button onClick={this.handleFundingOrgDelete}>Delete</Button>
       </div>
     );
   }
