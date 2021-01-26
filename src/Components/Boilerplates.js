@@ -144,7 +144,9 @@ class Boilerplates extends Component {
 
     
     let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
-      let results = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
+      let resultsText = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
+        (match) => `<mark>${match}</mark>`);
+      let resultsTitle = boilerplate.title.replace(new RegExp(this.state.searchText, 'gi'),
         (match) => `<mark>${match}</mark>`);
       if (this.state.searchText) {
         return (
@@ -152,14 +154,14 @@ class Boilerplates extends Component {
             <Card >
               <Card.Header>
                 Title: 
-                <Link
-                  to={`/boilerplates/${boilerplate.id}`}
+                <a
+                  href={`/boilerplates/${boilerplate.id}`}
+                  dangerouslySetInnerHTML={{__html: resultsTitle}}
                 >
-                  {boilerplate.title}
-                </Link>
+                </a>
               </Card.Header>
               <Card.Body>
-                <p dangerouslySetInnerHTML={{__html: results}}></p>
+                <p dangerouslySetInnerHTML={{__html: resultsText}}></p>
                 <p>Organization: {boilerplate.organization_name}</p>
                 <p>Category: {boilerplate.category_name}</p>
                 <p>Wordcount: {boilerplate.wordcount}</p>
@@ -168,7 +170,7 @@ class Boilerplates extends Component {
             <br />
           </div> )
       } else {
-          return this.state.filteredBoilerplates.map((boilerplate) => {
+          // return this.state.filteredBoilerplates.map((boilerplate) => {
             return (
               <div key={boilerplate.id}>
                 <Card >
@@ -190,7 +192,7 @@ class Boilerplates extends Component {
                 <br />
               </div>
             );
-          })
+          // })
         }
       })
 
@@ -219,7 +221,6 @@ class Boilerplates extends Component {
             >
               <option value="" disabled>Search By</option>
               <option value="filterWordCount" >Word Count</option>
-              <option value="filterTitle" >Title</option>
               <option value="filterText" >Text</option>
             </Form.Control>   
           </Form.Group>
