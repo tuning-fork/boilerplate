@@ -153,10 +153,11 @@ class GrantsFinalizeShow extends Component {
   }
 
   copyGrant = () => {
-    const { copy_title, copy_rfp_url, copy_deadline} = this.state;
+    const { copy_title, copy_rfp_url, copy_deadline, id} = this.state;
     axios
-      .post('/api/grants/' + this.state.id + '/copy', 
+      .post('/api/grants/copy', 
         {
+          original_grant_id: id,
           title: copy_title,
           rfp_url: copy_rfp_url,
           deadline: copy_deadline
@@ -164,11 +165,12 @@ class GrantsFinalizeShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
-        this.setState({
-          successful_copy: true,
-          copied_grant_id: response.data.id,
-          showCopyModal: true
-        })
+        console.log(response.data.id)
+        // this.setState({
+        //   successful_copy: true,
+        //   copied_grant_id: response.data.id,
+        //   showCopyModal: true
+        // })
         // this.toggleCopyGrantHidden();
         // this.handleShowCopyModal();
         // console.log(this.state.showCopyModal, 'waffle')
@@ -176,17 +178,17 @@ class GrantsFinalizeShow extends Component {
       })
       .catch((error) => {
         console.log('grant copy error', error);
-        this.setState({
-          successful_copy: false
-        }) 
+        // this.setState({
+        //   successful_copy: false
+        // }) 
       })
   }
 
-  componentDidUpdate(prevState) {
-    if (prevState.copied_grant_id !== "") {
-      this.handleShowCopyModal()
-    }
-  }
+  // componentDidUpdate(prevState) {
+  //   if (prevState.copied_grant_id !== "") {
+  //     this.handleShowCopyModal()
+  //   }
+  // }
 
   handleSectionDelete() {
     axios

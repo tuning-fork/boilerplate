@@ -78,6 +78,15 @@ class Grants extends Component {
       this.setState({filteredGrants: filteredByPurpose})
       console.log(filteredByPurpose)
     } 
+    else if (this.state.filterParam === "filterFundingOrg") {
+      console.log(searchValue, "funding org")
+      let filteredByFundingOrg = [];
+      filteredByFundingOrg = this.state.grants.filter((grant) => {
+        return grant.funding_org_name.toLowerCase().indexOf(searchValue) !== -1;
+      })
+      this.setState({filteredGrants: filteredByFundingOrg})
+      console.log(filteredByFundingOrg)
+    } 
   }
 
   formatDate(date) {
@@ -163,8 +172,39 @@ class Grants extends Component {
             </Card>
             <br />
           </div> )
+      } else if (this.state.searchText && (this.state.filterParam === "filterFundingOrg")) {
+        let results = grant.funding_org_name.replace(new RegExp(this.state.searchText, 'gi'),
+          (match) => `<mark>${match}</mark>`);
+        return (
+          <div key={grant.id}>
+            <Card>
+              <Card.Header>
+                Title: 
+                <Link
+                  to={`/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
+              </Card.Header>
+              <Card.Body>
+                <p>Purpose: {grant.purpose} 
+                </p>
+                <p>Funding Organization: 
+                <span dangerouslySetInnerHTML={{__html: results}}></span>
+                </p>
+                <p>RFP URL: {grant.rfp_url}</p>
+                <p>Deadline: {this.formatDate(grant.deadline)}</p>
+                <p>Deadline: <Moment>{grant.deadline}</Moment></p>
+                <Moment fromNow>{grant.deadline}</Moment>
+                <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
+                <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
+                <p>Organization Name: {grant.organization_name}</p>
+              </Card.Body>
+            </Card>
+            <br />
+          </div> )
       } else {
-          return this.state.filteredGrants.map((grant) => {
+          // return this.state.filteredGrants.map((grant) => {
             return (
               <div key={grant.id}>
                 <Card >
@@ -190,7 +230,7 @@ class Grants extends Component {
                 <br />
               </div>
             );
-          })
+          // })
         }
       })
 
@@ -219,6 +259,7 @@ class Grants extends Component {
               <option value="" disabled>Search By</option>
               <option value="filterPurpose" >Purpose</option>
               <option value="filterTitle" >Title</option>
+              <option value="filterFundingOrg" >Funding Org</option>
             </Form.Control>   
           </Form.Group>
           <Form.Group>
