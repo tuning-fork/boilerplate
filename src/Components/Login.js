@@ -73,45 +73,49 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <div>
-            <span style={{ color: 'red' }}>
-              {this.state.errorType} {this.state.errorText}
-            </span>
-          </div>
-          <div>
-            <Button type="submit">
-              Login
-            </Button>
-          </div>
-        </Form>
-        <br />
-          <Link
-            to={`/forgot_password`}
-          >
-            Forgot your password?
-          </Link>
-        
+        <Card>
+          <Card.Header className="card-header" >Welcome to Boilerplate! Please Log In:</Card.Header>
+          <Card.Body>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.handleChange}
+                required
+              />
+            </Form.Group>
+            <div>
+              <span style={{ color: 'red' }}>
+                {this.state.errorType} {this.state.errorText}
+              </span>
+            </div>
+            <div>
+              <Button type="submit">
+                Login
+              </Button>
+            </div>
+          </Form>
+          <br />
+            <Link
+              to={`/forgot_password`}
+            >
+              Forgot your password?
+            </Link>
+            </Card.Body>
+          </Card>
       </div>
     );
   }
