@@ -71,10 +71,10 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
         <BrowserRouter>
           <Navigation />
-          <Header />
+          {/* <Header /> */}
           <Switch>
             <Route exact path="/">
               <Redirect to="/login" />

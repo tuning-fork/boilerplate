@@ -1,6 +1,7 @@
-body {
+/* body {
   margin: 0;
-}
+  padding-bottom: 50%;
+} */
 
 /* ul {
   list-style-type: none;
@@ -23,6 +24,28 @@ Nav.Link.active {
   background-color: #4CAF50;
   color: white;
 } 
+
+.nav-link-active {
+  background-color: #4CAF50;
+  color: white;
+} 
+
+.navbar {
+  background-color: #00B556;
+  color: white;
+  margin-bottom: 5%;
+} 
+
+.card-header {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #00B556;
+}
+
+.card-body {
+  font-size: 1rem;
+  background-color: #00EB23;
+}
 
 /* .component {
   margin-left:25%;
@@ -51,6 +74,11 @@ Nav.Link.active {
 
 } */
 
+.App {
+  background-color: #9def91;
+  margin: 0;
+  padding-bottom: 50%;
+}
 
 /* .App {
   text-align: center;
