@@ -78,7 +78,7 @@ class GrantsShow extends Component {
       });
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
@@ -120,7 +120,7 @@ class GrantsShow extends Component {
     event.preventDefault();
   }
 
-  updateNewSections = (newSection) => {
+  addNewSections = (newSection) => {
     const sections = this.state.sections;
     sections.push(newSection);
     this.setState({
@@ -128,17 +128,28 @@ class GrantsShow extends Component {
     }) 
   }
 
-  updateSections = (newSection) => {
-    const sections = this.state.sections.map(section => 
-      {
-        if (section.id === newSection.id) {
-          section = newSection
-      }
-      return section;
-      });
-    this.setState({
-      sections: sections
-    })
+  updateSections = (updatedSection) => {
+    if (updatedSection.message) {
+      const sections = this.state.sections.filter(section => 
+        section.id !== updatedSection.id
+      );
+      this.setState({
+        sections: sections
+      })
+      console.log('updateSections delete ran')
+    } else {
+      const sections = this.state.sections.map(section => 
+        {
+          if (section.id === updatedSection.id) {
+            section = updatedSection
+        }
+        return section;
+        });
+      this.setState({
+        sections: sections
+      })
+      console.log('updateSections update ran');
+    }
   }
 
   updateNewReports = (newReport) => {
@@ -356,7 +367,7 @@ class GrantsShow extends Component {
             <SectionsNew 
               sort_number={this.state.sections.length}
               grant_id={this.state.id} 
-              updateNewSections={this.updateNewSections}
+              addNewSections={this.addNewSections}
             />
           </Card.Body>
         
