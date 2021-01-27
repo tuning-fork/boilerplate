@@ -74,7 +74,7 @@ class Login extends Component {
     return (   
       <div className="container">
         <Card>
-          <Card.Header className="card-header" >Welcome to Boilerplate! Please Log In:</Card.Header>
+          <Card.Header>Welcome to Boilerplate! Please Log In:</Card.Header>
           <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
