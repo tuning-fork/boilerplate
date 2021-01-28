@@ -14,37 +14,85 @@
   overflow: auto;
 } */
 
-Nav.Link {
+/* Nav.Link {
   color: #000;
-  padding: 8px 16px;
+  
   text-decoration: none;
 }
 
 Nav.Link.active {
   background-color: #4CAF50;
   color: white;
-} 
+}  */
 
-.nav-link-active {
-  background-color: #4CAF50;
-  color: white;
-} 
+/* .navbar.item.active {
+  color: red;
+  /* color: #063223; */
+  /* padding: 8px 16px;
+}  */
+
+/* .navbar.link.active {
+  color: red;
+  /* color: #063223; */
+  /* padding: 8px 16px;
+}  */ 
 
 .navbar {
   background-color: #00B556;
-  color: white;
+  color: red;
   margin-bottom: 5%;
+  font-weight: bold;
+  font-size: 1.5rem;
 } 
+
+.navbar.item {
+  color: red;
+}
+
+/* .nav.active {
+  border-bottom: 5px solid cyan;
+} */
+
+.card.basic {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #00B556;
+  color: #063223;
+}
+
 
 .card-header {
   font-size: 2rem;
   font-weight: bold;
   background-color: #00B556;
+  color: #063223;
 }
 
 .card-body {
-  font-size: 1rem;
-  background-color: #00EB23;
+  font-size: 1.5rem;
+  background-color: #1bd036;
+}
+
+.btn.basic {
+  background-color: #0c5f42;
+  color: #bdf7e4;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 2%;
+}
+
+.btn.basic:hover {
+  color: #0c5f42;
+  background-color: #bdf7e4;
+}
+
+a.basic {
+  font-weight: bold;
+  color: #063223;
+}
+
+a.basic:hover {
+  color: #bdf7e4;
 }
 
 /* .component {
@@ -55,10 +103,6 @@ Nav.Link.active {
 /* .headertext{
   margin-block-start: 0em;
 }  */
-
-.nav.active {
-  border-bottom: 5px solid cyan;
-}
 
 .whatever:hover {
   background-color: orange;

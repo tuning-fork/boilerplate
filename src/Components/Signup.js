@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 class Signup extends Component {
@@ -72,72 +73,79 @@ class Signup extends Component {
   render() {
     return (
       <div className="container">
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Control
-              type="text"
-              name="first_name"
-              placeholder="First Name"
-              value={this.state.first_name}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="text"
-              name="last_name"
-              placeholder="Last Name"
-              value={this.state.last_name}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="password"
-              name="password_confirmation"
-              placeholder="Password Confirmation"
-              value={this.state.password_confirmation}
-              onChange={this.handleChange}
-              required
-            />
-          </Form.Group>
-          <div>
-            {this.state.errors.map((error, index) => {
-              return (
-                <span key={index} style={{ color: 'red' }}>
-                  {error},{' '}
-                </span>
-              );
-            })}
-          </div>
-          <div>
-            <Button type="submit">
-              Signup
-            </Button>
-          </div>
-        </Form>
+        <Card className="basic">
+          <Card.Header>
+            Sign Up As A New User!
+          </Card.Header>
+          <Card.Body>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  name="first_name"
+                  placeholder="First Name"
+                  value={this.state.first_name}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  name="last_name"
+                  placeholder="Last Name"
+                  value={this.state.last_name}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control
+                  type="password"
+                  name="password_confirmation"
+                  placeholder="Password Confirmation"
+                  value={this.state.password_confirmation}
+                  onChange={this.handleChange}
+                  required
+                />
+              </Form.Group>
+              <div>
+                {this.state.errors.map((error, index) => {
+                  return (
+                    <span key={index} style={{ color: 'red' }}>
+                      {error},{' '}
+                    </span>
+                  );
+                })}
+              </div>
+              <div>
+                <Button className="basic" type="submit">
+                  Signup
+                </Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
       </div>
     );
   }

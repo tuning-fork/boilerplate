@@ -93,10 +93,11 @@ class CurrentUser extends Component {
         </div>
         <div>
           {this.state.isHidden ? 
-            <Button onClick={this.toggleHidden.bind(this)}>
+            <Button className="button basic" onClick={this.toggleHidden.bind(this)}>
               Update Account Info
             </Button> :
             <Button
+              className="button basic"
               onClick={this.toggleHidden.bind(this)}
             >
               Close

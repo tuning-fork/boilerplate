@@ -39,7 +39,7 @@ export default class ForgotPassword extends Component {
   render() {
     return (
     <div className="container">
-      <Card>
+      <Card className="basic" >
         <Card.Header>
           <p>Enter the email address associated with your Boilerplate account</p>
         </Card.Header>
@@ -56,7 +56,7 @@ export default class ForgotPassword extends Component {
                 type="email" 
                 value={this.state.email}
               />
-              <Button>Submit</Button>
+              <Button className="basic" >Submit</Button>
             </Form.Group>
           </Form>
         </Card.Body>
