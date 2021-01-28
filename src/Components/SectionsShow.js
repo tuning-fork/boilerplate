@@ -22,12 +22,6 @@ class SectionsShow extends Component {
       errors: [],
       currentBoilerplate: '',
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.countWords = this.countWords.bind(this);
-    this.handleSectionDelete = this.handleSectionDelete.bind(this);
-    this.quillChange = this.quillChange.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +40,7 @@ class SectionsShow extends Component {
       .catch((error) => console.log(error));
   }
 
-  toggleHidden() {
+  toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
@@ -58,7 +52,7 @@ class SectionsShow extends Component {
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -72,11 +66,11 @@ class SectionsShow extends Component {
     });
   };
 
-  quillChange(value) {
+  quillChange = (value) => {
     this.setState({ quill_text: value})
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { title, quill_text, sort_order, grant_id } = this.state;
     axios
       .patch(
@@ -91,7 +85,6 @@ class SectionsShow extends Component {
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         if (response.data) {
-          // console.log(response.data);
           this.props.updateSections(response.data);
           this.toggleHidden();
         }
@@ -102,19 +95,21 @@ class SectionsShow extends Component {
     event.preventDefault();
   }
 
-  handleSectionDelete() {
+  handleSectionDelete = () => {
     axios
       .delete('/api/sections/' + this.props.section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        console.log(response);
+        if (response.data.message === "Section successfully destroyed") {
+          this.props.updateSections(response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  countWords(string) { 
+  countWords = (string) => { 
     if (string) {
       return (string.split(" ").length);
       } else {
@@ -133,19 +128,22 @@ class SectionsShow extends Component {
           </Card.Body>
           <div className="container">
             {this.state.isHidden ? 
-              <Button onClick={this.toggleHidden.bind(this)}>
+              <Button 
+                onClick={this.toggleHidden}>
                 Update Section
               </Button> :
               <Button
-                onClick={this.toggleHidden.bind(this)}
+                onClick={this.toggleHidden}
+                variant="warning"
               >
-                Close
+                Close Update Section
               </Button>
             }
             {this.state.isBoilerplateHidden ? 
               <Button onClick={this.toggleBoilerplateHidden}>
                 Save Section as Boilerplate
-              </Button> :
+              </Button> 
+              :
               <Button
                 onClick={this.toggleBoilerplateHidden}
               >
@@ -153,13 +151,13 @@ class SectionsShow extends Component {
               </Button>
             }
             {!this.state.isBoilerplateHidden ? 
-                <SectionToBoilerplateNew 
-                  toggleBoilerplateHidden={this.toggleBoilerplateHidden} 
-                  organization_id={this.props.organization_id} 
-                  title={this.state.title} 
-                  text={this.state.quill_text}
-                /> : null
-              }
+              <SectionToBoilerplateNew 
+                toggleBoilerplateHidden={this.toggleBoilerplateHidden} 
+                organization_id={this.props.organization_id} 
+                title={this.state.title} 
+                text={this.state.quill_text}
+              /> : null
+            }
             {/* <Link 
               to={'/boilerplates'}
             >
@@ -245,9 +243,14 @@ class SectionsShow extends Component {
                     </Form.Group>
                     <div className="text-center">
                       <Button type="submit">
-                        Submit
+                        Submit Updated Section
                       </Button>
-                      <Button variant="danger" onClick={this.handleSectionDelete}>Delete</Button>
+                      <Button 
+                        variant="danger" 
+                        onClick={this.handleSectionDelete}
+                      >
+                        Delete Section
+                      </Button>
                     </div>
                   </Form>
                 </Card.Body>
