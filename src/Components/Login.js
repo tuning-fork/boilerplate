@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-// import Card from 'react-bootstrap/Card';
+import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
@@ -73,8 +73,8 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Card>
-          <Card.Header className="card-header" >Welcome to Boilerplate! Please Log In:</Card.Header>
+        <Card style={{backgroundColor: "#00B556"}}>
+          <Card.Header>Welcome to Boilerplate! Please Log In:</Card.Header>
           <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
@@ -103,13 +103,12 @@ class Login extends Component {
               </span>
             </div>
             <div>
-              <Button type="submit">
+              <Button className="basic" type="submit">
                 Login
               </Button>
             </div>
           </Form>
-          <br />
-            <Link
+            <Link className="basic"
               to={`/forgot_password`}
             >
               Forgot your password?

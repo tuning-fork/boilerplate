@@ -97,12 +97,6 @@ class GrantsFinalizeShow extends Component {
     });
   }
 
-  handleShowCopyModal = () => {
-    this.setState({
-      showCopyModal: true
-    })
-  }
-
   handleHideCopyModal = () => {
     this.setState({
       showCopyModal: false
@@ -126,6 +120,7 @@ class GrantsFinalizeShow extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     const { title, rfp_url, deadline, submitted, successful, purpose, organization_id, funding_org_id } = this.state;
     axios
       .patch(
@@ -149,10 +144,10 @@ class GrantsFinalizeShow extends Component {
       .catch((error) => {
         console.log('grant update error', error);
       });
-    event.preventDefault();
   }
 
-  copyGrant = () => {
+  copyGrant = (event) => {
+    event.preventDefault();
     const { copy_title, copy_rfp_url, copy_deadline, id} = this.state;
     axios
       .post('/api/grants/copy', 
@@ -166,21 +161,19 @@ class GrantsFinalizeShow extends Component {
       )
       .then((response) => {
         console.log(response.data.id)
-        // this.setState({
-        //   successful_copy: true,
-        //   copied_grant_id: response.data.id,
-        //   showCopyModal: true
-        // })
-        // this.toggleCopyGrantHidden();
-        // this.handleShowCopyModal();
-        // console.log(this.state.showCopyModal, 'waffle')
-        // console.log(this.state.copied_grant_id)
+        this.setState({
+          copied_grant_id: response.data.id,
+          showCopyModal: true,
+          successful_copy: true
+        })
+        this.toggleCopyGrantHidden();
       })
       .catch((error) => {
         console.log('grant copy error', error);
-        // this.setState({
-        //   successful_copy: false
-        // }) 
+        this.setState({
+          showCopyModal: true,
+          successful_copy: false
+        }) 
       })
   }
 
@@ -318,20 +311,17 @@ class GrantsFinalizeShow extends Component {
         {/* beginning of copy grant feature */}
         <Button onClick={this.toggleCopyGrantHidden}>Copy Grant</Button>
         {/* modal for grant copy confirm message */}
-        {/* <Modal show={this.state.showCopyModal} onHide={this.handleHideCopyModal}> */}
-        <Button onClick={this.handleShowCopyModal}>Show Modal</Button>
         <Modal show={this.state.showCopyModal} onHide={this.handleHideCopyModal}>
           <Modal.Header closeButton></Modal.Header>
-          <Button onClick={this.handleHideCopyModal}>Hide Modal</Button>
           {this.state.successful_copy ? (
             <Card>
-              <Card.Header></Card.Header>
-              <Card.Body></Card.Body>
-              <Alert variant="success">
-                <Alert.Heading>Congrats! You've created a copy. View your copy 
-                <Alert.Link href={`/grants/${this.state.copied_grant_id}`}>here</Alert.Link>.
-                </Alert.Heading>
-              </Alert>
+              <Card.Body>
+                <Alert variant="success">
+                  <Alert.Heading>Congrats! You've created a copy. View your copy 
+                  <Alert.Link href={`/grants/${this.state.copied_grant_id}`}> here</Alert.Link>.
+                  </Alert.Heading>
+                </Alert>
+              </Card.Body>
             </Card>
             ) : 
             <Card>
@@ -341,6 +331,7 @@ class GrantsFinalizeShow extends Component {
             </Card>
           }
         </Modal>
+        {/* end of modal for grant copy confirm message */}
         <Card>
         {!this.state.isCopyGrantHidden ? (
         <Card.Body>
