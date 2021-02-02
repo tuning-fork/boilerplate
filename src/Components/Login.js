@@ -74,8 +74,8 @@ class Login extends Component {
     return (   
       <div className="container">
         <Card style={{backgroundColor: "#00B556"}}>
-          <Card.Header>Welcome to Boilerplate! Please Log In:</Card.Header>
           <Card.Body>
+          Welcome to Boilerplate! Please Log In:
           <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Control
@@ -103,12 +103,12 @@ class Login extends Component {
               </span>
             </div>
             <div>
-              <Button className="basic" type="submit">
+              <Button variant="success" type="submit">
                 Login
               </Button>
             </div>
           </Form>
-            <Link className="basic"
+            <Link variant="success"
               to={`/forgot_password`}
             >
               Forgot your password?
