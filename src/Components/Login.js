@@ -73,7 +73,10 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Card style={{backgroundColor: "#00B556"}}>
+        <Card className="card-custom border-custom"
+          // style={{backgroundColor: "#00B556"}} 
+          // className="text-center"
+        >
           <Card.Body>
           Welcome to Boilerplate! Please Log In:
           <Form onSubmit={this.handleSubmit}>
