@@ -1,7 +1,7 @@
-/* body {
+body {
   margin: 0;
   padding-bottom: 50%;
-} */
+}
 
 /* ul {
   list-style-type: none;
@@ -53,12 +53,31 @@ Nav.Link.active {
   border-bottom: 5px solid cyan;
 } */
 
-.card.basic {
+/* .card {
+  border: 25% !important;
+} */
+
+.card-custom {
   font-size: 2rem;
   font-weight: bold;
   background-color: #00B556;
   color: #063223;
+  width: 30rem;
+  /* border-width: 5px !important;
+  border-color: #063223 !important;
+  border-radius: 5% !important; */
+  text-align: center;
+  /* box-shadow: 0 0 0 13px #333; */
 }
+
+.border-custom {
+  border-width: 50px;
+  border-color: #063223;
+}
+
+/* .border-3 {
+  border-width: 10px !important;
+} */
 
 /* 
 .card-header {
