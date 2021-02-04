@@ -94,6 +94,7 @@ class BiosNew extends Component {
                 value={this.state.organization_id}
                 onChange={this.handleChange}
                 required
+                style={{color: "red", backgroundColor: "yellow"}}
               >
                 <option value="" disabled>Select Organization</option>
                 {this.props.organizations.map(organization => {
