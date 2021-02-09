@@ -3,40 +3,6 @@ body {
   padding-bottom: 50%;
 }
 
-/* ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 25%;
-  background-color: #f1f1f1;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-} */
-
-/* Nav.Link {
-  color: #000;
-  
-  text-decoration: none;
-}
-
-Nav.Link.active {
-  background-color: #4CAF50;
-  color: white;
-}  */
-
-/* .navbar.item.active {
-  color: red;
-  /* color: #063223; */
-  /* padding: 8px 16px;
-}  */
-
-/* .navbar.link.active {
-  color: red;
-  /* color: #063223; */
-  /* padding: 8px 16px;
-}  */ 
-
 .navbar {
   background-color: #00B556;
   color: red;
@@ -49,53 +15,35 @@ Nav.Link.active {
   color: red;
 }
 
-/* .nav.active {
-  border-bottom: 5px solid cyan;
-} */
-
-/* .card {
-  border: 25% !important;
-} */
-
-.card-custom {
+.card {
   font-size: 2rem;
   font-weight: bold;
-  background-color: #00B556;
-  color: #063223;
+  /* background-color: #00B556; */
+  /* background-color: #037d50; */
+  /* background-color: #063223; */
+  color: #bdf7e4;
   width: 30rem;
-  /* border-width: 5px !important;
-  border-color: #063223 !important;
-  border-radius: 5% !important; */
   text-align: center;
-  /* box-shadow: 0 0 0 13px #333; */
 }
 
-.border-custom {
-  border-width: 50px;
-  border-color: #063223;
-}
-
-/* .border-3 {
-  border-width: 10px !important;
-} */
-
-/* 
-.card-header {
-  font-size: 2rem;
-  font-weight: bold;
+.card .form-control {
   background-color: #00B556;
-  color: #063223;
-} */
+  color: #bdf7e4;
+  font-size: 1.5rem;
+}
 
 .card-body {
   font-size: 1.5rem;
-  background-color: #1bd036;
+  /* background-color: #1bd036; */
+  /* background-color: #037d50; */
+  /* background-color: #063223; */
+  background-color: #037d50;
 }
 
 .btn.basic {
   background-color: #0c5f42;
   color: #bdf7e4;
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: bold;
   margin: 2%;
 }
@@ -108,20 +56,12 @@ Nav.Link.active {
 a.basic {
   font-weight: bold;
   color: #063223;
+  color: #bdf7e4;
 }
 
 a.basic:hover {
   color: #bdf7e4;
 }
-
-/* .component {
-  margin-left:25%;
-  padding:1px 16px;
-}  */
-
-/* .headertext{
-  margin-block-start: 0em;
-}  */
 
 .whatever:hover {
   background-color: orange;
@@ -138,7 +78,9 @@ a.basic:hover {
 } */
 
 .App {
-  background-color: #9def91;
+  /* background-color: #9def91; */
+  /* background-color: #063223; */
+  background-color: #037d50;
   margin: 0;
   padding-bottom: 50%;
 }
@@ -181,3 +123,19 @@ a.basic:hover {
     transform: rotate(360deg);
   }
 } */
+
+/* Things we can do with React Bootstrap:
+Body color 
+card body color 
+text color 
+button color 
+font type
+font size
+font weight */
+
+/* Things we cannot do without customization:
+link color 
+navbar??? pretty much anything
+card header
+borders */
+
