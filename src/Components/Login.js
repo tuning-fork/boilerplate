@@ -73,10 +73,7 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Card className="card-custom border-custom"
-          // style={{backgroundColor: "#00B556"}} 
-          // className="text-center"
-        >
+        <Card border="dark">
           <Card.Body>
           Welcome to Boilerplate! Please Log In:
           <Form onSubmit={this.handleSubmit}>
@@ -106,12 +103,12 @@ class Login extends Component {
               </span>
             </div>
             <div>
-              <Button variant="success" type="submit">
+              <Button variant="outline-light" type="submit">
                 Login
               </Button>
             </div>
           </Form>
-            <Link variant="success"
+            <Link variant="light"
               to={`/forgot_password`}
             >
               Forgot your password?
