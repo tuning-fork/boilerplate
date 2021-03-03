@@ -4,15 +4,13 @@ body {
 }
 
 .navbar {
-  background-color: #00B556;
-  color: red;
+  /* background-color: #00B556; */
   margin-bottom: 5%;
   font-weight: bold;
   font-size: 1.5rem;
 } 
 
 .navbar.item {
-  color: red;
 }
 
 .card {
@@ -21,14 +19,14 @@ body {
   /* background-color: #00B556; */
   /* background-color: #037d50; */
   /* background-color: #063223; */
-  color: #bdf7e4;
+  color: #9baaa5;
   width: 80rem;
   text-align: left;
 }
 
 .card .form-control {
-  background-color: #00B556;
-  color: #bdf7e4;
+  /* background-color: #00B556; */
+  /* color: #bdf7e4; */
   font-size: 1.5rem;
 }
 
@@ -90,7 +88,7 @@ a.basic:hover {
 .App {
   /* background-color: #9def91; */
   /* background-color: #063223; */
-  background-color: #037d50;
+  /* background-color: #037d50; */
   margin: 0;
   padding-bottom: 50%;
 }

@@ -20,7 +20,7 @@ class Navigation extends Component {
 
   render() {
     return (
-        <Navbar expand="lg" sticky="top">
+        <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
           <ul>
             {localStorage.token && localStorage.user_id ? (
               <div>
