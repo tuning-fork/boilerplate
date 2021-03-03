@@ -13,10 +13,30 @@ class Bios extends Component {
       bios: [],
       organizations: [],
       isHiddenOrganizationsNew: true,
-      query: '',
       errors: []
     };
   }
+
+  createUnzipped = (data) => {
+    return data.map((filteredBio) => {
+      filteredBio.isUnzipped = false
+      return filteredBio
+    })
+  }
+
+  toggleUnzipped = (id, bool) => {
+    const alteredBios = this.state.filteredBios.map((bioKey) => {
+      if (id === bioKey.id) {
+        bioKey.isUnzipped = bool
+      }
+      console.log(bioKey)
+      return bioKey
+    })
+    this.setState({
+      filteredBios: alteredBios
+    })
+  }
+
   componentDidMount() {
     axios
       .get('/api/bios',
@@ -24,8 +44,11 @@ class Bios extends Component {
         // {withCredentials: true}
         )
       .then((response) => {
+        const zippyBios = this.createUnzipped(response.data);
+        console.log(zippyBios);
         this.setState({
           bios: response.data,
+          filteredBios: zippyBios,
           loading: false,
         });
       })
@@ -74,50 +97,64 @@ class Bios extends Component {
       );
     };
 
-    return (
-      <div className="container">
-        <h1>Bios Index</h1>
-        <br />
-        {!this.state.isHiddenOrganizationsNew ?
-          <OrganizationsNew 
-            updateOrganizations={this.updateOrganizations}
+      return(
+        <div className="container">
+          <h1>Bios Index</h1>
+          <br />
+          {!this.state.isHiddenOrganizationsNew ?
+            <OrganizationsNew 
+              updateOrganizations={this.updateOrganizations}
+              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+            /> : null
+          }
+          <br/>
+          <BiosNew 
+            updateBios={this.updateBios}
+            organizations={this.state.organizations}
+            isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
             toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-          /> : null
-        }
-        <br/>
-        <BiosNew 
-          updateBios={this.updateBios}
-          organizations={this.state.organizations}
-          isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
-          toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-        />
-        <br />
-        {this.state.bios.map((bio) => {
-          return (
-            <div key={bio.id}>
-              <Card>
-                <Card.Header>
-                  Name: 
-                  <Link
-                    to={`/bios/${bio.id}`}
-                  >
-                    {bio.first_name} {bio.last_name}
-                  </Link>
-                </Card.Header>
-                <Card.Body>
-                  <p>Title: {bio.title}</p>
-                  <p dangerouslySetInnerHTML={{__html: bio.text}}></p>
-                  <p>Organization: {bio.organization_name}</p>
-                  <p>Wordcount: {bio.wordcount}</p>
-                </Card.Body>
-              </Card>
-              <br />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+          />
+          <br />
+
+      {this.state.bios.map((bio) => {
+        console.log(bio);
+        return (
+          <div key={bio.id}>
+          {(bio.isUnzipped === false) ? (
+                <Card>
+                  <Card.Header>
+                        Name: 
+                        <Link
+                          to={`/bios/${bio.id}`}
+                        >
+                          {bio.first_name} {bio.last_name}
+                        </Link>
+                  </Card.Header>
+                </Card>
+              ) : (
+                  <Card>
+                    <Card.Header>
+                      Name: 
+                      <Link
+                        to={`/bios/${bio.id}`}
+                      >
+                        {bio.first_name} {bio.last_name}
+                      </Link>
+                    </Card.Header>
+                    <Card.Body>
+                      <p>Title: {bio.title}</p>
+                      <p dangerouslySetInnerHTML={{__html: bio.text}}></p>
+                      <p>Organization: {bio.organization_name}</p>
+                      <p>Wordcount: {bio.wordcount}</p>
+                    </Card.Body>
+                  </Card>
+            )}
+            </div> 
+        );
+      })
+    }
+    </div>
+  )}
 }
 
 export default Bios;

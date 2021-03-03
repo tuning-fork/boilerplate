@@ -22,8 +22,8 @@ body {
   /* background-color: #037d50; */
   /* background-color: #063223; */
   color: #bdf7e4;
-  width: 30rem;
-  text-align: center;
+  width: 80rem;
+  text-align: left;
 }
 
 .card .form-control {
@@ -37,7 +37,17 @@ body {
   /* background-color: #1bd036; */
   /* background-color: #037d50; */
   /* background-color: #063223; */
-  background-color: #037d50;
+  /* background-color: #037d50; */
+  background-color: white;
+  color: black;
+}
+
+.span {
+  color: black;
+}
+
+.card p {
+  color: black;
 }
 
 .btn.basic {

@@ -17,6 +17,7 @@ class SectionsShow extends Component {
       sort_order: "",
       isHidden: true,
       isBoilerplateHidden: true,
+      isUnzipped: false,
       wordcount: "",
       grant_id: "",
       errors: [],
@@ -42,7 +43,13 @@ class SectionsShow extends Component {
 
   toggleHidden = () => {
     this.setState({
-      isHidden: !this.state.isHidden,
+      isHidden: !this.state.isHidden
+    });
+  }
+  
+  toggleUnzipped = () => {
+    this.setState({
+      isUnzipped: !this.state.isUnzipped
     });
   }
 
@@ -120,6 +127,14 @@ class SectionsShow extends Component {
   render() {
     return (
       <div className="container">
+      {(this.state.isUnzipped === false) ? (
+        <Card>
+          <Card.Body>
+            <h5>{this.state.title}</h5>
+            <h1 onClick={this.toggleUnzipped}>+</h1>
+          </Card.Body>
+        </Card> 
+      ) : (
         <Card>
           <Card.Body>
             <h5>{this.state.title}</h5>
@@ -262,6 +277,7 @@ class SectionsShow extends Component {
               : null
             } */}
         </Card>
+      )}
         <br />
       </div>
     );

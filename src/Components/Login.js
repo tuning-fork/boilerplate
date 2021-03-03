@@ -73,7 +73,7 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Card border="dark">
+        <Card border="light">
           <Card.Body>
           Welcome to Boilerplate! Please Log In:
           <Form onSubmit={this.handleSubmit}>

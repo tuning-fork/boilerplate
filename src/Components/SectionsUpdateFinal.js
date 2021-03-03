@@ -119,10 +119,18 @@ class SectionsUpdateFinal extends Component {
   render() {
     return (
       <div className="container">
+      {(this.props.isUnzipped === false) ? (
         <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
           <h5>{this.state.title}</h5>
+          <h1 onClick={() => this.props.toggleUnzipped(this.props.section_id, true)}>+</h1>
+        </Container>
+      ) : (
+        <Container className="whatever" onClick={this.toggleHidden.bind(this)}>
+          <h5>{this.state.title}</h5>
+          <h1 onClick={() => this.props.toggleUnzipped(this.props.section_id, false)}>-</h1>
           <h5 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h5>
         </Container>
+      )}
         <br />
         {!this.state.isHidden ? (
           <div>

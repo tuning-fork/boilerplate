@@ -22,6 +22,7 @@ class BoilerplatesShow extends Component {
       organizations: [],
       categories: [],
       isHidden: true,
+      isUnzipped: false,
       errors: [],
     };
   }
@@ -66,6 +67,12 @@ class BoilerplatesShow extends Component {
         });
       })
       .catch((error) => console.log(error));
+  }
+
+  toggleUnzipped = () => {
+    this.setState({
+      isUnzipped: !this.state.isUnzipped
+    });
   }
 
   toggleHidden = () => {
@@ -158,9 +165,18 @@ class BoilerplatesShow extends Component {
 
     return (
       <div className="container">
+      {(this.state.isUnzipped === false) ? (
         <Card>
-          <Card.Header>
+          <Card.Header style={{color: "black"}}>
             <h3>{this.state.title}</h3>
+            <h1 onClick={this.toggleUnzipped}>+</h1>
+          </Card.Header>
+        </Card>
+      ) : (
+        <Card>
+          <Card.Header style={{color: "black"}}>
+            <h3>{this.state.title}</h3>
+            <h1 onClick={this.toggleUnzipped}>-</h1>
           </Card.Header>
           <Card.Body>
             <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
@@ -169,6 +185,7 @@ class BoilerplatesShow extends Component {
             <h5>Word Count: {this.countWords(this.state.quill_text)}</h5>
           </Card.Body>
         </Card>
+        )}
         <br />
 
         <div>

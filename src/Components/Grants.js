@@ -20,14 +20,36 @@ class Grants extends Component {
     this.formatFromNow = this.formatFromNow.bind(this);
   }
 
+  createUnzipped = (data) => {
+    return data.map((filteredGrant) => {
+      filteredGrant.isUnzipped = false
+      return filteredGrant
+    })
+  }
+
+  toggleUnzipped = (id, bool) => {
+    const alteredGrants = this.state.grants.map((grantKey) => {
+      if (id === grantKey.id) {
+        grantKey.isUnzipped = bool
+      }
+      console.log(grantKey)
+      return grantKey
+    })
+    this.setState({
+      filteredGrants: alteredGrants
+    })
+  }
+
   componentDidMount() {
     axios
       .get('/api/grants',
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
+        const zippyGrants = this.createUnzipped(response.data);
+        console.log(zippyGrants);
         this.setState({
           grants: response.data,
-          filteredGrants: response.data,
+          filteredGrants: zippyGrants,
           loading: false
         });
       // console.log(response.data);
@@ -124,6 +146,7 @@ class Grants extends Component {
         
         return (
           <div key={grant.id}>
+          {(grant.isUnzipped === false) ? (
             <Card>
               <Card.Header >
                 Title: 
@@ -131,6 +154,18 @@ class Grants extends Component {
                   dangerouslySetInnerHTML={{__html: results}}
                   href={`/grants/${grant.id}`}
                 ></a>
+                <h1 onClick={() => this.toggleUnzipped(grant.id, true)}>+</h1>
+              </Card.Header>
+            </Card>
+              ) : (
+            <Card>
+              <Card.Header >
+                Title: 
+                <a 
+                  dangerouslySetInnerHTML={{__html: results}}
+                  href={`/grants/${grant.id}`}
+                ></a>
+                <h1 onClick={() => this.toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
                 <p>Purpose: {grant.purpose}</p>
@@ -144,14 +179,27 @@ class Grants extends Component {
                 <p>Organization Name: {grant.organization_name}</p>
               </Card.Body>
             </Card>
+          )}
             <br />
           </div> )
-        }
-      else if (this.state.searchText && (this.state.filterParam === "filterPurpose")) {
+        } else if (this.state.searchText && (this.state.filterParam === "filterPurpose")) {
         let results = grant.purpose.replace(new RegExp(this.state.searchText, 'gi'),
           (match) => `<mark>${match}</mark>`);
         return (
           <div key={grant.id}>
+            {(grant.isUnzipped === false) ? (
+              <Card>
+                <Card.Header>
+                  Title: 
+                  <Link
+                    to={`/grants/${grant.id}`}
+                  >
+                    {grant.title}
+                  </Link>
+                  <h1 onClick={() => this.toggleUnzipped(grant.id, true)}>+</h1>
+                </Card.Header>
+              </Card>
+              ) : (
             <Card>
               <Card.Header>
                 Title: 
@@ -160,6 +208,7 @@ class Grants extends Component {
                 >
                   {grant.title}
                 </Link>
+                <h1 onClick={() => this.toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
                 <p>Purpose:
@@ -175,6 +224,7 @@ class Grants extends Component {
                 <p>Organization Name: {grant.organization_name}</p>
               </Card.Body>
             </Card>
+            )}
             <br />
           </div> )
       } else if (this.state.searchText && (this.state.filterParam === "filterFundingOrg")) {
@@ -182,6 +232,7 @@ class Grants extends Component {
           (match) => `<mark>${match}</mark>`);
         return (
           <div key={grant.id}>
+          {(grant.isUnzipped === false) ? (
             <Card>
               <Card.Header>
                 Title: 
@@ -190,6 +241,19 @@ class Grants extends Component {
                 >
                   {grant.title}
                 </Link>
+                <h1 onClick={() => this.toggleUnzipped(grant.id, true)}>+</h1>
+              </Card.Header>
+            </Card>
+            ) : (
+            <Card>
+              <Card.Header>
+                Title: 
+                <Link
+                  to={`/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
+                <h1 onClick={() => this.toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
                 <p>Purpose: {grant.purpose} 
@@ -206,12 +270,26 @@ class Grants extends Component {
                 <p>Organization Name: {grant.organization_name}</p>
               </Card.Body>
             </Card>
+            )}
             <br />
           </div> )
       } else {
           // return this.state.filteredGrants.map((grant) => {
-            return (
-              <div key={grant.id}>
+        return (
+          <div key={grant.id}>
+          {(grant.isUnzipped === false) ? (
+              <Card>
+                <Card.Header>
+                  Title: 
+                  <Link
+                    to={`/grants/${grant.id}`}
+                  >
+                    {grant.title}
+                  </Link>
+                  <h1 onClick={() => this.toggleUnzipped(grant.id, true)}>+</h1>
+                </Card.Header>
+              </Card>
+              ) : (
                 <Card >
                   <Card.Header>
                     Title: <Link
@@ -219,6 +297,7 @@ class Grants extends Component {
                     >
                       {grant.title}
                     </Link>
+                    <h1 onClick={() => this.toggleUnzipped(grant.id, false)}>-</h1>
                   </Card.Header>
                   <Card.Body>
                     <p>Purpose: {grant.purpose}</p>
@@ -232,10 +311,10 @@ class Grants extends Component {
                     <p>Organization Name: {grant.organization_name}</p>
                   </Card.Body>
                 </Card>
+                )}
                 <br />
               </div>
             );
-          // })
         }
       })
 

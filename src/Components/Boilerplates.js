@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BoilerplatesNew from './BoilerplatesNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 // import Button from 'react-bootstrap/Button';
 
@@ -18,23 +19,50 @@ class Boilerplates extends Component {
       query: '',
       searchText: '',
       filterParam: '',
-      filteredByWordCount: [],
-      // highlightedBoilerplates: []
+      filteredByWordCount: []
     };
   }
+
+  createUnzipped = (data) => {
+      return data.map((filteredBoilerplate) => {
+        filteredBoilerplate.isUnzipped = false
+        return filteredBoilerplate
+      })
+  }
+
+  toggleUnzipped = (id, bool) => {
+    const alteredBoilerplates = this.state.filteredBoilerplates.map((bPKey) => {
+      if (id === bPKey.id) {
+        bPKey.isUnzipped = bool
+      }
+      console.log(bPKey)
+      return bPKey
+    })
+    this.setState({
+      filteredBoilerplates: alteredBoilerplates
+    })
+  }
+
 
   componentDidMount() {
     axios
       .get('/api/boilerplates',
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
+        const zippyBoilerplates = this.createUnzipped(response.data);
+        console.log(zippyBoilerplates);
         this.setState({
           boilerplates: response.data,
-          filteredBoilerplates: response.data,
+          filteredBoilerplates: zippyBoilerplates,
           loading: false
-        });
       })
-      .catch((error) => console.log(error));
+      })
+      .catch((error) =>  {
+        console.log(error)
+        this.setState({
+          loading: false
+        })
+      })
   }
 
   updateBoilerplates = (newBoilerplate) => {
@@ -46,7 +74,6 @@ class Boilerplates extends Component {
   };
 
   handleSearchParamSelect = (event) => {
-    // let filterParam = this.state.filterParam
     this.setState({
       filterParam: event.target.value
     })
@@ -100,25 +127,6 @@ class Boilerplates extends Component {
       console.log(filteredByText)
     } 
   }
-
-  // highlightBoilerplates = (filteredArr) => {
-  //   filteredArr.map((boilerplate) => {
-  //     boilerplate.text = boilerplate.text.replace(this.state.searchText, 
-  //       (match) => `<mark>${match}</mark>`);
-  //     if (this.state.searchText) {
-  //       return filteredArr;
-        
-  //     } 
-  //   //     // else {
-  //   //     //   return (
-  //   //     //     <div key={boilerplate.id}>
-  //   //     //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-  //   //     //     </div>
-  //   //     //   )
-  //   //     // }
-  //   })
-  //   this.setState({ highlightedBoilerplates: filteredArr })
-  // }
     
 
   render() {
@@ -126,24 +134,8 @@ class Boilerplates extends Component {
       return <h1 className="container">Loading....</h1>;
     };
     
-    // let highlightBoilerplates = this.state.filteredBoilerplates;
-    // highlightBoilerplates.map((boilerplate) => {
-    //   boilerplate.text = boilerplate.text.replace(this.state.searchText, 
-    //     (match) => `<mark>${match}</mark>`);
-    //   if (this.state.searchText) {
-    //     return highlightBoilerplates;
-    //   } 
-    // //     // else {
-    // //     //   return (
-    // //     //     <div key={boilerplate.id}>
-    // //     //         <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-    // //     //     </div>
-    // //     //   )
-    // //     // }
-    // })
-
-    
     let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
+      console.log(boilerplate);
       let resultsText = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
         (match) => `<mark>${match}</mark>`);
       let resultsTitle = boilerplate.title.replace(new RegExp(this.state.searchText, 'gi'),
@@ -151,7 +143,8 @@ class Boilerplates extends Component {
       if (this.state.searchText) {
         return (
           <div key={boilerplate.id}>
-            <Card >
+          {(boilerplate.isUnzipped === false) ? (
+            <Card>
               <Card.Header>
                 Title: 
                 <a
@@ -159,6 +152,19 @@ class Boilerplates extends Component {
                   dangerouslySetInnerHTML={{__html: resultsTitle}}
                 >
                 </a>
+                <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
+              </Card.Header>
+            </Card>
+          ) : (
+            <Card>
+              <Card.Header>
+                Title: 
+                <a
+                  href={`/boilerplates/${boilerplate.id}`}
+                  dangerouslySetInnerHTML={{__html: resultsTitle}}
+                >
+                </a>
+                <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
                 <p dangerouslySetInnerHTML={{__html: resultsText}}></p>
@@ -167,13 +173,15 @@ class Boilerplates extends Component {
                 <p>Wordcount: {boilerplate.wordcount}</p>
               </Card.Body>
             </Card>
+          )}
             <br />
           </div> )
       } else {
           // return this.state.filteredBoilerplates.map((boilerplate) => {
             return (
               <div key={boilerplate.id}>
-                <Card >
+              {(boilerplate.isUnzipped === false) ? (
+                <Card>
                   <Card.Header>
                     Title: 
                     <Link
@@ -181,6 +189,19 @@ class Boilerplates extends Component {
                     >
                       {boilerplate.title}
                     </Link>
+                    <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
+                  </Card.Header>
+                </Card>
+              ) : (
+                <Card>
+                  <Card.Header>
+                    Title: 
+                    <Link
+                      to={`/boilerplates/${boilerplate.id}`}
+                    >
+                      {boilerplate.title}
+                    </Link>
+                    <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1>
                   </Card.Header>
                   <Card.Body>
                     <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
@@ -189,6 +210,7 @@ class Boilerplates extends Component {
                     <p>Wordcount: {boilerplate.wordcount}</p>
                   </Card.Body>
                 </Card>
+              )}
                 <br />
               </div>
             );

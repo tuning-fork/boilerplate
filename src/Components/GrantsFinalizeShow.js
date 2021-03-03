@@ -35,11 +35,31 @@ class GrantsFinalizeShow extends Component {
       copy_deadline: "",
       successful_copy: false,
       copied_grant_id: "",
-      showCopyModal: false
+      showCopyModal: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  createUnzipped = (data) => {
+    return data.map((section) => {
+      section.isUnzipped = false
+      return section
+    })
+  }
+
+  toggleUnzipped = (id, bool) => {
+    const alteredSections = this.state.sections.map((sectionKey) => {
+      if (id === sectionKey.id) {
+        sectionKey.isUnzipped = bool
+      }
+      console.log(sectionKey)
+      return sectionKey
+    })
+    this.setState({
+      sections: alteredSections
+    })
   }
 
   componentDidMount() {
@@ -47,6 +67,8 @@ class GrantsFinalizeShow extends Component {
       .get(`/api/grants/${this.props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
+        const zippySections = this.createUnzipped(response.data);
+        console.log(zippySections);
         this.setState({
           id: response.data.id,
           title: response.data.title,
@@ -58,7 +80,7 @@ class GrantsFinalizeShow extends Component {
           organization_id: response.data.organizion_id,
           organization_name: response.data.organization_name,
           funding_org_id: response.data.funding_org_id,
-          sections: response.data.sections,
+          sections: zippySections,
           reports: response.data.reports,
           loading: false,
         });
@@ -215,8 +237,6 @@ class GrantsFinalizeShow extends Component {
       return <h1>Loading....</h1>;
     }
 
-    // console.log(this.state.showCopyModal, 'waffle')
-    // console.log(this.state.copied_grant_id)
     return (
       <div className="component">
       <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
@@ -373,10 +393,13 @@ class GrantsFinalizeShow extends Component {
           ) : null}
           </Card>
           {/* end of copy grant feature */}
+
           {this.state.sections.map(section => {
             return(
               <div key={section.id}>
                 <SectionsUpdateFinal 
+                  isUnzipped={section.isUnzipped}
+                  toggleUnzipped={this.toggleUnzipped}
                   section_id={section.id}
                   boilerplates={this.state.boilerplates}
                   bios={this.state.bios}
