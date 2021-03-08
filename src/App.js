@@ -27,6 +27,8 @@ import FundingOrgs from './Components/FundingOrgs';
 // import Sections from './Components/Sections';
 // import ReportSections from './Components/ReportSections';
 
+import Resources from './Components/Resources';
+
 import BiosShow from './Components/BiosShow';
 import BoilerplatesShow from './Components/BoilerplatesShow';
 import CategoriesShow from './Components/CategoriesShow';
@@ -85,6 +87,7 @@ export default class App extends Component {
             <Route path={'/forgot_password'} component={ForgotPassword} />
 
             <Route path={'/dashboard'} component={Dashboard}/>
+            <Route path={'/resources'} component={Resources}/>
             <Route exact path={'/grants'} component={Grants} />
             <Route path={'/grants/:id'} component={GrantsShow} />
             <Route path={'/grants-finalize/:id'} component={GrantsFinalizeShow} />

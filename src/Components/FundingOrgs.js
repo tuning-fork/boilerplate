@@ -9,8 +9,21 @@ class FundingOrgs extends Component {
     super(props);
     this.state = {
       loading: true,
-      funding_orgs: []
+      openIndex: false,
+      openNew: false
     };
+  }
+
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
   }
   
   componentDidMount() {
@@ -57,6 +70,10 @@ class FundingOrgs extends Component {
 
     return (
       <div className="container">
+      <h1>Funding Orgs Index</h1>
+        <h1 onClick={this.toggleOpenIndex}>+</h1>
+        {this.state.openIndex ? (
+          <div>
         {this.state.funding_orgs.map((funding_org) => {
           return (
             <Card key={funding_org.id}>
@@ -70,12 +87,16 @@ class FundingOrgs extends Component {
             </Card>
           );
         })}
-
+        </div>
+        ) : null}
         <br />
         <h3>Add Funding Org</h3>
+        <h1 onClick={this.toggleOpenNew}>+</h1>
+      {this.state.openNew ? (
         <FundingOrgsNew 
           updateFundingOrgs={this.updateFundingOrgs}
         />
+        ) : null}
       </div>
     );
   }

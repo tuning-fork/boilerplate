@@ -19,8 +19,22 @@ class Boilerplates extends Component {
       query: '',
       searchText: '',
       filterParam: '',
-      filteredByWordCount: []
+      filteredByWordCount: [],
+      openIndex: false,
+      openNew: false
     };
+  }
+
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
   }
 
   createUnzipped = (data) => {
@@ -221,11 +235,11 @@ class Boilerplates extends Component {
     return (
       <div className="container">
         <h1>Boilerplates Index</h1>
+        <h1 onClick={this.toggleOpenIndex}>+</h1>
+        {this.state.openIndex ? (
+          <div>
         <br/>
-        
-        <BoilerplatesNew 
-          updateBoilerplates={this.updateBoilerplates}
-        />
+
         <br/>
         <h3>Select a filter to search boilerplate</h3>
 
@@ -258,7 +272,15 @@ class Boilerplates extends Component {
         </Form>
 
         {highlightedBoilerplates}
-
+        </div>
+        ) : null}
+        <h3>Add Boilerplate</h3>
+        <h1 onClick={this.toggleOpenNew}>+</h1>
+          {this.state.openNew ? (
+        <BoilerplatesNew 
+          updateBoilerplates={this.updateBoilerplates}
+        />
+        ) : null}
       </div>
     );
   }

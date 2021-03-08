@@ -11,8 +11,23 @@ class Organizations extends Component {
       loading: true,
       organizations: [],
       query: '',
+      openIndex: false,
+      openNew: false
     };
   }
+
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
+  }
+
   componentDidMount() {
     axios
       .get('/api/organizations',
@@ -47,6 +62,9 @@ class Organizations extends Component {
     return (
       <div className="container">
       <h1>Organizations Index</h1>
+      <h1 onClick={this.toggleOpenIndex}>+</h1>
+      {this.state.openIndex ? (
+          <div>
         {this.state.organizations.map((organization) => {
           return (
             <Card key={organization.id}>
@@ -60,12 +78,16 @@ class Organizations extends Component {
             </Card>
           );
         })}
-
+        </div>
+        ) : null}
         <br />
         <h3>Add An Organization</h3>
+        <h1 onClick={this.toggleOpenNew}>+</h1>
+      {this.state.openNew ? (
         <OrganizationsNew 
           updateOrganizations={this.updateOrganizations}
         />
+        ) : null}
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CategoriesNew from './CategoriesNew';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/Card';
 
 class Categories extends Component {
   constructor(props) {
@@ -12,7 +13,21 @@ class Categories extends Component {
       categories: [],
       organizations: [],
       query: '',
+      openIndex: false,
+      openNew: false
     };
+  }
+
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
   }
 
   componentDidMount() {
@@ -59,25 +74,32 @@ class Categories extends Component {
     return (
       <div className="container">
         <h1>Categories Index</h1>
-
-        {this.state.categories.map((category) => {
-          return (
-            <Card key={category.id}>
-              <Card.Header>
-                <Link
-                  to={`/categories/${category.id}`}
-                >
-                  {category.name}
-                </Link>
-              </Card.Header>
+        <h1 onClick={this.toggleOpenIndex}>+</h1>
+        {this.state.openIndex ? (
+          <div>
+          <Card>
+            {this.state.categories.map((category) => {
+              return (
+                  <Card.Header key={category.id}>
+                    <Link
+                      to={`/categories/${category.id}`}
+                    >
+                      {category.name}
+                    </Link>
+                  </Card.Header>
+              );
+            })}
             </Card>
-          );
-        })}
+          </div>
+        ) : null}
         <br />
         <h3>Add Category</h3>
+        <h1 onClick={this.toggleOpenNew}>+</h1>
+      {this.state.openNew ? (
         <CategoriesNew 
           updateCategories={this.updateCategories}
         />
+        ) : null}
       </div>
     );
   }

@@ -7,14 +7,14 @@ body {
   /* background-color: #00B556; */
   margin-bottom: 5%;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1rem;
 } 
 
 .navbar.item {
 }
 
 .card {
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
   /* background-color: #00B556; */
   /* background-color: #037d50; */
@@ -51,7 +51,7 @@ body {
 .btn.basic {
   background-color: #0c5f42;
   color: #bdf7e4;
-  font-size: 3rem;
+  font-size: 1rem;
   font-weight: bold;
   margin: 2%;
 }

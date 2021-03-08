@@ -13,8 +13,22 @@ class Bios extends Component {
       bios: [],
       organizations: [],
       isHiddenOrganizationsNew: true,
-      errors: []
+      errors: [],
+      openIndex: false,
+      openNew: false
     };
+  }
+
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
   }
 
   createUnzipped = (data) => {
@@ -100,6 +114,9 @@ class Bios extends Component {
       return(
         <div className="container">
           <h1>Bios Index</h1>
+          <h1 onClick={this.toggleOpenIndex}>+</h1>
+          {this.state.openIndex ? (
+          <div>
           <br />
           {!this.state.isHiddenOrganizationsNew ?
             <OrganizationsNew 
@@ -108,12 +125,6 @@ class Bios extends Component {
             /> : null
           }
           <br/>
-          <BiosNew 
-            updateBios={this.updateBios}
-            organizations={this.state.organizations}
-            isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
-            toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-          />
           <br />
 
       {this.state.bios.map((bio) => {
@@ -153,6 +164,20 @@ class Bios extends Component {
         );
       })
     }
+    </div>
+        ) : null}
+        <div>
+    <h3>Add Bio</h3>
+    <h1 onClick={this.toggleOpenNew}>+</h1>
+      {this.state.openNew ? (
+        <BiosNew 
+            updateBios={this.updateBios}
+            organizations={this.state.organizations}
+            isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
+            toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
+          />
+      ) : null}
+      </div>
     </div>
   )}
 }

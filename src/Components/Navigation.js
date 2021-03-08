@@ -31,7 +31,7 @@ class Navigation extends Component {
                 <Nav.Item className="active">
                   <Nav.Link href="/grants">Grants</Nav.Link>
                 </Nav.Item>
-                <Nav.Item className="active">
+                {/* <Nav.Item className="active">
                   <Nav.Link href="/bios">Bios</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="active">
@@ -45,6 +45,9 @@ class Navigation extends Component {
                 </Nav.Item>
                 <Nav.Item className="active">
                   <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
+                </Nav.Item> */}
+                <Nav.Item className="active">
+                  <Nav.Link href="/resources">Resources</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link onClick={this.handleLogoutClick}to="/logout">Logout</Nav.Link>
