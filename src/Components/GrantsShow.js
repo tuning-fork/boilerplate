@@ -192,23 +192,27 @@ class GrantsShow extends Component {
     const closestSectionId = closestSection.getAttribute('data--section_id');
 
     const [sourceSection] = this.state.sections.filter(s => {
-      return s.id === sourceSectionId;
+      return s.id == sourceSectionId;
     });
+
+    console.log(sourceSection, sourceSectionId, closestSection)
 
     const newSections = [];
     this.state.sections.forEach(s => {
-      if(s.id === closestSectionId) {
+      if(s.id == closestSectionId) {
         newSections.push(sourceSection)
-        if(sourceSectionId === closestSectionId) {
+        if(sourceSectionId == closestSectionId) {
           return;
         }
       }
-      if(s.id === sourceSectionId) {
+      if(s.id == sourceSectionId) {
         return;
       }
 
       newSections.push(s);
     });
+
+    console.log(newSections);
 
     const newOrders = newSections.reduce((data, section, i) => {
       data[section.id] = i;
