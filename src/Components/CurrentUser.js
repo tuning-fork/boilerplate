@@ -3,6 +3,7 @@ import axios from 'axios';
 import OrganizationUser from './OrganizationUser';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 
 class CurrentUser extends Component {
@@ -79,25 +80,16 @@ class CurrentUser extends Component {
   render() {
     return (
       <div>
-        <h1>Welcome to your Dashboard {this.state.first_name}</h1>
-        <br />
-        <div>
-          <h2>Here are your current organizations: </h2>
-          {this.state.organization_users.map((organization_user) => {
-            return (
-              <div key={organization_user.organization_id}>
-                <h4>{organization_user.organization_name}</h4>
-              </div>
-            );
-          })}
-        </div>
+        <Card className="card-dashboard">
+        <Card.Header>Welcome, {this.state.first_name}!</Card.Header>
+        <Card.Body>
+        
         <div>
           {this.state.isHidden ? 
-            <Button className="button basic" onClick={this.toggleHidden.bind(this)}>
+            <Button onClick={this.toggleHidden.bind(this)}>
               Update Account Info
             </Button> :
             <Button
-              className="button basic"
               onClick={this.toggleHidden.bind(this)}
             >
               Close
@@ -155,11 +147,21 @@ class CurrentUser extends Component {
             
           ) : null}
         </div>
+        Here are your current organizations: 
+        {this.state.organization_users.map((organization_user) => {
+            return (
+              <div key={organization_user.organization_id}>
+                <h4>{organization_user.organization_name}</h4>
+              </div>
+            );
+          })}
 
         <br />
         <OrganizationUser 
           updateOrganizationUsers={this.updateOrganizationUsers} 
         />
+        </Card.Body>
+        </Card>
       </div>
     );
   }

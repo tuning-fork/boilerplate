@@ -1,6 +1,23 @@
+.App {
+  /* background-color: #09191b; */
+  /* background-color:#649ea5;
+  background-color:#c7dcde; */
+  background-color:#f5f7f9; 
+}
+
+
 body {
   margin: 0;
   padding-bottom: 50%;
+}
+
+.jumbotron-head {
+  color: "#fefefe";
+  font-size: 5rem;
+}
+.jumbotron-subhead {
+  color: "#fefefe";
+  font-size: 3rem;
 }
 
 .navbar {
@@ -19,15 +36,17 @@ body {
   /* background-color: #00B556; */
   /* background-color: #037d50; */
   /* background-color: #063223; */
-  color: #9baaa5;
-  width: 80rem;
+  color: "#fefefe";
+  width: 50rem;
   text-align: left;
+  color: "#09191b";
 }
 
 .card .form-control {
   /* background-color: #00B556; */
   /* color: #bdf7e4; */
   font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .card-body {
@@ -36,8 +55,42 @@ body {
   /* background-color: #037d50; */
   /* background-color: #063223; */
   /* background-color: #037d50; */
-  background-color: white;
-  color: black;
+}
+
+.card-dashboard {
+  color: #fefefe;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 40rem;
+  text-align: left;
+  background-color: #09191b;
+  margin-left: 0;
+}
+
+.card-dashboard .card-header {
+  color: #23cb87; 
+  font-weight: bolder;
+  font-size: 2rem;
+  font-weight: bold;
+  width: 40rem;
+  text-align: left;
+  background-color: #09191b;
+}
+
+.card-dashboard .card-body {
+  color: #fefefe;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 40rem;
+  text-align: left;
+  background-color: #09191b;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  padding: 2rem;
+  align: center;
 }
 
 .span {

@@ -73,7 +73,7 @@ class Categories extends Component {
 
     return (
       <div className="container">
-        <h1>Categories Index</h1>
+        <h1>Categories</h1>
         <h1 onClick={this.toggleOpenIndex}>+</h1>
         {this.state.openIndex ? (
           <div>

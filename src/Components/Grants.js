@@ -20,6 +20,18 @@ class Grants extends Component {
     this.formatFromNow = this.formatFromNow.bind(this);
   }
 
+  toggleOpenIndex = () => {
+    this.setState({
+      openIndex: !this.state.openIndex,
+    });
+  }
+
+  toggleOpenNew = () => {
+    this.setState({
+      openNew: !this.state.openNew,
+    });
+  }
+
   createUnzipped = (data) => {
     return data.map((filteredGrant) => {
       filteredGrant.isUnzipped = false
@@ -320,44 +332,53 @@ class Grants extends Component {
 
     return (
       <div className="component container">
-        <h1>Grants Index</h1>
-        <h3>Add A Grant</h3>
+        <h1>Grants</h1>
+        <h1 onClick={this.toggleOpenIndex}>+</h1>
+        <h1 onClick={this.toggleOpenIndex}>-</h1>
+              <h3>Add A Grant</h3>
+              <h1 onClick={this.toggleOpenNew}>+</h1>
+              {this.state.openNew ? (
+                <div>
+                  <GrantsNew 
+                    updateGrants={this.updateGrants}
+                  />
+                  <h1 onClick={this.toggleOpenNew}>-</h1>
+                </div>
+              ) : null}
 
-        <GrantsNew 
-          updateGrants={this.updateGrants}
-        />
-        <br />
+        {this.state.openIndex ? (
+          <div>
+            {/* Grant search input */}
 
-        {/* Grant search input */}
+            <Form>
+              <Form.Group>
+                <Form.Label>Search Parameter</Form.Label>
+                <Form.Control
+                  as="select" 
+                  name="filterParam"
+                  value={this.state.filterParam}
+                  onChange={this.handleSearchParamSelect}
+                  required
+                >
+                  <option value="" disabled>Search By</option>
+                  <option value="filterPurpose" >Purpose</option>
+                  <option value="filterTitle" >Title</option>
+                  <option value="filterFundingOrg" >Funding Org</option>
+                </Form.Control>   
+              </Form.Group>
+              <Form.Group>
+              <Form.Label></Form.Label>
+              <Form.Control 
+                type="text"
+                placeholder="Search text..." 
+                value={this.state.searchText} 
+                onChange={this.handleChange} />
+              </Form.Group>
+            </Form>
 
-        <Form>
-          <Form.Group>
-            <Form.Label>Search Parameter</Form.Label>
-            <Form.Control
-              as="select" 
-              name="filterParam"
-              value={this.state.filterParam}
-              onChange={this.handleSearchParamSelect}
-              required
-            >
-              <option value="" disabled>Search By</option>
-              <option value="filterPurpose" >Purpose</option>
-              <option value="filterTitle" >Title</option>
-              <option value="filterFundingOrg" >Funding Org</option>
-            </Form.Control>   
-          </Form.Group>
-          <Form.Group>
-          <Form.Label></Form.Label>
-          <Form.Control 
-            type="text"
-            placeholder="Search text..." 
-            value={this.state.searchText} 
-            onChange={this.handleChange} />
-          </Form.Group>
-        </Form>
-
-        {highlightedGrants}
-        
+            {highlightedGrants}
+          </div>
+        ) : null}
         {/* {this.state.grants.map((grant) => {
           return (
             <div key={grant.id}>

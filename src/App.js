@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 // import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
+import LandingPage from './Components/LandingPage';
+
 import Signup from './Components/Signup';
 import Login from './Components/Login';
 import ResetPassword from './Components/ResetPassword';
@@ -26,8 +28,6 @@ import Grants from './Components/Grants';
 import FundingOrgs from './Components/FundingOrgs';
 // import Sections from './Components/Sections';
 // import ReportSections from './Components/ReportSections';
-
-import Resources from './Components/Resources';
 
 import BiosShow from './Components/BiosShow';
 import BoilerplatesShow from './Components/BoilerplatesShow';
@@ -79,15 +79,15 @@ export default class App extends Component {
           {/* <Header /> */}
           <Switch>
             <Route exact path="/">
-              <Redirect to="/login" />
+              <Redirect to="/landing_page" />
             </Route>
+            <Route path={'/landing_page'} component={LandingPage} />
             <Route path={'/signup'} component={Signup} />
             <Route path={'/login'} component={Login} />
             <Route path={'/reset_password'} component={ResetPassword} />
             <Route path={'/forgot_password'} component={ForgotPassword} />
 
             <Route path={'/dashboard'} component={Dashboard}/>
-            <Route path={'/resources'} component={Resources}/>
             <Route exact path={'/grants'} component={Grants} />
             <Route path={'/grants/:id'} component={GrantsShow} />
             <Route path={'/grants-finalize/:id'} component={GrantsFinalizeShow} />

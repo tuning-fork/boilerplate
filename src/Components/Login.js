@@ -73,10 +73,10 @@ class Login extends Component {
   render() {
     return (   
       <div className="container">
-        <Card border="light">
-          <Card.Body>
-          Welcome to Boilerplate! Please Log In:
-          <Form onSubmit={this.handleSubmit}>
+        <Card border="light" style={{backgroundColor: "#09191b", margin: "1rem", padding: "1rem"}}>
+          <Card.Body style={{backgroundColor: "#09191b", color: "#23cb87", fontWeight: "bolder", display: "inline", padding: "1rem"}}>
+          <Card.Text style={{color: "#23cb87", fontWeight: "bolder", display: "inline", marginBottom: "1rem"}}>Log In:</Card.Text>
+          <Form onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
             <Form.Group controlId="formBasicEmail">
               <Form.Control
                 type="email"
@@ -102,17 +102,21 @@ class Login extends Component {
                 {this.state.errorType} {this.state.errorText}
               </span>
             </div>
-            <div>
-              <Button variant="outline-light" type="submit">
+            <div style={{flex: "auto"}}>
+              <Button variant="outline-success" type="submit" style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
                 Login
+              </Button>
+              <Button variant="outline-success" type="submit" href={`/forgot_password`} style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
+                Forgot Password?
               </Button>
             </div>
           </Form>
-            <Link variant="light"
+              
+            {/* <Link variant="light"
               to={`/forgot_password`}
             >
               Forgot your password?
-            </Link>
+            </Link> */}
             </Card.Body>
           </Card>
       </div>

@@ -120,34 +120,32 @@ class BiosShow extends Component {
     };
 
     return (
-      <div className="container">
-        <Card>
-          <Card.Header>
-          <h3>{this.state.first_name} {this.state.last_name}</h3>
+      <div className="flex-container">
+        <Card style={{marginRight: "2rem"}}>
+          <Card.Header style={{backgroundColor: "#09191b"}}>
+          <h3 style={{color: "#23cb87", fontWeight: "bolder", display: "inline"}}>{this.state.first_name} {this.state.last_name}</h3>
+          <h3 style={{color: "#fefefe", fontWeight: "bolder", display: "inline"}}> | </h3>
+          <h3 style={{color: "#fefefe", fontWeight: "bolder", display: "inline"}}>{this.state.title}</h3>
           </Card.Header>
           <Card.Body>
-          <h3>{this.state.title}</h3>
           <h4 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h4>
           <h4>Organization: {this.state.organization.name}</h4>
           <h4>Word Count: {this.countWords(this.state.quill_text)}</h4>
           </Card.Body>
-        </Card>
-        <br />
-        <div className="container">
           {this.state.isHidden ?
-            <Button onClick={this.toggleHidden.bind(this)}>
+            <Button onClick={this.toggleHidden.bind(this)} style={{maxWidth: "20%", align: "right", backgroundColor: "#23cb87", borderColor: "#fefefe", color: "#09191b", fontWeight: "bolder"}}>
               Update Bio
             </Button> :
             <Button
-              onClick={this.toggleHidden.bind(this)}
+              onClick={this.toggleHidden.bind(this)} style={{maxWidth: "20%", align: "right", backgroundColor: "#23cb87", borderColor: "#fefefe", color: "#09191b", fontWeight: "bolder"}}
             >
               Close
             </Button>
           }
-          <br />
-          <br />
+        </Card>
+        <div>
           {!this.state.isHidden ? (
-            <Card>
+            <Card style={{backgroundColor: "#09191b", color: "#fefefe"}}>
             <Card.Body>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group>
@@ -183,17 +181,17 @@ class BiosShow extends Component {
                   required
                 />
               </Form.Group>
-              <ReactQuill 
+              <ReactQuill style={{backgroundColor: "#fefefe"}}
                 value={this.state.quill_text}
                 onChange={this.quillChange}  
               />
               <Form.Group>
-                <Form.Label>Organization ID</Form.Label>
+                <Form.Label>Organization</Form.Label>
                 <Form.Control
                   type="text"
-                  value={this.state.organization_id}
+                  value={this.state.organization.name}
                   name="organization_id"
-                  placeholder={this.state.organization_id}
+                  placeholder={this.state.organization.name}
                   onChange={this.handleChange}
                   required
                 />
@@ -202,11 +200,11 @@ class BiosShow extends Component {
                 <Form.Label>Word Count</Form.Label>
                 <p>{this.countWords(this.state.quill_text)}</p>
               </Form.Group>
-              <div className="text-center">
-                <Button type="submit">
-                  Submit
+              <div>
+                <Button variant="outline-success" type="submit" style={{maxWidth: "20%", align: "center", backgroundColor: "#23cb87", color: "#09191b", fontWeight: "bolder"}}>
+                  Save Changes
                 </Button>
-                <Button variant="danger" onClick={this.handleBioDelete}>Delete Bio</Button>
+                <Button variant="outline-danger" style={{maxWidth: "20%", align: "center", backgroundColor: "red", color: "#09191b", fontWeight: "bolder"}} onClick={this.handleBioDelete}>Delete Bio</Button>
               </div>
             </Form>
             </Card.Body>

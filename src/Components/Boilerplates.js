@@ -234,7 +234,7 @@ class Boilerplates extends Component {
 
     return (
       <div className="container">
-        <h1>Boilerplates Index</h1>
+        <h1>Boilerplates</h1>
         <h1 onClick={this.toggleOpenIndex}>+</h1>
         {this.state.openIndex ? (
           <div>

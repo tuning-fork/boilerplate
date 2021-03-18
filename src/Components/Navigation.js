@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 
 class Navigation extends Component {
   constructor(props) {
@@ -20,14 +21,15 @@ class Navigation extends Component {
 
   render() {
     return (
-        <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+        <Navbar bg="black" variant="dark" expand="lg" sticky="top" style={{paddingTop: "1rem", align: "right", backgroundColor: "#0e272a"}}>
+        
           <ul>
             {localStorage.token && localStorage.user_id ? (
               <div>
               <Nav className="mr-auto">
-                <Nav.Item className="active">
+                  <Nav.Item className="active">
                   <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                </Nav.Item>
+                  </Nav.Item>
                 <Nav.Item className="active">
                   <Nav.Link href="/grants">Grants</Nav.Link>
                 </Nav.Item>
@@ -46,9 +48,6 @@ class Navigation extends Component {
                 <Nav.Item className="active">
                   <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
                 </Nav.Item> */}
-                <Nav.Item className="active">
-                  <Nav.Link href="/resources">Resources</Nav.Link>
-                </Nav.Item>
                 <Nav.Item>
                   <Nav.Link onClick={this.handleLogoutClick}to="/logout">Logout</Nav.Link>
                 </Nav.Item>
@@ -56,14 +55,20 @@ class Navigation extends Component {
                 </div>
                 ) : (
                 <div>
-                <Nav>
+                {/* <Nav>
                 <Nav.Item className="active">
                   <Nav.Link href="/login">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="active">
                   <Nav.Link href="/signup">Sign Up</Nav.Link>
                 </Nav.Item>
-                </Nav>
+                </Nav> */}
+                <Button href="/signup" variant="outline-success" style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
+                Sign Up
+                </Button>
+                <Button href="/login" variant="outline-success" style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
+                Log In
+                </Button>
               </div>
             )}
           </ul>

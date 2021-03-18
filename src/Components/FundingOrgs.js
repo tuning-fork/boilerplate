@@ -70,7 +70,7 @@ class FundingOrgs extends Component {
 
     return (
       <div className="container">
-      <h1>Funding Orgs Index</h1>
+      <h1>Funding Orgs</h1>
         <h1 onClick={this.toggleOpenIndex}>+</h1>
         {this.state.openIndex ? (
           <div>

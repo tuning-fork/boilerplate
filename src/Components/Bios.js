@@ -113,19 +113,16 @@ class Bios extends Component {
 
       return(
         <div className="container">
-          <h1>Bios Index</h1>
+          <h1>Bios</h1>
           <h1 onClick={this.toggleOpenIndex}>+</h1>
           {this.state.openIndex ? (
           <div>
-          <br />
           {!this.state.isHiddenOrganizationsNew ?
             <OrganizationsNew 
               updateOrganizations={this.updateOrganizations}
               toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
             /> : null
           }
-          <br/>
-          <br />
 
       {this.state.bios.map((bio) => {
         console.log(bio);
