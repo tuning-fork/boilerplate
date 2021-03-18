@@ -164,45 +164,50 @@ class BoilerplatesShow extends Component {
     };
 
     return (
-      <div className="container">
-      {(this.state.isUnzipped === false) ? (
-        <Card>
+      <div className="flex-container">
+      {/* {(this.state.isUnzipped === false) ? ( */}
+        {/* <Card>
           <Card.Header style={{color: "black"}}>
             <h3>{this.state.title}</h3>
             <h1 onClick={this.toggleUnzipped}>+</h1>
           </Card.Header>
-        </Card>
-      ) : (
+        </Card> */}
+      {/* ) : ( */}
         <Card>
-          <Card.Header style={{color: "black"}}>
-            <h3>{this.state.title}</h3>
-            <h1 onClick={this.toggleUnzipped}>-</h1>
+          <Card.Header style={{backgroundColor: "#09191b"}}>
+            <h3 style={{color: "#23cb87", fontWeight: "bolder", display: "inline"}}>{this.state.title}</h3>
+            {/* <h1 onClick={this.toggleUnzipped}>-</h1> */}
           </Card.Header>
           <Card.Body>
             <p dangerouslySetInnerHTML={{__html: this.state.quill_text}}></p>
-            <h5>Organization {this.state.organization_name}</h5>
-            <h5>Category: {this.state.category_name}</h5>
-            <h5>Word Count: {this.countWords(this.state.quill_text)}</h5>
+            <h4>Organization {this.state.organization_name}</h4>
+            <h4>Category: {this.state.category_name}</h4>
+            <h4>Word Count: {this.countWords(this.state.quill_text)}</h4>
           </Card.Body>
+          <div style={{flex: "auto"}}>
+          <Button onClick={this.toggleHidden.bind(this)} style={{flex: "col", maxWidth: "25%", align: "right", backgroundColor: "#23cb87", borderColor: "#fefefe", color: "#09191b", fontWeight: "bolder"}}>
+              Update Content
+            </Button>
+            <Button variant="danger" onClick={this.handleBoilerplateDelete} style={{flex: "col", maxWidth: "25%", align: "right", fontWeight: "bolder"}}>
+              Delete Content
+            </Button>
+          </div>
         </Card>
-        )}
+        {/* )} */}
         <br />
 
         <div>
-          <div className="container">
-            <Button onClick={this.toggleHidden.bind(this)}>
-              Update Boilerplate
-            </Button>
-            <Button variant="danger" onClick={this.handleBoilerplateDelete}>
-              Delete Boilerplate
-            </Button>
-            <br />
-            <br />
             {!this.state.isHidden ? (
-              <div>
-                <div>
+              <Card style={{backgroundColor: "#09191b", color: "#fefefe"}}>
+                <Card.Body>
+                <Button
+                        onClick={this.toggleHidden.bind(this)}
+                        variant="outline-success" type="submit" style={{maxWidth: "20%", align: "center", backgroundColor: "#23cb87", color: "#09191b", fontWeight: "bolder", textAlign: "right"}}
+                      >
+                        Close
+                      </Button>
                   <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
+                    <Form.Group style={{display: "l"}}>
                       <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="text"
@@ -219,6 +224,7 @@ class BoilerplatesShow extends Component {
                       format={this.formats}
                       defaultValue={this.state.quill_text}
                       onChange={this.quillChange}  
+                      style={{backgroundColor: "#fefefe"}}
                     />
                     {/* <Form.Group>
                       <Form.Label>Text</Form.Label>
@@ -268,28 +274,21 @@ class BoilerplatesShow extends Component {
                     </Form.Group>
                     <Form.Group>
                       <Form.Label>Word Count</Form.Label>
-                      <p>{this.countWords(this.state.quill_text)}</p>
+                      <p style={{color: "#fefefe"}}>{this.countWords(this.state.quill_text)}</p>
                     </Form.Group>
                     <div className="text-center">
-                      <Button type="submit" className="btn-lg">
-                        Submit
-                      </Button>
-                      <Button
-                        onClick={this.toggleHidden.bind(this)}
-                        className="btn-lg"
-                      >
-                        Close
-                      </Button>
+                    <Button variant="outline-success" type="submit" style={{maxWidth: "20%", align: "center", backgroundColor: "#23cb87", color: "#09191b", fontWeight: "bolder"}}>
+                  Save Changes
+                </Button>
+                <Button variant="outline-danger" style={{maxWidth: "20%", align: "center", backgroundColor: "red", color: "#09191b", fontWeight: "bolder"}} onClick={this.handleBioDelete}>Delete Content</Button>
                     </div>
                   </Form>
-                </div>
-              </div>
+                  </Card.Body>
+                </Card> 
             ) : null} 
           </div>
           
         </div>
-        
-      </div>
     );
   }
 }

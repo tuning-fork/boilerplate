@@ -25,37 +25,37 @@ class Boilerplates extends Component {
     };
   }
 
-  toggleOpenIndex = () => {
-    this.setState({
-      openIndex: !this.state.openIndex,
-    });
-  }
+  // toggleOpenIndex = () => {
+  //   this.setState({
+  //     openIndex: !this.state.openIndex,
+  //   });
+  // }
 
-  toggleOpenNew = () => {
-    this.setState({
-      openNew: !this.state.openNew,
-    });
-  }
+  // toggleOpenNew = () => {
+  //   this.setState({
+  //     openNew: !this.state.openNew,
+  //   });
+  // }
 
-  createUnzipped = (data) => {
-      return data.map((filteredBoilerplate) => {
-        filteredBoilerplate.isUnzipped = false
-        return filteredBoilerplate
-      })
-  }
+  // createUnzipped = (data) => {
+  //     return data.map((filteredBoilerplate) => {
+  //       filteredBoilerplate.isUnzipped = false
+  //       return filteredBoilerplate
+  //     })
+  // }
 
-  toggleUnzipped = (id, bool) => {
-    const alteredBoilerplates = this.state.filteredBoilerplates.map((bPKey) => {
-      if (id === bPKey.id) {
-        bPKey.isUnzipped = bool
-      }
-      console.log(bPKey)
-      return bPKey
-    })
-    this.setState({
-      filteredBoilerplates: alteredBoilerplates
-    })
-  }
+  // toggleUnzipped = (id, bool) => {
+  //   const alteredBoilerplates = this.state.filteredBoilerplates.map((bPKey) => {
+  //     if (id === bPKey.id) {
+  //       bPKey.isUnzipped = bool
+  //     }
+  //     console.log(bPKey)
+  //     return bPKey
+  //   })
+  //   this.setState({
+  //     filteredBoilerplates: alteredBoilerplates
+  //   })
+  // }
 
 
   componentDidMount() {
@@ -63,11 +63,11 @@ class Boilerplates extends Component {
       .get('/api/boilerplates',
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        const zippyBoilerplates = this.createUnzipped(response.data);
-        console.log(zippyBoilerplates);
+        // const zippyBoilerplates = this.createUnzipped(response.data);
+        // console.log(zippyBoilerplates);
         this.setState({
           boilerplates: response.data,
-          filteredBoilerplates: zippyBoilerplates,
+          filteredBoilerplates: response.data,
           loading: false
       })
       })
@@ -157,8 +157,8 @@ class Boilerplates extends Component {
       if (this.state.searchText) {
         return (
           <div key={boilerplate.id}>
-          {(boilerplate.isUnzipped === false) ? (
-            <Card>
+          {/* {(boilerplate.isUnzipped === false) ? ( */}
+            {/* <Card>
               <Card.Header>
                 Title: 
                 <a
@@ -168,8 +168,8 @@ class Boilerplates extends Component {
                 </a>
                 <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
               </Card.Header>
-            </Card>
-          ) : (
+            </Card> */}
+          {/* ) : ( */}
             <Card>
               <Card.Header>
                 Title: 
@@ -178,7 +178,7 @@ class Boilerplates extends Component {
                   dangerouslySetInnerHTML={{__html: resultsTitle}}
                 >
                 </a>
-                <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1>
+                {/* <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1> */}
               </Card.Header>
               <Card.Body>
                 <p dangerouslySetInnerHTML={{__html: resultsText}}></p>
@@ -187,15 +187,15 @@ class Boilerplates extends Component {
                 <p>Wordcount: {boilerplate.wordcount}</p>
               </Card.Body>
             </Card>
-          )}
+          {/* )} */}
             <br />
           </div> )
       } else {
           // return this.state.filteredBoilerplates.map((boilerplate) => {
             return (
               <div key={boilerplate.id}>
-              {(boilerplate.isUnzipped === false) ? (
-                <Card>
+              {/* {(boilerplate.isUnzipped === false) ? ( */}
+                {/* <Card>
                   <Card.Header>
                     Title: 
                     <Link
@@ -205,8 +205,8 @@ class Boilerplates extends Component {
                     </Link>
                     <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
                   </Card.Header>
-                </Card>
-              ) : (
+                </Card> */}
+              {/* ) : ( */}
                 <Card>
                   <Card.Header>
                     Title: 
@@ -215,7 +215,7 @@ class Boilerplates extends Component {
                     >
                       {boilerplate.title}
                     </Link>
-                    <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1>
+                    {/* <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1> */}
                   </Card.Header>
                   <Card.Body>
                     <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
@@ -224,7 +224,7 @@ class Boilerplates extends Component {
                     <p>Wordcount: {boilerplate.wordcount}</p>
                   </Card.Body>
                 </Card>
-              )}
+              {/* )} */}
                 <br />
               </div>
             );
@@ -235,11 +235,16 @@ class Boilerplates extends Component {
     return (
       <div className="container">
         <h1>Boilerplates</h1>
-        <h1 onClick={this.toggleOpenIndex}>+</h1>
-        {this.state.openIndex ? (
+        {/* <h1 onClick={this.toggleOpenIndex}>+</h1> */}
+        {/* {this.state.openIndex ? ( */}
           <div>
         <br/>
-
+        <h3>Add Boilerplate</h3>
+        {/* <h1 onClick={this.toggleOpenNew}>+</h1> */}
+          {/* {this.state.openNew ? ( */}
+        <BoilerplatesNew 
+          updateBoilerplates={this.updateBoilerplates}
+        />
         <br/>
         <h3>Select a filter to search boilerplate</h3>
 
@@ -273,14 +278,9 @@ class Boilerplates extends Component {
 
         {highlightedBoilerplates}
         </div>
-        ) : null}
-        <h3>Add Boilerplate</h3>
-        <h1 onClick={this.toggleOpenNew}>+</h1>
-          {this.state.openNew ? (
-        <BoilerplatesNew 
-          updateBoilerplates={this.updateBoilerplates}
-        />
-        ) : null}
+        {/* ) : null} */}
+        
+        {/* ) : null} */}
       </div>
     );
   }

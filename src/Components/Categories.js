@@ -74,8 +74,8 @@ class Categories extends Component {
     return (
       <div className="container">
         <h1>Categories</h1>
-        <h1 onClick={this.toggleOpenIndex}>+</h1>
-        {this.state.openIndex ? (
+        {/* <h1 onClick={this.toggleOpenIndex}>+</h1>
+        {this.state.openIndex ? ( */}
           <div>
           <Card>
             {this.state.categories.map((category) => {
@@ -91,15 +91,15 @@ class Categories extends Component {
             })}
             </Card>
           </div>
-        ) : null}
+        {/* ) : null} */}
         <br />
         <h3>Add Category</h3>
-        <h1 onClick={this.toggleOpenNew}>+</h1>
-      {this.state.openNew ? (
+        {/* <h1 onClick={this.toggleOpenNew}>+</h1>
+      {this.state.openNew ? ( */}
         <CategoriesNew 
           updateCategories={this.updateCategories}
         />
-        ) : null}
+        {/* ) : null} */}
       </div>
     );
   }

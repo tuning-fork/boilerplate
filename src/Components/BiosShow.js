@@ -121,7 +121,7 @@ class BiosShow extends Component {
 
     return (
       <div className="flex-container">
-        <Card style={{marginRight: "2rem"}}>
+        <Card>
           <Card.Header style={{backgroundColor: "#09191b"}}>
           <h3 style={{color: "#23cb87", fontWeight: "bolder", display: "inline"}}>{this.state.first_name} {this.state.last_name}</h3>
           <h3 style={{color: "#fefefe", fontWeight: "bolder", display: "inline"}}> | </h3>
@@ -198,7 +198,7 @@ class BiosShow extends Component {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Word Count</Form.Label>
-                <p>{this.countWords(this.state.quill_text)}</p>
+                <p style={{color: "#fefefe"}}>{this.countWords(this.state.quill_text)}</p>
               </Form.Group>
               <div>
                 <Button variant="outline-success" type="submit" style={{maxWidth: "20%", align: "center", backgroundColor: "#23cb87", color: "#09191b", fontWeight: "bolder"}}>

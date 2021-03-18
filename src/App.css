@@ -69,7 +69,6 @@ body {
 
 .card-dashboard .card-header {
   color: #23cb87; 
-  font-weight: bolder;
   font-size: 2rem;
   font-weight: bold;
   width: 40rem;
@@ -84,6 +83,12 @@ body {
   width: 40rem;
   text-align: left;
   background-color: #09191b;
+}
+
+.card-dashboard-links {
+  color: #23cb87; 
+  font-weight: bolder;
+  font-size: 2rem;
 }
 
 .flex-container {
