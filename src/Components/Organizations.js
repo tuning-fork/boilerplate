@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import OrganizationsNew from './OrganizationsNew';
-import Card from 'react-bootstrap/Card';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import OrganizationsNew from "./OrganizationsNew";
+import Card from "react-bootstrap/Card";
+import CurrentUser from "./CurrentUser";
+import OrganizationUser from "./OrganizationUser";
 
 class Organizations extends Component {
   constructor(props) {
@@ -10,34 +12,35 @@ class Organizations extends Component {
     this.state = {
       loading: true,
       organizations: [],
-      query: '',
-      openIndex: false,
-      openNew: false
+      query: "",
+      // openIndex: false,
+      // openNew: false,
     };
   }
 
-  toggleOpenIndex = () => {
-    this.setState({
-      openIndex: !this.state.openIndex,
-    });
-  }
+  // toggleOpenIndex = () => {
+  //   this.setState({
+  //     openIndex: !this.state.openIndex,
+  //   });
+  // };
 
-  toggleOpenNew = () => {
-    this.setState({
-      openNew: !this.state.openNew,
-    });
-  }
+  // toggleOpenNew = () => {
+  //   this.setState({
+  //     openNew: !this.state.openNew,
+  //   });
+  // };
 
   componentDidMount() {
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         this.setState({
           organizations: response.data,
           loading: false,
         });
-      console.log(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -60,34 +63,31 @@ class Organizations extends Component {
     }
 
     return (
-      <div className="container">
-      <h1>Organizations Index</h1>
-      <h1 onClick={this.toggleOpenIndex}>+</h1>
-      {this.state.openIndex ? (
-          <div>
-        {this.state.organizations.map((organization) => {
-          return (
-            <Card key={organization.id}>
-              <Card.Header> 
-                <Link
-                    to={`/organizations/${organization.id}`}
-                  >
-                    {organization.name}
-                  </Link>
-              </Card.Header>
-            </Card>
-          );
-        })}
+      <div className="flex-container">
+        <div className="flex container col">
+          <Card className="card-component">
+            <CurrentUser />
+          </Card>
         </div>
-        ) : null}
-        <br />
-        <h3>Add An Organization</h3>
-        <h1 onClick={this.toggleOpenNew}>+</h1>
-      {this.state.openNew ? (
-        <OrganizationsNew 
-          updateOrganizations={this.updateOrganizations}
-        />
-        ) : null}
+        <div className="flex container col">
+          <Card className="card-component">
+            <Card.Header className="card-component card-heading">
+              Organizations
+            </Card.Header>
+            <OrganizationsNew updateOrganizations={this.updateOrganizations} />
+            <div>
+              {this.state.organizations.map((organization) => {
+                return (
+                  <Card.Body key={organization.id}>
+                    <Link to={`/organizations/${organization.id}`}>
+                      {organization.name}
+                    </Link>
+                  </Card.Body>
+                );
+              })}
+            </div>
+          </Card>
+        </div>
       </div>
     );
   }

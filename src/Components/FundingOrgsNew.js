@@ -75,7 +75,8 @@ class FundingOrgsNew extends Component {
 
   render() {
     return (
-      <Card>
+      <Card className="card-dashboard">
+      <Card.Header>Add Funding Org</Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>

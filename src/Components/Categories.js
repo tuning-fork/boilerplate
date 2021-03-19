@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import CategoriesNew from './CategoriesNew';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/Card';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import CategoriesNew from "./CategoriesNew";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/Card";
 
 class Categories extends Component {
   constructor(props) {
@@ -12,46 +12,48 @@ class Categories extends Component {
       loading: true,
       categories: [],
       organizations: [],
-      query: '',
-      openIndex: false,
-      openNew: false
+      query: "",
+      // openIndex: false,
+      // openNew: false
     };
   }
 
-  toggleOpenIndex = () => {
-    this.setState({
-      openIndex: !this.state.openIndex,
-    });
-  }
+  // toggleOpenIndex = () => {
+  //   this.setState({
+  //     openIndex: !this.state.openIndex,
+  //   });
+  // }
 
-  toggleOpenNew = () => {
-    this.setState({
-      openNew: !this.state.openNew,
-    });
-  }
+  // toggleOpenNew = () => {
+  //   this.setState({
+  //     openNew: !this.state.openNew,
+  //   });
+  // }
 
   componentDidMount() {
     axios
-      .get('/api/categories',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/categories", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         this.setState({
           categories: response.data,
-          loading: false
+          loading: false,
         });
-      // console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         this.setState({
           organizations: response.data,
-          loading: false
+          loading: false,
         });
       })
-      .catch((error) => console.log(error));  
+      .catch((error) => console.log(error));
   }
 
   updateCategories = (newCategory) => {
@@ -69,37 +71,25 @@ class Categories extends Component {
           <h1>Loading....</h1>
         </div>
       );
-    };
+    }
 
     return (
-      <div className="container">
-        <h1>Categories</h1>
-        {/* <h1 onClick={this.toggleOpenIndex}>+</h1>
-        {this.state.openIndex ? ( */}
-          <div>
-          <Card>
+      <div className="flex-container">
+        <div className="flex container col">
+          <Card className="card-component">
+            <Card.Header className="card-component card-heading">
+              Categories
+            </Card.Header>
             {this.state.categories.map((category) => {
               return (
-                  <Card.Header key={category.id}>
-                    <Link
-                      to={`/categories/${category.id}`}
-                    >
-                      {category.name}
-                    </Link>
-                  </Card.Header>
+                <Link to={`/categories/${category.id}`}>{category.name}</Link>
               );
             })}
-            </Card>
-          </div>
-        {/* ) : null} */}
-        <br />
-        <h3>Add Category</h3>
-        {/* <h1 onClick={this.toggleOpenNew}>+</h1>
-      {this.state.openNew ? ( */}
-        <CategoriesNew 
-          updateCategories={this.updateCategories}
-        />
-        {/* ) : null} */}
+          </Card>
+        </div>
+        <div className="flex container col">
+          <CategoriesNew updateCategories={this.updateCategories} />
+        </div>
       </div>
     );
   }

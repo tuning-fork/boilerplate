@@ -77,7 +77,8 @@ class CategoriesNew extends Component {
 
   render() {
     return (
-      <Card>
+      <Card className="card-dashboard">
+        <Card.Header>Add Category</Card.Header>
         <Card.Body>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -114,16 +115,14 @@ class CategoriesNew extends Component {
               </Form.Control>
             </Form.Group>
             <div className="text-center">
-              <Button type="submit">
-                Add New Category
-              </Button>
+              <Button variant="outline-success" type="submit" style={{maxWidth: "25%", align: "center", backgroundColor: "#23cb87", color: "#09191b", fontWeight: "bolder"}}>
+                  Save Category
+                </Button>
             </div>
           </Form>
-
-          <br />
-          <OrganizationsNew 
+          {/* <OrganizationsNew 
             updateOrganizations={this.updateOrganizations}
-          />
+          /> */}
         </Card.Body>
       </Card>
     );

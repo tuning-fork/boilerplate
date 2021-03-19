@@ -42,8 +42,8 @@ class GrantsFinalizeShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  createUnzipped = (data) => {
-    return data.map((section) => {
+  createUnzipped = (sections) => {
+    return sections.map((section) => {
       section.isUnzipped = false
       return section
     })
@@ -67,8 +67,7 @@ class GrantsFinalizeShow extends Component {
       .get(`/api/grants/${this.props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        const zippySections = this.createUnzipped(response.data);
-        console.log(zippySections);
+        const zippySections = this.createUnzipped(response.data.sections);
         this.setState({
           id: response.data.id,
           title: response.data.title,

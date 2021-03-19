@@ -2,9 +2,8 @@
   /* background-color: #09191b; */
   /* background-color:#649ea5;
   background-color:#c7dcde; */
-  background-color:#f5f7f9; 
+  background-color: #f5f7f9;
 }
-
 
 body {
   margin: 0;
@@ -25,7 +24,7 @@ body {
   margin-bottom: 5%;
   font-weight: bold;
   font-size: 1rem;
-} 
+}
 
 .navbar.item {
 }
@@ -37,9 +36,10 @@ body {
   /* background-color: #037d50; */
   /* background-color: #063223; */
   color: "#fefefe";
-  width: 50rem;
+  /* width: 50rem; */
   text-align: left;
   color: "#09191b";
+  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
 }
 
 .card .form-control {
@@ -57,36 +57,53 @@ body {
   /* background-color: #037d50; */
 }
 
-.card-dashboard {
+.card-component {
   color: #fefefe;
   font-size: 1rem;
   font-weight: bold;
-  width: 40rem;
+  /* width: 40rem; */
   text-align: left;
   background-color: #09191b;
   margin-left: 0;
+  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.card-dashboard .card-header {
-  color: #23cb87; 
+.card-component:hover {
+  cursor: pointer;
+}
+
+.card-component .card-header {
+  color: #7be8bc;
   font-size: 2rem;
   font-weight: bold;
-  width: 40rem;
+  /* width: 40rem; */
   text-align: left;
   background-color: #09191b;
 }
 
-.card-dashboard .card-body {
-  color: #fefefe;
+.card-component:hover .card-header {
+  background-color: #1c4e54;
+}
+
+.card-component .card-body {
+  background-color: #fefefe;
   font-size: 1.5rem;
   font-weight: bold;
-  width: 40rem;
+  /* width: 40rem; */
   text-align: left;
-  background-color: #09191b;
+  color: #09191b;
 }
 
-.card-dashboard-links {
-  color: #23cb87; 
+.card-component:hover .card-body {
+  background-color: #bdf4de;
+}
+
+/* background-color: #23cb87; */
+
+.card-component-links {
+  color: #23cb87;
   font-weight: bolder;
   font-size: 2rem;
 }
@@ -136,8 +153,6 @@ a.basic:hover {
 .highlighted {
   background-color: yellow;
 }
-
-
 
 /* div .app{
 
@@ -204,4 +219,3 @@ link color
 navbar??? pretty much anything
 card header
 borders */
-

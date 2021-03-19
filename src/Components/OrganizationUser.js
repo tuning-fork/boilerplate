@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 class OrganizationUser extends Component {
   constructor(props) {
@@ -10,7 +10,8 @@ class OrganizationUser extends Component {
     this.state = {
       user_id: localStorage.user_id,
       organization_id: "",
-      organizations: []
+      organizations: [],
+      organization_users: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,15 +20,16 @@ class OrganizationUser extends Component {
 
   clearForm = () => {
     this.setState({
-      organization_id: ""
+      organization_id: "",
     });
   };
 
   componentDidMount() {
     axios
-      .get('/api/organizations',
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
-        // {withCredentials: true})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
+      // {withCredentials: true})
       .then((response) => {
         this.setState({
           organizations: response.data,
@@ -45,23 +47,36 @@ class OrganizationUser extends Component {
   handleSubmit(event) {
     const newOrganizationUser = this.state;
     axios
-      .post('/api/organization_users', newOrganizationUser, 
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .post("/api/organization_users", newOrganizationUser, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           this.props.updateOrganizationUsers(response.data);
           this.clearForm();
-        };
+        }
       })
       .catch((error) => {
-        console.log('organization user creation error', error);
+        console.log("organization user creation error", error);
       });
-      event.preventDefault();
+    event.preventDefault();
   }
-  
-  render () {
+
+  render() {
     return (
       <Card>
+        Here are your current organizations:
+        {this.state.organization_users.map((organization_user) => {
+          return (
+            <div key={organization_user.organization_id}>
+              <h4>{organization_user.organization_name}</h4>
+            </div>
+          );
+        })}
+        <br />
+        <OrganizationUser
+          updateOrganizationUsers={this.updateOrganizationUsers}
+        />
         <Card.Header>
           <h3>Add Your Organizations</h3>
         </Card.Header>
@@ -69,24 +84,31 @@ class OrganizationUser extends Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Select An Organization</Form.Label>
-              <Form.Control as="select" 
+              <Form.Control
+                as="select"
                 name="organization_id"
                 value={this.state.organization_id}
                 onChange={this.handleChange}
                 required
               >
-              <option value="" disabled>Select Organization</option>
-              {this.state.organizations.map(organization => {
-                return(
-                  <option key={organization.id} value={organization.id} onChange={this.handleChange}>{organization.name}</option>
+                <option value="" disabled>
+                  Select Organization
+                </option>
+                {this.state.organizations.map((organization) => {
+                  return (
+                    <option
+                      key={organization.id}
+                      value={organization.id}
+                      onChange={this.handleChange}
+                    >
+                      {organization.name}
+                    </option>
                   );
-              })}
+                })}
               </Form.Control>
             </Form.Group>
             <div className="text-center">
-              <Button type="submit">
-                Add New Organization User
-              </Button>
+              <Button type="submit">Add New Organization User</Button>
             </div>
           </Form>
         </Card.Body>
