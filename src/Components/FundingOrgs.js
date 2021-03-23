@@ -4,7 +4,7 @@ import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 
-function FundingOrgs() {
+export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [organizations, setOrganizations] = useState([]);
@@ -94,5 +94,3 @@ function FundingOrgs() {
     );
   }
 }
-
-export default FundingOrgs;

@@ -1,182 +1,186 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import BiosNew from './BiosNew';
-import OrganizationsNew from './OrganizationsNew';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
+import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import BiosNew from "./BiosNew";
+import OrganizationsNew from "./OrganizationsNew";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
 
-class Bios extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      bios: [],
-      organizations: [],
-      isHiddenOrganizationsNew: true,
-      errors: [],
-      openIndex: false,
-      openNew: false
-    };
-  }
+export default function Bios() {
+  // constructor(props) {
+  //   super(props);
 
-  toggleOpenIndex = () => {
-    this.setState({
-      openIndex: !this.state.openIndex,
-    });
-  }
+  const [loading, setLoading] = useState(true);
+  const [bios, setBios] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+  const [isHiddenOrganizationsNew, setIsHiddenOrganizationsNew] = useState(
+    true
+  );
+  const [errors, setErrors] = useState([]);
+  const [openIndex, setOpenIndex] = useState(false);
+  const [openNew, setOpenNew] = useState(false);
+  const [filteredBios, setFilteredBios] = useState([]);
 
-  toggleOpenNew = () => {
-    this.setState({
-      openNew: !this.state.openNew,
-    });
-  }
+  const toggleOpenIndex = () => {
+    setOpenIndex(!openIndex);
+  };
 
-  createUnzipped = (data) => {
+  const toggleOpenNew = () => {
+    setOpenNew(openNew);
+  };
+
+  const createUnzipped = (data) => {
     return data.map((filteredBio) => {
-      filteredBio.isUnzipped = false
-      return filteredBio
-    })
-  }
+      filteredBio.isUnzipped = false;
+      return filteredBio;
+    });
+  };
 
-  toggleUnzipped = (id, bool) => {
-    const alteredBios = this.state.filteredBios.map((bioKey) => {
+  const toggleUnzipped = (id, bool) => {
+    const alteredBios = filteredBios.map((bioKey) => {
       if (id === bioKey.id) {
-        bioKey.isUnzipped = bool
+        bioKey.isUnzipped = bool;
       }
-      console.log(bioKey)
-      return bioKey
-    })
-    this.setState({
-      filteredBios: alteredBios
-    })
-  }
+      console.log(bioKey);
+      return bioKey;
+    });
+    setFilteredBios(alteredBios);
+  };
 
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/bios',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+      .get(
+        "/api/bios",
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
-        )
+      )
       .then((response) => {
-        const zippyBios = this.createUnzipped(response.data);
+        const zippyBios = createUnzipped(response.data);
         console.log(zippyBios);
-        this.setState({
-          bios: response.data,
-          filteredBios: zippyBios,
-          loading: false,
-        });
+        setBios(response.data);
+        setFilteredBios(zippyBios);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations', 
+      .get(
+        "/api/organizations",
         // {headers: { Authorization: `Bearer ${localStorage.token}` }}
-        {withCredentials: true})
+        { withCredentials: true }
+      )
       .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
+        setOrganizations(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
-  }
+  }, []);
 
-  updateBios = (newBio) => {
-    const bios = this.state.bios;
+  // componentDidMount() {
+  //   axios
+  //     .get(
+  //       "/api/bios",
+  //       { headers: { Authorization: `Bearer ${localStorage.token}` } }
+  //       // {withCredentials: true}
+  //     )
+  //     .then((response) => {
+  //       const zippyBios = this.createUnzipped(response.data);
+  //       console.log(zippyBios);
+  //       this.setState({
+  //         bios: response.data,
+  //         filteredBios: zippyBios,
+  //         loading: false,
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  //   axios
+  //     .get(
+  //       "/api/organizations",
+  //       // {headers: { Authorization: `Bearer ${localStorage.token}` }}
+  //       { withCredentials: true }
+  //     )
+  //     .then((response) => {
+  //       this.setState({
+  //         organizations: response.data,
+  //         loading: false,
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  const updateBios = (newBio) => {
+    const bios = bios;
     bios.push(newBio);
-    this.setState({
-      bios: bios,
-    });
+    setBios(bios);
   };
 
-  updateOrganizations = (newOrganization) => {
-    const organizations = this.state.organizations;
+  const updateOrganizations = (newOrganization) => {
+    const organizations = organizations;
     organizations.push(newOrganization);
-    this.setState({
-      organizations: organizations,
-    });
+    setOrganizations(organizations);
   };
 
-  toggleHiddenOrganizationsNew = () => {
-    this.setState({
-      isHiddenOrganizationsNew: !this.state.isHiddenOrganizationsNew,
-    });
+  const toggleHiddenOrganizationsNew = () => {
+    setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
+  };
+
+  if (loading) {
+    return (
+      <div className="container">
+        <h1>Loading....</h1>
+      </div>
+    );
   }
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="container">
-          <h1>Loading....</h1>
-        </div>
-      );
-    };
+  return (
+    <div className="container">
+      <h1>Bios</h1>
+      <div>
+        <OrganizationsNew
+          updateOrganizations={updateOrganizations}
+          toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
+        />
 
-      return(
-        <div className="container">
-          <h1>Bios</h1>
-          <h1 onClick={this.toggleOpenIndex}>+</h1>
-          {this.state.openIndex ? (
-          <div>
-          {!this.state.isHiddenOrganizationsNew ?
-            <OrganizationsNew 
-              updateOrganizations={this.updateOrganizations}
-              toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-            /> : null
-          }
-
-      {this.state.bios.map((bio) => {
-        console.log(bio);
-        return (
-          <div key={bio.id}>
-          {(bio.isUnzipped === false) ? (
+        {bios.map((bio) => {
+          console.log(bio);
+          return (
+            <div key={bio.id}>
+              {bio.isUnzipped === false ? (
                 <Card>
                   <Card.Header>
-                        Name: 
-                        <Link
-                          to={`/bios/${bio.id}`}
-                        >
-                          {bio.first_name} {bio.last_name}
-                        </Link>
+                    Name:
+                    <Link to={`/bios/${bio.id}`}>
+                      {bio.first_name} {bio.last_name}
+                    </Link>
                   </Card.Header>
                 </Card>
               ) : (
-                  <Card>
-                    <Card.Header>
-                      Name: 
-                      <Link
-                        to={`/bios/${bio.id}`}
-                      >
-                        {bio.first_name} {bio.last_name}
-                      </Link>
-                    </Card.Header>
-                    <Card.Body>
-                      <p>Title: {bio.title}</p>
-                      <p dangerouslySetInnerHTML={{__html: bio.text}}></p>
-                      <p>Organization: {bio.organization_name}</p>
-                      <p>Wordcount: {bio.wordcount}</p>
-                    </Card.Body>
-                  </Card>
-            )}
-            </div> 
-        );
-      })
-    }
-    </div>
-        ) : null}
-        <div>
-    <h3>Add Bio</h3>
-    <h1 onClick={this.toggleOpenNew}>+</h1>
-      {this.state.openNew ? (
-        <BiosNew 
-            updateBios={this.updateBios}
-            organizations={this.state.organizations}
-            isHiddenOrganizationsNew={this.state.isHiddenOrganizationsNew}
-            toggleHiddenOrganizationsNew={this.toggleHiddenOrganizationsNew}
-          />
-      ) : null}
+                <Card>
+                  <Card.Header>
+                    Name:
+                    <Link to={`/bios/${bio.id}`}>
+                      {bio.first_name} {bio.last_name}
+                    </Link>
+                  </Card.Header>
+                  <Card.Body>
+                    <p>Title: {bio.title}</p>
+                    <p dangerouslySetInnerHTML={{ __html: bio.text }}></p>
+                    <p>Organization: {bio.organization_name}</p>
+                    <p>Wordcount: {bio.wordcount}</p>
+                  </Card.Body>
+                </Card>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div>
+        <h3>Add Bio</h3>
+        <BiosNew
+          updateBios={updateBios}
+          organizations={organizations}
+          isHiddenOrganizationsNew={isHiddenOrganizationsNew}
+          toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
+        />
       </div>
     </div>
-  )}
+  );
 }
-
-export default Bios;

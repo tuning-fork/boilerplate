@@ -1,251 +1,153 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import BoilerplatesNew from './BoilerplatesNew';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import BoilerplatesNew from "./BoilerplatesNew";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 // import Button from 'react-bootstrap/Button';
 
-class Boilerplates extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      boilerplates: [],
-      filteredBoilerplates: [],
-      isHiddenNew: true,
-      isHiddenCategoriesNew: true,
-      query: '',
-      searchText: '',
-      filterParam: '',
-      filteredByWordCount: [],
-      openIndex: false,
-      openNew: false
-    };
-  }
+export default function Boilerplates() {
+  // constructor(props) {
+  //   super(props);
 
-  // toggleOpenIndex = () => {
-  //   this.setState({
-  //     openIndex: !this.state.openIndex,
-  //   });
-  // }
+  const [loading, setLoading] = useState(true);
+  const [boilerplates, setBoilerplates] = useState([]);
+  const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);
+  const [isHiddenNew, setIsHiddenNew] = useState(true);
+  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
+  const [query, setQuery] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filterParam, setFilterParam] = useState("");
+  const [filteredByWordCount, setFilteredByWordCount] = useState([]);
+  const [openIndex, setOpenIndex] = useState(false);
+  const [openNew, setOpenNew] = useState(false);
 
-  // toggleOpenNew = () => {
-  //   this.setState({
-  //     openNew: !this.state.openNew,
-  //   });
-  // }
-
-  // createUnzipped = (data) => {
-  //     return data.map((filteredBoilerplate) => {
-  //       filteredBoilerplate.isUnzipped = false
-  //       return filteredBoilerplate
-  //     })
-  // }
-
-  // toggleUnzipped = (id, bool) => {
-  //   const alteredBoilerplates = this.state.filteredBoilerplates.map((bPKey) => {
-  //     if (id === bPKey.id) {
-  //       bPKey.isUnzipped = bool
-  //     }
-  //     console.log(bPKey)
-  //     return bPKey
-  //   })
-  //   this.setState({
-  //     filteredBoilerplates: alteredBoilerplates
-  //   })
-  // }
-
-
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/boilerplates',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/boilerplates", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         // const zippyBoilerplates = this.createUnzipped(response.data);
         // console.log(zippyBoilerplates);
-        this.setState({
-          boilerplates: response.data,
-          filteredBoilerplates: response.data,
-          loading: false
+        setBoilerplates(response.data);
+        setFilteredBoilerplates(response.data);
+        setLoading(false);
       })
-      })
-      .catch((error) =>  {
-        console.log(error)
-        this.setState({
-          loading: false
-        })
-      })
-  }
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
-  updateBoilerplates = (newBoilerplate) => {
-    const boilerplates = this.state.boilerplates;
+  const updateBoilerplates = (newBoilerplate) => {
+    const boilerplates = boilerplates;
     boilerplates.push(newBoilerplate);
-    this.setState({
-      boilerplates: boilerplates,
-    });
+    setBoilerplates(boilerplates);
   };
 
-  handleSearchParamSelect = (event) => {
-    this.setState({
-      filterParam: event.target.value
-    })
-  }
+  const handleSearchParamSelect = (event) => {
+    setFilterParam(event.target.value);
+  };
 
-  handleChange = (event) => {
-    const searchValue = event.target.value.toLowerCase()
-    this.setState({
-      searchText: event.target.value,
-    })
+  const handleChange = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    setSearchText(event.target.value);
     if (searchValue.length <= 0) {
-      this.setState({filteredBoilerplates: this.state.boilerplates});
-      return
+      setFilteredBoilerplates({ filteredBoilerplates: boilerplates });
+      return;
     }
-    if (this.state.filterParam === "filterWordCount") {
-      console.log(searchValue, "wordcount filter")
+    if (filterParam === "filterWordCount") {
+      console.log(searchValue, "wordcount filter");
       let filteredByWordCount = [];
-      filteredByWordCount = this.state.boilerplates.filter((boilerplate) => (
-        boilerplate.wordcount < searchValue)
-      )
-      this.setState({filteredBoilerplates: filteredByWordCount})
+      filteredByWordCount = boilerplates.filter(
+        (boilerplate) => boilerplate.wordcount < searchValue
+      )({ setFilteredBoilerplates: filteredByWordCount });
       console.log(filteredByWordCount);
-    }
-    else if (this.state.filterParam === "filterTitle") {
-      console.log(searchValue, "title filter")
+    } else if (filterParam === "filterTitle") {
+      console.log(searchValue, "title filter");
       let filteredByTitle = [];
-      filteredByTitle = this.state.boilerplates.filter((boilerplate) => {
+      filteredByTitle = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
-      })
-      this.setState({filteredBoilerplates: filteredByTitle})
-      console.log(filteredByTitle)
-    }
-    else if (this.state.filterParam === "filterText") {
-      console.log(searchValue, "text filter")
+      })({ setFilteredBoilerplates: filteredByTitle });
+      console.log(filteredByTitle);
+    } else if (filterParam === "filterText") {
+      console.log(searchValue, "text filter");
       let filteredByText = [];
-      filteredByText = this.state.boilerplates.filter((boilerplate) => {
+      filteredByText = boilerplates.filter((boilerplate) => {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
-      })
+      });
+      console.log(filteredByText);
+    }
+  };
 
-      // highlighting of filteredByText
-      // filteredByText.map((boilerplate) => {
-
-      //   boilerplate.text = boilerplate.text.replace(searchValue, 
-      //     (match) => `<mark>${match}</mark>`);
-          
-      //   return filteredByText;
-      // })
-      
-      this.setState({filteredBoilerplates: filteredByText})
-      // this.highlightBoilerplates(filteredByText);
-      console.log(filteredByText)
-    } 
+  if (loading) {
+    return <h1 className="container">Loading....</h1>;
   }
-    
 
-  render() {
-    if (this.state.loading) {
-      return <h1 className="container">Loading....</h1>;
-    };
-    
-    let highlightedBoilerplates = this.state.filteredBoilerplates.map((boilerplate) => {
-      console.log(boilerplate);
-      let resultsText = boilerplate.text.replace(new RegExp(this.state.searchText, 'gi'),
-        (match) => `<mark>${match}</mark>`);
-      let resultsTitle = boilerplate.title.replace(new RegExp(this.state.searchText, 'gi'),
-        (match) => `<mark>${match}</mark>`);
-      if (this.state.searchText) {
-        return (
-          <div key={boilerplate.id}>
-          {/* {(boilerplate.isUnzipped === false) ? ( */}
-            {/* <Card>
-              <Card.Header>
-                Title: 
-                <a
-                  href={`/boilerplates/${boilerplate.id}`}
-                  dangerouslySetInnerHTML={{__html: resultsTitle}}
-                >
-                </a>
-                <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
-              </Card.Header>
-            </Card> */}
-          {/* ) : ( */}
-            <Card>
-              <Card.Header>
-                Title: 
-                <a
-                  href={`/boilerplates/${boilerplate.id}`}
-                  dangerouslySetInnerHTML={{__html: resultsTitle}}
-                >
-                </a>
-                {/* <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1> */}
-              </Card.Header>
-              <Card.Body>
-                <p dangerouslySetInnerHTML={{__html: resultsText}}></p>
-                <p>Organization: {boilerplate.organization_name}</p>
-                <p>Category: {boilerplate.category_name}</p>
-                <p>Wordcount: {boilerplate.wordcount}</p>
-              </Card.Body>
-            </Card>
-          {/* )} */}
-            <br />
-          </div> )
-      } else {
-          // return this.state.filteredBoilerplates.map((boilerplate) => {
-            return (
-              <div key={boilerplate.id}>
-              {/* {(boilerplate.isUnzipped === false) ? ( */}
-                {/* <Card>
-                  <Card.Header>
-                    Title: 
-                    <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                    >
-                      {boilerplate.title}
-                    </Link>
-                    <h1 onClick={() => this.toggleUnzipped(boilerplate.id, true)}>+</h1>
-                  </Card.Header>
-                </Card> */}
-              {/* ) : ( */}
-                <Card>
-                  <Card.Header>
-                    Title: 
-                    <Link
-                      to={`/boilerplates/${boilerplate.id}`}
-                    >
-                      {boilerplate.title}
-                    </Link>
-                    {/* <h1 onClick={() => this.toggleUnzipped(boilerplate.id, false)}>-</h1> */}
-                  </Card.Header>
-                  <Card.Body>
-                    <p dangerouslySetInnerHTML={{__html: boilerplate.text}}></p>
-                    <p>Organization: {boilerplate.organization_name}</p>
-                    <p>Category: {boilerplate.category_name}</p>
-                    <p>Wordcount: {boilerplate.wordcount}</p>
-                  </Card.Body>
-                </Card>
-              {/* )} */}
-                <br />
-              </div>
-            );
-          // })
-        }
-      })
+  let highlightedBoilerplates = filteredBoilerplates.map((boilerplate) => {
+    console.log(boilerplate);
+    let resultsText = boilerplate.text.replace(
+      new RegExp(searchText, "gi"),
+      (match) => `<mark>${match}</mark>`
+    );
+    let resultsTitle = boilerplate.title.replace(
+      new RegExp(searchText, "gi"),
+      (match) => `<mark>${match}</mark>`
+    );
+    if (searchText) {
+      return (
+        <div key={boilerplate.id}>
+          <Card>
+            <Card.Header>
+              Title:
+              <a
+                href={`/boilerplates/${boilerplate.id}`}
+                dangerouslySetInnerHTML={{ __html: resultsTitle }}
+              ></a>
+            </Card.Header>
+            <Card.Body>
+              <p dangerouslySetInnerHTML={{ __html: resultsText }}></p>
+              <p>Organization: {boilerplate.organization_name}</p>
+              <p>Category: {boilerplate.category_name}</p>
+              <p>Wordcount: {boilerplate.wordcount}</p>
+            </Card.Body>
+          </Card>
+          <br />
+        </div>
+      );
+    } else {
+      return (
+        <div key={boilerplate.id}>
+          <Card>
+            <Card.Header>
+              Title:
+              <Link to={`/boilerplates/${boilerplate.id}`}>
+                {boilerplate.title}
+              </Link>
+            </Card.Header>
+            <Card.Body>
+              <p dangerouslySetInnerHTML={{ __html: boilerplate.text }}></p>
+              <p>Organization: {boilerplate.organization_name}</p>
+              <p>Category: {boilerplate.category_name}</p>
+              <p>Wordcount: {boilerplate.wordcount}</p>
+            </Card.Body>
+          </Card>
+          <br />
+        </div>
+      );
+    }
+  });
 
-    return (
-      <div className="container">
-        <h1>Boilerplates</h1>
-        {/* <h1 onClick={this.toggleOpenIndex}>+</h1> */}
-        {/* {this.state.openIndex ? ( */}
-          <div>
-        <br/>
+  return (
+    <div className="container">
+      <h1>Boilerplates</h1>
+      <div>
+        <br />
         <h3>Add Boilerplate</h3>
-        {/* <h1 onClick={this.toggleOpenNew}>+</h1> */}
-          {/* {this.state.openNew ? ( */}
-        <BoilerplatesNew 
-          updateBoilerplates={this.updateBoilerplates}
-        />
-        <br/>
+        <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
+        <br />
         <h3>Select a filter to search boilerplate</h3>
 
         {/* Search input field */}
@@ -254,36 +156,32 @@ class Boilerplates extends Component {
           <Form.Group>
             <Form.Label>Search Filter</Form.Label>
             <Form.Control
-              as="select" 
+              as="select"
               name="filterParam"
-              value={this.state.filterParam}
-              onChange={this.handleSearchParamSelect}
+              value={filterParam}
+              onChange={handleSearchParamSelect}
               required
             >
-              <option value="" disabled>Search By</option>
-              <option value="filterWordCount" >Word Count</option>
-              <option value="filterText" >Text</option>
-            </Form.Control>   
+              <option value="" disabled>
+                Search By
+              </option>
+              <option value="filterWordCount">Word Count</option>
+              <option value="filterText">Text</option>
+            </Form.Control>
           </Form.Group>
           <Form.Group>
             <Form.Label></Form.Label>
-            <Form.Control 
+            <Form.Control
               type="text"
-              placeholder="Search text..." 
-              value={this.state.searchText} 
-              onChange={this.handleChange} 
+              placeholder="Search text..."
+              value={searchText}
+              onChange={handleChange}
             />
           </Form.Group>
         </Form>
 
         {highlightedBoilerplates}
-        </div>
-        {/* ) : null} */}
-        
-        {/* ) : null} */}
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default Boilerplates;
