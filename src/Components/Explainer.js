@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-function Explainer() {
+export default function Explainer() {
   return (
     <div>
       <div className="component">
@@ -12,10 +12,7 @@ function Explainer() {
         <h1>Grant Draft (need sections)</h1>
         <h1>???</h1>
         <h1>Start Grant Process Button</h1>
-        
       </div>
     </div>
   );
 }
-
-export default Explainer;

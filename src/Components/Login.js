@@ -1,89 +1,84 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import React, { Component, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
+import { useCurrentUserContext } from "../Contexts/currentUserContext";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [errorType, setErrorType] = useState("");
+  const [errorText, setErrorText] = useState("");
 
-    this.state = {
-      email: '',
-      password: '',
-      error: '',
-      errorType: '',
-      errorText: '',
-    };
+  const history = useHistory();
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+  const [state, dispatch] = useCurrentUserContext();
 
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-  }
+  }, []);
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
-    const { email, password } = this.state;
-
-    // axios
-    //   .post(
-    //     '/api/sessions',
-    //     {
-    //       email: email,
-    //       password: password
-    //     },
-    //     {headers: { withCredentials: true }},
-    //   )
-
-      axios({
-        method: 'post',
-        url: '/api/sessions',
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-        // withCredentials: true,
-
-        data: {email: email, password: password}
-      })
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios({
+      method: "post",
+      url: "/api/sessions",
+      headers: { Authorization: `Bearer ${localStorage.token}` },
+      data: { email: email, password: password },
+    })
       .then((response) => {
         if (response.data) {
-          localStorage.setItem('token', response.data.jwt);
-          localStorage.setItem('user_id', response.data.user_id);
-          this.props.history.push('/dashboard');
+          localStorage.setItem("token", response.data.jwt);
+          localStorage.setItem("user_id", response.data.user_id);
+          dispatch({ type: "SET_CURRENT_USER_INFO", payload: response.data });
+          history.push("/dashboard");
         }
       })
       .catch((error) => {
-        this.setState({
-          errorType: error.response.status,
-          errorText: error.response.statusText,
-        });
-        console.log(error.response);
+        console.log(error);
+        setErrorType(error.response.status);
+        setErrorText(error.response.statusText);
       });
-    event.preventDefault();
-  }
+  };
 
-  render() {
-    return (   
-      <div className="container">
-        <Card border="light" style={{backgroundColor: "#09191b", margin: "1rem", padding: "1rem"}}>
-          <Card.Body style={{backgroundColor: "#09191b", color: "#23cb87", fontWeight: "bolder", display: "inline", padding: "1rem"}}>
-          <Card.Text style={{color: "#23cb87", fontWeight: "bolder", display: "inline", marginBottom: "1rem"}}>Log In:</Card.Text>
-          <Form onSubmit={this.handleSubmit} style={{marginTop: "2rem"}}>
+  return (
+    <div className="container">
+      <Card
+        border="light"
+        style={{ backgroundColor: "#09191b", margin: "1rem", padding: "1rem" }}
+      >
+        <Card.Body
+          style={{
+            backgroundColor: "#09191b",
+            color: "#23cb87",
+            fontWeight: "bolder",
+            display: "inline",
+            padding: "1rem",
+          }}
+        >
+          <Card.Text
+            style={{
+              color: "#23cb87",
+              fontWeight: "bolder",
+              display: "inline",
+              marginBottom: "1rem",
+            }}
+          >
+            Log In:
+          </Card.Text>
+          <Form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
             <Form.Group controlId="formBasicEmail">
               <Form.Control
                 type="email"
                 name="email"
                 placeholder="Email"
-                value={this.state.email}
-                onChange={this.handleChange}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 required
               />
             </Form.Group>
@@ -92,36 +87,52 @@ class Login extends Component {
                 type="password"
                 name="password"
                 placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleChange}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 required
               />
             </Form.Group>
             <div>
-              <span style={{ color: 'red' }}>
-                {this.state.errorType} {this.state.errorText}
+              <span style={{ color: "red" }}>
+                {errorType} {errorText}
               </span>
             </div>
-            <div style={{flex: "auto"}}>
-              <Button variant="outline-success" type="submit" style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
+            <div style={{ flex: "auto" }}>
+              <Button
+                variant="outline-success"
+                type="submit"
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bolder",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
                 Login
               </Button>
-              <Button variant="outline-success" type="submit" href={`/forgot_password`} style={{textColor: "#23cb87", fontWeight: "bolder", display: "inline", margin: "1rem"}}>
+              <Button
+                variant="outline-success"
+                type="submit"
+                href={`/forgot_password`}
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bolder",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
                 Forgot Password?
               </Button>
             </div>
           </Form>
-              
-            {/* <Link variant="light"
+
+          {/* <Link variant="light"
               to={`/forgot_password`}
             >
               Forgot your password?
             </Link> */}
-            </Card.Body>
-          </Card>
-      </div>
-    );
-  }
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
-
-export default Login;

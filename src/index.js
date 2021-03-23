@@ -4,16 +4,14 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
-import CurrentUserContext, {
-  CurrentUserProvider,
-} from "./Contexts/currentUserContext";
+import { CurrentUserProvider } from "./Contexts/currentUserContext";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CurrentUserProvider value={{ currentUser: CurrentUserContext.store }}>
+    <CurrentUserProvider>
       <App />
     </CurrentUserProvider>
   </React.StrictMode>,

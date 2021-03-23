@@ -1,67 +1,56 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-export default class ForgotPassword extends Component {
-  state = {
-    email: ""
-  }
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
 
-  forgotPassword = (email) => {
+  const forgotPassword = (email) => {
     axios
-      .post('/api/forgot_password', 
-        {email: this.state.email}
-      )
+      .post("/api/forgot_password", { email: email })
       .then((response) => {
         alert(response.data.message);
       })
       .catch((error) => console.log(error));
-  }
+  };
 
-  handleChange = (event) => {
-    const { name, value } = event.target
-    this.setState({
-      [name]: value
-    })
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    forgotPassword(email);
+    setEmail("");
+    console.log("it worked!");
+  };
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    this.forgotPassword(this.state.email)
-    this.setState({
-      email: ""
-    })
-    // this.props.history.push('/')
-  }
-
-  render() {
-    return (
+  return (
     <div className="container">
-      <Card className="basic" >
+      <Card className="basic">
         <Card.Header>
-          <p>Enter the email address associated with your Boilerplate account</p>
+          <p>
+            Enter the email address associated with your Boilerplate account
+          </p>
         </Card.Header>
         <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Password reset request:</Form.Label>
               <Form.Control
-                required 
-                id="forgotpasswordemail" 
-                onChange={this.handleChange} 
-                name="email" 
-                placeholder="email" 
-                type="email" 
-                value={this.state.email}
+                required
+                id="forgotpasswordemail"
+                onChange={(event) => setEmail(event.target.value)}
+                name="email"
+                placeholder="email"
+                type="email"
+                value={email}
               />
-              <Button className="basic" >Submit</Button>
+              <Button type="submit" className="basic">
+                Submit
+              </Button>
             </Form.Group>
           </Form>
         </Card.Body>
       </Card>
     </div>
-    );
-  }
+  );
 }

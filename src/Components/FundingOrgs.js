@@ -1,42 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 
-class FundingOrgs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      // openIndex: false,
-      // openNew: false
-    };
-  }
+function FundingOrgs() {
+  const [loading, setLoading] = useState(true);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
 
-  // toggleOpenIndex = () => {
-  //   this.setState({
-  //     openIndex: !this.state.openIndex,
-  //   });
-  // }
-
-  // toggleOpenNew = () => {
-  //   this.setState({
-  //     openNew: !this.state.openNew,
-  //   });
-  // }
-
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get("/api/funding_orgs", {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
-        this.setState({
-          funding_orgs: response.data,
-          loading: false,
-        });
-        // console.log(response.data);
+        setFundingOrgs(response.data);
+        setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
     axios
@@ -44,32 +25,50 @@ class FundingOrgs extends Component {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-        // console.log(response.data);
+        setOrganizations(response.data);
+        setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
-  }
+    console.log("it worked!");
+    window.scrollTo(0, 0);
+  }, [loading]);
 
-  updateFundingOrgs = (newFundingOrg) => {
-    const funding_orgs = this.state.funding_orgs;
-    funding_orgs.push(newFundingOrg);
-    this.setState({
-      funding_orgs: funding_orgs,
-    });
+  // componentDidMount() {
+  //   axios
+  //     .get("/api/funding_orgs", {
+  //       headers: { Authorization: `Bearer ${localStorage.token}` },
+  //     })
+  //     .then((response) => {
+  //         setFundingOrgs(response.data)
+  //         setLoading(false)
+  //       // console.log(response.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  //   axios
+  //     .get("/api/organizations", {
+  //       headers: { Authorization: `Bearer ${localStorage.token}` },
+  //     })
+  //     .then((response) => {
+  //       setOrganizations(response.data)
+  //       setLoading(false)
+  //       // console.log(response.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  const updateFundingOrgs = (newFundingOrg) => {
+    fundingOrgs.push(newFundingOrg);
+    setFundingOrgs(fundingOrgs);
   };
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="container">
-          <h1>Loading....</h1>
-        </div>
-      );
-    }
-
+  if (loading === true) {
+    return (
+      <div className="container">
+        <h1>Loading....</h1>
+      </div>
+    );
+  } else {
     return (
       <div className="flex-container">
         <div className="flex container col">
@@ -77,11 +76,11 @@ class FundingOrgs extends Component {
             <Card.Header className="card-component card-heading">
               Funding Orgs
             </Card.Header>
-            {this.state.funding_orgs.map((funding_org) => {
+            {fundingOrgs.map((fundingOrg) => {
               return (
-                <Card.Body key={funding_org.id}>
-                  <Link to={`/funding_orgs/${funding_org.id}`}>
-                    {funding_org.name}
+                <Card.Body key={fundingOrg.id}>
+                  <Link to={`/funding_orgs/${fundingOrg.id}`}>
+                    {fundingOrg.name}
                   </Link>
                 </Card.Body>
               );
@@ -89,7 +88,7 @@ class FundingOrgs extends Component {
           </Card>
         </div>
         <div className="flex container col">
-          <FundingOrgsNew updateFundingOrgs={this.updateFundingOrgs} />
+          <FundingOrgsNew updateFundingOrgs={updateFundingOrgs} />
         </div>
       </div>
     );
