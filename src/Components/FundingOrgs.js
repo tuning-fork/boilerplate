@@ -34,32 +34,10 @@ export default function FundingOrgs() {
     window.scrollTo(0, 0);
   }, [loading]);
 
-  // componentDidMount() {
-  //   axios
-  //     .get("/api/funding_orgs", {
-  //       headers: { Authorization: `Bearer ${localStorage.token}` },
-  //     })
-  //     .then((response) => {
-  //         setFundingOrgs(response.data)
-  //         setLoading(false)
-  //       // console.log(response.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  //   axios
-  //     .get("/api/organizations", {
-  //       headers: { Authorization: `Bearer ${localStorage.token}` },
-  //     })
-  //     .then((response) => {
-  //       setOrganizations(response.data)
-  //       setLoading(false)
-  //       // console.log(response.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
   const updateFundingOrgs = (newFundingOrg) => {
-    fundingOrgs.push(newFundingOrg);
-    setFundingOrgs(fundingOrgs);
+    const newFundingOrgs = [...fundingOrgs];
+    newFundingOrgs.push(newFundingOrg);
+    setFundingOrgs(newFundingOrgs);
   };
 
   if (loading === true) {

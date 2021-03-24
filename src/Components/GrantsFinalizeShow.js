@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import SectionsUpdateFinal from './SectionsUpdateFinal';
 import Form from 'react-bootstrap/Form';
@@ -7,124 +7,111 @@ import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 
-class GrantsFinalizeShow extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: "",
-      title: "",
-      rfp_url: "",
-      deadline: "",
-      submitted: false,
-      successful: false,
-      purpose: "",
-      organization_id: "",
-      organization_name: "",
-      funding_org_id: "",
-      sections: [],
-      reports: [],
-      funding_orgs: [],
-      isHidden: true,
-      isCopyGrantHidden: true,
-      loading: true,
-      errors: [],
-      bios: [],
-      boilerplates: [],
-      copy_title: "",
-      copy_rfp_url: "",
-      copy_deadline: "",
-      successful_copy: false,
-      copied_grant_id: "",
-      showCopyModal: false,
-    };
+export default function GrantsFinalizeShow() {
+  // constructor(props) {
+  //   super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  //   this.handleChange = this.handleChange.bind(this);
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  // }
 
-  createUnzipped = (sections) => {
+    const [id, setId] = useState("");
+    const [title, setTitle] = useState("");
+    const [rfpUrl, setRfpUrl] = useState("");
+    const [deadline, setDeadline] = useState("");
+    const [submitted, setSubmitted] = useState(false);
+    const [successful, setSuccessful] = useState(false);
+    const [purpose, setPurpose] = useState("");
+    const [organizationId, setOrganizationId] = useState("");
+    const [organizationName, setOrganizationName] = useState("")
+    const [fundingOrgId, setFundingOrgId] = useState("");
+    const [sections, setSections] = useState([]);
+    const [reports, setReports] = useState([]);
+    const [fundingOrgs, setFundingOrgs] = useState([]);
+    const [isHidden, setIsHidden] = useState(true);
+    const [isCopyGrantHidden, setIsCopyGrantHidden] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [errors, setErrors] = useState([]);
+    const [bios, setBios] = useState([]);
+    const [boilerplates, setBoilerplates] = useState([]);
+    const [copyTitle, setCopyTitle] = useState("");
+    const [copyRfpUrl, copyRfpUrl] = useState("");
+    const [copyDeadline, setCopyDeadline] = useState("");
+    const [successfulCopy, setSuccessfulCopy] = useState(false);
+    const [copiedGrantId, setCopiedGrantId] = useState("");
+    const [showCopyModal, setShowCopyModal] = useState(false);
+
+
+  const createUnzipped = (sections) => {
     return sections.map((section) => {
       section.isUnzipped = false
       return section
     })
   }
 
-  toggleUnzipped = (id, bool) => {
-    const alteredSections = this.state.sections.map((sectionKey) => {
+  const toggleUnzipped = (id, bool) => {
+    const alteredSections = sections.map((sectionKey) => {
       if (id === sectionKey.id) {
         sectionKey.isUnzipped = bool
       }
       console.log(sectionKey)
       return sectionKey
     })
-    this.setState({
-      sections: alteredSections
-    })
+    setSections(alteredSections)
   }
 
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get(`/api/grants/${this.props.match.params.id}`,
+      .get(`/api/grants/${props.match.params.id}`,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        const zippySections = this.createUnzipped(response.data.sections);
-        this.setState({
-          id: response.data.id,
-          title: response.data.title,
-          rfp_url: response.data.rfp_url,
-          deadline: response.data.deadline,
-          submitted: response.data.submitted,
-          successful: response.data.successful,
-          purpose: response.data.purpose,
-          organization_id: response.data.organizion_id,
-          organization_name: response.data.organization_name,
-          funding_org_id: response.data.funding_org_id,
-          sections: zippySections,
-          reports: response.data.reports,
-          loading: false,
-        });
+        const zippySections = createUnzipped(response.data.sections);
+        setId(response.data.id);
+        setTitle(response.data.title);
+        setRfpUrl(response.data.rfp_url);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
+        setSuccessful(response.data.successful);
+        setPurpose(response.data.purpose);
+        setOrganizationId(response.data.organizion_id);
+        setOrganizationName(response.data.organization_name);
+        setFundingOrgId(response.data.funding_org_id);
+        setSections(zippySections);
+        setReports(response.data.reports);
+        setLoading(false);
       })
     axios
       .get('/api/boilerplates',
         {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
       .then((response) => {
-        this.setState({
-          boilerplates: response.data
-        }); 
+        setBoilerplates(response.data); 
       })
     axios
       .get('/api/bios',
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
-        this.setState({
-          bios: response.data,
-          loading: false,
-        });
+        setBios(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
   }
 
-  toggleHidden() {
-    this.setState({
-      isHidden: !this.state.isHidden,
-    });
+  const toggleCopyGrantHidden = () => {
+    setIsCopyGrantHidden(!isCopyGrantHidden);
+
   }
 
-  toggleCopyGrantHidden = () => {
-    this.setState({
-      isCopyGrantHidden: !this.state.isCopyGrantHidden,
-    });
+  const handleHideCopyModal = () => {
+    setShowCopyModal(false);
   }
 
-  handleHideCopyModal = () => {
-    this.setState({
-      showCopyModal: false
-    })
-  }
-
-  handleChange(event) {
+  const handleChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -145,17 +132,17 @@ class GrantsFinalizeShow extends Component {
     const { title, rfp_url, deadline, submitted, successful, purpose, organization_id, funding_org_id } = this.state;
     axios
       .patch(
-        '/api/grants/' + this.state.id,
+        '/api/grants/' + id,
         {
           title: title,
-          rfp_url: rfp_url,
+          rfp_url: rfpUrl,
           deadline: deadline,
           submitted: submitted,
           successful: successful,
           purpose: purpose,
           sections: [],
-          organization_id: organization_id,
-          funding_org_id: funding_org_id,
+          organization_id: organizationId,
+          funding_org_id: fundingOrgId,
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
@@ -174,39 +161,29 @@ class GrantsFinalizeShow extends Component {
       .post('/api/grants/copy', 
         {
           original_grant_id: id,
-          title: copy_title,
-          rfp_url: copy_rfp_url,
-          deadline: copy_deadline
+          title: copyTitle,
+          rfp_url: copyRfpUrl,
+          deadline: copyDeadline
         },
         {headers: { Authorization: `Bearer ${localStorage.token}` }}
       )
       .then((response) => {
         console.log(response.data.id)
-        this.setState({
-          copied_grant_id: response.data.id,
-          showCopyModal: true,
-          successful_copy: true
-        })
-        this.toggleCopyGrantHidden();
+        setCopiedGrantId(response.data.id);
+        setShowCopyModal(true);
+        setSuccessfulCopy(true);
+        toggleCopyGrantHidden();
       })
       .catch((error) => {
         console.log('grant copy error', error);
-        this.setState({
-          showCopyModal: true,
-          successful_copy: false
-        }) 
+        setShowCopyModal(true);
+        setSuccessfulCopy(false);
       })
   }
 
-  // componentDidUpdate(prevState) {
-  //   if (prevState.copied_grant_id !== "") {
-  //     this.handleShowCopyModal()
-  //   }
-  // }
-
-  handleSectionDelete() {
+  const handleSectionDelete = () => {
     axios
-      .delete('/api/sections/' + this.props.section.id,
+      .delete('/api/sections/' + props.section.id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }})
       .then((response) => {
         console.log(response);
@@ -217,7 +194,7 @@ class GrantsFinalizeShow extends Component {
   }
 
   updateSections = (newSection) => {
-    const sections = this.state.sections.map(section => 
+    const sections = sections.map(section => 
       {
         if (section.id === newSection.id) {
         section.title = newSection.title
@@ -226,47 +203,44 @@ class GrantsFinalizeShow extends Component {
       }
       return section
       });
-    this.setState({
-      sections: sections
-    })
+    setSections(sections);
   }
 
-  render() {
-    if (this.state.loading) {
+    if (loading) {
       return <h1>Loading....</h1>;
     }
 
     return (
       <div className="component">
       <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
-        <h1>{this.state.title}</h1>
-        <h2>{this.state.organization_name}</h2>
-        <h2>{this.state.purpose}</h2>
+        <h1>{title}</h1>
+        <h2>{organizationName}</h2>
+        <h2>{purpose}</h2>
         <div>
         {/* beginning of grant update */}
           <div className="container">
           <br />
-          {this.state.isHidden ?
-            <Button onClick={this.toggleHidden.bind(this)}>
+          {isHidden ?
+            <Button onClick={toggleHidden}>
               Update Grant
             </Button> :
             <Button
-              onClick={this.toggleHidden.bind(this)}
+              onClick={toggleHidden}
             >
               Close
             </Button>
           }
           <br />
-          {!this.state.isHidden ? (
+          {!isHidden ? (
             <div>
-              <Form onSubmit={this.handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={this.state.title}
+                    value={title}
                     name="title"
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -274,9 +248,9 @@ class GrantsFinalizeShow extends Component {
                   <Form.Label>RFP URL</Form.Label>
                   <Form.Control
                     type="text"
-                    value={this.state.rfp_url}
-                    name="rfp_url"
-                    onChange={this.handleChange}
+                    value={rfpUrl}
+                    name="rfpUrl"
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -284,9 +258,9 @@ class GrantsFinalizeShow extends Component {
                   <Form.Label>Deadline</Form.Label>
                   <Form.Control
                     type="datetime"
-                    value={this.state.deadline}
+                    value={deadline}
                     name="deadline"
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -295,8 +269,8 @@ class GrantsFinalizeShow extends Component {
                   <Form.Check
                     type="checkbox"
                     name="submitted"
-                    checked={this.state.submitted}
-                    onChange={this.handleChange}
+                    checked={submitted}
+                    onChange={handleChange}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -304,17 +278,17 @@ class GrantsFinalizeShow extends Component {
                   <Form.Check
                     type="checkbox"
                     name="successful"
-                    checked={this.state.successful}
-                    onChange={this.handleChange}
+                    checked={successful}
+                    onChange={handleChange}
                   />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Purpose</Form.Label>
                   <Form.Control
                     type="text"
-                    value={this.state.purpose}
+                    value={purpose}
                     name="purpose"
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     required
                   />
                 </Form.Group>
@@ -328,16 +302,16 @@ class GrantsFinalizeShow extends Component {
           ) : null}
         </div>
         {/* beginning of copy grant feature */}
-        <Button onClick={this.toggleCopyGrantHidden}>Copy Grant</Button>
+        <Button onClick={toggleCopyGrantHidden}>Copy Grant</Button>
         {/* modal for grant copy confirm message */}
-        <Modal show={this.state.showCopyModal} onHide={this.handleHideCopyModal}>
+        <Modal show={showCopyModal} onHide={handleHideCopyModal}>
           <Modal.Header closeButton></Modal.Header>
-          {this.state.successful_copy ? (
+          {successfulCopy ? (
             <Card>
               <Card.Body>
                 <Alert variant="success">
                   <Alert.Heading>Congrats! You've created a copy. View your copy 
-                  <Alert.Link href={`/grants/${this.state.copied_grant_id}`}> here</Alert.Link>.
+                  <Alert.Link href={`/grants/${copiedGrantId}`}> here</Alert.Link>.
                   </Alert.Heading>
                 </Alert>
               </Card.Body>
@@ -352,25 +326,25 @@ class GrantsFinalizeShow extends Component {
         </Modal>
         {/* end of modal for grant copy confirm message */}
         <Card>
-        {!this.state.isCopyGrantHidden ? (
+        {!isCopyGrantHidden ? (
         <Card.Body>
-        <Form onSubmit={this.copyGrant}>
+        <Form onSubmit={copyGrant}>
         <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
-                name="copy_title"
-                value={this.state.copy_title}
-                onChange={this.handleCopyChange}
+                name="copyTitle"
+                value={copyTitle}
+                onChange={handleCopyChange}
                 required
               />
             </Form.Group>
             <Form.Group>
               <Form.Label>RFP URL</Form.Label>
               <Form.Control
-                name="copy_rfp_url"
-                value={this.state.copy_rfp_url}
-                onChange={this.handleCopyChange}
+                name="copyRfpUrl"
+                value={copyRfpUrl}
+                onChange={handleCopyChange}
                 required
               />
             </Form.Group>
@@ -378,9 +352,9 @@ class GrantsFinalizeShow extends Component {
               <Form.Label>Deadline</Form.Label>
               <Form.Control
                 type="datetime-local"
-                name="copy_deadline"
-                value={this.state.copy_deadline}
-                onChange={this.handleCopyChange}
+                name="copyDeadline"
+                value={copyDeadline}
+                onChange={handleCopyChange}
                 required
               />
             </Form.Group>
@@ -393,19 +367,19 @@ class GrantsFinalizeShow extends Component {
           </Card>
           {/* end of copy grant feature */}
 
-          {this.state.sections.map(section => {
+          {sections.map(section => {
             return(
               <div key={section.id}>
                 <SectionsUpdateFinal 
                   isUnzipped={section.isUnzipped}
-                  toggleUnzipped={this.toggleUnzipped}
+                  toggleUnzipped={toggleUnzipped}
                   section_id={section.id}
-                  boilerplates={this.state.boilerplates}
-                  bios={this.state.bios}
+                  boilerplates={boilerplates}
+                  bios={bios}
                   // section_title={section.title}
                   // section_text={section.text}
-                  // section_grant_id={this.state.id}
-                  updateSections={this.updateSections}
+                  // section_grant_id={state.id}
+                  updateSections={updateSections}
                 />
               </div>
             )
@@ -414,6 +388,4 @@ class GrantsFinalizeShow extends Component {
       </div>
     );
   }
-}
 
-export default GrantsFinalizeShow;

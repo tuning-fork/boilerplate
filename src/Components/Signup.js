@@ -1,38 +1,32 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
+export default function Signup() {
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-      active: true,
-      errors: [],
-    };
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [active, setActive] = useState(true);
+  const [errors, setErrors] = useState(true);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-  }
+  }, [])
 
-  handleChange(event) {
+  const handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     const {
       first_name,
       last_name,
@@ -44,28 +38,26 @@ class Signup extends Component {
 
     axios
       .post(
-        '/api/users',
+        "/api/users",
         {
-          first_name: first_name,
-          last_name: last_name,
+          first_name: firstName,
+          last_name: lastName,
           email: email,
           active: true,
           password: password,
-          password_confirmation: password_confirmation,
+          password_confirmation: passwordConfirmation,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
 
       .then((response) => {
-        if (response.data.message === 'User created successfully') {
-          this.props.history.push('/login');
+        if (response.data.message === "User created successfully") {
+          this.props.history.push("/login");
         }
       })
       .catch((error) => {
-        this.setState({
-          errors: error.response.data.errors,
-        });
-        console.log(this.state.errors);
+        setErrors(error.response.data.errors);
+        console.log(errors);
       });
     event.preventDefault();
   }
@@ -74,18 +66,16 @@ class Signup extends Component {
     return (
       <div className="container">
         <Card className="basic">
-          <Card.Header>
-            Sign Up As A New User!
-          </Card.Header>
+          <Card.Header>Sign Up As A New User!</Card.Header>
           <Card.Body>
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Control
                   type="text"
-                  name="first_name"
+                  name="firstName"
                   placeholder="First Name"
-                  value={this.state.first_name}
-                  onChange={this.handleChange}
+                  value={firstName}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
@@ -94,8 +84,8 @@ class Signup extends Component {
                   type="text"
                   name="last_name"
                   placeholder="Last Name"
-                  value={this.state.last_name}
-                  onChange={this.handleChange}
+                  value={lastName}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
@@ -104,8 +94,8 @@ class Signup extends Component {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
+                  value={email}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
@@ -114,26 +104,26 @@ class Signup extends Component {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
+                  value={password}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Control
                   type="password"
-                  name="password_confirmation"
+                  name="passwordConfirmation"
                   placeholder="Password Confirmation"
-                  value={this.state.password_confirmation}
-                  onChange={this.handleChange}
+                  value={passwordConfirmation}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
               <div>
-                {this.state.errors.map((error, index) => {
+                {errors.map((error, index) => {
                   return (
-                    <span key={index} style={{ color: 'red' }}>
-                      {error},{' '}
+                    <span key={index} style={{ color: "red" }}>
+                      {error},{" "}
                     </span>
                   );
                 })}
@@ -149,6 +139,3 @@ class Signup extends Component {
       </div>
     );
   }
-}
-
-export default Signup;

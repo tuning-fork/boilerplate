@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { id } from "date-fns/locale";
 
 class CategoriesShow extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
     this.state = {
       id: "",
       name: "",
@@ -18,145 +19,146 @@ class CategoriesShow extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get(`/api/categories/${this.props.match.params.id}`,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          name: response.data.name,
-          organization_id: response.data.organization_id,
-          organization_name: response.data.organization.name,
-          loading: false,
-        });
-      })
-      // .then((response) => {
-      //   this.showEditAbility();
-      // })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      console.log(response.data);
-      })
-      .catch((error) => console.log(error));
-  }
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [isHidden, setIsHidden]= useState("");
+  const [organizations, setOrganizations] = useState([]);
+  const [organizationName, setOrganizationName] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  toggleHidden = () => {
-    this.setState({
-      isHidden: !this.state.isHidden,
+  useEffect(() => {
+    axios
+    .get(`/api/categories/${props.match.params.id}`, {
+      headers: { Authorization: `Bearer ${localStorage.token}` },
+    })
+    .then((response) => {
+      setId(response.data.id);
+      setName(response.data.name);
+      setOrganizationId(response.data.organization_id);
+      setOrganizationName(response.data.organization.name);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  }
+  axios
+    .get("/api/organizations", {
+      headers: { Authorization: `Bearer ${localStorage.token}` },
+    })
+    .then((response) => {
+      setOrganizations(response.data);
+      setLoading(false);
+      console.log(response.data);
+    })
+    .catch((error) => console.log(error));
+  }, [])
 
-  handleChange = (event) => {
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
+
+  const handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
-  }
+  };
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     const { name, organization_id } = this.state;
     axios
       .patch(
-        '/api/categories/' + this.state.id,
+        "/api/categories/" + id,
         {
           name: name,
-          organization_id: organization_id
+          organization_id: organizationId,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }
-      })
-      .then((response) => {
-        this.updateOrganizationName(response.data.organization.name);
-        this.toggleHidden();
-      })
-      .catch((error) => {
-        console.log('category update error', error);
-      });
-    event.preventDefault();
-  }
-
-  handleCategoryDelete = () => {
-    axios
-      .delete('/api/categories/' + this.state.id,
-      {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
+        updateOrganizationName(response.data.organization.name);
+        toggleHidden();
+      })
+      .catch((error) => {
+        console.log("category update error", error);
+      });
+    event.preventDefault();
+  };
+
+  const handleCategoryDelete = () => {
+    axios
+      .delete("/api/categories/" + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
+      .then((response) => {
         if (response.data.message) {
-          this.props.history.push('/categories');
+          props.history.push("/categories");
         }
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
-  updateOrganizationName = (organizationName) => {
-    this.setState({
-      organization_name: organizationName,
-    });
+  const updateOrganizationName = (organizationName) => {
+    setOrganizationName(organizationName);
   };
 
   render() {
-    if (this.state.loading) {
+    if (loading) {
       return <h1>Loading....</h1>;
     }
     return (
       <div className="component">
         <Card>
           <Card.Header>
-          <h3>Name: {this.state.name}</h3>
+            <h3>Name: {name}</h3>
           </Card.Header>
           <Card.Body>
-          <h3>organization: {this.state.organization_name}</h3>
+            <h3>organization: {organizationName}</h3>
           </Card.Body>
         </Card>
         <br />
         <div>
           <div className="container">
-            <Button onClick={this.toggleHidden.bind(this)}>
+            <Button onClick={toggleHidden}>
               Update Category
             </Button>
             <br />
             <br />
-            {!this.state.isHidden ? (
+            {!isHidden ? (
               <Card>
                 <Card.Body>
-                  <Form onSubmit={this.handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Form.Group>
                       <Form.Label>Name</Form.Label>
                       <Form.Control
                         type="text"
-                        value={this.state.name}
+                        value={name}
                         name="name"
-                        placeholder={this.state.name}
-                        onChange={this.handleChange}
+                        placeholder={name}
+                        onChange={handleChange}
                         required
                       />
                     </Form.Group>
                     <Form.Control
                       as="select"
-                      name="organization_id"
-                      value={this.state.organization_id}
-                      onChange={this.handleChange}
+                      name="organizationId"
+                      value={organizationId}
+                      onChange={handleChange}
                       required
                     >
-                      <option value="" disabled>Select Organization</option>
-                      {this.state.organizations.map(organization => {
-                        return(
-                          <option 
-                            key={organization.id} 
-                            value={organization.id} 
-                            onChange={this.handleChange}
+                      <option value="" disabled>
+                        Select Organization
+                      </option>
+                      {organizations.map((organization) => {
+                        return (
+                          <option
+                            key={organization.id}
+                            value={organization.id}
+                            onChange={handleChange}
                           >
                             {organization.name}
                           </option>
@@ -168,7 +170,7 @@ class CategoriesShow extends Component {
                         Submit
                       </Button>
                       <Button
-                        onClick={this.toggleHidden.bind(this)}
+                        onClick={toggleHidden}
                         className="btn-lg"
                       >
                         Close
@@ -177,8 +179,8 @@ class CategoriesShow extends Component {
                   </Form>
                 </Card.Body>
               </Card>
-            ) : null }
-            <Button onClick={this.handleCategoryDelete}>Delete</Button>
+            ) : null}
+            <Button onClick={handleCategoryDelete}>Delete</Button>
           </div>
         </div>
       </div>

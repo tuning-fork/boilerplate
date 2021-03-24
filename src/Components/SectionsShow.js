@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
@@ -8,38 +8,35 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import SectionToBoilerplateNew from './SectionToBoilerplateNew';
 
-class SectionsShow extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      quill_text: "",
-      title: "",
-      sort_order: "",
-      isHidden: true,
-      isBoilerplateHidden: true,
-      isUnzipped: false,
-      wordcount: "",
-      grant_id: "",
-      errors: [],
-      currentBoilerplate: '',
-    };
-  }
+function SectionsShow() {
+  // constructor(props) {
+  //   super(props);
 
-  componentDidMount() {
+  const [quillText, setQuillText] = useState("");
+  const [title, setTitle] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const [isHidden, setIsHidden] = useState(true);
+  const [isBoilerPlateHidden, setIsBoilerplateHidden] = useState(true);
+  const [isUnzipped, setIsUnzipped] = useState(false);
+  const [wordcount, setWordcount] = useState("");
+  const [grantId, setGrantId] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [currentBoilerplate, setCurrentBoilerplate] = useState("");
+
+
+  useEffect(() => {
     axios
       .get('/api/sections/' + this.props.section_id,
         {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
       .then((response) => {
-        this.setState({
-          title: response.data.title,
-          quill_text: response.data.text,
-          wordcount: response.data.wordcount,
-          sort_order: response.data.sort_order,
-          grant_id: response.data.grant_id
-        }); 
+        setTitle(response.data.title);
+        setQuillText(response.data.text);
+        setWordcount(response.data.wordcount);
+        setSortOrder(response.data.sort_order);
+        setGrantId(response.data.grant_id);
       })
       .catch((error) => console.log(error));
-  }
+  })
 
   toggleHidden = () => {
     this.setState({

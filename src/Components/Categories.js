@@ -38,7 +38,7 @@ export default function Categories() {
   }, []);
 
   const updateCategories = (newCategory) => {
-    const newCategories = categories;
+    const newCategories = [...categories];
     categories.push(newCategory);
     setCategories(newCategories);
   };

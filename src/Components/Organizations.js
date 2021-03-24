@@ -40,9 +40,9 @@ export default function Organizations() {
   // }
 
   const updateOrganizations = (newOrganization) => {
-    const organizations = organizations;
-    organizations.push(newOrganization);
-    setOrganizations(organizations);
+    const newOrganizations = [...organizations];
+    newOrganizations.push(newOrganization);
+    setOrganizations(newOrganizations);
   };
 
   if (loading) {

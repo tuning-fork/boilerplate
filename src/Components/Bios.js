@@ -74,42 +74,10 @@ export default function Bios() {
       .catch((error) => console.log(error));
   }, []);
 
-  // componentDidMount() {
-  //   axios
-  //     .get(
-  //       "/api/bios",
-  //       { headers: { Authorization: `Bearer ${localStorage.token}` } }
-  //       // {withCredentials: true}
-  //     )
-  //     .then((response) => {
-  //       const zippyBios = this.createUnzipped(response.data);
-  //       console.log(zippyBios);
-  //       this.setState({
-  //         bios: response.data,
-  //         filteredBios: zippyBios,
-  //         loading: false,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  //   axios
-  //     .get(
-  //       "/api/organizations",
-  //       // {headers: { Authorization: `Bearer ${localStorage.token}` }}
-  //       { withCredentials: true }
-  //     )
-  //     .then((response) => {
-  //       this.setState({
-  //         organizations: response.data,
-  //         loading: false,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
   const updateBios = (newBio) => {
-    const bios = bios;
-    bios.push(newBio);
-    setBios(bios);
+    const newBios = [...bios];
+    newBios.push(newBio);
+    setBios(newBios);
   };
 
   const updateOrganizations = (newOrganization) => {

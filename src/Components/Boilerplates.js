@@ -42,9 +42,9 @@ export default function Boilerplates() {
   }, []);
 
   const updateBoilerplates = (newBoilerplate) => {
-    const boilerplates = boilerplates;
-    boilerplates.push(newBoilerplate);
-    setBoilerplates(boilerplates);
+    const newBoilerplates = [...boilerplates];
+    newBoilerplates.push(newBoilerplate);
+    setBoilerplates(newBoilerplates);
   };
 
   const handleSearchParamSelect = (event) => {
@@ -55,7 +55,7 @@ export default function Boilerplates() {
     const searchValue = event.target.value.toLowerCase();
     setSearchText(event.target.value);
     if (searchValue.length <= 0) {
-      setFilteredBoilerplates({ filteredBoilerplates: boilerplates });
+      setFilteredBoilerplates(boilerplates);
       return;
     }
     if (filterParam === "filterWordCount") {
@@ -63,14 +63,16 @@ export default function Boilerplates() {
       let filteredByWordCount = [];
       filteredByWordCount = boilerplates.filter(
         (boilerplate) => boilerplate.wordcount < searchValue
-      )({ setFilteredBoilerplates: filteredByWordCount });
+      );
+      setFilteredBoilerplates(filteredByWordCount);
       console.log(filteredByWordCount);
     } else if (filterParam === "filterTitle") {
       console.log(searchValue, "title filter");
       let filteredByTitle = [];
       filteredByTitle = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
-      })({ setFilteredBoilerplates: filteredByTitle });
+      });
+      setFilteredBoilerplates(filteredByTitle);
       console.log(filteredByTitle);
     } else if (filterParam === "filterText") {
       console.log(searchValue, "text filter");

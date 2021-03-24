@@ -25,7 +25,7 @@ import Bios from "./Components/Bios";
 import Boilerplates from "./Components/Boilerplates";
 import Categories from "./Components/Categories";
 import Organizations from "./Components/Organizations";
-// import Grants from "./Components/Grants";
+import Grants from "./Components/Grants";
 // import Reports from './Components/Reports';
 
 import FundingOrgs from "./Components/FundingOrgs";
@@ -97,7 +97,7 @@ export default function App() {
           <Route path={"/forgot_password"} component={ForgotPassword} />
 
           <Route path={"/dashboard"} component={Dashboard} />
-          {/* <Route exact path={"/grants"} component={Grants} /> */}
+          <Route exact path={"/grants"} component={Grants} />
           <Route path={"/grants/:id"} component={GrantsShow} />
           <Route path={"/grants-finalize/:id"} component={GrantsFinalizeShow} />
           <Route path={"/grants-new"} component={GrantsNew} />
