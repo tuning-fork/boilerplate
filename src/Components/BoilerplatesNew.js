@@ -160,7 +160,7 @@ export default function BoilerplatesNew(props) {
                 <option value="" disabled>
                   Select Organization
                 </option>
-                {this.state.organizations.map((organization) => {
+                {organizations.map((organization) => {
                   return (
                     <option
                       key={organization.id}
@@ -187,7 +187,7 @@ export default function BoilerplatesNew(props) {
                 <option value="" disabled>
                   Select Category
                 </option>
-                {categories.map((category) => {
+                {/* {categories.map((category) => {
                   return (
                     <option
                       key={category.id}
@@ -197,7 +197,7 @@ export default function BoilerplatesNew(props) {
                       {category.name}
                     </option>
                   );
-                })}
+                })} */}
               </Form.Control>
               {isHiddenCategoriesOrganizationsNew ? (
                 <Button

@@ -24,21 +24,6 @@ export default function Organizations() {
       .catch((error) => console.log(error));
   }, []);
 
-  // componentDidMount() {
-  //   axios
-  //     .get("/api/organizations", {
-  //       headers: { Authorization: `Bearer ${localStorage.token}` },
-  //     })
-  //     .then((response) => {
-  //       this.setState({
-  //         organizations: response.data,
-  //         loading: false,
-  //       });
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
   const updateOrganizations = (newOrganization) => {
     const newOrganizations = [...organizations];
     newOrganizations.push(newOrganization);

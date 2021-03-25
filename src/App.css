@@ -97,7 +97,7 @@ body {
 }
 
 .card-component:hover .card-body {
-  background-color: #bdf4de;
+  background-color: #d9f2e8;
 }
 
 /* background-color: #23cb87; */
@@ -147,7 +147,7 @@ a.basic:hover {
 }
 
 .whatever:hover {
-  background-color: orange;
+  background-color: #d9f2e8;
 }
 
 .highlighted {

@@ -175,6 +175,19 @@ export default function BoilerplatesShow(props) {
             }}
           >
             {title}
+            <Button
+              variant="danger"
+              onClick={handleBoilerplateDelete}
+              style={{
+                flex: "col",
+                maxWidth: "25%",
+                textAlign: "right",
+                fontWeight: "bolder",
+                marginRight: "0",
+              }}
+            >
+              Delete
+            </Button>
           </h3>
         </Card.Header>
         <Card.Body>
@@ -196,19 +209,7 @@ export default function BoilerplatesShow(props) {
               fontWeight: "bolder",
             }}
           >
-            Update Content
-          </Button>
-          <Button
-            variant="danger"
-            onClick={handleBoilerplateDelete}
-            style={{
-              flex: "col",
-              maxWidth: "25%",
-              align: "right",
-              fontWeight: "bolder",
-            }}
-          >
-            Delete Content
+            Edit
           </Button>
         </div>
       </Card>
@@ -326,19 +327,6 @@ export default function BoilerplatesShow(props) {
                     }}
                   >
                     Save Changes
-                  </Button>
-                  <Button
-                    variant="outline-danger"
-                    style={{
-                      maxWidth: "20%",
-                      align: "center",
-                      backgroundColor: "red",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleBoilerplateDelete}
-                  >
-                    Delete Content
                   </Button>
                 </div>
               </Form>

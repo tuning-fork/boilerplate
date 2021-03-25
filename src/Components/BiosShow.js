@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -19,6 +20,11 @@ export default function BiosShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios
@@ -106,7 +112,7 @@ export default function BiosShow(props) {
         <Card.Header style={{ backgroundColor: "#09191b" }}>
           <h3
             style={{
-              color: "#23cb87",
+              color: "#fefefe",
               fontWeight: "bolder",
               display: "inline",
             }}
@@ -125,8 +131,8 @@ export default function BiosShow(props) {
           </h3>
           <h3
             style={{
-              color: "#fefefe",
-              fontWeight: "bolder",
+              color: "#f4f4f4",
+              fontWeight: "bold",
               display: "inline",
             }}
           >
@@ -154,7 +160,7 @@ export default function BiosShow(props) {
           </Button>
         ) : (
           <Button
-            onClick={toggleHidden}
+            onClick={handleShow}
             style={{
               maxWidth: "20%",
               align: "right",
@@ -169,7 +175,12 @@ export default function BiosShow(props) {
         )}
       </Card>
       <div>
-        {!isHidden ? (
+        {/* {!isHidden ? ( */}
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header
+            style={{ backgroundColor: "#09191b" }}
+            closeButton
+          ></Modal.Header>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -257,7 +268,8 @@ export default function BiosShow(props) {
               </Form>
             </Card.Body>
           </Card>
-        ) : null}
+        </Modal>
+        {/* ) : null} */}
       </div>
     </div>
   );
