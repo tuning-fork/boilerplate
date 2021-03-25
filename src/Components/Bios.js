@@ -64,11 +64,13 @@ export default function Bios() {
     axios
       .get(
         "/api/organizations",
-        // {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } },
         { withCredentials: true }
       )
       .then((response) => {
+        console.log(organizations);
         setOrganizations(response.data);
+
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -81,8 +83,8 @@ export default function Bios() {
   };
 
   const updateOrganizations = (newOrganization) => {
-    const organizations = organizations;
-    organizations.push(newOrganization);
+    const newOrganizations = organizations;
+    newOrganizations.push(newOrganization);
     setOrganizations(organizations);
   };
 

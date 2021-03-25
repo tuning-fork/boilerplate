@@ -8,10 +8,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export default function GrantsShow() {
-  // constructor(props) {
-  //   super(props);
-
+export default function GrantsShow(props) {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [rfpUrl, setRfpUrl] = useState("");
@@ -26,8 +23,10 @@ export default function GrantsShow() {
   const [reports, setReports] = useState([]);
   const [organizations, setOrganizations] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [bios, setBios] = useState([]);
+  const [boilerplates, setBoilerplates] = useState([]);
   const [errors, setErrors] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [name, setName] = useState([]);
 
   useEffect(() => {
@@ -79,18 +78,20 @@ export default function GrantsShow() {
     setIsHidden(!isHidden);
   };
 
-  const handleChange = (event) => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+  // const handleChange = (event) => {
+  //   const target = event.target;
+  //   const value = target.type === "checkbox" ? target.checked : target.value;
+  //   const name = target.name;
 
-    setName(value);
-  };
+  //   setName(value);
+  // };
 
   const handleSubmit = (event) => {
+    console.log(successful, submitted);
+    event.preventDefault();
     axios
       .patch(
-        "/api/grants/" + this.state.id,
+        "/api/grants/" + id,
         {
           title: title,
           rfp_url: rfpUrl,
@@ -109,7 +110,6 @@ export default function GrantsShow() {
       .catch((error) => {
         console.log("grant update error", error);
       });
-    event.preventDefault();
   };
 
   const addNewSections = (newSection) => {
@@ -150,7 +150,7 @@ export default function GrantsShow() {
       })
       .then((response) => {
         if (response.data.message) {
-          this.props.history.push("/grants");
+          props.history.push("/grants");
         }
         console.log(response);
       })
@@ -165,10 +165,12 @@ export default function GrantsShow() {
       ev.target.getAttribute("data--section_id")
     );
   };
-  dragoverHandler = (ev) => {
+
+  const dragoverHandler = (ev) => {
     ev.preventDefault();
   };
-  dropHandler = (ev) => {
+
+  const dropHandler = (ev) => {
     ev.preventDefault();
     const sourceSectionId = ev.dataTransfer.getData("text/plain");
     const closestSection = ev.target.closest("div[data--section_id]");
@@ -259,7 +261,7 @@ export default function GrantsShow() {
                       value={title}
                       name="title"
                       // placeholder={this.state.title}
-                      onChange={handleChange}
+                      onChange={(event) => setTitle(event.target.value)}
                       required
                     />
                   </Form.Group>
@@ -270,7 +272,7 @@ export default function GrantsShow() {
                       value={purpose}
                       name="purpose"
                       // placeholder={this.state.purpose}
-                      onChange={handleChange}
+                      onChange={(event) => setPurpose(event.target.value)}
                       required
                     />
                   </Form.Group>
@@ -281,7 +283,7 @@ export default function GrantsShow() {
                       value={rfpUrl}
                       name="rfpUrl"
                       // placeholder={this.state.rfp_url}
-                      onChange={handleChange}
+                      onChange={(event) => setRfpUrl(event.target.value)}
                       required
                     />
                   </Form.Group>
@@ -292,7 +294,7 @@ export default function GrantsShow() {
                       value={deadline}
                       name="deadline"
                       // placeholder={this.state.deadline}
-                      onChange={handleChange}
+                      onChange={(event) => setDeadline(event.target.value)}
                       required
                     />
                   </Form.Group>
@@ -302,7 +304,7 @@ export default function GrantsShow() {
                       type="checkbox"
                       name="submitted"
                       checked={submitted}
-                      onChange={handleChange}
+                      onChange={(event) => setSubmitted(event.target.checked)}
                     />
                   </Form.Group>
                   <Form.Group>
@@ -311,7 +313,7 @@ export default function GrantsShow() {
                       type="checkbox"
                       name="successful"
                       checked={successful}
-                      onChange={handleChange}
+                      onChange={(event) => setSuccessful(event.target.checked)}
                     />
                   </Form.Group>
                   <div className="text-center">
@@ -355,7 +357,7 @@ export default function GrantsShow() {
           <SectionsNew
             sort_number={sections.length}
             grant_id={id}
-            addNewSections={this.addNewSections}
+            addNewSections={addNewSections}
           />
         </Card.Body>
 

@@ -4,10 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export default function FundingOrgsShow() {
-  // constructor(props) {
-  //   super(props);
-
+export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
@@ -15,6 +12,7 @@ export default function FundingOrgsShow() {
   const [organizations, setOrganizations] = useState([]);
   const [organizationName, setOrganizationName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -79,15 +77,15 @@ export default function FundingOrgsShow() {
     setIsHidden(!isHidden);
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
 
   const handleSubmit = (event) => {
-    const { name, website, organization_id } = this.state;
+    // const { name, website, organization_id } = this.state;
     axios
       .patch(
         "/api/funding_orgs/" + id,
@@ -115,7 +113,7 @@ export default function FundingOrgsShow() {
       })
       .then((response) => {
         if (response.data.message) {
-          this.props.history.push("/funding_orgs");
+          props.history.push("/funding_orgs");
         }
         console.log(response);
       })
@@ -166,7 +164,7 @@ export default function FundingOrgsShow() {
                     value={name}
                     name="name"
                     placeholder={name}
-                    onChange={handleChange}
+                    onChange={(event) => setName(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -177,7 +175,7 @@ export default function FundingOrgsShow() {
                     value={website}
                     name="website"
                     placeholder={website}
-                    onChange={handleChange}
+                    onChange={(event) => setWebsite(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -185,7 +183,7 @@ export default function FundingOrgsShow() {
                   as="select"
                   name="organizationId"
                   value={organizationId}
-                  onChange={handleChange}
+                  onChange={(event) => setOrganizationId(event.target.value)}
                   required
                 >
                   <option value="" disabled>
@@ -196,7 +194,9 @@ export default function FundingOrgsShow() {
                       <option
                         key={organization.id}
                         value={organization.id}
-                        onChange={handleChange}
+                        onChange={(event) =>
+                          setOrganizationId(event.target.value)
+                        }
                       >
                         {organization.name}
                       </option>

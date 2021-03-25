@@ -1,178 +1,163 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-class BiosNew extends Component {
-  constructor(props) {
-    super(props);
+export default function BiosNew(props) {
+  console.log(props.organizations);
 
-    this.state = {
-      quill_text: "",
-      first_name: "",
-      last_name: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      wordcount: "",
-      errors: []
-    };
-  }
+  const [quillText, setQuillText] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [wordcount, setWordcount] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  clearForm = () => {
-    this.setState({
-      quill_text: "",
-      first_name: "",
-      last_name: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      wordcount: ""
-    });
+  const clearForm = () => {
+    setQuillText("");
+    setFirstName("");
+    setLastName("");
+    setTitle("");
+    setText("");
+    setOrganizationId("");
+    setWordcount("");
   };
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  quillChange = (value) => {
-    this.setState({ quill_text: value})
-  }
-
-  handleSubmit = (event) => {
-    const {
-      first_name, last_name, title, quill_text, organization_id
-    } = this.state;
+  const handleSubmit = (event) => {
+    event.preventDefault();
     axios
-      .post('/api/bios', {
-        first_name: first_name,
-        last_name: last_name,
-        title: title,
-        text: quill_text,
-        organization_id: organization_id,
-        wordcount: this.countWords(this.state.quill_text)
-      },
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .post(
+        "/api/bios",
+        {
+          first_name: firstName,
+          last_name: lastName,
+          title: title,
+          text: quillText,
+          organization_id: organizationId,
+          wordcount: countWords(quillText),
+        },
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
+      )
       .then((response) => {
         if (response.data) {
-          this.props.updateBios(response.data);
-          this.clearForm();
-        };
+          props.updateBios(response.data);
+          clearForm();
+        }
       })
       .catch((error) => {
-        console.log('bio creation error', error);
+        console.log("bio creation error", error);
       });
-    event.preventDefault();
-  }
+  };
 
-  countWords = (string) => { 
+  const countWords = (string) => {
     if (string) {
-      return (string.split(" ").length);
-      } else {
-        return 0; 
-      }
-  }
+      return string.split(" ").length;
+    } else {
+      return 0;
+    }
+  };
 
-  render() {
-    return (
-      <Card>
-        <Card.Header>
-          <h3>Add A Bio</h3>
-        </Card.Header>
-        <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select" 
-                name="organization_id"
-                value={this.state.organization_id}
-                onChange={this.handleChange}
-                required
-                style={{color: "red", backgroundColor: "yellow"}}
+  return (
+    <Card>
+      <Card.Header>
+        <h3>Add A Bio</h3>
+      </Card.Header>
+      <Card.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Organization</Form.Label>
+            <Form.Control
+              as="select"
+              name="organizationId"
+              value={organizationId}
+              onChange={(event) => setOrganizationId(event.target.value)}
+              required
+              style={{ color: "red", backgroundColor: "yellow" }}
+            >
+              <option value="" disabled>
+                Select Organization
+              </option>
+              {props.organizations.map((organization) => {
+                return (
+                  <option
+                    key={organization.id}
+                    value={organization.id}
+                    onChange={(event) => setOrganizationId(event.target.value)}
+                  >
+                    {organization.name}
+                  </option>
+                );
+              })}
+            </Form.Control>
+            {props.isHiddenOrganizationsNew ? (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={props.toggleHiddenOrganizationsNew}
               >
-                <option value="" disabled>Select Organization</option>
-                {this.props.organizations.map(organization => {
-                  return(
-                    <option 
-                      key={organization.id} 
-                      value={organization.id} 
-                      onChange={this.handleChange}
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-              {this.props.isHiddenOrganizationsNew ?
-                <Button 
-                  variant="primary" 
-                  size="sm" 
-                  onClick={this.props.toggleHiddenOrganizationsNew}>Add Organization
-                </Button> 
-              :
-              <Button 
-                  variant="warning" 
-                  size="sm" 
-                  onClick={this.props.toggleHiddenOrganizationsNew}>Close Add Organization
-                </Button>
-              }
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="first_name"
-                value={this.state.first_name}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="last_name"
-                value={this.state.last_name}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                value={this.state.title}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Label>Bio Text</Form.Label>
-            <ReactQuill 
-              // name="quill_text"
-              value={this.state.quill_text}
-              onChange={this.quillChange}  
-            />
-            <Form.Group>
-              <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.state.quill_text)}</p>
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">
-                Add New Bio
+                Add Organization
               </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    );
-  }
+            ) : (
+              <Button
+                variant="warning"
+                size="sm"
+                onClick={props.toggleHiddenOrganizationsNew}
+              >
+                Close Add Organization
+              </Button>
+            )}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="first_name"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="last_name"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Label>Bio Text</Form.Label>
+          <ReactQuill
+            name="quillText"
+            value={quillText}
+            onChange={(event) => setQuillText(event)}
+            // onChange={(event) => console.log(event)}
+          />
+          <Form.Group>
+            <Form.Label>Word Count</Form.Label>
+            <p>{countWords(quillText)}</p>
+          </Form.Group>
+          <div className="text-center">
+            <Button type="submit">Add New Bio</Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
 }
-
-export default BiosNew;

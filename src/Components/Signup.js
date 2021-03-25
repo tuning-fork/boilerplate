@@ -4,10 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
-export default function Signup() {
-  // constructor(props) {
-  //   super(props);
-
+export default function Signup(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,13 +15,13 @@ export default function Signup() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
   const handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
   const handleSubmit = (event) => {
     const {
@@ -60,82 +57,83 @@ export default function Signup() {
         console.log(errors);
       });
     event.preventDefault();
-  }
+  };
 
-  render() {
-    return (
-      <div className="container">
-        <Card className="basic">
-          <Card.Header>Sign Up As A New User!</Card.Header>
-          <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  name="last_name"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="password"
-                  name="passwordConfirmation"
-                  placeholder="Password Confirmation"
-                  value={passwordConfirmation}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <div>
-                {errors.map((error, index) => {
-                  return (
-                    <span key={index} style={{ color: "red" }}>
-                      {error},{" "}
-                    </span>
-                  );
-                })}
-              </div>
-              <div>
-                <Button className="basic" type="submit">
-                  Signup
-                </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  }
+  return (
+    <div className="container">
+      <Card className="basic">
+        <Card.Header>Sign Up As A New User!</Card.Header>
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="last_name"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="password"
+                name="passwordConfirmation"
+                placeholder="Password Confirmation"
+                value={passwordConfirmation}
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value)
+                }
+                required
+              />
+            </Form.Group>
+            <div>
+              {errors.map((error, index) => {
+                return (
+                  <span key={index} style={{ color: "red" }}>
+                    {error},{" "}
+                  </span>
+                );
+              })}
+            </div>
+            <div>
+              <Button className="basic" type="submit">
+                Signup
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  );
+}

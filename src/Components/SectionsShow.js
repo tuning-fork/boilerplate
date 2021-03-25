@@ -1,33 +1,30 @@
-import React, { Component, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
 // import { Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import SectionToBoilerplateNew from './SectionToBoilerplateNew';
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import SectionToBoilerplateNew from "./SectionToBoilerplateNew";
 
-function SectionsShow() {
-  // constructor(props) {
-  //   super(props);
-
+export default function SectionsShow(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [isBoilerPlateHidden, setIsBoilerplateHidden] = useState(true);
+  const [isBoilerplateHidden, setIsBoilerplateHidden] = useState(true);
   const [isUnzipped, setIsUnzipped] = useState(false);
   const [wordcount, setWordcount] = useState("");
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
 
-
   useEffect(() => {
     axios
-      .get('/api/sections/' + this.props.section_id,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .get("/api/sections/" + props.section_id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         setTitle(response.data.title);
         setQuillText(response.data.text);
@@ -36,186 +33,153 @@ function SectionsShow() {
         setGrantId(response.data.grant_id);
       })
       .catch((error) => console.log(error));
-  })
+  });
 
-  toggleHidden = () => {
-    this.setState({
-      isHidden: !this.state.isHidden
-    });
-  }
-  
-  toggleUnzipped = () => {
-    this.setState({
-      isUnzipped: !this.state.isUnzipped
-    });
-  }
-
-  toggleBoilerplateHidden = () => {
-    this.setState({
-      isBoilerplateHidden: !this.state.isBoilerplateHidden
-    });
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSelect = (event) => {
-    let quill_text = this.state.quill_text;
-    quill_text += ` ${event.target.value}`;
-    this.setState({
-      quill_text: quill_text
-    });
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
   };
 
-  quillChange = (value) => {
-    this.setState({ quill_text: value})
-  }
+  const toggleUnzipped = () => {
+    setIsUnzipped(!isUnzipped);
+  };
 
-  handleSubmit = (event) => {
-    const { title, quill_text, sort_order, grant_id } = this.state;
+  const toggleBoilerplateHidden = () => {
+    setIsBoilerplateHidden(!isBoilerplateHidden);
+  };
+
+  const handleSelect = (event) => {
+    let quillText = quillText;
+    quillText += ` ${event}`;
+    setQuillText(quillText);
+  };
+
+  const countWords = (string) => {
+    if (string) {
+      return string.split(" ").length;
+    } else {
+      return 0;
+    }
+  };
+
+  const handleSubmit = (event) => {
     axios
       .patch(
-        '/api/sections/' + this.props.section_id, 
+        "/api/sections/" + props.section_id,
         {
           title: title,
-          text: quill_text,
-          sort_order: sort_order, 
-          wordcount: this.countWords(this.state.quill_text),
-          grant_id: grant_id
+          text: quillText,
+          sort_order: sortOrder,
+          wordcount: countWords(quillText),
+          grant_id: grantId,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
+      )
       .then((response) => {
         if (response.data) {
-          this.props.updateSections(response.data);
-          this.toggleHidden();
+          props.updateSections(response.data);
+          toggleHidden();
         }
       })
       .catch((error) => {
-        console.log('grant section update error', error);
+        console.log("grant section update error", error);
       });
     event.preventDefault();
-  }
+  };
 
-  handleSectionDelete = () => {
+  const handleSectionDelete = () => {
     axios
-      .delete('/api/sections/' + this.props.section_id,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .delete("/api/sections/" + props.section_id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message === "Section successfully destroyed") {
-          this.props.updateSections(response.data);
+          props.updateSections(response.data);
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
-  countWords = (string) => { 
-    if (string) {
-      return (string.split(" ").length);
-      } else {
-        return 0; 
-      }
-  }
-
-  render() {
-    return (
-      <div className="container">
-      {(this.state.isUnzipped === false) ? (
+  return (
+    <div className="container">
+      {isUnzipped === false ? (
         <Card>
           <Card.Body>
-            <h5>{this.state.title}</h5>
-            <h1 onClick={this.toggleUnzipped}>+</h1>
+            <h5>{title}</h5>
+            <h1 onClick={toggleUnzipped}>+</h1>
           </Card.Body>
-        </Card> 
+        </Card>
       ) : (
         <Card>
           <Card.Body>
-            <h5>{this.state.title}</h5>
-            <h5 dangerouslySetInnerHTML={{__html: this.state.quill_text}}></h5>
-            <h5>wordcount: {this.countWords(this.state.quill_text)}</h5>
+            <h5>{title}</h5>
+            <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
+            <h5>wordcount: {countWords(quillText)}</h5>
           </Card.Body>
           <div className="container">
-            {this.state.isHidden ? 
-              <Button 
-                onClick={this.toggleHidden}>
-                Update Section
-              </Button> :
-              <Button
-                onClick={this.toggleHidden}
-                variant="warning"
-              >
+            {isHidden ? (
+              <Button onClick={toggleHidden}>Update Section</Button>
+            ) : (
+              <Button onClick={toggleHidden} variant="warning">
                 Close Update Section
               </Button>
-            }
-            {this.state.isBoilerplateHidden ? 
-              <Button onClick={this.toggleBoilerplateHidden}>
+            )}
+            {isBoilerplateHidden ? (
+              <Button onClick={toggleBoilerplateHidden}>
                 Save Section as Boilerplate
-              </Button> 
-              :
-              <Button
-                onClick={this.toggleBoilerplateHidden}
-              >
-                Close
               </Button>
-            }
-            {!this.state.isBoilerplateHidden ? 
-              <SectionToBoilerplateNew 
-                toggleBoilerplateHidden={this.toggleBoilerplateHidden} 
-                organization_id={this.props.organization_id} 
-                title={this.state.title} 
-                text={this.state.quill_text}
-              /> : null
-            }
-            {/* <Link 
-              to={'/boilerplates'}
-            >
-              Add To Boilerplates
-            </Link>
-            <Link to={{
-              pathname: '/boilerplates',
-              state: {
-                text: this.state.quilltext
-              }
-            }}>Add To Boilerplates</Link>
-            <br />
-            <br /> */}
+            ) : (
+              <Button onClick={toggleBoilerplateHidden}>Close</Button>
+            )}
+            {!isBoilerplateHidden ? (
+              <SectionToBoilerplateNew
+                toggleBoilerplateHidden={toggleBoilerplateHidden}
+                organization_id={props.organizationId}
+                title={title}
+                text={quillText}
+              />
+            ) : null}
 
             {/* Beginning of section update form */}
 
-            {!this.state.isHidden ? (
+            {!isHidden ? (
               <Card>
                 <Card.Body>
-                  <Form onSubmit={this.handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Form.Group>
                       <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="text"
-                        value={this.state.title}
+                        value={title}
                         name="title"
-                        // placeholder={this.props.section_title}
-                        onChange={this.handleChange}
+                        onChange={(event) => setTitle(event.target.value)}
                         required
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Add Boilerplate to text field below</Form.Label>
+                      <Form.Label>
+                        Add Boilerplate to text field below
+                      </Form.Label>
                       <Form.Control
-                        as="select" 
+                        as="select"
                         name="currentBoilerplate"
-                        value={this.state.currentBoilerplate}
-                        onChange={this.handleSelect}
+                        value={currentBoilerplate}
+                        onChange={(event) =>
+                          setCurrentBoilerplate(event.target.value)
+                        }
                       >
-                        <option value="" disabled>Select Boilerplate</option>
-                        {this.props.boilerplates.map(boilerplate => {
-                          return(
-                            <option 
-                              key={boilerplate.id} 
-                              value={boilerplate.text} 
-                              onChange={this.handleChange}
+                        <option value="" disabled>
+                          Select Boilerplate
+                        </option>
+                        {props.boilerplates.map((boilerplate) => {
+                          return (
+                            <option
+                              key={boilerplate.id}
+                              value={boilerplate.text}
+                              onChange={(event) =>
+                                setCurrentBoilerplate(event.target.value)
+                              }
                             >
                               {boilerplate.title}
                             </option>
@@ -226,18 +190,22 @@ function SectionsShow() {
                     <Form.Group>
                       <Form.Label>Add Bio Text to text field below</Form.Label>
                       <Form.Control
-                        as="select" 
+                        as="select"
                         name="currentBoilerplate"
-                        value={this.state.currentBoilerplate}
-                        onChange={this.handleSelect}
+                        value={currentBoilerplate}
+                        onChange={(event) => setCurrentBoilerplate(event)}
                       >
-                        <option value="" disabled>Select Bio</option>
-                        {this.props.bios.map(bio => {
-                          return(
-                            <option 
-                              key={bio.id} 
-                              value={`${bio.first_name} ${bio.last_name}: ${bio.text}`} 
-                              onChange={this.handleChange}
+                        <option value="" disabled>
+                          Select Bio
+                        </option>
+                        {props.bios.map((bio) => {
+                          return (
+                            <option
+                              key={bio.id}
+                              value={`${bio.first_name} ${bio.last_name}: ${bio.text}`}
+                              onChange={(event) =>
+                                setCurrentBoilerplate(event.target.value)
+                              }
                             >
                               {`${bio.first_name} ${bio.last_name}`}
                             </option>
@@ -245,22 +213,17 @@ function SectionsShow() {
                         })}
                       </Form.Control>
                     </Form.Group>
-                    <ReactQuill 
-                      value={this.state.quill_text}
-                      onChange={this.quillChange}  
+                    <ReactQuill
+                      value={quillText}
+                      onChange={(event) => setQuillText(event)}
                     />
                     <Form.Group>
                       <Form.Label>Word Count</Form.Label>
-                      <p>{this.countWords(this.state.quill_text)}</p>
+                      <p>{countWords(quillText)}</p>
                     </Form.Group>
                     <div className="text-center">
-                      <Button type="submit">
-                        Submit Updated Section
-                      </Button>
-                      <Button 
-                        variant="danger" 
-                        onClick={this.handleSectionDelete}
-                      >
+                      <Button type="submit">Submit Updated Section</Button>
+                      <Button variant="danger" onClick={handleSectionDelete}>
                         Delete Section
                       </Button>
                     </div>
@@ -269,16 +232,9 @@ function SectionsShow() {
               </Card>
             ) : null}
           </div>
-          {/* {!this.state.isBoilerplateHidden ? 
-              <BoilerplatesNew />
-              : null
-            } */}
         </Card>
       )}
-        <br />
-      </div>
-    );
-  }
+      <br />
+    </div>
+  );
 }
-
-export default SectionsShow;

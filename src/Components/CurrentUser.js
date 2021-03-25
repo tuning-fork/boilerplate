@@ -1,22 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-class CurrentUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      first_name: "",
-      last_name: "",
-      email: "",
-      isHidden: true,
-      organization_users: [],
-    };
-  }
+export default function CurrentUser(props) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isHidden, setIsHidden] = useState(true);
+  const [organizationUsers, setOrganizationUsers] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get(
         "/api/users/" + localStorage.user_id,
@@ -24,123 +19,109 @@ class CurrentUser extends Component {
         // {withCredentials: true}
       )
       .then((response) => {
-        this.setState({
-          first_name: response.data.first_name,
-          last_name: response.data.last_name,
-          email: response.data.email,
-          organization_users: response.data.organization_users,
-        });
+        setFirstName(response.data.first_name);
+        setLastName(response.data.last_name);
+        setEmail(response.data.email);
+        setOrganizationUsers(response.data.organization_users);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }
+  }, []);
 
-  updateOrganizationUsers = (newOrganizationUser) => {
-    const organization_users = this.state.organization_users;
-    organization_users.push(newOrganizationUser);
-    this.setState({
-      organization_users: organization_users,
-    });
+  const updateOrganizationUsers = (newOrganizationUser) => {
+    const newOrganizationUsers = [...organizationUsers];
+    newOrganizationUsers.push(newOrganizationUser);
+    setOrganizationUsers(organizationUsers);
   };
 
-  toggleHidden = () => {
-    this.setState({
-      isHidden: !this.state.isHidden,
-    });
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
   };
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
 
-  handleSubmit = (event) => {
-    const { first_name, last_name, email } = this.state;
+  const handleSubmit = (event) => {
+    // const { first_name, last_name, email } = this.state;
     axios
       .patch(
         "/api/users/" + localStorage.user_id,
         {
-          first_name: first_name,
-          last_name: last_name,
+          first_name: firstName,
+          last_name: lastName,
           email: email,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
-      .then((response) => this.toggleHidden())
+      .then((response) => toggleHidden())
       .catch((error) => {
         console.log("user update error", error);
       });
     event.preventDefault();
   };
 
-  render() {
-    return (
-      <div>
-        <Card className="card-dashboard">
-          <Card.Header>Welcome, {this.state.first_name}!</Card.Header>
-          <Card.Body>
-            <div>
-              {this.state.isHidden ? (
-                <Button onClick={this.toggleHidden.bind(this)}>
-                  Update Account Info
-                </Button>
-              ) : (
-                <Button onClick={this.toggleHidden.bind(this)}>Close</Button>
-              )}
-              <br />
-              <br />
-              {!this.state.isHidden ? (
-                <div>
-                  <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.first_name}
-                        name="first_name"
-                        placeholder={this.state.first_name}
-                        onChange={this.handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.last_name}
-                        name="last_name"
-                        placeholder={this.state.last_name}
-                        onChange={this.handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={this.state.email}
-                        name="email"
-                        placeholder={this.state.email}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </Form.Group>
-                    <div className="text-center">
-                      <Button type="submit">Submit</Button>
-                    </div>
-                  </Form>
-                  <br />
-                  {/* <button
-                onClick={() => this.handleUserDelete()}
-                className="btn btn-danger">
-                Delete Account
-              </button> */}
-                </div>
-              ) : null}
-            </div>
-            {/* Here are your current organizations:
-            {this.state.organization_users.map((organization_user) => {
+  return (
+    <div>
+      <Card className="card-dashboard">
+        <Card.Header>Welcome, {firstName}!</Card.Header>
+        <Card.Body>
+          <div>
+            {isHidden ? (
+              <Button onClick={toggleHidden}>Update Account Info</Button>
+            ) : (
+              <Button onClick={toggleHidden}>Close</Button>
+            )}
+            <br />
+            <br />
+            {!isHidden ? (
+              <div>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group>
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={firstName}
+                      name="firstName"
+                      placeholder={firstName}
+                      onChange={(event) => setFirstName(event.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={lastName}
+                      name="lastName"
+                      placeholder={lastName}
+                      onChange={(event) => setLastName(event.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={email}
+                      name="email"
+                      placeholder={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      required
+                    />
+                  </Form.Group>
+                  <div className="text-center">
+                    <Button type="submit">Submit</Button>
+                  </div>
+                </Form>
+                <br />
+              </div>
+            ) : null}
+          </div>
+          {/* Here are your current organizations:
+            {organization_users.map((organization_user) => {
               return (
                 <div key={organization_user.organization_id}>
                   <h4>{organization_user.organization_name}</h4>
@@ -149,13 +130,10 @@ class CurrentUser extends Component {
             })}
             <br />
             <OrganizationUser
-              updateOrganizationUsers={this.updateOrganizationUsers}
+              updateOrganizationUsers={updateOrganizationUsers}
             /> */}
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  }
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
-
-export default CurrentUser;

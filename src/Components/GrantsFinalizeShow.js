@@ -1,69 +1,62 @@
-import React, { Component, useState, useEffect } from 'react';
-import axios from 'axios';
-import SectionsUpdateFinal from './SectionsUpdateFinal';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal';
-import Alert from 'react-bootstrap/Alert';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import SectionsUpdateFinal from "./SectionsUpdateFinal";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Modal from "react-bootstrap/Modal";
+import Alert from "react-bootstrap/Alert";
 
-export default function GrantsFinalizeShow() {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.handleSubmit = this.handleSubmit.bind(this);
-  // }
-
-    const [id, setId] = useState("");
-    const [title, setTitle] = useState("");
-    const [rfpUrl, setRfpUrl] = useState("");
-    const [deadline, setDeadline] = useState("");
-    const [submitted, setSubmitted] = useState(false);
-    const [successful, setSuccessful] = useState(false);
-    const [purpose, setPurpose] = useState("");
-    const [organizationId, setOrganizationId] = useState("");
-    const [organizationName, setOrganizationName] = useState("")
-    const [fundingOrgId, setFundingOrgId] = useState("");
-    const [sections, setSections] = useState([]);
-    const [reports, setReports] = useState([]);
-    const [fundingOrgs, setFundingOrgs] = useState([]);
-    const [isHidden, setIsHidden] = useState(true);
-    const [isCopyGrantHidden, setIsCopyGrantHidden] = useState(true);
-    const [loading, setLoading] = useState(true);
-    const [errors, setErrors] = useState([]);
-    const [bios, setBios] = useState([]);
-    const [boilerplates, setBoilerplates] = useState([]);
-    const [copyTitle, setCopyTitle] = useState("");
-    const [copyRfpUrl, copyRfpUrl] = useState("");
-    const [copyDeadline, setCopyDeadline] = useState("");
-    const [successfulCopy, setSuccessfulCopy] = useState(false);
-    const [copiedGrantId, setCopiedGrantId] = useState("");
-    const [showCopyModal, setShowCopyModal] = useState(false);
-
+export default function GrantsFinalizeShow(props) {
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
+  const [rfpUrl, setRfpUrl] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [successful, setSuccessful] = useState(false);
+  const [purpose, setPurpose] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+  const [fundingOrgId, setFundingOrgId] = useState("");
+  const [sections, setSections] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [isHidden, setIsHidden] = useState(true);
+  const [isCopyGrantHidden, setIsCopyGrantHidden] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
+  const [bios, setBios] = useState([]);
+  const [boilerplates, setBoilerplates] = useState([]);
+  const [copyTitle, setCopyTitle] = useState("");
+  const [copyRfpUrl, setCopyRfpUrl] = useState("");
+  const [copyDeadline, setCopyDeadline] = useState("");
+  const [successfulCopy, setSuccessfulCopy] = useState(false);
+  const [copiedGrantId, setCopiedGrantId] = useState("");
+  const [showCopyModal, setShowCopyModal] = useState(false);
 
   const createUnzipped = (sections) => {
     return sections.map((section) => {
-      section.isUnzipped = false
-      return section
-    })
-  }
+      section.isUnzipped = false;
+      return section;
+    });
+  };
 
   const toggleUnzipped = (id, bool) => {
     const alteredSections = sections.map((sectionKey) => {
       if (id === sectionKey.id) {
-        sectionKey.isUnzipped = bool
+        sectionKey.isUnzipped = bool;
       }
-      console.log(sectionKey)
-      return sectionKey
-    })
-    setSections(alteredSections)
-  }
+      console.log(sectionKey);
+      return sectionKey;
+    });
+    setSections(alteredSections);
+  };
 
   useEffect(() => {
     axios
-      .get(`/api/grants/${props.match.params.id}`,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get(`/api/grants/${props.match.params.id}`, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         const zippySections = createUnzipped(response.data.sections);
         setId(response.data.id);
@@ -79,16 +72,18 @@ export default function GrantsFinalizeShow() {
         setSections(zippySections);
         setReports(response.data.reports);
         setLoading(false);
-      })
+      });
     axios
-      .get('/api/boilerplates',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}) 
+      .get("/api/boilerplates", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        setBoilerplates(response.data); 
-      })
+        setBoilerplates(response.data);
+      });
     axios
-      .get('/api/bios',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/bios", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         setBios(response.data);
         setLoading(false);
@@ -100,39 +95,37 @@ export default function GrantsFinalizeShow() {
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
-  }
+  };
 
   const toggleCopyGrantHidden = () => {
     setIsCopyGrantHidden(!isCopyGrantHidden);
-
-  }
+  };
 
   const handleHideCopyModal = () => {
     setShowCopyModal(false);
-  }
+  };
 
-  const handleChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+  // const handleChange = (event) => {
+  //   const target = event.target;
+  //   const value = target.type === "checkbox" ? target.checked : target.value;
+  //   const name = target.name;
 
-    this.setState({
-      [name]: value
-    });
-  }
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
 
-  handleCopyChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  }
+  // const handleCopyChange = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { title, rfp_url, deadline, submitted, successful, purpose, organization_id, funding_org_id } = this.state;
     axios
       .patch(
-        '/api/grants/' + id,
+        "/api/grants/" + id,
         {
           title: title,
           rfp_url: rfpUrl,
@@ -144,92 +137,88 @@ export default function GrantsFinalizeShow() {
           organization_id: organizationId,
           funding_org_id: fundingOrgId,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         this.toggleHidden();
       })
       .catch((error) => {
-        console.log('grant update error', error);
+        console.log("grant update error", error);
       });
-  }
+  };
 
-  copyGrant = (event) => {
+  const copyGrant = (event) => {
     event.preventDefault();
-    const { copy_title, copy_rfp_url, copy_deadline, id} = this.state;
+    const { copy_title, copy_rfp_url, copy_deadline, id } = this.state;
     axios
-      .post('/api/grants/copy', 
+      .post(
+        "/api/grants/copy",
         {
           original_grant_id: id,
           title: copyTitle,
           rfp_url: copyRfpUrl,
-          deadline: copyDeadline
+          deadline: copyDeadline,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        console.log(response.data.id)
+        console.log(response.data.id);
         setCopiedGrantId(response.data.id);
         setShowCopyModal(true);
         setSuccessfulCopy(true);
         toggleCopyGrantHidden();
       })
       .catch((error) => {
-        console.log('grant copy error', error);
+        console.log("grant copy error", error);
         setShowCopyModal(true);
         setSuccessfulCopy(false);
-      })
-  }
+      });
+  };
 
   const handleSectionDelete = () => {
     axios
-      .delete('/api/sections/' + props.section.id,
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .delete("/api/sections/" + props.section.id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
-  updateSections = (newSection) => {
-    const sections = sections.map(section => 
-      {
-        if (section.id === newSection.id) {
-        section.title = newSection.title
-        section.text = newSection.text
-        section.wordcount = newSection.wordcount
+  const updateSections = (newSection) => {
+    const sections = sections.map((section) => {
+      if (section.id === newSection.id) {
+        section.title = newSection.title;
+        section.text = newSection.text;
+        section.wordcount = newSection.wordcount;
       }
-      return section
-      });
+      return section;
+    });
     setSections(sections);
+  };
+
+  if (loading) {
+    return <h1>Loading....</h1>;
   }
 
-    if (loading) {
-      return <h1>Loading....</h1>;
-    }
-
-    return (
-      <div className="component">
+  return (
+    <div className="component">
       <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
-        <h1>{title}</h1>
-        <h2>{organizationName}</h2>
-        <h2>{purpose}</h2>
-        <div>
+      <h1>{title}</h1>
+      <h2>{organizationName}</h2>
+      <h2>{purpose}</h2>
+      <div>
         {/* beginning of grant update */}
-          <div className="container">
+        <div className="container">
           <br />
-          {isHidden ?
-            <Button onClick={toggleHidden}>
-              Update Grant
-            </Button> :
-            <Button
-              onClick={toggleHidden}
-            >
-              Close
-            </Button>
-          }
+          {isHidden ? (
+            <Button onClick={toggleHidden}>Update Grant</Button>
+          ) : (
+            <Button onClick={toggleHidden}>Close</Button>
+          )}
           <br />
           {!isHidden ? (
             <div>
@@ -240,7 +229,7 @@ export default function GrantsFinalizeShow() {
                     type="text"
                     value={title}
                     name="title"
-                    onChange={handleChange}
+                    onChange={(event) => setTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -250,7 +239,7 @@ export default function GrantsFinalizeShow() {
                     type="text"
                     value={rfpUrl}
                     name="rfpUrl"
-                    onChange={handleChange}
+                    onChange={(event) => setRfpUrl(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -260,7 +249,7 @@ export default function GrantsFinalizeShow() {
                     type="datetime"
                     value={deadline}
                     name="deadline"
-                    onChange={handleChange}
+                    onChange={(event) => setDeadline(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -270,7 +259,9 @@ export default function GrantsFinalizeShow() {
                     type="checkbox"
                     name="submitted"
                     checked={submitted}
-                    onChange={handleChange}
+                    onChange={(event) =>
+                      setSubmitted(event.target.value.checked)
+                    }
                   />
                 </Form.Group>
                 <Form.Group>
@@ -279,7 +270,9 @@ export default function GrantsFinalizeShow() {
                     type="checkbox"
                     name="successful"
                     checked={successful}
-                    onChange={handleChange}
+                    onChange={(event) =>
+                      setSuccessful(event.target.value.checked)
+                    }
                   />
                 </Form.Group>
                 <Form.Group>
@@ -288,14 +281,12 @@ export default function GrantsFinalizeShow() {
                     type="text"
                     value={purpose}
                     name="purpose"
-                    onChange={handleChange}
+                    onChange={(event) => setPurpose(event.target.value.checked)}
                     required
                   />
                 </Form.Group>
                 <div className="text-center">
-                  <Button type="submit">
-                    Submit
-                  </Button>
+                  <Button type="submit">Submit</Button>
                 </div>
               </Form>
             </div>
@@ -310,82 +301,87 @@ export default function GrantsFinalizeShow() {
             <Card>
               <Card.Body>
                 <Alert variant="success">
-                  <Alert.Heading>Congrats! You've created a copy. View your copy 
-                  <Alert.Link href={`/grants/${copiedGrantId}`}> here</Alert.Link>.
+                  <Alert.Heading>
+                    Congrats! You've created a copy. View your copy
+                    <Alert.Link href={`/grants/${copiedGrantId}`}>
+                      {" "}
+                      here
+                    </Alert.Link>
+                    .
                   </Alert.Heading>
                 </Alert>
               </Card.Body>
             </Card>
-            ) : 
+          ) : (
             <Card>
               <Alert variant="danger">
-                <Alert.Heading>Oops! You haven't created a copy. Please close this pop up and try again.</Alert.Heading>
+                <Alert.Heading>
+                  Oops! You haven't created a copy. Please close this pop up and
+                  try again.
+                </Alert.Heading>
               </Alert>
             </Card>
-          }
+          )}
         </Modal>
         {/* end of modal for grant copy confirm message */}
         <Card>
-        {!isCopyGrantHidden ? (
-        <Card.Body>
-        <Form onSubmit={copyGrant}>
-        <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="copyTitle"
-                value={copyTitle}
-                onChange={handleCopyChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>RFP URL</Form.Label>
-              <Form.Control
-                name="copyRfpUrl"
-                value={copyRfpUrl}
-                onChange={handleCopyChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Deadline</Form.Label>
-              <Form.Control
-                type="datetime-local"
-                name="copyDeadline"
-                value={copyDeadline}
-                onChange={handleCopyChange}
-                required
-              />
-            </Form.Group>
-            <Button type="submit">
-                Create Copy
-            </Button>
-          </Form>
-          </Card.Body>
+          {!isCopyGrantHidden ? (
+            <Card.Body>
+              <Form onSubmit={copyGrant}>
+                <Form.Group>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="copyTitle"
+                    value={copyTitle}
+                    onChange={(event) => setCopyTitle(event.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>RFP URL</Form.Label>
+                  <Form.Control
+                    name="copyRfpUrl"
+                    value={copyRfpUrl}
+                    onChange={(event) => setCopyRfpUrl(event.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Deadline</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    name="copyDeadline"
+                    value={copyDeadline}
+                    onChange={(event) => setCopyDeadline(event.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Button type="submit">Create Copy</Button>
+              </Form>
+            </Card.Body>
           ) : null}
-          </Card>
-          {/* end of copy grant feature */}
+        </Card>
+        {/* end of copy grant feature */}
 
-          {sections.map(section => {
-            return(
-              <div key={section.id}>
-                <SectionsUpdateFinal 
-                  isUnzipped={section.isUnzipped}
-                  toggleUnzipped={toggleUnzipped}
-                  section_id={section.id}
-                  boilerplates={boilerplates}
-                  bios={bios}
-                  // section_title={section.title}
-                  // section_text={section.text}
-                  // section_grant_id={state.id}
-                  updateSections={updateSections}
-                />
-              </div>
-            )
-          })}
-        </div>  
+        {sections.map((section) => {
+          return (
+            <div key={section.id}>
+              <SectionsUpdateFinal
+                isUnzipped={section.isUnzipped}
+                toggleUnzipped={toggleUnzipped}
+                section_id={section.id}
+                boilerplates={boilerplates}
+                bios={bios}
+                // section_title={section.title}
+                // section_text={section.text}
+                // section_grant_id={state.id}
+                updateSections={updateSections}
+              />
+            </div>
+          );
+        })}
       </div>
-    );
-  }
-
+    </div>
+  );
+}

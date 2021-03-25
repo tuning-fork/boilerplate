@@ -6,19 +6,18 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-export default function BiosShow() {
-  // constructor(props) {
-  //   super(props);
-
+export default function BiosShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [title, setTitle] = useState("");
   const [organizationId, setOrganizationId] = useState("");
+  const [organization, setOrganization] = useState("");
   const [wordCount, setWordCount] = useState("");
   const [organizations, setOrganizations] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -46,25 +45,7 @@ export default function BiosShow() {
     setIsHidden(!isHidden);
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  const quillChange = (value) => {
-    setQuillText(value);
-  };
-
   const handleSubmit = (event) => {
-    // const {
-    //   first_name,
-    //   last_name,
-    //   title,
-    //   quill_text,
-    //   organization_id,
-    // } = this.state;
     axios
       .patch(
         "/api/bios/" + id,
@@ -74,12 +55,12 @@ export default function BiosShow() {
           title: title,
           text: quillText,
           organization_id: organizationId,
-          wordcount: this.countWords(quillText),
+          wordcount: countWords(quillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        this.toggleHidden();
+        toggleHidden();
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -199,7 +180,7 @@ export default function BiosShow() {
                     value={firstName}
                     name="first_name"
                     placeholder={firstName}
-                    onChange={handleChange}
+                    onChange={(event) => setFirstName(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -210,7 +191,7 @@ export default function BiosShow() {
                     value={lastName}
                     name="last_name"
                     placeholder={lastName}
-                    onChange={handleChange}
+                    onChange={(event) => setLastName(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -221,23 +202,23 @@ export default function BiosShow() {
                     value={title}
                     name="title"
                     placeholder={title}
-                    onChange={handleChange}
+                    onChange={(event) => setTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
                 <ReactQuill
                   style={{ backgroundColor: "#fefefe" }}
                   value={quillText}
-                  onChange={quillChange}
+                  onChange={(event) => setQuillText(event.target.value)}
                 />
                 <Form.Group>
                   <Form.Label>Organization</Form.Label>
                   <Form.Control
                     type="text"
                     value={organization.name}
-                    name="organization_id"
+                    name="organizationId"
                     placeholder={organization.name}
-                    onChange={handleChange}
+                    onChange={(event) => setOrganizationId(event.target.value)}
                     required
                   />
                 </Form.Group>
