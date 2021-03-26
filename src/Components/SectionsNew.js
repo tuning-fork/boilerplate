@@ -226,7 +226,7 @@ export default function SectionsNew(props) {
               <ReactQuill
                 // name="quill_text"
                 value={quillText}
-                onChange={(event) => setQuillText(event.target.value)}
+                onChange={(value) => setQuillText(value)}
               />
               {/* <Form.Group>
                   <Form.Label>Text</Form.Label>

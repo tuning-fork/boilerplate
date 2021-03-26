@@ -130,7 +130,7 @@ export default function ReportSectionsShow(props) {
                   </Form.Group>
                   <ReactQuill
                     value={quillText}
-                    onChange={(event) => setQuillText(event.target.value)}
+                    onChange={(value) => setQuillText(value)}
                   />
                   <Form.Group>
                     <Form.Label>Word Count</Form.Label>

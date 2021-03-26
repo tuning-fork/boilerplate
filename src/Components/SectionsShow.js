@@ -215,7 +215,7 @@ export default function SectionsShow(props) {
                     </Form.Group>
                     <ReactQuill
                       value={quillText}
-                      onChange={(event) => setQuillText(event)}
+                      onChange={(value) => setQuillText(value)}
                     />
                     <Form.Group>
                       <Form.Label>Word Count</Form.Label>

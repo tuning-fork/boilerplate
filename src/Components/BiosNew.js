@@ -147,7 +147,6 @@ export default function BiosNew(props) {
             name="quillText"
             value={quillText}
             onChange={(value) => setQuillText(value)}
-            // onChange={(event) => console.log(event)}
           />
           <Form.Group>
             <Form.Label>Word Count</Form.Label>

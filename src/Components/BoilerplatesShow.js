@@ -69,17 +69,6 @@ export default function BoilerplatesShow(props) {
     setIsHidden(!isHidden);
   };
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
-
-  // const quillChange = (value) => {
-  //   setQuillText(value);
-  // }
-
   const handleSubmit = (event) => {
     // const { title, quill_text, organization_id, category_id } = this.state;
     axios
@@ -213,7 +202,6 @@ export default function BoilerplatesShow(props) {
           </Button>
         </div>
       </Card>
-      {/* )} */}
       <br />
 
       <div>
@@ -248,11 +236,11 @@ export default function BoilerplatesShow(props) {
                   />
                 </Form.Group>
                 <ReactQuill
-                  // name="quill_text"
+                  name="quillText"
                   modules={modules}
                   format={formats}
                   defaultValue={quillText}
-                  onChange={(event) => setQuillText(event.target.value)}
+                  onChange={(value) => setQuillText(value)}
                   style={{ backgroundColor: "#fefefe" }}
                 />
                 <Form.Group>
