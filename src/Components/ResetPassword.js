@@ -14,7 +14,6 @@ export default function ResetPassword(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const { password, password_confirmation } = this.state;
     if (password !== passwordConfirmation) {
       alert("Passwords don't match");
       setPassword("");

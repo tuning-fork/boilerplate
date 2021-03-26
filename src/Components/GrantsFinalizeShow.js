@@ -34,24 +34,6 @@ export default function GrantsFinalizeShow(props) {
   const [copiedGrantId, setCopiedGrantId] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
-  const createUnzipped = (sections) => {
-    return sections.map((section) => {
-      section.isUnzipped = false;
-      return section;
-    });
-  };
-
-  const toggleUnzipped = (id, bool) => {
-    const alteredSections = sections.map((sectionKey) => {
-      if (id === sectionKey.id) {
-        sectionKey.isUnzipped = bool;
-      }
-      console.log(sectionKey);
-      return sectionKey;
-    });
-    setSections(alteredSections);
-  };
-
   useEffect(() => {
     axios
       .get(`/api/grants/${props.match.params.id}`, {
@@ -93,6 +75,24 @@ export default function GrantsFinalizeShow(props) {
       });
   }, []);
 
+  const createUnzipped = (sections) => {
+    return sections.map((section) => {
+      section.isUnzipped = false;
+      return section;
+    });
+  };
+
+  const toggleUnzipped = (id, bool) => {
+    const alteredSections = sections.map((sectionKey) => {
+      if (id === sectionKey.id) {
+        sectionKey.isUnzipped = bool;
+      }
+      console.log(sectionKey);
+      return sectionKey;
+    });
+    setSections(alteredSections);
+  };
+
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
@@ -104,22 +104,6 @@ export default function GrantsFinalizeShow(props) {
   const handleHideCopyModal = () => {
     setShowCopyModal(false);
   };
-
-  // const handleChange = (event) => {
-  //   const target = event.target;
-  //   const value = target.type === "checkbox" ? target.checked : target.value;
-  //   const name = target.name;
-
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // };
-
-  // const handleCopyChange = (event) => {
-  //   this.setState({
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();

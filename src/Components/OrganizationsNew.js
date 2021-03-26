@@ -15,7 +15,9 @@ export default function OrganizationsNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const newOrganization = this.state;
+    const newOrganization = {
+      name: name,
+    };
     axios
       .post("/api/organizations", newOrganization, {
         headers: { Authorization: `Bearer ${localStorage.token}` },

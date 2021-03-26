@@ -47,10 +47,6 @@ export default function SectionToBoilerplateNew(props) {
     setWordcount("");
   };
 
-  // quillChange = (value) => {
-  //   this.setState({ quill_text: value})
-  // }
-
   const toggleHiddenCategoriesOrganizationsNew = () => {
     setIsHiddenCategoriesOrganizationsNew(
       !this.state.isHiddenCategoriesOrganizationsNew
@@ -59,18 +55,17 @@ export default function SectionToBoilerplateNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newBoilerplate = {
+      title: props.title,
+      text: props.text,
+      organization_id: props.organization_id,
+      category_id: categoryId,
+      wordcount: countWords(props.text),
+    };
     axios
-      .post(
-        "/api/boilerplates",
-        {
-          title: props.title,
-          text: props.text,
-          organization_id: props.organization_id,
-          category_id: categoryId,
-          wordcount: countWords(props.text),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+      .post("/api/boilerplates", newBoilerplate, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           props.toggleBoilerplateHidden();

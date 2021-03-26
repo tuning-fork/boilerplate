@@ -21,12 +21,7 @@ export default function ReportSectionsUpdateFinal(props) {
     setIsHidden(!isHidden);
   };
 
-  // quillChange(value) {
-  //   this.setState({ quill_text: value})
-  // }
-
   const handleSubmit = (event) => {
-    // const { title, quill_text } = this.state;
     event.preventDefault();
     axios
       .patch(

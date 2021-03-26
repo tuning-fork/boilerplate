@@ -17,12 +17,6 @@ export default function CategoriesOrganizationsNew(props) {
     setOrganizationId("");
   };
 
-  // handleChange = (event) => {
-  //   this.setState({
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
-
   const handleSubmitOrganization = (event) => {
     event.preventDefault();
     axios

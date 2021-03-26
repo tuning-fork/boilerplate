@@ -16,13 +16,6 @@ export default function FundingOrgsOrganizationsNew(props) {
     setIsHiddenFundingOrgsOrganizationsNew,
   ] = useState(true);
 
-  const clearForm = () => {
-    setFundingOrgName("");
-    setWebsite("");
-    setOrganizationName("");
-    setOrganizationId("");
-  };
-
   const handleSubmitOrganization = (event) => {
     event.preventDefault();
     axios
@@ -67,6 +60,13 @@ export default function FundingOrgsOrganizationsNew(props) {
       .catch((error) => {
         console.log("funding org creation error", error);
       });
+  };
+
+  const clearForm = () => {
+    setFundingOrgName("");
+    setWebsite("");
+    setOrganizationName("");
+    setOrganizationId("");
   };
 
   return (

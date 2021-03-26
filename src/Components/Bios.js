@@ -5,10 +5,7 @@ import OrganizationsNew from "./OrganizationsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 
-export default function Bios() {
-  // constructor(props) {
-  //   super(props);
-
+export default function Bios(props) {
   const [loading, setLoading] = useState(true);
   const [bios, setBios] = useState([]);
   const [organizations, setOrganizations] = useState([]);
@@ -19,32 +16,6 @@ export default function Bios() {
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [filteredBios, setFilteredBios] = useState([]);
-
-  const toggleOpenIndex = () => {
-    setOpenIndex(!openIndex);
-  };
-
-  const toggleOpenNew = () => {
-    setOpenNew(openNew);
-  };
-
-  const createUnzipped = (data) => {
-    return data.map((filteredBio) => {
-      filteredBio.isUnzipped = false;
-      return filteredBio;
-    });
-  };
-
-  const toggleUnzipped = (id, bool) => {
-    const alteredBios = filteredBios.map((bioKey) => {
-      if (id === bioKey.id) {
-        bioKey.isUnzipped = bool;
-      }
-      console.log(bioKey);
-      return bioKey;
-    });
-    setFilteredBios(alteredBios);
-  };
 
   useEffect(() => {
     axios
@@ -75,6 +46,32 @@ export default function Bios() {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const toggleOpenIndex = () => {
+    setOpenIndex(!openIndex);
+  };
+
+  const toggleOpenNew = () => {
+    setOpenNew(openNew);
+  };
+
+  const createUnzipped = (data) => {
+    return data.map((filteredBio) => {
+      filteredBio.isUnzipped = false;
+      return filteredBio;
+    });
+  };
+
+  const toggleUnzipped = (id, bool) => {
+    const alteredBios = filteredBios.map((bioKey) => {
+      if (id === bioKey.id) {
+        bioKey.isUnzipped = bool;
+      }
+      console.log(bioKey);
+      return bioKey;
+    });
+    setFilteredBios(alteredBios);
+  };
 
   const updateBios = (newBio) => {
     const newBios = [...bios];

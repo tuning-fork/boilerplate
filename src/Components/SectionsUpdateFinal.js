@@ -35,21 +35,19 @@ export default function SectionsUpdateFinal(props) {
         setGrantId(response.data.grant_id);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
 
   const handleSelect = (event) => {
-    // let quill_text = this.state.quill_text;
     quillText += ` ${event.target.value}`;
     setQuillText(quillText);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { title, quill_text, sort_order, grant_id } = this.state;
     axios
       .patch(
         "/api/sections/" + props.section_id,

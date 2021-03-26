@@ -24,7 +24,7 @@ export default function FundingOrgsNew(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const updateOrganizations = (newOrganization) => {
     const newOrganizations = [...organizations];
@@ -40,6 +40,11 @@ export default function FundingOrgsNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newFundingOrg = {
+      name: name,
+      website: website,
+      organization_id: organizationId,
+    };
     axios
       .post("/api/funding_orgs", newFundingOrg, {
         headers: { Authorization: `Bearer ${localStorage.token}` },

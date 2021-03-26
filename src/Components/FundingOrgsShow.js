@@ -43,49 +43,11 @@ export default function FundingOrgsShow(props) {
       });
   }, []);
 
-  // componentDidMount() {
-  //   axios
-  //     .get(`/api/funding_orgs/${this.props.match.params.id}`,
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         id: response.data.id,
-  //         name: response.data.name,
-  //         website: response.data.website,
-  //         organization_id: response.data.organization_id,
-  //         organization_name: response.data.organization.name,
-  //         loading: false,
-  //       });
-  //   axios
-  //     .get('/api/organizations',
-  //       {headers: { Authorization: `Bearer ${localStorage.token}` }})
-  //     .then((response) => {
-  //       this.setState({
-  //         organizations: response.data,
-  //         loading: false,
-  //       });
-  //     console.log(response.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // };
-
   const handleSubmit = (event) => {
-    // const { name, website, organization_id } = this.state;
     axios
       .patch(
         "/api/funding_orgs/" + id,

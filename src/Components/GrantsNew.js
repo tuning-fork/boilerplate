@@ -42,7 +42,7 @@ export default function GrantsNew(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const toggleHiddenFundingOrgsOrganizationsNew = () => {
     setIsHiddenFundingOrgsOrganizationsNew(
@@ -72,15 +72,16 @@ export default function GrantsNew(props) {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     const newGrant = {
-      title,
-      rfpUrl,
-      deadline,
-      submitted,
-      successful,
-      purpose,
-      organizationId,
-      fundingOrgId,
+      title: title,
+      rfp_url: rfpUrl,
+      deadline: deadline,
+      submitted: submitted,
+      successful: successful,
+      purpose: purpose,
+      organization_id: organizationId,
+      funding_org_id: fundingOrgId,
     };
     axios
       .post("/api/grants", newGrant, {
@@ -95,7 +96,6 @@ export default function GrantsNew(props) {
       .catch((error) => {
         console.log("grant creation error", error);
       });
-    event.preventDefault();
   };
 
   return (

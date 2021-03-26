@@ -7,10 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 // import Button from 'react-bootstrap/Button';
 
-export default function Boilerplates() {
-  // constructor(props) {
-  //   super(props);
-
+export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);

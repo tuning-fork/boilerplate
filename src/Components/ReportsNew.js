@@ -22,18 +22,16 @@ export default function ReportsNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { deadline, submitted } = this.state;
+    const newReport = {
+      grant_id: props.grant_id,
+      title: `Report for ${props.grant_title}`,
+      deadline: deadline,
+      submitted: submitted,
+    };
     axios
-      .post(
-        "/api/reports",
-        {
-          grant_id: props.grant_id,
-          title: `Report for ${props.grant_title}`,
-          deadline: deadline,
-          submitted: submitted,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+      .post("/api/reports", newReport, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           toggleHidden();

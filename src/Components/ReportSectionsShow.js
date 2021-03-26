@@ -36,15 +36,11 @@ export default function ReportSectionsShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
-
-  // quillChange = (value) => {
-  //   this.setState({ quill_text: value})
-  // }
 
   const handleSubmit = (event) => {
     event.preventDefault();

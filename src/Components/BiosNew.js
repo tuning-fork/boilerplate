@@ -7,8 +7,6 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 export default function BiosNew(props) {
-  console.log(props.organizations);
-
   const [quillText, setQuillText] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -77,7 +75,6 @@ export default function BiosNew(props) {
               value={organizationId}
               onChange={(event) => setOrganizationId(event.target.value)}
               required
-              style={{ color: "red", backgroundColor: "yellow" }}
             >
               <option value="" disabled>
                 Select Organization

@@ -28,11 +28,6 @@ export default function ReportsShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.handleSubmit = this.handleSubmit.bind(this);
-  //   this.handleReportDelete = this.handleReportDelete.bind(this);
-  // }
-
   useEffect(() => {
     axios
       .get(`/api/reports/${props.match.params.id}`, {

@@ -14,9 +14,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
-
   const history = useHistory();
-
   const [state, dispatch] = useCurrentUserContext();
 
   useEffect(() => {

@@ -17,6 +17,16 @@ export default function ReportSectionsNew(props) {
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [addText, setAddText] = useState("");
 
+  useEffect(() => {
+    axios
+      .get("/api/boilerplates", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
+      .then((response) => {
+        setBoilerplates(response.data);
+      });
+  }, []);
+
   const clearForm = () => {
     setQuillText("");
     setTitle("");
@@ -26,31 +36,19 @@ export default function ReportSectionsNew(props) {
     setCurrentBoilerplate("");
   };
 
-  useEffect(() => {
-    axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setBoilerplates(response.data);
-      });
-  });
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { title, quill_text } = this.state;
+    const newReportSection = {
+      report_id: props.report_id,
+      title: title,
+      text: quillText,
+      sort_order: props.sort_number + 1,
+      wordcount: countWords(quillText),
+    };
     axios
-      .post(
-        "/api/report_sections",
-        {
-          report_id: props.report_id,
-          title: title,
-          text: quillText,
-          sort_order: props.sort_number + 1,
-          wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+      .post("/api/report_sections", newReportSection, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           props.updateReportSections(response.data);
@@ -69,10 +67,6 @@ export default function ReportSectionsNew(props) {
       return 0;
     }
   };
-
-  // quillChange(value) {
-  //   this.setState({ quill_text: value})
-  // }
 
   const handleSelect = (event) => {
     let newQuillText = quillText;

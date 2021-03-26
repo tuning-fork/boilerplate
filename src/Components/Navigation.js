@@ -1,25 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 // import { Link, withRouter } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 
-class Navigation extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {}
-
-    this.handleLogoutClick = this.handleLogoutClick.bind(this);
-  }
-
-  handleLogoutClick() {
+function Navigation(props) {
+  const handleLogoutClick() {
     localStorage.removeItem('token');
     localStorage.removeItem('user_id');
-    this.props.history.push('/login');
+    props.history.push('/login');
   }
 
-  render() {
     return (
         <Navbar bg="black" variant="dark" expand="lg" sticky="top" style={{paddingTop: "1rem", align: "right", backgroundColor: "#0e272a"}}>
         
@@ -49,7 +41,7 @@ class Navigation extends Component {
                   <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
                 </Nav.Item> */}
                 <Nav.Item>
-                  <Nav.Link onClick={this.handleLogoutClick}to="/logout">Logout</Nav.Link>
+                  <Nav.Link onClick={handleLogoutClick}to="/logout">Logout</Nav.Link>
                 </Nav.Item>
                 </Nav>
                 </div>
@@ -75,6 +67,5 @@ class Navigation extends Component {
         </Navbar>
     );
   }
-}
 
 export default withRouter(Navigation);

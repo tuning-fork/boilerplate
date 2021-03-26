@@ -78,16 +78,7 @@ export default function GrantsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  // const handleChange = (event) => {
-  //   const target = event.target;
-  //   const value = target.type === "checkbox" ? target.checked : target.value;
-  //   const name = target.name;
-
-  //   setName(value);
-  // };
-
   const handleSubmit = (event) => {
-    console.log(successful, submitted);
     event.preventDefault();
     axios
       .patch(
@@ -124,7 +115,6 @@ export default function GrantsShow(props) {
         (section) => section.id !== updatedSection.id
       );
       setSections(sections);
-      console.log("updateSections delete ran");
     } else {
       const sections = sections.map((section) => {
         if (section.id === updatedSection.id) {
@@ -133,7 +123,6 @@ export default function GrantsShow(props) {
         return section;
       });
       setSections(sections);
-      console.log("updateSections update ran");
     }
   };
 

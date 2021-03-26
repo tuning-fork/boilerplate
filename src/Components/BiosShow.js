@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useHistory } from "react-router-dom";
 
 export default function BiosShow(props) {
   const [id, setId] = useState("");
@@ -25,6 +26,7 @@ export default function BiosShow(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -52,6 +54,7 @@ export default function BiosShow(props) {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     axios
       .patch(
         "/api/bios/" + id,
@@ -71,7 +74,6 @@ export default function BiosShow(props) {
       .catch((error) => {
         console.log("bio update error", error);
       });
-    event.preventDefault();
   };
 
   const countWords = (string) => {

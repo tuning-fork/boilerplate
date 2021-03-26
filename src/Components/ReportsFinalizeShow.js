@@ -34,7 +34,7 @@ export default function ReportsFinalizeShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);

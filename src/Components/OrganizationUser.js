@@ -21,7 +21,7 @@ export default function OrganizationUser(props) {
         setOrganizations(response.data);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const clearForm = () => {
     setOrganizationId("");

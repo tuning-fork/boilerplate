@@ -56,19 +56,17 @@ export default function SectionsNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { title, quill_text } = this.state;
+    const newSection = {
+      grant_id: props.grant_id,
+      title: title,
+      text: quill_text,
+      sort_order: props.sort_number + 1,
+      wordcount: countWords(quill_text),
+    };
     axios
-      .post(
-        "/api/sections",
-        {
-          grant_id: props.grant_id,
-          title: title,
-          text: quill_text,
-          sort_order: props.sort_number + 1,
-          wordcount: countWords(quill_text),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+      .post("/api/sections", newSection, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           this.props.addNewSections(response.data);

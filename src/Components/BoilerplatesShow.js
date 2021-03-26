@@ -59,7 +59,7 @@ export default function BoilerplatesShow(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const toggleUnzipped = () => {
     setIsUnzipped(!isUnzipped);
@@ -70,7 +70,7 @@ export default function BoilerplatesShow(props) {
   };
 
   const handleSubmit = (event) => {
-    // const { title, quill_text, organization_id, category_id } = this.state;
+    event.preventDefault();
     axios
       .patch(
         "/api/boilerplates/" + id,
@@ -89,7 +89,6 @@ export default function BoilerplatesShow(props) {
       .catch((error) => {
         console.log("boilerplate update error", error);
       });
-    event.preventDefault();
   };
 
   const countWords = (string) => {

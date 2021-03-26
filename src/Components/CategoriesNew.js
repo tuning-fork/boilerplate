@@ -14,11 +14,6 @@ export default function CategoriesNew(props) {
   const [newCategory, setNewCategory] = useState({});
   const [isHiddenNew, setIsHiddenNew] = useState(true);
 
-  const clearForm = () => {
-    setName("");
-    setOrganizationId("");
-  };
-
   useEffect(() => {
     axios
       .get("/api/organizations", {
@@ -33,6 +28,10 @@ export default function CategoriesNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newCategory = {
+      name: name,
+      organization_id: organizationId,
+    };
     axios
       .post("/api/categories", newCategory, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -46,6 +45,11 @@ export default function CategoriesNew(props) {
       .catch((error) => {
         console.log("category creation error", error);
       });
+  };
+
+  const clearForm = () => {
+    setName("");
+    setOrganizationId("");
   };
 
   const updateOrganizations = (newOrganization) => {

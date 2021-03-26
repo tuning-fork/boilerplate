@@ -7,10 +7,6 @@ import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
 
 export default function Grants() {
-  console.log("component rendered");
-  // constructor(props) {
-  //   super(props);
-
   const [loading, setLoading] = useState(true);
   const [grants, setGrants] = useState([]);
   const [query, setQuery] = useState("");
@@ -62,24 +58,6 @@ export default function Grants() {
       .catch((error) => console.log(error));
   }, []);
 
-  //  componentDidMount() {
-  //     axios
-  //       .get("/api/grants", {
-  //         headers: { Authorization: `Bearer ${localStorage.token}` },
-  //       })
-  //       .then((response) => {
-  //         const zippyGrants = this.createUnzipped(response.data);
-  //         console.log(zippyGrants);
-  //         this.setState({
-  //           grants: response.data,
-  //           filteredGrants: zippyGrants,
-  //           loading: false,
-  //         });
-  //         // console.log(response.data);
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-
   const updateGrants = (newGrant) => {
     const newGrants = [...grants];
     newGrants.push(newGrant);
@@ -87,7 +65,6 @@ export default function Grants() {
   };
 
   const handleSearchParamSelect = (event) => {
-    // let filterParam = this.state.filterParam
     setFilterParam(event.target.value);
   };
 

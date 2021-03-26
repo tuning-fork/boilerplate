@@ -33,7 +33,7 @@ export default function SectionsShow(props) {
         setGrantId(response.data.grant_id);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);

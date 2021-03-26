@@ -46,13 +46,6 @@ export default function CategoriesShow(props) {
     setIsHidden(!isHidden);
   };
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
