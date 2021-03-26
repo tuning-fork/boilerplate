@@ -220,7 +220,7 @@ export default function BiosShow(props) {
                 <ReactQuill
                   style={{ backgroundColor: "#fefefe" }}
                   value={quillText}
-                  onChange={(event) => setQuillText(event.target.value)}
+                  onChange={(value) => setQuillText(value)}
                 />
                 <Form.Group>
                   <Form.Label>Organization</Form.Label>

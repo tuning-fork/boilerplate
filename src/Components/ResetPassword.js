@@ -1,124 +1,116 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from "react";
 // import { resetPassword } from '../helpers/passwords';
 // import { connect } from 'react-redux';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-class ResetPassword extends Component {
-  state = {
-    token: "",
-    email: "",
-    password: "",
-    password_confirmation: ""
-  }
+export default function ResetPassword(props) {
+  const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  handleChange = (event) => {
-    const { name, value } = event.target
-    this.setState({
-      [name]: value
-    })
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const { password, password_confirmation } = this.state;
-    if (password !== password_confirmation) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // const { password, password_confirmation } = this.state;
+    if (password !== passwordConfirmation) {
       alert("Passwords don't match");
-      this.setState({
-        password: "",
-        password_confirmation: ""
-      })
+      setPassword("");
+      setPasswordConfirmation("");
     } else {
-      this.resetPassword(this.state)
-      this.setState({
-        token: "",
-        email: "",
-        password: "",
-        password_confirmation: ""
-      })
-      this.props.history.push('/login')
+      resetPassword({
+        password,
+        token,
+        email,
+        // passwordConfirmation,
+      });
+      setToken("");
+      setEmail("");
+      setPassword("");
+      setPasswordConfirmation("");
+      props.history.push("/login");
     }
-  }
+  };
 
-  resetPassword = (credentials) => {
-  axios
-    .post('api/reset_password', credentials)
-    .then((response) => {
-      if (!!response.error) {
-        alert(response.error)
-      } else {
-        alert(response.message)
-      }
-    })
-    .catch((error) => console.log(error));
-  }
+  const resetPassword = (credentials) => {
+    axios
+      .post("api/reset_password", credentials)
+      .then((response) => {
+        console.log(response);
+        if (response) {
+          alert(response.data.message);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
-  render() {
-    return (
-      <div className="container">
-        <Card>
+  return (
+    <div className="container">
+      <Card>
         <Card.Header>
-        <p>Reset Password:</p>
+          <p>Reset Password:</p>
         </Card.Header>
         <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label for="token">Token:</Form.Label>
-              <Form.Control 
-                required id="token" 
-                onChange={this.handleChange} 
-                name="token" 
-                placeholder="token" 
-                type="token" 
-                value={this.state.token}
+              <Form.Control
+                required
+                id="token"
+                onChange={(event) => setToken(event.target.value)}
+                name="token"
+                placeholder="token"
+                type="token"
+                value={token}
               />
               <p>The code that was emailed to you. This is case-sensitive.</p>
             </Form.Group>
             <Form.Group>
               <Form.Label for="email">Email:</Form.Label>
-              <Form.Control 
-                required 
-                id="email" 
-                onChange={this.handleChange} 
-                name="email" 
-                placeholder="email" 
-                type="email" 
-                value={this.state.email}
+              <Form.Control
+                required
+                id="email"
+                onChange={(event) => setEmail(event.target.value)}
+                name="email"
+                placeholder="email"
+                type="email"
+                value={email}
               />
             </Form.Group>
             <Form.Group>
               <Form.Label for="password">New password:</Form.Label>
-              <Form.Control 
-                required 
-                id="password" 
-                onChange={this.handleChange} 
-                name="password" 
-                placeholder="password" 
-                type="password" 
-                value={this.state.password} 
+              <Form.Control
+                required
+                id="password"
+                onChange={(event) => setPassword(event.target.value)}
+                name="password"
+                placeholder="password"
+                type="password"
+                value={password}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label for="password_confirmation">Confirm new password:</Form.Label>
-              <Form.Control 
-                required 
-                id="password_confirmation" 
-                onChange={this.handleChange} 
-                name="password_confirmation" 
-                placeholder="password confirmation" 
-                type="password" 
-                value={this.state.password_confirmation}
+              <Form.Label for="passwordConfirmation">
+                Confirm new password:
+              </Form.Label>
+              <Form.Control
+                required
+                id="passwordConfirmation"
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value)
+                }
+                name="passwordConfirmation"
+                placeholder="password confirmation"
+                type="password"
+                value={passwordConfirmation}
               />
               <Button type="secondary">Reset Password</Button>
             </Form.Group>
           </Form>
         </Card.Body>
-        </Card>
-      </div>
-    );
-  }
+      </Card>
+    </div>
+  );
 }
-
-export default ResetPassword;

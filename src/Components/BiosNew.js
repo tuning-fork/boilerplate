@@ -146,7 +146,7 @@ export default function BiosNew(props) {
           <ReactQuill
             name="quillText"
             value={quillText}
-            onChange={(event) => setQuillText(event)}
+            onChange={(value) => setQuillText(value)}
             // onChange={(event) => console.log(event)}
           />
           <Form.Group>

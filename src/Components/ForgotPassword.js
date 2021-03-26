@@ -20,7 +20,6 @@ export default function ForgotPassword() {
     event.preventDefault();
     forgotPassword(email);
     setEmail("");
-    console.log("it worked!");
   };
 
   return (

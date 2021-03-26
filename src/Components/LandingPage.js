@@ -5,7 +5,7 @@ import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
-function LandingPage() {
+export default function LandingPage() {
   return (
     <Jumbotron
       fluid
@@ -60,5 +60,3 @@ function LandingPage() {
     </Jumbotron>
   );
 }
-
-export default LandingPage;
