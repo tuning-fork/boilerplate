@@ -191,7 +191,7 @@ export default function BiosShow(props) {
                   <Form.Control
                     type="text"
                     value={firstName}
-                    name="first_name"
+                    name="firstName"
                     placeholder={firstName}
                     onChange={(event) => setFirstName(event.target.value)}
                     required
@@ -202,7 +202,7 @@ export default function BiosShow(props) {
                   <Form.Control
                     type="text"
                     value={lastName}
-                    name="last_name"
+                    name="lastName"
                     placeholder={lastName}
                     onChange={(event) => setLastName(event.target.value)}
                     required

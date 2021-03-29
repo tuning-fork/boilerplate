@@ -71,7 +71,6 @@ export default function SectionsNew(props) {
         if (response.data) {
           this.props.addNewSections(response.data);
           this.toggleHidden();
-          // this.clearForm();
         }
       })
       .catch((error) => {
@@ -81,10 +80,8 @@ export default function SectionsNew(props) {
 
   const onTextChanged = (event) => {
     const value = event.target.value.toLowerCase();
-    // console.log(value);
     let suggestions = [];
     if (value.length > 0) {
-      // const regex = new RegExp(`^${value}`, 'i');
       suggestions = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       });

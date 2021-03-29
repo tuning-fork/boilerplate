@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
-// import { Link } from 'react-router-dom';
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -135,7 +134,7 @@ export default function SectionsShow(props) {
             {!isBoilerplateHidden ? (
               <SectionToBoilerplateNew
                 toggleBoilerplateHidden={toggleBoilerplateHidden}
-                organization_id={props.organizationId}
+                organization_id={props.organization_id}
                 title={title}
                 text={quillText}
               />

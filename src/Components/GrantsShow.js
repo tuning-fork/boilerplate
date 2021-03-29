@@ -148,21 +148,21 @@ export default function GrantsShow(props) {
       });
   };
 
-  const dragstartHandler = (ev) => {
-    ev.dataTransfer.setData(
+  const dragstartHandler = (event) => {
+    event.dataTransfer.setData(
       "text/plain",
-      ev.target.getAttribute("data--section_id")
+      event.target.getAttribute("data--section_id")
     );
   };
 
-  const dragoverHandler = (ev) => {
-    ev.preventDefault();
+  const dragoverHandler = (event) => {
+    event.preventDefault();
   };
 
-  const dropHandler = (ev) => {
-    ev.preventDefault();
-    const sourceSectionId = ev.dataTransfer.getData("text/plain");
-    const closestSection = ev.target.closest("div[data--section_id]");
+  const dropHandler = (event) => {
+    event.preventDefault();
+    const sourceSectionId = event.dataTransfer.getData("text/plain");
+    const closestSection = event.target.closest("div[data--section_id]");
     if (!closestSection) {
       return;
     }

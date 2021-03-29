@@ -38,7 +38,7 @@ export default function FundingOrgsOrganizationsNew(props) {
       });
   };
 
-  const handleSubmitFundingOrgs = (event) => {
+  const handleSubmitFundingOrg = (event) => {
     event.preventDefault();
     axios
       .post(
@@ -94,7 +94,7 @@ export default function FundingOrgsOrganizationsNew(props) {
 
         {/* New FundingOrg */}
 
-        <Form onSubmit={this.handleSubmitFundingOrgs}>
+        <Form onSubmit={handleSubmitFundingOrg}>
           <Form.Group>
             <Form.Label>New Funding Org Name</Form.Label>
             <Form.Control

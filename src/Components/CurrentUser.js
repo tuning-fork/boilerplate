@@ -39,15 +39,7 @@ export default function CurrentUser(props) {
     setIsHidden(!isHidden);
   };
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // };
-
   const handleSubmit = (event) => {
-    // const { first_name, last_name, email } = this.state;
     axios
       .patch(
         "/api/users/" + localStorage.user_id,

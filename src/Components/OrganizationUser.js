@@ -29,7 +29,10 @@ export default function OrganizationUser(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newOrganizationUser = this.state;
+    const newOrganizationUser = {
+      organization_id: organizationId,
+      user_id: userId,
+    };
     axios
       .post("/api/organization_users", newOrganizationUser, {
         headers: { Authorization: `Bearer ${localStorage.token}` },

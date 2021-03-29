@@ -23,7 +23,6 @@ export default function ResetPassword(props) {
         password,
         token,
         email,
-        // passwordConfirmation,
       });
       setToken("");
       setEmail("");
