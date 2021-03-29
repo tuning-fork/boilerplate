@@ -1,16 +1,16 @@
 import React, { Component, useState, useEffect } from "react";
-// import { resetPassword } from '../helpers/passwords';
-// import { connect } from 'react-redux';
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 export default function ResetPassword(props) {
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const history = useHistory();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +28,7 @@ export default function ResetPassword(props) {
       setEmail("");
       setPassword("");
       setPasswordConfirmation("");
-      props.history.push("/login");
+      history.push("/login");
     }
   };
 

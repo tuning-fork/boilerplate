@@ -3,6 +3,9 @@ import { withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
+
+const history = useHistory();
 
 function Navigation(props) {
   const handleLogoutClick = () => {

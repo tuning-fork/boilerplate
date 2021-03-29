@@ -21,6 +21,7 @@ export default function BoilerplatesShow(props) {
   const [isUnzipped, setIsUnzipped] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -106,7 +107,7 @@ export default function BoilerplatesShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/boilerplates");
+          history.push("/boilerplates");
         }
         console.log(response);
       })

@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import ReportSectionsNew from "./ReportSectionsNew";
 import ReportSectionsShow from "./ReportSectionsShow";
-// import GrantsShow from './GrantsShow';
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+import { useHistory } from "react-router-dom";
 
 export default function ReportsShow(props) {
   const [id, setId] = useState("");
@@ -27,6 +24,7 @@ export default function ReportsShow(props) {
   const [reportSections, setReportSections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -116,7 +114,7 @@ export default function ReportsShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/grants/" + grantId);
+          history.push("/grants/" + grantId);
         }
         console.log(`report delete ${response}`);
       })

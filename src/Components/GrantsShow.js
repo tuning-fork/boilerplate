@@ -7,6 +7,7 @@ import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 export default function GrantsShow(props) {
   const [id, setId] = useState("");
@@ -28,6 +29,7 @@ export default function GrantsShow(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -139,7 +141,7 @@ export default function GrantsShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/grants");
+          history.push("/grants");
         }
         console.log(response);
       })

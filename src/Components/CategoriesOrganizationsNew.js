@@ -112,7 +112,7 @@ export default function CategoriesOrganizationsNew(props) {
                 <option value="" disabled>
                   Select Organization
                 </option>
-                {this.props.organizations.map((organization) => {
+                {props.organizations.map((organization) => {
                   return (
                     <option
                       key={organization.id}

@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { id } from "date-fns/locale";
+import { useHistory } from "react-router-dom";
 
 export default function CategoriesShow(props) {
   const [id, setId] = useState("");
@@ -14,6 +15,7 @@ export default function CategoriesShow(props) {
   const [organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -73,7 +75,7 @@ export default function CategoriesShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/categories");
+          history.push("/categories");
         }
         console.log(response);
       })

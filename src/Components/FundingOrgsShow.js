@@ -3,6 +3,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
@@ -14,6 +15,8 @@ export default function FundingOrgsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -75,7 +78,7 @@ export default function FundingOrgsShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/funding_orgs");
+          history.push("/funding_orgs");
         }
         console.log(response);
       })

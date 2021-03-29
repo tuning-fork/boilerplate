@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 export default function Signup(props) {
   const [firstName, setFirstName] = useState("");
@@ -12,6 +13,7 @@ export default function Signup(props) {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [active, setActive] = useState(true);
   const [errors, setErrors] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,7 +36,7 @@ export default function Signup(props) {
 
       .then((response) => {
         if (response.data.message === "User created successfully") {
-          props.history.push("/login");
+          history.push("/login");
         }
       })
       .catch((error) => {

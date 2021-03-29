@@ -3,6 +3,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
 export default function OrganizationsShow(props) {
   const [id, setId] = useState("");
@@ -10,6 +11,7 @@ export default function OrganizationsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -55,7 +57,7 @@ export default function OrganizationsShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/organizations");
+          history.push("/organizations");
         }
         console.log(response);
       })
