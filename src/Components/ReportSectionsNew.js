@@ -68,12 +68,6 @@ export default function ReportSectionsNew(props) {
     }
   };
 
-  const handleSelect = (event) => {
-    let newQuillText = quillText;
-    newQuillText += ` ${event.target.value}`;
-    setQuillText(newQuillText);
-  };
-
   return (
     <Card>
       <Card.Header>

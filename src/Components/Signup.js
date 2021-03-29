@@ -17,22 +17,7 @@ export default function Signup(props) {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const handleSubmit = (event) => {
-    const {
-      first_name,
-      last_name,
-      email,
-      // active,
-      password,
-      password_confirmation,
-    } = this.state;
-
     axios
       .post(
         "/api/users",
@@ -49,7 +34,7 @@ export default function Signup(props) {
 
       .then((response) => {
         if (response.data.message === "User created successfully") {
-          this.props.history.push("/login");
+          props.history.push("/login");
         }
       })
       .catch((error) => {

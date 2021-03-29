@@ -49,7 +49,7 @@ export default function ReportsFinalizeShow(props) {
       }
       return reportSection;
     });
-    setReportSections(reportSections);
+    setReportSections(newReportSections);
   };
 
   const handleSubmit = (event) => {
@@ -57,7 +57,7 @@ export default function ReportsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/reports/" + this.state.id,
+        "/api/reports/" + id,
         {
           title: title,
           deadline: deadline,

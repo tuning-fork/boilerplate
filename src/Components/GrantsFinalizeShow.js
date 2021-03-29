@@ -124,7 +124,7 @@ export default function GrantsFinalizeShow(props) {
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        this.toggleHidden();
+        toggleHidden();
       })
       .catch((error) => {
         console.log("grant update error", error);
@@ -133,7 +133,6 @@ export default function GrantsFinalizeShow(props) {
 
   const copyGrant = (event) => {
     event.preventDefault();
-    const { copy_title, copy_rfp_url, copy_deadline, id } = this.state;
     axios
       .post(
         "/api/grants/copy",

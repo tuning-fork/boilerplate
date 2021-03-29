@@ -59,9 +59,9 @@ export default function SectionsNew(props) {
     const newSection = {
       grant_id: props.grant_id,
       title: title,
-      text: quill_text,
+      text: quillText,
       sort_order: props.sort_number + 1,
-      wordcount: countWords(quill_text),
+      wordcount: countWords(quillText),
     };
     axios
       .post("/api/sections", newSection, {
@@ -69,8 +69,8 @@ export default function SectionsNew(props) {
       })
       .then((response) => {
         if (response.data) {
-          this.props.addNewSections(response.data);
-          this.toggleHidden();
+          props.addNewSections(response.data);
+          toggleHidden();
         }
       })
       .catch((error) => {
@@ -87,10 +87,8 @@ export default function SectionsNew(props) {
       });
       console.log(suggestions);
     }
-    this.setState(() => ({
-      suggestions,
-      searchText: value,
-    }));
+    setSuggestions(suggestions);
+    setSearchText(value);
   };
 
   const suggestionSelected = (value) => {
@@ -102,6 +100,7 @@ export default function SectionsNew(props) {
   };
 
   const renderSuggestions = () => {
+    console.log(suggestions);
     if (suggestions.length === 0) {
       return null;
     }
@@ -120,7 +119,7 @@ export default function SectionsNew(props) {
   };
 
   const quillChange = (value) => {
-    this.setState({ quill_text: value });
+    setQuillText(value);
   };
 
   const handleSelect = (event) => {
@@ -160,7 +159,7 @@ export default function SectionsNew(props) {
                   <input
                     type="text"
                     value={searchText}
-                    onChange={(event) => setSearchText(event.target.value)}
+                    onChange={onTextChanged}
                   />
                   {renderSuggestions()}
                 </div>
@@ -169,9 +168,7 @@ export default function SectionsNew(props) {
                   as="select"
                   name="currentBoilerplate"
                   value={currentBoilerplate}
-                  onChange={(event) =>
-                    setCurrentBoilerplate(event.target.value)
-                  }
+                  onChange={handleSelect}
                 >
                   <option value="" disabled>
                     Select Boilerplate
@@ -197,9 +194,7 @@ export default function SectionsNew(props) {
                   as="select"
                   name="currentBoilerplate"
                   value={currentBoilerplate}
-                  onChange={(event) =>
-                    setCurrentBoilerplate(event.target.value)
-                  }
+                  onChange={handleSelect}
                 >
                   <option value="" disabled>
                     Select Bio
@@ -209,7 +204,9 @@ export default function SectionsNew(props) {
                       <option
                         key={bio.id}
                         value={`${bio.first_name} ${bio.last_name}: ${bio.text}`}
-                        onChange={this.handleChange}
+                        onChange={(event) =>
+                          setCurrentBoilerplate(event.target.value)
+                        }
                       >
                         {`${bio.first_name} ${bio.last_name}`}
                       </option>

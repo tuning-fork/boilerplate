@@ -48,9 +48,7 @@ export default function SectionToBoilerplateNew(props) {
   };
 
   const toggleHiddenCategoriesOrganizationsNew = () => {
-    setIsHiddenCategoriesOrganizationsNew(
-      !this.state.isHiddenCategoriesOrganizationsNew
-    );
+    setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
   };
 
   const handleSubmit = (event) => {

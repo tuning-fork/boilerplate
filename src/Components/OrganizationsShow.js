@@ -9,6 +9,7 @@ export default function OrganizationsShow(props) {
   const [name, setName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios

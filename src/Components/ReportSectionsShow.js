@@ -20,7 +20,7 @@ export default function ReportSectionsShow(props) {
 
   useEffect(() => {
     axios
-      .get(`/api/report_sections/${this.props.report_section_id}`, {
+      .get(`/api/report_sections/${props.report_section_id}`, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
