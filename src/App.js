@@ -7,6 +7,7 @@ import { useCurrentUserContext } from "./Contexts/currentUserContext";
 import React, { Component, useEffect } from "react";
 // import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { PrivateRoute } from "./Helpers/PrivateRoute";
 
 import LandingPage from "./Components/LandingPage";
 
@@ -96,36 +97,58 @@ export default function App() {
           <Route path={"/reset_password"} component={ResetPassword} />
           <Route path={"/forgot_password"} component={ForgotPassword} />
 
-          <Route path={"/dashboard"} component={Dashboard} />
-          <Route exact path={"/grants"} component={Grants} />
-          <Route path={"/grants/:id"} component={GrantsShow} />
-          <Route path={"/grants-finalize/:id"} component={GrantsFinalizeShow} />
-          <Route path={"/grants-new"} component={GrantsNew} />
-          <Route path={"/sections-new"} component={SectionsNew} />
+          <PrivateRoute path={"/dashboard"} component={Dashboard} />
+          <PrivateRoute exact path={"/grants"} component={Grants} />
+          <PrivateRoute path={"/grants/:id"} component={GrantsShow} />
+          <PrivateRoute
+            path={"/grants-finalize/:id"}
+            component={GrantsFinalizeShow}
+          />
+          <PrivateRoute path={"/grants-new"} component={GrantsNew} />
+          <PrivateRoute path={"/sections-new"} component={SectionsNew} />
 
-          <Route path={"/reports/:id"} component={ReportsShow} />
-          <Route
+          <PrivateRoute path={"/reports/:id"} component={ReportsShow} />
+          <PrivateRoute
             path={"/reports-finalize/:id"}
             component={ReportsFinalizeShow}
           />
 
-          <Route path={"/reports-new"} component={ReportsNew} />
-          <Route exact path={"/categories"} component={Categories} />
-          <Route exact path={"/organizations"} component={Organizations} />
-          <Route exact path={"/funding_orgs"} component={FundingOrgs} />
-          <Route exact path={"/bios"} component={Bios} />
-          <Route path={"/bios/:id"} component={BiosShow} />
-          <Route exact path={"/boilerplates"} component={Boilerplates} />
-          <Route path={"/boilerplates/:id"} component={BoilerplatesShow} />
-          <Route path={"/categories/:id"} component={CategoriesShow} />
-          <Route path={"/funding_orgs/:id"} component={FundingOrgsShow} />
-          <Route path={"/organizations/:id"} component={OrganizationsShow} />
+          <PrivateRoute path={"/reports-new"} component={ReportsNew} />
+          <PrivateRoute exact path={"/categories"} component={Categories} />
+          <PrivateRoute
+            exact
+            path={"/organizations"}
+            component={Organizations}
+          />
+          <PrivateRoute exact path={"/funding_orgs"} component={FundingOrgs} />
+          <PrivateRoute exact path={"/bios"} component={Bios} />
+          <PrivateRoute path={"/bios/:id"} component={BiosShow} />
+          <PrivateRoute exact path={"/boilerplates"} component={Boilerplates} />
+          <PrivateRoute
+            path={"/boilerplates/:id"}
+            component={BoilerplatesShow}
+          />
+          <PrivateRoute path={"/categories/:id"} component={CategoriesShow} />
+          <PrivateRoute
+            path={"/funding_orgs/:id"}
+            component={FundingOrgsShow}
+          />
+          <PrivateRoute
+            path={"/organizations/:id"}
+            component={OrganizationsShow}
+          />
 
-          <Route path={"/bios-new"} component={BiosNew} />
-          <Route path={"/boilerplates-new"} component={BoilerplatesNew} />
-          <Route path={"/categories-new"} component={CategoriesNew} />
-          <Route path={"/funding_orgs-new"} component={FundingOrgsNew} />
-          <Route path={"/organizations-new"} component={OrganizationsNew} />
+          <PrivateRoute path={"/bios-new"} component={BiosNew} />
+          <PrivateRoute
+            path={"/boilerplates-new"}
+            component={BoilerplatesNew}
+          />
+          <PrivateRoute path={"/categories-new"} component={CategoriesNew} />
+          <PrivateRoute path={"/funding_orgs-new"} component={FundingOrgsNew} />
+          <PrivateRoute
+            path={"/organizations-new"}
+            component={OrganizationsNew}
+          />
           {/* <Route
               exact path={"/logout"} component={Logout}
             /> */}

@@ -32,21 +32,6 @@ function Navigation(props) {
               <Nav.Item className="active">
                 <Nav.Link href="/grants">Grants</Nav.Link>
               </Nav.Item>
-              {/* <Nav.Item className="active">
-                  <Nav.Link href="/bios">Bios</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="active">
-                  <Nav.Link href="/boilerplates">Boilerplates</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="active">
-                  <Nav.Link href="/categories">Categories</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="active">
-                  <Nav.Link href="/organizations">Organizations</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="active">
-                  <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
-                </Nav.Item> */}
               <Nav.Item>
                 <Nav.Link onClick={handleLogoutClick} to="/logout">
                   Logout
@@ -56,14 +41,6 @@ function Navigation(props) {
           </div>
         ) : (
           <div>
-            {/* <Nav>
-                <Nav.Item className="active">
-                  <Nav.Link href="/login">Login</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="active">
-                  <Nav.Link href="/signup">Sign Up</Nav.Link>
-                </Nav.Item>
-                </Nav> */}
             <Button
               href="/signup"
               variant="outline-success"
@@ -96,3 +73,31 @@ function Navigation(props) {
 }
 
 export default withRouter(Navigation);
+
+{
+  /* <Nav.Item className="active">
+                  <Nav.Link href="/bios">Bios</Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="active">
+                  <Nav.Link href="/boilerplates">Boilerplates</Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="active">
+                  <Nav.Link href="/categories">Categories</Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="active">
+                  <Nav.Link href="/organizations">Organizations</Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="active">
+                  <Nav.Link href="/funding_orgs">Funding Orgs</Nav.Link>
+                </Nav.Item> */
+}
+{
+  /* <Nav>
+                <Nav.Item className="active">
+                  <Nav.Link href="/login">Login</Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="active">
+                  <Nav.Link href="/signup">Sign Up</Nav.Link>
+                </Nav.Item>
+                </Nav> */
+}

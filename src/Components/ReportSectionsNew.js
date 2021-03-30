@@ -16,6 +16,8 @@ export default function ReportSectionsNew(props) {
   const [boilerplates, setBoilerplates] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [addText, setAddText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     axios
@@ -60,6 +62,52 @@ export default function ReportSectionsNew(props) {
       });
   };
 
+  const handleSelect = (event) => {
+    let selectedQuillText = quillText;
+    selectedQuillText += ` ${event.target.value}`;
+    setQuillText(selectedQuillText);
+  };
+
+  const onTextChanged = (event) => {
+    const value = event.target.value.toLowerCase();
+    let suggestions = [];
+    if (value.length > 0) {
+      suggestions = boilerplates.filter((boilerplate) => {
+        return boilerplate.title.toLowerCase().indexOf(value) !== -1;
+      });
+      console.log(suggestions);
+    }
+    setSuggestions(suggestions);
+    setSearchText(value);
+  };
+
+  const suggestionSelected = (value) => {
+    let addQuillText = quillText;
+    addQuillText += value.text;
+    setSearchText("");
+    setSuggestions([]);
+    setQuillText(addQuillText);
+  };
+
+  const renderSuggestions = () => {
+    console.log(suggestions);
+    if (suggestions.length === 0) {
+      return null;
+    }
+    return (
+      <div>
+        {suggestions.map((boilerplate) => (
+          <li
+            key={boilerplate.id}
+            onClick={() => suggestionSelected(boilerplate)}
+          >
+            {boilerplate.title}, {boilerplate.wordcount} words
+          </li>
+        ))}
+      </div>
+    );
+  };
+
   const countWords = (string) => {
     if (string) {
       return string.split(" ").length;
@@ -87,11 +135,16 @@ export default function ReportSectionsNew(props) {
           </Form.Group>
           <Form.Group>
             <Form.Label>Add Boilerplate to Text Area</Form.Label>
+            <div>
+              <label>Search Boilerplate by title </label>
+              <input type="text" value={searchText} onChange={onTextChanged} />
+              {renderSuggestions()}
+            </div>
             <Form.Control
               as="select"
               name="currentBoilerplate"
               value={currentBoilerplate}
-              onChange={(event) => setCurrentBoilerplate(event.target.value)}
+              onChange={handleSelect}
             >
               <option value="" disabled>
                 Select Boilerplate

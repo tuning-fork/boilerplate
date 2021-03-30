@@ -118,10 +118,6 @@ export default function SectionsNew(props) {
     );
   };
 
-  const quillChange = (value) => {
-    setQuillText(value);
-  };
-
   const handleSelect = (event) => {
     let selectedQuillText = quillText;
     selectedQuillText += ` ${event.target.value}`;
