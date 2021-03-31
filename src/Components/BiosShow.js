@@ -8,6 +8,15 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
 
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
+
 export default function BiosShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
@@ -70,10 +79,17 @@ export default function BiosShow(props) {
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
       })
       .catch((error) => {
         console.log("bio update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+
+    handleClose();
   };
 
   const countWords = (string) => {
@@ -140,49 +156,36 @@ export default function BiosShow(props) {
           >
             {title}
           </h3>
+          <FontAwesomeIcon
+            icon={faEdit}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "160px",
+            }}
+            onClick={handleShow}
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "10px",
+            }}
+            onClick={handleBioDelete}
+          />
         </Card.Header>
         <Card.Body>
           <h4 dangerouslySetInnerHTML={{ __html: quillText }}></h4>
           <h4>Organization: {organization.name}</h4>
           <h4>Word Count: {countWords(quillText)}</h4>
         </Card.Body>
-        {isHidden ? (
-          <Button
-            onClick={toggleHidden}
-            style={{
-              maxWidth: "20%",
-              align: "right",
-              backgroundColor: "#23cb87",
-              borderColor: "#fefefe",
-              color: "#09191b",
-              fontWeight: "bolder",
-            }}
-          >
-            Update Bio
-          </Button>
-        ) : (
-          <Button
-            onClick={handleShow}
-            style={{
-              maxWidth: "20%",
-              align: "right",
-              backgroundColor: "#23cb87",
-              borderColor: "#fefefe",
-              color: "#09191b",
-              fontWeight: "bolder",
-            }}
-          >
-            Close
-          </Button>
-        )}
       </Card>
       <div>
         {/* {!isHidden ? ( */}
         <Modal show={show} onHide={handleClose}>
-          <Modal.Header
-            style={{ backgroundColor: "#09191b" }}
-            closeButton
-          ></Modal.Header>
+          <Modal.Header closeButton></Modal.Header>
+          {/* <Modal.Header style={{ backgroundColor: "#09191b" }}></Modal.Header> */}
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -244,27 +247,29 @@ export default function BiosShow(props) {
                     variant="outline-success"
                     type="submit"
                     style={{
-                      maxWidth: "20%",
+                      maxWidth: "50%",
                       align: "center",
                       backgroundColor: "#23cb87",
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
+                    onClick={{ handleSubmit }}
                   >
                     Save Changes
                   </Button>
                   <Button
-                    variant="outline-danger"
+                    variant="outline-success"
+                    type="submit"
                     style={{
-                      maxWidth: "20%",
+                      maxWidth: "50%",
                       align: "center",
-                      backgroundColor: "red",
+                      backgroundColor: "#23cb87",
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
-                    onClick={handleBioDelete}
+                    onClick={{ handleCancel }}
                   >
-                    Delete Bio
+                    Cancel
                   </Button>
                 </div>
               </Form>

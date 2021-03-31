@@ -15,8 +15,8 @@ export default function GrantsNew(props) {
   const [purpose, setPurpose] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [fundingOrgId, setFundingOrgId] = useState("");
-  const [organizations, setOrganizations] = useState("");
-  const [fundingOrgs, setFundingOrgs] = useState("");
+  const [organizations, setOrganizations] = useState([]);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
   const [
     isHiddenFundingOrgsOrganizationsNew,
     setIsHiddenFundingOrgsOrganizationsNew,

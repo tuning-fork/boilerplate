@@ -13,16 +13,16 @@ export default function Grants() {
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
-  const [openIndex, setOpenIndex] = useState(false);
-  const [openNew, setOpenNew] = useState(false);
+  // const [openIndex, setOpenIndex] = useState(false);
+  // const [openNew, setOpenNew] = useState(false);
 
-  const toggleOpenIndex = () => {
-    setOpenIndex(!openIndex);
-  };
+  // const toggleOpenIndex = () => {
+  //   setOpenIndex(!openIndex);
+  // };
 
-  const toggleOpenNew = () => {
-    setOpenNew(!openNew);
-  };
+  // const toggleOpenNew = () => {
+  //   setOpenNew(!openNew);
+  // };
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -113,9 +113,12 @@ export default function Grants() {
   const formatFromNow = (fromNowString) => {
     var splitStr = fromNowString.toLowerCase().split(" ");
     for (var i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
       splitStr[i] =
         splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
     }
+    // Directly return the joined string
     return splitStr.join(" ");
   };
 
@@ -226,7 +229,7 @@ export default function Grants() {
       return (
         <div key={grant.id}>
           {grant.isUnzipped === false ? (
-            <Card>
+            <Card className="card-component">
               <Card.Header>
                 Title:
                 <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
@@ -234,27 +237,27 @@ export default function Grants() {
               </Card.Header>
             </Card>
           ) : (
-            <Card>
+            <Card className="card-component">
               <Card.Header>
                 Title:
                 <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
-                <p>Purpose: {grant.purpose}</p>
-                <p>
+                <h4>Purpose: {grant.purpose}</h4>
+                <h4>
                   Funding Organization:
                   <span dangerouslySetInnerHTML={{ __html: results }}></span>
-                </p>
-                <p>RFP URL: {grant.rfp_url}</p>
-                <p>Deadline: {formatDate(grant.deadline)}</p>
-                <p>
+                </h4>
+                <h4>RFP URL: {grant.rfp_url}</h4>
+                <h4>Deadline: {formatDate(grant.deadline)}</h4>
+                <h4>
                   Deadline: <Moment>{grant.deadline}</Moment>
-                </p>
+                </h4>
                 <Moment fromNow>{grant.deadline}</Moment>
-                <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                <p>Organization Name: {grant.organization_name}</p>
+                <h4>Submitted: {grant.submitted ? "yes" : "not yet"}</h4>
+                <h4>Successful: {grant.successful ? "yes" : "not yet"}</h4>
+                <h4>Organization Name: {grant.organization_name}</h4>
               </Card.Body>
             </Card>
           )}
@@ -266,31 +269,35 @@ export default function Grants() {
       return (
         <div key={grant.id}>
           {grant.isUnzipped === false ? (
-            <Card>
+            <Card className="card-component">
               <Card.Header>
-                Title:
-                <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
-                <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
+                <h3>
+                  Title:
+                  <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                </h3>
+                <h4 onClick={() => toggleUnzipped(grant.id, true)}>+</h4>
               </Card.Header>
             </Card>
           ) : (
-            <Card>
+            <Card className="card-component">
               <Card.Header>
-                Title: <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
-                <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
+                <h3>
+                  Title: <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                </h3>
+                <h4 onClick={() => toggleUnzipped(grant.id, false)}>-</h4>
               </Card.Header>
               <Card.Body>
-                <p>Purpose: {grant.purpose}</p>
-                <p>Funding Organization: {grant.funding_org_name}</p>
-                <p>RFP URL: {grant.rfp_url}</p>
-                <p>Deadline: {formatDate(grant.deadline)}</p>
-                <p>
+                <h4>Purpose: {grant.purpose}</h4>
+                <h4>Funding Organization: {grant.funding_org_name}</h4>
+                <h4>RFP URL: {grant.rfp_url}</h4>
+                <h4>Deadline: {formatDate(grant.deadline)}</h4>
+                <h4>
                   Deadline: <Moment>{grant.deadline}</Moment>
-                </p>
+                </h4>
                 <Moment fromNow>{grant.deadline}</Moment>
-                <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                <p>Organization Name: {grant.organization_name}</p>
+                <h4>Submitted: {grant.submitted ? "yes" : "not yet"}</h4>
+                <h4>Successful: {grant.successful ? "yes" : "not yet"}</h4>
+                <h4>Organization Name: {grant.organization_name}</h4>
               </Card.Body>
             </Card>
           )}
@@ -303,53 +310,53 @@ export default function Grants() {
   return (
     <div className="component container">
       <h1>Grants</h1>
-      <h1 onClick={toggleOpenIndex}>+</h1>
-      <h1 onClick={toggleOpenIndex}>-</h1>
+      {/* <h1 onClick={toggleOpenIndex}>+</h1>
+      <h1 onClick={toggleOpenIndex}>-</h1> */}
       <h3>Add A Grant</h3>
-      <h1 onClick={toggleOpenNew}>+</h1>
-      {openNew ? (
-        <div>
-          <GrantsNew updateGrants={updateGrants} />
-          <h1 onClick={toggleOpenNew}>-</h1>
-        </div>
-      ) : null}
+      {/* <h1 onClick={toggleOpenNew}>+</h1>
+      {openNew ? ( */}
+      <div>
+        <GrantsNew updateGrants={updateGrants} />
+        {/* <h1 onClick={toggleOpenNew}>-</h1> */}
+      </div>
+      {/* ) : null} */}
 
-      {openIndex ? (
-        <div>
-          {/* Grant search input */}
+      {/* {openIndex ? ( */}
+      <div>
+        {/* Grant search input */}
 
-          <Form>
-            <Form.Group>
-              <Form.Label>Search Parameter</Form.Label>
-              <Form.Control
-                as="select"
-                name="filterParam"
-                value={filterParam}
-                onChange={handleSearchParamSelect}
-                required
-              >
-                <option value="" disabled>
-                  Search By
-                </option>
-                <option value="filterPurpose">Purpose</option>
-                <option value="filterTitle">Title</option>
-                <option value="filterFundingOrg">Funding Org</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label></Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Search text..."
-                value={searchText}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Form>
+        <Form>
+          <Form.Group>
+            <Form.Label>Search Parameter</Form.Label>
+            <Form.Control
+              as="select"
+              name="filterParam"
+              value={filterParam}
+              onChange={handleSearchParamSelect}
+              required
+            >
+              <option value="" disabled>
+                Search By
+              </option>
+              <option value="filterPurpose">Purpose</option>
+              <option value="filterTitle">Title</option>
+              <option value="filterFundingOrg">Funding Org</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label></Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Search text..."
+              value={searchText}
+              onChange={handleChange}
+            />
+          </Form.Group>
+        </Form>
 
-          {highlightedGrants}
-        </div>
-      ) : null}
+        {highlightedGrants}
+      </div>
+      {/* ) : null} */}
       {/* {this.state.grants.map((grant) => {
           return (
             <div key={grant.id}>

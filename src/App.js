@@ -7,7 +7,7 @@ import { useCurrentUserContext } from "./Contexts/currentUserContext";
 import React, { Component, useEffect } from "react";
 // import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { PrivateRoute } from "./Helpers/PrivateRoute";
+import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 
 import LandingPage from "./Components/LandingPage";
 

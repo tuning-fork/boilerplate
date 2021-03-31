@@ -5,14 +5,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 
-const history = useHistory();
-
 function Navigation(props) {
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     props.history.push("/login");
   };
+
+  const history = useHistory();
 
   return (
     <Navbar
