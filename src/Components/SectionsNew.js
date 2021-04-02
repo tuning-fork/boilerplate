@@ -71,6 +71,7 @@ export default function SectionsNew(props) {
         if (response.data) {
           props.addNewSections(response.data);
           toggleHidden();
+          clearForm();
         }
       })
       .catch((error) => {

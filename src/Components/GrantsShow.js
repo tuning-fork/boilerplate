@@ -7,7 +7,18 @@ import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+// import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
+import Modal from "./Elements/Modal";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function GrantsShow(props) {
   const [id, setId] = useState("");
@@ -30,6 +41,10 @@ export default function GrantsShow(props) {
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState([]);
   const history = useHistory();
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     axios
@@ -221,106 +236,113 @@ export default function GrantsShow(props) {
 
   return (
     <div className="container">
-      <h1>Grants Show Page - Build Grant Sections</h1>
       <Card>
         <Card.Header>
-          <h2>{title}</h2>
+          <h3>{title}</h3>
+          {isHidden ? (
+            <FontAwesomeIcon
+              icon={faEdit}
+              style={{
+                color: "black",
+                fontSize: "1.5rem",
+              }}
+              onClick={handleShow}
+            />
+          ) : null}
         </Card.Header>
         <Card.Body>
-          <h3>Purpose: {purpose}</h3>
-          <h3>RFP URL: {rfpUrl}</h3>
-          <h3>Deadline: {deadline}</h3>
-          <h3>Submitted: {submitted ? "yes" : "not yet"}</h3>
-          <h3>Successful: {successful ? "yes" : "not yet"}</h3>
+          <h4>Purpose: {purpose}</h4>
+          <h4>RFP URL: {rfpUrl}</h4>
+          <h4>Deadline: {deadline}</h4>
+          <h4>Submitted: {submitted ? "yes" : "not yet"}</h4>
+          <h4>Successful: {successful ? "yes" : "not yet"}</h4>
 
           {/* beginning of grant update */}
-
-          {isHidden ? (
-            <Button onClick={toggleHidden}>Update Grant</Button>
-          ) : (
-            <Button onClick={toggleHidden}>Close</Button>
-          )}
-          <br />
-          {!isHidden ? (
+          <div>
             <div>
-              <div>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={title}
-                      name="title"
-                      // placeholder={this.state.title}
-                      onChange={(event) => setTitle(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Purpose</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={purpose}
-                      name="purpose"
-                      // placeholder={this.state.purpose}
-                      onChange={(event) => setPurpose(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>RFP URL</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={rfpUrl}
-                      name="rfpUrl"
-                      // placeholder={this.state.rfp_url}
-                      onChange={(event) => setRfpUrl(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Deadline</Form.Label>
-                    <Form.Control
-                      type="datetime"
-                      value={deadline}
-                      name="deadline"
-                      // placeholder={this.state.deadline}
-                      onChange={(event) => setDeadline(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Submitted</Form.Label>
-                    <Form.Check
-                      type="checkbox"
-                      name="submitted"
-                      checked={submitted}
-                      onChange={(event) => setSubmitted(event.target.checked)}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Successful</Form.Label>
-                    <Form.Check
-                      type="checkbox"
-                      name="successful"
-                      checked={successful}
-                      onChange={(event) => setSuccessful(event.target.checked)}
-                    />
-                  </Form.Group>
-                  <div className="text-center">
-                    <Button type="submit">Submit</Button>
-                  </div>
-                </Form>
-              </div>
+              <Modal onClose={handleClose} show={show}>
+                <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+                  <Card.Body>
+                    <Form onSubmit={handleSubmit}>
+                      <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={title}
+                          name="title"
+                          // placeholder={this.state.title}
+                          onChange={(event) => setTitle(event.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Purpose</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={purpose}
+                          name="purpose"
+                          // placeholder={this.state.purpose}
+                          onChange={(event) => setPurpose(event.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>RFP URL</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={rfpUrl}
+                          name="rfpUrl"
+                          // placeholder={this.state.rfp_url}
+                          onChange={(event) => setRfpUrl(event.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Deadline</Form.Label>
+                        <Form.Control
+                          type="datetime"
+                          value={deadline}
+                          name="deadline"
+                          // placeholder={this.state.deadline}
+                          onChange={(event) => setDeadline(event.target.value)}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Submitted</Form.Label>
+                        <Form.Check
+                          type="checkbox"
+                          name="submitted"
+                          checked={submitted}
+                          onChange={(event) =>
+                            setSubmitted(event.target.checked)
+                          }
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Successful</Form.Label>
+                        <Form.Check
+                          type="checkbox"
+                          name="successful"
+                          checked={successful}
+                          onChange={(event) =>
+                            setSuccessful(event.target.checked)
+                          }
+                        />
+                      </Form.Group>
+                      <div className="text-center">
+                        <Button type="submit">Save Changes</Button>
+                      </div>
+                    </Form>
+                  </Card.Body>
+                </Card>
+              </Modal>
             </div>
-          ) : null}
+          </div>
         </Card.Body>
 
         {/* end of grant update, beginning of sections and reports */}
 
-        <Card.Header>
-          <h2>Sections:</h2>
-        </Card.Header>
         <Card.Body onDrop={dropHandler} onDragOver={dragoverHandler}>
           {sections.length ? (
             sections.map((section) => {

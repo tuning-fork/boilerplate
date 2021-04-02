@@ -29,6 +29,21 @@ body {
 .navbar.item {
 }
 
+/* .modal-dialog {
+  max-width: 1000px;
+} */
+
+/* .modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #032fff;
+  background-color: rgba(0, 0, 0, 0.4);
+} */
+
 .card {
   font-size: 1rem;
   font-weight: bold;

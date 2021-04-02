@@ -5,6 +5,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 export default function Grants() {
   const [loading, setLoading] = useState(true);
@@ -13,16 +14,11 @@ export default function Grants() {
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
-  // const [openIndex, setOpenIndex] = useState(false);
-  // const [openNew, setOpenNew] = useState(false);
 
-  // const toggleOpenIndex = () => {
-  //   setOpenIndex(!openIndex);
-  // };
+  const [show, setShow] = useState(false);
 
-  // const toggleOpenNew = () => {
-  //   setOpenNew(!openNew);
-  // };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -113,12 +109,9 @@ export default function Grants() {
   const formatFromNow = (fromNowString) => {
     var splitStr = fromNowString.toLowerCase().split(" ");
     for (var i = 0; i < splitStr.length; i++) {
-      // You do not need to check if i is larger than splitStr length, as your for does that for you
-      // Assign it back to the array
       splitStr[i] =
         splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
     }
-    // Directly return the joined string
     return splitStr.join(" ");
   };
 
@@ -310,21 +303,9 @@ export default function Grants() {
   return (
     <div className="component container">
       <h1>Grants</h1>
-      {/* <h1 onClick={toggleOpenIndex}>+</h1>
-      <h1 onClick={toggleOpenIndex}>-</h1> */}
       <h3>Add A Grant</h3>
-      {/* <h1 onClick={toggleOpenNew}>+</h1>
-      {openNew ? ( */}
+      <GrantsNew updateGrants={updateGrants} />
       <div>
-        <GrantsNew updateGrants={updateGrants} />
-        {/* <h1 onClick={toggleOpenNew}>-</h1> */}
-      </div>
-      {/* ) : null} */}
-
-      {/* {openIndex ? ( */}
-      <div>
-        {/* Grant search input */}
-
         <Form>
           <Form.Group>
             <Form.Label>Search Parameter</Form.Label>
