@@ -143,11 +143,61 @@ export default function BoilerplatesNew(props) {
         />
       ) : null}
       <Card>
-        <Card.Header>
-          <h3>Add Boilerplate</h3>
-        </Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Label>Boilerplate Text</Form.Label>
+            <ReactQuill
+              // name="quill_text"
+              modules={modules}
+              format={formats}
+              value={quillText}
+              onChange={(value) => setQuillText(value)}
+            />
+            <Form.Group>
+              <Form.Label>Word Count</Form.Label>
+              <p>{countWords(quillText)}</p>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as="select"
+                name="categoryId"
+                value={categoryId}
+                onChange={(event) => setCategoryId(event.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+              </Form.Control>
+              {isHiddenCategoriesOrganizationsNew ? (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                >
+                  Add New Category and/or Organization
+                </Button>
+              ) : (
+                <Button
+                  variant="warning"
+                  size="sm"
+                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                >
+                  Close Category and/or Organization
+                </Button>
+              )}
+            </Form.Group>
             <Form.Group>
               <Form.Label>Organization</Form.Label>
               <Form.Control
@@ -174,70 +224,6 @@ export default function BoilerplatesNew(props) {
                   );
                 })}
               </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                as="select"
-                name="categoryId"
-                value={categoryId}
-                onChange={(event) => setCategoryId(event.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  Select Category
-                </option>
-                {/* {categories.map((category) => {
-                  return (
-                    <option
-                      key={category.id}
-                      value={category.id}
-                      onChange={(event) => setCategoryId(event.target.value)}
-                    >
-                      {category.name}
-                    </option>
-                  );
-                })} */}
-              </Form.Control>
-              {isHiddenCategoriesOrganizationsNew ? (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={toggleHiddenCategoriesOrganizationsNew}
-                >
-                  Add New Category and/or Organization
-                </Button>
-              ) : (
-                <Button
-                  variant="warning"
-                  size="sm"
-                  onClick={toggleHiddenCategoriesOrganizationsNew}
-                >
-                  Close Category and/or Organization
-                </Button>
-              )}
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Label>Boilerplate Text</Form.Label>
-            <ReactQuill
-              // name="quill_text"
-              modules={modules}
-              format={formats}
-              value={quillText}
-              onChange={(value) => setQuillText(value)}
-            />
-            <Form.Group>
-              <Form.Label>Word Count</Form.Label>
-              <p>{countWords(quillText)}</p>
             </Form.Group>
 
             <div className="text-center">

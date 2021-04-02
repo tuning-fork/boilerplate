@@ -5,7 +5,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-// import Button from 'react-bootstrap/Button';
+import Modal from "./Elements/Modal";
 
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,10 @@ export default function Boilerplates(props) {
   const [filteredByWordCount, setFilteredByWordCount] = useState([]);
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     axios
@@ -99,18 +103,17 @@ export default function Boilerplates(props) {
       return (
         <div key={boilerplate.id}>
           <Card>
-            <Card.Header>
-              Title:
+            <h5>
               <a
                 href={`/boilerplates/${boilerplate.id}`}
                 dangerouslySetInnerHTML={{ __html: resultsTitle }}
               ></a>
-            </Card.Header>
+            </h5>
             <Card.Body>
-              <p dangerouslySetInnerHTML={{ __html: resultsText }}></p>
-              <p>Organization: {boilerplate.organization_name}</p>
-              <p>Category: {boilerplate.category_name}</p>
-              <p>Wordcount: {boilerplate.wordcount}</p>
+              <h5 dangerouslySetInnerHTML={{ __html: resultsText }}></h5>
+              <h5>Organization: {boilerplate.organization_name}</h5>
+              <h5>Category: {boilerplate.category_name}</h5>
+              <h5>Wordcount: {boilerplate.wordcount}</h5>
             </Card.Body>
           </Card>
           <br />
@@ -121,10 +124,11 @@ export default function Boilerplates(props) {
         <div key={boilerplate.id}>
           <Card>
             <Card.Header>
-              Title:
-              <Link to={`/boilerplates/${boilerplate.id}`}>
-                {boilerplate.title}
-              </Link>
+              <h5>
+                <Link to={`/boilerplates/${boilerplate.id}`}>
+                  {boilerplate.title}
+                </Link>
+              </h5>
             </Card.Header>
             <Card.Body>
               <p dangerouslySetInnerHTML={{ __html: boilerplate.text }}></p>
@@ -141,19 +145,16 @@ export default function Boilerplates(props) {
 
   return (
     <div className="container">
-      <h1>Boilerplates</h1>
+      <h1>Stored Content</h1>
+      <Button onClick={handleShow}>Add Content</Button>
       <div>
-        <br />
-        <h3>Add Boilerplate</h3>
-        <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
-        <br />
-        <h3>Select a filter to search boilerplate</h3>
-
+        <Modal onClose={handleClose} show={show}>
+          <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
+        </Modal>
         {/* Search input field */}
 
         <Form>
           <Form.Group>
-            <Form.Label>Search Filter</Form.Label>
             <Form.Control
               as="select"
               name="filterParam"
@@ -161,18 +162,18 @@ export default function Boilerplates(props) {
               onChange={handleSearchParamSelect}
               required
             >
-              <option value="" disabled>
+              {/* <option value="" disabled>
                 Search By
-              </option>
-              <option value="filterWordCount">Word Count</option>
-              <option value="filterText">Text</option>
+              </option> */}
+              <option value="filterText">Search By Text</option>
+              <option value="filterWordCount">Search By Word Count</option>
             </Form.Control>
           </Form.Group>
           <Form.Group>
             <Form.Label></Form.Label>
             <Form.Control
               type="text"
-              placeholder="Search text..."
+              placeholder="Search parameters..."
               value={searchText}
               onChange={handleChange}
             />

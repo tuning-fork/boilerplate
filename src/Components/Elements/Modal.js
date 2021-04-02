@@ -6,7 +6,6 @@ export default function Modal(props) {
   }
   return (
     <div>
-      <div>{props.children}</div>
       <div>
         <button
           onClick={() => {
@@ -16,6 +15,7 @@ export default function Modal(props) {
           Close
         </button>
       </div>
+      <div>{props.children}</div>
     </div>
   );
 }

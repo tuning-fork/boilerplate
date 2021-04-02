@@ -29,10 +29,6 @@ body {
 .navbar.item {
 }
 
-/* .modal-dialog {
-  max-width: 1000px;
-} */
-
 /* .modal {
   position: fixed;
   z-index: 1;
@@ -45,7 +41,7 @@ body {
 } */
 
 .card {
-  font-size: 1rem;
+  font-size: 0.5rem;
   font-weight: bold;
   /* background-color: #00B556; */
   /* background-color: #037d50; */
@@ -65,7 +61,7 @@ body {
 }
 
 .card-body {
-  font-size: 1.5rem;
+  font-size: 1rem;
   /* background-color: #1bd036; */
   /* background-color: #037d50; */
   /* background-color: #063223; */

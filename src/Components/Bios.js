@@ -4,6 +4,9 @@ import BiosNew from "./BiosNew";
 import OrganizationsNew from "./OrganizationsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import Modal from "./Elements/Modal";
+import ListGroup from "react-bootstrap/ListGroup";
+import Button from "react-bootstrap/Button";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -16,6 +19,10 @@ export default function Bios(props) {
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [filteredBios, setFilteredBios] = useState([]);
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     axios
@@ -100,53 +107,37 @@ export default function Bios(props) {
   return (
     <div className="container">
       <h1>Bios</h1>
+      <Button onClick={handleShow}>Add Bio</Button>
       <div>
-        <OrganizationsNew
+        <Modal onClose={handleClose} show={show}>
+          <BiosNew
+            updateBios={updateBios}
+            organizations={organizations}
+            isHiddenOrganizationsNew={isHiddenOrganizationsNew}
+            toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
+          />
+        </Modal>
+      </div>
+      <div>
+        {/* <OrganizationsNew
           updateOrganizations={updateOrganizations}
           toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-        />
+        /> */}
 
         {bios.map((bio) => {
           console.log(bio);
           return (
             <div key={bio.id}>
-              {bio.isUnzipped === false ? (
-                <Card>
-                  <Card.Header>
-                    Name:
-                    <Link to={`/bios/${bio.id}`}>
-                      {bio.first_name} {bio.last_name}
-                    </Link>
-                  </Card.Header>
-                </Card>
-              ) : (
-                <Card>
-                  <Card.Header>
-                    Name:
-                    <Link to={`/bios/${bio.id}`}>
-                      {bio.first_name} {bio.last_name}
-                    </Link>
-                  </Card.Header>
-                  <Card.Body>
-                    <p>Title: {bio.title}</p>
-                    <p dangerouslySetInnerHTML={{ __html: bio.text }}></p>
-                    <p>Organization: {bio.organization_name}</p>
-                    <p>Wordcount: {bio.wordcount}</p>
-                  </Card.Body>
-                </Card>
-              )}
+              <ListGroup>
+                <ListGroup.Item>
+                  <Link to={`/bios/${bio.id}`}>
+                    {bio.first_name} {bio.last_name}
+                  </Link>
+                </ListGroup.Item>
+              </ListGroup>
             </div>
           );
         })}
-      </div>
-      <div>
-        <h3>Add Bio</h3>
-        <BiosNew
-          updateBios={updateBios}
-          organizations={organizations}
-          isHiddenOrganizationsNew={isHiddenOrganizationsNew}
-          toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-        />
       </div>
     </div>
   );

@@ -56,11 +56,9 @@ export default function FundingOrgs() {
             </Card.Header>
             {fundingOrgs.map((fundingOrg) => {
               return (
-                <Card.Body key={fundingOrg.id}>
-                  <Link to={`/funding_orgs/${fundingOrg.id}`}>
-                    {fundingOrg.name}
-                  </Link>
-                </Card.Body>
+                <Link key={fundingOrg.id} to={`/funding_orgs/${fundingOrg.id}`}>
+                  {fundingOrg.name}
+                </Link>
               );
             })}
           </Card>

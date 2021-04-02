@@ -54,11 +54,12 @@ export default function Organizations() {
           <div>
             {organizations.map((organization) => {
               return (
-                <Card.Body key={organization.id}>
-                  <Link to={`/organizations/${organization.id}`}>
-                    {organization.name}
-                  </Link>
-                </Card.Body>
+                <Link
+                  key={organization.id}
+                  to={`/organizations/${organization.id}`}
+                >
+                  {organization.name}
+                </Link>
               );
             })}
           </div>

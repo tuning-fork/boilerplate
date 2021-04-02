@@ -62,11 +62,48 @@ export default function BiosNew(props) {
 
   return (
     <Card>
-      <Card.Header>
-        <h3>Add A Bio</h3>
-      </Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="first_name"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="last_name"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Label>Bio Text</Form.Label>
+          <ReactQuill
+            name="quillText"
+            value={quillText}
+            onChange={(value) => setQuillText(value)}
+          />
+          <Form.Group>
+            <Form.Label>Word Count</Form.Label>
+            <p>{countWords(quillText)}</p>
+          </Form.Group>
           <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
@@ -109,48 +146,8 @@ export default function BiosNew(props) {
               </Button>
             )}
           </Form.Group>
-          <Form.Group>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="first_name"
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="last_name"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              name="title"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              required
-            />
-          </Form.Group>
-          <Form.Label>Bio Text</Form.Label>
-          <ReactQuill
-            name="quillText"
-            value={quillText}
-            onChange={(value) => setQuillText(value)}
-          />
-          <Form.Group>
-            <Form.Label>Word Count</Form.Label>
-            <p>{countWords(quillText)}</p>
-          </Form.Group>
           <div className="text-center">
-            <Button type="submit">Add New Bio</Button>
+            <Button type="submit">Save New Bio</Button>
           </div>
         </Form>
       </Card.Body>

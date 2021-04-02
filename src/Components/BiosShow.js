@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+import Modal from "./Elements/Modal";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -182,10 +182,8 @@ export default function BiosShow(props) {
         </Card.Body>
       </Card>
       <div>
-        {/* {!isHidden ? ( */}
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton></Modal.Header>
-          {/* <Modal.Header style={{ backgroundColor: "#09191b" }}></Modal.Header> */}
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -257,7 +255,7 @@ export default function BiosShow(props) {
                   >
                     Save Changes
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="outline-success"
                     type="submit"
                     style={{
@@ -270,13 +268,12 @@ export default function BiosShow(props) {
                     onClick={{ handleCancel }}
                   >
                     Cancel
-                  </Button>
+                  </Button> */}
                 </div>
               </Form>
             </Card.Body>
           </Card>
         </Modal>
-        {/* ) : null} */}
       </div>
     </div>
   );

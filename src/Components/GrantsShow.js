@@ -239,16 +239,14 @@ export default function GrantsShow(props) {
       <Card>
         <Card.Header>
           <h3>{title}</h3>
-          {isHidden ? (
-            <FontAwesomeIcon
-              icon={faEdit}
-              style={{
-                color: "black",
-                fontSize: "1.5rem",
-              }}
-              onClick={handleShow}
-            />
-          ) : null}
+          <FontAwesomeIcon
+            icon={faEdit}
+            style={{
+              color: "black",
+              fontSize: "1.5rem",
+            }}
+            onClick={handleShow}
+          />
         </Card.Header>
         <Card.Body>
           <h4>Purpose: {purpose}</h4>
@@ -403,7 +401,6 @@ export default function GrantsShow(props) {
           />
         </Card.Body>
       </Card>
-      <br />
 
       <Link to={`/grants-finalize/${id}`}>
         <Button>Grant Finalize</Button>
