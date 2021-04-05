@@ -12,51 +12,53 @@ export default function LandingPage() {
       style={{
         textAlign: "center",
         backgroundColor: "#09191b",
-        padding: "20rem",
+        paddingTop: "20rem",
+        height: "100%",
+        paddingBottom: "100%",
       }}
     >
-      <Container style={{ paddingTop: "5rem", paddingBottom: "5rem" }}>
-        <div style={{ paddingBottom: "1rem" }}>
-          <h1
-            className="jumbotron-head"
-            style={{ textAlign: "center", color: "#fefefe", display: "inline" }}
-          >
-            Welcome to{" "}
-          </h1>
-          <h1
-            className="jumbotron-head"
-            style={{
-              color: "#23cb87",
-              fontWeight: "bolder",
-              display: "inline",
-            }}
-          >
-            Boilerplate
-          </h1>
-        </div>
-        <div style={{ paddingBottom: "1rem" }}>
-          <h1
-            className="jumbotron-subhead"
-            style={{ color: "#fefefe", display: "inline" }}
-          >
-            grantwriting made{" "}
-          </h1>
-          <h1
-            className="jumbotron-subhead"
-            style={{
-              color: "#23cb87",
-              fontWeight: "bolder",
-              fontStyle: "italic",
-              display: "inline",
-              display: "inline",
-              textDecorationLine: "underline",
-              textDecorationColor: "#23cb87",
-            }}
-          >
-            simple
-          </h1>
-        </div>
-      </Container>
+      {/* <Container style={{ paddingTop: "5rem", paddingBottom: "5rem" }}> */}
+      <div style={{ paddingBottom: "1rem" }}>
+        <h1
+          className="jumbotron-head"
+          style={{ textAlign: "center", color: "#fefefe", display: "inline" }}
+        >
+          Welcome to{" "}
+        </h1>
+        <h1
+          className="jumbotron-head"
+          style={{
+            color: "#23cb87",
+            fontWeight: "bolder",
+            display: "inline",
+          }}
+        >
+          Boilerplate
+        </h1>
+      </div>
+      <div style={{ paddingBottom: "1rem" }}>
+        <h1
+          className="jumbotron-subhead"
+          style={{ color: "#fefefe", display: "inline" }}
+        >
+          grantwriting made{" "}
+        </h1>
+        <h1
+          className="jumbotron-subhead"
+          style={{
+            color: "#23cb87",
+            fontWeight: "bolder",
+            fontStyle: "italic",
+            display: "inline",
+            display: "inline",
+            textDecorationLine: "underline",
+            textDecorationColor: "#23cb87",
+          }}
+        >
+          simple
+        </h1>
+      </div>
+      {/* </Container> */}
     </Jumbotron>
   );
 }

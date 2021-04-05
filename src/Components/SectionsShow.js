@@ -90,7 +90,7 @@ export default function SectionsShow(props) {
       .then((response) => {
         if (response.data) {
           props.updateSections(response.data);
-          toggleHidden();
+          handleClose();
         }
       })
       .catch((error) => {
@@ -135,6 +135,15 @@ export default function SectionsShow(props) {
         <Card>
           <Card.Body>
             <h5>{title}</h5>
+            <h1 onClick={toggleUnzipped}>-</h1>
+            <FontAwesomeIcon
+              icon={faEdit}
+              style={{
+                color: "black",
+                fontSize: "1.5rem",
+              }}
+              onClick={handleShow}
+            />
             <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
             <h5>wordcount: {countWords(quillText)}</h5>
           </Card.Body>
@@ -163,106 +172,98 @@ export default function SectionsShow(props) {
             ) : null}
 
             {/* Beginning of section update form */}
-            <div>
-              <div>
-                <Modal onClose={handleClose} show={show}>
-                  <Card>
-                    <Card.Body>
-                      <Form onSubmit={handleSubmit}>
-                        <Form.Group>
-                          <Form.Label>Title</Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={title}
-                            name="title"
-                            onChange={(event) => setTitle(event.target.value)}
-                            required
-                          />
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>
-                            Add Boilerplate to text field below
-                          </Form.Label>
-                          <Form.Control
-                            as="select"
-                            name="currentBoilerplate"
-                            value={currentBoilerplate}
-                            onChange={(event) =>
-                              setCurrentBoilerplate(event.target.value)
-                            }
-                          >
-                            <option value="" disabled>
-                              Select Boilerplate
-                            </option>
-                            {props.boilerplates.map((boilerplate) => {
-                              return (
-                                <option
-                                  key={boilerplate.id}
-                                  value={boilerplate.text}
-                                  onChange={(event) =>
-                                    setCurrentBoilerplate(event.target.value)
-                                  }
-                                >
-                                  {boilerplate.title}
-                                </option>
-                              );
-                            })}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>
-                            Add Bio Text to text field below
-                          </Form.Label>
-                          <Form.Control
-                            as="select"
-                            name="currentBoilerplate"
-                            value={currentBoilerplate}
-                            onChange={(event) => setCurrentBoilerplate(event)}
-                          >
-                            <option value="" disabled>
-                              Select Bio
-                            </option>
-                            {props.bios.map((bio) => {
-                              return (
-                                <option
-                                  key={bio.id}
-                                  value={`${bio.first_name} ${bio.last_name}: ${bio.text}`}
-                                  onChange={(event) =>
-                                    setCurrentBoilerplate(event.target.value)
-                                  }
-                                >
-                                  {`${bio.first_name} ${bio.last_name}`}
-                                </option>
-                              );
-                            })}
-                          </Form.Control>
-                        </Form.Group>
-                        <ReactQuill
-                          value={quillText}
-                          onChange={(value) => setQuillText(value)}
-                        />
-                        <Form.Group>
-                          <Form.Label>Word Count</Form.Label>
-                          <p>{countWords(quillText)}</p>
-                        </Form.Group>
-                        <div className="text-center">
-                          <Button type="submit">Submit Updated Section</Button>
-                          <Button
-                            variant="danger"
-                            onClick={handleSectionDelete}
-                          >
-                            Delete Section
-                          </Button>
-                        </div>
-                      </Form>
-                    </Card.Body>
-                  </Card>
-                </Modal>
-              </div>
-            </div>
+            <div></div>
           </div>
         </Card>
       )}
+      <div>
+        <Modal onClose={handleClose} show={show}>
+          <Card>
+            <Card.Body>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={title}
+                    name="title"
+                    onChange={(event) => setTitle(event.target.value)}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Add Boilerplate to text field below</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="currentBoilerplate"
+                    value={currentBoilerplate}
+                    onChange={(event) =>
+                      setCurrentBoilerplate(event.target.value)
+                    }
+                  >
+                    <option value="" disabled>
+                      Select Boilerplate
+                    </option>
+                    {props.boilerplates.map((boilerplate) => {
+                      return (
+                        <option
+                          key={boilerplate.id}
+                          value={boilerplate.text}
+                          onChange={(event) =>
+                            setCurrentBoilerplate(event.target.value)
+                          }
+                        >
+                          {boilerplate.title}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Add Bio Text to text field below</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="currentBoilerplate"
+                    value={currentBoilerplate}
+                    onChange={(event) => setCurrentBoilerplate(event)}
+                  >
+                    <option value="" disabled>
+                      Select Bio
+                    </option>
+                    {props.bios.map((bio) => {
+                      return (
+                        <option
+                          key={bio.id}
+                          value={`${bio.first_name} ${bio.last_name}: ${bio.text}`}
+                          onChange={(event) =>
+                            setCurrentBoilerplate(event.target.value)
+                          }
+                        >
+                          {`${bio.first_name} ${bio.last_name}`}
+                        </option>
+                      );
+                    })}
+                  </Form.Control>
+                </Form.Group>
+                <ReactQuill
+                  value={quillText}
+                  onChange={(value) => setQuillText(value)}
+                />
+                <Form.Group>
+                  <Form.Label>Word Count</Form.Label>
+                  <p>{countWords(quillText)}</p>
+                </Form.Group>
+                <div className="text-center">
+                  <Button type="submit">Submit Updated Section</Button>
+                  <Button variant="danger" onClick={handleSectionDelete}>
+                    Delete Section
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Modal>
+      </div>
       <br />
     </div>
   );

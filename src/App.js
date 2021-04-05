@@ -154,7 +154,6 @@ export default function App() {
             /> */}
         </Switch>
       </BrowserRouter>
-      <Footer />
     </div>
   );
 }

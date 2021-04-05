@@ -113,7 +113,7 @@ export default function GrantsShow(props) {
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        toggleHidden();
+        handleClose();
       })
       .catch((error) => {
         console.log("grant update error", error);

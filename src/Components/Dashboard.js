@@ -26,6 +26,23 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="d-flex flex-row row">
+        <Card
+          className="card-component"
+          onClick={() => {
+            history.push("/grants/");
+          }}
+        >
+          <Card.Header>Grants ></Card.Header>
+          <Card.Body>
+            Store draft grants and submitted grants in this library. Sort grants
+            by purpose, funding organization, and funding award. Start a new
+            grant.
+            <br />
+            {/* <a className="card-component-links" href={"/boilerplates/"}>></a> */}
+          </Card.Body>
+        </Card>
+      </div>
+      <div className="d-flex flex-row row">
         <div
           className="col align-items-stretch"
           style={{ paddingRight: "3rem" }}

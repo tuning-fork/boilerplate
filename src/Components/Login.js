@@ -46,29 +46,17 @@ export default function Login() {
 
   return (
     <div className="container">
-      <Card
-        border="light"
-        style={{ backgroundColor: "#09191b", margin: "1rem", padding: "1rem" }}
-      >
+      <Card className="card-component">
+        <Card.Header>Log In:</Card.Header>
         <Card.Body
           style={{
             backgroundColor: "#09191b",
             color: "#23cb87",
-            fontWeight: "bolder",
+            fontWeight: "bold",
             display: "inline",
             padding: "1rem",
           }}
         >
-          <Card.Text
-            style={{
-              color: "#23cb87",
-              fontWeight: "bolder",
-              display: "inline",
-              marginBottom: "1rem",
-            }}
-          >
-            Log In:
-          </Card.Text>
           <Form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
             <Form.Group controlId="formBasicEmail">
               <Form.Control
@@ -97,11 +85,11 @@ export default function Login() {
             </div>
             <div style={{ flex: "auto" }}>
               <Button
-                variant="outline-success"
+                variant="outline-light"
                 type="submit"
                 style={{
                   textColor: "#23cb87",
-                  fontWeight: "bolder",
+                  fontWeight: "bold",
                   display: "inline",
                   margin: "1rem",
                 }}
@@ -109,12 +97,12 @@ export default function Login() {
                 Login
               </Button>
               <Button
-                variant="outline-success"
+                variant="outline-light"
                 type="submit"
                 href={`/forgot_password`}
                 style={{
                   textColor: "#23cb87",
-                  fontWeight: "bolder",
+                  fontWeight: "bold",
                   display: "inline",
                   margin: "1rem",
                 }}

@@ -9,7 +9,7 @@ function Navigation(props) {
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
-    props.history.push("/login");
+    props.history.push("/landing_page");
   };
 
   const history = useHistory();
@@ -20,7 +20,12 @@ function Navigation(props) {
       variant="dark"
       expand="lg"
       sticky="top"
-      style={{ paddingTop: "1rem", align: "right", backgroundColor: "#0e272a" }}
+      style={{
+        paddingTop: "1rem",
+        marginBottom: "0px",
+        align: "right",
+        backgroundColor: "#0e272a",
+      }}
     >
       <ul>
         {localStorage.token && localStorage.user_id ? (
@@ -43,10 +48,10 @@ function Navigation(props) {
           <div>
             <Button
               href="/signup"
-              variant="outline-success"
+              variant="outline-light"
               style={{
                 textColor: "#23cb87",
-                fontWeight: "bolder",
+                fontWeight: "bold",
                 display: "inline",
                 margin: "1rem",
               }}
@@ -55,10 +60,10 @@ function Navigation(props) {
             </Button>
             <Button
               href="/login"
-              variant="outline-success"
+              variant="outline-light"
               style={{
                 textColor: "#23cb87",
-                fontWeight: "bolder",
+                fontWeight: "bold",
                 display: "inline",
                 margin: "1rem",
               }}

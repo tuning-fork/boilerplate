@@ -225,8 +225,8 @@ export default function BoilerplatesShow(props) {
 
       <div>
         {/* {!isHidden ? ( */}
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton></Modal.Header>
+        <Modal show={show} onClose={handleClose}>
+          {/* <Modal.Header closeButton></Modal.Header> */}
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               {/* <Button
