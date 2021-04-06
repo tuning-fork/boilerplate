@@ -1,154 +1,126 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
+export default function Signup(props) {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [active, setActive] = useState(true);
+  const [errors, setErrors] = useState(true);
+  const history = useHistory();
 
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-      active: true,
-      errors: [],
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-  }
+  }, []);
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
-    const {
-      first_name,
-      last_name,
-      email,
-      // active,
-      password,
-      password_confirmation,
-    } = this.state;
-
+  const handleSubmit = (event) => {
     axios
       .post(
-        '/api/users',
+        "/api/users",
         {
-          first_name: first_name,
-          last_name: last_name,
+          first_name: firstName,
+          last_name: lastName,
           email: email,
           active: true,
           password: password,
-          password_confirmation: password_confirmation,
+          password_confirmation: passwordConfirmation,
         },
-        {headers: { Authorization: `Bearer ${localStorage.token}` }}
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
 
       .then((response) => {
-        if (response.data.message === 'User created successfully') {
-          this.props.history.push('/login');
+        if (response.data.message === "User created successfully") {
+          history.push("/login");
         }
       })
       .catch((error) => {
-        this.setState({
-          errors: error.response.data.errors,
-        });
-        console.log(this.state.errors);
+        setErrors(error.response.data.errors);
+        console.log(errors);
       });
     event.preventDefault();
-  }
+  };
 
-  render() {
-    return (
-      <div className="container">
-        <Card className="basic">
-          <Card.Header>
-            Sign Up As A New User!
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  name="first_name"
-                  placeholder="First Name"
-                  value={this.state.first_name}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  name="last_name"
-                  placeholder="Last Name"
-                  value={this.state.last_name}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  type="password"
-                  name="password_confirmation"
-                  placeholder="Password Confirmation"
-                  value={this.state.password_confirmation}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <div>
-                {this.state.errors.map((error, index) => {
-                  return (
-                    <span key={index} style={{ color: 'red' }}>
-                      {error},{' '}
-                    </span>
-                  );
-                })}
-              </div>
-              <div>
-                <Button className="basic" type="submit">
-                  Signup
-                </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  }
+  return (
+    <div className="container">
+      <Card className="basic">
+        <Card.Header>Sign Up As A New User!</Card.Header>
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="last_name"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="password"
+                name="passwordConfirmation"
+                placeholder="Password Confirmation"
+                value={passwordConfirmation}
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value)
+                }
+                required
+              />
+            </Form.Group>
+            <div>
+              {errors.map((error, index) => {
+                return (
+                  <span key={index} style={{ color: "red" }}>
+                    {error},{" "}
+                  </span>
+                );
+              })}
+            </div>
+            <div>
+              <Button className="basic" type="submit">
+                Signup
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }
-
-export default Signup;

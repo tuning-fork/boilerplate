@@ -1,133 +1,124 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import OrganizationsNew from './OrganizationsNew';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import OrganizationsNew from "./OrganizationsNew";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-class CategoriesNew extends Component {
-  constructor(props) {
-    super(props);
+export default function CategoriesNew(props) {
+  const [name, setName] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [organizations, setOrganizations] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [newCategory, setNewCategory] = useState({});
+  const [isHiddenNew, setIsHiddenNew] = useState(true);
 
-    this.state = {
-      name: "",
-      organization_id: "",
-      organizations: [],
-      errors: []
-    };
-  }
-
-  clearForm = () => {
-    this.setState({
-      name: "",
-      organization_id: ""
-    });
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      // console.log(response.data);
+        setOrganizations(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
-  }
+  }, []);
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit = (event) => {
-    const newCategory = this.state;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newCategory = {
+      name: name,
+      organization_id: organizationId,
+    };
     axios
-      .post('/api/categories', newCategory, {headers: { Authorization: `Bearer ${localStorage.token}` }
+      .post("/api/categories", newCategory, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
         if (response.data) {
-          this.props.updateCategories(response.data);
-          this.clearForm();
-        };
+          props.updateCategories(response.data);
+          clearForm();
+        }
       })
       .catch((error) => {
-        console.log('category creation error', error);
+        console.log("category creation error", error);
       });
-    event.preventDefault();
-  }
-
-  updateOrganizations = (newOrganization) => {
-		const organizations = this.state.organizations;
-		organizations.push(newOrganization);
-		this.setState({
-			organizations: organizations,
-    });
   };
 
-  toggleHiddenNew = () => {
-    this.setState({
-      isHiddenNew: !this.state.isHiddenNew,
-    });
-  }
+  const clearForm = () => {
+    setName("");
+    setOrganizationId("");
+  };
 
-  render() {
-    return (
-      <Card>
-        <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Label>Category Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={this.state.name}
-                onChange={this.handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select"
-                name="organization_id"
-                value={this.state.organization_id}
-                onChange={this.handleChange}
-                required
-              >
-                <option value="" disabled>Select Organization</option>
-                {this.state.organizations.map(organization => {
-                  return(
-                    <option 
-                      key={organization.id} 
-                      value={organization.id} 
-                      onChange={this.handleChange}
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">
-                Add New Category
-              </Button>
-            </div>
-          </Form>
+  const updateOrganizations = (newOrganization) => {
+    const newOrganizations = [...organizations];
+    newOrganizations.push(newOrganization);
+    setOrganizations(organizations);
+  };
 
-          <br />
-          <OrganizationsNew 
-            updateOrganizations={this.updateOrganizations}
-          />
-        </Card.Body>
-      </Card>
-    );
-  }
+  const toggleHiddenNew = () => {
+    setIsHiddenNew(!isHiddenNew);
+  };
+
+  return (
+    <Card className="card-dashboard">
+      <Card.Header>Add Category</Card.Header>
+      <Card.Body>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Category Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Organization</Form.Label>
+            <Form.Control
+              as="select"
+              name="organizationId"
+              value={organizationId}
+              onChange={(event) => setOrganizationId(event.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Organization
+              </option>
+              {organizations.map((organization) => {
+                return (
+                  <option
+                    key={organization.id}
+                    value={organization.id}
+                    onChange={(event) => setOrganizationId(event.target.value)}
+                  >
+                    {organization.name}
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
+          <div className="text-center">
+            <Button
+              variant="outline-success"
+              type="submit"
+              style={{
+                maxWidth: "25%",
+                align: "center",
+                backgroundColor: "#23cb87",
+                color: "#09191b",
+                fontWeight: "bolder",
+              }}
+            >
+              Save Category
+            </Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
 }
-
-export default CategoriesNew;

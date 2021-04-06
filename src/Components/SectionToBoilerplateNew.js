@@ -1,170 +1,158 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import 'react-quill/dist/quill.snow.css';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import "react-quill/dist/quill.snow.css";
 
-class SectionToBoilerplateNew extends Component {
-  constructor(props) {
-    super(props);
+export default function SectionToBoilerplateNew(props) {
+  const [quillText, setQuillText] = useState("");
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [wordcount, setWordcount] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [
+    isHiddenCategoriesOrganizationsNew,
+    setIsHiddenCategoriesOrganizationsNew,
+  ] = useState(true);
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    this.state = {
-      quill_text: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      category_id: "",
-      wordcount: "",
-      categories: [],
-      isHiddenCategoriesOrganizationsNew: true,
-      errors: []
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/categories',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/categories", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          categories: response.data,
-          loading: false,
-        });
-      // console.log(response.data);
+        setCategories(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
-  }
+  }, []);
 
-  updateCategories = (newCategories) => {
-    const categories = this.state.categories;
-    categories.push(newCategories);
-    this.setState({
-      categories: categories,
-    });
-    // console.log("updated categories");
+  const updateCategories = (newCategories) => {
+    const categoriesArray = [...categories];
+    categoriesArray.push(newCategories);
+    setCategories(categoriesArray);
   };
 
-  clearForm = () => {
-    this.setState({
-      quill_text: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      category_id: "",
-      wordcount: "",
-    });
+  const clearForm = () => {
+    setQuillText("");
+    setTitle("");
+    setText("");
+    setOrganizationId("");
+    setCategoryId("");
+    setWordcount("");
   };
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
+  const toggleHiddenCategoriesOrganizationsNew = () => {
+    setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
+  };
 
-  quillChange = (value) => {
-    this.setState({ quill_text: value})
-  }
-
-  toggleHiddenCategoriesOrganizationsNew = () => {
-    this.setState({
-      isHiddenCategoriesOrganizationsNew: !this.state.isHiddenCategoriesOrganizationsNew,
-    });
-  }
-
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newBoilerplate = {
+      title: props.title,
+      text: props.text,
+      organization_id: props.organization_id,
+      category_id: categoryId,
+      wordcount: countWords(props.text),
+    };
     axios
-      .post('/api/boilerplates', {
-        title: this.props.title,
-        text: this.props.text,
-        organization_id: this.props.organization_id,
-        category_id: this.state.category_id,
-        wordcount: this.countWords(this.props.text)
-      },
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .post("/api/boilerplates", newBoilerplate, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
-          this.props.toggleBoilerplateHidden();
-        };
+          props.toggleBoilerplateHidden();
+        }
       })
       .catch((error) => {
-        console.log('boilerplate creation error', error);
+        console.log("boilerplate creation error", error);
       });
-    event.preventDefault();
-  }
+  };
 
-  countWords = (string) => { 
+  const countWords = (string) => {
     if (string) {
-      return (string.split(" ").length);
+      return string.split(" ").length;
     } else {
-      return 0; 
+      return 0;
     }
-  }
-  
-  modules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['clean'],
-      [{'color': []}]
-    ],
-  }
- 
-  formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent', 'color'
-  ]
+  };
 
-  render() {
-    return (
-      <div>
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["clean"],
+      [{ color: [] }],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "color",
+  ];
+
+  return (
+    <div>
       <Card>
         <Card.Body>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Category</Form.Label>
               <Form.Control
-                as="select" 
-                name="category_id"
-                value={this.state.category_id}
-                onChange={this.handleChange}
+                as="select"
+                name="categoryId"
+                value={categoryId}
+                onChange={(event) => setCategoryId(event.target.value)}
                 required
               >
-                <option value="" disabled>Select Category</option>
-                {this.state.categories.map(category => {
-                  return(
-                    <option 
-                      key={category.id} 
-                      value={category.id} 
-                      onChange={this.handleChange}
+                <option value="" disabled>
+                  Select Category
+                </option>
+                {categories.map((category) => {
+                  return (
+                    <option
+                      key={category.id}
+                      value={category.id}
+                      onChange={(event) => setCategoryId(event.target.value)}
                     >
                       {category.name}
                     </option>
                   );
                 })}
               </Form.Control>
-              
             </Form.Group>
-            <p>{this.props.title}</p>
-            <p dangerouslySetInnerHTML={{__html: this.props.text}}></p>
+            <p>{props.title}</p>
+            <p dangerouslySetInnerHTML={{ __html: props.text }}></p>
             <Form.Group>
               <Form.Label>Word Count</Form.Label>
-              <p>{this.countWords(this.props.text)}</p>
+              <p>{countWords(props.text)}</p>
             </Form.Group>
-            
+
             <div className="text-center">
-              <Button type="submit">
-                Add New Boilerplate
-              </Button>
+              <Button type="submit">Add New Boilerplate</Button>
             </div>
           </Form>
         </Card.Body>
       </Card>
-      </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default SectionToBoilerplateNew;

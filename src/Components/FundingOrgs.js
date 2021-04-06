@@ -1,84 +1,72 @@
-import React, { Component} from 'react';
-import { Link } from 'react-router-dom';
-import FundingOrgsNew from './FundingOrgsNew';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
+import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import FundingOrgsNew from "./FundingOrgsNew";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
 
-class FundingOrgs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      funding_orgs: []
-    };
-  }
-  
-  componentDidMount() {
+export default function FundingOrgs() {
+  const [loading, setLoading] = useState(true);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+
+  useEffect(() => {
     axios
-      .get('/api/funding_orgs',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/funding_orgs", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          funding_orgs: response.data,
-          loading: false,
-        });
-      // console.log(response.data);
+        setFundingOrgs(response.data);
+        setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false,
-        });
-      // console.log(response.data);
+        setOrganizations(response.data);
+        setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
-  }
+    console.log("it worked!");
+    window.scrollTo(0, 0);
+  }, [loading]);
 
-  updateFundingOrgs = (newFundingOrg) => {
-		const funding_orgs = this.state.funding_orgs;
-		funding_orgs.push(newFundingOrg);
-		this.setState({
-			funding_orgs: funding_orgs,
-		});
-	};
+  const updateFundingOrgs = (newFundingOrg) => {
+    const newFundingOrgs = [...fundingOrgs];
+    newFundingOrgs.push(newFundingOrg);
+    setFundingOrgs(newFundingOrgs);
+  };
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="container">
-          <h1>Loading....</h1>
-        </div>
-      );
-    }
-
+  if (loading === true) {
     return (
       <div className="container">
-        {this.state.funding_orgs.map((funding_org) => {
-          return (
-            <Card key={funding_org.id}>
-              <Card.Header>
-                Name: <Link
-                  to={`/funding_orgs/${funding_org.id}`}
-                >
-                  {funding_org.name}
+        <h1>Loading....</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex-container">
+        <div className="flex container col">
+          <Card className="card-component">
+            <Card.Header className="card-component card-heading">
+              Funding Orgs
+            </Card.Header>
+            {fundingOrgs.map((fundingOrg) => {
+              return (
+                <Link key={fundingOrg.id} to={`/funding_orgs/${fundingOrg.id}`}>
+                  {fundingOrg.name}
                 </Link>
-              </Card.Header>
-            </Card>
-          );
-        })}
-
-        <br />
-        <h3>Add Funding Org</h3>
-        <FundingOrgsNew 
-          updateFundingOrgs={this.updateFundingOrgs}
-        />
+              );
+            })}
+          </Card>
+        </div>
+        <div className="flex container col">
+          <FundingOrgsNew updateFundingOrgs={updateFundingOrgs} />
+        </div>
       </div>
     );
   }
 }
-
-export default FundingOrgs;

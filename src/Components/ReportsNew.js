@@ -1,119 +1,89 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-class ReportsNew extends Component {
-  constructor(props) {
-    super(props);
+export default function ReportsNew(props) {
+  const [deadline, setDeadline] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
+  const [title, setTitle] = useState("");
 
-    this.state = {
-      deadline: "",
-      submitted: false,
-      isHidden: true,
-      loading: true,
-      errors: [],
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  clearForm = () => {
-    this.setState({
-      deadline: ""
-    });
+  const clearForm = () => {
+    setDeadline("");
   };
 
-  toggleHidden() {
-    this.setState({
-      isHidden: !this.state.isHidden,
-    });
-  }
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
-    const {
-      deadline, submitted
-    } = this.state;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newReport = {
+      grant_id: props.grant_id,
+      title: `Report for ${props.grant_title}`,
+      deadline: deadline,
+      submitted: submitted,
+    };
     axios
-      .post('/api/reports', {
-        grant_id: this.props.grant_id,
-        title: `Report for ${this.props.grant_title}`,
-        deadline: deadline,
-        submitted: submitted
-      },
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .post("/api/reports", newReport, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
-          this.toggleHidden();
-          this.props.updateNewReports(response.data);
-          this.clearForm();
-        };
+          toggleHidden();
+          props.updateNewReports(response.data);
+          clearForm();
+        }
       })
       .catch((error) => {
-        console.log('report creation error', error);
+        console.log("report creation error", error);
       });
-    event.preventDefault();
-  }
+  };
 
-  render() {
-    // console.log(this.props.sections);
-    // console.log(this.props.location.state);
-    return (
-      <div>
-        {this.state.isHidden ?
-          <Button onClick={this.toggleHidden.bind(this)}>
-          Add Report
-        </Button> :
-        <Button onClick={this.toggleHidden.bind(this)}>
-          Close
-        </Button>
-        }
-        <br />
-        <br />
-        {!this.state.isHidden ? (
-          <Card>
-            <Card.Body>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="title"
-                    value={`Report for ${this.props.grant_title}`}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Deadline</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    name="deadline"
-                    value={this.state.deadline}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </Form.Group>
-                <div className="text-center">
-                  <Button type="submit">
-                    Submit New Report
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        ) : null }
-      </div>
-    );
-  }
+  return (
+    <div>
+      {isHidden ? (
+        <Button onClick={toggleHidden}>Add Report</Button>
+      ) : (
+        <Button onClick={toggleHidden}>Close</Button>
+      )}
+      <br />
+      <br />
+      {!isHidden ? (
+        <Card>
+          <Card.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="title"
+                  value={`Report for ${props.grant_title}`}
+                  onChange={(event) => setTitle(event.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Deadline</Form.Label>
+                <Form.Control
+                  type="datetime-local"
+                  name="deadline"
+                  value={deadline}
+                  onChange={(event) => setDeadline(event.target.value)}
+                  required
+                />
+              </Form.Group>
+              <div className="text-center">
+                <Button type="submit">Submit New Report</Button>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      ) : null}
+    </div>
+  );
 }
-
-export default ReportsNew;

@@ -1,86 +1,74 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import CategoriesNew from './CategoriesNew';
-import axios from 'axios';
-import Card from 'react-bootstrap/Card';
+import React, { Component, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import CategoriesNew from "./CategoriesNew";
+import axios from "axios";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/Card";
 
-class Categories extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      categories: [],
-      organizations: [],
-      query: '',
-    };
-  }
+export default function Categories() {
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+  const [query] = useState("");
 
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/categories',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/categories", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          categories: response.data,
-          loading: false
-        });
-      // console.log(response.data);
+        setCategories(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
-      .then((response) => {
-        this.setState({
-          organizations: response.data,
-          loading: false
-        });
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
       })
-      .catch((error) => console.log(error));  
-  }
+      .then((response) => {
+        setOrganizations(response.data);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-  updateCategories = (newCategory) => {
-    const categories = this.state.categories;
-    categories.push(newCategory);
-    this.setState({
-      categories: categories,
-    });
+  const updateCategories = (newCategory) => {
+    const newCategories = [...categories];
+    newCategories.push(newCategory);
+    console.log("categories is updating", newCategory);
+    setCategories(newCategories);
   };
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="container">
-          <h1>Loading....</h1>
-        </div>
-      );
-    };
+  useEffect(() => {
+    console.log("categories has updated");
+    console.log(categories);
+  }, [categories]);
 
+  if (loading) {
     return (
       <div className="container">
-        <h1>Categories Index</h1>
-
-        {this.state.categories.map((category) => {
-          return (
-            <Card key={category.id}>
-              <Card.Header>
-                <Link
-                  to={`/categories/${category.id}`}
-                >
-                  {category.name}
-                </Link>
-              </Card.Header>
-            </Card>
-          );
-        })}
-        <br />
-        <h3>Add Category</h3>
-        <CategoriesNew 
-          updateCategories={this.updateCategories}
-        />
+        <h1>Loading....</h1>
       </div>
     );
   }
-}
 
-export default Categories;
+  return (
+    <div className="flex-container">
+      <div className="flex container col">
+        <Card className="card-component">
+          <Card.Header className="card-component card-heading">
+            Categories
+          </Card.Header>
+          {categories.map((category) => {
+            return (
+              <Link to={`/categories/${category.id}`}>{category.name}</Link>
+            );
+          })}
+        </Card>
+      </div>
+      <div className="flex container col">
+        <CategoriesNew updateCategories={updateCategories} />
+      </div>
+    </div>
+  );
+}

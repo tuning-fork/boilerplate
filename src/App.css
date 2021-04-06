@@ -1,49 +1,143 @@
+.App {
+  /* background-color: #09191b; */
+  /* background-color:#649ea5;
+  background-color:#c7dcde; */
+  background-color: #f5f7f9;
+}
+
 body {
   margin: 0;
   padding-bottom: 50%;
 }
 
-.navbar {
-  background-color: #00B556;
-  color: red;
-  margin-bottom: 5%;
-  font-weight: bold;
-  font-size: 1.5rem;
-} 
-
-.navbar.item {
-  color: red;
+.jumbotron-head {
+  color: "#fefefe";
+  font-size: 5rem;
+}
+.jumbotron-subhead {
+  color: "#fefefe";
+  font-size: 3rem;
 }
 
+.navbar {
+  /* background-color: #00B556; */
+  margin-bottom: 5%;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.navbar.item {
+}
+
+/* .modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #032fff;
+  background-color: rgba(0, 0, 0, 0.4);
+} */
+
 .card {
-  font-size: 2rem;
+  font-size: 0.5rem;
   font-weight: bold;
   /* background-color: #00B556; */
   /* background-color: #037d50; */
   /* background-color: #063223; */
-  color: #bdf7e4;
-  width: 30rem;
-  text-align: center;
+  color: "#fefefe";
+  /* width: 50rem; */
+  text-align: left;
+  color: "#09191b";
+  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
 }
 
 .card .form-control {
-  background-color: #00B556;
-  color: #bdf7e4;
+  /* background-color: #00B556; */
+  /* color: #bdf7e4; */
   font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .card-body {
-  font-size: 1.5rem;
+  font-size: 1rem;
   /* background-color: #1bd036; */
   /* background-color: #037d50; */
   /* background-color: #063223; */
-  background-color: #037d50;
+  /* background-color: #037d50; */
 }
+
+.card-component {
+  color: #fefefe;
+  font-size: 1rem;
+  font-weight: bold;
+  /* width: 40rem; */
+  text-align: left;
+  background-color: #09191b;
+  margin-left: 0;
+  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-component:hover {
+  cursor: pointer;
+}
+
+.card-component .card-header {
+  color: #7be8bc;
+  font-size: 2rem;
+  font-weight: bold;
+  /* width: 40rem; */
+  text-align: left;
+  background-color: #09191b;
+}
+
+.card-component:hover .card-header {
+  background-color: #1c4e54;
+}
+
+.card-component .card-body {
+  background-color: #fefefe;
+  font-size: 1.5rem;
+  font-weight: bold;
+  /* width: 40rem; */
+  text-align: left;
+  color: #09191b;
+}
+
+.card-component:hover .card-body {
+  background-color: #d9f2e8;
+}
+
+/* background-color: #23cb87; */
+
+.card-component-links {
+  color: #23cb87;
+  font-weight: bolder;
+  font-size: 2rem;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  padding: 2rem;
+  align: center;
+}
+
+/* .span {
+  color: black;
+}
+
+.card p {
+  color: black;
+} */
 
 .btn.basic {
   background-color: #0c5f42;
   color: #bdf7e4;
-  font-size: 3rem;
+  font-size: 1rem;
   font-weight: bold;
   margin: 2%;
 }
@@ -64,14 +158,12 @@ a.basic:hover {
 }
 
 .whatever:hover {
-  background-color: orange;
+  background-color: #d9f2e8;
 }
 
 .highlighted {
   background-color: yellow;
 }
-
-
 
 /* div .app{
 
@@ -80,7 +172,7 @@ a.basic:hover {
 .App {
   /* background-color: #9def91; */
   /* background-color: #063223; */
-  background-color: #037d50;
+  /* background-color: #037d50; */
   margin: 0;
   padding-bottom: 50%;
 }
@@ -138,4 +230,3 @@ link color
 navbar??? pretty much anything
 card header
 borders */
-

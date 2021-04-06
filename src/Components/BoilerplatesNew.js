@@ -1,262 +1,237 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import ReactQuill from 'react-quill';
-import CategoriesOrganizationsNew from './CategoriesOrganizationsNew';
-import 'react-quill/dist/quill.snow.css';
+import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import ReactQuill from "react-quill";
+import CategoriesOrganizationsNew from "./CategoriesOrganizationsNew";
+import "react-quill/dist/quill.snow.css";
 
-class BoilerplatesNew extends Component {
-  constructor() {
-    super();
+export default function BoilerplatesNew(props) {
+  const [quillText, setQuillText] = useState("");
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [organizationId, setOrganizationId] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [wordcount, setWordcount] = useState("");
+  const [categories, setCategories] = useState("");
+  const [organizations, setOrganizations] = useState([]);
+  const [
+    isHiddenCategoriesOrganizationsNew,
+    setIsHiddenCategoriesOrganizationsNew,
+  ] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState([]);
 
-    this.state = {
-      quill_text: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      category_id: "",
-      wordcount: "",
-      categories: [],
-      organizations: [],
-      isHiddenCategoriesOrganizationsNew: true,
-      errors: []
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get('/api/categories',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/categories", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          categories: response.data,
-          loading: false,
-        });
-      // console.log(response.data);
+        setCategories(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
     axios
-      .get('/api/organizations',
-        {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .get("/api/organizations", {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
-        this.setState({
-          organizations: response.data,
-        });
+        setOrganizations(response.data);
       })
       .catch((error) => console.log(error));
-  }
+  }, []);
 
-  updateCategories = (newCategories) => {
-    const categories = this.state.categories;
-    categories.push(newCategories);
-    this.setState({
-      categories: categories,
-    });
-    // console.log("updated categories");
+  const updateCategories = (newCategory) => {
+    const newCategories = categories;
+    newCategories.push(newCategory);
+    setCategories(categories);
   };
 
-  updateOrganizations = (newOrganization) => {
-		const organizations = this.state.organizations;
-		organizations.push(newOrganization);
-		this.setState({
-			organizations: organizations,
-    });
-    // console.log("updated organizations");
+  const updateOrganizations = (newOrganization) => {
+    const newOrganizations = organizations;
+    organizations.push(newOrganization);
+    setOrganizations(organizations);
   };
 
-  clearForm = () => {
-    this.setState({
-      quill_text: "",
-      title: "",
-      text: "",
-      organization_id: "",
-      category_id: "",
-      wordcount: "",
-    });
+  const clearForm = () => {
+    setQuillText("");
+    setTitle("");
+    setText("");
+    setOrganizationId("");
+    setCategoryId("");
+    setWordcount("");
   };
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
+  const toggleHiddenCategoriesOrganizationsNew = () => {
+    setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
+  };
 
-  quillChange = (value) => {
-    this.setState({ quill_text: value})
-  }
-
-  toggleHiddenCategoriesOrganizationsNew = () => {
-    this.setState({
-      isHiddenCategoriesOrganizationsNew: !this.state.isHiddenCategoriesOrganizationsNew,
-    });
-  }
-
-  handleSubmit = (event) => {
-    const {
-      title, quill_text, organization_id, category_id
-    } = this.state;
+  const handleSubmit = (event) => {
+    event.preventDefault();
     axios
-      .post('/api/boilerplates', {
-        title: title,
-        text: quill_text,
-        organization_id: organization_id,
-        category_id: category_id,
-        wordcount: this.countWords(this.state.quill_text)
-      },
-      {headers: { Authorization: `Bearer ${localStorage.token}` }})
+      .post(
+        "/api/boilerplates",
+        {
+          title: title,
+          text: quillText,
+          organization_id: organizationId,
+          category_id: categoryId,
+          wordcount: countWords(quillText),
+        },
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
+      )
       .then((response) => {
         if (response.data) {
-          this.props.updateBoilerplates(response.data);
-          this.clearForm();
-        };
+          props.updateBoilerplates(response.data);
+          clearForm();
+        }
       })
       .catch((error) => {
-        console.log('boilerplate creation error', error);
+        console.log("boilerplate creation error", error);
       });
-    event.preventDefault();
-  }
+  };
 
-  countWords = (string) => { 
+  const countWords = (string) => {
     if (string) {
-      return (string.split(" ").length);
+      return string.split(" ").length;
     } else {
-      return 0; 
+      return 0;
     }
-  }
-  
-  modules = {
+  };
+
+  const modules = {
     toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['clean'],
-      [{'color': []}]
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["clean"],
+      [{ color: [] }],
     ],
-  }
- 
-  formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent', 'color'
-  ]
+  };
 
-  render() {
-    return (
-      <div className="container">
-        {!this.state.isHiddenCategoriesOrganizationsNew ?
-          <CategoriesOrganizationsNew 
-            categories={this.state.categories}
-            organizations={this.state.organizations}
-            updateCategories={this.updateCategories}
-            updateOrganizations={this.updateOrganizations}
-            toggleHiddenCategoriesOrganizationsNew={this.toggleHiddenCategoriesOrganizationsNew}
-          /> : null
-        }
-        <Card>
-          <Card.Header>
-            <h3>Add Boilerplate</h3>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Form.Label>Organization</Form.Label>
-                <Form.Control
-                  as="select" 
-                  name="organization_id"
-                  value={this.state.organization_id}
-                  onChange={this.handleChange}
-                  required
-                >
-                  <option value="" disabled>Select Organization</option>
-                  {this.state.organizations.map(organization => {
-                    return(
-                      <option 
-                        key={organization.id} 
-                        value={organization.id} 
-                        onChange={this.handleChange}
-                      >
-                        {organization.name}
-                      </option>
-                    );
-                  })}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Category</Form.Label>
-                <Form.Control
-                  as="select" 
-                  name="category_id"
-                  value={this.state.category_id}
-                  onChange={this.handleChange}
-                  required
-                >
-                  <option value="" disabled>Select Category</option>
-                  {this.state.categories.map(category => {
-                    return(
-                      <option 
-                        key={category.id} 
-                        value={category.id} 
-                        onChange={this.handleChange}
-                      >
-                        {category.name}
-                      </option>
-                    );
-                  })}
-                </Form.Control>
-                {this.state.isHiddenCategoriesOrganizationsNew ?
-                  <Button 
-                    variant="primary" 
-                    size="sm" 
-                    onClick={this.toggleHiddenCategoriesOrganizationsNew}
-                  >
-                    Add New Category and/or Organization
-                  </Button>
-                  :
-                  <Button 
-                    variant="warning" 
-                    size="sm" 
-                    onClick={this.toggleHiddenCategoriesOrganizationsNew}
-                  >
-                    Close Category and/or Organization
-                  </Button>
-                }
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Label>Boilerplate Text</Form.Label>
-              <ReactQuill 
-                // name="quill_text"
-                modules={this.modules}
-                format={this.formats}
-                value={this.state.quill_text}
-                onChange={this.quillChange}  
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "color",
+  ];
+
+  return (
+    <div className="container">
+      {!isHiddenCategoriesOrganizationsNew ? (
+        <CategoriesOrganizationsNew
+          categories={categories}
+          organizations={organizations}
+          updateCategories={updateCategories}
+          updateOrganizations={updateOrganizations}
+          toggleHiddenCategoriesOrganizationsNew={
+            toggleHiddenCategoriesOrganizationsNew
+          }
+        />
+      ) : null}
+      <Card>
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                required
               />
-              <Form.Group>
-                <Form.Label>Word Count</Form.Label>
-                <p>{this.countWords(this.state.quill_text)}</p>
-              </Form.Group>
-              
-              <div className="text-center">
-                <Button type="submit">
-                  Add New Boilerplate
+            </Form.Group>
+            <Form.Label>Boilerplate Text</Form.Label>
+            <ReactQuill
+              // name="quill_text"
+              modules={modules}
+              format={formats}
+              value={quillText}
+              onChange={(value) => setQuillText(value)}
+            />
+            <Form.Group>
+              <Form.Label>Word Count</Form.Label>
+              <p>{countWords(quillText)}</p>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                as="select"
+                name="categoryId"
+                value={categoryId}
+                onChange={(event) => setCategoryId(event.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+              </Form.Control>
+              {isHiddenCategoriesOrganizationsNew ? (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                >
+                  Add New Category and/or Organization
                 </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  }
-}
+              ) : (
+                <Button
+                  variant="warning"
+                  size="sm"
+                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                >
+                  Close Category and/or Organization
+                </Button>
+              )}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Organization</Form.Label>
+              <Form.Control
+                as="select"
+                name="organizationId"
+                value={organizationId}
+                onChange={(event) => setOrganizationId(event.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Select Organization
+                </option>
+                {organizations.map((organization) => {
+                  return (
+                    <option
+                      key={organization.id}
+                      value={organization.id}
+                      onChange={(event) =>
+                        setOrganizationId(event.target.value)
+                      }
+                    >
+                      {organization.name}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
 
-export default BoilerplatesNew;
+            <div className="text-center">
+              <Button type="submit">Add New Boilerplate</Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  );
+}
