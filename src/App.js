@@ -61,7 +61,7 @@ import ReportsNew from "./Components/ReportsNew";
 
 export default function App() {
   const [state, dispatch] = useCurrentUserContext();
-  // const [state, dispatch] = useCurrentOrganizationContext();
+  const [state, dispatch] = useCurrentOrganizationContext();
   useEffect(() => {
     console.log("local storage id:", localStorage.user_id);
     if (localStorage.user_id && state.currentUserInfo === null) {
@@ -79,21 +79,21 @@ export default function App() {
           console.log(error);
         });
     }
-    // if (localStorage.user_id && state.currentOrganizationInfo === null) {
-    //   axios({
-    //     method: "get",
-    //     url: `/api/organizations/${}`,
-    //     headers: { Authorization: `Bearer ${localStorage.token}` },
-    //   })
-    //     .then((response) => {
-    //       if (response.data) {
-    //         dispatch({ type: "SET_CURRENT_ORGANIZATION_INFO", payload: response.data });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
+    if (localStorage.user_id && state.currentOrganizationInfo === null) {
+      axios({
+        method: "get",
+        url: `/api/organizations/${}`,
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
+        .then((response) => {
+          if (response.data) {
+            dispatch({ type: "SET_CURRENT_ORGANIZATION_INFO", payload: response.data });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   return (
