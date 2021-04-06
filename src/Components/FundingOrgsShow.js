@@ -3,7 +3,17 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
@@ -15,8 +25,11 @@ export default function FundingOrgsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-
   const history = useHistory();
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios
@@ -104,23 +117,39 @@ export default function FundingOrgsShow(props) {
       <Card>
         <Card.Header>
           <h3>Name: {name}</h3>
+          <FontAwesomeIcon
+            icon={faEdit}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "160px",
+            }}
+            onClick={handleShow}
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "10px",
+            }}
+            onClick={handleFundingOrgDelete}
+          />
         </Card.Header>
         <Card.Body>
           <h3>Website: {website}</h3>
           <h3>Organization Name: {organizationName}</h3>
         </Card.Body>
       </Card>
-      <br />
       <div className="container">
-        <Button onClick={toggleHidden}>Update Category</Button>
+        <Button onClick={toggleHidden}>Update Funding Org</Button>
         <Button variant="danger" onClick={handleFundingOrgDelete}>
           Delete Funding Org
         </Button>
-        <br />
-        <br />
-        {!isHidden ? (
-          <div className="card">
-            <div className="card-body">
+        {/* {!isHidden ? ( */}
+        <Modal show={show} onClose={handleClose}>
+          <Card>
+            <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>Name</Form.Label>
@@ -177,9 +206,10 @@ export default function FundingOrgsShow(props) {
                   </Button>
                 </div>
               </Form>
-            </div>
-          </div>
-        ) : null}
+            </Card.Body>
+          </Card>
+        </Modal>
+        {/* ) : null} */}
       </div>
     </div>
   );

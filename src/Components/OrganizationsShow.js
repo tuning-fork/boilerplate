@@ -3,7 +3,17 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function OrganizationsShow(props) {
   const [id, setId] = useState("");
@@ -12,6 +22,10 @@ export default function OrganizationsShow(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios
@@ -79,19 +93,38 @@ export default function OrganizationsShow(props) {
       <Card>
         <Card.Header>
           <h3>Name: {name}</h3>
+          <FontAwesomeIcon
+            icon={faEdit}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "160px",
+            }}
+            onClick={handleShow}
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            style={{
+              color: "#fefefe",
+              fontSize: "1.5rem",
+              marginLeft: "10px",
+            }}
+            onClick={handleOrganizationDelete}
+          />
         </Card.Header>
       </Card>
       <br />
 
       <div>
         <div className="container">
-          <Button onClick={toggleHidden}>Update Organization</Button>
+          {/* <Button onClick={toggleHidden}>Update Organization</Button>
           <Button variant="danger" onClick={handleOrganizationDelete}>
             Delete Organization
           </Button>
           <br />
           <br />
-          {!isHidden ? (
+          {!isHidden ? ( */}
+          <Modal show={show} onClose={handleClose}>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
@@ -117,7 +150,8 @@ export default function OrganizationsShow(props) {
                 </Form>
               </Card.Body>
             </Card>
-          ) : null}
+          </Modal>
+          {/* ) : null} */}
         </div>
       </div>
     </div>

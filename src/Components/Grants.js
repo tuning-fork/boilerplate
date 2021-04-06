@@ -41,7 +41,7 @@ export default function Grants() {
   useEffect(() => {
     console.log("use effect ran");
     axios
-      .get("/api/grants", {
+      .get("/api/organizations/8/grants", {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
