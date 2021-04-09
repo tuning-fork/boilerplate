@@ -88,7 +88,7 @@ export default function GrantsNew(props) {
       submitted: submitted,
       successful: successful,
       purpose: purpose,
-      organization_id: organizationId,
+      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
       funding_org_id: fundingOrgId,
     };
     axios
@@ -125,7 +125,7 @@ export default function GrantsNew(props) {
       ) : null}
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
               as="select"
@@ -149,7 +149,7 @@ export default function GrantsNew(props) {
                 );
               })}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group>
             <Form.Label>Select Funding Organization</Form.Label>
             <Form.Control

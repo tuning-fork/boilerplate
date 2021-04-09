@@ -239,7 +239,7 @@ export default function BiosShow(props) {
                   value={quillText}
                   onChange={(value) => setQuillText(value)}
                 />
-                <Form.Group>
+                {/* <Form.Group>
                   <Form.Label>Organization</Form.Label>
                   <Form.Control
                     type="text"
@@ -249,7 +249,7 @@ export default function BiosShow(props) {
                     onChange={(event) => setOrganizationId(event.target.value)}
                     required
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>

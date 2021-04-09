@@ -285,7 +285,7 @@ export default function BoilerplatesShow(props) {
                   onChange={(value) => setQuillText(value)}
                   style={{ backgroundColor: "#fefefe" }}
                 />
-                <Form.Group>
+                {/* <Form.Group>
                   <Form.Label>Organization</Form.Label>
                   <Form.Control
                     as="select"
@@ -311,7 +311,7 @@ export default function BoilerplatesShow(props) {
                       );
                     })}
                   </Form.Control>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Category</Form.Label>
 

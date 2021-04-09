@@ -206,7 +206,7 @@ export default function BoilerplatesNew(props) {
                 </Button>
               )}
             </Form.Group>
-            <Form.Group>
+            {/* <Form.Group>
               <Form.Label>Organization</Form.Label>
               <Form.Control
                 as="select"
@@ -232,7 +232,7 @@ export default function BoilerplatesNew(props) {
                   );
                 })}
               </Form.Control>
-            </Form.Group>
+            </Form.Group> */}
 
             <div className="text-center">
               <Button type="submit">Add New Boilerplate</Button>

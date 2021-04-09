@@ -140,30 +140,34 @@ export default function CategoriesShow(props) {
                       required
                     />
                   </Form.Group>
-                  <Form.Control
-                    as="select"
-                    name="organizationId"
-                    value={organizationId}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select Organization
-                    </option>
-                    {organizations.map((organization) => {
-                      return (
-                        <option
-                          key={organization.id}
-                          value={organization.id}
-                          onChange={(event) =>
-                            setOrganizationId(event.target.value)
-                          }
-                        >
-                          {organization.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
+                  {/* <Form.Group>
+                    <Form.Control
+                      as="select"
+                      name="organizationId"
+                      value={organizationId}
+                      onChange={(event) =>
+                        setOrganizationId(event.target.value)
+                      }
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Organization
+                      </option>
+                      {organizations.map((organization) => {
+                        return (
+                          <option
+                            key={organization.id}
+                            value={organization.id}
+                            onChange={(event) =>
+                              setOrganizationId(event.target.value)
+                            }
+                          >
+                            {organization.name}
+                          </option>
+                        );
+                      })}
+                    </Form.Control>
+                  </Form.Group> */}
                   <div className="text-center">
                     <Button type="submit" className="btn-lg">
                       Submit

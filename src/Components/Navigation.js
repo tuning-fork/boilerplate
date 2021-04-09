@@ -25,6 +25,16 @@ function Navigation(props) {
 
   const history = useHistory();
 
+  const handleChange = (event) => {
+    const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
+      (userOrganization) => event.target.value == userOrganization.id
+    );
+    currentOrganizationDispatch({
+      type: "SET_CURRENT_ORGANIZATION_INFO",
+      payload: selectedOrgInfo[0],
+    });
+  };
+
   return (
     <Navbar
       bg="black"
@@ -63,16 +73,7 @@ function Navigation(props) {
                       ? "0"
                       : currentOrganizationStore.currentOrganizationInfo.id
                   }
-                  onChange={(event) => {
-                    const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
-                      (userOrganization) =>
-                        event.target.value == userOrganization.id
-                    );
-                    currentOrganizationDispatch({
-                      type: "SET_CURRENT_ORGANIZATION_INFO",
-                      payload: selectedOrgInfo[0],
-                    });
-                  }}
+                  onChange={handleChange}
                   required
                 >
                   <option value="0" disabled>
@@ -84,7 +85,7 @@ function Navigation(props) {
                         <option
                           key={userOrganization.id}
                           value={userOrganization.id}
-                          // onClick={(event) => {
+                          // onChange={(event) => {
                           //   currentOrganizationDispatch({
                           //     type: "SET_CURRENT_ORGANIZATION_INFO",
                           //     payload: userOrganization,

@@ -89,7 +89,7 @@ export default function CategoriesNew(props) {
               required
             />
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
               as="select"
@@ -113,7 +113,7 @@ export default function CategoriesNew(props) {
                 );
               })}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <div className="text-center">
             <Button
               variant="outline-success"

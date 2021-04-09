@@ -122,7 +122,6 @@ export default function FundingOrgsNew(props) {
               })}
             </Form.Control>
           </Form.Group> */}
-
           <div className="text-center">
             <Button type="submit">Add New Funding Org</Button>
           </div>

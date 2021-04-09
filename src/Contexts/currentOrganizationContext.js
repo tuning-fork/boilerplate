@@ -13,22 +13,18 @@ const reducer = (state, action) => {
         ...state,
         currentOrganization: action.payload,
       };
-      break;
     case "SET_CURRENT_ORGANIZATION_INFO":
       return {
         ...state,
         currentOrganizationInfo: action.payload,
       };
-      break;
     case "SET_ALL_USER_ORGANIZATIONS":
       return {
         ...state,
         allUserOrganizations: action.payload,
       };
-      break;
     default:
       return state;
-      break;
   }
 };
 
