@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function CategoriesOrganizationsNew(props) {
   const [categoryName, setCategoryName] = useState("");
@@ -10,6 +11,10 @@ export default function CategoriesOrganizationsNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [isHiddenNew, setIsHiddenNew] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setCategoryName("");
@@ -21,7 +26,7 @@ export default function CategoriesOrganizationsNew(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/organizations",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
         {
           name: organizationName,
         },
@@ -43,7 +48,7 @@ export default function CategoriesOrganizationsNew(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/categories",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
         {
           name: categoryName,
           organization_id: organizationId,

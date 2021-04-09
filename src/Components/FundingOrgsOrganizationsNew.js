@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function FundingOrgsOrganizationsNew(props) {
   const [fundingOrgName, setFundingOrgName] = useState("");
@@ -15,12 +16,16 @@ export default function FundingOrgsOrganizationsNew(props) {
     isHiddenFundingOrgsOrganizationsNew,
     setIsHiddenFundingOrgsOrganizationsNew,
   ] = useState(true);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const handleSubmitOrganization = (event) => {
     event.preventDefault();
     axios
       .post(
-        "/api/organizations",
+        `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/api/organizations`,
         {
           name: organizationName,
         },
@@ -42,7 +47,7 @@ export default function FundingOrgsOrganizationsNew(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/funding_orgs",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
         {
           name: fundingOrgName,
           organization_id: organizationId,

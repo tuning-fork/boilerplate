@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import CategoriesOrganizationsNew from "./CategoriesOrganizationsNew";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -22,12 +23,19 @@ export default function BoilerplatesNew(props) {
   ] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get("/api/categories", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setCategories(response.data);
         setLoading(false);
@@ -72,11 +80,11 @@ export default function BoilerplatesNew(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/boilerplates",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
         {
           title: title,
           text: quillText,
-          organization_id: organizationId,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
           category_id: categoryId,
           wordcount: countWords(quillText),
         },

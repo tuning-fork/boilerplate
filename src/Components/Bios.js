@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,11 @@ export default function Bios(props) {
   const [openNew, setOpenNew] = useState(false);
   const [filteredBios, setFilteredBios] = useState([]);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
@@ -27,7 +33,7 @@ export default function Bios(props) {
   useEffect(() => {
     axios
       .get(
-        "/api/bios",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios`,
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
       )
@@ -130,7 +136,9 @@ export default function Bios(props) {
             <div key={bio.id}>
               <ListGroup>
                 <ListGroup.Item>
-                  <Link to={`/bios/${bio.id}`}>
+                  <Link
+                    to={`organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${bio.id}`}
+                  >
                     {bio.first_name} {bio.last_name}
                   </Link>
                 </ListGroup.Item>

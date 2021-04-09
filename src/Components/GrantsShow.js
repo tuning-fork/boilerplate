@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 // import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -42,15 +43,23 @@ export default function GrantsShow(props) {
   const [name, setName] = useState([]);
   const history = useHistory();
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     axios
-      .get(`/api/grants/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setTitle(response.data.title);
@@ -69,9 +78,12 @@ export default function GrantsShow(props) {
         console.log(error);
       });
     axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBoilerplates(response.data);
       })
@@ -79,9 +91,12 @@ export default function GrantsShow(props) {
         console.log(error);
       });
     axios
-      .get("/api/bios", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBios(response.data);
         setLoading(false);
@@ -99,7 +114,8 @@ export default function GrantsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/grants/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+          id,
         {
           title: title,
           rfp_url: rfpUrl,
@@ -151,12 +167,18 @@ export default function GrantsShow(props) {
 
   const handleGrantDelete = () => {
     axios
-      .delete("/api/grants/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+          id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
-          history.push("/grants");
+          history.push(
+            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`
+          );
         }
         console.log(response);
       })
@@ -215,9 +237,15 @@ export default function GrantsShow(props) {
     }, {});
 
     axios
-      .post("/api/grants/" + id + "/actions/reordersections", newOrders, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+          id +
+          "/actions/reordersections",
+        newOrders,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setSections(newSections);
       })
@@ -402,7 +430,9 @@ export default function GrantsShow(props) {
         </Card.Body>
       </Card>
 
-      <Link to={`/grants-finalize/${id}`}>
+      <Link
+        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants-finalize/${id}`}
+      >
         <Button>Grant Finalize</Button>
       </Link>
       <Button variant="danger" onClick={handleGrantDelete}>

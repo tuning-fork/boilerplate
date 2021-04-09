@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 import { useCurrentUserContext } from "./Contexts/currentUserContext";
+import { useCurrentOrganizationContext } from "./Contexts/currentOrganizationContext";
 
 import React, { Component, useEffect } from "react";
 // import Container from 'react-bootstrap/Container';
@@ -59,27 +60,47 @@ import ReportsNew from "./Components/ReportsNew";
 // import ReportSectionsNew from './Components/ReportSectionsNew';
 
 export default function App() {
-  const [state, dispatch] = useCurrentUserContext();
+  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
-    // localStorage.getItem("user_id")
-    // localStorage.getItem("token")
     console.log("local storage id:", localStorage.user_id);
-    if (localStorage.user_id && state.currentUserInfo === null) {
+    if (localStorage.user_id && currentUserStore.currentUserInfo === null) {
       axios({
         method: "get",
         url: `/api/users/${localStorage.user_id}`,
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
         .then((response) => {
-          console.log("app console log for response data", response.data);
           if (response.data) {
-            dispatch({ type: "SET_CURRENT_USER_INFO", payload: response.data });
+            currentUserDispatch({
+              type: "SET_CURRENT_USER_INFO",
+              payload: response.data,
+            });
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
+    // if (localStorage.user_id && state.currentOrganizationInfo === null) {
+    //   axios({
+    //     method: "get",
+    //     url: `/api/organizations/${}`,
+    //     headers: { Authorization: `Bearer ${localStorage.token}` },
+    //   })
+    //     .then((response) => {
+    //       if (response.data) {
+    //         dispatch({ type: "SET_CURRENT_ORGANIZATION_INFO", payload: response.data });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }
   }, []);
 
   return (

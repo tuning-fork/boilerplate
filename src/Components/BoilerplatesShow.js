@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,6 +34,10 @@ export default function BoilerplatesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -40,9 +45,12 @@ export default function BoilerplatesShow(props) {
 
   useEffect(() => {
     axios
-      .get(`/api/boilerplates/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setTitle(response.data.title);
@@ -58,18 +66,24 @@ export default function BoilerplatesShow(props) {
         console.log(error);
       });
     axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setOrganizations(response.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
     axios
-      .get("/api/categories", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setCategories(response.data);
         setLoading(false);
@@ -89,7 +103,8 @@ export default function BoilerplatesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/boilerplates/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
+          id,
         {
           title: title,
           text: quillText,
@@ -117,12 +132,18 @@ export default function BoilerplatesShow(props) {
 
   const handleBoilerplateDelete = () => {
     axios
-      .delete("/api/boilerplates/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
+          id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
-          history.push("/boilerplates");
+          history.push(
+            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`
+          );
         }
         console.log(response);
       })

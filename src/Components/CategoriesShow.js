@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { id } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function CategoriesShow(props) {
   const [id, setId] = useState("");
@@ -16,12 +17,19 @@ export default function CategoriesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get(`/api/categories/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setName(response.data.name);
@@ -33,9 +41,12 @@ export default function CategoriesShow(props) {
         console.log(error);
       });
     axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setOrganizations(response.data);
         setLoading(false);
@@ -52,7 +63,8 @@ export default function CategoriesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/categories/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/` +
+          id,
         {
           name: name,
           organization_id: organizationId,
@@ -70,12 +82,18 @@ export default function CategoriesShow(props) {
 
   const handleCategoryDelete = () => {
     axios
-      .delete("/api/categories/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/` +
+          id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
-          history.push("/categories");
+          history.push(
+            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`
+          );
         }
         console.log(response);
       })

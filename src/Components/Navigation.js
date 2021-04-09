@@ -3,9 +3,20 @@ import { withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
+import { useCurrentUserContext } from "../Contexts/currentUserContext";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 function Navigation(props) {
+  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+  const [organizationId, setOrganizationId] = useState("");
+  const [organizations, setOrganizations] = useState([]);
+
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
@@ -42,6 +53,51 @@ function Navigation(props) {
                   Logout
                 </Nav.Link>
               </Nav.Item>
+              <Form.Group>
+                <Form.Label>Organization</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="organizationId"
+                  value={
+                    currentOrganizationStore.currentOrganizationInfo == null
+                      ? "0"
+                      : currentOrganizationStore.currentOrganizationInfo.id
+                  }
+                  onChange={(event) => {
+                    const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
+                      (userOrganization) =>
+                        event.target.value == userOrganization.id
+                    );
+                    currentOrganizationDispatch({
+                      type: "SET_CURRENT_ORGANIZATION_INFO",
+                      payload: selectedOrgInfo[0],
+                    });
+                  }}
+                  required
+                >
+                  <option value="0" disabled>
+                    Select Organization
+                  </option>
+                  {currentOrganizationStore.allUserOrganizations?.map(
+                    (userOrganization) => {
+                      return (
+                        <option
+                          key={userOrganization.id}
+                          value={userOrganization.id}
+                          // onClick={(event) => {
+                          //   currentOrganizationDispatch({
+                          //     type: "SET_CURRENT_ORGANIZATION_INFO",
+                          //     payload: userOrganization,
+                          //   });
+                          // }}
+                        >
+                          {userOrganization.name}
+                        </option>
+                      );
+                    }
+                  )}
+                </Form.Control>
+              </Form.Group>
             </Nav>
           </div>
         ) : (
@@ -106,3 +162,13 @@ export default withRouter(Navigation);
                 </Nav.Item>
                 </Nav> */
 }
+
+// {currentOrganization: "pancake 3.0", currentOrganizationInfo: Array(3)}
+// currentOrganization: "pancake 3.0"
+// currentOrganizationInfo: Array(3)
+// 0: {id: 1, name: "org1"}
+// 1: {id: 2, name: "org2"}
+// 2: {id: 3, name: "org3"}
+// length: 3
+// __proto__: Array(0)
+// __proto__: Object

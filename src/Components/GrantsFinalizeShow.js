@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function GrantsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -34,11 +35,19 @@ export default function GrantsFinalizeShow(props) {
   const [copiedGrantId, setCopiedGrantId] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get(`/api/grants/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/api/grants/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         const zippySections = createUnzipped(response.data.sections);
         setId(response.data.id);
@@ -56,16 +65,22 @@ export default function GrantsFinalizeShow(props) {
         setLoading(false);
       });
     axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBoilerplates(response.data);
       });
     axios
-      .get("/api/bios", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBios(response.data);
         setLoading(false);
@@ -109,7 +124,8 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/grants/" + id,
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/" +
+          id,
         {
           title: title,
           rfp_url: rfpUrl,
@@ -135,7 +151,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/grants/copy",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/copy`,
         {
           original_grant_id: id,
           title: copyTitle,
@@ -160,9 +176,13 @@ export default function GrantsFinalizeShow(props) {
 
   const handleSectionDelete = () => {
     axios
-      .delete("/api/sections/" + props.section.id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/sections/` +
+          props.section.id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         console.log(response);
       })
@@ -286,7 +306,9 @@ export default function GrantsFinalizeShow(props) {
                 <Alert variant="success">
                   <Alert.Heading>
                     Congrats! You've created a copy. View your copy
-                    <Alert.Link href={`/grants/${copiedGrantId}`}>
+                    <Alert.Link
+                      href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${copiedGrantId}`}
+                    >
                       {" "}
                       here
                     </Alert.Link>

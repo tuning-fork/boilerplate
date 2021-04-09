@@ -4,6 +4,7 @@ import OrganizationsNew from "./OrganizationsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
@@ -13,12 +14,19 @@ export default function CategoriesNew(props) {
   const [loading, setLoading] = useState(true);
   const [newCategory, setNewCategory] = useState({});
   const [isHiddenNew, setIsHiddenNew] = useState(true);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setOrganizations(response.data);
         setLoading(false);
@@ -30,12 +38,16 @@ export default function CategoriesNew(props) {
     event.preventDefault();
     const newCategory = {
       name: name,
-      organization_id: organizationId,
+      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
     };
     axios
-      .post("/api/categories", newCategory, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        newCategory,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.updateCategories(response.data);

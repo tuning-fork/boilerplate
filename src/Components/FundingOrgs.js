@@ -3,17 +3,25 @@ import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [organizations, setOrganizations] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get("/api/funding_orgs", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setFundingOrgs(response.data);
         setLoading(false);
@@ -56,7 +64,10 @@ export default function FundingOrgs() {
             </Card.Header>
             {fundingOrgs.map((fundingOrg) => {
               return (
-                <Link key={fundingOrg.id} to={`/funding_orgs/${fundingOrg.id}`}>
+                <Link
+                  key={fundingOrg.id}
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${fundingOrg.id}`}
+                >
                   {fundingOrg.name}
                 </Link>
               );

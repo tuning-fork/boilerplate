@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,10 @@ export default function Boilerplates(props) {
   const [filteredByWordCount, setFilteredByWordCount] = useState([]);
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -26,9 +31,12 @@ export default function Boilerplates(props) {
 
   useEffect(() => {
     axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         // const zippyBoilerplates = this.createUnzipped(response.data);
         // console.log(zippyBoilerplates);
@@ -105,7 +113,7 @@ export default function Boilerplates(props) {
           <Card>
             <h5>
               <a
-                href={`/boilerplates/${boilerplate.id}`}
+                href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}boilerplates/${boilerplate.id}`}
                 dangerouslySetInnerHTML={{ __html: resultsTitle }}
               ></a>
             </h5>
@@ -125,7 +133,9 @@ export default function Boilerplates(props) {
           <Card>
             <Card.Header>
               <h5>
-                <Link to={`/boilerplates/${boilerplate.id}`}>
+                <Link
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}boilerplates/${boilerplate.id}`}
+                >
                   {boilerplate.title}
                 </Link>
               </h5>

@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Grants() {
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,10 @@ export default function Grants() {
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const [show, setShow] = useState(false);
 
@@ -41,9 +46,12 @@ export default function Grants() {
   useEffect(() => {
     console.log("use effect ran");
     axios
-      .get("/api/grants", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         const zippyGrants = createUnzipped(response.data);
         console.log(zippyGrants);
@@ -138,7 +146,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
@@ -149,7 +157,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
@@ -182,7 +190,11 @@ export default function Grants() {
             <Card>
               <Card.Header>
                 Title:
-                <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                <Link
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
             </Card>
@@ -190,7 +202,11 @@ export default function Grants() {
             <Card>
               <Card.Header>
                 Title:
-                <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                <Link
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
@@ -225,7 +241,11 @@ export default function Grants() {
             <Card className="card-component">
               <Card.Header>
                 Title:
-                <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                <Link
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
             </Card>
@@ -233,7 +253,11 @@ export default function Grants() {
             <Card className="card-component">
               <Card.Header>
                 Title:
-                <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                <Link
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                >
+                  {grant.title}
+                </Link>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
               <Card.Body>
@@ -266,7 +290,11 @@ export default function Grants() {
               <Card.Header>
                 <h3>
                   Title:
-                  <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                  <Link
+                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  >
+                    {grant.title}
+                  </Link>
                 </h3>
                 <h4 onClick={() => toggleUnzipped(grant.id, true)}>+</h4>
               </Card.Header>
@@ -275,7 +303,12 @@ export default function Grants() {
             <Card className="card-component">
               <Card.Header>
                 <h3>
-                  Title: <Link to={`/grants/${grant.id}`}>{grant.title}</Link>
+                  Title:{" "}
+                  <Link
+                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  >
+                    {grant.title}
+                  </Link>
                 </h3>
                 <h4 onClick={() => toggleUnzipped(grant.id, false)}>-</h4>
               </Card.Header>

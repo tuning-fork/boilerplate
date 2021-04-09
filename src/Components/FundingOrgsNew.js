@@ -4,6 +4,7 @@ import OrganizationsNew from "./OrganizationsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
@@ -13,12 +14,19 @@ export default function FundingOrgsNew(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newFundingOrg, setNewFundingOrg] = useState({});
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setOrganizations(response.data);
         setLoading(false);
@@ -43,12 +51,16 @@ export default function FundingOrgsNew(props) {
     const newFundingOrg = {
       name: name,
       website: website,
-      organization_id: organizationId,
+      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
     };
     axios
-      .post("/api/funding_orgs", newFundingOrg, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        newFundingOrg,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.updateFundingOrgs(response.data);
@@ -85,7 +97,7 @@ export default function FundingOrgsNew(props) {
               required
             />
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
               as="select"
@@ -109,7 +121,7 @@ export default function FundingOrgsNew(props) {
                 );
               })}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
 
           <div className="text-center">
             <Button type="submit">Add New Funding Org</Button>

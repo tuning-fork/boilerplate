@@ -15,7 +15,7 @@ export default function Login() {
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
-  const [state, dispatch] = useCurrentUserContext();
+  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +33,10 @@ export default function Login() {
         if (response.data) {
           localStorage.setItem("token", response.data.jwt);
           localStorage.setItem("user_id", response.data.user_id);
-          dispatch({ type: "SET_CURRENT_USER_INFO", payload: response.data });
+          currentUserDispatch({
+            type: "SET_CURRENT_USER_INFO",
+            payload: response.data,
+          });
           history.push("/dashboard");
         }
       })

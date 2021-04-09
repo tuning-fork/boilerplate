@@ -4,27 +4,38 @@ import CategoriesNew from "./CategoriesNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/Card";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [organizations, setOrganizations] = useState([]);
   const [query] = useState("");
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
-      .get("/api/categories", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setCategories(response.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
     axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setOrganizations(response.data);
         setLoading(false);
@@ -61,7 +72,11 @@ export default function Categories() {
           </Card.Header>
           {categories.map((category) => {
             return (
-              <Link to={`/categories/${category.id}`}>{category.name}</Link>
+              <Link
+                to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${category.id}`}
+              >
+                {category.name}
+              </Link>
             );
           })}
         </Card>

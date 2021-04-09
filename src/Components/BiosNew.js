@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function BiosNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -15,6 +16,10 @@ export default function BiosNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [errors, setErrors] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setQuillText("");
@@ -30,13 +35,13 @@ export default function BiosNew(props) {
     event.preventDefault();
     axios
       .post(
-        "/api/bios",
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
         {
           first_name: firstName,
           last_name: lastName,
           title: title,
           text: quillText,
-          organization_id: organizationId,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
           wordcount: countWords(quillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -104,7 +109,7 @@ export default function BiosNew(props) {
             <Form.Label>Word Count</Form.Label>
             <p>{countWords(quillText)}</p>
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
               as="select"
@@ -145,7 +150,7 @@ export default function BiosNew(props) {
                 Close Add Organization
               </Button>
             )}
-          </Form.Group>
+          </Form.Group> */}
           <div className="text-center">
             <Button type="submit">Save New Bio</Button>
           </div>

@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -31,6 +32,11 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -39,9 +45,12 @@ export default function BiosShow(props) {
 
   useEffect(() => {
     axios
-      .get(`/api/bios/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setFirstName(response.data.first_name);
@@ -66,7 +75,8 @@ export default function BiosShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/bios/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/` +
+          id,
         {
           first_name: firstName,
           last_name: lastName,
@@ -102,9 +112,13 @@ export default function BiosShow(props) {
 
   const handleBioDelete = () => {
     axios
-      .delete("/api/bios/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
+          id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
           props.history.push("/bios");

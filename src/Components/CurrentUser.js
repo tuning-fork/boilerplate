@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function CurrentUser(props) {
   const [firstName, setFirstName] = useState("");
@@ -10,11 +11,16 @@ export default function CurrentUser(props) {
   const [email, setEmail] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [organizationUsers, setOrganizationUsers] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
       .get(
-        "/api/users/" + localStorage.user_id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+          localStorage.user_id,
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
       )
@@ -42,7 +48,8 @@ export default function CurrentUser(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        "/api/users/" + localStorage.user_id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+          localStorage.user_id,
         {
           first_name: firstName,
           last_name: lastName,

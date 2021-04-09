@@ -2,19 +2,25 @@ import React, { Component, useState, useEffect } from "react";
 import CurrentUser from "./CurrentUser";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Dashboard() {
-  const [state, dispatch] = useCurrentUserContext();
-  console.log(state);
+  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+  console.log(currentUserStore);
+  console.log(currentOrganizationStore);
   const history = useHistory();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   return (
     <div
       className="d-flex container-fluid flex-column align-items-stretch"
@@ -22,14 +28,16 @@ export default function Dashboard() {
     >
       <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
         <div className="w-100">
-          <h1>Welcome, {state?.currentUserInfo?.first_name}</h1>
+          <h1>Welcome, {currentUserStore?.currentUserInfo?.first_name}</h1>
         </div>
       </div>
       <div className="d-flex flex-row row">
         <Card
           className="card-component"
           onClick={() => {
-            history.push("/grants/");
+            history.push(
+              `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/`
+            );
           }}
         >
           <Card.Header>Grants ></Card.Header>
@@ -51,7 +59,9 @@ export default function Dashboard() {
             <Card
               className="card-component"
               onClick={() => {
-                history.push("/boilerplates/");
+                history.push(
+                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/`
+                );
               }}
             >
               <Card.Header>Stored Content ></Card.Header>
@@ -68,7 +78,9 @@ export default function Dashboard() {
             <Card
               className="card-component"
               onClick={() => {
-                history.push("/bios/");
+                history.push(
+                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/`
+                );
               }}
             >
               <Card.Header>Staff Bios ></Card.Header>
@@ -87,7 +99,9 @@ export default function Dashboard() {
             <Card
               className="card-component"
               onClick={() => {
-                history.push("/funding_orgs/");
+                history.push(
+                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/`
+                );
               }}
             >
               <Card.Header>Funding Organizations ></Card.Header>
@@ -121,7 +135,9 @@ export default function Dashboard() {
             <Card
               className="card-component"
               onClick={() => {
-                history.push("/categories/");
+                history.push(
+                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/`
+                );
               }}
             >
               <Card.Header>Categories ></Card.Header>

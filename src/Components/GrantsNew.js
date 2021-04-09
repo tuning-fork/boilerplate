@@ -4,6 +4,7 @@ import FundingOrgsOrganizationsNew from "./FundingOrgsOrganizationsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function GrantsNew(props) {
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,10 @@ export default function GrantsNew(props) {
     setIsHiddenFundingOrgsOrganizationsNew,
   ] = useState("");
   const [errors, setErrors] = useState("");
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   useEffect(() => {
     axios
@@ -34,9 +39,12 @@ export default function GrantsNew(props) {
       })
       .catch((error) => console.log(error));
     axios
-      .get("/api/funding_orgs", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setFundingOrgs(response.data);
         setLoading(false);
@@ -84,9 +92,13 @@ export default function GrantsNew(props) {
       funding_org_id: fundingOrgId,
     };
     axios
-      .post("/api/grants", newGrant, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`,
+        newGrant,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.updateGrants(response.data);

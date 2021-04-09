@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
@@ -15,14 +16,21 @@ export default function FundingOrgsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const history = useHistory();
 
   useEffect(() => {
     axios
-      .get(`/api/funding_orgs/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setName(response.data.name);
@@ -53,7 +61,8 @@ export default function FundingOrgsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        "/api/funding_orgs/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
+          id,
         {
           name: name,
           website: website,
@@ -73,12 +82,18 @@ export default function FundingOrgsShow(props) {
 
   const handleFundingOrgDelete = () => {
     axios
-      .delete("/api/funding_orgs/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
+          id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
-          history.push("/funding_orgs");
+          history.push(
+            "/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs"
+          );
         }
         console.log(response);
       })
