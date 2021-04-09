@@ -113,7 +113,7 @@ export default function Boilerplates(props) {
           <Card>
             <h5>
               <a
-                href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}boilerplates/${boilerplate.id}`}
+                href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${boilerplate.id}`}
                 dangerouslySetInnerHTML={{ __html: resultsTitle }}
               ></a>
             </h5>
@@ -134,7 +134,7 @@ export default function Boilerplates(props) {
             <Card.Header>
               <h5>
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}boilerplates/${boilerplate.id}`}
+                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
                 </Link>

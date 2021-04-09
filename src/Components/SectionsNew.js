@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { countWords } from "../Services/infofunctions";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -22,18 +23,29 @@ export default function SectionsNew(props) {
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBoilerplates(response.data);
       });
     axios
-      .get("/api/bios", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBios(response.data);
         setLoading(false);

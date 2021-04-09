@@ -162,7 +162,7 @@ export default function App() {
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/bios"}
+            path={"/organizations/:organization_id/bios"}
             component={Bios}
           />
           <PrivateRoute
