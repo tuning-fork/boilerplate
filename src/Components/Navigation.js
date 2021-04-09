@@ -4,7 +4,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
-import { useCurrentUserContext } from "../Contexts/currentUserContext";
 
 function Navigation(props) {
   const handleLogoutClick = () => {
@@ -14,7 +13,6 @@ function Navigation(props) {
   };
 
   const history = useHistory();
-  const [state, dispatch] = useCurrentUserContext();
 
   return (
     <Navbar
@@ -43,9 +41,6 @@ function Navigation(props) {
                 <Nav.Link onClick={handleLogoutClick} to="/logout">
                   Logout
                 </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link>{state?.currentUserInfo?.first_name}</Nav.Link>
               </Nav.Item>
             </Nav>
           </div>
