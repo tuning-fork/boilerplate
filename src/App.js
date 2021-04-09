@@ -119,13 +119,23 @@ export default function App() {
           <Route path={"/forgot_password"} component={ForgotPassword} />
 
           <PrivateRoute path={"/dashboard"} component={Dashboard} />
-          <PrivateRoute exact path={"/grants"} component={Grants} />
-          <PrivateRoute path={"/grants/:id"} component={GrantsShow} />
           <PrivateRoute
-            path={"/grants-finalize/:id"}
+            exact
+            path={"/organizations/:id/grants"}
+            component={Grants}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/grants/:id"}
+            component={GrantsShow}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/grants-finalize/:id"}
             component={GrantsFinalizeShow}
           />
-          <PrivateRoute path={"/grants-new"} component={GrantsNew} />
+          <PrivateRoute
+            path={"/organizations/:id/grants-new"}
+            component={GrantsNew}
+          />
           <PrivateRoute path={"/sections-new"} component={SectionsNew} />
 
           <PrivateRoute path={"/reports/:id"} component={ReportsShow} />
@@ -135,23 +145,45 @@ export default function App() {
           />
 
           <PrivateRoute path={"/reports-new"} component={ReportsNew} />
-          <PrivateRoute exact path={"/categories"} component={Categories} />
+          <PrivateRoute
+            exact
+            path={"/organizations/:id/categories"}
+            component={Categories}
+          />
           <PrivateRoute
             exact
             path={"/organizations"}
             component={Organizations}
           />
-          <PrivateRoute exact path={"/funding_orgs"} component={FundingOrgs} />
-          <PrivateRoute exact path={"/bios"} component={Bios} />
-          <PrivateRoute path={"/bios/:id"} component={BiosShow} />
-          <PrivateRoute exact path={"/boilerplates"} component={Boilerplates} />
           <PrivateRoute
-            path={"/boilerplates/:id"}
+            exact
+            path={"/organizations/:id/funding_orgs"}
+            component={FundingOrgs}
+          />
+          <PrivateRoute
+            exact
+            path={"/organizations/:id/bios"}
+            component={Bios}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/bios/:id"}
+            component={BiosShow}
+          />
+          <PrivateRoute
+            exact
+            path={"/organizations/:id/boilerplates"}
+            component={Boilerplates}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/boilerplates/:id"}
             component={BoilerplatesShow}
           />
-          <PrivateRoute path={"/categories/:id"} component={CategoriesShow} />
           <PrivateRoute
-            path={"/funding_orgs/:id"}
+            path={"/organizations/:id/categories/:id"}
+            component={CategoriesShow}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/funding_orgs/:id"}
             component={FundingOrgsShow}
           />
           <PrivateRoute
@@ -159,13 +191,22 @@ export default function App() {
             component={OrganizationsShow}
           />
 
-          <PrivateRoute path={"/bios-new"} component={BiosNew} />
           <PrivateRoute
-            path={"/boilerplates-new"}
+            path={"/organizations/:id/bios-new"}
+            component={BiosNew}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/boilerplates-new"}
             component={BoilerplatesNew}
           />
-          <PrivateRoute path={"/categories-new"} component={CategoriesNew} />
-          <PrivateRoute path={"/funding_orgs-new"} component={FundingOrgsNew} />
+          <PrivateRoute
+            path={"/organizations/:id/categories-new"}
+            component={CategoriesNew}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/funding_orgs-new"}
+            component={FundingOrgsNew}
+          />
           <PrivateRoute
             path={"/organizations-new"}
             component={OrganizationsNew}
