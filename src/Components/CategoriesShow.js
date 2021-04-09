@@ -3,18 +3,8 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Modal from "./Elements/Modal";
 import { id } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
-
-//fontawesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-library.add(faTrashAlt);
-library.add(faEdit);
 
 export default function CategoriesShow(props) {
   const [id, setId] = useState("");
@@ -26,10 +16,6 @@ export default function CategoriesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
-
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios
@@ -111,34 +97,17 @@ export default function CategoriesShow(props) {
         <Card.Header>
           <h3>Name: {name}</h3>
         </Card.Header>
-        <FontAwesomeIcon
-          icon={faEdit}
-          style={{
-            color: "#fefefe",
-            fontSize: "1.5rem",
-            marginLeft: "160px",
-          }}
-          onClick={handleShow}
-        />
-        <FontAwesomeIcon
-          icon={faTrashAlt}
-          style={{
-            color: "#fefefe",
-            fontSize: "1.5rem",
-            marginLeft: "10px",
-          }}
-          onClick={handleCategoryDelete}
-        />
         <Card.Body>
           <h3>organization: {organizationName}</h3>
         </Card.Body>
       </Card>
-      {/* <br /> */}
+      <br />
       <div>
         <div className="container">
-          {/* <Button onClick={toggleHidden}>Update Category</Button> */}
-          {/* {!isHidden ? ( */}
-          <Modal show={show} onClose={handleClose}>
+          <Button onClick={toggleHidden}>Update Category</Button>
+          <br />
+          <br />
+          {!isHidden ? (
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
@@ -188,8 +157,7 @@ export default function CategoriesShow(props) {
                 </Form>
               </Card.Body>
             </Card>
-          </Modal>
-          {/* ) : null} */}
+          ) : null}
           <Button onClick={handleCategoryDelete}>Delete</Button>
         </div>
       </div>

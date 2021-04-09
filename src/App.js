@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 import { useCurrentUserContext } from "./Contexts/currentUserContext";
-import { useCurrentOrganizationContext } from "./Contexts/currentOrganizationContext";
 
 import React, { Component, useEffect } from "react";
 // import Container from 'react-bootstrap/Container';
@@ -61,8 +60,9 @@ import ReportsNew from "./Components/ReportsNew";
 
 export default function App() {
   const [state, dispatch] = useCurrentUserContext();
-  const [state, dispatch] = useCurrentOrganizationContext();
   useEffect(() => {
+    // localStorage.getItem("user_id")
+    // localStorage.getItem("token")
     console.log("local storage id:", localStorage.user_id);
     if (localStorage.user_id && state.currentUserInfo === null) {
       axios({
@@ -71,23 +71,9 @@ export default function App() {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
         .then((response) => {
+          console.log("app console log for response data", response.data);
           if (response.data) {
             dispatch({ type: "SET_CURRENT_USER_INFO", payload: response.data });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    if (localStorage.user_id && state.currentOrganizationInfo === null) {
-      axios({
-        method: "get",
-        url: `/api/organizations/${}`,
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-        .then((response) => {
-          if (response.data) {
-            dispatch({ type: "SET_CURRENT_ORGANIZATION_INFO", payload: response.data });
           }
         })
         .catch((error) => {
