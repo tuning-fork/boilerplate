@@ -16,7 +16,7 @@ export default function GrantsNew(props) {
   const [purpose, setPurpose] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [fundingOrgId, setFundingOrgId] = useState("");
-  const [organizations, setOrganizations] = useState([]);
+  // const [organizations, setOrganizations] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [
     isHiddenFundingOrgsOrganizationsNew,
@@ -29,15 +29,15 @@ export default function GrantsNew(props) {
   ] = useCurrentOrganizationContext();
 
   useEffect(() => {
-    axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get("/api/organizations", {
+    //     headers: { Authorization: `Bearer ${localStorage.token}` },
+    //   })
+    //   .then((response) => {
+    //     setOrganizations(response.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => console.log(error));
     axios
       .get(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
@@ -73,11 +73,11 @@ export default function GrantsNew(props) {
     setFundingOrgs(newFundingOrgs);
   };
 
-  const updateOrganizations = (newOrganization) => {
-    const NewOrganizations = [...organizations];
-    NewOrganizations.push(newOrganization);
-    setOrganizations(NewOrganizations);
-  };
+  // const updateOrganizations = (newOrganization) => {
+  //   const NewOrganizations = [...organizations];
+  //   NewOrganizations.push(newOrganization);
+  //   setOrganizations(NewOrganizations);
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -114,9 +114,9 @@ export default function GrantsNew(props) {
     <Card>
       {!isHiddenFundingOrgsOrganizationsNew ? (
         <FundingOrgsOrganizationsNew
-          organizations={organizations}
+          // organizations={organizations}
           funding_orgs={fundingOrgs}
-          updateOrganizations={updateOrganizations}
+          // updateOrganizations={updateOrganizations}
           updateFundingOrgs={updateFundingOrgs}
           toggleHiddenFundingOrgsOrganizationsNew={
             toggleHiddenFundingOrgsOrganizationsNew
@@ -180,7 +180,7 @@ export default function GrantsNew(props) {
             size="sm"
             onClick={toggleHiddenFundingOrgsOrganizationsNew}
           >
-            Add New Funding Organization and/or Organization
+            Add New Funding Organization
           </Button>
           <br />
           <br />
