@@ -32,6 +32,8 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
+  const [cancelBio, setCancelBio] = useState({});
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -46,7 +48,7 @@ export default function BiosShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${props.match.params.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -61,11 +63,12 @@ export default function BiosShow(props) {
         setOrganization(response.data.organization);
         setWordCount(response.data.wordcount);
         setLoading(false);
+        setCancelBio(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [loading]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -75,7 +78,7 @@ export default function BiosShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
           id,
         {
           first_name: firstName,
@@ -88,8 +91,10 @@ export default function BiosShow(props) {
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
+        console.log(response);
         toggleHidden();
         handleClose();
+        setCancelBio(response.data);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -98,7 +103,14 @@ export default function BiosShow(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-
+    const cancelBioClone = { ...cancelBio };
+    setFirstName(cancelBioClone.first_name);
+    setLastName(cancelBioClone.last_name);
+    setTitle(cancelBioClone.title);
+    setQuillText(cancelBioClone.text);
+    setOrganizationId(cancelBioClone.organization_id);
+    setOrganization(cancelBioClone.organization);
+    setWordCount(cancelBioClone.wordcount);
     handleClose();
   };
 
@@ -269,7 +281,7 @@ export default function BiosShow(props) {
                   >
                     Save Changes
                   </Button>
-                  {/* <Button
+                  <Button
                     variant="outline-success"
                     type="submit"
                     style={{
@@ -282,7 +294,7 @@ export default function BiosShow(props) {
                     onClick={{ handleCancel }}
                   >
                     Cancel
-                  </Button> */}
+                  </Button>
                 </div>
               </Form>
             </Card.Body>

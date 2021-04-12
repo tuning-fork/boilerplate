@@ -12,7 +12,7 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
   const [bios, setBios] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
+  // const [organizations, setOrganizations] = useState([]);
   const [isHiddenOrganizationsNew, setIsHiddenOrganizationsNew] = useState(
     true
   );
@@ -33,7 +33,7 @@ export default function Bios(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
       )
@@ -45,19 +45,19 @@ export default function Bios(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    axios
-      .get(
-        "/api/organizations",
-        { headers: { Authorization: `Bearer ${localStorage.token}` } },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        console.log(organizations);
-        setOrganizations(response.data);
+    // axios
+    //   .get(
+    //     "/api/organizations",
+    //     { headers: { Authorization: `Bearer ${localStorage.token}` } },
+    //     { withCredentials: true }
+    //   )
+    //   .then((response) => {
+    //     console.log(organizations);
+    //     setOrganizations(response.data);
 
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    //     setLoading(false);
+    //   })
+    // .catch((error) => console.log(error));
   }, []);
 
   const toggleOpenIndex = () => {
@@ -92,15 +92,15 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
-  const updateOrganizations = (newOrganization) => {
-    const newOrganizations = organizations;
-    newOrganizations.push(newOrganization);
-    setOrganizations(organizations);
-  };
+  // const updateOrganizations = (newOrganization) => {
+  //   const newOrganizations = organizations;
+  //   newOrganizations.push(newOrganization);
+  //   setOrganizations(organizations);
+  // };
 
-  const toggleHiddenOrganizationsNew = () => {
-    setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
-  };
+  // const toggleHiddenOrganizationsNew = () => {
+  //   setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
+  // };
 
   if (loading) {
     return (
@@ -118,9 +118,9 @@ export default function Bios(props) {
         <Modal onClose={handleClose} show={show}>
           <BiosNew
             updateBios={updateBios}
-            organizations={organizations}
-            isHiddenOrganizationsNew={isHiddenOrganizationsNew}
-            toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
+            // organizations={organizations}
+            // isHiddenOrganizationsNew={isHiddenOrganizationsNew}
+            // toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
           />
         </Modal>
       </div>
@@ -137,7 +137,7 @@ export default function Bios(props) {
               <ListGroup>
                 <ListGroup.Item>
                   <Link
-                    to={`organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${bio.id}`}
+                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${bio.id}`}
                   >
                     {bio.first_name} {bio.last_name}
                   </Link>

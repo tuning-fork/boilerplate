@@ -65,18 +65,18 @@ export default function BoilerplatesShow(props) {
       .catch((error) => {
         console.log(error);
       });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get(
+    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+    //     {
+    //       headers: { Authorization: `Bearer ${localStorage.token}` },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     setOrganizations(response.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => console.log(error));
     axios
       .get(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
