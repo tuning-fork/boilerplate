@@ -41,14 +41,14 @@ export default function BoilerplatesNew(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setOrganizations(response.data);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .get("/api/organizations", {
+    //     headers: { Authorization: `Bearer ${localStorage.token}` },
+    //   })
+    //   .then((response) => {
+    //     setOrganizations(response.data);
+    //   })
+    //   .catch((error) => console.log(error));
   }, []);
 
   const updateCategories = (newCategory) => {

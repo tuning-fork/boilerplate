@@ -48,7 +48,7 @@ export default function Boilerplates(props) {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates];

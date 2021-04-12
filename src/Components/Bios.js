@@ -33,7 +33,7 @@ export default function Bios(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
       )
@@ -58,7 +58,7 @@ export default function Bios(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const toggleOpenIndex = () => {
     setOpenIndex(!openIndex);
