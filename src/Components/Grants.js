@@ -15,6 +15,7 @@ export default function Grants() {
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
+  const [sortParam, setSortParam] = useState("");
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -71,6 +72,16 @@ export default function Grants() {
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
   };
+
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
+
+  const sortGrants = (sortParam) => {
+    filteredGrants.sort();
+  };
+
+  useEffect(() => {}, [sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -365,6 +376,23 @@ export default function Grants() {
               value={searchText}
               onChange={handleChange}
             />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Sort Parameter</Form.Label>
+            <Form.Control
+              as="select"
+              name="sortParam"
+              value={sortParam}
+              onChange={handleSortParamSelect}
+              required
+            >
+              <option value="" disabled>
+                Search By
+              </option>
+              <option value="purpose">Purpose</option>
+              <option value="title">Title</option>
+              <option value="fundingOrg">Funding Org</option>
+            </Form.Control>
           </Form.Group>
         </Form>
 
