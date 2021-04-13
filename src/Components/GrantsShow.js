@@ -411,7 +411,9 @@ export default function GrantsShow(props) {
             reports.map((report) => {
               return (
                 <div key={report.id}>
-                  <Link to={`/reports/${report.id}`}>
+                  <Link
+                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${id}/reports/${report.id}`}
+                  >
                     <h4>{report.title}</h4>
                   </Link>
                   <h4>{report.deadline}</h4>
