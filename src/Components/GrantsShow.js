@@ -4,6 +4,7 @@ import axios from "axios";
 import SectionsNew from "./SectionsNew";
 import ReportsNew from "./ReportsNew";
 import SectionsShow from "./SectionsShow";
+import ReportsTitleCard from "./ReportsTitleCard";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -411,13 +412,14 @@ export default function GrantsShow(props) {
             reports.map((report) => {
               return (
                 <div key={report.id}>
-                  <Link
+                  {/* <Link
                     to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${id}/reports/${report.id}`}
                   >
                     <h4>{report.title}</h4>
                   </Link>
                   <h4>{report.deadline}</h4>
-                  <h4>{report.submitted}</h4>
+                  <h4>{report.submitted}</h4> */}
+                  <ReportsTitleCard grant_id={id} report_id={report.id} />
                 </div>
               );
             })
