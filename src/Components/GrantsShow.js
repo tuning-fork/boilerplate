@@ -381,6 +381,7 @@ export default function GrantsShow(props) {
                   onDragStart={dragstartHandler}
                 >
                   <SectionsShow
+                    grant_id={id}
                     section_id={section.id}
                     updateSections={updateSections}
                     bios={bios}

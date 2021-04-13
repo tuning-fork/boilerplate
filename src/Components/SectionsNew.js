@@ -76,9 +76,13 @@ export default function SectionsNew(props) {
       wordcount: countWords(quillText),
     };
     axios
-      .post("/api/sections", newSection, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections`,
+        newSection,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.addNewSections(response.data);
