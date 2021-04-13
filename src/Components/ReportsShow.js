@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportsShow(props) {
   const [id, setId] = useState("");
@@ -26,11 +27,19 @@ export default function ReportsShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get(`/api/reports/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setGrantId(response.data.grant_id);
@@ -61,7 +70,7 @@ export default function ReportsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        "/api/reports/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
           title: title,
@@ -109,9 +118,12 @@ export default function ReportsShow(props) {
 
   const handleReportDelete = () => {
     axios
-      .delete("/api/reports/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
           history.push("/grants/" + grantId);
@@ -226,6 +238,7 @@ export default function ReportsShow(props) {
 
       <ReportSectionsNew
         report_id={id}
+        grant_id={props.grant_id}
         sort_number={reportSections.length}
         updateReportSections={updateReportSections}
       />
@@ -244,6 +257,7 @@ export default function ReportsShow(props) {
               return (
                 <div key={reportSection.id}>
                   <ReportSectionsShow
+                    grant_id={props.grant_id}
                     report_section_id={reportSection.id}
                     editReportSections={editReportSections}
                     deleteReportSections={deleteReportSections}
@@ -259,7 +273,9 @@ export default function ReportsShow(props) {
       </Card>
       <br />
 
-      <Link to={`/reports-finalize/${id}`}>
+      <Link
+        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports-finalize/${id}`}
+      >
         <Button>Report Finalize</Button>
       </Link>
 
