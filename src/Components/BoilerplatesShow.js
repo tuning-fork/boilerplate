@@ -226,28 +226,11 @@ export default function BoilerplatesShow(props) {
           <h4>Category: {categoryName}</h4>
           <h4>Word Count: {countWords(quillText)}</h4>
         </Card.Body>
-        <div style={{ flex: "auto" }}>
-          <Button
-            onClick={toggleHidden}
-            style={{
-              flex: "col",
-              maxWidth: "25%",
-              align: "right",
-              backgroundColor: "#23cb87",
-              borderColor: "#fefefe",
-              color: "#09191b",
-              fontWeight: "bolder",
-            }}
-          >
-            Edit
-          </Button>
-        </div>
       </Card>
 
       <div>
         {/* {!isHidden ? ( */}
         <Modal show={show} onClose={handleClose}>
-          {/* <Modal.Header closeButton></Modal.Header> */}
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               {/* <Button

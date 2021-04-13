@@ -45,6 +45,8 @@ export default function BiosShow(props) {
 
   const history = useHistory();
 
+  console.log(cancelBio);
+
   useEffect(() => {
     axios
       .get(
@@ -68,7 +70,7 @@ export default function BiosShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [loading]);
+  }, []);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -102,7 +104,7 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const cancelBioClone = { ...cancelBio };
     setFirstName(cancelBioClone.first_name);
     setLastName(cancelBioClone.last_name);
@@ -141,6 +143,34 @@ export default function BiosShow(props) {
         console.log(error);
       });
   };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["clean"],
+      [{ color: [] }],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "color",
+  ];
 
   if (loading) {
     return (
@@ -208,8 +238,7 @@ export default function BiosShow(props) {
         </Card.Body>
       </Card>
       <div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton></Modal.Header>
+        <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -247,7 +276,11 @@ export default function BiosShow(props) {
                   />
                 </Form.Group>
                 <ReactQuill
-                  style={{ backgroundColor: "#fefefe" }}
+                  name="quillText"
+                  modules={modules}
+                  format={formats}
+                  defaultValue={quillText}
+                  style={{ color: "#09191b", backgroundColor: "#fefefe" }}
                   value={quillText}
                   onChange={(value) => setQuillText(value)}
                 />
@@ -277,13 +310,12 @@ export default function BiosShow(props) {
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
-                    onClick={{ handleSubmit }}
+                    onClick={handleSubmit}
                   >
                     Save Changes
                   </Button>
                   <Button
                     variant="outline-success"
-                    type="submit"
                     style={{
                       maxWidth: "50%",
                       align: "center",
@@ -291,7 +323,7 @@ export default function BiosShow(props) {
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
-                    onClick={{ handleCancel }}
+                    onClick={handleCancel}
                   >
                     Cancel
                   </Button>
