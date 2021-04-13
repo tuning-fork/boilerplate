@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportSectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -19,11 +20,19 @@ export default function ReportSectionsNew(props) {
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get("/api/boilerplates", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setBoilerplates(response.data);
       });
@@ -48,9 +57,13 @@ export default function ReportSectionsNew(props) {
       wordcount: countWords(quillText),
     };
     axios
-      .post("/api/report_sections", newReportSection, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/report_sections`,
+        newReportSection,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.updateReportSections(response.data);
