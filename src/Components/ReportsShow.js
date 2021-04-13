@@ -253,10 +253,10 @@ export default function ReportsShow(props) {
         <Card.Body>
           {reportSections.length ? (
             reportSections.map((reportSection) => {
-              /* console.log("cupcake", report_section.id) */
               return (
                 <div key={reportSection.id}>
                   <ReportSectionsShow
+                    report_id={id}
                     grant_id={props.grant_id}
                     report_section_id={reportSection.id}
                     editReportSections={editReportSections}

@@ -7,6 +7,7 @@ import ReportSectionsUpdateFinal from "./ReportSectionsUpdateFinal";
 // import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -18,11 +19,19 @@ export default function ReportsFinalizeShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get(`/api/reports/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.match.params.id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setTitle(response.data.title);
@@ -57,7 +66,8 @@ export default function ReportsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/reports/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/` +
+          id,
         {
           title: title,
           deadline: deadline,
@@ -97,6 +107,8 @@ export default function ReportsFinalizeShow(props) {
           return (
             <div key={reportSection.id}>
               <ReportSectionsUpdateFinal
+                report_id={id}
+                grant_id={props.grant_id}
                 report_section_id={reportSection.id}
                 report_section_title={reportSection.title}
                 report_section_text={reportSection.text}

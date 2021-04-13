@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");
@@ -18,11 +19,19 @@ export default function ReportSectionsShow(props) {
   const [errors, setErrors] = useState(errors);
   const [loading, setLoading] = useState(true);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get(`/api/report_sections/${props.report_section_id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setTitle(response.data.title);
@@ -46,7 +55,7 @@ export default function ReportSectionsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/report_sections/" + props.report_section_id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           title: title,
           text: quillText,
@@ -67,9 +76,12 @@ export default function ReportSectionsShow(props) {
 
   const handleReportSectionDelete = () => {
     axios
-      .delete("/api/report_sections/" + props.report_section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}//report_sections/${props.report_section_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         toggleHidden();
         props.deleteReportSections(response.data);
