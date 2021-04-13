@@ -3,6 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");
@@ -11,6 +12,11 @@ export default function ReportsNew(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState("");
+
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setDeadline("");
@@ -29,9 +35,13 @@ export default function ReportsNew(props) {
       submitted: submitted,
     };
     axios
-      .post("/api/reports", newReport, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports`,
+        newReport,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           toggleHidden();
