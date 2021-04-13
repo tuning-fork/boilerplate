@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
-export default function ReportTitleCard(props) {
+export default function ReportsTitleCard(props) {
   const [id, setId] = useState("");
   const [grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
@@ -28,7 +28,7 @@ export default function ReportTitleCard(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -58,7 +58,9 @@ export default function ReportTitleCard(props) {
         <Card.Header>
           <Link
             to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`}
-          />
+          >
+            <h4>{title}</h4>
+          </Link>
         </Card.Header>
       </Card>
     </div>
