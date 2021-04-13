@@ -75,13 +75,18 @@ export default function Grants() {
 
   const handleSortParamSelect = (event) => {
     setSortParam(event.target.value);
+    sortGrants();
   };
 
-  const sortGrants = (sortParam) => {
-    filteredGrants.sort();
-  };
-
-  useEffect(() => {}, [sortParam]);
+  useEffect(() => {
+    sortGrants = (sortParam) => {
+      const filteredGrantsClone = [...filteredGrants];
+      filteredGrantsClone.sort(function (a, b) {
+        return a[sortParam].localeCompare(b[sortParam]);
+      });
+      setFilteredGrants(filteredGrantsClone);
+    };
+  }, [sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -387,7 +392,7 @@ export default function Grants() {
               required
             >
               <option value="" disabled>
-                Search By
+                Sort By
               </option>
               <option value="purpose">Purpose</option>
               <option value="title">Title</option>
