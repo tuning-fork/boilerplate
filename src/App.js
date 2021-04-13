@@ -136,15 +136,24 @@ export default function App() {
             path={"/organizations/:id/grants-new"}
             component={GrantsNew}
           />
-          <PrivateRoute path={"/sections-new"} component={SectionsNew} />
-
-          <PrivateRoute path={"/reports/:id"} component={ReportsShow} />
           <PrivateRoute
-            path={"/reports-finalize/:id"}
+            path={"/organizations/:id/grants/:id/sections-new"}
+            component={SectionsNew}
+          />
+
+          <PrivateRoute
+            path={"/organizations/:id/grants/:id/reports/:id"}
+            component={ReportsShow}
+          />
+          <PrivateRoute
+            path={"/organizations/:id/grants/:id/reports-finalize/:id"}
             component={ReportsFinalizeShow}
           />
 
-          <PrivateRoute path={"/reports-new"} component={ReportsNew} />
+          <PrivateRoute
+            path={"/organizations/:id/grants/:id/reports-new"}
+            component={ReportsNew}
+          />
           <PrivateRoute
             exact
             path={"/organizations/:id/categories"}
@@ -162,7 +171,7 @@ export default function App() {
           />
           <PrivateRoute
             exact
-            path={"/organizations/:organization_id/bios"}
+            path={"/organizations/:id/bios"}
             component={Bios}
           />
           <PrivateRoute
