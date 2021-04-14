@@ -7,7 +7,6 @@ import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
