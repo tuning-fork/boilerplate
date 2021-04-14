@@ -32,7 +32,11 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
-  const [cancelBio, setCancelBio] = useState({});
+  const [editableBio, setEditableBio] = useState({});
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableFirstName, setEditableFirstName] = useState("");
+  const [editableLastName, setEditableLastName] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
 
   const [
     currentOrganizationStore,
@@ -44,8 +48,6 @@ export default function BiosShow(props) {
   const handleShow = () => setShow(true);
 
   const history = useHistory();
-
-  console.log(cancelBio);
 
   useEffect(() => {
     axios
@@ -65,7 +67,10 @@ export default function BiosShow(props) {
         setOrganization(response.data.organization);
         setWordCount(response.data.wordcount);
         setLoading(false);
-        setCancelBio(response.data);
+        setEditableQuillText(response.data.text);
+        setEditableFirstName(response.data.first_name);
+        setEditableLastName(response.data.last_name);
+        setEditableTitle(response.data.title);
       })
       .catch((error) => {
         console.log(error);
@@ -83,12 +88,12 @@ export default function BiosShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
           id,
         {
-          first_name: firstName,
-          last_name: lastName,
-          title: title,
-          text: quillText,
-          organization_id: organizationId,
-          wordcount: countWords(quillText),
+          first_name: editableFirstName,
+          last_name: editableLastName,
+          title: editableTitle,
+          text: editableQuillText,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          wordcount: countWords(editableQuillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
@@ -96,7 +101,10 @@ export default function BiosShow(props) {
         console.log(response);
         toggleHidden();
         handleClose();
-        setCancelBio(response.data);
+        setEditableQuillText(response.data.text);
+        setEditableFirstName(response.data.first_name);
+        setEditableLastName(response.data.last_name);
+        setEditableTitle(response.data.title);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -104,17 +112,18 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    // event.preventDefault();
-    const cancelBioClone = { ...cancelBio };
-    setFirstName(cancelBioClone.first_name);
-    setLastName(cancelBioClone.last_name);
-    setTitle(cancelBioClone.title);
-    setQuillText(cancelBioClone.text);
-    setOrganizationId(cancelBioClone.organization_id);
-    setOrganization(cancelBioClone.organization);
-    setWordCount(cancelBioClone.wordcount);
+    setEditableQuillText(quillText);
+    setEditableFirstName(firstName);
+    setEditableLastName(lastName);
+    setEditableTitle(title);
     handleClose();
   };
+
+  // pull in boilerplate
+  //create editable boilerplate object - deconstructed
+  //use editable boilerplate object for form changes
+  //for cancel, instead of setting values to edit, set them to state
+  //for submit, instead of pulling from state, pull from edited
 
   const countWords = (string) => {
     if (string) {
@@ -246,10 +255,12 @@ export default function BiosShow(props) {
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={firstName}
-                    name="firstName"
-                    placeholder={firstName}
-                    onChange={(event) => setFirstName(event.target.value)}
+                    value={editableFirstName}
+                    name="editableFirstName"
+                    placeholder={editableFirstName}
+                    onChange={(event) =>
+                      setEditableFirstName(event.target.value)
+                    }
                     required
                   />
                 </Form.Group>
@@ -257,10 +268,12 @@ export default function BiosShow(props) {
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={lastName}
-                    name="lastName"
-                    placeholder={lastName}
-                    onChange={(event) => setLastName(event.target.value)}
+                    value={editableLastName}
+                    name="editableLastName"
+                    placeholder={editableLastName}
+                    onChange={(event) =>
+                      setEditableLastName(event.target.value)
+                    }
                     required
                   />
                 </Form.Group>
@@ -268,10 +281,10 @@ export default function BiosShow(props) {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
-                    placeholder={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    value={editableTitle}
+                    name="editableTitle"
+                    placeholder={editableTitle}
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -279,10 +292,10 @@ export default function BiosShow(props) {
                   name="quillText"
                   modules={modules}
                   format={formats}
-                  defaultValue={quillText}
+                  defaultValue={editableQuillText}
                   style={{ color: "#09191b", backgroundColor: "#fefefe" }}
-                  value={quillText}
-                  onChange={(value) => setQuillText(value)}
+                  value={editableQuillText}
+                  onChange={(value) => setEditableQuillText(value)}
                 />
                 {/* <Form.Group>
                   <Form.Label>Organization</Form.Label>
@@ -297,7 +310,9 @@ export default function BiosShow(props) {
                 </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>
+                  <p style={{ color: "#fefefe" }}>
+                    {countWords(editableQuillText)}
+                  </p>
                 </Form.Group>
                 <div>
                   <Button
