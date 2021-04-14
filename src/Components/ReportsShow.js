@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportsShow(props) {
+  console.log("reports Show component rendered");
   const [id, setId] = useState("");
   const [grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
@@ -35,7 +36,7 @@ export default function ReportsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

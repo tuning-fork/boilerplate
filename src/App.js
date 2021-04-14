@@ -125,32 +125,39 @@ export default function App() {
             component={Grants}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants/:id"}
             component={GrantsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants-finalize/:id"}
             component={GrantsFinalizeShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants-new"}
             component={GrantsNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants/:id/sections-new"}
             component={SectionsNew}
           />
 
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants/:id/reports/:id"}
             component={ReportsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants/:id/reports-finalize/:id"}
             component={ReportsFinalizeShow}
           />
 
           <PrivateRoute
+            exact
             path={"/organizations/:id/grants/:id/reports-new"}
             component={ReportsNew}
           />
