@@ -43,7 +43,7 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
