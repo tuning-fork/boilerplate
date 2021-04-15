@@ -37,7 +37,7 @@ export default function Login() {
             type: "SET_CURRENT_USER_INFO",
             payload: response.data,
           });
-          history.push("/dashboard");
+          history.push("/org_select");
         }
       })
       .catch((error) => {

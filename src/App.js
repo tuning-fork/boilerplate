@@ -17,6 +17,8 @@ import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword";
 
+import OrgSelect from "./Components/OrgSelect";
+
 import Dashboard from "./Components/Dashboard";
 import Navigation from "./Components/Navigation";
 
@@ -117,6 +119,8 @@ export default function App() {
           <Route path={"/login"} component={Login} />
           <Route path={"/reset_password"} component={ResetPassword} />
           <Route path={"/forgot_password"} component={ForgotPassword} />
+
+          <Route path={"/org_select"} component={OrgSelect} />
 
           <PrivateRoute path={"/dashboard"} component={Dashboard} />
           <PrivateRoute

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { Component, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
-export default function OrgContextSelect() {
+export default function OrgSelect() {
   const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
   const [
     currentOrganizationStore,
@@ -15,14 +17,13 @@ export default function OrgContextSelect() {
   ] = useCurrentOrganizationContext();
   const [organizationId, setOrganizationId] = useState("");
   const [organizations, setOrganizations] = useState([]);
+  const history = useHistory();
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
-    props.history.push("/landing_page");
+    history.push("/login");
   };
-
-  const history = useHistory();
 
   const handleChange = (event) => {
     const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
@@ -32,6 +33,7 @@ export default function OrgContextSelect() {
       type: "SET_CURRENT_ORGANIZATION_INFO",
       payload: selectedOrgInfo[0],
     });
+    history.push("/dashboard");
   };
 
   return (
@@ -39,6 +41,10 @@ export default function OrgContextSelect() {
       <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
         <div className="w-100">
           <h1>Welcome, {currentUserStore?.currentUserInfo?.first_name}</h1>
+          <h3>
+            Please select an organization to continue to your organization
+            dashboard:
+          </h3>
         </div>
       </div>
       <Form.Group>
