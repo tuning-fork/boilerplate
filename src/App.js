@@ -121,49 +121,51 @@ export default function App() {
           <PrivateRoute path={"/dashboard"} component={Dashboard} />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants"}
+            path={"/organizations/:org_id/grants"}
             component={Grants}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants/:id"}
+            path={"/organizations/:org_id/grants/:grant_id"}
             component={GrantsShow}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants-finalize/:id"}
+            path={"/organizations/:org_id/grants-finalize/:grant_id"}
             component={GrantsFinalizeShow}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants-new"}
+            path={"/organizations/:org_id/grants-new"}
             component={GrantsNew}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants/:id/sections-new"}
+            path={"/organizations/:org_id/grants/:grant_id/sections-new"}
             component={SectionsNew}
           />
 
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants/:id/reports/:id"}
+            path={"/organizations/:org_id/grants/:grant_id/reports/:report_id"}
             component={ReportsShow}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants/:id/reports-finalize/:id"}
+            path={
+              "/organizations/:org_id/grants/:grant_id/reports-finalize/:report_id"
+            }
             component={ReportsFinalizeShow}
           />
 
           <PrivateRoute
             exact
-            path={"/organizations/:id/grants/:id/reports-new"}
+            path={"/organizations/:org_id/grants/:grant_id/reports-new"}
             component={ReportsNew}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/categories"}
+            path={"/organizations/:org_id/categories"}
             component={Categories}
           />
           <PrivateRoute
@@ -173,54 +175,54 @@ export default function App() {
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/funding_orgs"}
+            path={"/organizations/:org_id/funding_orgs"}
             component={FundingOrgs}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/bios"}
+            path={"/organizations/:org_id/bios"}
             component={Bios}
           />
           <PrivateRoute
-            path={"/organizations/:id/bios/:id"}
+            path={"/organizations/:org_id/bios/:bio_id"}
             component={BiosShow}
           />
           <PrivateRoute
             exact
-            path={"/organizations/:id/boilerplates"}
+            path={"/organizations/:org_id/boilerplates"}
             component={Boilerplates}
           />
           <PrivateRoute
-            path={"/organizations/:id/boilerplates/:id"}
+            path={"/organizations/:org_id/boilerplates/:boilerplate_id"}
             component={BoilerplatesShow}
           />
           <PrivateRoute
-            path={"/organizations/:id/categories/:id"}
+            path={"/organizations/:org_id/categories/:category_id"}
             component={CategoriesShow}
           />
           <PrivateRoute
-            path={"/organizations/:id/funding_orgs/:id"}
+            path={"/organizations/:org_id/funding_orgs/:funding_org_id"}
             component={FundingOrgsShow}
           />
           <PrivateRoute
-            path={"/organizations/:id"}
+            path={"/organizations/:org_id"}
             component={OrganizationsShow}
           />
 
           <PrivateRoute
-            path={"/organizations/:id/bios-new"}
+            path={"/organizations/:org_id/bios-new"}
             component={BiosNew}
           />
           <PrivateRoute
-            path={"/organizations/:id/boilerplates-new"}
+            path={"/organizations/:org_id/boilerplates-new"}
             component={BoilerplatesNew}
           />
           <PrivateRoute
-            path={"/organizations/:id/categories-new"}
+            path={"/organizations/:org_id/categories-new"}
             component={CategoriesNew}
           />
           <PrivateRoute
-            path={"/organizations/:id/funding_orgs-new"}
+            path={"/organizations/:org_id/funding_orgs-new"}
             component={FundingOrgsNew}
           />
           <PrivateRoute

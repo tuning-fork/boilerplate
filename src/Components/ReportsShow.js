@@ -16,6 +16,8 @@ export default function ReportsShow(props) {
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState("");
+  const [bios, setBios] = useState([]);
+  const [boilerplates, setBoilerplates] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [isGrantHidden, setIsGrantHidden] = useState(true);
   const [isHiddenNewReportSection, setIsHiddenNewReportSection] = useState(
@@ -49,6 +51,33 @@ export default function ReportsShow(props) {
         setSubmitted(response.data.submitted);
         setReportSections(response.data.report_sections);
         setGrantSections(response.data.grant.grant_sections);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setBoilerplates(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setBios(response.data);
         setLoading(false);
       })
       .catch((error) => {

@@ -26,7 +26,7 @@ export default function FundingOrgsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${props.match.params.funding_org_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -92,7 +92,7 @@ export default function FundingOrgsShow(props) {
       .then((response) => {
         if (response.data.message) {
           history.push(
-            "/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs"
+            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`
           );
         }
         console.log(response);
