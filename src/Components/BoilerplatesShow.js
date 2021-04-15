@@ -46,7 +46,7 @@ export default function BoilerplatesShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${props.match.params.boilerplate_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
