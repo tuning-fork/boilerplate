@@ -8,6 +8,11 @@ export const useCurrentOrganizationContext = () => {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SET_ALL_USER_ORGANIZATIONS":
+      return {
+        ...state,
+        allUserOrganizations: action.payload,
+      };
     case "SET_CURRENT_ORGANIZATION":
       return {
         ...state,
@@ -17,11 +22,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentOrganizationInfo: action.payload,
-      };
-    case "SET_ALL_USER_ORGANIZATIONS":
-      return {
-        ...state,
-        allUserOrganizations: action.payload,
       };
     default:
       return state;

@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 import { useCurrentOrganizationContext } from "./currentOrganizationContext";
+import { id } from "date-fns/locale";
 
 export const CurrentUserContext = createContext();
 
@@ -40,18 +41,18 @@ export const CurrentUserProvider = ({ children }) => {
   ] = useCurrentOrganizationContext();
 
   useEffect(() => {
-    console.log("did the useEffect render?");
-    if (currentUserStore || localStorage.user_id) {
-      console.log("did the if statement run?");
-      axios
-        .get(`/api/organization_users`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => console.log(error));
-    }
+    // console.log("did the useEffect render?");
+    // if (currentUserStore || localStorage.user_id) {
+    //   console.log("did the if statement run?");
+    //   axios
+    //     .get(`/api/organization_users`, {
+    //       headers: { Authorization: `Bearer ${localStorage.token}` },
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
     const userId =
       currentUserStore?.currentUserInfo?.id || localStorage.user_id;
     console.log(userId);
