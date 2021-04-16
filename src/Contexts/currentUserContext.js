@@ -62,7 +62,7 @@ export const CurrentUserProvider = ({ children }) => {
       })
       .then((response) => {
         console.log(response);
-        if (response.length > 0) {
+        if (response.data.length > 0) {
           currentOrganizationDispatch({
             type: "SET_ALL_USER_ORGANIZATIONS",
             payload: response.data,
