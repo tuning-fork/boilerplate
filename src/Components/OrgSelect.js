@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
@@ -18,6 +18,13 @@ export default function OrgSelect() {
   const [organizationId, setOrganizationId] = useState("");
   const [organizations, setOrganizations] = useState([]);
   const history = useHistory();
+  console.log(currentUserStore.currentUserInfo);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // currentUserDispatch(useCurrentUserContext);
+    console.log(currentUserStore);
+  }, [currentUserStore.currentUserInfo]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");

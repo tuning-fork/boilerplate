@@ -33,11 +33,17 @@ export default function Login() {
         if (response.data) {
           localStorage.setItem("token", response.data.jwt);
           localStorage.setItem("user_id", response.data.user_id);
-          currentUserDispatch({
-            type: "SET_CURRENT_USER_INFO",
-            payload: response.data,
+          axios({
+            method: "get",
+            url: `/api/users/${response.data.user_id}`,
+            headers: { Authorization: `Bearer ${response.data.jwt}` },
+          }).then((response) => {
+            currentUserDispatch({
+              type: "SET_CURRENT_USER_INFO",
+              payload: response.data,
+            });
+            history.push("/org_select");
           });
-          history.push("/org_select");
         }
       })
       .catch((error) => {

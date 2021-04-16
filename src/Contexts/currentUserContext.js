@@ -17,17 +17,14 @@ const reducer = (state, action) => {
         ...state,
         currentUser: action.payload,
       };
-      break;
     case "SET_CURRENT_USER_INFO":
       console.log("user info reset", [state, action]);
       return {
         ...state,
         currentUserInfo: action.payload,
       };
-      break;
     default:
       return state;
-      break;
   }
 };
 
@@ -41,6 +38,7 @@ export const CurrentUserProvider = ({ children }) => {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     console.log("did the useEffect render?");
     if (currentUserStore || localStorage.user_id) {
