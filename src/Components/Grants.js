@@ -75,17 +75,18 @@ export default function Grants() {
 
   const handleSortParamSelect = (event) => {
     setSortParam(event.target.value);
-    sortGrants();
+  };
+
+  const sortGrants = (sortParam) => {
+    const filteredGrantsClone = [...filteredGrants];
+    filteredGrantsClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredGrants(filteredGrantsClone);
   };
 
   useEffect(() => {
-    sortGrants = (sortParam) => {
-      const filteredGrantsClone = [...filteredGrants];
-      filteredGrantsClone.sort(function (a, b) {
-        return a[sortParam].localeCompare(b[sortParam]);
-      });
-      setFilteredGrants(filteredGrantsClone);
-    };
+    sortGrants(sortParam);
   }, [sortParam]);
 
   const handleChange = (event) => {
@@ -396,7 +397,7 @@ export default function Grants() {
               </option>
               <option value="purpose">Purpose</option>
               <option value="title">Title</option>
-              <option value="fundingOrg">Funding Org</option>
+              <option value="funding_org_name">Funding Org</option>
             </Form.Control>
           </Form.Group>
         </Form>
