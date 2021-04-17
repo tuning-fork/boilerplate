@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
@@ -44,16 +45,18 @@ function Navigation(props) {
       style={{
         paddingTop: "1rem",
         marginBottom: "0px",
-        align: "right",
         backgroundColor: "#0e272a",
       }}
     >
-      <ul>
+      <Nav>
         {localStorage.token && localStorage.user_id ? (
           <div>
-            <Nav className="mr-auto">
+            <Nav justify variant="tabs">
               <Nav.Item className="active">
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="active">
+                <Nav.Link href="/organizations">Organizations</Nav.Link>
               </Nav.Item>
               <Nav.Item className="active">
                 <Nav.Link href="/grants">Grants</Nav.Link>
@@ -63,6 +66,8 @@ function Navigation(props) {
                   Logout
                 </Nav.Link>
               </Nav.Item>
+            </Nav>
+            <Form className="justify-content-end">
               <Form.Group>
                 <Form.Label>Organization</Form.Label>
                 <Form.Control
@@ -77,7 +82,7 @@ function Navigation(props) {
                   required
                 >
                   <option value="0" disabled>
-                    Select Organization
+                    Change Organization
                   </option>
                   {currentOrganizationStore.allUserOrganizations?.map(
                     (userOrganization) => {
@@ -85,12 +90,6 @@ function Navigation(props) {
                         <option
                           key={userOrganization.id}
                           value={userOrganization.id}
-                          // onChange={(event) => {
-                          //   currentOrganizationDispatch({
-                          //     type: "SET_CURRENT_ORGANIZATION_INFO",
-                          //     payload: userOrganization,
-                          //   });
-                          // }}
                         >
                           {userOrganization.name}
                         </option>
@@ -99,7 +98,7 @@ function Navigation(props) {
                   )}
                 </Form.Control>
               </Form.Group>
-            </Nav>
+            </Form>
           </div>
         ) : (
           <div>
@@ -129,7 +128,7 @@ function Navigation(props) {
             </Button>
           </div>
         )}
-      </ul>
+      </Nav>
     </Navbar>
   );
 }
