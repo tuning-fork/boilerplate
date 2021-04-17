@@ -49,85 +49,95 @@ function Navigation(props) {
       }}
     >
       <Nav>
-        {localStorage.token && localStorage.user_id ? (
-          <div>
-            <Nav justify variant="tabs">
-              <Nav.Item className="active">
-                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-              </Nav.Item>
-              <Nav.Item className="active">
-                <Nav.Link href="/organizations">Organizations</Nav.Link>
-              </Nav.Item>
-              <Nav.Item className="active">
-                <Nav.Link href="/grants">Grants</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={handleLogoutClick} to="/logout">
-                  Logout
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-            <Form className="justify-content-end">
-              <Form.Group>
-                <Form.Label>Organization</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="organizationId"
-                  value={
-                    currentOrganizationStore.currentOrganizationInfo == null
-                      ? "0"
-                      : currentOrganizationStore.currentOrganizationInfo.id
-                  }
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="0" disabled>
-                    Change Organization
-                  </option>
-                  {currentOrganizationStore.allUserOrganizations?.map(
-                    (userOrganization) => {
-                      return (
-                        <option
-                          key={userOrganization.id}
-                          value={userOrganization.id}
-                        >
-                          {userOrganization.name}
+        <div>
+          {localStorage.token && localStorage.user_id ? (
+            <div>
+              <div>
+                <Nav justify variant="tabs">
+                  <Nav.Item className="active">
+                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="active">
+                    <Nav.Link href="/organizations">Organizations</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="active">
+                    <Nav.Link href="/grants">Grants</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={handleLogoutClick} to="/logout">
+                      Logout
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </div>
+              {currentOrganizationStore?.currentOrganizationInfo?.id ? (
+                <div>
+                  <Form className="justify-content-end">
+                    <Form.Group>
+                      <Form.Label>Organization</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="organizationId"
+                        value={
+                          currentOrganizationStore.currentOrganizationInfo ==
+                          null
+                            ? "0"
+                            : currentOrganizationStore.currentOrganizationInfo
+                                .id
+                        }
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="0" disabled>
+                          Change Organization
                         </option>
-                      );
-                    }
-                  )}
-                </Form.Control>
-              </Form.Group>
-            </Form>
-          </div>
-        ) : (
-          <div>
-            <Button
-              href="/signup"
-              variant="outline-light"
-              style={{
-                textColor: "#23cb87",
-                fontWeight: "bold",
-                display: "inline",
-                margin: "1rem",
-              }}
-            >
-              Sign Up
-            </Button>
-            <Button
-              href="/login"
-              variant="outline-light"
-              style={{
-                textColor: "#23cb87",
-                fontWeight: "bold",
-                display: "inline",
-                margin: "1rem",
-              }}
-            >
-              Log In
-            </Button>
-          </div>
-        )}
+                        {currentOrganizationStore.allUserOrganizations?.map(
+                          (userOrganization) => {
+                            return (
+                              <option
+                                key={userOrganization.id}
+                                value={userOrganization.id}
+                              >
+                                {userOrganization.name}
+                              </option>
+                            );
+                          }
+                        )}
+                      </Form.Control>
+                    </Form.Group>
+                  </Form>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <Button
+                href="/signup"
+                variant="outline-light"
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bold",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
+                Sign Up
+              </Button>
+              <Button
+                href="/login"
+                variant="outline-light"
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bold",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
+                Log In
+              </Button>
+            </div>
+          )}
+        </div>
       </Nav>
     </Navbar>
   );
