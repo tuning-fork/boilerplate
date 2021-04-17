@@ -114,7 +114,7 @@ export default function Dashboard() {
               </Card.Body>
             </Card>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <Card
               className="card-component"
               onClick={() => {
@@ -127,10 +127,9 @@ export default function Dashboard() {
                 grants, bios, and stored content under a single organization
                 heading. Add yourself to an organization as an affiliated user.
                 <br />
-                {/* <a className="card-component-links" href={"/organizations/"}>></a> */}
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
           <div className="row">
             <Card
               className="card-component"
