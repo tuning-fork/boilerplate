@@ -45,18 +45,8 @@ export default function Bios(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    // axios
-    //   .get(
-    //     "/api/organizations",
-    //     { headers: { Authorization: `Bearer ${localStorage.token}` } },
-    //     { withCredentials: true }
-    //   )
-    //   .then((response) => {
-    //     console.log(organizations);
-    //     setOrganizations(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+
+    setLoading(false);
   }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const toggleOpenIndex = () => {
