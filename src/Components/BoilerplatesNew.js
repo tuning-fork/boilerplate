@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
-import CategoriesOrganizationsNew from "./CategoriesOrganizationsNew";
+import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
@@ -17,10 +17,7 @@ export default function BoilerplatesNew(props) {
   const [wordcount, setWordcount] = useState("");
   const [categories, setCategories] = useState("");
   const [organizations, setOrganizations] = useState([]);
-  const [
-    isHiddenCategoriesOrganizationsNew,
-    setIsHiddenCategoriesOrganizationsNew,
-  ] = useState(true);
+  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [
@@ -72,8 +69,8 @@ export default function BoilerplatesNew(props) {
     setWordcount("");
   };
 
-  const toggleHiddenCategoriesOrganizationsNew = () => {
-    setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
+  const toggleHiddenCategoriesNew = () => {
+    setIsHiddenCategoriesNew(!isHiddenCategoriesNew);
   };
 
   const handleSubmit = (event) => {
@@ -139,15 +136,11 @@ export default function BoilerplatesNew(props) {
 
   return (
     <div className="container">
-      {!isHiddenCategoriesOrganizationsNew ? (
-        <CategoriesOrganizationsNew
+      {!isHiddenCategoriesNew ? (
+        <CategoriesNew
           categories={categories}
-          organizations={organizations}
           updateCategories={updateCategories}
-          updateOrganizations={updateOrganizations}
-          toggleHiddenCategoriesOrganizationsNew={
-            toggleHiddenCategoriesOrganizationsNew
-          }
+          toggleHiddenCategoriesNew={toggleHiddenCategoriesNew}
         />
       ) : null}
       <Card>
@@ -188,21 +181,21 @@ export default function BoilerplatesNew(props) {
                   Select Category
                 </option>
               </Form.Control>
-              {isHiddenCategoriesOrganizationsNew ? (
+              {isHiddenCategoriesNew ? (
                 <Button
                   variant="primary"
                   size="sm"
-                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                  onClick={toggleHiddenCategoriesNew}
                 >
-                  Add New Category and/or Organization
+                  Add New Category
                 </Button>
               ) : (
                 <Button
                   variant="warning"
                   size="sm"
-                  onClick={toggleHiddenCategoriesOrganizationsNew}
+                  onClick={toggleHiddenCategoriesNew}
                 >
-                  Close Category and/or Organization
+                  Close Category
                 </Button>
               )}
             </Form.Group>

@@ -54,11 +54,10 @@ export default function Bios(props) {
     //   .then((response) => {
     //     console.log(organizations);
     //     setOrganizations(response.data);
-
-    //     setLoading(false);
-    //   })
-    // .catch((error) => console.log(error));
-  }, []);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const toggleOpenIndex = () => {
     setOpenIndex(!openIndex);

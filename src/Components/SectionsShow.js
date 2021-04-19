@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import SectionToBoilerplateNew from "./SectionToBoilerplateNew";
 import Modal from "./Elements/Modal";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,11 +34,19 @@ export default function SectionsShow(props) {
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get("/api/sections/" + props.section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setTitle(response.data.title);
         setQuillText(response.data.text);

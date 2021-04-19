@@ -7,7 +7,6 @@ import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -55,7 +54,7 @@ export default function GrantsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -381,6 +380,7 @@ export default function GrantsShow(props) {
                   onDragStart={dragstartHandler}
                 >
                   <SectionsShow
+                    grant_id={id}
                     section_id={section.id}
                     updateSections={updateSections}
                     bios={bios}
@@ -410,7 +410,9 @@ export default function GrantsShow(props) {
             reports.map((report) => {
               return (
                 <div key={report.id}>
-                  <Link to={`/reports/${report.id}`}>
+                  <Link
+                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${id}/reports/${report.id}`}
+                  >
                     <h4>{report.title}</h4>
                   </Link>
                   <h4>{report.deadline}</h4>

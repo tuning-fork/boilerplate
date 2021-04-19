@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
@@ -44,92 +45,105 @@ function Navigation(props) {
       style={{
         paddingTop: "1rem",
         marginBottom: "0px",
-        align: "right",
         backgroundColor: "#0e272a",
       }}
     >
-      <ul>
-        {localStorage.token && localStorage.user_id ? (
-          <div>
-            <Nav className="mr-auto">
-              <Nav.Item className="active">
-                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-              </Nav.Item>
-              <Nav.Item className="active">
-                <Nav.Link href="/grants">Grants</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={handleLogoutClick} to="/logout">
-                  Logout
-                </Nav.Link>
-              </Nav.Item>
-              <Form.Group>
-                <Form.Label>Organization</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="organizationId"
-                  value={
-                    currentOrganizationStore.currentOrganizationInfo == null
-                      ? "0"
-                      : currentOrganizationStore.currentOrganizationInfo.id
-                  }
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="0" disabled>
-                    Select Organization
-                  </option>
-                  {currentOrganizationStore.allUserOrganizations?.map(
-                    (userOrganization) => {
-                      return (
-                        <option
-                          key={userOrganization.id}
-                          value={userOrganization.id}
-                          // onChange={(event) => {
-                          //   currentOrganizationDispatch({
-                          //     type: "SET_CURRENT_ORGANIZATION_INFO",
-                          //     payload: userOrganization,
-                          //   });
-                          // }}
-                        >
-                          {userOrganization.name}
+      <Nav>
+        <div>
+          {localStorage.token && localStorage.user_id ? (
+            <div>
+              <div>
+                <Nav justify variant="tabs">
+                  <Nav.Item className="active">
+                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="active">
+                    <Nav.Link href="/organizations">Organizations</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item className="active">
+                    <Nav.Link href="/grants">Grants</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={handleLogoutClick} to="/logout">
+                      Logout
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </div>
+              {currentOrganizationStore?.currentOrganizationInfo?.id ? (
+                <div>
+                  <h3 style={{ color: "#fefefe" }}>
+                    You are logged in as
+                    {currentUserStore.currentUserInfo.first_name} and working in
+                    {currentOrganizationStore.currentOrganizationInfo.name}
+                  </h3>
+                  <Form className="justify-content-end">
+                    <Form.Group>
+                      <Form.Label>Change Organization</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="organizationId"
+                        value={
+                          currentOrganizationStore.currentOrganizationInfo ==
+                          null
+                            ? "0"
+                            : currentOrganizationStore.currentOrganizationInfo
+                                .id
+                        }
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="0" disabled>
+                          Change Organization
                         </option>
-                      );
-                    }
-                  )}
-                </Form.Control>
-              </Form.Group>
-            </Nav>
-          </div>
-        ) : (
-          <div>
-            <Button
-              href="/signup"
-              variant="outline-light"
-              style={{
-                textColor: "#23cb87",
-                fontWeight: "bold",
-                display: "inline",
-                margin: "1rem",
-              }}
-            >
-              Sign Up
-            </Button>
-            <Button
-              href="/login"
-              variant="outline-light"
-              style={{
-                textColor: "#23cb87",
-                fontWeight: "bold",
-                display: "inline",
-                margin: "1rem",
-              }}
-            >
-              Log In
-            </Button>
-          </div>
-        )}
-      </ul>
+                        {currentOrganizationStore.allUserOrganizations?.map(
+                          (userOrganization) => {
+                            return (
+                              <option
+                                key={userOrganization.id}
+                                value={userOrganization.id}
+                              >
+                                {userOrganization.name}
+                              </option>
+                            );
+                          }
+                        )}
+                      </Form.Control>
+                    </Form.Group>
+                  </Form>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <Button
+                href="/signup"
+                variant="outline-light"
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bold",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
+                Sign Up
+              </Button>
+              <Button
+                href="/login"
+                variant="outline-light"
+                style={{
+                  textColor: "#23cb87",
+                  fontWeight: "bold",
+                  display: "inline",
+                  margin: "1rem",
+                }}
+              >
+                Log In
+              </Button>
+            </div>
+          )}
+        </div>
+      </Nav>
     </Navbar>
   );
 }

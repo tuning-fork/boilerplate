@@ -9,8 +9,8 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
-  const [organizations, setOrganizations] = useState([]);
+  // const [organizationId, setOrganizationId] = useState("");
+  // const [organizations, setOrganizations] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newFundingOrg, setNewFundingOrg] = useState({});
@@ -19,31 +19,31 @@ export default function FundingOrgsNew(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
-  useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+  //       {
+  //         headers: { Authorization: `Bearer ${localStorage.token}` },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       setOrganizations(response.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
-  const updateOrganizations = (newOrganization) => {
-    const newOrganizations = [...organizations];
-    newOrganizations.push(newOrganization);
-    setOrganizations(organizations);
-  };
+  // const updateOrganizations = (newOrganization) => {
+  //   const newOrganizations = [...organizations];
+  //   newOrganizations.push(newOrganization);
+  //   setOrganizations(organizations);
+  // };
 
   const clearForm = () => {
     setName("");
     setWebsite("");
-    setOrganizationId("");
+    // setOrganizationId("");
   };
 
   const handleSubmit = (event) => {
@@ -127,7 +127,7 @@ export default function FundingOrgsNew(props) {
           </div>
         </Form>
         <br />
-        <OrganizationsNew updateOrganizations={updateOrganizations} />
+        {/* <OrganizationsNew updateOrganizations={updateOrganizations} /> */}
       </Card.Body>
     </Card>
   );
