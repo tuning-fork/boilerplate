@@ -32,6 +32,12 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
+  const [editableBio, setEditableBio] = useState({});
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableFirstName, setEditableFirstName] = useState("");
+  const [editableLastName, setEditableLastName] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -46,7 +52,7 @@ export default function BiosShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/${props.match.params.bio_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${props.match.params.bio_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -61,6 +67,10 @@ export default function BiosShow(props) {
         setOrganization(response.data.organization);
         setWordCount(response.data.wordcount);
         setLoading(false);
+        setEditableQuillText(response.data.text);
+        setEditableFirstName(response.data.first_name);
+        setEditableLastName(response.data.last_name);
+        setEditableTitle(response.data.title);
       })
       .catch((error) => {
         console.log(error);
@@ -75,21 +85,26 @@ export default function BiosShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
           id,
         {
-          first_name: firstName,
-          last_name: lastName,
-          title: title,
-          text: quillText,
-          organization_id: organizationId,
-          wordcount: countWords(quillText),
+          first_name: editableFirstName,
+          last_name: editableLastName,
+          title: editableTitle,
+          text: editableQuillText,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          wordcount: countWords(editableQuillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
+        console.log(response);
         toggleHidden();
         handleClose();
+        setEditableQuillText(response.data.text);
+        setEditableFirstName(response.data.first_name);
+        setEditableLastName(response.data.last_name);
+        setEditableTitle(response.data.title);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -97,10 +112,18 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    event.preventDefault();
-
+    setEditableQuillText(quillText);
+    setEditableFirstName(firstName);
+    setEditableLastName(lastName);
+    setEditableTitle(title);
     handleClose();
   };
+
+  // pull in boilerplate
+  //create editable boilerplate object - deconstructed
+  //use editable boilerplate object for form changes
+  //for cancel, instead of setting values to edit, set them to state
+  //for submit, instead of pulling from state, pull from edited
 
   const countWords = (string) => {
     if (string) {
@@ -129,6 +152,34 @@ export default function BiosShow(props) {
         console.log(error);
       });
   };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["clean"],
+      [{ color: [] }],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "color",
+  ];
 
   if (loading) {
     return (
@@ -196,8 +247,7 @@ export default function BiosShow(props) {
         </Card.Body>
       </Card>
       <div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton></Modal.Header>
+        <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
@@ -205,10 +255,12 @@ export default function BiosShow(props) {
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={firstName}
-                    name="firstName"
-                    placeholder={firstName}
-                    onChange={(event) => setFirstName(event.target.value)}
+                    value={editableFirstName}
+                    name="editableFirstName"
+                    placeholder={editableFirstName}
+                    onChange={(event) =>
+                      setEditableFirstName(event.target.value)
+                    }
                     required
                   />
                 </Form.Group>
@@ -216,10 +268,12 @@ export default function BiosShow(props) {
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={lastName}
-                    name="lastName"
-                    placeholder={lastName}
-                    onChange={(event) => setLastName(event.target.value)}
+                    value={editableLastName}
+                    name="editableLastName"
+                    placeholder={editableLastName}
+                    onChange={(event) =>
+                      setEditableLastName(event.target.value)
+                    }
                     required
                   />
                 </Form.Group>
@@ -227,17 +281,21 @@ export default function BiosShow(props) {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
-                    placeholder={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    value={editableTitle}
+                    name="editableTitle"
+                    placeholder={editableTitle}
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
                 <ReactQuill
-                  style={{ backgroundColor: "#fefefe" }}
-                  value={quillText}
-                  onChange={(value) => setQuillText(value)}
+                  name="quillText"
+                  modules={modules}
+                  format={formats}
+                  defaultValue={editableQuillText}
+                  style={{ color: "#09191b", backgroundColor: "#fefefe" }}
+                  value={editableQuillText}
+                  onChange={(value) => setEditableQuillText(value)}
                 />
                 {/* <Form.Group>
                   <Form.Label>Organization</Form.Label>
@@ -252,7 +310,9 @@ export default function BiosShow(props) {
                 </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>
+                  <p style={{ color: "#fefefe" }}>
+                    {countWords(editableQuillText)}
+                  </p>
                 </Form.Group>
                 <div>
                   <Button
@@ -265,13 +325,12 @@ export default function BiosShow(props) {
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
-                    onClick={{ handleSubmit }}
+                    onClick={handleSubmit}
                   >
                     Save Changes
                   </Button>
-                  {/* <Button
+                  <Button
                     variant="outline-success"
-                    type="submit"
                     style={{
                       maxWidth: "50%",
                       align: "center",
@@ -279,10 +338,10 @@ export default function BiosShow(props) {
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
-                    onClick={{ handleCancel }}
+                    onClick={handleCancel}
                   >
                     Cancel
-                  </Button> */}
+                  </Button>
                 </div>
               </Form>
             </Card.Body>
