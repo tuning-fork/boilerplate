@@ -21,27 +21,27 @@ export default function FundingOrgsOrganizationsNew(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
-  const handleSubmitOrganization = (event) => {
-    event.preventDefault();
-    axios
-      .post(
-        `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/api/organizations`,
-        {
-          name: organizationName,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateOrganizations(response.data);
-          props.toggleHiddenFundingOrgsOrganizationsNew();
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("organization creation error", error);
-      });
-  };
+  // const handleSubmitOrganization = (event) => {
+  //   event.preventDefault();
+  //   axios
+  //     .post(
+  //       `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/api/organizations`,
+  //       {
+  //         name: organizationName,
+  //       },
+  //       { headers: { Authorization: `Bearer ${localStorage.token}` } }
+  //     )
+  //     .then((response) => {
+  //       if (response.data) {
+  //         props.updateOrganizations(response.data);
+  //         props.toggleHiddenFundingOrgsOrganizationsNew();
+  //         clearForm();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("organization creation error", error);
+  //     });
+  // };
 
   const handleSubmitFundingOrg = (event) => {
     event.preventDefault();
@@ -50,7 +50,7 @@ export default function FundingOrgsOrganizationsNew(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
         {
           name: fundingOrgName,
-          organization_id: organizationId,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
           website: website,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -79,7 +79,7 @@ export default function FundingOrgsOrganizationsNew(props) {
       <Card.Body>
         {/* New Organization */}
 
-        <Form onSubmit={handleSubmitOrganization}>
+        {/* <Form onSubmit={handleSubmitOrganization}>
           <Form.Group>
             <Form.Label>New Organization Name</Form.Label>
             <Form.Control
@@ -95,7 +95,7 @@ export default function FundingOrgsOrganizationsNew(props) {
           </div>
         </Form>
         <br />
-        <br />
+        <br /> */}
 
         {/* New FundingOrg */}
 
@@ -120,7 +120,7 @@ export default function FundingOrgsOrganizationsNew(props) {
               required
             />
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Label>Organization</Form.Label>
             <Form.Control
               as="select"
@@ -144,7 +144,7 @@ export default function FundingOrgsOrganizationsNew(props) {
                 );
               })}
             </Form.Control>
-          </Form.Group>
+          </Form.Group> */}
           <div className="text-center">
             <Button type="submit">Add New Funding Org</Button>
           </div>

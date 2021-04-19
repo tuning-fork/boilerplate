@@ -7,13 +7,17 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function ReportsShow(props) {
+  console.log("reports Show component rendered");
   const [id, setId] = useState("");
   const [grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState("");
+  const [bios, setBios] = useState([]);
+  const [boilerplates, setBoilerplates] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [isGrantHidden, setIsGrantHidden] = useState(true);
   const [isHiddenNewReportSection, setIsHiddenNewReportSection] = useState(
@@ -26,11 +30,19 @@ export default function ReportsShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get(`/api/reports/${props.match.params.id}`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setId(response.data.id);
         setGrantId(response.data.grant_id);
@@ -39,6 +51,33 @@ export default function ReportsShow(props) {
         setSubmitted(response.data.submitted);
         setReportSections(response.data.report_sections);
         setGrantSections(response.data.grant.grant_sections);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setBoilerplates(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setBios(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -61,7 +100,7 @@ export default function ReportsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        "/api/reports/" + id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
           title: title,
@@ -109,9 +148,12 @@ export default function ReportsShow(props) {
 
   const handleReportDelete = () => {
     axios
-      .delete("/api/reports/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data.message) {
           history.push("/grants/" + grantId);
@@ -226,6 +268,7 @@ export default function ReportsShow(props) {
 
       <ReportSectionsNew
         report_id={id}
+        grant_id={props.grant_id}
         sort_number={reportSections.length}
         updateReportSections={updateReportSections}
       />
@@ -240,10 +283,11 @@ export default function ReportsShow(props) {
         <Card.Body>
           {reportSections.length ? (
             reportSections.map((reportSection) => {
-              /* console.log("cupcake", report_section.id) */
               return (
                 <div key={reportSection.id}>
                   <ReportSectionsShow
+                    report_id={id}
+                    grant_id={props.grant_id}
                     report_section_id={reportSection.id}
                     editReportSections={editReportSections}
                     deleteReportSections={deleteReportSections}
@@ -259,7 +303,9 @@ export default function ReportsShow(props) {
       </Card>
       <br />
 
-      <Link to={`/reports-finalize/${id}`}>
+      <Link
+        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports-finalize/${id}`}
+      >
         <Button>Report Finalize</Button>
       </Link>
 

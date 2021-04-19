@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function SectionsUpdateFinal(props) {
   const [id, setId] = useState("");
@@ -22,11 +23,19 @@ export default function SectionsUpdateFinal(props) {
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
 
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+
   useEffect(() => {
     axios
-      .get("/api/sections/" + props.section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         setTitle(response.data.title);
         setQuillText(response.data.text);

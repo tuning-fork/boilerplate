@@ -25,7 +25,7 @@ export default function CategoriesShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${props.match.params.category_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

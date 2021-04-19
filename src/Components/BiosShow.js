@@ -46,7 +46,7 @@ export default function BiosShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}bios/${props.match.params.bio_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

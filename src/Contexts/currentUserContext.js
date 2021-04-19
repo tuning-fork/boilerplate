@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 import { useCurrentOrganizationContext } from "./currentOrganizationContext";
+import { id } from "date-fns/locale";
 
 export const CurrentUserContext = createContext();
 
@@ -17,17 +18,14 @@ const reducer = (state, action) => {
         ...state,
         currentUser: action.payload,
       };
-      break;
     case "SET_CURRENT_USER_INFO":
       console.log("user info reset", [state, action]);
       return {
         ...state,
         currentUserInfo: action.payload,
       };
-      break;
     default:
       return state;
-      break;
   }
 };
 
@@ -41,19 +39,20 @@ export const CurrentUserProvider = ({ children }) => {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+
   useEffect(() => {
-    console.log("did the useEffect render?");
-    if (currentUserStore || localStorage.user_id) {
-      console.log("did the if statement run?");
-      axios
-        .get(`/api/organization_users`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => console.log(error));
-    }
+    // console.log("did the useEffect render?");
+    // if (currentUserStore || localStorage.user_id) {
+    //   console.log("did the if statement run?");
+    //   axios
+    //     .get(`/api/organization_users`, {
+    //       headers: { Authorization: `Bearer ${localStorage.token}` },
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
     const userId =
       currentUserStore?.currentUserInfo?.id || localStorage.user_id;
     console.log(userId);
@@ -63,7 +62,7 @@ export const CurrentUserProvider = ({ children }) => {
       })
       .then((response) => {
         console.log(response);
-        if (response.length > 0) {
+        if (response.data.length > 0) {
           currentOrganizationDispatch({
             type: "SET_ALL_USER_ORGANIZATIONS",
             payload: response.data,

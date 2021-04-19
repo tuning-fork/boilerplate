@@ -43,7 +43,7 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -124,7 +124,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/" +
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
           id,
         {
           title: title,
@@ -376,6 +376,7 @@ export default function GrantsFinalizeShow(props) {
                 isUnzipped={section.isUnzipped}
                 toggleUnzipped={toggleUnzipped}
                 section_id={section.id}
+                grant_id={id}
                 boilerplates={boilerplates}
                 bios={bios}
                 // section_title={section.title}

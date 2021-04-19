@@ -9,7 +9,7 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
+  // const [organizations, setOrganizations] = useState([]);
   const [query] = useState("");
   const [
     currentOrganizationStore,
@@ -29,31 +29,27 @@ export default function Categories() {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    // axios
+    //   .get(
+    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+    //     {
+    //       headers: { Authorization: `Bearer ${localStorage.token}` },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     setOrganizations(response.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => console.log(error));
+  }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
     newCategories.push(newCategory);
-    console.log("categories is updating", newCategory);
     setCategories(newCategories);
   };
 
-  useEffect(() => {
-    console.log("categories has updated");
-    console.log(categories);
-  }, [categories]);
+  useEffect(() => {}, [categories]);
 
   if (loading) {
     return (

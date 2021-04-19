@@ -28,19 +28,8 @@ export default function FundingOrgs() {
         console.log(response.data);
       })
       .catch((error) => console.log(error));
-    axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
-    console.log("it worked!");
     window.scrollTo(0, 0);
-  }, [loading]);
+  }, [loading, currentOrganizationStore.currentOrganizationInfo.id]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs];

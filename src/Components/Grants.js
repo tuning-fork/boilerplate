@@ -61,7 +61,7 @@ export default function Grants() {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [currentOrganizationStore.currentOrganizationInfo.id]);
 
   const updateGrants = (newGrant) => {
     const newGrants = [...grants];
