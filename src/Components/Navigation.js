@@ -72,9 +72,14 @@ function Navigation(props) {
               </div>
               {currentOrganizationStore?.currentOrganizationInfo?.id ? (
                 <div>
+                  <h3 style={{ color: "#fefefe" }}>
+                    You are logged in as
+                    {currentUserStore.currentUserInfo.first_name} and working in
+                    {currentOrganizationStore.currentOrganizationInfo.name}
+                  </h3>
                   <Form className="justify-content-end">
                     <Form.Group>
-                      <Form.Label>Organization</Form.Label>
+                      <Form.Label>Change Organization</Form.Label>
                       <Form.Control
                         as="select"
                         name="organizationId"
