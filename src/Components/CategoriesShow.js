@@ -22,6 +22,8 @@ export default function CategoriesShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [editableName, setEditableName] = useState("");
+
   useEffect(() => {
     axios
       .get(
@@ -35,6 +37,7 @@ export default function CategoriesShow(props) {
         setName(response.data.name);
         setOrganizationId(response.data.organization_id);
         setOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
         setLoading(false);
       })
       .catch((error) => {
@@ -73,11 +76,18 @@ export default function CategoriesShow(props) {
       )
       .then((response) => {
         updateOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
         toggleHidden();
+        handleClose();
       })
       .catch((error) => {
         console.log("category update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableName(name);
+    handleClose();
   };
 
   const handleCategoryDelete = () => {
@@ -133,41 +143,13 @@ export default function CategoriesShow(props) {
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      value={name}
-                      name="name"
-                      placeholder={name}
-                      onChange={(event) => setName(event.target.value)}
+                      value={editableName}
+                      name="editableName"
+                      placeholder={editableName}
+                      onChange={(event) => setEditableName(event.target.value)}
                       required
                     />
                   </Form.Group>
-                  {/* <Form.Group>
-                    <Form.Control
-                      as="select"
-                      name="organizationId"
-                      value={organizationId}
-                      onChange={(event) =>
-                        setOrganizationId(event.target.value)
-                      }
-                      required
-                    >
-                      <option value="" disabled>
-                        Select Organization
-                      </option>
-                      {organizations.map((organization) => {
-                        return (
-                          <option
-                            key={organization.id}
-                            value={organization.id}
-                            onChange={(event) =>
-                              setOrganizationId(event.target.value)
-                            }
-                          >
-                            {organization.name}
-                          </option>
-                        );
-                      })}
-                    </Form.Control>
-                  </Form.Group> */}
                   <div className="text-center">
                     <Button type="submit" className="btn-lg">
                       Submit

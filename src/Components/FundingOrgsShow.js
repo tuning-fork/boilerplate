@@ -21,6 +21,9 @@ export default function FundingOrgsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [editableName, setEditableName] = useState("");
+  const [editableWebsite, setEditableWebsite] = useState("");
+
   const history = useHistory();
 
   useEffect(() => {
@@ -37,17 +40,19 @@ export default function FundingOrgsShow(props) {
         setWebsite(response.data.website);
         setOrganizationId(response.data.organization_id);
         setOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
+        setEditableWebsite(response.data.website);
         setLoading(false);
-        axios
-          .get("/api/organizations", {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          })
-          .then((response) => {
-            setOrganizations(response.data);
-            setLoading(false);
-            console.log(response.data);
-          })
-          .catch((error) => console.log(error));
+        // axios
+        //   .get("/api/organizations", {
+        //     headers: { Authorization: `Bearer ${localStorage.token}` },
+        //   })
+        //   .then((response) => {
+        //     setOrganizations(response.data);
+        //     setLoading(false);
+        //     console.log(response.data);
+        //   })
+        //   .catch((error) => console.log(error));
       })
       .catch((error) => {
         console.log(error);
@@ -64,20 +69,28 @@ export default function FundingOrgsShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
           id,
         {
-          name: name,
-          website: website,
-          organization_id: organizationId,
+          name: editablName,
+          website: editableWebsite,
+          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         updateOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
+        setEditableWebsite(response.data.website);
         toggleHidden();
       })
       .catch((error) => {
         console.log("category update error", error);
       });
     event.preventDefault();
+  };
+
+  const handleCancel = (event) => {
+    setEditableName(name);
+    setEditableWebsite(website);
+    handleClose();
   };
 
   const handleFundingOrgDelete = () => {
@@ -141,10 +154,10 @@ export default function FundingOrgsShow(props) {
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     type="text"
-                    value={name}
-                    name="name"
-                    placeholder={name}
-                    onChange={(event) => setName(event.target.value)}
+                    value={editableName}
+                    name="editableName"
+                    placeholder={editableName}
+                    onChange={(event) => setEditableName(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -152,10 +165,10 @@ export default function FundingOrgsShow(props) {
                   <Form.Label>Website</Form.Label>
                   <Form.Control
                     type="text"
-                    value={website}
-                    name="website"
-                    placeholder={website}
-                    onChange={(event) => setWebsite(event.target.value)}
+                    value={editableWebsite}
+                    name="editableWebsite"
+                    placeholder={editableWebsite}
+                    onChange={(event) => setEditableWebsite(event.target.value)}
                     required
                   />
                 </Form.Group>

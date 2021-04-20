@@ -45,7 +45,6 @@ export default function Bios(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-
     setLoading(false);
   }, [currentOrganizationStore.currentOrganizationInfo.id]);
 

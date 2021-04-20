@@ -34,6 +34,10 @@ export default function BoilerplatesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -61,22 +65,12 @@ export default function BoilerplatesShow(props) {
         setCategoryId(response.data.category_id);
         setCategoryName(response.data.category.name);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
       })
       .catch((error) => {
         console.log(error);
       });
-    // axios
-    //   .get(
-    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-    //     {
-    //       headers: { Authorization: `Bearer ${localStorage.token}` },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setOrganizations(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
     axios
       .get(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
@@ -116,10 +110,19 @@ export default function BoilerplatesShow(props) {
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableQuillText(quillText);
+    handleClose();
   };
 
   const countWords = (string) => {
@@ -229,72 +232,29 @@ export default function BoilerplatesShow(props) {
       </Card>
 
       <div>
-        {/* {!isHidden ? ( */}
         <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
-              {/* <Button
-                onClick={toggleHidden}
-                variant="outline-success"
-                type="submit"
-                style={{
-                  maxWidth: "20%",
-                  align: "center",
-                  backgroundColor: "#23cb87",
-                  color: "#09191b",
-                  fontWeight: "bolder",
-                  textAlign: "right",
-                }}
-              >
-                Close
-              </Button> */}
               <Form onSubmit={handleSubmit}>
                 <Form.Group style={{ display: "l" }}>
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
+                    value={editableTitle}
+                    name="editableTitle"
                     placeholder={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
                 <ReactQuill
-                  name="quillText"
+                  name="editableQuillText"
                   modules={modules}
                   format={formats}
-                  defaultValue={quillText}
-                  onChange={(value) => setQuillText(value)}
+                  defaultValue={editableQuillText}
+                  onChange={(value) => setEditableQuillText(value)}
                   style={{ backgroundColor: "#fefefe" }}
                 />
-                {/* <Form.Group>
-                  <Form.Label>Organization</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="organizationId"
-                    value={organizationId}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select Organization
-                    </option>
-                    {organizations.map((organization) => {
-                      return (
-                        <option
-                          key={organization.id}
-                          value={organization.id}
-                          onChange={(event) =>
-                            setOrganizationId(event.target.value)
-                          }
-                        >
-                          {organization.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Category</Form.Label>
 
@@ -325,7 +285,9 @@ export default function BoilerplatesShow(props) {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>
+                  <p style={{ color: "#fefefe" }}>
+                    {countWords(EditableQuillText)}
+                  </p>
                 </Form.Group>
                 <div className="text-center">
                   <Button
