@@ -18,6 +18,9 @@ export default function ReportSectionsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableSortOrder, setEditableSortOrder] = useState("");
 
   const [
     currentOrganizationStore,
@@ -41,6 +44,9 @@ export default function ReportSectionsShow(props) {
         setWordcount(response.data.wordcount);
         setReportId(response.data.report_id);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableSortOrder(response.data.sort_order);
       })
       .catch((error) => {
         console.log(error);
@@ -72,6 +78,13 @@ export default function ReportSectionsShow(props) {
       .catch((error) => {
         console.log("report section update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableQuillText(text);
+    setEditableSortOrder(sort_order);
+    handleClose();
   };
 
   const handleReportSectionDelete = () => {
@@ -130,23 +143,48 @@ export default function ReportSectionsShow(props) {
                     <Form.Label>Title</Form.Label>
                     <Form.Control
                       type="text"
-                      value={title}
-                      name="title"
-                      onChange={(event) => setTitle(event.target.value)}
+                      value={editableTitle}
+                      name="editableTitle"
+                      onChange={(event) => setEditableTitle(event.target.value)}
                       required
                     />
                   </Form.Group>
                   <ReactQuill
-                    value={quillText}
-                    onChange={(value) => setQuillText(value)}
+                    value={editableQuillText}
+                    onChange={(value) => setEditableQuillText(value)}
                   />
                   <Form.Group>
                     <Form.Label>Word Count</Form.Label>
-                    <p>{countWords(quillText)}</p>
+                    <p>{countWords(editableQuillText)}</p>
                   </Form.Group>
-                  <div className="text-center">
-                    <Button type="submit">Submit</Button>
-                    <Button onClick={handleReportSectionDelete}>Delete</Button>
+                  <div>
+                    <Button
+                      variant="outline-success"
+                      type="submit"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      variant="outline-success"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
                   </div>
                 </Form>
               </Card.Body>

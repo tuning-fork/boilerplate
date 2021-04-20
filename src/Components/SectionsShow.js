@@ -97,7 +97,7 @@ export default function SectionsShow(props) {
           title: editableTitle,
           text: editableQuillText,
           sort_order: editableSortOrder,
-          wordcount: countWords(quillText),
+          wordcount: countWords(editableQuillText),
           grant_id: grantId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }

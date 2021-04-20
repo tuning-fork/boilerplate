@@ -79,12 +79,12 @@ export default function GrantsShow(props) {
         setSections(response.data.sections);
         setReports(response.data.reports);
         setLoading(false);
-        const [editableTitle, setEditableTitle] = useState("");
-        setEditableRfpUrl(response.data.title);
-        setEditableDeadline(response.data.rfp_url);
-        setEditableSubmitted(response.data.deadline);
-        setEditableSuccessful(response.data.submitted);
-        setEditablePurpose(response.data.successful);
+        setEditableTitle(response.data.title);
+        setEditableRfpUrl(response.data.rfp_url);
+        setEditableDeadline(response.data.deadline);
+        setEditableSubmitted(response.data.submitted);
+        setEditableSuccessful(response.data.successful);
+        setEditablePurpose(response.data.purpose);
       })
       .catch((error) => {
         console.log(error);
@@ -146,6 +146,16 @@ export default function GrantsShow(props) {
       .catch((error) => {
         console.log("grant update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableRfpUrl(rfp_url);
+    setEditableDeadline(deadline);
+    setEditableSubmitted(submitted);
+    setEditableSuccessful(successful);
+    setEditablePurpose(purpose);
+    handleClose();
   };
 
   const addNewSections = (newSection) => {
@@ -372,8 +382,34 @@ export default function GrantsShow(props) {
                           }
                         />
                       </Form.Group>
-                      <div className="text-center">
-                        <Button type="submit">Save Changes</Button>
+                      <div>
+                        <Button
+                          variant="outline-success"
+                          type="submit"
+                          style={{
+                            maxWidth: "50%",
+                            align: "center",
+                            backgroundColor: "#23cb87",
+                            color: "#09191b",
+                            fontWeight: "bolder",
+                          }}
+                          onClick={handleSubmit}
+                        >
+                          Save Changes
+                        </Button>
+                        <Button
+                          variant="outline-success"
+                          style={{
+                            maxWidth: "50%",
+                            align: "center",
+                            backgroundColor: "#23cb87",
+                            color: "#09191b",
+                            fontWeight: "bolder",
+                          }}
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
                       </div>
                     </Form>
                   </Card.Body>

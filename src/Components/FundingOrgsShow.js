@@ -43,16 +43,6 @@ export default function FundingOrgsShow(props) {
         setEditableName(response.data.name);
         setEditableWebsite(response.data.website);
         setLoading(false);
-        // axios
-        //   .get("/api/organizations", {
-        //     headers: { Authorization: `Bearer ${localStorage.token}` },
-        //   })
-        //   .then((response) => {
-        //     setOrganizations(response.data);
-        //     setLoading(false);
-        //     console.log(response.data);
-        //   })
-        //   .catch((error) => console.log(error));
       })
       .catch((error) => {
         console.log(error);
@@ -69,9 +59,9 @@ export default function FundingOrgsShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
           id,
         {
-          name: editablName,
+          name: editableName,
           website: editableWebsite,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: organization_id,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
@@ -172,38 +162,33 @@ export default function FundingOrgsShow(props) {
                     required
                   />
                 </Form.Group>
-                {/* <Form.Group>
-                  <Form.Control
-                    as="select"
-                    name="organizationId"
-                    value={organizationId}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
+                <div>
+                  <Button
+                    variant="outline-success"
+                    type="submit"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleSubmit}
                   >
-                    <option value="" disabled>
-                      Select Organization
-                    </option>
-                    {organizations.map((organization) => {
-                      return (
-                        <option
-                          key={organization.id}
-                          value={organization.id}
-                          onChange={(event) =>
-                            setOrganizationId(event.target.value)
-                          }
-                        >
-                          {organization.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group> */}
-                <div className="text-center">
-                  <Button type="submit" className="btn-lg">
-                    Submit
+                    Save Changes
                   </Button>
-                  <Button onClick={toggleHidden} className="btn-lg">
-                    Close
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </Form>
