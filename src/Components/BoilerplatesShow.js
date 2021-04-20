@@ -67,6 +67,7 @@ export default function BoilerplatesShow(props) {
         setLoading(false);
         setEditableTitle(response.data.title);
         setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
       })
       .catch((error) => {
         console.log(error);
@@ -100,11 +101,11 @@ export default function BoilerplatesShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
           id,
         {
-          title: title,
-          text: quillText,
+          title: editableTitle,
+          text: editableQuillText,
           wordcount: countWords(quillText),
           organization_id: organizationId,
-          category_id: categoryId,
+          category_id: editableCategoryId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
@@ -113,6 +114,7 @@ export default function BoilerplatesShow(props) {
         handleClose();
         setEditableTitle(response.data.title);
         setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -122,6 +124,7 @@ export default function BoilerplatesShow(props) {
   const handleCancel = (event) => {
     setEditableTitle(title);
     setEditableQuillText(quillText);
+    setEditableCategoryId(categoryId);
     handleClose();
   };
 
@@ -260,9 +263,11 @@ export default function BoilerplatesShow(props) {
 
                   <Form.Control
                     as="select"
-                    name="categoryId"
-                    value={categoryId}
-                    onChange={(event) => setCategoryId(event.target.value)}
+                    name="EditableCategoryId"
+                    value={EditableCategoryId}
+                    onChange={(event) =>
+                      setEditableCategoryId(event.target.value)
+                    }
                     required
                   >
                     <option value="" disabled>
@@ -274,7 +279,7 @@ export default function BoilerplatesShow(props) {
                           key={category.id}
                           value={category.id}
                           onChange={(event) =>
-                            setCategoryId(event.target.value)
+                            setEditableCategoryId(event.target.value)
                           }
                         >
                           {category.name}
@@ -289,19 +294,33 @@ export default function BoilerplatesShow(props) {
                     {countWords(EditableQuillText)}
                   </p>
                 </Form.Group>
-                <div className="text-center">
+                <div>
                   <Button
                     variant="outline-success"
                     type="submit"
                     style={{
-                      maxWidth: "20%",
+                      maxWidth: "50%",
                       align: "center",
                       backgroundColor: "#23cb87",
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
+                    onClick={handleSubmit}
                   >
                     Save Changes
+                  </Button>
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </Form>
