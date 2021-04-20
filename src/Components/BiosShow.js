@@ -52,7 +52,7 @@ export default function BiosShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${props.match.params.id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${props.match.params.bio_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -297,17 +297,6 @@ export default function BiosShow(props) {
                   value={editableQuillText}
                   onChange={(value) => setEditableQuillText(value)}
                 />
-                {/* <Form.Group>
-                  <Form.Label>Organization</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={organization.name}
-                    name="organizationId"
-                    placeholder={organization.name}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  />
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>
