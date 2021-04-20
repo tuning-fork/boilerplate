@@ -43,19 +43,6 @@ export default function CategoriesShow(props) {
       .catch((error) => {
         console.log(error);
       });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const toggleHidden = () => {
@@ -75,7 +62,6 @@ export default function CategoriesShow(props) {
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        updateOrganizationName(response.data.organization.name);
         setEditableName(response.data.name);
         toggleHidden();
         handleClose();
@@ -110,10 +96,6 @@ export default function CategoriesShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const updateOrganizationName = (organizationName) => {
-    setOrganizationName(organizationName);
   };
 
   if (loading) {
