@@ -19,6 +19,10 @@ export default function ReportSectionsShow(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableSortOrder, setEditableSortOrder] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -41,6 +45,9 @@ export default function ReportSectionsShow(props) {
         setWordcount(response.data.wordcount);
         setReportId(response.data.report_id);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableSortOrder(response.data.sort_order);
       })
       .catch((error) => {
         console.log(error);
@@ -57,10 +64,10 @@ export default function ReportSectionsShow(props) {
       .patch(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
-          title: title,
-          text: quillText,
-          sort_order: sortOrder,
-          wordcount: countWords(quillText),
+          title: editableTitle,
+          text: editableQuillText,
+          sort_order: editableSortOrder,
+          wordcount: countWords(editableQuillText),
           report_id: reportId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -72,6 +79,13 @@ export default function ReportSectionsShow(props) {
       .catch((error) => {
         console.log("report section update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableQuillText(text);
+    setEditableSortOrder(sort_order);
+    handleClose();
   };
 
   const handleReportSectionDelete = () => {
@@ -130,19 +144,19 @@ export default function ReportSectionsShow(props) {
                     <Form.Label>Title</Form.Label>
                     <Form.Control
                       type="text"
-                      value={title}
-                      name="title"
-                      onChange={(event) => setTitle(event.target.value)}
+                      value={editableTitle}
+                      name="editableTitle"
+                      onChange={(event) => setEditableTitle(event.target.value)}
                       required
                     />
                   </Form.Group>
                   <ReactQuill
-                    value={quillText}
-                    onChange={(value) => setQuillText(value)}
+                    value={editableQuillText}
+                    onChange={(value) => setEditableQuillText(value)}
                   />
                   <Form.Group>
                     <Form.Label>Word Count</Form.Label>
-                    <p>{countWords(quillText)}</p>
+                    <p>{countWords(editableQuillText)}</p>
                   </Form.Group>
                   <div className="text-center">
                     <Button type="submit">Submit</Button>
