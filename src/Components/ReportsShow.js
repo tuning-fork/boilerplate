@@ -30,6 +30,10 @@ export default function ReportsShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableDeadline, setEditableDeadline] = useState("");
+  const [editableSubmitted, setEditableSubmitted] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -52,6 +56,9 @@ export default function ReportsShow(props) {
         setReportSections(response.data.report_sections);
         setGrantSections(response.data.grant.grant_sections);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableDeadline(response.data.deadline);
+        setEditableSubmitted(response.data.submitted);
       })
       .catch((error) => {
         console.log(error);
@@ -103,19 +110,29 @@ export default function ReportsShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
-          title: title,
-          deadline: deadline,
-          submitted: submitted,
+          title: editableTitle,
+          deadline: editableDeadline,
+          submitted: editableSubmitted,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         toggleHidden();
+        setEditableTitle(response.data.title);
+        setEditableDeadline(response.data.deadline);
+        setEditableSubmitted(response.data.submitted);
       })
       .catch((error) => {
         console.log("report update error", error);
       });
     event.preventDefault();
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableDeadline(deadline);
+    setEditableSubmitted(submitted);
+    handleClose();
   };
 
   const updateReportSections = (newReportSection) => {
@@ -225,9 +242,9 @@ export default function ReportsShow(props) {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
-                    onChange={(event) => setTitle(event.target.value)}
+                    value={editableTitle}
+                    name="editableTitle"
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -235,9 +252,11 @@ export default function ReportsShow(props) {
                   <Form.Label>Deadline</Form.Label>
                   <Form.Control
                     type="datetime"
-                    value={deadline}
-                    name="deadline"
-                    onChange={(event) => setDeadline(event.target.value)}
+                    value={editableDeadline}
+                    name="editableDeadline"
+                    onChange={(event) =>
+                      setEditableDeadline(event.target.value)
+                    }
                     required
                   />
                 </Form.Group>
@@ -245,18 +264,43 @@ export default function ReportsShow(props) {
                   <Form.Label>Submitted</Form.Label>
                   <Form.Check
                     type="checkbox"
-                    name="submitted"
-                    checked={submitted}
-                    onChange={(event) => setSubmitted(event.target.value)}
+                    name="editableSubmitted"
+                    checked={editableSubmitted}
+                    onChange={(event) =>
+                      setEditableSubmitted(event.target.value)
+                    }
                   />
                 </Form.Group>
                 <div className="text-center">
-                  <Button type="submit" className="btn-lg">
-                    Submit
-                  </Button>
-                  <Button onClick={toggleHidden} className="btn-lg">
-                    Close
-                  </Button>
+                  <div>
+                    <Button
+                      variant="outline-success"
+                      type="submit"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      variant="outline-success"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </div>
               </Form>
             </Card.Body>

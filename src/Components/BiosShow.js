@@ -290,17 +290,6 @@ export default function BiosShow(props) {
                   value={editableQuillText}
                   onChange={(value) => setEditableQuillText(value)}
                 />
-                {/* <Form.Group>
-                  <Form.Label>Organization</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={organization.name}
-                    name="organizationId"
-                    placeholder={organization.name}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  />
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>
