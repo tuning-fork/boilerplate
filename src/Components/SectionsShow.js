@@ -76,9 +76,9 @@ export default function SectionsShow(props) {
   };
 
   const handleSelect = (event) => {
-    let editableQuillText = editableQuillText;
-    editableQuillText += ` ${event}`;
-    setEditableQuillText(editableQuillText);
+    let editableQuillTextClone = editableQuillText;
+    editableQuillTextClone += ` ${event.target.value}`;
+    setEditableQuillText(editableQuillTextClone);
   };
 
   const countWords = (string) => {
@@ -222,9 +222,7 @@ export default function SectionsShow(props) {
                     as="select"
                     name="currentBoilerplate"
                     value={currentBoilerplate}
-                    onChange={(event) =>
-                      setCurrentBoilerplate(event.target.value)
-                    }
+                    onChange={handleSelect}
                   >
                     <option value="" disabled>
                       Select Boilerplate
@@ -250,7 +248,7 @@ export default function SectionsShow(props) {
                     as="select"
                     name="currentBoilerplate"
                     value={currentBoilerplate}
-                    onChange={(event) => setCurrentBoilerplate(event)}
+                    onChange={handleSelect}
                   >
                     <option value="" disabled>
                       Select Bio
