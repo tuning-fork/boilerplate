@@ -22,6 +22,10 @@ export default function ReportSectionsShow(props) {
   const [editableTitle, setEditableTitle] = useState("");
   const [editableSortOrder, setEditableSortOrder] = useState("");
 
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableSortOrder, setEditableSortOrder] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -63,10 +67,10 @@ export default function ReportSectionsShow(props) {
       .patch(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
-          title: title,
-          text: quillText,
-          sort_order: sortOrder,
-          wordcount: countWords(quillText),
+          title: editableTitle,
+          text: editableQuillText,
+          sort_order: editableSortOrder,
+          wordcount: countWords(editableQuillText),
           report_id: reportId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -83,7 +87,7 @@ export default function ReportSectionsShow(props) {
   const handleCancel = (event) => {
     setEditableTitle(title);
     setEditableQuillText(text);
-    setEditableSortOrder(sort_order);
+    setEditableSortOrder(sortOrder);
     handleClose();
   };
 
