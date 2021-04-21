@@ -21,6 +21,7 @@ function Navigation(props) {
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
+    localStorage.removeItem("org_id");
     props.history.push("/landing_page");
   };
 
@@ -30,6 +31,7 @@ function Navigation(props) {
     const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
       (userOrganization) => event.target.value == userOrganization.id
     );
+    localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION_INFO",
       payload: selectedOrgInfo[0],
@@ -74,7 +76,8 @@ function Navigation(props) {
                 <div>
                   <h3 style={{ color: "#fefefe" }}>
                     You are logged in as
-                    {currentUserStore.currentUserInfo.first_name} and working in
+                    {currentUserStore?.currentUserInfo?.first_name} and working
+                    in
                     {currentOrganizationStore.currentOrganizationInfo.name}
                   </h3>
                   <Form className="justify-content-end">
