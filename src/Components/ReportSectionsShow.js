@@ -84,8 +84,7 @@ export default function ReportSectionsShow(props) {
   const handleCancel = (event) => {
     setEditableTitle(title);
     setEditableQuillText(text);
-    setEditableSortOrder(sort_order);
-    handleClose();
+    setEditableSortOrder(sortOrder);
   };
 
   const handleReportSectionDelete = () => {
