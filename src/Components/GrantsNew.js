@@ -125,31 +125,6 @@ export default function GrantsNew(props) {
       ) : null}
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-          {/* <Form.Group>
-            <Form.Label>Organization</Form.Label>
-            <Form.Control
-              as="select"
-              name="organizationId"
-              value={organizationId}
-              onChange={(event) => setOrganizationId(event.target.value)}
-              required
-            >
-              <option value="" disabled>
-                Select Organization
-              </option>
-              {organizations.map((organization) => {
-                return (
-                  <option
-                    key={organization.id}
-                    value={organization.id}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                  >
-                    {organization.name}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Form.Group> */}
           <Form.Group>
             <Form.Label>Select Funding Organization</Form.Label>
             <Form.Control

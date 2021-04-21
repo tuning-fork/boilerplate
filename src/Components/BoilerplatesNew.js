@@ -15,7 +15,7 @@ export default function BoilerplatesNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [wordcount, setWordcount] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState([]);
   const [organizations, setOrganizations] = useState([]);
   const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,9 @@ export default function BoilerplatesNew(props) {
         }
       )
       .then((response) => {
+        console.log(response.data);
         setCategories(response.data);
+        console.log(categories);
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -52,6 +54,7 @@ export default function BoilerplatesNew(props) {
     const newCategories = categories;
     newCategories.push(newCategory);
     setCategories(categories);
+    console.log(categories);
   };
 
   const updateOrganizations = (newOrganization) => {
@@ -180,6 +183,17 @@ export default function BoilerplatesNew(props) {
                 <option value="" disabled>
                   Select Category
                 </option>
+                {categories.map((category) => {
+                  return (
+                    <option
+                      key={category.id}
+                      value={category.id}
+                      onChange={(event) => setCategoryId(event.target.value)}
+                    >
+                      {category.name}
+                    </option>
+                  );
+                })}
               </Form.Control>
               {isHiddenCategoriesNew ? (
                 <Button

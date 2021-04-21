@@ -35,9 +35,6 @@ export default function BoilerplatesShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableTitle, setEditableTitle] = useState("");
-
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -298,7 +295,7 @@ export default function BoilerplatesShow(props) {
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>
-                    {countWords(EditableQuillText)}
+                    {countWords(editableQuillText)}
                   </p>
                 </Form.Group>
                 <div>

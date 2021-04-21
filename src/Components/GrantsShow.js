@@ -150,7 +150,7 @@ export default function GrantsShow(props) {
 
   const handleCancel = (event) => {
     setEditableTitle(title);
-    setEditableRfpUrl(rfp_url);
+    setEditableRfpUrl(rfpUrl);
     setEditableDeadline(deadline);
     setEditableSubmitted(submitted);
     setEditableSuccessful(successful);

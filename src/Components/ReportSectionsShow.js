@@ -22,14 +22,14 @@ export default function ReportSectionsShow(props) {
   const [editableTitle, setEditableTitle] = useState("");
   const [editableSortOrder, setEditableSortOrder] = useState("");
 
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableSortOrder, setEditableSortOrder] = useState("");
-
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios

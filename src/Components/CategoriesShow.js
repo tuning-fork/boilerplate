@@ -24,6 +24,10 @@ export default function CategoriesShow(props) {
 
   const [editableName, setEditableName] = useState("");
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     axios
       .get(
@@ -56,7 +60,7 @@ export default function CategoriesShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/` +
           id,
         {
-          name: name,
+          name: editableName,
           organization_id: organizationId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }

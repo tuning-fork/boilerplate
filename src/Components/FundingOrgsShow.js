@@ -26,6 +26,10 @@ export default function FundingOrgsShow(props) {
 
   const history = useHistory();
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     axios
       .get(
@@ -61,7 +65,7 @@ export default function FundingOrgsShow(props) {
         {
           name: editableName,
           website: editableWebsite,
-          organization_id: organization_id,
+          organization_id: organizationId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )

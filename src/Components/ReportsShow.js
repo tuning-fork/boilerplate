@@ -39,6 +39,10 @@ export default function ReportsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     axios
       .get(
@@ -267,7 +271,7 @@ export default function ReportsShow(props) {
                     name="editableSubmitted"
                     checked={editableSubmitted}
                     onChange={(event) =>
-                      setEditableSubmitted(event.target.value)
+                      setEditableSubmitted(event.target.checked)
                     }
                   />
                 </Form.Group>

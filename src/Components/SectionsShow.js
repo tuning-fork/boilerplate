@@ -92,7 +92,7 @@ export default function SectionsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        "/api/sections/" + props.section_id,
+        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
         {
           title: editableTitle,
           text: editableQuillText,
@@ -118,9 +118,9 @@ export default function SectionsShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableQuillText(text);
+    setEditableQuillText(quillText);
     setEditableTitle(title);
-    setEditableSortOrder(sort_order);
+    setEditableSortOrder(sortOrder);
     handleClose();
   };
 
