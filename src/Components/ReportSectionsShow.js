@@ -18,6 +18,9 @@ export default function ReportSectionsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableSortOrder, setEditableSortOrder] = useState("");
 
   const [editableTitle, setEditableTitle] = useState("");
   const [editableQuillText, setEditableQuillText] = useState("");
@@ -85,6 +88,7 @@ export default function ReportSectionsShow(props) {
     setEditableTitle(title);
     setEditableQuillText(text);
     setEditableSortOrder(sortOrder);
+    handleClose();
   };
 
   const handleReportSectionDelete = () => {
@@ -157,9 +161,34 @@ export default function ReportSectionsShow(props) {
                     <Form.Label>Word Count</Form.Label>
                     <p>{countWords(editableQuillText)}</p>
                   </Form.Group>
-                  <div className="text-center">
-                    <Button type="submit">Submit</Button>
-                    <Button onClick={handleReportSectionDelete}>Delete</Button>
+                  <div>
+                    <Button
+                      variant="outline-success"
+                      type="submit"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      variant="outline-success"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
                   </div>
                 </Form>
               </Card.Body>

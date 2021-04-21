@@ -34,6 +34,10 @@ export default function BoilerplatesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -68,6 +72,9 @@ export default function BoilerplatesShow(props) {
         setEditableQuillText(response.data.text);
         setEditableCategoryId(response.data.category_id);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
       })
       .catch((error) => {
         console.log(error);
@@ -101,16 +108,20 @@ export default function BoilerplatesShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
           id,
         {
-          title: title,
-          text: quillText,
+          title: editableTitle,
+          text: editableQuillText,
           wordcount: countWords(quillText),
           organization_id: organizationId,
-          category_id: categoryId,
+          category_id: editableCategoryId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -231,7 +242,6 @@ export default function BoilerplatesShow(props) {
       </Card>
 
       <div>
-        {/* {!isHidden ? ( */}
         <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
@@ -242,13 +252,13 @@ export default function BoilerplatesShow(props) {
                     type="text"
                     value={editableTitle}
                     name="editableTitle"
-                    placeholder={editableTitle}
+                    placeholder={title}
                     onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
                 <ReactQuill
-                  name="quillText"
+                  name="editableQuillText"
                   modules={modules}
                   format={formats}
                   defaultValue={editableQuillText}
@@ -287,7 +297,9 @@ export default function BoilerplatesShow(props) {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>
+                  <p style={{ color: "#fefefe" }}>
+                    {countWords(EditableQuillText)}
+                  </p>
                 </Form.Group>
                 <div>
                   <Button

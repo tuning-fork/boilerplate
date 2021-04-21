@@ -32,7 +32,6 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
-  const [editableBio, setEditableBio] = useState({});
   const [editableQuillText, setEditableQuillText] = useState("");
   const [editableFirstName, setEditableFirstName] = useState("");
   const [editableLastName, setEditableLastName] = useState("");
@@ -118,12 +117,6 @@ export default function BiosShow(props) {
     setEditableTitle(title);
     handleClose();
   };
-
-  // pull in boilerplate
-  //create editable boilerplate object - deconstructed
-  //use editable boilerplate object for form changes
-  //for cancel, instead of setting values to edit, set them to state
-  //for submit, instead of pulling from state, pull from edited
 
   const countWords = (string) => {
     if (string) {

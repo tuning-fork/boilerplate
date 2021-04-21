@@ -47,6 +47,13 @@ export default function GrantsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableRfpUrl, setEditableRfpUrl] = useState("");
+  const [editableDeadline, setEditableDeadline] = useState("");
+  const [editableSubmitted, setEditableSubmitted] = useState(false);
+  const [editableSuccessful, setEditableSuccessful] = useState(false);
+  const [editablePurpose, setEditablePurpose] = useState("");
+
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
@@ -72,6 +79,12 @@ export default function GrantsShow(props) {
         setSections(response.data.sections);
         setReports(response.data.reports);
         setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableRfpUrl(response.data.rfp_url);
+        setEditableDeadline(response.data.deadline);
+        setEditableSubmitted(response.data.submitted);
+        setEditableSuccessful(response.data.successful);
+        setEditablePurpose(response.data.purpose);
       })
       .catch((error) => {
         console.log(error);
@@ -116,12 +129,12 @@ export default function GrantsShow(props) {
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
           id,
         {
-          title: title,
-          rfp_url: rfpUrl,
-          deadline: deadline,
-          submitted: submitted,
-          successful: successful,
-          purpose: purpose,
+          title: editableTitle,
+          rfp_url: editableRfpUrl,
+          deadline: editableDeadline,
+          submitted: editableSubmitted,
+          successful: editableSuccessful,
+          purpose: editablePurpose,
           organization_id: organizationId,
           funding_org_id: fundingOrgId,
         },
@@ -133,6 +146,16 @@ export default function GrantsShow(props) {
       .catch((error) => {
         console.log("grant update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableRfpUrl(rfp_url);
+    setEditableDeadline(deadline);
+    setEditableSubmitted(submitted);
+    setEditableSuccessful(successful);
+    setEditablePurpose(purpose);
+    handleClose();
   };
 
   const addNewSections = (newSection) => {
@@ -293,10 +316,11 @@ export default function GrantsShow(props) {
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                           type="text"
-                          value={title}
-                          name="title"
-                          // placeholder={this.state.title}
-                          onChange={(event) => setTitle(event.target.value)}
+                          value={editableTitle}
+                          name="editableTitle"
+                          onChange={(event) =>
+                            setEditableTitle(event.target.value)
+                          }
                           required
                         />
                       </Form.Group>
@@ -304,10 +328,11 @@ export default function GrantsShow(props) {
                         <Form.Label>Purpose</Form.Label>
                         <Form.Control
                           type="text"
-                          value={purpose}
-                          name="purpose"
-                          // placeholder={this.state.purpose}
-                          onChange={(event) => setPurpose(event.target.value)}
+                          value={editablePurpose}
+                          name="editablePurpose"
+                          onChange={(event) =>
+                            setEditablePurpose(event.target.value)
+                          }
                           required
                         />
                       </Form.Group>
@@ -315,10 +340,11 @@ export default function GrantsShow(props) {
                         <Form.Label>RFP URL</Form.Label>
                         <Form.Control
                           type="text"
-                          value={rfpUrl}
-                          name="rfpUrl"
-                          // placeholder={this.state.rfp_url}
-                          onChange={(event) => setRfpUrl(event.target.value)}
+                          value={editableRfpUrl}
+                          name="editableRfpUrl"
+                          onChange={(event) =>
+                            setEditableRfpUrl(event.target.value)
+                          }
                           required
                         />
                       </Form.Group>
@@ -326,10 +352,11 @@ export default function GrantsShow(props) {
                         <Form.Label>Deadline</Form.Label>
                         <Form.Control
                           type="datetime"
-                          value={deadline}
-                          name="deadline"
-                          // placeholder={this.state.deadline}
-                          onChange={(event) => setDeadline(event.target.value)}
+                          value={editableDeadline}
+                          name="editableDeadline"
+                          onChange={(event) =>
+                            setEditableDeadline(event.target.value)
+                          }
                           required
                         />
                       </Form.Group>
@@ -337,10 +364,10 @@ export default function GrantsShow(props) {
                         <Form.Label>Submitted</Form.Label>
                         <Form.Check
                           type="checkbox"
-                          name="submitted"
-                          checked={submitted}
+                          name="editableSubmitted"
+                          checked={editableSubmitted}
                           onChange={(event) =>
-                            setSubmitted(event.target.checked)
+                            setEditableSubmitted(event.target.checked)
                           }
                         />
                       </Form.Group>
@@ -348,15 +375,41 @@ export default function GrantsShow(props) {
                         <Form.Label>Successful</Form.Label>
                         <Form.Check
                           type="checkbox"
-                          name="successful"
-                          checked={successful}
+                          name="editableSuccessful"
+                          checked={editableSuccessful}
                           onChange={(event) =>
-                            setSuccessful(event.target.checked)
+                            setEditableSuccessful(event.target.checked)
                           }
                         />
                       </Form.Group>
-                      <div className="text-center">
-                        <Button type="submit">Save Changes</Button>
+                      <div>
+                        <Button
+                          variant="outline-success"
+                          type="submit"
+                          style={{
+                            maxWidth: "50%",
+                            align: "center",
+                            backgroundColor: "#23cb87",
+                            color: "#09191b",
+                            fontWeight: "bolder",
+                          }}
+                          onClick={handleSubmit}
+                        >
+                          Save Changes
+                        </Button>
+                        <Button
+                          variant="outline-success"
+                          style={{
+                            maxWidth: "50%",
+                            align: "center",
+                            backgroundColor: "#23cb87",
+                            color: "#09191b",
+                            fontWeight: "bolder",
+                          }}
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
                       </div>
                     </Form>
                   </Card.Body>

@@ -29,6 +29,9 @@ export default function SectionsShow(props) {
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableSortOrder, setEditableSortOrder] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -53,6 +56,9 @@ export default function SectionsShow(props) {
         setWordcount(response.data.wordcount);
         setSortOrder(response.data.sort_order);
         setGrantId(response.data.grant_id);
+        setEditableQuillText(response.data.text);
+        setEditableTitle(response.data.title);
+        setEditableSortOrder(response.data.sort_order);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -70,9 +76,9 @@ export default function SectionsShow(props) {
   };
 
   const handleSelect = (event) => {
-    let quillText = quillText;
-    quillText += ` ${event}`;
-    setQuillText(quillText);
+    let editableQuillText = editableQuillText;
+    editableQuillText += ` ${event}`;
+    setEditableQuillText(editableQuillText);
   };
 
   const countWords = (string) => {
@@ -88,10 +94,10 @@ export default function SectionsShow(props) {
       .patch(
         "/api/sections/" + props.section_id,
         {
-          title: title,
-          text: quillText,
-          sort_order: sortOrder,
-          wordcount: countWords(quillText),
+          title: editableTitle,
+          text: editableQuillText,
+          sort_order: editableSortOrder,
+          wordcount: countWords(editableQuillText),
           grant_id: grantId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -100,12 +106,22 @@ export default function SectionsShow(props) {
         if (response.data) {
           props.updateSections(response.data);
           handleClose();
+          setEditableQuillText(response.data.text);
+          setEditableTitle(response.data.title);
+          setEditableSortOrder(response.data.sort_order);
         }
       })
       .catch((error) => {
         console.log("grant section update error", error);
       });
     event.preventDefault();
+  };
+
+  const handleCancel = (event) => {
+    setEditableQuillText(text);
+    setEditableTitle(title);
+    setEditableSortOrder(sort_order);
+    handleClose();
   };
 
   const handleSectionDelete = () => {
@@ -194,9 +210,9 @@ export default function SectionsShow(props) {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
-                    onChange={(event) => setTitle(event.target.value)}
+                    value={editableTitle}
+                    name="editableTitle"
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -255,16 +271,51 @@ export default function SectionsShow(props) {
                   </Form.Control>
                 </Form.Group>
                 <ReactQuill
-                  value={quillText}
-                  onChange={(value) => setQuillText(value)}
+                  value={editableQuillText}
+                  onChange={(value) => setEditableQuillText(value)}
                 />
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
-                  <p>{countWords(quillText)}</p>
+                  <p>{countWords(editableQuillText)}</p>
                 </Form.Group>
-                <div className="text-center">
-                  <Button type="submit">Submit Updated Section</Button>
-                  <Button variant="danger" onClick={handleSectionDelete}>
+                <div>
+                  <Button
+                    variant="outline-success"
+                    type="submit"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    Save Changes
+                  </Button>
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                    <Button
+                      variant="outline-danger"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleSectionDelete}
+                    ></Button>
                     Delete Section
                   </Button>
                 </div>
