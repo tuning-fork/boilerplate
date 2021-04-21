@@ -65,18 +65,6 @@ export default function BoilerplatesShow(props) {
       .catch((error) => {
         console.log(error);
       });
-    // axios
-    //   .get(
-    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-    //     {
-    //       headers: { Authorization: `Bearer ${localStorage.token}` },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setOrganizations(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
     axios
       .get(
         `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
@@ -233,21 +221,6 @@ export default function BoilerplatesShow(props) {
         <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
-              {/* <Button
-                onClick={toggleHidden}
-                variant="outline-success"
-                type="submit"
-                style={{
-                  maxWidth: "20%",
-                  align: "center",
-                  backgroundColor: "#23cb87",
-                  color: "#09191b",
-                  fontWeight: "bolder",
-                  textAlign: "right",
-                }}
-              >
-                Close
-              </Button> */}
               <Form onSubmit={handleSubmit}>
                 <Form.Group style={{ display: "l" }}>
                   <Form.Label>Title</Form.Label>
@@ -268,33 +241,6 @@ export default function BoilerplatesShow(props) {
                   onChange={(value) => setQuillText(value)}
                   style={{ backgroundColor: "#fefefe" }}
                 />
-                {/* <Form.Group>
-                  <Form.Label>Organization</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="organizationId"
-                    value={organizationId}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select Organization
-                    </option>
-                    {organizations.map((organization) => {
-                      return (
-                        <option
-                          key={organization.id}
-                          value={organization.id}
-                          onChange={(event) =>
-                            setOrganizationId(event.target.value)
-                          }
-                        >
-                          {organization.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Category</Form.Label>
 
@@ -327,19 +273,33 @@ export default function BoilerplatesShow(props) {
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>{countWords(quillText)}</p>
                 </Form.Group>
-                <div className="text-center">
+                <div>
                   <Button
                     variant="outline-success"
                     type="submit"
                     style={{
-                      maxWidth: "20%",
+                      maxWidth: "50%",
                       align: "center",
                       backgroundColor: "#23cb87",
                       color: "#09191b",
                       fontWeight: "bolder",
                     }}
+                    onClick={handleSubmit}
                   >
                     Save Changes
+                  </Button>
+                  <Button
+                    variant="outline-success"
+                    style={{
+                      maxWidth: "50%",
+                      align: "center",
+                      backgroundColor: "#23cb87",
+                      color: "#09191b",
+                      fontWeight: "bolder",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </Form>
