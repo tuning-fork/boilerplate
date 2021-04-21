@@ -39,6 +39,10 @@ export default function BoilerplatesShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [editableTitle, setEditableTitle] = useState("");
+  const [editableQuillText, setEditableQuillText] = useState("");
+  const [editableCategoryId, setEditableCategoryId] = useState("");
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,6 +64,9 @@ export default function BoilerplatesShow(props) {
         setOrganizationName(response.data.organization.name);
         setCategoryId(response.data.category_id);
         setCategoryName(response.data.category.name);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
         setLoading(false);
       })
       .catch((error) => {
@@ -108,6 +115,13 @@ export default function BoilerplatesShow(props) {
       .catch((error) => {
         console.log("boilerplate update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableTitle(title);
+    setEditableQuillText(quillText);
+    setEditableCategoryId(categoryId);
+    handleClose();
   };
 
   const countWords = (string) => {
@@ -226,10 +240,10 @@ export default function BoilerplatesShow(props) {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    value={title}
-                    name="title"
-                    placeholder={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    value={editableTitle}
+                    name="editableTitle"
+                    placeholder={editableTitle}
+                    onChange={(event) => setEditableTitle(event.target.value)}
                     required
                   />
                 </Form.Group>
@@ -237,8 +251,8 @@ export default function BoilerplatesShow(props) {
                   name="quillText"
                   modules={modules}
                   format={formats}
-                  defaultValue={quillText}
-                  onChange={(value) => setQuillText(value)}
+                  defaultValue={editableQuillText}
+                  onChange={(value) => setEditableQuillText(value)}
                   style={{ backgroundColor: "#fefefe" }}
                 />
                 <Form.Group>
@@ -246,9 +260,11 @@ export default function BoilerplatesShow(props) {
 
                   <Form.Control
                     as="select"
-                    name="categoryId"
-                    value={categoryId}
-                    onChange={(event) => setCategoryId(event.target.value)}
+                    name="editableCategoryId"
+                    value={editableCategoryId}
+                    onChange={(event) =>
+                      setEditableCategoryId(event.target.value)
+                    }
                     required
                   >
                     <option value="" disabled>
@@ -260,7 +276,7 @@ export default function BoilerplatesShow(props) {
                           key={category.id}
                           value={category.id}
                           onChange={(event) =>
-                            setCategoryId(event.target.value)
+                            setEditableCategoryId(event.target.value)
                           }
                         >
                           {category.name}
