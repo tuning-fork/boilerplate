@@ -22,6 +22,8 @@ export default function CategoriesShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const [editableName, setEditableName] = useState("");
+
   useEffect(() => {
     axios
       .get(
@@ -35,24 +37,12 @@ export default function CategoriesShow(props) {
         setName(response.data.name);
         setOrganizationId(response.data.organization_id);
         setOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setOrganizations(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const toggleHidden = () => {
@@ -72,12 +62,18 @@ export default function CategoriesShow(props) {
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        updateOrganizationName(response.data.organization.name);
+        setEditableName(response.data.name);
         toggleHidden();
+        handleClose();
       })
       .catch((error) => {
         console.log("category update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    setEditableName(name);
+    handleClose();
   };
 
   const handleCategoryDelete = () => {
@@ -100,10 +96,6 @@ export default function CategoriesShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const updateOrganizationName = (organizationName) => {
-    setOrganizationName(organizationName);
   };
 
   if (loading) {
@@ -133,19 +125,40 @@ export default function CategoriesShow(props) {
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      value={name}
-                      name="name"
-                      placeholder={name}
-                      onChange={(event) => setName(event.target.value)}
+                      value={editableName}
+                      name="editableName"
+                      placeholder={editableName}
+                      onChange={(event) => setEditableName(event.target.value)}
                       required
                     />
                   </Form.Group>
-                  <div className="text-center">
-                    <Button type="submit" className="btn-lg">
-                      Submit
+                  <div>
+                    <Button
+                      variant="outline-success"
+                      type="submit"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Save Changes
                     </Button>
-                    <Button onClick={toggleHidden} className="btn-lg">
-                      Close
+                    <Button
+                      variant="outline-success"
+                      style={{
+                        maxWidth: "50%",
+                        align: "center",
+                        backgroundColor: "#23cb87",
+                        color: "#09191b",
+                        fontWeight: "bolder",
+                      }}
+                      onClick={handleCancel}
+                    >
+                      Cancel
                     </Button>
                   </div>
                 </Form>
