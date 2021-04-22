@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-
+import * as Auth from "../Services/Auth/Login";
 import { useCurrentOrganizationContext } from "./currentOrganizationContext";
 import { id } from "date-fns/locale";
 
@@ -22,7 +22,24 @@ const reducer = (state, action) => {
       console.log("user info reset", [state, action]);
       return {
         ...state,
-        currentUserInfo: action.payload,
+        currentUserInfo: action.payload.user,
+        jwt: action.payload.jwt,
+        status: "successful",
+        errors: [],
+      };
+    case "SET_AUTHENTICATION_ERROR":
+      return {
+        ...state,
+        currentUserInfo: null,
+        status: "error",
+        errors: [action.payload],
+      };
+    case "SET_AUTHENTICATION_REQUIRED":
+      return {
+        ...state,
+        currentUserInfo: null,
+        status: "authentication required",
+        errors: [],
       };
     default:
       return state;
@@ -39,6 +56,23 @@ export const CurrentUserProvider = ({ children }) => {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+
+  const login = (email, password) => {
+    return Auth.login(email, password)
+      .then((response) => {
+        currentUserDispatch({
+          type: "SET_CURRENT_USER_INFO",
+          payload: response,
+        });
+      })
+      .catch((error) => {
+        currentUserDispatch({
+          type: "SET_AUTHENTICATION_ERROR",
+          payload: error,
+        });
+        throw error;
+      });
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
@@ -87,23 +121,9 @@ export const CurrentUserProvider = ({ children }) => {
   }, [currentUserStore.currentUserInfo]);
   return (
     <CurrentUserContext.Provider
-      value={[currentUserStore, currentUserDispatch]}
+      value={[currentUserStore, currentUserDispatch, login]}
     >
       {children}
     </CurrentUserContext.Provider>
   );
 };
-
-// def assoc
-// @organization_users = OrganizationUser.where(user_id: params[:user_id])
-// all_org_ids = @organization_users.map { |f| f.id }
-// all_org_users = Organizations.where(id: all_org_ids)
-
-// @organization_user = @organization_user.order(id: :desc)
-
-// render json {data: all_org_users}
-// end
-
-// // @organization_users.map do |organization_user|
-// //   render partial: "organization_users.json.jb", locals: {organization_user: organization_user}
-// // end

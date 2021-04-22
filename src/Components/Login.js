@@ -15,7 +15,11 @@ export default function Login() {
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
-  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const [
+    currentUserStore,
+    currentUserDispatch,
+    login,
+  ] = useCurrentUserContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,29 +27,8 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios({
-      method: "post",
-      url: "/api/sessions",
-      headers: { Authorization: `Bearer ${localStorage.token}` },
-      data: { email: email, password: password },
-    })
-      .then((response) => {
-        if (response.data) {
-          localStorage.setItem("token", response.data.jwt);
-          localStorage.setItem("user_id", response.data.user_id);
-          axios({
-            method: "get",
-            url: `/api/users/${response.data.user_id}`,
-            headers: { Authorization: `Bearer ${response.data.jwt}` },
-          }).then((response) => {
-            currentUserDispatch({
-              type: "SET_CURRENT_USER_INFO",
-              payload: response.data,
-            });
-            history.push("/org_select");
-          });
-        }
-      })
+    login(email, password)
+      .then(() => history.push("/org_select"))
       .catch((error) => {
         console.log(error);
         setErrorType(error.response.status);
