@@ -80,15 +80,21 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
-  // const updateOrganizations = (newOrganization) => {
-  //   const newOrganizations = organizations;
-  //   newOrganizations.push(newOrganization);
-  //   setOrganizations(organizations);
-  // };
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
 
-  // const toggleHiddenOrganizationsNew = () => {
-  //   setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
-  // };
+  const sortBios = (sortParam) => {
+    const filteredBiosClone = [...filteredBios];
+    filteredBiosClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredBios(filteredBiosClone);
+  };
+
+  useEffect(() => {
+    sortBios(sortParam);
+  }, [sortParam]);
 
   if (loading) {
     return (
@@ -117,6 +123,27 @@ export default function Bios(props) {
           updateOrganizations={updateOrganizations}
           toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
         /> */}
+
+        <div>
+          <Form>
+            <Form.Group>
+              <Form.Label>Sort Parameter</Form.Label>
+              <Form.Control
+                as="select"
+                name="sortParam"
+                value={sortParam}
+                onChange={handleSortParamSelect}
+                required
+              >
+                <option value="" disabled>
+                  Sort By
+                </option>
+                <option value="last_name">Purpose</option>
+                <option value="title">Title</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
 
         {bios.map((bio) => {
           console.log(bio);
