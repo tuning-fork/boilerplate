@@ -220,7 +220,7 @@ export default function Boilerplates(props) {
                   Sort By
                 </option>
                 <option value="title">Title</option>
-                <option value="category">Category</option>
+                <option value="category_name">Category</option>
               </Form.Control>
             </Form.Group>
           </Form>
