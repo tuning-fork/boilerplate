@@ -110,20 +110,10 @@ export default function Bios(props) {
       <Button onClick={handleShow}>Add Bio</Button>
       <div>
         <Modal onClose={handleClose} show={show}>
-          <BiosNew
-            updateBios={updateBios}
-            // organizations={organizations}
-            // isHiddenOrganizationsNew={isHiddenOrganizationsNew}
-            // toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-          />
+          <BiosNew updateBios={updateBios} />
         </Modal>
       </div>
       <div>
-        {/* <OrganizationsNew
-          updateOrganizations={updateOrganizations}
-          toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-        /> */}
-
         <div>
           <Form>
             <Form.Group>
@@ -138,7 +128,7 @@ export default function Bios(props) {
                 <option value="" disabled>
                   Sort By
                 </option>
-                <option value="last_name">Purpose</option>
+                <option value="last_name">Name</option>
                 <option value="title">Title</option>
               </Form.Control>
             </Form.Group>
