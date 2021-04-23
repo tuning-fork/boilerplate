@@ -55,6 +55,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
     }
   }, []);
   useEffect(() => {}, [currentOrganizationStore.currentOrganizationInfo]);
+
   return (
     <CurrentOrganizationContext.Provider
       value={[currentOrganizationStore, currentOrganizationDispatch]}

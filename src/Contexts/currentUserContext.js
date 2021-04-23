@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import * as Auth from "../Services/Auth/Login";
+import { login as createSession, authWithJwt } from "../Services/Auth/Login";
 import { useCurrentOrganizationContext } from "./currentOrganizationContext";
 import { id } from "date-fns/locale";
 
@@ -58,7 +58,7 @@ export const CurrentUserProvider = ({ children }) => {
   ] = useCurrentOrganizationContext();
 
   const login = (email, password) => {
-    return Auth.login(email, password)
+    return createSession(email, password)
       .then((response) => {
         currentUserDispatch({
           type: "SET_CURRENT_USER_INFO",
@@ -74,18 +74,23 @@ export const CurrentUserProvider = ({ children }) => {
       });
   };
 
+  // Should invalid token give 404?
   useEffect(() => {
-    const userId = localStorage.getItem("user_id");
-    if (userId) {
-      axios
-        .get(`/api/users/${userId}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
+    const savedJwt = localStorage.getItem("token");
+    if (savedJwt) {
+      authWithJwt(savedJwt)
+        .then(({ jwt, user }) => {
           currentUserDispatch({
             type: "SET_CURRENT_USER_INFO",
-            payload: response.data,
+            payload: { jwt, user },
           });
+        })
+        .catch((error) => {
+          currentUserDispatch({
+            type: "SET_AUTHENTICATION_ERROR",
+            payload: error,
+          });
+          throw error;
         });
     }
   }, []);

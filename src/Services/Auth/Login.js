@@ -16,3 +16,12 @@ export async function login(email, password) {
   });
   return { user, jwt };
 }
+
+export async function authWithJwt(jwt) {
+  const response = await axios({
+    method: "get",
+    url: "/api/session",
+    headers: { Authorization: `Bearer ${jwt}` },
+  });
+  return response.data;
+}
