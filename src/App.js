@@ -68,43 +68,6 @@ export default function App() {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
-  useEffect(() => {
-    console.log("local storage id:", localStorage.user_id);
-    if (localStorage.user_id && currentUserStore.currentUserInfo === null) {
-      axios({
-        method: "get",
-        url: `/api/users/${localStorage.user_id}`,
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-        .then((response) => {
-          if (response.data) {
-            currentUserDispatch({
-              type: "SET_CURRENT_USER_INFO",
-              payload: response.data,
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    // if (localStorage.user_id && state.currentOrganizationInfo === null) {
-    //   axios({
-    //     method: "get",
-    //     url: `/api/organizations/${}`,
-    //     headers: { Authorization: `Bearer ${localStorage.token}` },
-    //   })
-    //     .then((response) => {
-    //       if (response.data) {
-    //         dispatch({ type: "SET_CURRENT_ORGANIZATION_INFO", payload: response.data });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
-  }, []);
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -120,7 +83,7 @@ export default function App() {
           <Route path={"/reset_password"} component={ResetPassword} />
           <Route path={"/forgot_password"} component={ForgotPassword} />
 
-          <Route path={"/org_select"} component={OrgSelect} />
+          <PrivateRoute path={"/org_select"} component={OrgSelect} />
 
           <PrivateRoute path={"/dashboard"} component={Dashboard} />
           <PrivateRoute

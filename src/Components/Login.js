@@ -25,15 +25,19 @@ export default function Login() {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (currentUserStore.currentUserInfo) {
+      // history.push("/org_select");
+    }
+  }, [currentUserStore, history]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    login(email, password)
-      .then(() => history.push("/org_select"))
-      .catch((error) => {
-        console.log(error);
-        setErrorType(error.response.status);
-        setErrorText(error.response.statusText);
-      });
+    login(email, password).catch((error) => {
+      console.log(error);
+      setErrorType(error.response.status);
+      setErrorText(error.response.statusText);
+    });
   };
 
   return (

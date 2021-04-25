@@ -74,7 +74,6 @@ export const CurrentUserProvider = ({ children }) => {
       });
   };
 
-  // Should invalid token give 404?
   useEffect(() => {
     const savedJwt = localStorage.getItem("token");
     if (savedJwt) {
