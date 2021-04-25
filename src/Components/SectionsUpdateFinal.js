@@ -59,7 +59,8 @@ export default function SectionsUpdateFinal(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/sections/" + props.section_id,
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
+          props.section_id,
         {
           title: title,
           text: quillText,
@@ -83,9 +84,13 @@ export default function SectionsUpdateFinal(props) {
 
   const handleSectionDelete = () => {
     axios
-      .delete("/api/sections/" + props.section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
+          props.section_id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         console.log(response);
       })
