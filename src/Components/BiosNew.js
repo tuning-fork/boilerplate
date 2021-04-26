@@ -21,6 +21,10 @@ export default function BiosNew(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
+
   const clearForm = () => {
     setQuillText("");
     setFirstName("");
@@ -33,28 +37,31 @@ export default function BiosNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-        {
-          first_name: firstName,
-          last_name: lastName,
-          title: title,
-          text: quillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
-          wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateBios(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("bio creation error", error);
-      });
+    if (currentOrganizationId) {
+      axios
+        .post(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+          {
+            first_name: firstName,
+            last_name: lastName,
+            title: title,
+            text: quillText,
+            organization_id:
+              currentOrganizationStore.currentOrganizationInfo.id,
+            wordcount: countWords(quillText),
+          },
+          { headers: { Authorization: `Bearer ${localStorage.token}` } }
+        )
+        .then((response) => {
+          if (response.data) {
+            props.updateBios(response.data);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("bio creation error", error);
+        });
+    }
   };
 
   const countWords = (string) => {

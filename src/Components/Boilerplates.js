@@ -24,31 +24,33 @@ export default function Boilerplates(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        // const zippyBoilerplates = this.createUnzipped(response.data);
-        // console.log(zippyBoilerplates);
-        setBoilerplates(response.data);
-        setFilteredBoilerplates(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, [currentOrganizationStore.currentOrganizationInfo.id]);
+        })
+        .then((response) => {
+          // const zippyBoilerplates = this.createUnzipped(response.data);
+          // console.log(zippyBoilerplates);
+          setBoilerplates(response.data);
+          setFilteredBoilerplates(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates];

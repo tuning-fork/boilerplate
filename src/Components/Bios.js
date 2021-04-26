@@ -26,27 +26,33 @@ export default function Bios(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
+
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-        // {withCredentials: true}
-      )
-      .then((response) => {
-        const zippyBios = createUnzipped(response.data);
-        console.log(zippyBios);
-        setBios(response.data);
-        setFilteredBios(zippyBios);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+          { headers: { Authorization: `Bearer ${localStorage.token}` } }
+          // {withCredentials: true}
+        )
+        .then((response) => {
+          const zippyBios = createUnzipped(response.data);
+          console.log(zippyBios);
+          setBios(response.data);
+          setFilteredBios(zippyBios);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
     setLoading(false);
-  }, [currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [currentOrganizationId]);
 
   const toggleOpenIndex = () => {
     setOpenIndex(!openIndex);
@@ -80,11 +86,11 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
-  // const updateOrganizations = (newOrganization) => {
-  //   const newOrganizations = organizations;
-  //   newOrganizations.push(newOrganization);
-  //   setOrganizations(organizations);
-  // };
+  const updateOrganizations = (newOrganization) => {
+    const newOrganizations = organizations;
+    newOrganizations.push(newOrganization);
+    setOrganizations(organizations);
+  };
 
   // const toggleHiddenOrganizationsNew = () => {
   //   setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
