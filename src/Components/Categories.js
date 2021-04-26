@@ -15,33 +15,23 @@ export default function Categories() {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/categories`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-    // axios
-    //   .get(
-    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-    //     {
-    //       headers: { Authorization: `Bearer ${localStorage.token}` },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setOrganizations(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
-  }, [currentOrganizationStore.currentOrganizationInfo.id]);
+        })
+        .then((response) => {
+          setCategories(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
