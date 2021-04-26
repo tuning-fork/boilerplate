@@ -39,6 +39,9 @@ export default function BoilerplatesShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableTitle, setEditableTitle] = useState("");
   const [editableQuillText, setEditableQuillText] = useState("");
@@ -49,46 +52,51 @@ export default function BoilerplatesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${props.match.params.boilerplate_id}`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/boilerplates/${props.match.params.boilerplate_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setCategoryId(response.data.category_id);
+          setCategoryName(response.data.category.name);
+          setEditableTitle(response.data.title);
+          setEditableQuillText(response.data.text);
+          setEditableCategoryId(response.data.category_id);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableQuillText(response.data.text);
+          setEditableCategoryId(response.data.category_id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/categories`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setOrganizationId(response.data.organization_id);
-        setOrganizationName(response.data.organization.name);
-        setCategoryId(response.data.category_id);
-        setCategoryName(response.data.category.name);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+        })
+        .then((response) => {
+          setCategories(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
+
+  const updateBoilerplates = (newBoilerplate) => {
+    const newBoilerplates = [...boilerplates];
+    newBoilerplates.push(newBoilerplate);
+    setBoilerplates(newBoilerplates);
+  };
 
   const toggleUnzipped = () => {
     setIsUnzipped(!isUnzipped);
