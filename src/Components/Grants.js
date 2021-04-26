@@ -50,7 +50,6 @@ export default function Grants() {
   console.log("grant render");
 
   useEffect(() => {
-    console.log("use effect ran");
     if (currentOrganizationId) {
       axios
         .get(`/api/organizations/${currentOrganizationId}/grants`, {
