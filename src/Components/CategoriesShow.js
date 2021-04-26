@@ -21,6 +21,9 @@ export default function CategoriesShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableName, setEditableName] = useState("");
 
@@ -29,25 +32,24 @@ export default function CategoriesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${props.match.params.category_id}`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setName(response.data.name);
-        setOrganizationId(response.data.organization_id);
-        setOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        })
+        .then((response) => {
+          setId(response.data.id);
+          setName(response.data.name);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setEditableName(response.data.name);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);

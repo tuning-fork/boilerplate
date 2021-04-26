@@ -20,6 +20,9 @@ export default function FundingOrgsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableName, setEditableName] = useState("");
   const [editableWebsite, setEditableWebsite] = useState("");
@@ -31,27 +34,26 @@ export default function FundingOrgsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${props.match.params.funding_org_id}`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setName(response.data.name);
-        setWebsite(response.data.website);
-        setOrganizationId(response.data.organization_id);
-        setOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setEditableWebsite(response.data.website);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        })
+        .then((response) => {
+          setId(response.data.id);
+          setName(response.data.name);
+          setWebsite(response.data.website);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setEditableName(response.data.name);
+          setEditableWebsite(response.data.website);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);

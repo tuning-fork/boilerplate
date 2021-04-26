@@ -13,23 +13,28 @@ export default function FundingOrgs() {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setFundingOrgs(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setFundingOrgs(response.data);
+          setLoading(false);
+          console.log(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
     window.scrollTo(0, 0);
-  }, [loading, currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [loading, currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs];
