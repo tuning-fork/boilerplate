@@ -64,9 +64,12 @@ export default function GrantsShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       axios
-        .get(`/api/organizations/${currentOrganizationId}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
         .then((response) => {
           setId(response.data.id);
           setTitle(response.data.title);
