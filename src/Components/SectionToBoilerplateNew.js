@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function SectionToBoilerplateNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -19,18 +20,27 @@ export default function SectionToBoilerplateNew(props) {
   ] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get("/api/categories", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/categories`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          setCategories(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const updateCategories = (newCategories) => {
     const categoriesArray = [...categories];
@@ -61,9 +71,13 @@ export default function SectionToBoilerplateNew(props) {
       wordcount: countWords(props.text),
     };
     axios
-      .post("/api/boilerplates", newBoilerplate, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .post(
+        `/api/organizations/${currentOrganizationId}/boilerplates`,
+        newBoilerplate,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         if (response.data) {
           props.toggleBoilerplateHidden();

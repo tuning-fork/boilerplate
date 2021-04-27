@@ -27,24 +27,29 @@ export default function SectionsUpdateFinal(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setSortOrder(response.data.sort_order);
-        setGrantId(response.data.grant_id);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setSortOrder(response.data.sort_order);
+          setGrantId(response.data.grant_id);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);

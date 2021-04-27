@@ -23,27 +23,32 @@ export default function ReportsFinalizeShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setReportSections(response.data.report_sections);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setReportSections(response.data.report_sections);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -66,7 +71,7 @@ export default function ReportsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/` +
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/` +
           id,
         {
           title: title,

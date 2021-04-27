@@ -38,15 +38,20 @@ export default function ReportsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+
     axios
+    if (currentOrganizationId) {
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -69,7 +74,7 @@ export default function ReportsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationId}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -82,7 +87,7 @@ export default function ReportsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationId}/bios`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -94,7 +99,8 @@ export default function ReportsShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -111,7 +117,7 @@ export default function ReportsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
           title: editableTitle,
@@ -170,7 +176,7 @@ export default function ReportsShow(props) {
   const handleReportDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
