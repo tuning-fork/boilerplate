@@ -37,31 +37,28 @@ export default function BiosNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (currentOrganizationId) {
-      axios
-        .post(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-          {
-            first_name: firstName,
-            last_name: lastName,
-            title: title,
-            text: quillText,
-            organization_id:
-              currentOrganizationStore.currentOrganizationInfo.id,
-            wordcount: countWords(quillText),
-          },
-          { headers: { Authorization: `Bearer ${localStorage.token}` } }
-        )
-        .then((response) => {
-          if (response.data) {
-            props.updateBios(response.data);
-            clearForm();
-          }
-        })
-        .catch((error) => {
-          console.log("bio creation error", error);
-        });
-    }
+    axios
+      .post(
+        `/api/organizations/${currentOrganizationId}/bios`,
+        {
+          first_name: firstName,
+          last_name: lastName,
+          title: title,
+          text: quillText,
+          organization_id: currentOrganizationId,
+          wordcount: countWords(quillText),
+        },
+        { headers: { Authorization: `Bearer ${localStorage.token}` } }
+      )
+      .then((response) => {
+        if (response.data) {
+          props.updateBios(response.data);
+          clearForm();
+        }
+      })
+      .catch((error) => {
+        console.log("bio creation error", error);
+      });
   };
 
   const countWords = (string) => {
@@ -116,48 +113,6 @@ export default function BiosNew(props) {
             <Form.Label>Word Count</Form.Label>
             <p>{countWords(quillText)}</p>
           </Form.Group>
-          {/* <Form.Group>
-            <Form.Label>Organization</Form.Label>
-            <Form.Control
-              as="select"
-              name="organizationId"
-              value={organizationId}
-              onChange={(event) => setOrganizationId(event.target.value)}
-              required
-            >
-              <option value="" disabled>
-                Select Organization
-              </option>
-              {props.organizations.map((organization) => {
-                return (
-                  <option
-                    key={organization.id}
-                    value={organization.id}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                  >
-                    {organization.name}
-                  </option>
-                );
-              })}
-            </Form.Control>
-            {props.isHiddenOrganizationsNew ? (
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={props.toggleHiddenOrganizationsNew}
-              >
-                Add Organization
-              </Button>
-            ) : (
-              <Button
-                variant="warning"
-                size="sm"
-                onClick={props.toggleHiddenOrganizationsNew}
-              >
-                Close Add Organization
-              </Button>
-            )}
-          </Form.Group> */}
           <div className="text-center">
             <Button type="submit">Save New Bio</Button>
           </div>

@@ -59,7 +59,7 @@ export default function Categories() {
           {categories.map((category) => {
             return (
               <Link
-                to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${category.id}`}
+                to={`/organizations/${currentOrganizationId}/categories/${category.id}`}
               >
                 {category.name}
               </Link>

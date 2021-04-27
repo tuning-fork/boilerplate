@@ -89,14 +89,13 @@ export default function BiosShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/bios/` + id,
         {
           first_name: editableFirstName,
           last_name: editableLastName,
           title: editableTitle,
           text: editableQuillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationId,
           wordcount: countWords(editableQuillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -133,13 +132,9 @@ export default function BiosShow(props) {
 
   const handleBioDelete = () => {
     axios
-      .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
-          id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .delete(`/api/organizations/${currentOrganizationId}/bios/` + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message) {
           props.history.push("/bios");

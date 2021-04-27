@@ -20,12 +20,9 @@ export default function FundingOrgs() {
   useEffect(() => {
     if (currentOrganizationId) {
       axios
-        .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
         .then((response) => {
           setFundingOrgs(response.data);
           setLoading(false);
@@ -60,7 +57,7 @@ export default function FundingOrgs() {
               return (
                 <Link
                   key={fundingOrg.id}
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${fundingOrg.id}`}
+                  to={`/organizations/${currentOrganizationId}/funding_orgs/${fundingOrg.id}`}
                 >
                   {fundingOrg.name}
                 </Link>

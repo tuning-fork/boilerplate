@@ -59,8 +59,7 @@ export default function CategoriesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/categories/` + id,
         {
           name: editableName,
           organization_id: organizationId,
@@ -84,18 +83,12 @@ export default function CategoriesShow(props) {
 
   const handleCategoryDelete = () => {
     axios
-      .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/` +
-          id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .delete(`/api/organizations/${currentOrganizationId}/categories/` + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`
-          );
+          history.push(`/organizations/${currentOrganizationId}/categories`);
         }
         console.log(response);
       })

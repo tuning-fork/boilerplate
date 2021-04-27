@@ -38,7 +38,7 @@ export default function Bios(props) {
     if (currentOrganizationId) {
       axios
         .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+          `/api/organizations/${currentOrganizationId}/bios`,
           { headers: { Authorization: `Bearer ${localStorage.token}` } }
           // {withCredentials: true}
         )
@@ -131,7 +131,7 @@ export default function Bios(props) {
               <ListGroup>
                 <ListGroup.Item>
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${bio.id}`}
+                    to={`/organizations/${currentOrganizationId}/bios/${bio.id}`}
                   >
                     {bio.first_name} {bio.last_name}
                   </Link>

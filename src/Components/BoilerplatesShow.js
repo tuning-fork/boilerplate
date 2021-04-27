@@ -110,8 +110,7 @@ export default function BoilerplatesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
         {
           title: editableTitle,
           text: editableQuillText,
@@ -151,17 +150,14 @@ export default function BoilerplatesShow(props) {
   const handleBoilerplateDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
       )
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`
-          );
+          history.push(`/organizations/${currentOrganizationId}/boilerplates`);
         }
         console.log(response);
       })
