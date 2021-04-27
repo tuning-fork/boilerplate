@@ -34,9 +34,12 @@ export default function CategoriesShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       axios
-        .get(`/api/organizations/${currentOrganizationId}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+        .get(
+          `/api/organizations/${currentOrganizationId}/category/${props.match.params.category_id}/`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);

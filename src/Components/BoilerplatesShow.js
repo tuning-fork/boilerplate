@@ -264,7 +264,7 @@ export default function BoilerplatesShow(props) {
                   format={formats}
                   defaultValue={editableQuillText}
                   onChange={(value) => setEditableQuillText(value)}
-                  style={{ backgroundColor: "#fefefe" }}
+                  style={{ backgroundColor: "#fefefe", color: "black" }}
                 />
                 <Form.Group>
                   <Form.Label>Category</Form.Label>
