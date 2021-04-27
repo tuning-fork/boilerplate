@@ -62,8 +62,7 @@ export default function FundingOrgsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
           name: editableName,
           website: editableWebsite,
@@ -92,17 +91,14 @@ export default function FundingOrgsShow(props) {
   const handleFundingOrgDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
       )
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`
-          );
+          history.push(`/organizations/${currentOrganizationId}/funding_orgs`);
         }
         console.log(response);
       })
