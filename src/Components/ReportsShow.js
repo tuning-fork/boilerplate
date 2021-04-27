@@ -47,58 +47,51 @@ export default function ReportsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-
-    axios
     if (currentOrganizationId) {
-      .get(
-        `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
-        {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setGrantId(response.data.grant_id);
+          setTitle(response.data.title);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setReportSections(response.data.report_sections);
+          setGrantSections(response.data.grant.grant_sections);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableDeadline(response.data.deadline);
+          setEditableSubmitted(response.data.submitted);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setGrantId(response.data.grant_id);
-        setTitle(response.data.title);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setReportSections(response.data.report_sections);
-        setGrantSections(response.data.grant.grant_sections);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableDeadline(response.data.deadline);
-        setEditableSubmitted(response.data.submitted);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationId}/boilerplates`,
-        {
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationId}/bios`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBios(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [currentOrganizationId]);
 

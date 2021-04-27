@@ -92,11 +92,11 @@ export default function BoilerplatesShow(props) {
     }
   }, [currentOrganizationId]);
 
-  const updateBoilerplates = (newBoilerplate) => {
-    const newBoilerplates = [...boilerplates];
-    newBoilerplates.push(newBoilerplate);
-    setBoilerplates(newBoilerplates);
-  };
+  // const updateBoilerplates = (newBoilerplate) => {
+  //   const newBoilerplates = [...boilerplates];
+  //   newBoilerplates.push(newBoilerplate);
+  //   setBoilerplates(newBoilerplates);
+  // };
 
   const toggleUnzipped = () => {
     setIsUnzipped(!isUnzipped);

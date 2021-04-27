@@ -86,12 +86,6 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
-  const updateOrganizations = (newOrganization) => {
-    const newOrganizations = organizations;
-    newOrganizations.push(newOrganization);
-    setOrganizations(organizations);
-  };
-
   // const toggleHiddenOrganizationsNew = () => {
   //   setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
   // };
