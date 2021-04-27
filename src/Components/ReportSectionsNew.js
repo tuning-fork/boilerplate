@@ -25,20 +25,22 @@ export default function ReportSectionsNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-        setLoading(false);
-      });
-  }, [loading]);
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+          setLoading(false);
+        });
+    }
+  }, [loading, currentOrganizationId]);
 
   const clearForm = () => {
     setQuillText("");
@@ -60,7 +62,7 @@ export default function ReportSectionsNew(props) {
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
         newReportSection,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
