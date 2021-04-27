@@ -44,6 +44,7 @@ export default function GrantsFinalizeShow(props) {
     currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentOrganizationId) {
       axios
         .get(

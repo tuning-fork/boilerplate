@@ -62,6 +62,7 @@ export default function GrantsShow(props) {
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentOrganizationId) {
       axios
         .get(

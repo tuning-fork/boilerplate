@@ -11,7 +11,7 @@ export default function CategoriesShow(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  const [isHidden, setIsHidden] = useState("");
+  const [isHidden, setIsHidden] = useState(true);
   const [organizations, setOrganizations] = useState([]);
   const [organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function CategoriesShow(props) {
     if (currentOrganizationId) {
       axios
         .get(
-          `/api/organizations/${currentOrganizationId}/category/${props.match.params.category_id}/`,
+          `/api/organizations/${currentOrganizationId}/categories/${props.match.params.category_id}/`,
           {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           }

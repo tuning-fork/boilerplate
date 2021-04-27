@@ -36,9 +36,12 @@ export default function FundingOrgsShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       axios
-        .get(`/api/organizations/${currentOrganizationId}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+        .get(
+          `/api/organizations/${currentOrganizationId}/funding_orgs/${props.match.params.funding_org_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);
@@ -132,7 +135,7 @@ export default function FundingOrgsShow(props) {
       </Card>
       <br />
       <div className="container">
-        <Button onClick={toggleHidden}>Update Category</Button>
+        <Button onClick={toggleHidden}>Update Funding Org</Button>
         <Button variant="danger" onClick={handleFundingOrgDelete}>
           Delete Funding Org
         </Button>

@@ -178,13 +178,13 @@ export default function SectionsShow(props) {
             <h5>wordcount: {countWords(quillText)}</h5>
           </Card.Body>
           <div className="container">
-            {isHidden ? (
+            {/* {isHidden ? (
               <Button onClick={toggleHidden}>Update Section</Button>
             ) : (
               <Button onClick={toggleHidden} variant="warning">
                 Close Update Section
               </Button>
-            )}
+            )} */}
             {isBoilerplateHidden ? (
               <Button onClick={toggleBoilerplateHidden}>
                 Save Section as Boilerplate
