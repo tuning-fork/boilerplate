@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -30,7 +30,6 @@ export default function BoilerplatesShow(props) {
   const [organizations, setOrganizations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
-  const [isUnzipped, setIsUnzipped] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
@@ -91,16 +90,6 @@ export default function BoilerplatesShow(props) {
         .catch((error) => console.log(error));
     }
   }, [currentOrganizationId]);
-
-  // const updateBoilerplates = (newBoilerplate) => {
-  //   const newBoilerplates = [...boilerplates];
-  //   newBoilerplates.push(newBoilerplate);
-  //   setBoilerplates(newBoilerplates);
-  // };
-
-  const toggleUnzipped = () => {
-    setIsUnzipped(!isUnzipped);
-  };
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -335,7 +324,6 @@ export default function BoilerplatesShow(props) {
             </Card.Body>
           </Card>
         </Modal>
-        {/* ) : null} */}
       </div>
     </div>
   );

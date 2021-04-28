@@ -57,6 +57,8 @@ export default function Boilerplates(props) {
     setBoilerplates(newBoilerplates);
   };
 
+  useEffect(() => {}, [boilerplates]);
+
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
   };
