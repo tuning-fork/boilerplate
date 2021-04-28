@@ -36,6 +36,7 @@ export default function OrgSelect() {
     const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
       (userOrganization) => event.target.value == userOrganization.id
     );
+    localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION_INFO",
       payload: selectedOrgInfo[0],

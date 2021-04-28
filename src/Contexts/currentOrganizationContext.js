@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
+import axios from "axios";
 
 export const CurrentOrganizationContext = createContext();
 
@@ -38,6 +39,21 @@ export const CurrentOrganizationProvider = ({ children }) => {
     reducer,
     store
   );
+  useEffect(() => {
+    const selectedOrgId = localStorage.getItem("org_id");
+    if (selectedOrgId) {
+      axios
+        .get(`/api/organizations/${selectedOrgId}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          currentOrganizationDispatch({
+            type: "SET_CURRENT_ORGANIZATION_INFO",
+            payload: response.data,
+          });
+        });
+    }
+  }, []);
   useEffect(() => {}, [currentOrganizationStore.currentOrganizationInfo]);
   return (
     <CurrentOrganizationContext.Provider
