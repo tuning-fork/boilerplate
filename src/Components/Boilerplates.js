@@ -17,6 +17,7 @@ export default function Boilerplates(props) {
   const [query, setQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
+  const [sortParam, setSortParam] = useState("");
   const [filteredByWordCount, setFilteredByWordCount] = useState([]);
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);

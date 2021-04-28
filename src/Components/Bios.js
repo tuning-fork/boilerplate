@@ -7,12 +7,12 @@ import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
   const [bios, setBios] = useState([]);
-  // const [organizations, setOrganizations] = useState([]);
   const [isHiddenOrganizationsNew, setIsHiddenOrganizationsNew] = useState(
     true
   );
@@ -20,6 +20,7 @@ export default function Bios(props) {
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [filteredBios, setFilteredBios] = useState([]);
+  const [sortParam, setSortParam] = useState("");
 
   const [
     currentOrganizationStore,
@@ -141,7 +142,7 @@ export default function Bios(props) {
           </Form>
         </div>
 
-        {bios.map((bio) => {
+        {filteredBios.map((bio) => {
           console.log(bio);
           return (
             <div key={bio.id}>

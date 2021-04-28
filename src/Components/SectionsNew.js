@@ -22,6 +22,8 @@ export default function SectionsNew(props) {
   const [loading, setLoading] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [filterParam, setFilterParam] = useState("");
+  const [sortParam, setSortParam] = useState("");
 
   const [
     currentOrganizationStore,
@@ -72,7 +74,7 @@ export default function SectionsNew(props) {
         return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
       });
       setSuggestions(filteredByTitle);
-      setSearchText(value);
+      setSearchText(searchValue);
     } else if (filterParam === "filterCategory") {
       let filteredByCategory = [];
       filteredByCategory = boilerplates.filter((boilerplate) => {
@@ -81,7 +83,7 @@ export default function SectionsNew(props) {
         );
       });
       setSuggestions(filteredByCategory);
-      setSearchText(value);
+      setSearchText(searchValue);
     }
   };
 
