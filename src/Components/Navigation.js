@@ -63,7 +63,12 @@ function Navigation(props) {
                     <Nav.Link href="/organizations">Organizations</Nav.Link>
                   </Nav.Item>
                   <Nav.Item className="active">
-                    <Nav.Link href="/grants">Grants</Nav.Link>
+                    <Nav.Link
+                      href={`/organizations/${currentOrganizationStore.currentOrganizationInfo}
+                                .id/grants`}
+                    >
+                      Grants
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link onClick={handleLogoutClick} to="/logout">
