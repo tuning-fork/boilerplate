@@ -123,10 +123,15 @@ export const CurrentUserProvider = ({ children }) => {
       })
       .catch((error) => console.log(error));
   }, [currentUserStore.currentUserInfo]);
+
+  const context = {
+    currentUserStore,
+    currentUserDispatch,
+    login,
+  };
+
   return (
-    <CurrentUserContext.Provider
-      value={[currentUserStore, currentUserDispatch, login]}
-    >
+    <CurrentUserContext.Provider value={context}>
       {children}
     </CurrentUserContext.Provider>
   );

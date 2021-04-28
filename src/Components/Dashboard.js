@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Dashboard() {
-  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -40,7 +40,7 @@ export default function Dashboard() {
             );
           }}
         >
-          <Card.Header>Grants ></Card.Header>
+          <Card.Header>Grants &gt;</Card.Header>
           <Card.Body>
             Store draft grants and submitted grants in this library. Sort grants
             by purpose, funding organization, and funding award. Start a new
@@ -64,7 +64,7 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Stored Content ></Card.Header>
+              <Card.Header>Stored Content &gt;</Card.Header>
               <Card.Body>
                 Store materials for your organization in this library. Save
                 information about your mission, programs, metrics, client
@@ -83,13 +83,12 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Staff Bios ></Card.Header>
+              <Card.Header>Staff Bios &gt;</Card.Header>
               <Card.Body>
                 Store bios for your organization employees and board in this
                 library. Save information about employee titles, work history,
                 qualifications, and activities in accessible text blocks
                 <br />
-                {/* <a className="card-component-links" href={"/bios/"}>></a> */}
               </Card.Body>
             </Card>
           </div>
@@ -104,7 +103,7 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Funding Organizations ></Card.Header>
+              <Card.Header>Funding Organizations &gt;</Card.Header>
               <Card.Body>
                 Store funding organizations that you have applied to in the
                 past, so that you can track applications, requests for
@@ -121,7 +120,7 @@ export default function Dashboard() {
                 history.push("/organizations/");
               }}
             >
-              <Card.Header>Applying Organizations ></Card.Header>
+              <Card.Header>Applying Organizations &gt;</Card.Header>
               <Card.Body>
                 Store organizations applying for grants, so that you can sort
                 grants, bios, and stored content under a single organization
@@ -139,7 +138,7 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Categories ></Card.Header>
+              <Card.Header>Categories &gt;</Card.Header>
               <Card.Body>
                 Store a list of categories for stored content, so that you can
                 customize your content library for your organization.

@@ -119,18 +119,6 @@ export default function CurrentUser(props) {
               </div>
             ) : null}
           </div>
-          {/* Here are your current organizations:
-            {organization_users.map((organization_user) => {
-              return (
-                <div key={organization_user.organization_id}>
-                  <h4>{organization_user.organization_name}</h4>
-                </div>
-              );
-            })}
-            <br />
-            <OrganizationUser
-              updateOrganizationUsers={updateOrganizationUsers}
-            /> */}
         </Card.Body>
       </Card>
     </div>

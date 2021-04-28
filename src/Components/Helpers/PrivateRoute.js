@@ -5,13 +5,13 @@ import { useCurrentUserContext } from "../../Contexts/currentUserContext";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   console.log("private route rendered");
-  const [{ currentUserInfo }] = useCurrentUserContext();
+  const { currentUserStore } = useCurrentUserContext();
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        currentUserInfo ? (
+        currentUserStore.currentUserInfo ? (
           <Component {...props} />
         ) : (
           <Redirect

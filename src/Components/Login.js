@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -15,11 +15,12 @@ export default function Login() {
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
-  const [
+  const location = useLocation();
+  const {
     currentUserStore,
     currentUserDispatch,
     login,
-  ] = useCurrentUserContext();
+  } = useCurrentUserContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,9 +31,9 @@ export default function Login() {
       currentUserStore.status === "successful" &&
       currentUserStore.currentUserInfo
     ) {
-      history.push("/org_select");
+      history.push(location.state?.from ?? "/org_select");
     }
-  }, [currentUserStore, history]);
+  }, [currentUserStore, history, location]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

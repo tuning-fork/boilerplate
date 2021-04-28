@@ -62,7 +62,7 @@ import ReportsNew from "./Components/ReportsNew";
 // import ReportSectionsNew from './Components/ReportSectionsNew';
 
 export default function App() {
-  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,

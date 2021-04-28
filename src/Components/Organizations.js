@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import OrganizationsNew from "./OrganizationsNew";
 import Card from "react-bootstrap/Card";
-import CurrentUser from "./CurrentUser";
+// import CurrentUser from "./CurrentUser";
 import OrganizationUser from "./OrganizationUser";
 
 export default function Organizations() {
@@ -41,9 +41,9 @@ export default function Organizations() {
   return (
     <div className="flex-container">
       <div className="flex container col">
-        <Card className="card-component">
+        {/* <Card className="card-component">
           <CurrentUser />
-        </Card>
+        </Card> */}
       </div>
       <div className="flex container col">
         <Card className="card-component">
