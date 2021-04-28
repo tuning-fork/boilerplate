@@ -42,11 +42,6 @@ export default function Organizations() {
     <div className="flex-container">
       <div className="flex container col">
         <Card className="card-component">
-          <CurrentUser />
-        </Card>
-      </div>
-      <div className="flex container col">
-        <Card className="card-component">
           <Card.Header className="card-component card-heading">
             Organizations
           </Card.Header>
@@ -54,12 +49,14 @@ export default function Organizations() {
           <div>
             {organizations.map((organization) => {
               return (
-                <Link
-                  key={organization.id}
-                  to={`/organizations/${organization.id}`}
-                >
-                  {organization.name}
-                </Link>
+                <div>
+                  <Link
+                    key={organization.id}
+                    to={`/organizations/${organization.id}`}
+                  >
+                    {organization.name}
+                  </Link>
+                </div>
               );
             })}
           </div>

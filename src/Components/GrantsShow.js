@@ -46,6 +46,9 @@ export default function GrantsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableTitle, setEditableTitle] = useState("");
   const [editableRfpUrl, setEditableRfpUrl] = useState("");
@@ -59,64 +62,61 @@ export default function GrantsShow(props) {
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
-        {
+    window.scrollTo(0, 0);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setRfpUrl(response.data.rfp_url);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setSuccessful(response.data.successful);
+          setPurpose(response.data.purpose);
+          setOrganizationId(response.data.organization_id);
+          setFundingOrgId(response.data.funding_org_id);
+          setSections(response.data.sections);
+          setReports(response.data.reports);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableRfpUrl(response.data.rfp_url);
+          setEditableDeadline(response.data.deadline);
+          setEditableSubmitted(response.data.submitted);
+          setEditableSuccessful(response.data.successful);
+          setEditablePurpose(response.data.purpose);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setRfpUrl(response.data.rfp_url);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setSuccessful(response.data.successful);
-        setPurpose(response.data.purpose);
-        setOrganizationId(response.data.organization_id);
-        setFundingOrgId(response.data.funding_org_id);
-        setSections(response.data.sections);
-        setReports(response.data.reports);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableRfpUrl(response.data.rfp_url);
-        setEditableDeadline(response.data.deadline);
-        setEditableSubmitted(response.data.submitted);
-        setEditableSuccessful(response.data.successful);
-        setEditablePurpose(response.data.purpose);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-        {
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBios(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -126,8 +126,7 @@ export default function GrantsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/grants/` + id,
         {
           title: editableTitle,
           rfp_url: editableRfpUrl,
@@ -189,18 +188,12 @@ export default function GrantsShow(props) {
 
   const handleGrantDelete = () => {
     axios
-      .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
-          id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .delete(`/api/organizations/${currentOrganizationId}/grants/` + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`
-          );
+          history.push(`/organizations/${currentOrganizationId}/grants`);
         }
         console.log(response);
       })
@@ -260,7 +253,7 @@ export default function GrantsShow(props) {
 
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+        `/api/organizations/${currentOrganizationId}/grants/` +
           id +
           "/actions/reordersections",
         newOrders,
@@ -464,7 +457,7 @@ export default function GrantsShow(props) {
               return (
                 <div key={report.id}>
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${id}/reports/${report.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${id}/reports/${report.id}`}
                   >
                     <h4>{report.title}</h4>
                   </Link>
@@ -486,7 +479,7 @@ export default function GrantsShow(props) {
       </Card>
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants-finalize/${id}`}
+        to={`/organizations/${currentOrganizationId}/grants-finalize/${id}`}
       >
         <Button>Grant Finalize</Button>
       </Link>

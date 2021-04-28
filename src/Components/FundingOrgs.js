@@ -13,23 +13,25 @@ export default function FundingOrgs() {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setFundingOrgs(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
+        })
+        .then((response) => {
+          setFundingOrgs(response.data);
+          setLoading(false);
+          console.log(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
     window.scrollTo(0, 0);
-  }, [loading, currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [loading, currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs];
@@ -55,7 +57,7 @@ export default function FundingOrgs() {
               return (
                 <Link
                   key={fundingOrg.id}
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${fundingOrg.id}`}
+                  to={`/organizations/${currentOrganizationId}/funding_orgs/${fundingOrg.id}`}
                 >
                   {fundingOrg.name}
                 </Link>

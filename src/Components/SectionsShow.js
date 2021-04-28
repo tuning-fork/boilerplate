@@ -41,27 +41,32 @@ export default function SectionsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setSortOrder(response.data.sort_order);
-        setGrantId(response.data.grant_id);
-        setEditableQuillText(response.data.text);
-        setEditableTitle(response.data.title);
-        setEditableSortOrder(response.data.sort_order);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setSortOrder(response.data.sort_order);
+          setGrantId(response.data.grant_id);
+          setEditableQuillText(response.data.text);
+          setEditableTitle(response.data.title);
+          setEditableSortOrder(response.data.sort_order);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -92,7 +97,7 @@ export default function SectionsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
         {
           title: editableTitle,
           text: editableQuillText,
@@ -173,13 +178,13 @@ export default function SectionsShow(props) {
             <h5>wordcount: {countWords(quillText)}</h5>
           </Card.Body>
           <div className="container">
-            {isHidden ? (
+            {/* {isHidden ? (
               <Button onClick={toggleHidden}>Update Section</Button>
             ) : (
               <Button onClick={toggleHidden} variant="warning">
                 Close Update Section
               </Button>
-            )}
+            )} */}
             {isBoilerplateHidden ? (
               <Button onClick={toggleBoilerplateHidden}>
                 Save Section as Boilerplate
