@@ -22,28 +22,6 @@ export default function CategoriesOrganizationsNew(props) {
     setOrganizationId("");
   };
 
-  // const handleSubmitOrganization = (event) => {
-  //   event.preventDefault();
-  //   axios
-  //     .post(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-  //       {
-  //         name: organizationName,
-  //       },
-  //       { headers: { Authorization: `Bearer ${localStorage.token}` } }
-  //     )
-  //     .then((response) => {
-  //       if (response.data) {
-  //         props.updateOrganizations(response.data);
-  //         clearForm();
-  //         props.toggleHiddenCategoriesOrganizationsNew();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("organization creation error", error);
-  //     });
-  // };
-
   const handleSubmitCategory = (event) => {
     event.preventDefault();
     axios
@@ -74,24 +52,6 @@ export default function CategoriesOrganizationsNew(props) {
           <h3>Add Category</h3>
         </Card.Header>
         <Card.Body>
-          {/* New Organization */}
-
-          {/* <Form onSubmit={handleSubmitOrganization}>
-            <Form.Group>
-              <Form.Label>New Organization Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="organizationName"
-                value={organizationName}
-                onChange={(event) => setOrganizationName(event.target.value)}
-                required
-              />
-            </Form.Group>
-            <div className="text-center">
-              <Button type="submit">Add New Organization</Button>
-            </div>
-          </Form> */}
-
           {/* New Category */}
 
           <Form onSubmit={handleSubmitCategory}>
