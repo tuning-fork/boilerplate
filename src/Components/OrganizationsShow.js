@@ -14,8 +14,9 @@ export default function OrganizationsShow(props) {
   const history = useHistory();
 
   useEffect(() => {
+    console.log(props.match);
     axios
-      .get(`/api/organizations/${props.match.params.id}`, {
+      .get(`/api/organizations/${props.match.params.org_id}`, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
