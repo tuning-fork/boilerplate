@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React from "react";
 
 export default function Modal(props) {
   if (!props.show) {
