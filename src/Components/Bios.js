@@ -1,9 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BiosNew from "./BiosNew";
-import OrganizationsNew from "./OrganizationsNew";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -13,9 +11,6 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
   const [bios, setBios] = useState([]);
-  const [isHiddenOrganizationsNew, setIsHiddenOrganizationsNew] = useState(
-    true
-  );
   const [errors, setErrors] = useState([]);
   const [openIndex, setOpenIndex] = useState(false);
   const [openNew, setOpenNew] = useState(false);
@@ -38,11 +33,9 @@ export default function Bios(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/bios`,
-          { headers: { Authorization: `Bearer ${localStorage.token}` } }
-          // {withCredentials: true}
-        )
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
         .then((response) => {
           const zippyBios = createUnzipped(response.data);
           console.log(zippyBios);
@@ -55,30 +48,11 @@ export default function Bios(props) {
     setLoading(false);
   }, [currentOrganizationId]);
 
-  const toggleOpenIndex = () => {
-    setOpenIndex(!openIndex);
-  };
-
-  const toggleOpenNew = () => {
-    setOpenNew(openNew);
-  };
-
   const createUnzipped = (data) => {
     return data.map((filteredBio) => {
       filteredBio.isUnzipped = false;
       return filteredBio;
     });
-  };
-
-  const toggleUnzipped = (id, bool) => {
-    const alteredBios = filteredBios.map((bioKey) => {
-      if (id === bioKey.id) {
-        bioKey.isUnzipped = bool;
-      }
-      console.log(bioKey);
-      return bioKey;
-    });
-    setFilteredBios(alteredBios);
   };
 
   const updateBios = (newBio) => {
