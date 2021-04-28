@@ -12,15 +12,9 @@ export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);
-  const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
-  const [query, setQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const [filteredByWordCount, setFilteredByWordCount] = useState([]);
-  const [openIndex, setOpenIndex] = useState(false);
-  const [openNew, setOpenNew] = useState(false);
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,

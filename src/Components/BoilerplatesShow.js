@@ -27,7 +27,6 @@ export default function BoilerplatesShow(props) {
   const [organizationName, setOrganizationName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
