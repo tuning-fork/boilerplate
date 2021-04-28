@@ -27,7 +27,7 @@ export default function ReportsFinalizeShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -66,7 +66,7 @@ export default function ReportsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/` +
           id,
         {
           title: title,

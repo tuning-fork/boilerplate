@@ -18,13 +18,13 @@ export default function OrgSelect() {
   const [organizationId, setOrganizationId] = useState("");
   const [organizations, setOrganizations] = useState([]);
   const history = useHistory();
-  console.log(currentUserStore.currentUserInfo);
+  console.log(currentUserStore.currentUser);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     // currentUserDispatch(useCurrentUserContext);
     console.log(currentUserStore);
-  }, [currentUserStore.currentUserInfo]);
+  }, [currentUserStore.currentUser]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
@@ -38,7 +38,7 @@ export default function OrgSelect() {
     );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
-      type: "SET_CURRENT_ORGANIZATION_INFO",
+      type: "SET_CURRENT_ORGANIZATION",
       payload: selectedOrgInfo[0],
     });
     history.push("/dashboard");
@@ -48,7 +48,7 @@ export default function OrgSelect() {
     <div>
       <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
         <div className="w-100">
-          <h1>Welcome, {currentUserStore?.currentUserInfo?.first_name}</h1>
+          <h1>Welcome, {currentUserStore?.currentUser?.first_name}</h1>
           <h3>
             Please select an organization to continue to your organization
             dashboard:
@@ -61,9 +61,9 @@ export default function OrgSelect() {
           as="select"
           name="organizationId"
           value={
-            currentOrganizationStore.currentOrganizationInfo == null
+            currentOrganizationStore.currentOrganization == null
               ? "0"
-              : currentOrganizationStore.currentOrganizationInfo.id
+              : currentOrganizationStore.currentOrganization.id
           }
           onChange={handleChange}
           required
@@ -79,7 +79,7 @@ export default function OrgSelect() {
                   value={userOrganization.id}
                   // onChange={(event) => {
                   //   currentOrganizationDispatch({
-                  //     type: "SET_CURRENT_ORGANIZATION_INFO",
+                  //     type: "SET_CURRENT_ORGANIZATION",
                   //     payload: userOrganization,
                   //   });
                   // }}

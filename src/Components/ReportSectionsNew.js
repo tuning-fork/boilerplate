@@ -29,7 +29,7 @@ export default function ReportSectionsNew(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -60,7 +60,7 @@ export default function ReportSectionsNew(props) {
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
         newReportSection,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

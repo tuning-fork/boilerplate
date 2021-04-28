@@ -43,7 +43,7 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -66,7 +66,7 @@ export default function GrantsFinalizeShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -76,7 +76,7 @@ export default function GrantsFinalizeShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -124,7 +124,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/` +
           id,
         {
           title: title,
@@ -151,7 +151,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/copy`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/copy`,
         {
           original_grant_id: id,
           title: copyTitle,
@@ -177,7 +177,7 @@ export default function GrantsFinalizeShow(props) {
   const handleSectionDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/sections/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/sections/` +
           props.section.id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -307,7 +307,7 @@ export default function GrantsFinalizeShow(props) {
                   <Alert.Heading>
                     Congrats! You've created a copy. View your copy
                     <Alert.Link
-                      href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${copiedGrantId}`}
+                      href={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${copiedGrantId}`}
                     >
                       {" "}
                       here

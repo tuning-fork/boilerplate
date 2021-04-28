@@ -19,7 +19,7 @@ export default function CurrentUser(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
           localStorage.user_id,
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
         // {withCredentials: true}
@@ -48,7 +48,7 @@ export default function CurrentUser(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
           localStorage.user_id,
         {
           first_name: firstName,

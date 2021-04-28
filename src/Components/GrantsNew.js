@@ -40,7 +40,7 @@ export default function GrantsNew(props) {
     //   .catch((error) => console.log(error));
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -88,12 +88,12 @@ export default function GrantsNew(props) {
       submitted: submitted,
       successful: successful,
       purpose: purpose,
-      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+      organization_id: currentOrganizationStore.currentOrganization.id,
       funding_org_id: fundingOrgId,
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants`,
         newGrant,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

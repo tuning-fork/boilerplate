@@ -25,7 +25,7 @@ export default function FundingOrgsOrganizationsNew(props) {
   //   event.preventDefault();
   //   axios
   //     .post(
-  //       `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/api/organizations`,
+  //       `/organizations/${currentOrganizationStore.currentOrganization.id}/api/organizations`,
   //       {
   //         name: organizationName,
   //       },
@@ -47,10 +47,10 @@ export default function FundingOrgsOrganizationsNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
         {
           name: fundingOrgName,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationStore.currentOrganization.id,
           website: website,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }

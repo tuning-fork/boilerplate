@@ -19,7 +19,7 @@ export default function Categories() {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -31,7 +31,7 @@ export default function Categories() {
       .catch((error) => console.log(error));
     // axios
     //   .get(
-    //     `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+    //     `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
     //     {
     //       headers: { Authorization: `Bearer ${localStorage.token}` },
     //     }
@@ -41,7 +41,7 @@ export default function Categories() {
     //     setLoading(false);
     //   })
     //   .catch((error) => console.log(error));
-  }, [currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [currentOrganizationStore.currentOrganization.id]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
@@ -69,7 +69,7 @@ export default function Categories() {
           {categories.map((category) => {
             return (
               <Link
-                to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/${category.id}`}
+                to={`/organizations/${currentOrganizationStore.currentOrganization.id}/categories/${category.id}`}
               >
                 {category.name}
               </Link>

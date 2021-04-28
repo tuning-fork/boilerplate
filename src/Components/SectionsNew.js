@@ -31,7 +31,7 @@ export default function SectionsNew(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -41,7 +41,7 @@ export default function SectionsNew(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -77,7 +77,7 @@ export default function SectionsNew(props) {
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections`,
         newSection,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

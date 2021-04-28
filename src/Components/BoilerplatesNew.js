@@ -28,7 +28,7 @@ export default function BoilerplatesNew(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -80,11 +80,11 @@ export default function BoilerplatesNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           title: title,
           text: quillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationStore.currentOrganization.id,
           category_id: categoryId,
           wordcount: countWords(quillText),
         },

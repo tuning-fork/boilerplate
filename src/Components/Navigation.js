@@ -33,7 +33,7 @@ function Navigation(props) {
     );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
-      type: "SET_CURRENT_ORGANIZATION_INFO",
+      type: "SET_CURRENT_ORGANIZATION",
       payload: selectedOrgInfo[0],
     });
   };
@@ -72,13 +72,12 @@ function Navigation(props) {
                   </Nav.Item>
                 </Nav>
               </div>
-              {currentOrganizationStore?.currentOrganizationInfo?.id ? (
+              {currentOrganizationStore?.currentOrganization?.id ? (
                 <div>
                   <h3 style={{ color: "#fefefe" }}>
-                    You are logged in as
-                    {currentUserStore?.currentUserInfo?.first_name} and working
-                    in
-                    {currentOrganizationStore.currentOrganizationInfo.name}
+                    You are logged in as{" "}
+                    {currentUserStore?.currentUser?.first_name} and working in{" "}
+                    {currentOrganizationStore.currentOrganization.name}
                   </h3>
                   <Form className="justify-content-end">
                     <Form.Group>
@@ -87,11 +86,9 @@ function Navigation(props) {
                         as="select"
                         name="organizationId"
                         value={
-                          currentOrganizationStore.currentOrganizationInfo ==
-                          null
+                          currentOrganizationStore.currentOrganization == null
                             ? "0"
-                            : currentOrganizationStore.currentOrganizationInfo
-                                .id
+                            : currentOrganizationStore.currentOrganization.id
                         }
                         onChange={handleChange}
                         required
@@ -181,9 +178,9 @@ export default withRouter(Navigation);
                 </Nav> */
 }
 
-// {currentOrganization: "pancake 3.0", currentOrganizationInfo: Array(3)}
+// {currentOrganization: "pancake 3.0", currentOrganization: Array(3)}
 // currentOrganization: "pancake 3.0"
-// currentOrganizationInfo: Array(3)
+// currentOrganization: Array(3)
 // 0: {id: 1, name: "org1"}
 // 1: {id: 2, name: "org2"}
 // 2: {id: 3, name: "org3"}

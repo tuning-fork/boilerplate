@@ -31,7 +31,7 @@ export default function SectionsUpdateFinal(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/${props.section_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

@@ -26,7 +26,7 @@ export default function CategoriesOrganizationsNew(props) {
   //   event.preventDefault();
   //   axios
   //     .post(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+  //       `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
   //       {
   //         name: organizationName,
   //       },
@@ -48,7 +48,7 @@ export default function CategoriesOrganizationsNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
         {
           name: categoryName,
           organization_id: organizationId,

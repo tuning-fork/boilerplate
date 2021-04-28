@@ -36,7 +36,7 @@ export default function ReportsNew(props) {
     };
     axios
       .post(
-        `api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports`,
+        `api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports`,
         newReport,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

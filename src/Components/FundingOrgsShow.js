@@ -33,7 +33,7 @@ export default function FundingOrgsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${props.match.params.funding_org_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/${props.match.params.funding_org_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -60,7 +60,7 @@ export default function FundingOrgsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/` +
           id,
         {
           name: editableName,
@@ -90,7 +90,7 @@ export default function FundingOrgsShow(props) {
   const handleFundingOrgDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/` +
           id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -99,7 +99,7 @@ export default function FundingOrgsShow(props) {
       .then((response) => {
         if (response.data.message) {
           history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`
+            `/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`
           );
         }
         console.log(response);

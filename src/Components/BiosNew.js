@@ -35,13 +35,13 @@ export default function BiosNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
         {
           first_name: firstName,
           last_name: lastName,
           title: title,
           text: quillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationStore.currentOrganization.id,
           wordcount: countWords(quillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }

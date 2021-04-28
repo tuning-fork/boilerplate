@@ -45,7 +45,7 @@ export default function SectionsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/${props.section_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -92,7 +92,7 @@ export default function SectionsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/${props.section_id}`,
         {
           title: editableTitle,
           text: editableQuillText,

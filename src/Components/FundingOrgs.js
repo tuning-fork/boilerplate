@@ -17,7 +17,7 @@ export default function FundingOrgs() {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -29,7 +29,7 @@ export default function FundingOrgs() {
       })
       .catch((error) => console.log(error));
     window.scrollTo(0, 0);
-  }, [loading, currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [loading, currentOrganizationStore.currentOrganization.id]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs];
@@ -55,7 +55,7 @@ export default function FundingOrgs() {
               return (
                 <Link
                   key={fundingOrg.id}
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/${fundingOrg.id}`}
+                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/${fundingOrg.id}`}
                 >
                   {fundingOrg.name}
                 </Link>

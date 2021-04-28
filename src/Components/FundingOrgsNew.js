@@ -22,7 +22,7 @@ export default function FundingOrgsNew(props) {
   // useEffect(() => {
   //   axios
   //     .get(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+  //       `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
   //       {
   //         headers: { Authorization: `Bearer ${localStorage.token}` },
   //       }
@@ -51,11 +51,11 @@ export default function FundingOrgsNew(props) {
     const newFundingOrg = {
       name: name,
       website: website,
-      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+      organization_id: currentOrganizationStore.currentOrganization.id,
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
         newFundingOrg,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

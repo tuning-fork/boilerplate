@@ -51,7 +51,7 @@ export default function BoilerplatesShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${props.match.params.boilerplate_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${props.match.params.boilerplate_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -78,7 +78,7 @@ export default function BoilerplatesShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -102,7 +102,7 @@ export default function BoilerplatesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
           id,
         {
           title: editableTitle,
@@ -143,7 +143,7 @@ export default function BoilerplatesShow(props) {
   const handleBoilerplateDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
           id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -152,7 +152,7 @@ export default function BoilerplatesShow(props) {
       .then((response) => {
         if (response.data.message) {
           history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`
+            `/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`
           );
         }
         console.log(response);

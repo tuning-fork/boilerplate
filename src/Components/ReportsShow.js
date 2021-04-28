@@ -46,7 +46,7 @@ export default function ReportsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -69,7 +69,7 @@ export default function ReportsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -82,7 +82,7 @@ export default function ReportsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -111,7 +111,7 @@ export default function ReportsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
           title: editableTitle,
@@ -170,7 +170,7 @@ export default function ReportsShow(props) {
   const handleReportDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -352,7 +352,7 @@ export default function ReportsShow(props) {
       <br />
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports-finalize/${id}`}
+        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports-finalize/${id}`}
       >
         <Button>Report Finalize</Button>
       </Link>

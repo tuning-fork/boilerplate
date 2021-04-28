@@ -34,7 +34,7 @@ export default function ReportSectionsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -65,7 +65,7 @@ export default function ReportSectionsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           title: editableTitle,
           text: editableQuillText,
@@ -94,7 +94,7 @@ export default function ReportSectionsShow(props) {
   const handleReportSectionDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

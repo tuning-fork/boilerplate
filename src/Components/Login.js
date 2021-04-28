@@ -29,7 +29,7 @@ export default function Login() {
   useEffect(() => {
     if (
       currentUserStore.status === "successful" &&
-      currentUserStore.currentUserInfo
+      currentUserStore.currentUser
     ) {
       history.push(location.state?.from ?? "/org_select");
     }

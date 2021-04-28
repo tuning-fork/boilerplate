@@ -61,7 +61,7 @@ export default function GrantsShow(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -91,7 +91,7 @@ export default function GrantsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -104,7 +104,7 @@ export default function GrantsShow(props) {
       });
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -126,7 +126,7 @@ export default function GrantsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/` +
           id,
         {
           title: editableTitle,
@@ -190,7 +190,7 @@ export default function GrantsShow(props) {
   const handleGrantDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/` +
           id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -199,7 +199,7 @@ export default function GrantsShow(props) {
       .then((response) => {
         if (response.data.message) {
           history.push(
-            `/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`
+            `/organizations/${currentOrganizationStore.currentOrganization.id}/grants`
           );
         }
         console.log(response);
@@ -260,7 +260,7 @@ export default function GrantsShow(props) {
 
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/` +
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/` +
           id +
           "/actions/reordersections",
         newOrders,
@@ -464,7 +464,7 @@ export default function GrantsShow(props) {
               return (
                 <div key={report.id}>
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${id}/reports/${report.id}`}
+                    to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${id}/reports/${report.id}`}
                   >
                     <h4>{report.title}</h4>
                   </Link>
@@ -486,7 +486,7 @@ export default function GrantsShow(props) {
       </Card>
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants-finalize/${id}`}
+        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants-finalize/${id}`}
       >
         <Button>Grant Finalize</Button>
       </Link>

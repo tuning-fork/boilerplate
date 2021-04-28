@@ -32,7 +32,7 @@ export default function Boilerplates(props) {
   useEffect(() => {
     axios
       .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -48,7 +48,7 @@ export default function Boilerplates(props) {
         console.log(error);
         setLoading(false);
       });
-  }, [currentOrganizationStore.currentOrganizationInfo.id]);
+  }, [currentOrganizationStore.currentOrganization.id]);
 
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates];
@@ -113,7 +113,7 @@ export default function Boilerplates(props) {
           <Card>
             <h5>
               <a
-                href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${boilerplate.id}`}
+                href={`/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${boilerplate.id}`}
                 dangerouslySetInnerHTML={{ __html: resultsTitle }}
               ></a>
             </h5>
@@ -134,7 +134,7 @@ export default function Boilerplates(props) {
             <Card.Header>
               <h5>
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/${boilerplate.id}`}
+                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
                 </Link>

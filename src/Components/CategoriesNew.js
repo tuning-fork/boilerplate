@@ -22,7 +22,7 @@ export default function CategoriesNew(props) {
   // useEffect(() => {
   //   axios
   //     .get(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
+  //       `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
   //       {
   //         headers: { Authorization: `Bearer ${localStorage.token}` },
   //       }
@@ -38,11 +38,11 @@ export default function CategoriesNew(props) {
     event.preventDefault();
     const newCategory = {
       name: name,
-      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+      organization_id: currentOrganizationStore.currentOrganization.id,
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
         newCategory,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

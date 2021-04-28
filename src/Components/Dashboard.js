@@ -28,7 +28,7 @@ export default function Dashboard() {
     >
       <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
         <div className="w-100">
-          <h1>Welcome, {currentUserStore?.currentUserInfo?.first_name}</h1>
+          <h1>Welcome, {currentUserStore?.currentUser?.first_name}</h1>
         </div>
       </div>
       <div className="d-flex flex-row row">
@@ -36,7 +36,7 @@ export default function Dashboard() {
           className="card-component"
           onClick={() => {
             history.push(
-              `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/`
+              `organizations/${currentOrganizationStore.currentOrganization.id}/grants/`
             );
           }}
         >
@@ -60,7 +60,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/`
                 );
               }}
             >
@@ -79,7 +79,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/bios/`
                 );
               }}
             >
@@ -99,7 +99,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/`
                 );
               }}
             >
@@ -113,28 +113,12 @@ export default function Dashboard() {
               </Card.Body>
             </Card>
           </div>
-          {/* <div className="row">
-            <Card
-              className="card-component"
-              onClick={() => {
-                history.push("/organizations/");
-              }}
-            >
-              <Card.Header>Applying Organizations &gt;</Card.Header>
-              <Card.Body>
-                Store organizations applying for grants, so that you can sort
-                grants, bios, and stored content under a single organization
-                heading. Add yourself to an organization as an affiliated user.
-                <br />
-              </Card.Body>
-            </Card>
-          </div> */}
           <div className="row">
             <Card
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/categories/`
                 );
               }}
             >
