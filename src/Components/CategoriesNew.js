@@ -18,31 +18,19 @@ export default function CategoriesNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
-
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/organizations`,
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.token}` },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setOrganizations(response.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newCategory = {
       name: name,
-      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+      organization_id: currentOrganizationId,
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
+        `/api/organizations/${currentOrganizationId}/categories`,
         newCategory,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -64,12 +52,6 @@ export default function CategoriesNew(props) {
     setOrganizationId("");
   };
 
-  // const updateOrganizations = (newOrganization) => {
-  //   const newOrganizations = [...organizations];
-  //   newOrganizations.push(newOrganization);
-  //   setOrganizations(organizations);
-  // };
-
   const toggleHiddenNew = () => {
     setIsHiddenNew(!isHiddenNew);
   };
@@ -89,31 +71,6 @@ export default function CategoriesNew(props) {
               required
             />
           </Form.Group>
-          {/* <Form.Group>
-            <Form.Label>Organization</Form.Label>
-            <Form.Control
-              as="select"
-              name="organizationId"
-              value={organizationId}
-              onChange={(event) => setOrganizationId(event.target.value)}
-              required
-            >
-              <option value="" disabled>
-                Select Organization
-              </option>
-              {organizations.map((organization) => {
-                return (
-                  <option
-                    key={organization.id}
-                    value={organization.id}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                  >
-                    {organization.name}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Form.Group> */}
           <div className="text-center">
             <Button
               variant="outline-success"

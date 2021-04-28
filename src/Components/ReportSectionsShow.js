@@ -26,36 +26,41 @@ export default function ReportSectionsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setText(response.data.text);
-        setQuillText(response.data.text);
-        setSortOrder(response.data.sort_order);
-        setWordcount(response.data.wordcount);
-        setReportId(response.data.report_id);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableSortOrder(response.data.sort_order);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setText(response.data.text);
+          setQuillText(response.data.text);
+          setSortOrder(response.data.sort_order);
+          setWordcount(response.data.wordcount);
+          setReportId(response.data.report_id);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableQuillText(response.data.text);
+          setEditableSortOrder(response.data.sort_order);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -65,7 +70,7 @@ export default function ReportSectionsShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           title: editableTitle,
           text: editableQuillText,
@@ -94,7 +99,7 @@ export default function ReportSectionsShow(props) {
   const handleReportSectionDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

@@ -50,7 +50,6 @@ export default function Grants() {
   console.log("grant render");
 
   useEffect(() => {
-    console.log("use effect ran");
     if (currentOrganizationId) {
       axios
         .get(`/api/organizations/${currentOrganizationId}/grants`, {
@@ -167,7 +166,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
@@ -178,7 +177,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
@@ -212,7 +211,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -224,7 +223,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -263,7 +262,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -275,7 +274,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -312,7 +311,7 @@ export default function Grants() {
                 <h3>
                   Title:
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
@@ -326,7 +325,7 @@ export default function Grants() {
                 <h3>
                   Title:{" "}
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
