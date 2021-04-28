@@ -27,30 +27,23 @@ export default function GrantsNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    // axios
-    //   .get("/api/organizations", {
-    //     headers: { Authorization: `Bearer ${localStorage.token}` },
-    //   })
-    //   .then((response) => {
-    //     setOrganizations(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setFundingOrgs(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+        })
+        .then((response) => {
+          setFundingOrgs(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const toggleHiddenFundingOrgsOrganizationsNew = () => {
     setIsHiddenFundingOrgsOrganizationsNew(
@@ -73,12 +66,6 @@ export default function GrantsNew(props) {
     setFundingOrgs(newFundingOrgs);
   };
 
-  // const updateOrganizations = (newOrganization) => {
-  //   const NewOrganizations = [...organizations];
-  //   NewOrganizations.push(newOrganization);
-  //   setOrganizations(NewOrganizations);
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newGrant = {
@@ -92,13 +79,9 @@ export default function GrantsNew(props) {
       funding_org_id: fundingOrgId,
     };
     axios
-      .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants`,
-        newGrant,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .post(`/api/organizations/${currentOrganizationId}/grants`, newGrant, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data) {
           props.updateGrants(response.data);

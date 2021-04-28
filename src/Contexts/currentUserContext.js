@@ -41,18 +41,22 @@ export const CurrentUserProvider = ({ children }) => {
   ] = useCurrentOrganizationContext();
 
   useEffect(() => {
-    // console.log("did the useEffect render?");
-    // if (currentUserStore || localStorage.user_id) {
-    //   console.log("did the if statement run?");
-    //   axios
-    //     .get(`/api/organization_users`, {
-    //       headers: { Authorization: `Bearer ${localStorage.token}` },
-    //     })
-    //     .then((response) => {
-    //       console.log(response);
-    //     })
-    //     .catch((error) => console.log(error));
-    // }
+    const userId = localStorage.getItem("user_id");
+    if (userId) {
+      axios
+        .get(`/api/users/${userId}`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          currentUserDispatch({
+            type: "SET_CURRENT_USER_INFO",
+            payload: response.data,
+          });
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     const userId =
       currentUserStore?.currentUserInfo?.id || localStorage.user_id;
     console.log(userId);

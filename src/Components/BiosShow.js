@@ -41,6 +41,9 @@ export default function BiosShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -49,32 +52,34 @@ export default function BiosShow(props) {
   const history = useHistory();
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/${props.match.params.bio_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setFirstName(response.data.first_name);
-        setLastName(response.data.last_name);
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setOrganizationId(response.data.organization_id);
-        setOrganization(response.data.organization);
-        setWordCount(response.data.wordcount);
-        setLoading(false);
-        setEditableQuillText(response.data.text);
-        setEditableFirstName(response.data.first_name);
-        setEditableLastName(response.data.last_name);
-        setEditableTitle(response.data.title);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/bios/${props.match.params.bio_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setFirstName(response.data.first_name);
+          setLastName(response.data.last_name);
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setOrganizationId(response.data.organization_id);
+          setOrganization(response.data.organization);
+          setWordCount(response.data.wordcount);
+          setLoading(false);
+          setEditableQuillText(response.data.text);
+          setEditableFirstName(response.data.first_name);
+          setEditableLastName(response.data.last_name);
+          setEditableTitle(response.data.title);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -84,14 +89,13 @@ export default function BiosShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/bios/` + id,
         {
           first_name: editableFirstName,
           last_name: editableLastName,
           title: editableTitle,
           text: editableQuillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationId,
           wordcount: countWords(editableQuillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -128,13 +132,9 @@ export default function BiosShow(props) {
 
   const handleBioDelete = () => {
     axios
-      .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/` +
-          id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .delete(`/api/organizations/${currentOrganizationId}/bios/` + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message) {
           props.history.push("/bios");

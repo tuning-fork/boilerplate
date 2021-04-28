@@ -27,31 +27,33 @@ export default function SectionsNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setBoilerplates(response.data);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBios(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const clearForm = () => {
     setQuillText("");
@@ -77,7 +79,7 @@ export default function SectionsNew(props) {
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections`,
         newSection,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

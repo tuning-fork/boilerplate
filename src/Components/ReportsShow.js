@@ -38,63 +38,62 @@ export default function ReportsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setGrantId(response.data.grant_id);
+          setTitle(response.data.title);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setReportSections(response.data.report_sections);
+          setGrantSections(response.data.grant.grant_sections);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableDeadline(response.data.deadline);
+          setEditableSubmitted(response.data.submitted);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setGrantId(response.data.grant_id);
-        setTitle(response.data.title);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setReportSections(response.data.report_sections);
-        setGrantSections(response.data.grant.grant_sections);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableDeadline(response.data.deadline);
-        setEditableSubmitted(response.data.submitted);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-        {
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBios(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -111,7 +110,7 @@ export default function ReportsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
           title: editableTitle,
@@ -170,7 +169,7 @@ export default function ReportsShow(props) {
   const handleReportDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports/${id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }

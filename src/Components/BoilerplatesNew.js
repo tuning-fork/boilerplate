@@ -24,15 +24,15 @@ export default function BoilerplatesNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
     axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .get(`/api/organizations/${currentOrganizationId}/categories`, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         console.log(response.data);
         setCategories(response.data);
@@ -80,11 +80,11 @@ export default function BoilerplatesNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationId}/boilerplates`,
         {
           title: title,
           text: quillText,
-          organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+          organization_id: currentOrganizationId,
           category_id: categoryId,
           wordcount: countWords(quillText),
         },
@@ -213,33 +213,6 @@ export default function BoilerplatesNew(props) {
                 </Button>
               )}
             </Form.Group>
-            {/* <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select"
-                name="organizationId"
-                value={organizationId}
-                onChange={(event) => setOrganizationId(event.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  Select Organization
-                </option>
-                {organizations.map((organization) => {
-                  return (
-                    <option
-                      key={organization.id}
-                      value={organization.id}
-                      onChange={(event) =>
-                        setOrganizationId(event.target.value)
-                      }
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group> */}
 
             <div className="text-center">
               <Button type="submit">Add New Boilerplate</Button>

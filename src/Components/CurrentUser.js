@@ -15,25 +15,30 @@ export default function CurrentUser(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
-          localStorage.user_id,
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-        // {withCredentials: true}
-      )
-      .then((response) => {
-        setFirstName(response.data.first_name);
-        setLastName(response.data.last_name);
-        setEmail(response.data.email);
-        setOrganizationUsers(response.data.organization_users);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+            localStorage.user_id,
+          { headers: { Authorization: `Bearer ${localStorage.token}` } }
+          // {withCredentials: true}
+        )
+        .then((response) => {
+          setFirstName(response.data.first_name);
+          setLastName(response.data.last_name);
+          setEmail(response.data.email);
+          setOrganizationUsers(response.data.organization_users);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const updateOrganizationUsers = (newOrganizationUser) => {
     const newOrganizationUsers = [...organizationUsers];
@@ -48,7 +53,7 @@ export default function CurrentUser(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+        `/api/organizations/${currentOrganizationId}/users/` +
           localStorage.user_id,
         {
           first_name: firstName,

@@ -27,24 +27,29 @@ export default function SectionsUpdateFinal(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/${props.section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setSortOrder(response.data.sort_order);
-        setGrantId(response.data.grant_id);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setSortOrder(response.data.sort_order);
+          setGrantId(response.data.grant_id);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -109,22 +114,22 @@ export default function SectionsUpdateFinal(props) {
 
   return (
     <div className="container">
-      {props.isUnzipped === false ? (
-        <Container className="whatever" onClick={toggleHidden}>
-          <h5>{title}</h5>
-          <h1 onClick={() => props.toggleUnzipped(props.section_id, true)}>
+      {/* {props.isUnzipped === false ? ( */}
+      <Container className="whatever" onClick={toggleHidden}>
+        {/* <h5>{title}</h5> */}
+        {/* <h1 onClick={() => props.toggleUnzipped(props.section_id, true)}>
             +
-          </h1>
-        </Container>
-      ) : (
-        <Container className="whatever" onClick={toggleHidden}>
-          <h5>{title}</h5>
-          <h1 onClick={() => props.toggleUnzipped(props.section_id, false)}>
+          </h1> */}
+      </Container>
+      {/* ) : ( */}
+      <Container className="whatever" onClick={toggleHidden}>
+        <h5>{title}</h5>
+        {/* <h1 onClick={() => props.toggleUnzipped(props.section_id, false)}>
             -
-          </h1>
-          <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
-        </Container>
-      )}
+          </h1> */}
+        <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
+      </Container>
+      {/* )} */}
       <br />
       {!isHidden ? (
         <div>
