@@ -5,7 +5,7 @@ import { useCurrentUserContext } from "../../Contexts/currentUserContext";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   console.log("private route rendered");
-  const { currentUserInfo } = useCurrentUserContext();
+  const [{ currentUserInfo }] = useCurrentUserContext();
 
   return (
     <Route

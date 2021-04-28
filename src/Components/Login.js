@@ -26,8 +26,11 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    if (currentUserStore.currentUserInfo) {
-      // history.push("/org_select");
+    if (
+      currentUserStore.status === "successful" &&
+      currentUserStore.currentUserInfo
+    ) {
+      history.push("/org_select");
     }
   }, [currentUserStore, history]);
 
