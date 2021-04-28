@@ -40,8 +40,6 @@ export default function Boilerplates(props) {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
         .then((response) => {
-          // const zippyBoilerplates = this.createUnzipped(response.data);
-          // console.log(zippyBoilerplates);
           setBoilerplates(response.data);
           setFilteredBoilerplates(response.data);
           setLoading(false);
@@ -180,8 +178,8 @@ export default function Boilerplates(props) {
         <Modal onClose={handleClose} show={show}>
           <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
         </Modal>
-        {/* Search input field */}
 
+        {/* Search input field */}
         <Form>
           <Form.Group>
             <Form.Control
@@ -191,9 +189,6 @@ export default function Boilerplates(props) {
               onChange={handleSearchParamSelect}
               required
             >
-              {/* <option value="" disabled>
-                Search By
-              </option> */}
               <option value="filterText">Search By Text</option>
               <option value="filterWordCount">Search By Word Count</option>
             </Form.Control>
