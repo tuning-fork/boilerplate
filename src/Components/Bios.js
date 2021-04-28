@@ -86,9 +86,21 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
-  // const toggleHiddenOrganizationsNew = () => {
-  //   setIsHiddenOrganizationsNew(!isHiddenOrganizationsNew);
-  // };
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
+
+  const sortBios = (sortParam) => {
+    const filteredBiosClone = [...filteredBios];
+    filteredBiosClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredBios(filteredBiosClone);
+  };
+
+  useEffect(() => {
+    sortBios(sortParam);
+  }, [sortParam]);
 
   if (loading) {
     return (
@@ -104,19 +116,30 @@ export default function Bios(props) {
       <Button onClick={handleShow}>Add Bio</Button>
       <div>
         <Modal onClose={handleClose} show={show}>
-          <BiosNew
-            updateBios={updateBios}
-            // organizations={organizations}
-            // isHiddenOrganizationsNew={isHiddenOrganizationsNew}
-            // toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-          />
+          <BiosNew updateBios={updateBios} />
         </Modal>
       </div>
       <div>
-        {/* <OrganizationsNew
-          updateOrganizations={updateOrganizations}
-          toggleHiddenOrganizationsNew={toggleHiddenOrganizationsNew}
-        /> */}
+        <div>
+          <Form>
+            <Form.Group>
+              <Form.Label>Sort Parameter</Form.Label>
+              <Form.Control
+                as="select"
+                name="sortParam"
+                value={sortParam}
+                onChange={handleSortParamSelect}
+                required
+              >
+                <option value="" disabled>
+                  Sort By
+                </option>
+                <option value="last_name">Name</option>
+                <option value="title">Title</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
 
         {bios.map((bio) => {
           console.log(bio);

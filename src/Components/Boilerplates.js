@@ -62,6 +62,22 @@ export default function Boilerplates(props) {
     setFilterParam(event.target.value);
   };
 
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
+
+  const sortBoilerplates = (sortParam) => {
+    const filteredBoilerplatesClone = [...filteredBoilerplates];
+    filteredBoilerplatesClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredBoilerplates(filteredBoilerplatesClone);
+  };
+
+  useEffect(() => {
+    sortBoilerplates(sortParam);
+  }, [sortParam]);
+
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
     setSearchText(event.target.value);
@@ -191,6 +207,26 @@ export default function Boilerplates(props) {
             />
           </Form.Group>
         </Form>
+        <div>
+          <Form>
+            <Form.Group>
+              <Form.Label>Sort Parameter</Form.Label>
+              <Form.Control
+                as="select"
+                name="sortParam"
+                value={sortParam}
+                onChange={handleSortParamSelect}
+                required
+              >
+                <option value="" disabled>
+                  Sort By
+                </option>
+                <option value="title">Title</option>
+                <option value="category_name">Category</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
 
         {highlightedBoilerplates}
       </div>
