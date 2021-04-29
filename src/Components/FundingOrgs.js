@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
@@ -8,11 +8,7 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
