@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -22,10 +22,7 @@ export default function ReportSectionsUpdateFinal(props) {
     setIsHidden(!isHidden);
   };
 
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
@@ -131,7 +128,6 @@ export default function ReportSectionsUpdateFinal(props) {
                   />
                 </Form.Group>
                 <ReactQuill
-                  // name="quill_text"
                   value={quillText}
                   onChange={(value) => setQuillText(value)}
                 />
