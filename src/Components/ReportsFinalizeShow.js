@@ -1,10 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
-// import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import ReportSectionsShow from './ReportSectionsShow';
 import ReportSectionsUpdateFinal from "./ReportSectionsUpdateFinal";
-// // import ReportsNew from './ReportsNew';
-// import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -67,7 +63,6 @@ export default function ReportsFinalizeShow(props) {
   };
 
   const handleSubmit = (event) => {
-    // const { title, deadline, submitted } = this.state;
     event.preventDefault();
     axios
       .patch(
