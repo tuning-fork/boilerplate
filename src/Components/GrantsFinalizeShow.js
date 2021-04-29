@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SectionsUpdateFinal from "./SectionsUpdateFinal";
 import Form from "react-bootstrap/Form";
@@ -35,10 +35,7 @@ export default function GrantsFinalizeShow(props) {
   const [copiedGrantId, setCopiedGrantId] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
@@ -378,9 +375,6 @@ export default function GrantsFinalizeShow(props) {
                 grant_id={id}
                 boilerplates={boilerplates}
                 bios={bios}
-                // section_title={section.title}
-                // section_text={section.text}
-                // section_grant_id={state.id}
                 updateSections={updateSections}
               />
             </div>
