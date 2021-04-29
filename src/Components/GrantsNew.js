@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FundingOrgsOrganizationsNew from "./FundingOrgsOrganizationsNew";
 import Form from "react-bootstrap/Form";
@@ -16,7 +16,6 @@ export default function GrantsNew(props) {
   const [purpose, setPurpose] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [fundingOrgId, setFundingOrgId] = useState("");
-  // const [organizations, setOrganizations] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [
     isHiddenFundingOrgsOrganizationsNew,
@@ -97,9 +96,7 @@ export default function GrantsNew(props) {
     <Card>
       {!isHiddenFundingOrgsOrganizationsNew ? (
         <FundingOrgsOrganizationsNew
-          // organizations={organizations}
           funding_orgs={fundingOrgs}
-          // updateOrganizations={updateOrganizations}
           updateFundingOrgs={updateFundingOrgs}
           toggleHiddenFundingOrgsOrganizationsNew={
             toggleHiddenFundingOrgsOrganizationsNew
