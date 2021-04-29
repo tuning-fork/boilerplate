@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import SectionsNew from "./SectionsNew";
@@ -33,7 +33,6 @@ export default function GrantsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [sections, setSections] = useState([]);
   const [reports, setReports] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);

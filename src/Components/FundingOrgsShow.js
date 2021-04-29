@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -11,7 +11,6 @@ export default function FundingOrgsShow(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const [organizationName, setOrganizationName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);

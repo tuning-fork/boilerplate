@@ -12,14 +12,9 @@ export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);
-  const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
-  const [query, setQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
-  const [filteredByWordCount, setFilteredByWordCount] = useState([]);
-  const [openIndex, setOpenIndex] = useState(false);
-  const [openNew, setOpenNew] = useState(false);
+  const [sortParam, setSortParam] = useState("");
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -39,8 +34,6 @@ export default function Boilerplates(props) {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
         .then((response) => {
-          // const zippyBoilerplates = this.createUnzipped(response.data);
-          // console.log(zippyBoilerplates);
           setBoilerplates(response.data);
           setFilteredBoilerplates(response.data);
           setLoading(false);
@@ -58,9 +51,27 @@ export default function Boilerplates(props) {
     setBoilerplates(newBoilerplates);
   };
 
+  useEffect(() => {}, [boilerplates]);
+
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
   };
+
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
+
+  const sortBoilerplates = (sortParam) => {
+    const filteredBoilerplatesClone = [...filteredBoilerplates];
+    filteredBoilerplatesClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredBoilerplates(filteredBoilerplatesClone);
+  };
+
+  useEffect(() => {
+    sortBoilerplates(sortParam);
+  }, [sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -163,8 +174,8 @@ export default function Boilerplates(props) {
         <Modal onClose={handleClose} show={show}>
           <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
         </Modal>
-        {/* Search input field */}
 
+        {/* Search input field */}
         <Form>
           <Form.Group>
             <Form.Control
@@ -174,9 +185,6 @@ export default function Boilerplates(props) {
               onChange={handleSearchParamSelect}
               required
             >
-              {/* <option value="" disabled>
-                Search By
-              </option> */}
               <option value="filterText">Search By Text</option>
               <option value="filterWordCount">Search By Word Count</option>
             </Form.Control>
@@ -191,6 +199,26 @@ export default function Boilerplates(props) {
             />
           </Form.Group>
         </Form>
+        <div>
+          <Form>
+            <Form.Group>
+              <Form.Label>Sort Parameter</Form.Label>
+              <Form.Control
+                as="select"
+                name="sortParam"
+                value={sortParam}
+                onChange={handleSortParamSelect}
+                required
+              >
+                <option value="" disabled>
+                  Sort By
+                </option>
+                <option value="title">Title</option>
+                <option value="category_name">Category</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
 
         {highlightedBoilerplates}
       </div>

@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
-// import OrganizationsNew from "./OrganizationsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -9,10 +8,8 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  // const [organizations, setOrganizations] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newCategory, setNewCategory] = useState({});
   const [isHiddenNew, setIsHiddenNew] = useState(true);
   const [
     currentOrganizationStore,

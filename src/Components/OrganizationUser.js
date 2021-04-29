@@ -16,7 +16,6 @@ export default function OrganizationUser(props) {
       .get("/api/organizations", {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
-      // {withCredentials: true})
       .then((response) => {
         setOrganizations(response.data);
       })
