@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -18,12 +18,10 @@ export default function SectionsNew(props) {
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [bios, setBios] = useState([]);
-  const [titleArray, setTitleArray] = useState([]);
   const [loading, setLoading] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
-  const [sortParam, setSortParam] = useState("");
 
   const [
     currentOrganizationStore,
@@ -86,19 +84,6 @@ export default function SectionsNew(props) {
       setSearchText(searchValue);
     }
   };
-
-  // const onTextChanged = (event) => {
-  //   const value = event.target.value.toLowerCase();
-  //   let suggestions = [];
-  //   if (value.length > 0) {
-  //     suggestions = boilerplates.filter((boilerplate) => {
-  //       return boilerplate.title.toLowerCase().indexOf(value) !== -1;
-  //     });
-  //     console.log(suggestions);
-  //   }
-  //   setSuggestions(suggestions);
-  //   setSearchText(value);
-  // };
 
   const clearForm = () => {
     setQuillText("");
@@ -288,22 +273,9 @@ export default function SectionsNew(props) {
               </Form.Group>
               <Form.Label>Grant Section Text</Form.Label>
               <ReactQuill
-                // name="quill_text"
                 value={quillText}
                 onChange={(value) => setQuillText(value)}
               />
-              {/* <Form.Group>
-                  <Form.Label>Text</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    name="text"
-                    value={this.state.text}
-                    onChange={this.handleChange}
-                    rows="4"
-                    cols="50"
-                    required
-                  ></Form.Control>
-                </Form.Group> */}
               <Form.Group>
                 <Form.Label>Word Count</Form.Label>
                 <p>{countWords(quillText)}</p>
