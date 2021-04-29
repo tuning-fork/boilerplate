@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -16,7 +16,6 @@ export default function BoilerplatesNew(props) {
   const [categoryId, setCategoryId] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [categories, setCategories] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
   const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -40,14 +39,6 @@ export default function BoilerplatesNew(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setOrganizations(response.data);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const updateCategories = (newCategory) => {
@@ -55,12 +46,6 @@ export default function BoilerplatesNew(props) {
     newCategories.push(newCategory);
     setCategories(categories);
     console.log(categories);
-  };
-
-  const updateOrganizations = (newOrganization) => {
-    const newOrganizations = organizations;
-    organizations.push(newOrganization);
-    setOrganizations(organizations);
   };
 
   const clearForm = () => {
@@ -161,7 +146,6 @@ export default function BoilerplatesNew(props) {
             </Form.Group>
             <Form.Label>Boilerplate Text</Form.Label>
             <ReactQuill
-              // name="quill_text"
               modules={modules}
               format={formats}
               value={quillText}

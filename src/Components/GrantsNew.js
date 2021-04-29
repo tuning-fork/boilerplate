@@ -1,6 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import FundingOrgsOrganizationsNew from "./FundingOrgsOrganizationsNew";
+import FundingOrgsNew from "./FundingOrgsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -16,12 +16,8 @@ export default function GrantsNew(props) {
   const [purpose, setPurpose] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [fundingOrgId, setFundingOrgId] = useState("");
-  // const [organizations, setOrganizations] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [
-    isHiddenFundingOrgsOrganizationsNew,
-    setIsHiddenFundingOrgsOrganizationsNew,
-  ] = useState("");
+  const [isHiddenFundingOrgsNew, setIsHiddenFundingOrgsNew] = useState("");
   const [errors, setErrors] = useState("");
   const [
     currentOrganizationStore,
@@ -45,10 +41,8 @@ export default function GrantsNew(props) {
     }
   }, [currentOrganizationId]);
 
-  const toggleHiddenFundingOrgsOrganizationsNew = () => {
-    setIsHiddenFundingOrgsOrganizationsNew(
-      !isHiddenFundingOrgsOrganizationsNew
-    );
+  const toggleHiddenFundingOrgsNew = () => {
+    setIsHiddenFundingOrgsNew(!isHiddenFundingOrgsNew);
   };
 
   const clearForm = () => {
@@ -95,15 +89,11 @@ export default function GrantsNew(props) {
 
   return (
     <Card>
-      {!isHiddenFundingOrgsOrganizationsNew ? (
-        <FundingOrgsOrganizationsNew
-          // organizations={organizations}
+      {!isHiddenFundingOrgsNew ? (
+        <FundingOrgsNew
           funding_orgs={fundingOrgs}
-          // updateOrganizations={updateOrganizations}
           updateFundingOrgs={updateFundingOrgs}
-          toggleHiddenFundingOrgsOrganizationsNew={
-            toggleHiddenFundingOrgsOrganizationsNew
-          }
+          toggleHiddenFundingOrgsNew={toggleHiddenFundingOrgsNew}
         />
       ) : null}
       <Card.Body>
@@ -136,7 +126,7 @@ export default function GrantsNew(props) {
           <Button
             variant="secondary"
             size="sm"
-            onClick={toggleHiddenFundingOrgsOrganizationsNew}
+            onClick={toggleHiddenFundingOrgsNew}
           >
             Add New Funding Organization
           </Button>

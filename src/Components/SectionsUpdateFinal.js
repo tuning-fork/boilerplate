@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -114,22 +114,11 @@ export default function SectionsUpdateFinal(props) {
 
   return (
     <div className="container">
-      {/* {props.isUnzipped === false ? ( */}
-      <Container className="whatever" onClick={toggleHidden}>
-        {/* <h5>{title}</h5> */}
-        {/* <h1 onClick={() => props.toggleUnzipped(props.section_id, true)}>
-            +
-          </h1> */}
-      </Container>
-      {/* ) : ( */}
+      <Container className="whatever" onClick={toggleHidden}></Container>
       <Container className="whatever" onClick={toggleHidden}>
         <h5>{title}</h5>
-        {/* <h1 onClick={() => props.toggleUnzipped(props.section_id, false)}>
-            -
-          </h1> */}
         <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
       </Container>
-      {/* )} */}
       <br />
       {!isHidden ? (
         <div>

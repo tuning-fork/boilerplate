@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -12,7 +12,6 @@ export default function CategoriesShow(props) {
   const [name, setName] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [organizations, setOrganizations] = useState([]);
   const [organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);

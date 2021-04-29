@@ -1,19 +1,12 @@
-import React, { Component, useState, useEffect } from "react";
-import CurrentUser from "./CurrentUser";
+import React, { useEffect } from "react";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 
 export default function Dashboard() {
-  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentUserStore] = useCurrentUserContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
@@ -46,7 +39,6 @@ export default function Dashboard() {
             by purpose, funding organization, and funding award. Start a new
             grant.
             <br />
-            {/* <a className="card-component-links" href={"/boilerplates/"}>></a> */}
           </Card.Body>
         </Card>
       </div>
@@ -70,7 +62,6 @@ export default function Dashboard() {
                 information about your mission, programs, metrics, client
                 communities, and activities in accessible text blocks.
                 <br />
-                {/* <a className="card-component-links" href={"/boilerplates/"}>></a> */}
               </Card.Body>
             </Card>
           </div>
@@ -89,7 +80,6 @@ export default function Dashboard() {
                 library. Save information about employee titles, work history,
                 qualifications, and activities in accessible text blocks
                 <br />
-                {/* <a className="card-component-links" href={"/bios/"}>></a> */}
               </Card.Body>
             </Card>
           </div>
@@ -110,26 +100,9 @@ export default function Dashboard() {
                 past, so that you can track applications, requests for
                 proposals, and funding streams over time.
                 <br />
-                {/* <a className="card-component-links" href={"/funding_orgs/"}>></a> */}
               </Card.Body>
             </Card>
           </div>
-          {/* <div className="row">
-            <Card
-              className="card-component"
-              onClick={() => {
-                history.push("/organizations/");
-              }}
-            >
-              <Card.Header>Applying Organizations ></Card.Header>
-              <Card.Body>
-                Store organizations applying for grants, so that you can sort
-                grants, bios, and stored content under a single organization
-                heading. Add yourself to an organization as an affiliated user.
-                <br />
-              </Card.Body>
-            </Card>
-          </div> */}
           <div className="row">
             <Card
               className="card-component"
@@ -144,7 +117,6 @@ export default function Dashboard() {
                 Store a list of categories for stored content, so that you can
                 customize your content library for your organization.
                 <br />
-                {/* <a className="card-component-links" href={"/categories/"}>></a> */}
               </Card.Body>
             </Card>
           </div>

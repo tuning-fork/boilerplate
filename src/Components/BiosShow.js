@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -27,7 +27,6 @@ export default function BiosShow(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [organization, setOrganization] = useState("");
   const [wordCount, setWordCount] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -290,17 +289,6 @@ export default function BiosShow(props) {
                   value={editableQuillText}
                   onChange={(value) => setEditableQuillText(value)}
                 />
-                {/* <Form.Group>
-                  <Form.Label>Organization</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={organization.name}
-                    name="organizationId"
-                    placeholder={organization.name}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    required
-                  />
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Word Count</Form.Label>
                   <p style={{ color: "#fefefe" }}>

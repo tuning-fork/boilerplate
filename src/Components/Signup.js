@@ -43,7 +43,6 @@ export default function Signup(props) {
         }
       })
       .catch((error) => {
-        // setErrors(error.response.data.errors);
         setErrorType(error.response.status);
         setErrorText(error.response.statusText);
         console.log(errors);
@@ -110,13 +109,6 @@ export default function Signup(props) {
               />
             </Form.Group>
             <div>
-              {/* {errors.map((error, index) => {
-                return (
-                  <span key={index} style={{ color: "red" }}>
-                    {error},{" "}
-                  </span>
-                );
-              })} */}
               <span style={{ color: "red" }}>
                 {errorType} {errorText}
               </span>

@@ -12,15 +12,9 @@ export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);
-  const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
-  const [query, setQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const [filteredByWordCount, setFilteredByWordCount] = useState([]);
-  const [openIndex, setOpenIndex] = useState(false);
-  const [openNew, setOpenNew] = useState(false);
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -40,8 +34,6 @@ export default function Boilerplates(props) {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         })
         .then((response) => {
-          // const zippyBoilerplates = this.createUnzipped(response.data);
-          // console.log(zippyBoilerplates);
           setBoilerplates(response.data);
           setFilteredBoilerplates(response.data);
           setLoading(false);
@@ -58,6 +50,8 @@ export default function Boilerplates(props) {
     newBoilerplates.push(newBoilerplate);
     setBoilerplates(newBoilerplates);
   };
+
+  useEffect(() => {}, [boilerplates]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -180,8 +174,8 @@ export default function Boilerplates(props) {
         <Modal onClose={handleClose} show={show}>
           <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
         </Modal>
-        {/* Search input field */}
 
+        {/* Search input field */}
         <Form>
           <Form.Group>
             <Form.Control
@@ -191,9 +185,6 @@ export default function Boilerplates(props) {
               onChange={handleSearchParamSelect}
               required
             >
-              {/* <option value="" disabled>
-                Search By
-              </option> */}
               <option value="filterText">Search By Text</option>
               <option value="filterWordCount">Search By Word Count</option>
             </Form.Control>

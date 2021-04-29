@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -178,13 +178,6 @@ export default function SectionsShow(props) {
             <h5>wordcount: {countWords(quillText)}</h5>
           </Card.Body>
           <div className="container">
-            {/* {isHidden ? (
-              <Button onClick={toggleHidden}>Update Section</Button>
-            ) : (
-              <Button onClick={toggleHidden} variant="warning">
-                Close Update Section
-              </Button>
-            )} */}
             {isBoilerplateHidden ? (
               <Button onClick={toggleBoilerplateHidden}>
                 Save Section as Boilerplate

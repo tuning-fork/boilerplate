@@ -1,10 +1,5 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import Carousel from "react-bootstrap/Carousel";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -15,22 +10,13 @@ export default function OrgSelect() {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
-  const [organizationId, setOrganizationId] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const history = useHistory();
   console.log(currentUserStore.currentUserInfo);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // currentUserDispatch(useCurrentUserContext);
     console.log(currentUserStore);
   }, [currentUserStore.currentUserInfo]);
-
-  const handleLogoutClick = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user_id");
-    history.push("/login");
-  };
 
   const handleChange = (event) => {
     const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
@@ -74,16 +60,7 @@ export default function OrgSelect() {
           {currentOrganizationStore.allUserOrganizations?.map(
             (userOrganization) => {
               return (
-                <option
-                  key={userOrganization.id}
-                  value={userOrganization.id}
-                  // onChange={(event) => {
-                  //   currentOrganizationDispatch({
-                  //     type: "SET_CURRENT_ORGANIZATION_INFO",
-                  //     payload: userOrganization,
-                  //   });
-                  // }}
-                >
+                <option key={userOrganization.id} value={userOrganization.id}>
                   {userOrganization.name}
                 </option>
               );

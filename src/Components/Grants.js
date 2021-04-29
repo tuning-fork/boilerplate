@@ -1,17 +1,15 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import GrantsNew from "./GrantsNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Grants() {
   const [loading, setLoading] = useState(true);
   const [grants, setGrants] = useState([]);
-  const [query, setQuery] = useState("");
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
@@ -25,9 +23,6 @@ export default function Grants() {
     currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -302,7 +297,6 @@ export default function Grants() {
         </div>
       );
     } else {
-      // return this.state.filteredGrants.map((grant) => {
       return (
         <div key={grant.id}>
           {grant.isUnzipped === false ? (

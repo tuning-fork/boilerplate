@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -26,7 +26,6 @@ export default function CurrentUser(props) {
           `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
             localStorage.user_id,
           { headers: { Authorization: `Bearer ${localStorage.token}` } }
-          // {withCredentials: true}
         )
         .then((response) => {
           setFirstName(response.data.first_name);
@@ -39,12 +38,6 @@ export default function CurrentUser(props) {
         });
     }
   }, [currentOrganizationId]);
-
-  const updateOrganizationUsers = (newOrganizationUser) => {
-    const newOrganizationUsers = [...organizationUsers];
-    newOrganizationUsers.push(newOrganizationUser);
-    setOrganizationUsers(organizationUsers);
-  };
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -124,18 +117,6 @@ export default function CurrentUser(props) {
               </div>
             ) : null}
           </div>
-          {/* Here are your current organizations:
-            {organization_users.map((organization_user) => {
-              return (
-                <div key={organization_user.organization_id}>
-                  <h4>{organization_user.organization_name}</h4>
-                </div>
-              );
-            })}
-            <br />
-            <OrganizationUser
-              updateOrganizationUsers={updateOrganizationUsers}
-            /> */}
         </Card.Body>
       </Card>
     </div>

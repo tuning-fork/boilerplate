@@ -1,10 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import OrganizationsNew from "./OrganizationsNew";
 import Card from "react-bootstrap/Card";
-import CurrentUser from "./CurrentUser";
-import OrganizationUser from "./OrganizationUser";
 
 export default function Organizations() {
   const [loading, setLoading] = useState(true);
