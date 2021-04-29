@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -7,7 +7,6 @@ import Button from "react-bootstrap/Button";
 export default function OrganizationsNew(props) {
   const [name, setName] = useState("");
   const [errors, setErrors] = useState([]);
-  const [newOrganization, setNewOrganization] = useState("");
 
   const clearForm = () => {
     setName("");
