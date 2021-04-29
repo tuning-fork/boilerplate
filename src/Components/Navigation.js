@@ -14,8 +14,6 @@ function Navigation(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
-  // const [organizationId, setOrganizationId] = useState("");
-  // const [organizations, setOrganizations] = useState([]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
