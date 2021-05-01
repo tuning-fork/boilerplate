@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { id } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import CategoryEditForm from "./Categories/CategoryEditForm";
+import countWords from "../Helpers/countWords";
 
 export default function CategoriesShow(props) {
   const [id, setId] = useState("");
@@ -24,7 +25,7 @@ export default function CategoriesShow(props) {
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
 
-  const [editableName, setEditableName] = useState("");
+  const [newName, setNewName] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -44,7 +45,7 @@ export default function CategoriesShow(props) {
           setName(response.data.name);
           setOrganizationId(response.data.organization_id);
           setOrganizationName(response.data.organization.name);
-          setEditableName(response.data.name);
+          setNewName(response.data.name);
           setLoading(false);
         })
         .catch((error) => {
@@ -57,19 +58,19 @@ export default function CategoriesShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newName }) => {
     event.preventDefault();
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/categories/` + id,
         {
-          name: editableName,
+          name: newName,
           organization_id: organizationId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        setEditableName(response.data.name);
+        setName(response.data.name);
         toggleHidden();
         handleClose();
       })
@@ -79,7 +80,6 @@ export default function CategoriesShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableName(name);
     handleClose();
   };
 
@@ -121,48 +121,11 @@ export default function CategoriesShow(props) {
           {!isHidden ? (
             <Card>
               <Card.Body>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={editableName}
-                      name="editableName"
-                      placeholder={editableName}
-                      onChange={(event) => setEditableName(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <div>
-                    <Button
-                      variant="outline-success"
-                      type="submit"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleSubmit}
-                    >
-                      Save Changes
-                    </Button>
-                    <Button
-                      variant="outline-success"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </Form>
+                <CategoryEditForm
+                  name={name}
+                  onSubmit={handleSubmit}
+                  onCancel={handleCancel}
+                />
               </Card.Body>
             </Card>
           ) : null}

@@ -82,7 +82,12 @@ export default function BiosShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({
+    newFirstName,
+    newLastName,
+    newTitle,
+    newQuillText,
+  }) => {
     event.preventDefault();
     axios
       .patch(
@@ -112,19 +117,7 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    // setNewQuillText(quillText);
-    // setNewFirstName(firstName);
-    // setNewLastName(lastName);
-    // setNewTitle(title);
     handleClose();
-  };
-
-  const countWords = (string) => {
-    if (string) {
-      return string.split(" ").length;
-    } else {
-      return 0;
-    }
   };
 
   const handleBioDelete = () => {
@@ -134,7 +127,7 @@ export default function BiosShow(props) {
       })
       .then((response) => {
         if (response.data.message) {
-          props.history.push("/bios");
+          props.history.push(`/organizations/${currentOrganizationId}/bios`);
         }
         console.log(response);
       })
@@ -239,7 +232,16 @@ export default function BiosShow(props) {
       <div>
         <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
-            <Card.Body></Card.Body>
+            <Card.Body>
+              <BioEditForm
+                title={title}
+                quillText={quillText}
+                firstName={firstName}
+                lastName={lastName}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
+            </Card.Body>
           </Card>
         </Modal>
       </div>

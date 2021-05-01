@@ -62,9 +62,9 @@ export default function BoilerplatesShow(props) {
           setOrganizationId(response.data.organization_id);
           setCategoryId(response.data.category_id);
           setCategoryName(response.data.category.name);
-          // setNewTitle(response.data.title);
-          // setNewQuillText(response.data.text);
-          // setNewCategoryId(response.data.category_id);
+          setNewTitle(response.data.title);
+          setNewQuillText(response.data.text);
+          setNewCategoryId(response.data.category_id);
           setLoading(false);
         })
         .catch((error) => {
