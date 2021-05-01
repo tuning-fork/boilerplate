@@ -14,42 +14,33 @@ export default function Login() {
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
-  const [currentUserStore, currentUserDispatch] = useCurrentUserContext();
+  const location = useLocation();
+  const {
+    currentUserStore,
+    currentUserDispatch,
+    login,
+  } = useCurrentUserContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (
+      currentUserStore.status === "successful" &&
+      currentUserStore.currentUser
+    ) {
+      history.push(location.state?.from ?? "/org_select");
+    }
+  }, [currentUserStore, history, location]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios({
-      method: "post",
-      url: "/api/sessions",
-      headers: { Authorization: `Bearer ${localStorage.token}` },
-      data: { email: email, password: password },
-    })
-      .then((response) => {
-        if (response.data) {
-          localStorage.setItem("token", response.data.jwt);
-          localStorage.setItem("user_id", response.data.user_id);
-          axios({
-            method: "get",
-            url: `/api/users/${response.data.user_id}`,
-            headers: { Authorization: `Bearer ${response.data.jwt}` },
-          }).then((response) => {
-            currentUserDispatch({
-              type: "SET_CURRENT_USER_INFO",
-              payload: response.data,
-            });
-            history.push("/org_select");
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorType(error.response.status);
-        setErrorText(error.response.statusText);
-      });
+    login(email, password).catch((error) => {
+      console.log(error);
+      setErrorType(error.response.status);
+      setErrorText(error.response.statusText);
+    });
   };
 
   return (
