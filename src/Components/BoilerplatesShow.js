@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
-import Button from "react-bootstrap/Button";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import BoilerplateShowForm from "./Boilerplates/BoilerplateShowForm";
+import countWords from "../Helpers/countWords";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -24,7 +22,6 @@ export default function BoilerplatesShow(props) {
   const [title, setTitle] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  const [organizationName, setOrganizationName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -50,6 +47,51 @@ export default function BoilerplatesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+<<<<<<< HEAD
+    if (!currentOrganizationStore.currentOrganization) {
+      return;
+    }
+
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${props.match.params.boilerplate_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setId(response.data.id);
+        setTitle(response.data.title);
+        setQuillText(response.data.text);
+        setWordcount(response.data.wordcount);
+        setOrganizationId(response.data.organization_id);
+        setCategoryId(response.data.category_id);
+        setCategoryName(response.data.category.name);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
+        setLoading(false);
+        setEditableTitle(response.data.title);
+        setEditableQuillText(response.data.text);
+        setEditableCategoryId(response.data.category_id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
+      .then((response) => {
+        setCategories(response.data);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  }, [currentOrganizationStore]);
+=======
     if (currentOrganizationId) {
       axios
         .get(
@@ -93,27 +135,32 @@ export default function BoilerplatesShow(props) {
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
+>>>>>>> develop
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
       .patch(
+<<<<<<< HEAD
+        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
+          id,
+=======
         `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
+>>>>>>> develop
         {
-          title: editableTitle,
-          text: editableQuillText,
-          wordcount: countWords(quillText),
+          title: newTitle,
+          text: newQuillText,
+          category_id: newCategoryId,
+          wordcount: countWords(newQuillText),
           organization_id: organizationId,
-          category_id: editableCategoryId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        toggleHidden();
         handleClose();
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
+        setTitle(response.data.title);
+        setQuillText(response.data.text);
+        setCategoryId(response.data.category_id);
+        setCategoryName(response.data.category.name);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -121,18 +168,7 @@ export default function BoilerplatesShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableTitle(title);
-    setEditableQuillText(quillText);
-    setEditableCategoryId(categoryId);
     handleClose();
-  };
-
-  const countWords = (string) => {
-    if (string) {
-      return string.split(" ").length;
-    } else {
-      return 0;
-    }
   };
 
   const handleBoilerplateDelete = () => {
@@ -154,34 +190,6 @@ export default function BoilerplatesShow(props) {
       });
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["clean"],
-      [{ color: [] }],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "color",
-  ];
-
   if (loading) {
     return (
       <div className="container">
@@ -190,140 +198,62 @@ export default function BoilerplatesShow(props) {
     );
   }
 
+  const Header = (
+    <Card.Header style={{ backgroundColor: "#09191b" }}>
+      <h3
+        style={{
+          color: "#23cb87",
+          fontWeight: "bolder",
+          display: "inline",
+        }}
+      >
+        {title}
+      </h3>
+      <FontAwesomeIcon
+        icon={faEdit}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "160px",
+        }}
+        onClick={handleShow}
+      />
+      <FontAwesomeIcon
+        icon={faTrashAlt}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "10px",
+        }}
+        onClick={handleBoilerplateDelete}
+      />
+    </Card.Header>
+  );
+
   return (
     <div className="flex-container">
       <Card>
-        <Card.Header style={{ backgroundColor: "#09191b" }}>
-          <h3
-            style={{
-              color: "#23cb87",
-              fontWeight: "bolder",
-              display: "inline",
-            }}
-          >
-            {title}
-          </h3>
-          <FontAwesomeIcon
-            icon={faEdit}
-            style={{
-              color: "#fefefe",
-              fontSize: "1.5rem",
-              marginLeft: "160px",
-            }}
-            onClick={handleShow}
-          />
-          <FontAwesomeIcon
-            icon={faTrashAlt}
-            style={{
-              color: "#fefefe",
-              fontSize: "1.5rem",
-              marginLeft: "10px",
-            }}
-            onClick={handleBoilerplateDelete}
-          />
-        </Card.Header>
+        {Header}
         <Card.Body>
           <p dangerouslySetInnerHTML={{ __html: quillText }}></p>
-          <h4>Organization {organizationName}</h4>
           <h4>Category: {categoryName}</h4>
           <h4>Word Count: {countWords(quillText)}</h4>
         </Card.Body>
       </Card>
-
-      <div>
-        <Modal show={show} onClose={handleClose}>
-          <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group style={{ display: "l" }}>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableTitle}
-                    name="editableTitle"
-                    placeholder={title}
-                    onChange={(event) => setEditableTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <ReactQuill
-                  name="editableQuillText"
-                  modules={modules}
-                  format={formats}
-                  defaultValue={editableQuillText}
-                  onChange={(value) => setEditableQuillText(value)}
-                  style={{ backgroundColor: "#fefefe", color: "black" }}
-                />
-                <Form.Group>
-                  <Form.Label>Category</Form.Label>
-
-                  <Form.Control
-                    as="select"
-                    name="editableCategoryId"
-                    value={editableCategoryId}
-                    onChange={(event) =>
-                      setEditableCategoryId(event.target.value)
-                    }
-                    required
-                  >
-                    <option value="" disabled>
-                      Select Category
-                    </option>
-                    {categories.map((category) => {
-                      return (
-                        <option
-                          key={category.id}
-                          value={category.id}
-                          onChange={(event) =>
-                            setEditableCategoryId(event.target.value)
-                          }
-                        >
-                          {category.name}
-                        </option>
-                      );
-                    })}
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>
-                    {countWords(editableQuillText)}
-                  </p>
-                </Form.Group>
-                <div>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    variant="outline-success"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Modal>
-      </div>
+      <Modal show={show} onClose={handleClose}>
+        <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+          <Card.Body>
+            <BoilerplateShowForm
+              title={title}
+              quillText={quillText}
+              categoryId={categoryId}
+              categories={categories}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+            />
+          </Card.Body>
+        </Card>
+      </Modal>
     </div>
   );
 }

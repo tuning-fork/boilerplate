@@ -353,7 +353,7 @@ export default function ReportsShow(props) {
       <br />
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/reports-finalize/${id}`}
+        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports-finalize/${id}`}
       >
         <Button>Report Finalize</Button>
       </Link>
