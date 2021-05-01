@@ -12,11 +12,11 @@ axios.defaults.baseURL =
 
 ReactDOM.render(
   <React.StrictMode>
-    <CurrentOrganizationProvider>
-      <CurrentUserProvider>
+    <CurrentUserProvider>
+      <CurrentOrganizationProvider>
         <App />
-      </CurrentUserProvider>
-    </CurrentOrganizationProvider>
+      </CurrentOrganizationProvider>
+    </CurrentUserProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

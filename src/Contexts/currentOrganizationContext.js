@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
 import axios from "axios";
+import { useCurrentUserContext } from "./currentUserContext";
 
 export const CurrentOrganizationContext = createContext();
 
@@ -19,11 +20,6 @@ const reducer = (state, action) => {
         ...state,
         currentOrganization: action.payload,
       };
-    case "SET_CURRENT_ORGANIZATION_INFO":
-      return {
-        ...state,
-        currentOrganizationInfo: action.payload,
-      };
     default:
       return state;
   }
@@ -32,29 +28,63 @@ const reducer = (state, action) => {
 export const CurrentOrganizationProvider = ({ children }) => {
   const store = {
     allUserOrganizations: [],
-    currentOrganization: "pancake 3.0",
-    currentOrganizationInfo: null,
+    currentOrganization: null,
   };
   const [currentOrganizationStore, currentOrganizationDispatch] = useReducer(
     reducer,
     store
   );
+  const { currentUserStore } = useCurrentUserContext();
+
+  useEffect(() => {}, [currentOrganizationStore.currentOrganization]);
+
   useEffect(() => {
+    const userId = currentUserStore.currentUser?.id;
+
+    if (!userId) {
+      return;
+    }
+
+    axios
+      .get(`/api/organization_users/assoc/${userId}`, {
+        headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.length > 0) {
+          currentOrganizationDispatch({
+            type: "SET_ALL_USER_ORGANIZATIONS",
+            payload: response.data,
+          });
+        } else {
+          console.log("setting default data");
+          currentOrganizationDispatch({
+            type: "SET_ALL_USER_ORGANIZATIONS",
+            payload: [
+              { id: 1, name: "org1" },
+              { id: 2, name: "org2" },
+              { id: 3, name: "org3" },
+            ],
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+
     const selectedOrgId = localStorage.getItem("org_id");
     if (selectedOrgId) {
       axios
         .get(`/api/organizations/${selectedOrgId}`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+          headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
         })
         .then((response) => {
           currentOrganizationDispatch({
-            type: "SET_CURRENT_ORGANIZATION_INFO",
+            type: "SET_CURRENT_ORGANIZATION",
             payload: response.data,
           });
         });
     }
-  }, []);
-  useEffect(() => {}, [currentOrganizationStore.currentOrganizationInfo]);
+  }, [currentUserStore.jwt, currentUserStore.currentUser]);
+
   return (
     <CurrentOrganizationContext.Provider
       value={[currentOrganizationStore, currentOrganizationDispatch]}

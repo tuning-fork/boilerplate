@@ -69,7 +69,7 @@ export default function GrantsNew(props) {
       submitted: submitted,
       successful: successful,
       purpose: purpose,
-      organization_id: currentOrganizationStore.currentOrganizationInfo.id,
+      organization_id: currentOrganizationStore.currentOrganization.id,
       funding_org_id: fundingOrgId,
     };
     axios

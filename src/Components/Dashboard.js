@@ -21,7 +21,7 @@ export default function Dashboard() {
     >
       <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
         <div className="w-100">
-          <h1>Welcome, {currentUserStore?.currentUserInfo?.first_name}</h1>
+          <h1>Welcome, {currentUserStore?.currentUser?.first_name}</h1>
         </div>
       </div>
       <div className="d-flex flex-row row">
@@ -29,11 +29,11 @@ export default function Dashboard() {
           className="card-component"
           onClick={() => {
             history.push(
-              `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/`
+              `organizations/${currentOrganizationStore.currentOrganization.id}/grants/`
             );
           }}
         >
-          <Card.Header>Grants ></Card.Header>
+          <Card.Header>Grants &gt;</Card.Header>
           <Card.Body>
             Store draft grants and submitted grants in this library. Sort grants
             by purpose, funding organization, and funding award. Start a new
@@ -52,11 +52,11 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/`
                 );
               }}
             >
-              <Card.Header>Stored Content ></Card.Header>
+              <Card.Header>Stored Content &gt;</Card.Header>
               <Card.Body>
                 Store materials for your organization in this library. Save
                 information about your mission, programs, metrics, client
@@ -70,11 +70,11 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/bios/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/bios/`
                 );
               }}
             >
-              <Card.Header>Staff Bios ></Card.Header>
+              <Card.Header>Staff Bios &gt;</Card.Header>
               <Card.Body>
                 Store bios for your organization employees and board in this
                 library. Save information about employee titles, work history,
@@ -90,11 +90,11 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/funding_orgs/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/`
                 );
               }}
             >
-              <Card.Header>Funding Organizations ></Card.Header>
+              <Card.Header>Funding Organizations &gt;</Card.Header>
               <Card.Body>
                 Store funding organizations that you have applied to in the
                 past, so that you can track applications, requests for
@@ -108,11 +108,11 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganizationInfo.id}/categories/`
+                  `organizations/${currentOrganizationStore.currentOrganization.id}/categories/`
                 );
               }}
             >
-              <Card.Header>Categories ></Card.Header>
+              <Card.Header>Categories &gt;</Card.Header>
               <Card.Body>
                 Store a list of categories for stored content, so that you can
                 customize your content library for your organization.
