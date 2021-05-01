@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import BoilerplateShowForm from "./Boilerplates/BoilerplateShowForm";
+import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import countWords from "../Helpers/countWords";
 
 //fontawesome
@@ -20,7 +20,6 @@ export default function BoilerplatesShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
-  const [wordcount, setWordcount] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -47,51 +46,6 @@ export default function BoilerplatesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (!currentOrganizationStore.currentOrganization) {
-      return;
-    }
-
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${props.match.params.boilerplate_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setOrganizationId(response.data.organization_id);
-        setCategoryId(response.data.category_id);
-        setCategoryName(response.data.category.name);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, [currentOrganizationStore]);
-=======
     if (currentOrganizationId) {
       axios
         .get(
@@ -135,7 +89,6 @@ export default function BoilerplatesShow(props) {
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
->>>>>>> develop
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
@@ -243,7 +196,7 @@ export default function BoilerplatesShow(props) {
       <Modal show={show} onClose={handleClose}>
         <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
           <Card.Body>
-            <BoilerplateShowForm
+            <BoilerplateEditForm
               title={title}
               quillText={quillText}
               categoryId={categoryId}

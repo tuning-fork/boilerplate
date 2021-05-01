@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
-import Button from "react-bootstrap/Button";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import BioEditForm from "./Bios/BioEditForm";
+import countWords from "../Helpers/countWords";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -31,10 +29,10 @@ export default function BiosShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
 
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableFirstName, setEditableFirstName] = useState("");
-  const [editableLastName, setEditableLastName] = useState("");
-  const [editableTitle, setEditableTitle] = useState("");
+  const [newQuillText, setNewQuillText] = useState("");
+  const [newFirstName, setNewFirstName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
+  const [newTitle, setNewTitle] = useState("");
 
   const [
     currentOrganizationStore,
@@ -69,10 +67,10 @@ export default function BiosShow(props) {
           setOrganization(response.data.organization);
           setWordCount(response.data.wordcount);
           setLoading(false);
-          setEditableQuillText(response.data.text);
-          setEditableFirstName(response.data.first_name);
-          setEditableLastName(response.data.last_name);
-          setEditableTitle(response.data.title);
+          setNewQuillText(response.data.text);
+          setNewFirstName(response.data.first_name);
+          setNewLastName(response.data.last_name);
+          setNewTitle(response.data.title);
         })
         .catch((error) => {
           console.log(error);
@@ -90,12 +88,12 @@ export default function BiosShow(props) {
       .patch(
         `/api/organizations/${currentOrganizationId}/bios/` + id,
         {
-          first_name: editableFirstName,
-          last_name: editableLastName,
-          title: editableTitle,
-          text: editableQuillText,
+          first_name: newFirstName,
+          last_name: newLastName,
+          title: newTitle,
+          text: newQuillText,
           organization_id: currentOrganizationId,
-          wordcount: countWords(editableQuillText),
+          wordcount: countWords(newQuillText),
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
@@ -103,10 +101,10 @@ export default function BiosShow(props) {
         console.log(response);
         toggleHidden();
         handleClose();
-        setEditableQuillText(response.data.text);
-        setEditableFirstName(response.data.first_name);
-        setEditableLastName(response.data.last_name);
-        setEditableTitle(response.data.title);
+        setNewQuillText(response.data.text);
+        setNewFirstName(response.data.first_name);
+        setNewLastName(response.data.last_name);
+        setNewTitle(response.data.title);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -114,10 +112,10 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableQuillText(quillText);
-    setEditableFirstName(firstName);
-    setEditableLastName(lastName);
-    setEditableTitle(title);
+    setNewQuillText(quillText);
+    setNewFirstName(firstName);
+    setNewLastName(lastName);
+    setNewTitle(title);
     handleClose();
   };
 
@@ -241,91 +239,7 @@ export default function BiosShow(props) {
       <div>
         <Modal show={show} onClose={handleClose}>
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableFirstName}
-                    name="editableFirstName"
-                    placeholder={editableFirstName}
-                    onChange={(event) =>
-                      setEditableFirstName(event.target.value)
-                    }
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableLastName}
-                    name="editableLastName"
-                    placeholder={editableLastName}
-                    onChange={(event) =>
-                      setEditableLastName(event.target.value)
-                    }
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableTitle}
-                    name="editableTitle"
-                    placeholder={editableTitle}
-                    onChange={(event) => setEditableTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <ReactQuill
-                  name="quillText"
-                  modules={modules}
-                  format={formats}
-                  defaultValue={editableQuillText}
-                  style={{ color: "#09191b", backgroundColor: "#fefefe" }}
-                  value={editableQuillText}
-                  onChange={(value) => setEditableQuillText(value)}
-                />
-                <Form.Group>
-                  <Form.Label>Word Count</Form.Label>
-                  <p style={{ color: "#fefefe" }}>
-                    {countWords(editableQuillText)}
-                  </p>
-                </Form.Group>
-                <div>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    variant="outline-success"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
+            <Card.Body></Card.Body>
           </Card>
         </Modal>
       </div>
