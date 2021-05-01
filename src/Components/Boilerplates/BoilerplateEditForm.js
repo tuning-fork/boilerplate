@@ -37,7 +37,7 @@ const formats = [
   "color",
 ];
 
-export default function BoilerplatesEditForm(props) {
+export default function BoilerplateEditForm(props) {
   const { categories, onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);
