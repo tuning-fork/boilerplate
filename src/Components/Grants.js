@@ -64,8 +64,10 @@ export default function Grants() {
   const updateGrants = (newGrant) => {
     const newGrants = [...grants];
     newGrants.push(newGrant);
-    setGrants(newGrants);
+    setFilteredGrants(newGrants);
   };
+
+  useEffect(() => {}, [filteredGrants]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
