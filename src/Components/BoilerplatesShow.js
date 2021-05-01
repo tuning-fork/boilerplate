@@ -24,10 +24,8 @@ export default function BoilerplatesShow(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
-  const [isUnzipped, setIsUnzipped] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
@@ -36,6 +34,9 @@ export default function BoilerplatesShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableTitle, setEditableTitle] = useState("");
   const [editableQuillText, setEditableQuillText] = useState("");
@@ -46,6 +47,7 @@ export default function BoilerplatesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (!currentOrganizationStore.currentOrganization) {
       return;
     }
@@ -89,12 +91,61 @@ export default function BoilerplatesShow(props) {
       })
       .catch((error) => console.log(error));
   }, [currentOrganizationStore]);
+=======
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/boilerplates/${props.match.params.boilerplate_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setCategoryId(response.data.category_id);
+          setCategoryName(response.data.category.name);
+          setEditableTitle(response.data.title);
+          setEditableQuillText(response.data.text);
+          setEditableCategoryId(response.data.category_id);
+          setLoading(false);
+          setEditableTitle(response.data.title);
+          setEditableQuillText(response.data.text);
+          setEditableCategoryId(response.data.category_id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/categories`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          setCategories(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
+
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
+>>>>>>> develop
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
       .patch(
+<<<<<<< HEAD
         `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
           id,
+=======
+        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
+>>>>>>> develop
         {
           title: newTitle,
           text: newQuillText,
@@ -123,17 +174,14 @@ export default function BoilerplatesShow(props) {
   const handleBoilerplateDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
       )
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`
-          );
+          history.push(`/organizations/${currentOrganizationId}/boilerplates`);
         }
         console.log(response);
       })

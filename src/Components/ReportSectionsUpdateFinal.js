@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -22,35 +22,37 @@ export default function ReportSectionsUpdateFinal(props) {
     setIsHidden(!isHidden);
   };
 
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setSortOrder(response.data.sort_order);
-        setReportId(response.data.report_id);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setSortOrder(response.data.sort_order);
+          setReportId(response.data.report_id);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
       .patch(
-        `api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
+        `api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
           title: title,
           text: quillText,
@@ -74,7 +76,7 @@ export default function ReportSectionsUpdateFinal(props) {
   const handleReportSectionDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}report_sections/${props.section.id}`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}report_sections/${props.section.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
@@ -126,7 +128,6 @@ export default function ReportSectionsUpdateFinal(props) {
                   />
                 </Form.Group>
                 <ReactQuill
-                  // name="quill_text"
                   value={quillText}
                   onChange={(value) => setQuillText(value)}
                 />

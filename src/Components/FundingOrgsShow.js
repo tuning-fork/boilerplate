@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -11,7 +11,6 @@ export default function FundingOrgsShow(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  const [organizations, setOrganizations] = useState([]);
   const [organizationName, setOrganizationName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -20,6 +19,9 @@ export default function FundingOrgsShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableName, setEditableName] = useState("");
   const [editableWebsite, setEditableWebsite] = useState("");
@@ -31,27 +33,29 @@ export default function FundingOrgsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/${props.match.params.funding_org_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setName(response.data.name);
-        setWebsite(response.data.website);
-        setOrganizationId(response.data.organization_id);
-        setOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setEditableWebsite(response.data.website);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/funding_orgs/${props.match.params.funding_org_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setName(response.data.name);
+          setWebsite(response.data.website);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setEditableName(response.data.name);
+          setEditableWebsite(response.data.website);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -60,8 +64,7 @@ export default function FundingOrgsShow(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
           name: editableName,
           website: editableWebsite,
@@ -90,17 +93,14 @@ export default function FundingOrgsShow(props) {
   const handleFundingOrgDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         }
       )
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`
-          );
+          history.push(`/organizations/${currentOrganizationId}/funding_orgs`);
         }
         console.log(response);
       })
@@ -134,7 +134,7 @@ export default function FundingOrgsShow(props) {
       </Card>
       <br />
       <div className="container">
-        <Button onClick={toggleHidden}>Update Category</Button>
+        <Button onClick={toggleHidden}>Update Funding Org</Button>
         <Button variant="danger" onClick={handleFundingOrgDelete}>
           Delete Funding Org
         </Button>

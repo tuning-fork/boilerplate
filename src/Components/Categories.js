@@ -1,47 +1,35 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CategoriesNew from "./CategoriesNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  // const [organizations, setOrganizations] = useState([]);
   const [query] = useState("");
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/categories`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-    // axios
-    //   .get(
-    //     `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
-    //     {
-    //       headers: { Authorization: `Bearer ${localStorage.token}` },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     setOrganizations(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
-  }, [currentOrganizationStore.currentOrganization.id]);
+        })
+        .then((response) => {
+          setCategories(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
@@ -69,7 +57,7 @@ export default function Categories() {
           {categories.map((category) => {
             return (
               <Link
-                to={`/organizations/${currentOrganizationStore.currentOrganization.id}/categories/${category.id}`}
+                to={`/organizations/${currentOrganizationId}/categories/${category.id}`}
               >
                 {category.name}
               </Link>

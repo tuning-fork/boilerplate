@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -16,7 +16,6 @@ export default function BoilerplatesNew(props) {
   const [categoryId, setCategoryId] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [categories, setCategories] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
   const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -24,15 +23,15 @@ export default function BoilerplatesNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
     axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .get(`/api/organizations/${currentOrganizationId}/categories`, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         console.log(response.data);
         setCategories(response.data);
@@ -40,27 +39,12 @@ export default function BoilerplatesNew(props) {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    axios
-      .get("/api/organizations", {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        setOrganizations(response.data);
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const updateCategories = (newCategory) => {
-    const newCategories = categories;
+    const newCategories = [...categories];
     newCategories.push(newCategory);
     setCategories(categories);
-    console.log(categories);
-  };
-
-  const updateOrganizations = (newOrganization) => {
-    const newOrganizations = organizations;
-    organizations.push(newOrganization);
-    setOrganizations(organizations);
   };
 
   const clearForm = () => {
@@ -80,11 +64,11 @@ export default function BoilerplatesNew(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
+        `/api/organizations/${currentOrganizationId}/boilerplates`,
         {
           title: title,
           text: quillText,
-          organization_id: currentOrganizationStore.currentOrganization.id,
+          organization_id: currentOrganizationId,
           category_id: categoryId,
           wordcount: countWords(quillText),
         },
@@ -161,7 +145,6 @@ export default function BoilerplatesNew(props) {
             </Form.Group>
             <Form.Label>Boilerplate Text</Form.Label>
             <ReactQuill
-              // name="quill_text"
               modules={modules}
               format={formats}
               value={quillText}
@@ -213,33 +196,6 @@ export default function BoilerplatesNew(props) {
                 </Button>
               )}
             </Form.Group>
-            {/* <Form.Group>
-              <Form.Label>Organization</Form.Label>
-              <Form.Control
-                as="select"
-                name="organizationId"
-                value={organizationId}
-                onChange={(event) => setOrganizationId(event.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  Select Organization
-                </option>
-                {organizations.map((organization) => {
-                  return (
-                    <option
-                      key={organization.id}
-                      value={organization.id}
-                      onChange={(event) =>
-                        setOrganizationId(event.target.value)
-                      }
-                    >
-                      {organization.name}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group> */}
 
             <div className="text-center">
               <Button type="submit">Add New Boilerplate</Button>

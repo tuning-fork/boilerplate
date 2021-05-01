@@ -1,6 +1,5 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import OrganizationsNew from "./OrganizationsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -9,41 +8,18 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  // const [organizationId, setOrganizationId] = useState("");
-  // const [organizations, setOrganizations] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [newFundingOrg, setNewFundingOrg] = useState({});
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
-
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `/api/organizations/${currentOrganizationStore.currentOrganization.id}/organizations`,
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.token}` },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setOrganizations(response.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
-
-  // const updateOrganizations = (newOrganization) => {
-  //   const newOrganizations = [...organizations];
-  //   newOrganizations.push(newOrganization);
-  //   setOrganizations(organizations);
-  // };
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const clearForm = () => {
     setName("");
     setWebsite("");
-    // setOrganizationId("");
   };
 
   const handleSubmit = (event) => {
@@ -51,11 +27,11 @@ export default function FundingOrgsNew(props) {
     const newFundingOrg = {
       name: name,
       website: website,
-      organization_id: currentOrganizationStore.currentOrganization.id,
+      organization_id: currentOrganizationId,
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
+        `/api/organizations/${currentOrganizationId}/funding_orgs`,
         newFundingOrg,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -97,37 +73,11 @@ export default function FundingOrgsNew(props) {
               required
             />
           </Form.Group>
-          {/* <Form.Group>
-            <Form.Label>Organization</Form.Label>
-            <Form.Control
-              as="select"
-              name="organizationId"
-              value={organizationId}
-              onChange={(event) => setOrganizationId(event.target.value)}
-              required
-            >
-              <option value="" disabled>
-                Select Organization
-              </option>
-              {organizations.map((organization) => {
-                return (
-                  <option
-                    key={organization.id}
-                    value={organization.id}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                  >
-                    {organization.name}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Form.Group> */}
           <div className="text-center">
             <Button type="submit">Add New Funding Org</Button>
           </div>
         </Form>
         <br />
-        {/* <OrganizationsNew updateOrganizations={updateOrganizations} /> */}
       </Card.Body>
     </Card>
   );

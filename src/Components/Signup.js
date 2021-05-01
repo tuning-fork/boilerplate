@@ -12,7 +12,9 @@ export default function Signup(props) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [active, setActive] = useState(true);
-  const [errors, setErrors] = useState(true);
+  const [errors, setErrors] = useState("");
+  const [errorType, setErrorType] = useState("");
+  const [errorText, setErrorText] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function Signup(props) {
   }, []);
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     axios
       .post(
         "/api/users",
@@ -40,7 +43,8 @@ export default function Signup(props) {
         }
       })
       .catch((error) => {
-        setErrors(error.response.data.errors);
+        setErrorType(error.response.status);
+        setErrorText(error.response.statusText);
         console.log(errors);
       });
     event.preventDefault();
@@ -105,13 +109,9 @@ export default function Signup(props) {
               />
             </Form.Group>
             <div>
-              {errors.map((error, index) => {
-                return (
-                  <span key={index} style={{ color: "red" }}>
-                    {error},{" "}
-                  </span>
-                );
-              })}
+              <span style={{ color: "red" }}>
+                {errorType} {errorText}
+              </span>
             </div>
             <div>
               <Button className="basic" type="submit">

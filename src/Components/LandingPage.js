@@ -1,9 +1,5 @@
 import React from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import Carousel from "react-bootstrap/Carousel";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 
 export default function LandingPage() {
   return (
@@ -17,7 +13,6 @@ export default function LandingPage() {
         paddingBottom: "100%",
       }}
     >
-      {/* <Container style={{ paddingTop: "5rem", paddingBottom: "5rem" }}> */}
       <div style={{ paddingBottom: "1rem" }}>
         <h1
           className="jumbotron-head"
@@ -58,7 +53,6 @@ export default function LandingPage() {
           simple
         </h1>
       </div>
-      {/* </Container> */}
     </Jumbotron>
   );
 }

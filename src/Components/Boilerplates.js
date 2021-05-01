@@ -12,53 +12,67 @@ export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [filteredBoilerplates, setFilteredBoilerplates] = useState([]);
-  const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
-  const [query, setQuery] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
-  const [filteredByWordCount, setFilteredByWordCount] = useState([]);
-  const [openIndex, setOpenIndex] = useState(false);
-  const [openNew, setOpenNew] = useState(false);
+  const [sortParam, setSortParam] = useState("");
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        // const zippyBoilerplates = this.createUnzipped(response.data);
-        // console.log(zippyBoilerplates);
-        setBoilerplates(response.data);
-        setFilteredBoilerplates(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, [currentOrganizationStore.currentOrganization.id]);
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+          setFilteredBoilerplates(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates];
     newBoilerplates.push(newBoilerplate);
-    setBoilerplates(newBoilerplates);
+    setFilteredBoilerplates(newBoilerplates);
+    console.log("updateboilerplates ran!");
   };
+
+  useEffect(() => {}, [filteredBoilerplates]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
   };
+
+  const handleSortParamSelect = (event) => {
+    setSortParam(event.target.value);
+  };
+
+  const sortBoilerplates = (sortParam) => {
+    const filteredBoilerplatesClone = [...filteredBoilerplates];
+    filteredBoilerplatesClone.sort(function (a, b) {
+      return a[sortParam].localeCompare(b[sortParam]);
+    });
+    setFilteredBoilerplates(filteredBoilerplatesClone);
+  };
+
+  useEffect(() => {
+    sortBoilerplates(sortParam);
+  }, [sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -113,7 +127,7 @@ export default function Boilerplates(props) {
           <Card>
             <h5>
               <a
-                href={`/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${boilerplate.id}`}
+                href={`/organizations/${currentOrganizationId}/boilerplates/${boilerplate.id}`}
                 dangerouslySetInnerHTML={{ __html: resultsTitle }}
               ></a>
             </h5>
@@ -134,7 +148,7 @@ export default function Boilerplates(props) {
             <Card.Header>
               <h5>
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${boilerplate.id}`}
+                  to={`/organizations/${currentOrganizationId}/boilerplates/${boilerplate.id}`}
                 >
                   {boilerplate.title}
                 </Link>
@@ -161,8 +175,8 @@ export default function Boilerplates(props) {
         <Modal onClose={handleClose} show={show}>
           <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
         </Modal>
-        {/* Search input field */}
 
+        {/* Search input field */}
         <Form>
           <Form.Group>
             <Form.Control
@@ -172,9 +186,6 @@ export default function Boilerplates(props) {
               onChange={handleSearchParamSelect}
               required
             >
-              {/* <option value="" disabled>
-                Search By
-              </option> */}
               <option value="filterText">Search By Text</option>
               <option value="filterWordCount">Search By Word Count</option>
             </Form.Control>
@@ -189,6 +200,26 @@ export default function Boilerplates(props) {
             />
           </Form.Group>
         </Form>
+        <div>
+          <Form>
+            <Form.Group>
+              <Form.Label>Sort Parameter</Form.Label>
+              <Form.Control
+                as="select"
+                name="sortParam"
+                value={sortParam}
+                onChange={handleSortParamSelect}
+                required
+              >
+                <option value="" disabled>
+                  Sort By
+                </option>
+                <option value="title">Title</option>
+                <option value="category_name">Category</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
 
         {highlightedBoilerplates}
       </div>

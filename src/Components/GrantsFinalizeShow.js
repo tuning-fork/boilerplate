@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SectionsUpdateFinal from "./SectionsUpdateFinal";
 import Form from "react-bootstrap/Form";
@@ -35,60 +35,57 @@ export default function GrantsFinalizeShow(props) {
   const [copiedGrantId, setCopiedGrantId] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}`,
-        {
+    window.scrollTo(0, 0);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          const zippySections = createUnzipped(response.data.sections);
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setRfpUrl(response.data.rfp_url);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setSuccessful(response.data.successful);
+          setPurpose(response.data.purpose);
+          setOrganizationId(response.data.organizion_id);
+          setOrganizationName(response.data.organization_name);
+          setFundingOrgId(response.data.funding_org_id);
+          setSections(zippySections);
+          setReports(response.data.reports);
+          setLoading(false);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        const zippySections = createUnzipped(response.data.sections);
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setRfpUrl(response.data.rfp_url);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setSuccessful(response.data.successful);
-        setPurpose(response.data.purpose);
-        setOrganizationId(response.data.organizion_id);
-        setOrganizationName(response.data.organization_name);
-        setFundingOrgId(response.data.funding_org_id);
-        setSections(zippySections);
-        setReports(response.data.reports);
-        setLoading(false);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
-        {
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/bios`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBios(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const createUnzipped = (sections) => {
     return sections.map((section) => {
@@ -124,8 +121,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/grants/` + id,
         {
           title: title,
           rfp_url: rfpUrl,
@@ -151,7 +147,7 @@ export default function GrantsFinalizeShow(props) {
     event.preventDefault();
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/copy`,
+        `/api/organizations/${currentOrganizationId}/grants/copy`,
         {
           original_grant_id: id,
           title: copyTitle,
@@ -177,7 +173,7 @@ export default function GrantsFinalizeShow(props) {
   const handleSectionDelete = () => {
     axios
       .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/sections/` +
+        `/api/organizations/${currentOrganizationId}/sections/` +
           props.section.id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -307,7 +303,7 @@ export default function GrantsFinalizeShow(props) {
                   <Alert.Heading>
                     Congrats! You've created a copy. View your copy
                     <Alert.Link
-                      href={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${copiedGrantId}`}
+                      href={`/organizations/${currentOrganizationId}/grants/${copiedGrantId}`}
                     >
                       {" "}
                       here
@@ -379,9 +375,6 @@ export default function GrantsFinalizeShow(props) {
                 grant_id={id}
                 boilerplates={boilerplates}
                 bios={bios}
-                // section_title={section.title}
-                // section_text={section.text}
-                // section_grant_id={state.id}
                 updateSections={updateSections}
               />
             </div>

@@ -1,10 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import OrganizationsNew from "./OrganizationsNew";
 import Card from "react-bootstrap/Card";
-// import CurrentUser from "./CurrentUser";
-import OrganizationUser from "./OrganizationUser";
 
 export default function Organizations() {
   const [loading, setLoading] = useState(true);
@@ -30,6 +28,8 @@ export default function Organizations() {
     setOrganizations(newOrganizations);
   };
 
+  useEffect(() => {}, [organizations]);
+
   if (loading) {
     return (
       <div className="container">
@@ -41,11 +41,6 @@ export default function Organizations() {
   return (
     <div className="flex-container">
       <div className="flex container col">
-        {/* <Card className="card-component">
-          <CurrentUser />
-        </Card> */}
-      </div>
-      <div className="flex container col">
         <Card className="card-component">
           <Card.Header className="card-component card-heading">
             Organizations
@@ -54,12 +49,14 @@ export default function Organizations() {
           <div>
             {organizations.map((organization) => {
               return (
-                <Link
-                  key={organization.id}
-                  to={`/organizations/${organization.id}`}
-                >
-                  {organization.name}
-                </Link>
+                <div>
+                  <Link
+                    key={organization.id}
+                    to={`/organizations/${organization.id}`}
+                  >
+                    {organization.name}
+                  </Link>
+                </div>
               );
             })}
           </div>

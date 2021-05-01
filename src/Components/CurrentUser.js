@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -15,31 +15,29 @@ export default function CurrentUser(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
-          localStorage.user_id,
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-        // {withCredentials: true}
-      )
-      .then((response) => {
-        setFirstName(response.data.first_name);
-        setLastName(response.data.last_name);
-        setEmail(response.data.email);
-        setOrganizationUsers(response.data.organization_users);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-
-  const updateOrganizationUsers = (newOrganizationUser) => {
-    const newOrganizationUsers = [...organizationUsers];
-    newOrganizationUsers.push(newOrganizationUser);
-    setOrganizationUsers(organizationUsers);
-  };
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+            localStorage.user_id,
+          { headers: { Authorization: `Bearer ${localStorage.token}` } }
+        )
+        .then((response) => {
+          setFirstName(response.data.first_name);
+          setLastName(response.data.last_name);
+          setEmail(response.data.email);
+          setOrganizationUsers(response.data.organization_users);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -48,7 +46,7 @@ export default function CurrentUser(props) {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
+        `/api/organizations/${currentOrganizationId}/users/` +
           localStorage.user_id,
         {
           first_name: firstName,

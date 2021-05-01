@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -27,24 +27,29 @@ export default function SectionsUpdateFinal(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/${props.section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setSortOrder(response.data.sort_order);
-        setGrantId(response.data.grant_id);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setTitle(response.data.title);
+          setQuillText(response.data.text);
+          setWordcount(response.data.wordcount);
+          setSortOrder(response.data.sort_order);
+          setGrantId(response.data.grant_id);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -59,7 +64,8 @@ export default function SectionsUpdateFinal(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/sections/" + props.section_id,
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
+          props.section_id,
         {
           title: title,
           text: quillText,
@@ -83,9 +89,13 @@ export default function SectionsUpdateFinal(props) {
 
   const handleSectionDelete = () => {
     axios
-      .delete("/api/sections/" + props.section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+      .delete(
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
+          props.section_id,
+        {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        }
+      )
       .then((response) => {
         console.log(response);
       })
@@ -104,22 +114,11 @@ export default function SectionsUpdateFinal(props) {
 
   return (
     <div className="container">
-      {props.isUnzipped === false ? (
-        <Container className="whatever" onClick={toggleHidden}>
-          <h5>{title}</h5>
-          <h1 onClick={() => props.toggleUnzipped(props.section_id, true)}>
-            +
-          </h1>
-        </Container>
-      ) : (
-        <Container className="whatever" onClick={toggleHidden}>
-          <h5>{title}</h5>
-          <h1 onClick={() => props.toggleUnzipped(props.section_id, false)}>
-            -
-          </h1>
-          <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
-        </Container>
-      )}
+      <Container className="whatever" onClick={toggleHidden}></Container>
+      <Container className="whatever" onClick={toggleHidden}>
+        <h5>{title}</h5>
+        <h5 dangerouslySetInnerHTML={{ __html: quillText }}></h5>
+      </Container>
       <br />
       {!isHidden ? (
         <div>

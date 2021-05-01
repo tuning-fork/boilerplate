@@ -1,10 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
-// import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import ReportSectionsShow from './ReportSectionsShow';
 import ReportSectionsUpdateFinal from "./ReportSectionsUpdateFinal";
-// // import ReportsNew from './ReportsNew';
-// import Card from 'react-bootstrap/Card';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -23,27 +19,32 @@ export default function ReportsFinalizeShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setReportSections(response.data.report_sections);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setTitle(response.data.title);
+          setDeadline(response.data.deadline);
+          setSubmitted(response.data.submitted);
+          setReportSections(response.data.report_sections);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -62,11 +63,10 @@ export default function ReportsFinalizeShow(props) {
   };
 
   const handleSubmit = (event) => {
-    // const { title, deadline, submitted } = this.state;
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/` +
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/` +
           id,
         {
           title: title,

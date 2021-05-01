@@ -1,10 +1,9 @@
-import React, { Component, useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 
@@ -111,12 +110,6 @@ export default function Login() {
               </Button>
             </div>
           </Form>
-
-          {/* <Link variant="light"
-              to={`/forgot_password`}
-            >
-              Forgot your password?
-            </Link> */}
         </Card.Body>
       </Card>
     </div>

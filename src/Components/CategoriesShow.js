@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -11,8 +11,7 @@ export default function CategoriesShow(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [organizationId, setOrganizationId] = useState("");
-  const [isHidden, setIsHidden] = useState("");
-  const [organizations, setOrganizations] = useState([]);
+  const [isHidden, setIsHidden] = useState(true);
   const [organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -21,6 +20,9 @@ export default function CategoriesShow(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [editableName, setEditableName] = useState("");
 
@@ -29,25 +31,27 @@ export default function CategoriesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories/${props.match.params.category_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setName(response.data.name);
-        setOrganizationId(response.data.organization_id);
-        setOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (currentOrganizationId) {
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationId}/categories/${props.match.params.category_id}/`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setId(response.data.id);
+          setName(response.data.name);
+          setOrganizationId(response.data.organization_id);
+          setOrganizationName(response.data.organization.name);
+          setEditableName(response.data.name);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentOrganizationId]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -57,8 +61,7 @@ export default function CategoriesShow(props) {
     event.preventDefault();
     axios
       .patch(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories/` +
-          id,
+        `/api/organizations/${currentOrganizationId}/categories/` + id,
         {
           name: editableName,
           organization_id: organizationId,
@@ -82,18 +85,12 @@ export default function CategoriesShow(props) {
 
   const handleCategoryDelete = () => {
     axios
-      .delete(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories/` +
-          id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+      .delete(`/api/organizations/${currentOrganizationId}/categories/` + id, {
+        headers: { Authorization: `Bearer ${localStorage.token}` },
+      })
       .then((response) => {
         if (response.data.message) {
-          history.push(
-            `/organizations/${currentOrganizationStore.currentOrganization.id}/categories`
-          );
+          history.push(`/organizations/${currentOrganizationId}/categories`);
         }
         console.log(response);
       })

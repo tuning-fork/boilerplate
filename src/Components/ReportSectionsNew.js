@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -16,7 +16,6 @@ export default function ReportSectionsNew(props) {
   const [wordcount, setWordcount] = useState("");
   const [boilerplates, setBoilerplates] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
-  const [addText, setAddText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(true);
@@ -25,20 +24,22 @@ export default function ReportSectionsNew(props) {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setBoilerplates(response.data);
-        setLoading(false);
-      });
-  }, [loading]);
+        })
+        .then((response) => {
+          setBoilerplates(response.data);
+          setLoading(false);
+        });
+    }
+  }, [loading, currentOrganizationId]);
 
   const clearForm = () => {
     setQuillText("");
@@ -60,7 +61,7 @@ export default function ReportSectionsNew(props) {
     };
     axios
       .post(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
+        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
         newReportSection,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -181,7 +182,6 @@ export default function ReportSectionsNew(props) {
           </Form.Group>
           <Form.Label>Report Section Text</Form.Label>
           <ReactQuill
-            // name="quill_text"
             value={quillText}
             onChange={(value) => setQuillText(value)}
           />
@@ -189,7 +189,6 @@ export default function ReportSectionsNew(props) {
             <Form.Label>Word Count</Form.Label>
             <p>{countWords(quillText)}</p>
           </Form.Group>
-          {/* <p>Sort Order: {this.props.grant_section_number}</p> */}
           <div className="text-center">
             <Button type="submit">Add New Report Section</Button>
           </div>

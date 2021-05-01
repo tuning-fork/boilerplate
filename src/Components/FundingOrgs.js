@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
@@ -8,34 +8,34 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [organizations, setOrganizations] = useState([]);
-  const [
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setFundingOrgs(response.data);
-        setLoading(false);
-        console.log(response.data);
-      })
-      .catch((error) => console.log(error));
+        })
+        .then((response) => {
+          setFundingOrgs(response.data);
+          setLoading(false);
+          console.log(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
     window.scrollTo(0, 0);
-  }, [loading, currentOrganizationStore.currentOrganization.id]);
+  }, [loading, currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs];
     newFundingOrgs.push(newFundingOrg);
     setFundingOrgs(newFundingOrgs);
   };
+
+  useEffect(() => {}, [fundingOrgs]);
 
   if (loading === true) {
     return (
@@ -55,7 +55,7 @@ export default function FundingOrgs() {
               return (
                 <Link
                   key={fundingOrg.id}
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/${fundingOrg.id}`}
+                  to={`/organizations/${currentOrganizationId}/funding_orgs/${fundingOrg.id}`}
                 >
                   {fundingOrg.name}
                 </Link>

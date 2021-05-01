@@ -1,17 +1,15 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import GrantsNew from "./GrantsNew";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function Grants() {
   const [loading, setLoading] = useState(true);
   const [grants, setGrants] = useState([]);
-  const [query, setQuery] = useState("");
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
@@ -20,11 +18,11 @@ export default function Grants() {
     currentOrganizationStore,
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -44,30 +42,32 @@ export default function Grants() {
     setFilteredGrants(alteredGrants);
   };
 
+  console.log("grant render");
+
   useEffect(() => {
-    console.log("use effect ran");
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants`,
-        {
+    if (currentOrganizationId) {
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/grants`, {
           headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        const zippyGrants = createUnzipped(response.data);
-        console.log(zippyGrants);
-        setGrants(response.data);
-        setFilteredGrants(zippyGrants);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, [currentOrganizationStore.currentOrganization.id]);
+        })
+        .then((response) => {
+          const zippyGrants = createUnzipped(response.data);
+          console.log(zippyGrants);
+          setGrants(response.data);
+          setFilteredGrants(zippyGrants);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [currentOrganizationId]);
 
   const updateGrants = (newGrant) => {
     const newGrants = [...grants];
     newGrants.push(newGrant);
-    setGrants(newGrants);
+    setFilteredGrants(newGrants);
   };
+
+  useEffect(() => {}, [filteredGrants]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -163,7 +163,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
@@ -174,7 +174,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
@@ -208,7 +208,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -220,7 +220,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -259,7 +259,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -271,7 +271,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -299,7 +299,6 @@ export default function Grants() {
         </div>
       );
     } else {
-      // return this.state.filteredGrants.map((grant) => {
       return (
         <div key={grant.id}>
           {grant.isUnzipped === false ? (
@@ -308,7 +307,7 @@ export default function Grants() {
                 <h3>
                   Title:
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
@@ -322,7 +321,7 @@ export default function Grants() {
                 <h3>
                   Title:{" "}
                   <Link
-                    to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
@@ -404,34 +403,6 @@ export default function Grants() {
 
         {highlightedGrants}
       </div>
-      {/* ) : null} */}
-      {/* {this.state.grants.map((grant) => {
-          return (
-            <div key={grant.id}>
-              <Card>
-                <Card.Header> 
-                  <Link
-                    to={`/grants/${grant.id}`}
-                  >
-                    {grant.title}
-                  </Link>
-                </Card.Header>
-                <Card.Body>
-                  <p>Purpose: {grant.purpose}</p>
-                  <p>Funding Organization: {grant.funding_org_name}</p>
-                  <p>RFP URL: {grant.rfp_url}</p>
-                  <p>Deadline: {this.formatDate(grant.deadline)}</p>
-                  <p>Deadline: <Moment>{grant.deadline}</Moment></p>
-                  <Moment fromNow>{grant.deadline}</Moment>
-                  <p>Submitted: {grant.submitted ? "yes" : "not yet"}</p>
-                  <p>Successful: {grant.successful ? "yes" : "not yet"}</p>
-                  <p>Organization Name: {grant.organization_name}</p>
-                </Card.Body>
-              </Card>
-              <br />
-            </div>
-          );
-        })} */}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -14,8 +14,9 @@ export default function OrganizationsShow(props) {
   const history = useHistory();
 
   useEffect(() => {
+    console.log(props.match);
     axios
-      .get(`/api/organizations/${props.match.params.id}`, {
+      .get(`/api/organizations/${props.match.params.org_id}`, {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       })
       .then((response) => {
