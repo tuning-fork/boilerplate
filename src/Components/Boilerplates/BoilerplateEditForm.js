@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+// import axios from "axios";
+// import { useHistory } from "react-router-dom";
+// import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import countWords from "../../Helpers/countWords";
 
 const modules = {
@@ -37,7 +37,7 @@ const formats = [
   "color",
 ];
 
-export default function BoilerplatesShowForm(props) {
+export default function BoilerplatesEditForm(props) {
   const { categories, onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);

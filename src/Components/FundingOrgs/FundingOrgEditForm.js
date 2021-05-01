@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -6,14 +6,16 @@ import Button from "react-bootstrap/Button";
 // import { useHistory } from "react-router-dom";
 // import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
-export default function CategoriesShowForm(props) {
-  const { categories, onSubmit, onCancel } = props;
-  const [newName, setNewName] = useState(props.title);
+export default function FundingOrgsEditForm(props) {
+  const { onSubmit, onCancel } = props;
+  const [newName, setNewName] = useState("");
+  const [newWebsite, setNewWebsite] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit({
       newName,
+      newWebsite,
     });
   };
 
@@ -32,6 +34,17 @@ export default function CategoriesShowForm(props) {
           name="newName"
           placeholder={newName}
           onChange={(event) => setNewName(event.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Website</Form.Label>
+        <Form.Control
+          type="text"
+          value={newWebsite}
+          name="newWebsite"
+          placeholder={newWebsite}
+          onChange={(event) => setNewWebsite(event.target.value)}
           required
         />
       </Form.Group>

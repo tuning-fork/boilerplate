@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 
 export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
@@ -23,8 +24,8 @@ export default function FundingOrgsShow(props) {
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
 
-  const [editableName, setEditableName] = useState("");
-  const [editableWebsite, setEditableWebsite] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newWebsite, setNewWebsite] = useState("");
 
   const history = useHistory();
 
@@ -47,8 +48,8 @@ export default function FundingOrgsShow(props) {
           setWebsite(response.data.website);
           setOrganizationId(response.data.organization_id);
           setOrganizationName(response.data.organization.name);
-          setEditableName(response.data.name);
-          setEditableWebsite(response.data.website);
+          setNewName(response.data.name);
+          setNewWebsite(response.data.website);
           setLoading(false);
         })
         .catch((error) => {
@@ -61,21 +62,22 @@ export default function FundingOrgsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newName, newWebsite }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
-          name: editableName,
-          website: editableWebsite,
+          name: newName,
+          website: newWebsite,
           organization_id: organizationId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
+        handleClose();
         updateOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setEditableWebsite(response.data.website);
+        setNewName(response.data.name);
+        setNewWebsite(response.data.website);
         toggleHidden();
       })
       .catch((error) => {
@@ -85,8 +87,6 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableName(name);
-    setEditableWebsite(website);
     handleClose();
   };
 
@@ -143,59 +143,12 @@ export default function FundingOrgsShow(props) {
         {!isHidden ? (
           <div className="card">
             <div className="card-body">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableName}
-                    name="editableName"
-                    placeholder={editableName}
-                    onChange={(event) => setEditableName(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Website</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableWebsite}
-                    name="editableWebsite"
-                    placeholder={editableWebsite}
-                    onChange={(event) => setEditableWebsite(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <div>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    variant="outline-success"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Form>
+              <FundingOrgEditForm
+                name={name}
+                website={website}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
             </div>
           </div>
         ) : null}
