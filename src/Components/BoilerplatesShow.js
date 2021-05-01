@@ -37,9 +37,9 @@ export default function BoilerplatesShow(props) {
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
 
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableCategoryId, setEditableCategoryId] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newQuillText, setNewQuillText] = useState("");
+  const [newCategoryId, setNewCategoryId] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -60,16 +60,12 @@ export default function BoilerplatesShow(props) {
           setQuillText(response.data.text);
           setWordcount(response.data.wordcount);
           setOrganizationId(response.data.organization_id);
-          setOrganizationName(response.data.organization.name);
           setCategoryId(response.data.category_id);
           setCategoryName(response.data.category.name);
-          setEditableTitle(response.data.title);
-          setEditableQuillText(response.data.text);
-          setEditableCategoryId(response.data.category_id);
+          // setNewTitle(response.data.title);
+          // setNewQuillText(response.data.text);
+          // setNewCategoryId(response.data.category_id);
           setLoading(false);
-          setEditableTitle(response.data.title);
-          setEditableQuillText(response.data.text);
-          setEditableCategoryId(response.data.category_id);
         })
         .catch((error) => {
           console.log(error);
@@ -86,19 +82,10 @@ export default function BoilerplatesShow(props) {
     }
   }, [currentOrganizationId]);
 
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
-
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
       .patch(
-<<<<<<< HEAD
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
-          id,
-=======
         `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
->>>>>>> develop
         {
           title: newTitle,
           text: newQuillText,

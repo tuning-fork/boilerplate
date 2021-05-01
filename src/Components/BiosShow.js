@@ -112,10 +112,10 @@ export default function BiosShow(props) {
   };
 
   const handleCancel = (event) => {
-    setNewQuillText(quillText);
-    setNewFirstName(firstName);
-    setNewLastName(lastName);
-    setNewTitle(title);
+    // setNewQuillText(quillText);
+    // setNewFirstName(firstName);
+    // setNewLastName(lastName);
+    // setNewTitle(title);
     handleClose();
   };
 
