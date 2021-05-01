@@ -48,10 +48,11 @@ export default function Boilerplates(props) {
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates];
     newBoilerplates.push(newBoilerplate);
-    setBoilerplates(newBoilerplates);
+    setFilteredBoilerplates(newBoilerplates);
+    console.log("updateboilerplates ran!");
   };
 
-  useEffect(() => {}, [boilerplates]);
+  useEffect(() => {}, [filteredBoilerplates]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);

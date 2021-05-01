@@ -35,6 +35,8 @@ export default function FundingOrgs() {
     setFundingOrgs(newFundingOrgs);
   };
 
+  useEffect(() => {}, [fundingOrgs]);
+
   if (loading === true) {
     return (
       <div className="container">

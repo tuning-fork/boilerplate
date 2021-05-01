@@ -42,10 +42,9 @@ export default function BoilerplatesNew(props) {
   }, []);
 
   const updateCategories = (newCategory) => {
-    const newCategories = categories;
+    const newCategories = [...categories];
     newCategories.push(newCategory);
     setCategories(categories);
-    console.log(categories);
   };
 
   const clearForm = () => {

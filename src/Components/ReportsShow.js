@@ -144,6 +144,8 @@ export default function ReportsShow(props) {
     setReportSections(newReportSections);
   };
 
+  useEffect(() => {}, [reportSections]);
+
   const editReportSections = (editedReportSection) => {
     const newReportSections = reportSections.map((reportSection) => {
       if (reportSection.id === editedReportSection.id) {

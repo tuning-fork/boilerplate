@@ -28,6 +28,8 @@ export default function Organizations() {
     setOrganizations(newOrganizations);
   };
 
+  useEffect(() => {}, [organizations]);
+
   if (loading) {
     return (
       <div className="container">

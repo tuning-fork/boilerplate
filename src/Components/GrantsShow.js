@@ -179,11 +179,15 @@ export default function GrantsShow(props) {
     }
   };
 
+  useEffect(() => {}, [sections]);
+
   const updateNewReports = (newReport) => {
     const newReports = [...reports];
     newReports.push(newReport);
     setReports(newReports);
   };
+
+  useEffect(() => {}, [reports]);
 
   const handleGrantDelete = () => {
     axios
