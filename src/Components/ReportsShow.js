@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import ReportEditForm from "./Reports/ReportEditForm";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -290,7 +291,6 @@ export default function ReportsShow(props) {
                     editReportSections={editReportSections}
                     deleteReportSections={deleteReportSections}
                   />
-                  {/* <Button onClick={() => this.handleReportSectionDelete(report_section.id)}>Delete</Button> */}
                 </div>
               );
             })
