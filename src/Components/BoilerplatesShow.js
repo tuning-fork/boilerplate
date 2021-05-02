@@ -21,6 +21,7 @@ export default function BoilerplatesShow(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [organizationId, setOrganizationId] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -34,8 +35,8 @@ export default function BoilerplatesShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [newTitle, setNewTitle] = useState("");
   const [newQuillText, setNewQuillText] = useState("");
@@ -81,6 +82,10 @@ export default function BoilerplatesShow(props) {
         .catch((error) => console.log(error));
     }
   }, [currentOrganizationId]);
+
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios

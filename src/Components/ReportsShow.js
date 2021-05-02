@@ -44,8 +44,8 @@ export default function ReportsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [newTitle, setNewTitle] = useState("");
   const [newDeadline, setNewDeadline] = useState("");

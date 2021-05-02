@@ -35,8 +35,8 @@ export default function ReportSectionsShow(props) {
 
   const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

@@ -21,8 +21,8 @@ export default function FundingOrgsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [newName, setNewName] = useState("");
   const [newWebsite, setNewWebsite] = useState("");

@@ -22,8 +22,8 @@ export default function CategoriesShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [newName, setNewName] = useState("");
 
