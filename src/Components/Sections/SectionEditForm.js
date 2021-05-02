@@ -42,6 +42,7 @@ export default function SectionEditForm(props) {
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);
   const [newSortOrder, setNewSortOrder] = useState(props.sortOrder);
+  const [currentBoilerplate, setCurrentBoilerplate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,6 +56,12 @@ export default function SectionEditForm(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     onCancel();
+  };
+
+  const handleSelect = (event) => {
+    let newQuillTextClone = newQuillText;
+    newQuillTextClone += ` ${event.target.value}`;
+    setNewQuillText(newQuillTextClone);
   };
 
   return (
@@ -152,18 +159,6 @@ export default function SectionEditForm(props) {
           onClick={handleCancel}
         >
           Cancel
-          <Button
-            variant="outline-danger"
-            style={{
-              maxWidth: "50%",
-              align: "center",
-              backgroundColor: "#23cb87",
-              color: "#09191b",
-              fontWeight: "bolder",
-            }}
-            onClick={handleSectionDelete}
-          ></Button>
-          Delete Section
         </Button>
       </div>
     </Form>

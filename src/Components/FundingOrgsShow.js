@@ -83,7 +83,6 @@ export default function FundingOrgsShow(props) {
       .catch((error) => {
         console.log("category update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {

@@ -59,7 +59,6 @@ export default function CategoriesShow(props) {
   };
 
   const handleSubmit = ({ newName }) => {
-    event.preventDefault();
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/categories/` + id,

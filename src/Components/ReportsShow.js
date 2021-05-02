@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ReportSectionsNew from "./ReportSectionsNew";
@@ -137,7 +137,6 @@ export default function ReportsShow(props) {
       .catch((error) => {
         console.log("report update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {

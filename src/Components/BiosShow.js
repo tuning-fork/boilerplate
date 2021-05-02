@@ -88,7 +88,6 @@ export default function BiosShow(props) {
     newTitle,
     newQuillText,
   }) => {
-    event.preventDefault();
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/bios/` + id,

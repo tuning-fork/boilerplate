@@ -8,6 +8,8 @@ import "react-quill/dist/quill.snow.css";
 import SectionToBoilerplateNew from "./SectionToBoilerplateNew";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import SectionEditForm from "./Sections/SectionEditForm";
+import countWords from "../Helpers/countWords";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -28,10 +30,12 @@ export default function SectionsShow(props) {
   const [wordcount, setWordcount] = useState("");
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
-  const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [newQuillText, setNewQuillText] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newSortOrder, setNewSortOrder] = useState("");
+  const [bios, setBios] = useState([]);
+  const [boilerplates, setBoilerplates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -63,6 +67,24 @@ export default function SectionsShow(props) {
           setNewQuillText(response.data.text);
           setNewTitle(response.data.title);
           setNewSortOrder(response.data.sort_order);
+        });
+      axios
+        .get(
+          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.token}` },
+          }
+        )
+        .then((response) => {
+          setBoilerplates(response.data);
+        });
+      axios
+        .get(`/api/organizations/${currentOrganizationId}/bios`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
+        .then((response) => {
+          setBios(response.data);
+          setLoading(false);
         })
         .catch((error) => console.log(error));
     }
@@ -78,20 +100,6 @@ export default function SectionsShow(props) {
 
   const toggleBoilerplateHidden = () => {
     setIsBoilerplateHidden(!isBoilerplateHidden);
-  };
-
-  const handleSelect = (event) => {
-    let newQuillTextClone = newQuillText;
-    newQuillTextClone += ` ${event.target.value}`;
-    setNewQuillText(newQuillTextClone);
-  };
-
-  const countWords = (string) => {
-    if (string) {
-      return string.split(" ").length;
-    } else {
-      return 0;
-    }
   };
 
   const handleSubmit = (event) => {

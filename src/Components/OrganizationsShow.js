@@ -22,6 +22,10 @@ export default function OrganizationsShow(props) {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     axios
       .get(`/api/organizations/${props.match.params.org_id}`, {
@@ -52,11 +56,16 @@ export default function OrganizationsShow(props) {
       )
       .then((response) => {
         toggleHidden();
+        setName(response.data.name);
       })
       .catch((error) => {
         console.log("organization update error", error);
       });
     event.preventDefault();
+  };
+
+  const handleCancel = (event) => {
+    handleClose();
   };
 
   const handleOrganizationDelete = () => {

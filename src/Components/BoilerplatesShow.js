@@ -27,6 +27,7 @@ export default function BoilerplatesShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+  const [wordcount, setWordcount] = useState("");
 
   const [
     currentOrganizationStore,
