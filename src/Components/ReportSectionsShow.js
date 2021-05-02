@@ -6,6 +6,17 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import ReportSectionEditForm from "./ReportSections/ReportSectionEditForm";
+import countWords from "../Helpers/countWords";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");
@@ -18,9 +29,9 @@ export default function ReportSectionsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableSortOrder, setEditableSortOrder] = useState("");
+  const [newQuillText, setNewQuillText] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newSortOrder, setNewSortOrder] = useState("");
 
   const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
@@ -49,9 +60,9 @@ export default function ReportSectionsShow(props) {
           setWordcount(response.data.wordcount);
           setReportId(response.data.report_id);
           setLoading(false);
-          setEditableTitle(response.data.title);
-          setEditableQuillText(response.data.text);
-          setEditableSortOrder(response.data.sort_order);
+          setNewTitle(response.data.title);
+          setNewQuillText(response.data.text);
+          setNewSortOrder(response.data.sort_order);
         })
         .catch((error) => {
           console.log(error);
@@ -69,10 +80,10 @@ export default function ReportSectionsShow(props) {
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
         {
-          title: editableTitle,
-          text: editableQuillText,
-          sort_order: editableSortOrder,
-          wordcount: countWords(editableQuillText),
+          title: newTitle,
+          text: newQuillText,
+          sort_order: newSortOrder,
+          wordcount: countWords(newQuillText),
           report_id: reportId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
@@ -87,9 +98,6 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableTitle(title);
-    setEditableQuillText(text);
-    setEditableSortOrder(sortOrder);
     handleClose();
   };
 
@@ -108,14 +116,6 @@ export default function ReportSectionsShow(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const countWords = (string) => {
-    if (string) {
-      return string.split(" ").length;
-    } else {
-      return 0;
-    }
   };
 
   if (loading) {
@@ -144,55 +144,13 @@ export default function ReportSectionsShow(props) {
           {!isHidden ? (
             <Card>
               <Card.Body>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={editableTitle}
-                      name="editableTitle"
-                      onChange={(event) => setEditableTitle(event.target.value)}
-                      required
-                    />
-                  </Form.Group>
-                  <ReactQuill
-                    value={editableQuillText}
-                    onChange={(value) => setEditableQuillText(value)}
-                  />
-                  <Form.Group>
-                    <Form.Label>Word Count</Form.Label>
-                    <p>{countWords(editableQuillText)}</p>
-                  </Form.Group>
-                  <div>
-                    <Button
-                      variant="outline-success"
-                      type="submit"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleSubmit}
-                    >
-                      Save Changes
-                    </Button>
-                    <Button
-                      variant="outline-success"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </Form>
+                <ReportSectionEditForm
+                  title={title}
+                  quillText={quillText}
+                  sortOrder={sortOrder}
+                  onSubmit={handleSubmit}
+                  onCancel={handleCancel}
+                />
               </Card.Body>
             </Card>
           ) : null}
