@@ -20,8 +20,8 @@ export default function FundingOrgsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [editableName, setEditableName] = useState("");
   const [editableWebsite, setEditableWebsite] = useState("");

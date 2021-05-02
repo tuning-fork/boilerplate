@@ -23,8 +23,8 @@ export default function Bios(props) {
   ] = useCurrentOrganizationContext();
 
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);

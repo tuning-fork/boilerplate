@@ -16,14 +16,14 @@ export default function CurrentUser(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
       axios
         .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/users/` +
+          `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
             localStorage.user_id,
           { headers: { Authorization: `Bearer ${localStorage.token}` } }
         )

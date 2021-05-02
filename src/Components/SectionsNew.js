@@ -28,14 +28,14 @@ export default function SectionsNew(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
       axios
         .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
+          `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
           {
             headers: { Authorization: `Bearer ${localStorage.token}` },
           }
