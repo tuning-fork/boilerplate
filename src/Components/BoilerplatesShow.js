@@ -22,6 +22,7 @@ export default function BoilerplatesShow(props) {
   const [title, setTitle] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [organizationId, setOrganizationId] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -47,51 +48,6 @@ export default function BoilerplatesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (!currentOrganizationStore.currentOrganization) {
-      return;
-    }
-
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/${props.match.params.boilerplate_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setId(response.data.id);
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setWordcount(response.data.wordcount);
-        setOrganizationId(response.data.organization_id);
-        setCategoryId(response.data.category_id);
-        setCategoryName(response.data.category.name);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-        setLoading(false);
-        setEditableTitle(response.data.title);
-        setEditableQuillText(response.data.text);
-        setEditableCategoryId(response.data.category_id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/categories`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
-  }, [currentOrganizationStore]);
-=======
     if (currentOrganizationId) {
       axios
         .get(
@@ -135,17 +91,11 @@ export default function BoilerplatesShow(props) {
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
->>>>>>> develop
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
       .patch(
-<<<<<<< HEAD
-        `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/` +
-          id,
-=======
         `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
->>>>>>> develop
         {
           title: newTitle,
           text: newQuillText,
