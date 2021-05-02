@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,7 +9,8 @@ import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 function Navigation(props) {
-  const [currentUserStore] = useCurrentUserContext();
+  // const [currentUserStore] = useCurrentUserContext();
+  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -61,7 +62,7 @@ function Navigation(props) {
                   </Nav.Item>
                   <Nav.Item className="active">
                     <Nav.Link
-                      href={`/organizations/${currentOrganizationStore.currentOrganizationInfo}
+                      href={`/organizations/${currentOrganizationStore.currentOrganization}
                                 .id/grants`}
                     >
                       Grants

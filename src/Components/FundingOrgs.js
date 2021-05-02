@@ -10,8 +10,8 @@ export default function FundingOrgs() {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {

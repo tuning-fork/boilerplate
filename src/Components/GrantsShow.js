@@ -46,8 +46,8 @@ export default function GrantsShow(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const [editableTitle, setEditableTitle] = useState("");
   const [editableRfpUrl, setEditableRfpUrl] = useState("");
