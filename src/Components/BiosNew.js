@@ -22,8 +22,8 @@ export default function BiosNew(props) {
   ] = useCurrentOrganizationContext();
 
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganizationInfo &&
-    currentOrganizationStore.currentOrganizationInfo.id;
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const clearForm = () => {
     setQuillText("");
