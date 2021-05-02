@@ -10,6 +10,9 @@ export default function Dashboard() {
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,9 +31,7 @@ export default function Dashboard() {
         <Card
           className="card-component"
           onClick={() => {
-            history.push(
-              `organizations/${currentOrganizationStore.currentOrganization.id}/grants/`
-            );
+            history.push(`organizations/${currentOrganizationId}/grants/`);
           }}
         >
           <Card.Header>Grants &gt;</Card.Header>
@@ -52,7 +53,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates/`
+                  `organizations/${currentOrganizationId}/boilerplates/`
                 );
               }}
             >
@@ -69,9 +70,7 @@ export default function Dashboard() {
             <Card
               className="card-component"
               onClick={() => {
-                history.push(
-                  `organizations/${currentOrganizationStore.currentOrganization.id}/bios/`
-                );
+                history.push(`organizations/${currentOrganizationId}/bios/`);
               }}
             >
               <Card.Header>Staff Bios &gt;</Card.Header>
@@ -90,7 +89,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganization.id}/funding_orgs/`
+                  `organizations/${currentOrganizationId}/funding_orgs/`
                 );
               }}
             >
@@ -108,7 +107,7 @@ export default function Dashboard() {
               className="card-component"
               onClick={() => {
                 history.push(
-                  `organizations/${currentOrganizationStore.currentOrganization.id}/categories/`
+                  `organizations/${currentOrganizationId}/categories/`
                 );
               }}
             >
