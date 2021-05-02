@@ -74,8 +74,7 @@ export default function ReportSectionsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,

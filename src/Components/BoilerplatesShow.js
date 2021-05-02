@@ -83,10 +83,6 @@ export default function BoilerplatesShow(props) {
     }
   }, [currentOrganizationId]);
 
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
-
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
       .patch(

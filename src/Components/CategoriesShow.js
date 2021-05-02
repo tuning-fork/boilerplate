@@ -2,11 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Modal from "./Elements/Modal";
 import { id } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import CategoryEditForm from "./Categories/CategoryEditForm";
 import countWords from "../Helpers/countWords";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function CategoriesShow(props) {
   const [id, setId] = useState("");
@@ -101,36 +111,54 @@ export default function CategoriesShow(props) {
   if (loading) {
     return <h1>Loading....</h1>;
   }
+
+  const Header = (
+    <Card.Header style={{ backgroundColor: "#09191b" }}>
+      <h3
+        style={{
+          color: "#23cb87",
+          fontWeight: "bolder",
+          display: "inline",
+        }}
+      >
+        Name: {name}
+      </h3>
+      <FontAwesomeIcon
+        icon={faEdit}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "160px",
+        }}
+        onClick={handleShow}
+      />
+      <FontAwesomeIcon
+        icon={faTrashAlt}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "10px",
+        }}
+        onClick={handleCategoryDelete}
+      />
+    </Card.Header>
+  );
+
   return (
     <div className="component">
-      <Card>
-        <Card.Header>
-          <h3>Name: {name}</h3>
-        </Card.Header>
-        <Card.Body>
-          <h3>organization: {organizationName}</h3>
-        </Card.Body>
-      </Card>
-      <br />
-      <div>
-        <div className="container">
-          <Button onClick={toggleHidden}>Update Category</Button>
-          <br />
-          <br />
-          {!isHidden ? (
-            <Card>
-              <Card.Body>
-                <CategoryEditForm
-                  name={name}
-                  onSubmit={handleSubmit}
-                  onCancel={handleCancel}
-                />
-              </Card.Body>
-            </Card>
-          ) : null}
-          <Button onClick={handleCategoryDelete}>Delete</Button>
-        </div>
-      </div>
+      <Card>{Header}</Card>
+      <Modal show={show} onClose={handleClose}>
+        <Card>
+          <Card.Body>
+            <CategoryEditForm
+              name={name}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+            />
+          </Card.Body>
+        </Card>
+      </Modal>
+      <Button onClick={handleCategoryDelete}>Delete</Button>
     </div>
   );
 }

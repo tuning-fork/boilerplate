@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 export default function OrganizationEditForm(props) {
   const { onSubmit, onCancel } = props;
-  const [newName, setNewName] = useState(props.title);
+  const [newName, setNewName] = useState(props.name);
 
   const handleSubmit = (event) => {
     event.preventDefault();

@@ -69,12 +69,9 @@ export default function SectionsShow(props) {
           setNewSortOrder(response.data.sort_order);
         });
       axios
-        .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/boilerplates`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        })
         .then((response) => {
           setBoilerplates(response.data);
         });
@@ -102,7 +99,7 @@ export default function SectionsShow(props) {
     setIsBoilerplateHidden(!isBoilerplateHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
@@ -127,13 +124,9 @@ export default function SectionsShow(props) {
       .catch((error) => {
         console.log("grant section update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {
-    setNewQuillText(quillText);
-    setNewTitle(title);
-    setNewSortOrder(sortOrder);
     handleClose();
   };
 

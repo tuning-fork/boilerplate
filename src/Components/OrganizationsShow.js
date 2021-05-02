@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import OrganizationEditForm from "./Organizations/OrganizationEditForm";
+import Modal from "./Elements/Modal";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -22,6 +23,8 @@ export default function OrganizationsShow(props) {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
+  const [newName, setNewName] = useState("");
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -35,6 +38,7 @@ export default function OrganizationsShow(props) {
         setId(response.data.id);
         setName(response.data.name);
         setLoading(false);
+        setNewName(response.data.name);
       })
       .catch((error) => {
         console.log(error);
@@ -45,23 +49,22 @@ export default function OrganizationsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newName }) => {
     axios
       .patch(
         "/api/organizations/" + id,
         {
-          name: name,
+          name: newName,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
-        toggleHidden();
+        handleClose();
         setName(response.data.name);
       })
       .catch((error) => {
         console.log("organization update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {
@@ -92,52 +95,52 @@ export default function OrganizationsShow(props) {
     );
   }
 
+  const Header = (
+    <Card.Header style={{ backgroundColor: "#09191b" }}>
+      <h3
+        style={{
+          color: "#23cb87",
+          fontWeight: "bolder",
+          display: "inline",
+        }}
+      >
+        Name: {name}
+      </h3>
+      <FontAwesomeIcon
+        icon={faEdit}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "160px",
+        }}
+        onClick={handleShow}
+      />
+      <FontAwesomeIcon
+        icon={faTrashAlt}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "10px",
+        }}
+        onClick={handleOrganizationDelete}
+      />
+    </Card.Header>
+  );
+
   return (
     <div className="container">
-      <Card>
-        <Card.Header>
-          <h3>Name: {name}</h3>
-          <FontAwesomeIcon
-            icon={faEdit}
-            style={{
-              color: "#fefefe",
-              fontSize: "1.5rem",
-              marginLeft: "160px",
-            }}
-            onClick={handleShow}
-          />
-          <FontAwesomeIcon
-            icon={faTrashAlt}
-            style={{
-              color: "#fefefe",
-              fontSize: "1.5rem",
-              marginLeft: "10px",
-            }}
-            onClick={handleOrganizationDelete}
-          />
-        </Card.Header>
-      </Card>
-      <br />
-
-      <div>
-        <div className="container">
-          <Button onClick={toggleHidden}>Update Organization</Button>
-          <Button variant="danger" onClick={handleOrganizationDelete}>
-            Delete Organization
-          </Button>
-          <br />
-          <br />
-          <Card>
-            <Card.Body>
-              <OrganizationEditForm
-                name={name}
-                onSubmit={handleSubmit}
-                onCancel={handleCancel}
-              />
-            </Card.Body>
-          </Card>
-        </div>
-      </div>
+      <Card>{Header}</Card>
+      <Modal show={show} onClose={handleClose}>
+        <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+          <Card.Body>
+            <OrganizationEditForm
+              name={name}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+            />
+          </Card.Body>
+        </Card>
+      </Modal>
     </div>
   );
 }
