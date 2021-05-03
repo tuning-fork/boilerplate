@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SectionsUpdateFinal from "./SectionsUpdateFinal";
+import SectionsShow from "./SectionsShow";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -47,6 +47,10 @@ export default function GrantsFinalizeShow(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -157,10 +161,21 @@ export default function GrantsFinalizeShow(props) {
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
+        setTitle(response.data.title);
+        setRfpUrl(response.data.rfp_url);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
+        setSuccessful(response.data.successful);
+        setPurpose(response.data.purpose);
       })
       .catch((error) => {
         console.log("grant update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    handleClose();
   };
 
   const copyGrant = (event) => {
@@ -234,6 +249,7 @@ export default function GrantsFinalizeShow(props) {
 
   return (
     <div className="component">
+      {Header}
       <div>
         {/* beginning of grant update */}
         <div className="container">
@@ -336,7 +352,7 @@ export default function GrantsFinalizeShow(props) {
         {sections.map((section) => {
           return (
             <div key={section.id}>
-              <SectionsUpdateFinal
+              <SectionsShow
                 isUnzipped={section.isUnzipped}
                 toggleUnzipped={toggleUnzipped}
                 section_id={section.id}

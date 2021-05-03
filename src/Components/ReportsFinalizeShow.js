@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReportSectionsUpdateFinal from "./ReportSectionsUpdateFinal";
+import ReportSectionsShow from "./ReportSectionsShow";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -106,7 +106,7 @@ export default function ReportsFinalizeShow(props) {
         {reportSections.map((reportSection) => {
           return (
             <div key={reportSection.id}>
-              <ReportSectionsUpdateFinal
+              <ReportSectionsShow
                 report_id={id}
                 grant_id={props.grant_id}
                 report_section_id={reportSection.id}
