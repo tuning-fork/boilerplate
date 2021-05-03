@@ -242,7 +242,6 @@ export default function GrantsFinalizeShow(props) {
     <Card.Header>
       <h3>Grants Finalize Page - View Grant Draft, Make Final Edits</h3>
       <h3>{title}</h3>
-      <h3>{organizationName}</h3>
       <h3>{purpose}</h3>
     </Card.Header>
   );

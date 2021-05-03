@@ -3,7 +3,10 @@ import axios from "axios";
 import ReportSectionsShow from "./ReportSectionsShow";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Modal from "react-bootstrap/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import ReportFinalizeEditForm from "./Reports/ReportEditForm";
 
 export default function ReportsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -14,6 +17,9 @@ export default function ReportsFinalizeShow(props) {
   const [reportSections, setReportSections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [newTitle, setNewTitle] = useState(props.title);
+  const [newDeadline, setNewDeadline] = useState(props.deadline);
+  const [newSubmitted, setNewSubmitted] = useState(props.submitted);
 
   const [
     currentOrganizationStore,
@@ -22,6 +28,10 @@ export default function ReportsFinalizeShow(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -39,6 +49,9 @@ export default function ReportsFinalizeShow(props) {
           setSubmitted(response.data.submitted);
           setReportSections(response.data.report_sections);
           setLoading(false);
+          setNewTitle(response.data.title);
+          setNewSubmitted(response.data.submitted);
+          setNewDeadline(response.data.deadline);
         })
         .catch((error) => {
           console.log(error);
@@ -62,26 +75,33 @@ export default function ReportsFinalizeShow(props) {
     setReportSections(newReportSections);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = ({ newTitle, newDeadline, newSubmitted }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/` +
           id,
         {
-          title: title,
-          deadline: deadline,
-          submitted: submitted,
+          title: newTitle,
+          deadline: newDeadline,
+          submitted: newSubmitted,
           report_sections: [],
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
+        setTitle(response.data.title);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
       })
       .catch((error) => {
         console.log("report update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    handleClose();
   };
 
   if (loading) {
@@ -92,13 +112,17 @@ export default function ReportsFinalizeShow(props) {
     );
   }
 
-  return (
-    <div className="container">
+  const Header = (
+    <Card.Header>
       <h1>Report Finalize - View and Finalize Report Draft</h1>
       <h5>{title}</h5>
       <h5>{deadline}</h5>
       <h5>Submitted: {submitted ? "yes" : "not yet"}</h5>
+    </Card.Header>
+  );
 
+  return (
+    <div className="container">
       {/* Report sections */}
 
       <br />
@@ -128,45 +152,13 @@ export default function ReportsFinalizeShow(props) {
         {!isHidden ? (
           <div>
             <div>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={title}
-                    name="title"
-                    onChange={(event) => setTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Deadline</Form.Label>
-                  <Form.Control
-                    type="datetime"
-                    value={deadline}
-                    name="deadline"
-                    onChange={(event) => setDeadline(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Submitted</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    name="submitted"
-                    checked={submitted}
-                    onChange={(event) => setSubmitted(event.target.value)}
-                  />
-                </Form.Group>
-                <div className="text-center">
-                  <Button type="submit" className="btn-lg">
-                    Submit
-                  </Button>
-                  <Button onClick={toggleHidden} className="btn-lg">
-                    Close
-                  </Button>
-                </div>
-              </Form>
+              <ReportFinalizeEditForm
+                title={title}
+                deadline={deadline}
+                submitted={submitted}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
             </div>
           </div>
         ) : null}
