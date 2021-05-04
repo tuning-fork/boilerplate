@@ -19,10 +19,6 @@ export default function Dashboard() {
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
 
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
