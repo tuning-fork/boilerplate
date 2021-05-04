@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import GrantEditForm from "./Grants/GrantEditForm";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -49,12 +50,12 @@ export default function GrantsShow(props) {
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableRfpUrl, setEditableRfpUrl] = useState("");
-  const [editableDeadline, setEditableDeadline] = useState("");
-  const [editableSubmitted, setEditableSubmitted] = useState(false);
-  const [editableSuccessful, setEditableSuccessful] = useState(false);
-  const [editablePurpose, setEditablePurpose] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newRfpUrl, setNewRfpUrl] = useState("");
+  const [newDeadline, setNewDeadline] = useState("");
+  const [newSubmitted, setNewSubmitted] = useState(false);
+  const [newSuccessful, setNewSuccessful] = useState(false);
+  const [newPurpose, setNewPurpose] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -83,12 +84,12 @@ export default function GrantsShow(props) {
           setSections(response.data.sections);
           setReports(response.data.reports);
           setLoading(false);
-          setEditableTitle(response.data.title);
-          setEditableRfpUrl(response.data.rfp_url);
-          setEditableDeadline(response.data.deadline);
-          setEditableSubmitted(response.data.submitted);
-          setEditableSuccessful(response.data.successful);
-          setEditablePurpose(response.data.purpose);
+          setNewTitle(response.data.title);
+          setNewRfpUrl(response.data.rfp_url);
+          setNewDeadline(response.data.deadline);
+          setNewSubmitted(response.data.submitted);
+          setNewSuccessful(response.data.successful);
+          setNewPurpose(response.data.purpose);
         })
         .catch((error) => {
           console.log(error);
@@ -121,18 +122,24 @@ export default function GrantsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = ({
+    newTitle,
+    newRfpUrl,
+    newDeadline,
+    newSubmitted,
+    newSuccessful,
+    newPurpose,
+  }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/` + id,
         {
-          title: editableTitle,
-          rfp_url: editableRfpUrl,
-          deadline: editableDeadline,
-          submitted: editableSubmitted,
-          successful: editableSuccessful,
-          purpose: editablePurpose,
+          title: newTitle,
+          rfp_url: newRfpUrl,
+          deadline: newDeadline,
+          submitted: newSubmitted,
+          successful: newSuccessful,
+          purpose: newPurpose,
           organization_id: organizationId,
           funding_org_id: fundingOrgId,
         },
@@ -140,6 +147,12 @@ export default function GrantsShow(props) {
       )
       .then((response) => {
         handleClose();
+        setTitle(response.data.title);
+        setRfpUrl(response.data.rfp_url);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
+        setSuccessful(response.data.successful);
+        setPurpose(response.data.purpose);
       })
       .catch((error) => {
         console.log("grant update error", error);
@@ -147,12 +160,6 @@ export default function GrantsShow(props) {
   };
 
   const handleCancel = (event) => {
-    setEditableTitle(title);
-    setEditableRfpUrl(rfpUrl);
-    setEditableDeadline(deadline);
-    setEditableSubmitted(submitted);
-    setEditableSuccessful(successful);
-    setEditablePurpose(purpose);
     handleClose();
   };
 
@@ -280,20 +287,24 @@ export default function GrantsShow(props) {
     );
   }
 
+  const Header = (
+    <Card.Header>
+      <h3>{title}</h3>
+      <FontAwesomeIcon
+        icon={faEdit}
+        style={{
+          color: "black",
+          fontSize: "1.5rem",
+        }}
+        onClick={handleShow}
+      />
+    </Card.Header>
+  );
+
   return (
     <div className="container">
       <Card>
-        <Card.Header>
-          <h3>{title}</h3>
-          <FontAwesomeIcon
-            icon={faEdit}
-            style={{
-              color: "black",
-              fontSize: "1.5rem",
-            }}
-            onClick={handleShow}
-          />
-        </Card.Header>
+        {Header}
         <Card.Body>
           <h4>Purpose: {purpose}</h4>
           <h4>RFP URL: {rfpUrl}</h4>
@@ -307,107 +318,16 @@ export default function GrantsShow(props) {
               <Modal onClose={handleClose} show={show}>
                 <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
                   <Card.Body>
-                    <Form onSubmit={handleSubmit}>
-                      <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={editableTitle}
-                          name="editableTitle"
-                          onChange={(event) =>
-                            setEditableTitle(event.target.value)
-                          }
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Purpose</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={editablePurpose}
-                          name="editablePurpose"
-                          onChange={(event) =>
-                            setEditablePurpose(event.target.value)
-                          }
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>RFP URL</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={editableRfpUrl}
-                          name="editableRfpUrl"
-                          onChange={(event) =>
-                            setEditableRfpUrl(event.target.value)
-                          }
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Deadline</Form.Label>
-                        <Form.Control
-                          type="datetime"
-                          value={editableDeadline}
-                          name="editableDeadline"
-                          onChange={(event) =>
-                            setEditableDeadline(event.target.value)
-                          }
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Submitted</Form.Label>
-                        <Form.Check
-                          type="checkbox"
-                          name="editableSubmitted"
-                          checked={editableSubmitted}
-                          onChange={(event) =>
-                            setEditableSubmitted(event.target.checked)
-                          }
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Label>Successful</Form.Label>
-                        <Form.Check
-                          type="checkbox"
-                          name="editableSuccessful"
-                          checked={editableSuccessful}
-                          onChange={(event) =>
-                            setEditableSuccessful(event.target.checked)
-                          }
-                        />
-                      </Form.Group>
-                      <div>
-                        <Button
-                          variant="outline-success"
-                          type="submit"
-                          style={{
-                            maxWidth: "50%",
-                            align: "center",
-                            backgroundColor: "#23cb87",
-                            color: "#09191b",
-                            fontWeight: "bolder",
-                          }}
-                          onClick={handleSubmit}
-                        >
-                          Save Changes
-                        </Button>
-                        <Button
-                          variant="outline-success"
-                          style={{
-                            maxWidth: "50%",
-                            align: "center",
-                            backgroundColor: "#23cb87",
-                            color: "#09191b",
-                            fontWeight: "bolder",
-                          }}
-                          onClick={handleCancel}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    </Form>
+                    <GrantEditForm
+                      title={title}
+                      rfpUrl={rfpUrl}
+                      deadline={deadline}
+                      submitted={submitted}
+                      successful={successful}
+                      purpose={purpose}
+                      onSubmit={handleSubmit}
+                      onCancel={handleCancel}
+                    />
                   </Card.Body>
                 </Card>
               </Modal>

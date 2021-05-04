@@ -3,8 +3,19 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function FundingOrgsShow(props) {
   const [id, setId] = useState("");
@@ -23,8 +34,8 @@ export default function FundingOrgsShow(props) {
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [editableName, setEditableName] = useState("");
-  const [editableWebsite, setEditableWebsite] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newWebsite, setNewWebsite] = useState("");
 
   const history = useHistory();
 
@@ -47,8 +58,8 @@ export default function FundingOrgsShow(props) {
           setWebsite(response.data.website);
           setOrganizationId(response.data.organization_id);
           setOrganizationName(response.data.organization.name);
-          setEditableName(response.data.name);
-          setEditableWebsite(response.data.website);
+          setNewName(response.data.name);
+          setNewWebsite(response.data.website);
           setLoading(false);
         })
         .catch((error) => {
@@ -61,32 +72,30 @@ export default function FundingOrgsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newName, newWebsite }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
         {
-          name: editableName,
-          website: editableWebsite,
+          name: newName,
+          website: newWebsite,
           organization_id: organizationId,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
+        handleClose();
         updateOrganizationName(response.data.organization.name);
-        setEditableName(response.data.name);
-        setEditableWebsite(response.data.website);
+        setNewName(response.data.name);
+        setNewWebsite(response.data.website);
         toggleHidden();
       })
       .catch((error) => {
         console.log("category update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {
-    setEditableName(name);
-    setEditableWebsite(website);
     handleClose();
   };
 
@@ -121,12 +130,42 @@ export default function FundingOrgsShow(props) {
     );
   }
 
+  const Header = (
+    <Card.Header style={{ backgroundColor: "#09191b" }}>
+      <h3
+        style={{
+          color: "#23cb87",
+          fontWeight: "bolder",
+          display: "inline",
+        }}
+      >
+        Name: {name}
+      </h3>
+      <FontAwesomeIcon
+        icon={faEdit}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "160px",
+        }}
+        onClick={handleShow}
+      />
+      <FontAwesomeIcon
+        icon={faTrashAlt}
+        style={{
+          color: "#fefefe",
+          fontSize: "1.5rem",
+          marginLeft: "10px",
+        }}
+        onClick={handleFundingOrgDelete}
+      />
+    </Card.Header>
+  );
+
   return (
     <div className="container">
       <Card>
-        <Card.Header>
-          <h3>Name: {name}</h3>
-        </Card.Header>
+        {Header}
         <Card.Body>
           <h3>Website: {website}</h3>
           <h3>Organization Name: {organizationName}</h3>
@@ -134,71 +173,18 @@ export default function FundingOrgsShow(props) {
       </Card>
       <br />
       <div className="container">
-        <Button onClick={toggleHidden}>Update Funding Org</Button>
-        <Button variant="danger" onClick={handleFundingOrgDelete}>
-          Delete Funding Org
-        </Button>
-        <br />
-        <br />
-        {!isHidden ? (
-          <div className="card">
-            <div className="card-body">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableName}
-                    name="editableName"
-                    placeholder={editableName}
-                    onChange={(event) => setEditableName(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Website</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableWebsite}
-                    name="editableWebsite"
-                    placeholder={editableWebsite}
-                    onChange={(event) => setEditableWebsite(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <div>
-                  <Button
-                    variant="outline-success"
-                    type="submit"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleSubmit}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    variant="outline-success"
-                    style={{
-                      maxWidth: "50%",
-                      align: "center",
-                      backgroundColor: "#23cb87",
-                      color: "#09191b",
-                      fontWeight: "bolder",
-                    }}
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Form>
-            </div>
-          </div>
-        ) : null}
+        <Modal show={show} onClose={handleClose}>
+          <Card>
+            <Card.Body>
+              <FundingOrgEditForm
+                name={name}
+                website={website}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
+            </Card.Body>
+          </Card>
+        </Modal>
       </div>
     </div>
   );

@@ -61,6 +61,8 @@ export default function Bios(props) {
     setBios(newBios);
   };
 
+  useEffect(() => {}, [bios]);
+
   const handleSortParamSelect = (event) => {
     setSortParam(event.target.value);
   };

@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
-export default function SectionsUpdateFinal(props) {
+export default function SectionsShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
@@ -28,8 +28,8 @@ export default function SectionsUpdateFinal(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganizationInfo &&
+    currentOrganizationStore.currentOrganizationInfo.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -64,7 +64,7 @@ export default function SectionsUpdateFinal(props) {
     event.preventDefault();
     axios
       .patch(
-        "/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/" +
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
           props.section_id,
         {
           title: title,
@@ -90,7 +90,7 @@ export default function SectionsUpdateFinal(props) {
   const handleSectionDelete = () => {
     axios
       .delete(
-        "/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/" +
+        "/api/organizations/${currentOrganizationStore.currentOrganizationInfo.id}/grants/${props.grant_id}/sections/" +
           props.section_id,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` },

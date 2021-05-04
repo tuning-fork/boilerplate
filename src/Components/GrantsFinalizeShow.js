@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SectionsUpdateFinal from "./SectionsUpdateFinal";
+import SectionsShow from "./SectionsShow";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import GrantFinalizeEditForm from "./Grants/GrantEditForm";
 
 export default function GrantsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -35,10 +36,21 @@ export default function GrantsFinalizeShow(props) {
   const [copiedGrantId, setCopiedGrantId] = useState("");
   const [showCopyModal, setShowCopyModal] = useState(false);
 
+  const [newTitle, setNewTitle] = useState("");
+  const [newRfpUrl, setNewRfpUrl] = useState("");
+  const [newDeadline, setNewDeadline] = useState("");
+  const [newSubmitted, setNewSubmitted] = useState(false);
+  const [newSuccessful, setNewSuccessful] = useState(false);
+  const [newPurpose, setNewPurpose] = useState("");
+
   const [currentOrganizationStore] = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
+
+  const [show, setShow] = useState(false);
+  const handleClose = (event) => setShow(false);
+  const handleShow = (event) => setShow(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -65,6 +77,12 @@ export default function GrantsFinalizeShow(props) {
           setSections(zippySections);
           setReports(response.data.reports);
           setLoading(false);
+          setNewTitle(response.data.title);
+          setNewRfpUrl(response.data.rfp_url);
+          setNewDeadline(response.data.deadline);
+          setNewSubmitted(response.data.submitted);
+          setNewSuccessful(response.data.successful);
+          setNewPurpose(response.data.purpose);
         });
       axios
         .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
@@ -117,18 +135,24 @@ export default function GrantsFinalizeShow(props) {
     setShowCopyModal(false);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = ({
+    newTitle,
+    newRfpUrl,
+    newDeadline,
+    newSubmitted,
+    newSuccessful,
+    newPurpose,
+  }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/` + id,
         {
-          title: title,
-          rfp_url: rfpUrl,
-          deadline: deadline,
-          submitted: submitted,
-          successful: successful,
-          purpose: purpose,
+          title: newTitle,
+          rfp_url: newRfpUrl,
+          deadline: newDeadline,
+          submitted: newSubmitted,
+          successful: newSuccessful,
+          purpose: newPurpose,
           sections: [],
           organization_id: organizationId,
           funding_org_id: fundingOrgId,
@@ -137,10 +161,21 @@ export default function GrantsFinalizeShow(props) {
       )
       .then((response) => {
         toggleHidden();
+        handleClose();
+        setTitle(response.data.title);
+        setRfpUrl(response.data.rfp_url);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
+        setSuccessful(response.data.successful);
+        setPurpose(response.data.purpose);
       })
       .catch((error) => {
         console.log("grant update error", error);
       });
+  };
+
+  const handleCancel = (event) => {
+    handleClose();
   };
 
   const copyGrant = (event) => {
@@ -203,12 +238,17 @@ export default function GrantsFinalizeShow(props) {
     return <h1>Loading....</h1>;
   }
 
+  const Header = (
+    <Card.Header>
+      <h3>Grants Finalize Page - View Grant Draft, Make Final Edits</h3>
+      <h3>{title}</h3>
+      <h3>{purpose}</h3>
+    </Card.Header>
+  );
+
   return (
     <div className="component">
-      <h1>Grants Finalize Page - View Grant Draft, Make Final Edits</h1>
-      <h1>{title}</h1>
-      <h2>{organizationName}</h2>
-      <h2>{purpose}</h2>
+      {Header}
       <div>
         {/* beginning of grant update */}
         <div className="container">
@@ -221,73 +261,16 @@ export default function GrantsFinalizeShow(props) {
           <br />
           {!isHidden ? (
             <div>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={title}
-                    name="title"
-                    onChange={(event) => setTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>RFP URL</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={rfpUrl}
-                    name="rfpUrl"
-                    onChange={(event) => setRfpUrl(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Deadline</Form.Label>
-                  <Form.Control
-                    type="datetime"
-                    value={deadline}
-                    name="deadline"
-                    onChange={(event) => setDeadline(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Submitted</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    name="submitted"
-                    checked={submitted}
-                    onChange={(event) =>
-                      setSubmitted(event.target.value.checked)
-                    }
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Successful</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    name="successful"
-                    checked={successful}
-                    onChange={(event) =>
-                      setSuccessful(event.target.value.checked)
-                    }
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Purpose</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={purpose}
-                    name="purpose"
-                    onChange={(event) => setPurpose(event.target.value.checked)}
-                    required
-                  />
-                </Form.Group>
-                <div className="text-center">
-                  <Button type="submit">Submit</Button>
-                </div>
-              </Form>
+              <GrantFinalizeEditForm
+                title={title}
+                rfpUrl={rfpUrl}
+                deadline={deadline}
+                submitted={submitted}
+                successful={successful}
+                purpose={purpose}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
             </div>
           ) : null}
         </div>
@@ -368,7 +351,7 @@ export default function GrantsFinalizeShow(props) {
         {sections.map((section) => {
           return (
             <div key={section.id}>
-              <SectionsUpdateFinal
+              <SectionsShow
                 isUnzipped={section.isUnzipped}
                 toggleUnzipped={toggleUnzipped}
                 section_id={section.id}
