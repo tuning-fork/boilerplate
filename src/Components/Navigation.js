@@ -16,14 +16,14 @@ function Navigation(props) {
     currentOrganizationDispatch,
   ] = useCurrentOrganizationContext();
 
+  const history = useHistory();
+
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     localStorage.removeItem("org_id");
     props.history.push("/landing_page");
   };
-
-  const history = useHistory();
 
   const handleChange = (event) => {
     const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
