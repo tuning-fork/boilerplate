@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
-export default function SectionsUpdateFinal(props) {
+export default function SectionsShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");

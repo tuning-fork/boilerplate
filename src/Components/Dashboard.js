@@ -5,8 +5,13 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import { useHistory } from "react-router-dom";
 
 export default function Dashboard() {
-  const [currentUserStore] = useCurrentUserContext();
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  // const [currentUserStore] = useCurrentUserContext();
+  // const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
+  const [
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+  ] = useCurrentOrganizationContext();
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
@@ -14,9 +19,19 @@ export default function Dashboard() {
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
 
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   // console.log(currentOrganizationStore);
+  // }, [currentOrganizationStore.currentOrganization]);
+
   return (
     <div
       className="d-flex container-fluid flex-column align-items-stretch"

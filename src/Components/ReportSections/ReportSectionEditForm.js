@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+// import axios from "axios";
+// import { useHistory } from "react-router-dom";
+// import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import countWords from "../../Helpers/countWords";
 
 const modules = {
@@ -37,18 +37,18 @@ const formats = [
   "color",
 ];
 
-export default function BoilerplatesShowForm(props) {
-  const { categories, onSubmit, onCancel } = props;
+export default function ReportSectionEditForm(props) {
+  const { onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);
-  const [newCategoryId, setNewCategoryId] = useState(props.categoryId);
+  const [newSortOrder, setNewSortOrder] = useState(props.sortOrder);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit({
       newTitle,
       newQuillText,
-      newCategoryId,
+      newSortOrder,
     });
   };
 
@@ -59,7 +59,7 @@ export default function BoilerplatesShowForm(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group style={{ display: "l" }}>
+      <Form.Group>
         <Form.Label>Title</Form.Label>
         <Form.Control
           type="text"
@@ -77,31 +77,9 @@ export default function BoilerplatesShowForm(props) {
         onChange={(value) => setNewQuillText(value)}
         style={{ backgroundColor: "#fefefe", color: "black" }}
       />
-      <p style={{ color: "#fefefe" }}>Word Count: {countWords(newQuillText)}</p>
       <Form.Group>
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="newCategoryId"
-          value={newCategoryId}
-          onChange={(event) => setNewCategoryId(event.target.value)}
-          required
-        >
-          <option value="" disabled>
-            Select Category
-          </option>
-          {categories.map((category) => {
-            return (
-              <option
-                key={category.id}
-                value={category.id}
-                onChange={(event) => setNewCategoryId(event.target.value)}
-              >
-                {category.name}
-              </option>
-            );
-          })}
-        </Form.Control>
+        <Form.Label>Word Count</Form.Label>
+        <p>{countWords(newQuillText)}</p>
       </Form.Group>
       <div>
         <Button

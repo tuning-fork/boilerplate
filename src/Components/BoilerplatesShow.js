@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import BoilerplateShowForm from "./Boilerplates/BoilerplateShowForm";
+import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import countWords from "../Helpers/countWords";
 
 //fontawesome
@@ -20,16 +20,15 @@ export default function BoilerplatesShow(props) {
   const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
-  const [wordcount, setWordcount] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
-  const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const history = useHistory();
+  const [wordcount, setWordcount] = useState("");
 
   const [
     currentOrganizationStore,
@@ -39,9 +38,9 @@ export default function BoilerplatesShow(props) {
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableQuillText, setEditableQuillText] = useState("");
-  const [editableCategoryId, setEditableCategoryId] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newQuillText, setNewQuillText] = useState("");
+  const [newCategoryId, setNewCategoryId] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -62,16 +61,12 @@ export default function BoilerplatesShow(props) {
           setQuillText(response.data.text);
           setWordcount(response.data.wordcount);
           setOrganizationId(response.data.organization_id);
-          setOrganizationName(response.data.organization.name);
           setCategoryId(response.data.category_id);
           setCategoryName(response.data.category.name);
-          setEditableTitle(response.data.title);
-          setEditableQuillText(response.data.text);
-          setEditableCategoryId(response.data.category_id);
+          setNewTitle(response.data.title);
+          setNewQuillText(response.data.text);
+          setNewCategoryId(response.data.category_id);
           setLoading(false);
-          setEditableTitle(response.data.title);
-          setEditableQuillText(response.data.text);
-          setEditableCategoryId(response.data.category_id);
         })
         .catch((error) => {
           console.log(error);
@@ -87,10 +82,6 @@ export default function BoilerplatesShow(props) {
         .catch((error) => console.log(error));
     }
   }, [currentOrganizationId]);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     axios
@@ -193,7 +184,7 @@ export default function BoilerplatesShow(props) {
       <Modal show={show} onClose={handleClose}>
         <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
           <Card.Body>
-            <BoilerplateShowForm
+            <BoilerplateEditForm
               title={title}
               quillText={quillText}
               categoryId={categoryId}

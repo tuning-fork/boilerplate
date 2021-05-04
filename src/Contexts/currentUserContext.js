@@ -47,6 +47,7 @@ export const CurrentUserProvider = ({ children }) => {
     status: null,
     errors: [],
   };
+
   const [currentUserStore, currentUserDispatch] = useReducer(reducer, store);
 
   const login = (email, password) => {

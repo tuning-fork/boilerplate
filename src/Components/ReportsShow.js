@@ -1,13 +1,22 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ReportSectionsNew from "./ReportSectionsNew";
 import ReportSectionsShow from "./ReportSectionsShow";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import ReportEditForm from "./Reports/ReportEditForm";
+
+//fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 export default function ReportsShow(props) {
   console.log("reports Show component rendered");
@@ -30,10 +39,6 @@ export default function ReportsShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
-  const [editableTitle, setEditableTitle] = useState("");
-  const [editableDeadline, setEditableDeadline] = useState("");
-  const [editableSubmitted, setEditableSubmitted] = useState("");
-
   const [
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -41,6 +46,10 @@ export default function ReportsShow(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newDeadline, setNewDeadline] = useState("");
+  const [newSubmitted, setNewSubmitted] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -64,9 +73,9 @@ export default function ReportsShow(props) {
           setReportSections(response.data.report_sections);
           setGrantSections(response.data.grant.grant_sections);
           setLoading(false);
-          setEditableTitle(response.data.title);
-          setEditableDeadline(response.data.deadline);
-          setEditableSubmitted(response.data.submitted);
+          setNewTitle(response.data.title);
+          setNewDeadline(response.data.deadline);
+          setNewSubmitted(response.data.submitted);
         })
         .catch((error) => {
           console.log(error);
@@ -107,34 +116,33 @@ export default function ReportsShow(props) {
     setIsHiddenNewReportSection(!isHiddenNewReportSection);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ({ newTitle, newDeadline, newSubmitted }) => {
     axios
       .patch(
         `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${id}`,
         {
           grant_id: grantId,
-          title: editableTitle,
-          deadline: editableDeadline,
-          submitted: editableSubmitted,
+          title: newTitle,
+          deadline: newDeadline,
+          submitted: newSubmitted,
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
       .then((response) => {
         toggleHidden();
-        setEditableTitle(response.data.title);
-        setEditableDeadline(response.data.deadline);
-        setEditableSubmitted(response.data.submitted);
+        setNewTitle(response.data.title);
+        setNewDeadline(response.data.deadline);
+        setNewSubmitted(response.data.submitted);
       })
       .catch((error) => {
         console.log("report update error", error);
       });
-    event.preventDefault();
   };
 
   const handleCancel = (event) => {
-    setEditableTitle(title);
-    setEditableDeadline(deadline);
-    setEditableSubmitted(submitted);
+    setNewTitle(title);
+    setNewDeadline(deadline);
+    setNewSubmitted(submitted);
     handleClose();
   };
 
@@ -242,72 +250,13 @@ export default function ReportsShow(props) {
         {!isHidden ? (
           <Card>
             <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={editableTitle}
-                    name="editableTitle"
-                    onChange={(event) => setEditableTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Deadline</Form.Label>
-                  <Form.Control
-                    type="datetime"
-                    value={editableDeadline}
-                    name="editableDeadline"
-                    onChange={(event) =>
-                      setEditableDeadline(event.target.value)
-                    }
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Submitted</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    name="editableSubmitted"
-                    checked={editableSubmitted}
-                    onChange={(event) =>
-                      setEditableSubmitted(event.target.checked)
-                    }
-                  />
-                </Form.Group>
-                <div className="text-center">
-                  <div>
-                    <Button
-                      variant="outline-success"
-                      type="submit"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleSubmit}
-                    >
-                      Save Changes
-                    </Button>
-                    <Button
-                      variant="outline-success"
-                      style={{
-                        maxWidth: "50%",
-                        align: "center",
-                        backgroundColor: "#23cb87",
-                        color: "#09191b",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              </Form>
+              <ReportEditForm
+                title={title}
+                deadline={deadline}
+                submitted={submitted}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
             </Card.Body>
           </Card>
         ) : null}
@@ -341,7 +290,6 @@ export default function ReportsShow(props) {
                     editReportSections={editReportSections}
                     deleteReportSections={deleteReportSections}
                   />
-                  {/* <Button onClick={() => this.handleReportSectionDelete(report_section.id)}>Delete</Button> */}
                 </div>
               );
             })

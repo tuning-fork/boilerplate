@@ -28,6 +28,7 @@ export default function Boilerplates(props) {
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
+    console.log(currentOrganizationId);
     if (currentOrganizationId) {
       axios
         .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
