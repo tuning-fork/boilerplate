@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
 export default function BiosNew(props) {
   const [quillText, setQuillText] = useState("");

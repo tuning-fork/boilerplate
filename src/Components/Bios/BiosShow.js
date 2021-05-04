@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Modal from "./Elements/Modal";
+import Modal from "../Elements/Modal";
 import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import BioEditForm from "./Bios/BioEditForm";
-import countWords from "../Helpers/countWords";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import BioEditForm from "./BioEditForm";
+import countWords from "../../Helpers/countWords";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";

@@ -2,11 +2,11 @@ import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BiosNew from "./BiosNew";
 import axios from "axios";
-import Modal from "./Elements/Modal";
+import Modal from "../Elements/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
