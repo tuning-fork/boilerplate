@@ -20,10 +20,10 @@ export default function ReportSectionsNew(props) {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

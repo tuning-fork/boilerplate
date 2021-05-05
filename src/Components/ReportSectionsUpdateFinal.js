@@ -22,7 +22,7 @@ export default function ReportSectionsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

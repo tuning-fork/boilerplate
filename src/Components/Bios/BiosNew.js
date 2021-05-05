@@ -16,10 +16,10 @@ export default function BiosNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&

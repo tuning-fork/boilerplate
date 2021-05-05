@@ -11,10 +11,10 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 function Navigation(props) {
   // const [currentUserStore] = useCurrentUserContext();
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const history = useHistory();
 

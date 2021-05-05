@@ -8,7 +8,7 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

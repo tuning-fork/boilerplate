@@ -19,10 +19,10 @@ export default function GrantsNew(props) {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [isHiddenFundingOrgsNew, setIsHiddenFundingOrgsNew] = useState("");
   const [errors, setErrors] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

@@ -43,7 +43,7 @@ export default function GrantsFinalizeShow(props) {
   const [newSuccessful, setNewSuccessful] = useState(false);
   const [newPurpose, setNewPurpose] = useState("");
 
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

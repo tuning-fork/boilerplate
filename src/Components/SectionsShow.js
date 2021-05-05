@@ -41,10 +41,10 @@ export default function SectionsShow(props) {
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

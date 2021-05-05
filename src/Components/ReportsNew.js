@@ -13,10 +13,10 @@ export default function ReportsNew(props) {
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setDeadline("");

@@ -63,10 +63,10 @@ import ReportsNew from "./Components/ReportsNew";
 
 export default function App() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   return (
     <div className="App">

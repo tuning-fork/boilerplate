@@ -11,10 +11,10 @@ export default function CategoriesOrganizationsNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [isHiddenNew, setIsHiddenNew] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setCategoryName("");

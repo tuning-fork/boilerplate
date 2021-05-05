@@ -34,10 +34,10 @@ export default function BiosShow(props) {
   const [newLastName, setNewLastName] = useState("");
   const [newTitle, setNewTitle] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

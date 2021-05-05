@@ -23,10 +23,10 @@ export default function SectionsShow(props) {
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

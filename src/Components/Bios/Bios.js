@@ -17,10 +17,10 @@ export default function Bios(props) {
   const [filteredBios, setFilteredBios] = useState([]);
   const [sortParam, setSortParam] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&

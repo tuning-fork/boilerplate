@@ -11,10 +11,10 @@ export default function CategoriesNew(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

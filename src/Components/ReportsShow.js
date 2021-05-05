@@ -39,10 +39,10 @@ export default function ReportsShow(props) {
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

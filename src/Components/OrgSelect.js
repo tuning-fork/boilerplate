@@ -6,10 +6,10 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 
 export default function OrgSelect() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const history = useHistory();
   console.log(currentUserStore.currentUser);
 

@@ -23,10 +23,10 @@ export default function SectionsNew(props) {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

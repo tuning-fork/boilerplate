@@ -14,10 +14,10 @@ export default function Grants() {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

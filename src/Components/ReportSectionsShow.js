@@ -33,7 +33,7 @@ export default function ReportSectionsShow(props) {
   const [newTitle, setNewTitle] = useState("");
   const [newSortOrder, setNewSortOrder] = useState("");
 
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

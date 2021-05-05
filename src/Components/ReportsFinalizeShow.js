@@ -21,10 +21,10 @@ export default function ReportsFinalizeShow(props) {
   const [newDeadline, setNewDeadline] = useState(props.deadline);
   const [newSubmitted, setNewSubmitted] = useState(props.submitted);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;

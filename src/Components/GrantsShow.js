@@ -42,10 +42,10 @@ export default function GrantsShow(props) {
   const [name, setName] = useState([]);
   const history = useHistory();
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -117,10 +117,6 @@ export default function GrantsShow(props) {
         });
     }
   }, [currentOrganizationId]);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
 
   const handleSubmit = ({
     newTitle,

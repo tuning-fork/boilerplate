@@ -16,10 +16,10 @@ export default function FundingOrgsOrganizationsNew(props) {
     isHiddenFundingOrgsOrganizationsNew,
     setIsHiddenFundingOrgsOrganizationsNew,
   ] = useState(true);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   // const handleSubmitOrganization = (event) => {
   //   event.preventDefault();
