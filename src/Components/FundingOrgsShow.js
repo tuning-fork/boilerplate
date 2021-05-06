@@ -29,6 +29,7 @@ export default function FundingOrgsShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -45,13 +46,8 @@ export default function FundingOrgsShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/funding_orgs/${props.match.params.funding_org_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+      axios;
+      getFundingOrg(organizationService)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);
