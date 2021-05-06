@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import BioEditForm from "./BioEditForm";
 import countWords from "../../Helpers/countWords";
+import { getBio } from "../../Services/Organizations/BiosService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -37,6 +38,7 @@ export default function BiosShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -50,13 +52,7 @@ export default function BiosShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/bios/${props.match.params.bio_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+      getBio(organizationService)
         .then((response) => {
           setId(response.data.id);
           setFirstName(response.data.first_name);

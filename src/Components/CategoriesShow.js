@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import CategoryEditForm from "./Categories/CategoryEditForm";
 import countWords from "../Helpers/countWords";
+import { getCategory } from "../Services/Organizations/CategoriesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -30,6 +31,7 @@ export default function CategoriesShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -43,13 +45,7 @@ export default function CategoriesShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/categories/${props.match.params.category_id}/`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+      getCategory(organizationService)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);

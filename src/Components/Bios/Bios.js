@@ -7,7 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBios } from "../../Services/Organizations/BiosService";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ export default function Bios(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
 
   const currentOrganizationId =

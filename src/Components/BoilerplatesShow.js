@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import countWords from "../Helpers/countWords";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -71,10 +72,8 @@ export default function BoilerplatesShow(props) {
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/categories`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      axios;
+      getAllCategories(organizationService)
         .then((response) => {
           setCategories(response.data);
           setLoading(false);

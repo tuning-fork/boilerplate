@@ -4,6 +4,7 @@ import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
@@ -15,10 +16,7 @@ export default function FundingOrgs() {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllFundingOrgs(organizationService)
         .then((response) => {
           setFundingOrgs(response.data);
           setLoading(false);

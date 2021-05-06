@@ -7,7 +7,7 @@ export const getCategory = (organizationService, categoryId) => {
 
 // listCategories
 
-export const getAllCategorys = (organizationService) => {
+export const getAllCategories = (organizationService) => {
   return organizationService
     .get(`/categories/`)
     .then((response) => response.data);
