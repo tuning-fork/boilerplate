@@ -4,6 +4,7 @@ import CategoriesNew from "./CategoriesNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 export default function Categories() {
   const [loading, setLoading] = useState(true);
@@ -19,10 +20,7 @@ export default function Categories() {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/categories`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllCategories(organizationService)
         .then((response) => {
           setCategories(response.data);
           setLoading(false);
