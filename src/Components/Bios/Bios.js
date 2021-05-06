@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { getAllBios } from "../Services/Organizations/BiosService";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -32,10 +33,7 @@ export default function Bios(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllBios(organizationService)
         .then((response) => {
           const zippyBios = createUnzipped(response.data);
           console.log(zippyBios);

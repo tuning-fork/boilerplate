@@ -12,6 +12,8 @@ import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantEditForm from "./Grants/GrantEditForm";
 import { getGrant, updateGrant } from "../Services/Organizations/GrantsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -91,20 +93,14 @@ export default function GrantsShow(props) {
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllBoilerplates(organizationService)
         .then((response) => {
           setBoilerplates(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllBios(organizationService)
         .then((response) => {
           setBios(response.data);
           setLoading(false);

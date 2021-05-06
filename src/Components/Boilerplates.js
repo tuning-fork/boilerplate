@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
@@ -30,10 +31,7 @@ export default function Boilerplates(props) {
   useEffect(() => {
     console.log(currentOrganizationId);
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+      getAllBoilerplates(organizationService)
         .then((response) => {
           setBoilerplates(response.data);
           setFilteredBoilerplates(response.data);
