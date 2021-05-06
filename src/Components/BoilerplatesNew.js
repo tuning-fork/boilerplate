@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -22,23 +23,23 @@ export default function BoilerplatesNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
-    axios
-      .get(`/api/organizations/${currentOrganizationId}/categories`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setCategories(response.data);
-        console.log(categories);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    if (currentOrganizationId) {
+      getAllCategories(organizationService)
+        .then((response) => {
+          console.log(response.data);
+          setCategories(response.data);
+          console.log(categories);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   const updateCategories = (newCategory) => {
