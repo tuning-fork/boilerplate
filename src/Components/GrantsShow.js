@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantEditForm from "./Grants/GrantEditForm";
+import { getGrant, updateGrant } from "../Services/Organizations/GrantsService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -45,6 +46,7 @@ export default function GrantsShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -64,32 +66,27 @@ export default function GrantsShow(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setRfpUrl(response.data.rfp_url);
-          setDeadline(response.data.deadline);
-          setSubmitted(response.data.submitted);
-          setSuccessful(response.data.successful);
-          setPurpose(response.data.purpose);
-          setOrganizationId(response.data.organization_id);
-          setFundingOrgId(response.data.funding_org_id);
-          setSections(response.data.sections);
-          setReports(response.data.reports);
+      const grantId = props.match.params.grant_id;
+      getGrant(organizationService, grantId)
+        .then((grant) => {
+          setId(grant.id);
+          setTitle(grant.title);
+          setRfpUrl(grant.rfp_url);
+          setDeadline(grant.deadline);
+          setSubmitted(grant.submitted);
+          setSuccessful(grant.successful);
+          setPurpose(grant.purpose);
+          setOrganizationId(grant.organization_id);
+          setFundingOrgId(grant.funding_org_id);
+          setSections(grant.sections);
+          setReports(grant.reports);
           setLoading(false);
-          setNewTitle(response.data.title);
-          setNewRfpUrl(response.data.rfp_url);
-          setNewDeadline(response.data.deadline);
-          setNewSubmitted(response.data.submitted);
-          setNewSuccessful(response.data.successful);
-          setNewPurpose(response.data.purpose);
+          setNewTitle(grant.title);
+          setNewRfpUrl(grant.rfp_url);
+          setNewDeadline(grant.deadline);
+          setNewSubmitted(grant.submitted);
+          setNewSuccessful(grant.successful);
+          setNewPurpose(grant.purpose);
         })
         .catch((error) => {
           console.log(error);
@@ -116,7 +113,7 @@ export default function GrantsShow(props) {
           console.log(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationService]);
 
   const handleSubmit = ({
     newTitle,
@@ -126,21 +123,16 @@ export default function GrantsShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/` + id,
-        {
-          title: newTitle,
-          rfp_url: newRfpUrl,
-          deadline: newDeadline,
-          submitted: newSubmitted,
-          successful: newSuccessful,
-          purpose: newPurpose,
-          organization_id: organizationId,
-          funding_org_id: fundingOrgId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+    updateGrant(organizationService, id, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      organization_id: organizationId,
+      funding_org_id: fundingOrgId,
+    })
       .then((response) => {
         handleClose();
         setTitle(response.data.title);

@@ -16,7 +16,12 @@ const reducer = (state, action) => {
         allUserOrganizations: action.payload,
       };
     case "SET_CURRENT_ORGANIZATION":
-      const { currentOrganization, organizationService } = action.payload;
+      const { currentOrganization, jwt } = action.payload;
+      const organizationService = axios.create({
+        baseURL: `/api/organizations/${currentOrganization.id}`,
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+
       return {
         ...state,
         currentOrganization,
@@ -73,11 +78,6 @@ export const CurrentOrganizationProvider = ({ children }) => {
 
     const selectedOrgId = localStorage.getItem("org_id");
     if (selectedOrgId) {
-      const organizationService = axios.create({
-        baseURL: `/api/organizations/${selectedOrgId}`,
-        headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
-      });
-
       axios
         .get(`/api/organizations/${selectedOrgId}`, {
           headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
@@ -87,7 +87,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
             type: "SET_CURRENT_ORGANIZATION",
             payload: {
               currentOrganization: response.data,
-              organizationService,
+              jwt: currentUserStore?.jwt,
             },
           });
         });
