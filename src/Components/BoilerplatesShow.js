@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import {
-  getAllBoilerplates,
+  getBoilerplate,
   updateBoilerplate,
 } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
@@ -54,13 +54,8 @@ export default function BoilerplatesShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/boilerplates/${props.match.params.boilerplate_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+      const BoilerplateId = props.match.params.boilerplate_id;
+      getBio(organizationService, BoilerplateId)
         .then((response) => {
           setId(response.data.id);
           setTitle(response.data.title);
