@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrant } from "../../Services/Organizations/GrantsService";
 
 export default function GrantsNew(props) {
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,7 @@ export default function GrantsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -72,10 +74,8 @@ export default function GrantsNew(props) {
       organization_id: currentOrganizationStore.currentOrganization.id,
       funding_org_id: fundingOrgId,
     };
-    axios
-      .post(`/api/organizations/${currentOrganizationId}/grants`, newGrant, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+    if (currentOrganizationId) {
+      createGrant(organizationService, newGrant)
       .then((response) => {
         if (response.data) {
           props.updateGrants(response.data);

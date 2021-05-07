@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import {
   getFundingOrg,
   updateFundingOrg,
+  deleteFundingOrg,
 } from "../Services/Organizations/FundingOrgsService";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
@@ -96,13 +97,8 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleFundingOrgDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+    if (currentOrganizationId) {
+      getFundingOrg(organizationService, fundingOrgId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/funding_orgs`);

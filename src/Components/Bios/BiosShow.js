@@ -6,7 +6,11 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import BioEditForm from "./BioEditForm";
 import countWords from "../../Helpers/countWords";
-import { getBio, updateBio } from "../../Services/Organizations/BiosService";
+import {
+  getBio,
+  updateBio,
+  deleteBio,
+} from "../../Services/Organizations/BiosService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -112,10 +116,8 @@ export default function BiosShow(props) {
   };
 
   const handleBioDelete = () => {
-    axios
-      .delete(`/api/organizations/${currentOrganizationId}/bios/` + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+    const bioId = props.match.params.bio_id;
+    deleteBio(organizationService, bioId)
       .then((response) => {
         if (response.data.message) {
           props.history.push(`/organizations/${currentOrganizationId}/bios`);

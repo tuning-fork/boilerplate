@@ -11,6 +11,7 @@ import countWords from "../Helpers/countWords";
 import {
   getCategory,
   updateCategory,
+  deleteCategory,
 } from "../Services/Organizations/CategoriesService";
 
 //fontawesome
@@ -69,7 +70,6 @@ export default function CategoriesShow(props) {
   };
 
   const handleSubmit = ({ newName }) => {
-    axios;
     updateGrant(organizationService, id, {
       name: newName,
       organization_id: organizationId,
@@ -89,10 +89,8 @@ export default function CategoriesShow(props) {
   };
 
   const handleCategoryDelete = () => {
-    axios
-      .delete(`/api/organizations/${currentOrganizationId}/categories/` + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+    const CategoryId = props.match.params.category_id;
+    deleteCategory(organizationService, CategoryId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/categories`);

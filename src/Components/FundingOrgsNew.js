@@ -32,8 +32,8 @@ export default function FundingOrgsNew(props) {
       organization_id: currentOrganizationId,
     };
     if (currentOrganizationId) {
-      createFundingOrg(organizationService, {
-        newFundingOrg})
+      createFundingOrg(organizationService, 
+        newFundingOrg)
       .then((response) => {
         if (response.data) {
           props.updateFundingOrgs(response.data);

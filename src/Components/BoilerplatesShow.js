@@ -8,6 +8,7 @@ import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import {
   getBoilerplate,
   updateBoilerplate,
+  deleteBoilerplate,
 } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
@@ -107,13 +108,8 @@ export default function BoilerplatesShow(props) {
   };
 
   const handleBoilerplateDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+    const boilerplateId = props.match.params.boilerplate_id;
+    deleteBio(organizationService, boilerplateId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/boilerplates`);

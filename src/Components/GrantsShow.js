@@ -11,7 +11,11 @@ import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantEditForm from "./Grants/GrantEditForm";
-import { getGrant, updateGrant } from "../Services/Organizations/GrantsService";
+import {
+  getGrant,
+  updateGrant,
+  deleteGrant,
+} from "../Services/Organizations/GrantsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
@@ -181,10 +185,8 @@ export default function GrantsShow(props) {
   useEffect(() => {}, [reports]);
 
   const handleGrantDelete = () => {
-    axios
-      .delete(`/api/organizations/${currentOrganizationId}/grants/` + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
+    const grantId = props.match.params.grant_id;
+    getGrant(organizationService, grantId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/grants`);

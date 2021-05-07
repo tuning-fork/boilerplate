@@ -8,6 +8,9 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantFinalizeEditForm from "./Grants/GrantEditForm";
+import { getGrant, updateGrant, createGrant } from "../Services/Organizations/GrantsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function GrantsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -43,7 +46,11 @@ export default function GrantsFinalizeShow(props) {
   const [newSuccessful, setNewSuccessful] = useState(false);
   const [newPurpose, setNewPurpose] = useState("");
 
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+    organizationService,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -55,13 +62,9 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
+      if (currentOrganizationId) {
+        const grantId = props.match.params.grant_id;
+        getGrant(organizationService, grantId)
         .then((response) => {
           const zippySections = createUnzipped(response.data.sections);
           setId(response.data.id);
@@ -84,17 +87,11 @@ export default function GrantsFinalizeShow(props) {
           setNewSuccessful(response.data.successful);
           setNewPurpose(response.data.purpose);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+        getAllBoilerplates(organizationService)
         .then((response) => {
           setBoilerplates(response.data);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
+        getAllBios(organizationService)
         .then((response) => {
           setBios(response.data);
           setLoading(false);
@@ -143,10 +140,7 @@ export default function GrantsFinalizeShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/` + id,
-        {
+    updateGrant(organizationService, id, {
           title: newTitle,
           rfp_url: newRfpUrl,
           deadline: newDeadline,
@@ -156,9 +150,7 @@ export default function GrantsFinalizeShow(props) {
           sections: [],
           organization_id: organizationId,
           funding_org_id: fundingOrgId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+        })
       .then((response) => {
         toggleHidden();
         handleClose();
@@ -180,17 +172,13 @@ export default function GrantsFinalizeShow(props) {
 
   const copyGrant = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/grants/copy`,
-        {
+    if (currentOrganizationId) {
+      createGrant(organizationService, {
           original_grant_id: id,
           title: copyTitle,
           rfp_url: copyRfpUrl,
           deadline: copyDeadline,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+        })
       .then((response) => {
         console.log(response.data.id);
         setCopiedGrantId(response.data.id);

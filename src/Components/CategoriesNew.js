@@ -15,6 +15,7 @@ export default function CategoriesNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -27,7 +28,7 @@ export default function CategoriesNew(props) {
       organization_id: currentOrganizationId,
     };
     if (currentOrganizationId) {
-      createCategory(organizationService, {newCategory})
+      createCategory(organizationService, newCategory)
       .then((response) => {
         if (response.data) {
           props.updateCategories(response.data);

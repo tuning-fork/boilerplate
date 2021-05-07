@@ -7,7 +7,7 @@ import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { createBio } from "../../Services/Organizations/BioService";
+import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
 export default function BoilerplatesNew(props) {
