@@ -5,6 +5,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
+import {
+  getFundingOrg,
+  updateFundingOrg,
+} from "../Services/Organizations/FundingOrgsService";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 
@@ -13,6 +17,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { updateGrant } from "../Services/Organizations/GrantsService";
 
 library.add(faTrashAlt);
 library.add(faEdit);
@@ -69,16 +74,11 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleSubmit = ({ newName, newWebsite }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
-        {
-          name: newName,
-          website: newWebsite,
-          organization_id: organizationId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+    updateGrant(organizationService, id, {
+      name: newName,
+      website: newWebsite,
+      organization_id: organizationId,
+    })
       .then((response) => {
         handleClose();
         updateOrganizationName(response.data.organization.name);
