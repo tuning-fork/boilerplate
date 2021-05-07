@@ -5,6 +5,10 @@ import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
+import {
+  getAllBoilerplates,
+  updateBoilerplate,
+} from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
@@ -34,6 +38,7 @@ export default function BoilerplatesShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    currentOrganizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -83,18 +88,13 @@ export default function BoilerplatesShow(props) {
   }, [currentOrganizationId]);
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
-        {
-          title: newTitle,
-          text: newQuillText,
-          category_id: newCategoryId,
-          wordcount: countWords(newQuillText),
-          organization_id: organizationId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+    updateBoilerplate(organizationService, id, {
+      title: newTitle,
+      text: newQuillText,
+      category_id: newCategoryId,
+      wordcount: countWords(newQuillText),
+      organization_id: organizationId,
+    })
       .then((response) => {
         handleClose();
         setTitle(response.data.title);
