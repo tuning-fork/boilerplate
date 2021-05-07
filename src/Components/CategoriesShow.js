@@ -8,7 +8,10 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import CategoryEditForm from "./Categories/CategoryEditForm";
 import countWords from "../Helpers/countWords";
-import { getCategory } from "../Services/Organizations/CategoriesService";
+import {
+  getCategory,
+  updateCategory,
+} from "../Services/Organizations/CategoriesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -65,15 +68,11 @@ export default function CategoriesShow(props) {
   };
 
   const handleSubmit = ({ newName }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/categories/` + id,
-        {
-          name: newName,
-          organization_id: organizationId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+    axios;
+    updateGrant(organizationService, id, {
+      name: newName,
+      organization_id: organizationId,
+    })
       .then((response) => {
         setName(response.data.name);
         toggleHidden();
