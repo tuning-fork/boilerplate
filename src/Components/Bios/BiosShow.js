@@ -52,7 +52,8 @@ export default function BiosShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getBio(organizationService)
+      const BioId = props.match.params.bio_id;
+      getBio(organizationService, BioId)
         .then((response) => {
           setId(response.data.id);
           setFirstName(response.data.first_name);
