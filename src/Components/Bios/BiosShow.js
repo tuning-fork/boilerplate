@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import BioEditForm from "./BioEditForm";
 import countWords from "../../Helpers/countWords";
-import { getBio } from "../../Services/Organizations/BiosService";
+import { getBio, updateBio } from "../../Services/Organizations/BiosService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -84,19 +84,14 @@ export default function BiosShow(props) {
     newTitle,
     newQuillText,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/bios/` + id,
-        {
-          first_name: newFirstName,
-          last_name: newLastName,
-          title: newTitle,
-          text: newQuillText,
-          organization_id: currentOrganizationId,
-          wordcount: countWords(newQuillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+    updateBio(organizationService, id, {
+      first_name: newFirstName,
+      last_name: newLastName,
+      title: newTitle,
+      text: newQuillText,
+      organization_id: currentOrganizationId,
+      wordcount: countWords(newQuillText),
+    })
       .then((response) => {
         console.log(response);
         toggleHidden();
