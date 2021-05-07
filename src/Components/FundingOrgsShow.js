@@ -50,9 +50,9 @@ export default function FundingOrgsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+    confundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
-      axios;
-      getFundingOrg(organizationService)
+      getFundingOrg(organizationService, fundingOrgId)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);
@@ -74,7 +74,7 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleSubmit = ({ newName, newWebsite }) => {
-    updateGrant(organizationService, id, {
+    updateFundingOrg(organizationService, id, {
       name: newName,
       website: newWebsite,
       organization_id: organizationId,

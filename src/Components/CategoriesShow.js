@@ -48,7 +48,8 @@ export default function CategoriesShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getCategory(organizationService)
+      const CategoryId = props.match.params.category_id;
+      getCategory(organizationService, CategoryId)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);

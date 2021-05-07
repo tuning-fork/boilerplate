@@ -54,8 +54,8 @@ export default function BoilerplatesShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      const BoilerplateId = props.match.params.boilerplate_id;
-      getBio(organizationService, BoilerplateId)
+      const boilerplateId = props.match.params.boilerplate_id;
+      getBio(organizationService, boilerplateId)
         .then((response) => {
           setId(response.data.id);
           setTitle(response.data.title);
