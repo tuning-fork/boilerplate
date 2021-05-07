@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
@@ -25,14 +26,8 @@ export default function CategoriesNew(props) {
       name: name,
       organization_id: currentOrganizationId,
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/categories`,
-        newCategory,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+    if (currentOrganizationId) {
+      createCategory(organizationService, {newCategory})
       .then((response) => {
         if (response.data) {
           props.updateCategories(response.data);

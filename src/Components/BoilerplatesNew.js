@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createBio } from "../../Services/Organizations/BioService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
 export default function BoilerplatesNew(props) {
@@ -63,18 +64,14 @@ export default function BoilerplatesNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/boilerplates`,
-        {
+    if (currentOrganizationId) {
+      createBoilerplate(organizationService, {
           title: title,
           text: quillText,
           organization_id: currentOrganizationId,
           category_id: categoryId,
           wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+        })
       .then((response) => {
         if (response.data) {
           props.updateBoilerplates(response.data);

@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createFundingOrg } from "../../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function FundingOrgsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -29,14 +31,9 @@ export default function FundingOrgsNew(props) {
       website: website,
       organization_id: currentOrganizationId,
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/funding_orgs`,
-        newFundingOrg,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
+    if (currentOrganizationId) {
+      createFundingOrg(organizationService, {
+        newFundingOrg})
       .then((response) => {
         if (response.data) {
           props.updateFundingOrgs(response.data);

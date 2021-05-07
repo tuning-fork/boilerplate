@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { createBio } from "../../Services/Organizations/BiosService";
 
 export default function BiosNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -19,6 +20,7 @@ export default function BiosNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
@@ -37,19 +39,15 @@ export default function BiosNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/bios`,
-        {
+    if (currentOrganizationId) {
+      createBio(organizationService, {
           first_name: firstName,
           last_name: lastName,
           title: title,
           text: quillText,
           organization_id: currentOrganizationId,
           wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
+        })
       .then((response) => {
         if (response.data) {
           props.updateBios(response.data);
