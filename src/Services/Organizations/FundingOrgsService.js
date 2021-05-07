@@ -1,30 +1,30 @@
 // getFundingOrg
-export const getFundingOrg = (organizationService, fundingOrgId) => {
-  return organizationService
+export const getFundingOrg = (organizationClient, fundingOrgId) => {
+  return organizationClient
     .get(`/funding_orgs/${fundingOrgId}`)
     .then((response) => response.data);
 };
 
 // listFundingOrgs
 
-export const getAllFundingOrgs = (organizationService) => {
-  return organizationService
+export const getAllFundingOrgs = (organizationClient) => {
+  return organizationClient
     .get(`/funding_orgs/`)
     .then((response) => response.data);
 };
 
 // deleteFundingOrg
 
-export const deleteFundingOrg = (organizationService) => {
-  return organizationService
+export const deleteFundingOrg = (organizationClient) => {
+  return organizationClient
     .delete(`/funding_orgs/`)
     .then((response) => response.data);
 };
 
 // createFundingOrg
 
-export const createFundingOrg = (organizationService) => {
-  return organizationService
+export const createFundingOrg = (organizationClient) => {
+  return organizationClient
     .post(`/funding_orgs/`)
     .then((response) => response.data);
 };
@@ -32,11 +32,11 @@ export const createFundingOrg = (organizationService) => {
 // updateFundingOrg
 
 export const updateFundingOrg = (
-  organizationService,
+  organizationClient,
   fundingOrgId,
   fieldsToUpdate
 ) => {
-  return organizationService
+  return organizationClient
     .patch(`/funding_orgs/${fundingOrgId}`, fieldsToUpdate)
     .then((response) => response.data);
 };

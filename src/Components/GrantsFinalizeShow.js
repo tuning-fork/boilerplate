@@ -8,7 +8,11 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantFinalizeEditForm from "./Grants/GrantEditForm";
-import { getGrant, updateGrant, createGrant } from "../Services/Organizations/GrantsService";
+import {
+  getGrant,
+  updateGrant,
+  createGrant,
+} from "../Services/Organizations/GrantsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
@@ -49,7 +53,7 @@ export default function GrantsFinalizeShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -62,36 +66,33 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      if (currentOrganizationId) {
-        const grantId = props.match.params.grant_id;
-        getGrant(organizationService, grantId)
-        .then((response) => {
-          const zippySections = createUnzipped(response.data.sections);
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setRfpUrl(response.data.rfp_url);
-          setDeadline(response.data.deadline);
-          setSubmitted(response.data.submitted);
-          setSuccessful(response.data.successful);
-          setPurpose(response.data.purpose);
-          setOrganizationId(response.data.organizion_id);
-          setOrganizationName(response.data.organization_name);
-          setFundingOrgId(response.data.funding_org_id);
-          setSections(zippySections);
-          setReports(response.data.reports);
-          setLoading(false);
-          setNewTitle(response.data.title);
-          setNewRfpUrl(response.data.rfp_url);
-          setNewDeadline(response.data.deadline);
-          setNewSubmitted(response.data.submitted);
-          setNewSuccessful(response.data.successful);
-          setNewPurpose(response.data.purpose);
-        });
-        getAllBoilerplates(organizationService)
-        .then((response) => {
-          setBoilerplates(response.data);
-        });
-        getAllBios(organizationService)
+      const grantId = props.match.params.grant_id;
+      getGrant(organizationClient, grantId).then((response) => {
+        const zippySections = createUnzipped(response.data.sections);
+        setId(response.data.id);
+        setTitle(response.data.title);
+        setRfpUrl(response.data.rfp_url);
+        setDeadline(response.data.deadline);
+        setSubmitted(response.data.submitted);
+        setSuccessful(response.data.successful);
+        setPurpose(response.data.purpose);
+        setOrganizationId(response.data.organizion_id);
+        setOrganizationName(response.data.organization_name);
+        setFundingOrgId(response.data.funding_org_id);
+        setSections(zippySections);
+        setReports(response.data.reports);
+        setLoading(false);
+        setNewTitle(response.data.title);
+        setNewRfpUrl(response.data.rfp_url);
+        setNewDeadline(response.data.deadline);
+        setNewSubmitted(response.data.submitted);
+        setNewSuccessful(response.data.successful);
+        setNewPurpose(response.data.purpose);
+      });
+      getAllBoilerplates(organizationClient).then((response) => {
+        setBoilerplates(response.data);
+      });
+      getAllBios(organizationClient)
         .then((response) => {
           setBios(response.data);
           setLoading(false);
@@ -140,17 +141,17 @@ export default function GrantsFinalizeShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    updateGrant(organizationService, id, {
-          title: newTitle,
-          rfp_url: newRfpUrl,
-          deadline: newDeadline,
-          submitted: newSubmitted,
-          successful: newSuccessful,
-          purpose: newPurpose,
-          sections: [],
-          organization_id: organizationId,
-          funding_org_id: fundingOrgId,
-        })
+    updateGrant(organizationClient, id, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      sections: [],
+      organization_id: organizationId,
+      funding_org_id: fundingOrgId,
+    })
       .then((response) => {
         toggleHidden();
         handleClose();
@@ -173,24 +174,25 @@ export default function GrantsFinalizeShow(props) {
   const copyGrant = (event) => {
     event.preventDefault();
     if (currentOrganizationId) {
-      createGrant(organizationService, {
-          original_grant_id: id,
-          title: copyTitle,
-          rfp_url: copyRfpUrl,
-          deadline: copyDeadline,
-        })
-      .then((response) => {
-        console.log(response.data.id);
-        setCopiedGrantId(response.data.id);
-        setShowCopyModal(true);
-        setSuccessfulCopy(true);
-        toggleCopyGrantHidden();
+      createGrant(organizationClient, {
+        original_grant_id: id,
+        title: copyTitle,
+        rfp_url: copyRfpUrl,
+        deadline: copyDeadline,
       })
-      .catch((error) => {
-        console.log("grant copy error", error);
-        setShowCopyModal(true);
-        setSuccessfulCopy(false);
-      });
+        .then((response) => {
+          console.log(response.data.id);
+          setCopiedGrantId(response.data.id);
+          setShowCopyModal(true);
+          setSuccessfulCopy(true);
+          toggleCopyGrantHidden();
+        })
+        .catch((error) => {
+          console.log("grant copy error", error);
+          setShowCopyModal(true);
+          setSuccessfulCopy(false);
+        });
+    }
   };
 
   const handleSectionDelete = () => {

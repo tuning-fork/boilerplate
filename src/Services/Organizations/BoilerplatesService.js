@@ -1,30 +1,30 @@
 // getBoilerplate
-export const getBoilerplate = (organizationService, boilerplateId) => {
-  return organizationService
+export const getBoilerplate = (organizationClient, boilerplateId) => {
+  return organizationClient
     .get(`/boilerplates/${boilerplateId}`)
     .then((response) => response.data);
 };
 
 // listBoilerplates
 
-export const getAllBoilerplates = (organizationService) => {
-  return organizationService
+export const getAllBoilerplates = (organizationClient) => {
+  return organizationClient
     .get(`/boilerplates/`)
     .then((response) => response.data);
 };
 
 // deleteBoilerplate
 
-export const deleteBoilerplate = (organizationService) => {
-  return organizationService
+export const deleteBoilerplate = (organizationClient) => {
+  return organizationClient
     .delete(`/boilerplates/`)
     .then((response) => response.data);
 };
 
 // createBoilerplate
 
-export const createBoilerplate = (organizationService) => {
-  return organizationService
+export const createBoilerplate = (organizationClient) => {
+  return organizationClient
     .post(`/boilerplates/`)
     .then((response) => response.data);
 };
@@ -32,11 +32,11 @@ export const createBoilerplate = (organizationService) => {
 // updateBoilerplate
 
 export const updateBoilerplate = (
-  organizationService,
+  organizationClient,
   boilerplateId,
   fieldsToUpdate
 ) => {
-  return organizationService
+  return organizationClient
     .patch(`/boilerplates/${boilerplateId}`, fieldsToUpdate)
     .then((response) => response.data);
 };

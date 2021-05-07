@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
+import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ export default function CategoriesNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -28,16 +28,17 @@ export default function CategoriesNew(props) {
       organization_id: currentOrganizationId,
     };
     if (currentOrganizationId) {
-      createCategory(organizationService, newCategory)
-      .then((response) => {
-        if (response.data) {
-          props.updateCategories(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("category creation error", error);
-      });
+      createCategory(organizationClient, newCategory)
+        .then((response) => {
+          if (response.data) {
+            props.updateCategories(response.data);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("category creation error", error);
+        });
+    }
   };
 
   const clearForm = () => {

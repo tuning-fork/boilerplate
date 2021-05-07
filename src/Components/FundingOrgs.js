@@ -4,7 +4,7 @@ import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
+import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ export default function FundingOrgs() {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -20,7 +20,7 @@ export default function FundingOrgs() {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getAllFundingOrgs(organizationService)
+      getAllFundingOrgs(organizationClient)
         .then((response) => {
           setFundingOrgs(response.data);
           setLoading(false);

@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { createFundingOrg } from "../../Services/Organizations/FundingOrgsService";
+import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
@@ -13,7 +13,7 @@ export default function FundingOrgsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -32,17 +32,17 @@ export default function FundingOrgsNew(props) {
       organization_id: currentOrganizationId,
     };
     if (currentOrganizationId) {
-      createFundingOrg(organizationService, 
-        newFundingOrg)
-      .then((response) => {
-        if (response.data) {
-          props.updateFundingOrgs(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("funding org creation error", error);
-      });
+      createFundingOrg(organizationClient, newFundingOrg)
+        .then((response) => {
+          if (response.data) {
+            props.updateFundingOrgs(response.data);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("funding org creation error", error);
+        });
+    }
   };
 
   return (

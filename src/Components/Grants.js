@@ -18,7 +18,7 @@ export default function Grants() {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -49,7 +49,7 @@ export default function Grants() {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      getAllGrants(organizationService)
+      getAllGrants(organizationClient)
         .then((grants) => {
           setGrants(grants);
           const zippyGrants = createUnzipped(grants);

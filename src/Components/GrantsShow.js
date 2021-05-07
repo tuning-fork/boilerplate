@@ -52,7 +52,7 @@ export default function GrantsShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -73,7 +73,7 @@ export default function GrantsShow(props) {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
       const grantId = props.match.params.grant_id;
-      getGrant(organizationService, grantId)
+      getGrant(organizationClient, grantId)
         .then((grant) => {
           setId(grant.id);
           setTitle(grant.title);
@@ -97,14 +97,14 @@ export default function GrantsShow(props) {
         .catch((error) => {
           console.log(error);
         });
-      getAllBoilerplates(organizationService)
+      getAllBoilerplates(organizationClient)
         .then((response) => {
           setBoilerplates(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
-      getAllBios(organizationService)
+      getAllBios(organizationClient)
         .then((response) => {
           setBios(response.data);
           setLoading(false);
@@ -113,7 +113,7 @@ export default function GrantsShow(props) {
           console.log(error);
         });
     }
-  }, [currentOrganizationId, organizationService]);
+  }, [currentOrganizationId, organizationClient]);
 
   const handleSubmit = ({
     newTitle,
@@ -123,7 +123,7 @@ export default function GrantsShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    updateGrant(organizationService, id, {
+    updateGrant(organizationClient, id, {
       title: newTitle,
       rfp_url: newRfpUrl,
       deadline: newDeadline,
@@ -186,7 +186,7 @@ export default function GrantsShow(props) {
 
   const handleGrantDelete = () => {
     const grantId = props.match.params.grant_id;
-    getGrant(organizationService, grantId)
+    getGrant(organizationClient, grantId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/grants`);

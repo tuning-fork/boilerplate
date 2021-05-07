@@ -7,8 +7,8 @@ import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -24,7 +24,7 @@ export default function BoilerplatesNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -32,7 +32,7 @@ export default function BoilerplatesNew(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getAllCategories(organizationService)
+      getAllCategories(organizationClient)
         .then((response) => {
           console.log(response.data);
           setCategories(response.data);
@@ -65,22 +65,23 @@ export default function BoilerplatesNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (currentOrganizationId) {
-      createBoilerplate(organizationService, {
-          title: title,
-          text: quillText,
-          organization_id: currentOrganizationId,
-          category_id: categoryId,
-          wordcount: countWords(quillText),
-        })
-      .then((response) => {
-        if (response.data) {
-          props.updateBoilerplates(response.data);
-          clearForm();
-        }
+      createBoilerplate(organizationClient, {
+        title: title,
+        text: quillText,
+        organization_id: currentOrganizationId,
+        category_id: categoryId,
+        wordcount: countWords(quillText),
       })
-      .catch((error) => {
-        console.log("boilerplate creation error", error);
-      });
+        .then((response) => {
+          if (response.data) {
+            props.updateBoilerplates(response.data);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("boilerplate creation error", error);
+        });
+    }
   };
 
   const countWords = (string) => {

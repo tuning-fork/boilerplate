@@ -19,7 +19,7 @@ export default function Boilerplates(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -32,7 +32,7 @@ export default function Boilerplates(props) {
   useEffect(() => {
     console.log(currentOrganizationId);
     if (currentOrganizationId) {
-      getAllBoilerplates(organizationService)
+      getAllBoilerplates(organizationClient)
         .then((response) => {
           setBoilerplates(response.data);
           setFilteredBoilerplates(response.data);

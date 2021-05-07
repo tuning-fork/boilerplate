@@ -1,30 +1,30 @@
 // getCategory
-export const getCategory = (organizationService, categoryId) => {
-  return organizationService
+export const getCategory = (organizationClient, categoryId) => {
+  return organizationClient
     .get(`/categories/${categoryId}`)
     .then((response) => response.data);
 };
 
 // listCategories
 
-export const getAllCategories = (organizationService) => {
-  return organizationService
+export const getAllCategories = (organizationClient) => {
+  return organizationClient
     .get(`/categories/`)
     .then((response) => response.data);
 };
 
 // deleteCategory
 
-export const deleteCategory = (organizationService) => {
-  return organizationService
+export const deleteCategory = (organizationClient) => {
+  return organizationClient
     .delete(`/categories/`)
     .then((response) => response.data);
 };
 
 // createCategory
 
-export const createCategory = (organizationService) => {
-  return organizationService
+export const createCategory = (organizationClient) => {
+  return organizationClient
     .post(`/categories/`)
     .then((response) => response.data);
 };
@@ -32,11 +32,11 @@ export const createCategory = (organizationService) => {
 // updateCategory
 
 export const updateCategory = (
-  organizationService,
+  organizationClient,
   categoryId,
   fieldsToUpdate
 ) => {
-  return organizationService
+  return organizationClient
     .patch(`/categories/${categoryId}`, fieldsToUpdate)
     .then((response) => response.data);
 };

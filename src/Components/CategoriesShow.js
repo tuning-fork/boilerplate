@@ -35,7 +35,7 @@ export default function CategoriesShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -50,7 +50,7 @@ export default function CategoriesShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       const CategoryId = props.match.params.category_id;
-      getCategory(organizationService, CategoryId)
+      getCategory(organizationClient, CategoryId)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);
@@ -70,7 +70,7 @@ export default function CategoriesShow(props) {
   };
 
   const handleSubmit = ({ newName }) => {
-    updateGrant(organizationService, id, {
+    updateCategory(organizationClient, id, {
       name: newName,
       organization_id: organizationId,
     })
@@ -90,7 +90,7 @@ export default function CategoriesShow(props) {
 
   const handleCategoryDelete = () => {
     const CategoryId = props.match.params.category_id;
-    deleteCategory(organizationService, CategoryId)
+    deleteCategory(organizationClient, CategoryId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/categories`);

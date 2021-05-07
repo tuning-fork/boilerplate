@@ -13,7 +13,7 @@ export default function Categories() {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -21,7 +21,7 @@ export default function Categories() {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getAllCategories(organizationService)
+      getAllCategories(organizationClient)
         .then((response) => {
           setCategories(response.data);
           setLoading(false);

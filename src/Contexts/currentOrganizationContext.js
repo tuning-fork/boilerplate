@@ -17,7 +17,7 @@ const reducer = (state, action) => {
       };
     case "SET_CURRENT_ORGANIZATION":
       const { currentOrganization, jwt } = action.payload;
-      const organizationService = axios.create({
+      const organizationClient = axios.create({
         baseURL: `/api/organizations/${currentOrganization.id}`,
         headers: { Authorization: `Bearer ${jwt}` },
       });
@@ -25,7 +25,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentOrganization,
-        organizationService,
+        organizationClient,
       };
     default:
       return state;
@@ -36,7 +36,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const store = {
     allUserOrganizations: [],
     currentOrganization: null,
-    organizationService: null,
+    organizationClient: null,
   };
   const [currentOrganizationStore, currentOrganizationDispatch] = useReducer(
     reducer,
@@ -99,7 +99,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
       value={{
         currentOrganizationStore,
         currentOrganizationDispatch,
-        organizationService: currentOrganizationStore.organizationService,
+        organizationClient: currentOrganizationStore.organizationClient,
       }}
     >
       {children}

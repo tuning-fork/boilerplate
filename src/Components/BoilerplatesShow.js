@@ -12,6 +12,8 @@ import {
 } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -39,7 +41,7 @@ export default function BoilerplatesShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    currentOrganizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -56,7 +58,7 @@ export default function BoilerplatesShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       const boilerplateId = props.match.params.boilerplate_id;
-      getBio(organizationService, boilerplateId)
+      getBoilerplate(organizationClient, boilerplateId)
         .then((response) => {
           setId(response.data.id);
           setTitle(response.data.title);
@@ -73,8 +75,7 @@ export default function BoilerplatesShow(props) {
         .catch((error) => {
           console.log(error);
         });
-      axios;
-      getAllCategories(organizationService)
+      getAllCategories(organizationClient)
         .then((response) => {
           setCategories(response.data);
           setLoading(false);
@@ -84,7 +85,7 @@ export default function BoilerplatesShow(props) {
   }, [currentOrganizationId]);
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
-    updateBoilerplate(organizationService, id, {
+    updateBoilerplate(organizationClient, id, {
       title: newTitle,
       text: newQuillText,
       category_id: newCategoryId,
@@ -109,7 +110,7 @@ export default function BoilerplatesShow(props) {
 
   const handleBoilerplateDelete = () => {
     const boilerplateId = props.match.params.boilerplate_id;
-    deleteBio(organizationService, boilerplateId)
+    deleteBoilerplate(organizationClient, boilerplateId)
       .then((response) => {
         if (response.data.message) {
           history.push(`/organizations/${currentOrganizationId}/boilerplates`);

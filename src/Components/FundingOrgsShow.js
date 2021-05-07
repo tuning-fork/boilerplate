@@ -35,7 +35,7 @@ export default function FundingOrgsShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -51,9 +51,9 @@ export default function FundingOrgsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    confundingOrgId = props.match.params.funding_org_id;
+    const fundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
-      getFundingOrg(organizationService, fundingOrgId)
+      getFundingOrg(organizationClient, fundingOrgId)
         .then((response) => {
           setId(response.data.id);
           setName(response.data.name);
@@ -75,7 +75,7 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleSubmit = ({ newName, newWebsite }) => {
-    updateFundingOrg(organizationService, id, {
+    updateFundingOrg(organizationClient, id, {
       name: newName,
       website: newWebsite,
       organization_id: organizationId,
@@ -97,17 +97,21 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleFundingOrgDelete = () => {
+    const fundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
-      getFundingOrg(organizationService, fundingOrgId)
-      .then((response) => {
-        if (response.data.message) {
-          history.push(`/organizations/${currentOrganizationId}/funding_orgs`);
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      getFundingOrg(organizationClient, fundingOrgId)
+        .then((response) => {
+          if (response.data.message) {
+            history.push(
+              `/organizations/${currentOrganizationId}/funding_orgs`
+            );
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const updateOrganizationName = (organizationName) => {

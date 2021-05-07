@@ -20,7 +20,7 @@ export default function BiosNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
@@ -40,23 +40,24 @@ export default function BiosNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (currentOrganizationId) {
-      createBio(organizationService, {
-          first_name: firstName,
-          last_name: lastName,
-          title: title,
-          text: quillText,
-          organization_id: currentOrganizationId,
-          wordcount: countWords(quillText),
-        })
-      .then((response) => {
-        if (response.data) {
-          props.updateBios(response.data);
-          clearForm();
-        }
+      createBio(organizationClient, {
+        first_name: firstName,
+        last_name: lastName,
+        title: title,
+        text: quillText,
+        organization_id: currentOrganizationId,
+        wordcount: countWords(quillText),
       })
-      .catch((error) => {
-        console.log("bio creation error", error);
-      });
+        .then((response) => {
+          if (response.data) {
+            props.updateBios(response.data);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("bio creation error", error);
+        });
+    }
   };
 
   const countWords = (string) => {

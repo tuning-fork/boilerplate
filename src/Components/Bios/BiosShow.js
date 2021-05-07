@@ -42,7 +42,7 @@ export default function BiosShow(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -57,7 +57,7 @@ export default function BiosShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       const bioId = props.match.params.bio_id;
-      getBio(organizationService, bioId)
+      getBio(organizationClient, bioId)
         .then((response) => {
           setId(response.data.id);
           setFirstName(response.data.first_name);
@@ -89,7 +89,7 @@ export default function BiosShow(props) {
     newTitle,
     newQuillText,
   }) => {
-    updateBio(organizationService, id, {
+    updateBio(organizationClient, id, {
       first_name: newFirstName,
       last_name: newLastName,
       title: newTitle,
@@ -117,7 +117,7 @@ export default function BiosShow(props) {
 
   const handleBioDelete = () => {
     const bioId = props.match.params.bio_id;
-    deleteBio(organizationService, bioId)
+    deleteBio(organizationClient, bioId)
       .then((response) => {
         if (response.data.message) {
           props.history.push(`/organizations/${currentOrganizationId}/bios`);

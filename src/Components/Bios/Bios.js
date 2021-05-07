@@ -21,7 +21,7 @@ export default function Bios(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
@@ -34,7 +34,7 @@ export default function Bios(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      getAllBios(organizationService)
+      getAllBios(organizationClient)
         .then((response) => {
           const zippyBios = createUnzipped(response.data);
           console.log(zippyBios);
