@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { countWords } from "../Services/infofunctions";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -26,6 +27,7 @@ export default function SectionsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -107,17 +109,10 @@ export default function SectionsNew(props) {
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections`,
-        newSection,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.addNewSections(response.data);
+    createGrantSection(organizationClient, props.grant_id, newSection)
+      .then((section) => {
+        if (section) {
+          props.addNewSections(section);
           toggleHidden();
           clearForm();
         }

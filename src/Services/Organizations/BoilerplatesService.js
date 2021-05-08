@@ -23,9 +23,9 @@ export const deleteBoilerplate = (organizationClient) => {
 
 // createBoilerplate
 
-export const createBoilerplate = (organizationClient) => {
+export const createBoilerplate = (organizationClient, newBoilerplate) => {
   return organizationClient
-    .post(`/boilerplates/`)
+    .post(`/boilerplates/`, newBoilerplate)
     .then((response) => response.data);
 };
 

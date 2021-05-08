@@ -19,8 +19,10 @@ export const deleteBio = (organizationClient) => {
 
 // createBio
 
-export const createBio = (organizationClient) => {
-  return organizationClient.post(`/bios/`).then((response) => response.data);
+export const createBio = (organizationClient, newBio) => {
+  return organizationClient
+    .post(`/bios/`, newBio)
+    .then((response) => response.data);
 };
 
 // updateBio

@@ -21,8 +21,10 @@ export const deleteGrant = (organizationClient) => {
 
 // createGrant
 
-export const createGrant = (organizationClient) => {
-  return organizationClient.post(`/grants/`).then((response) => response.data);
+export const createGrant = (organizationClient, newGrant) => {
+  return organizationClient
+    .post(`/grants/`, newGrant)
+    .then((response) => response.data);
 };
 
 // updateGrant

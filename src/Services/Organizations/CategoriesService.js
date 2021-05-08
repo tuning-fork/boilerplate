@@ -23,9 +23,9 @@ export const deleteCategory = (organizationClient) => {
 
 // createCategory
 
-export const createCategory = (organizationClient) => {
+export const createCategory = (organizationClient, newCategory) => {
   return organizationClient
-    .post(`/categories/`)
+    .post(`/categories/`, newCategory)
     .then((response) => response.data);
 };
 

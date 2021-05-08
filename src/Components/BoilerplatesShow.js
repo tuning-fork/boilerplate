@@ -59,17 +59,17 @@ export default function BoilerplatesShow(props) {
     if (currentOrganizationId) {
       const boilerplateId = props.match.params.boilerplate_id;
       getBoilerplate(organizationClient, boilerplateId)
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setWordcount(response.data.wordcount);
-          setOrganizationId(response.data.organization_id);
-          setCategoryId(response.data.category_id);
-          setCategoryName(response.data.category.name);
-          setNewTitle(response.data.title);
-          setNewQuillText(response.data.text);
-          setNewCategoryId(response.data.category_id);
+        .then((boilerplate) => {
+          setId(boilerplate.id);
+          setTitle(boilerplate.title);
+          setQuillText(boilerplate.text);
+          setWordcount(boilerplate.wordcount);
+          setOrganizationId(boilerplate.organization_id);
+          setCategoryId(boilerplate.category_id);
+          setCategoryName(boilerplate.category.name);
+          setNewTitle(boilerplate.title);
+          setNewQuillText(boilerplate.text);
+          setNewCategoryId(boilerplate.category_id);
           setLoading(false);
         })
         .catch((error) => {

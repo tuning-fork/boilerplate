@@ -35,10 +35,10 @@ export default function Bios(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       getAllBios(organizationClient)
-        .then((response) => {
-          const zippyBios = createUnzipped(response.data);
+        .then((bios) => {
+          const zippyBios = createUnzipped(bios);
           console.log(zippyBios);
-          setBios(response.data);
+          setBios(bios);
           setFilteredBios(zippyBios);
           setLoading(false);
         })

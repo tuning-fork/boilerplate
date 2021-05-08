@@ -39,18 +39,19 @@ export default function BiosNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newBio = {
+      first_name: firstName,
+      last_name: lastName,
+      title: title,
+      text: quillText,
+      organization_id: currentOrganizationId,
+      wordcount: countWords(quillText),
+    };
     if (currentOrganizationId) {
-      createBio(organizationClient, {
-        first_name: firstName,
-        last_name: lastName,
-        title: title,
-        text: quillText,
-        organization_id: currentOrganizationId,
-        wordcount: countWords(quillText),
-      })
-        .then((response) => {
-          if (response.data) {
-            props.updateBios(response.data);
+      createBio(organizationClient, newBio)
+        .then((bio) => {
+          if (bio) {
+            props.updateBios(bio);
             clearForm();
           }
         })

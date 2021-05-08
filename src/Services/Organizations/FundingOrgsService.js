@@ -23,9 +23,9 @@ export const deleteFundingOrg = (organizationClient) => {
 
 // createFundingOrg
 
-export const createFundingOrg = (organizationClient) => {
+export const createFundingOrg = (organizationClient, newFundingOrg) => {
   return organizationClient
-    .post(`/funding_orgs/`)
+    .post(`/funding_orgs/`, newFundingOrg)
     .then((response) => response.data);
 };
 

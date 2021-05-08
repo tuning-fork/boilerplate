@@ -42,6 +42,7 @@ export default function GrantsShow(props) {
   const [sections, setSections] = useState([]);
   const [reports, setReports] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [grant, setGrant] = useState(null);
   const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -75,15 +76,7 @@ export default function GrantsShow(props) {
       const grantId = props.match.params.grant_id;
       getGrant(organizationClient, grantId)
         .then((grant) => {
-          setId(grant.id);
-          setTitle(grant.title);
-          setRfpUrl(grant.rfp_url);
-          setDeadline(grant.deadline);
-          setSubmitted(grant.submitted);
-          setSuccessful(grant.successful);
-          setPurpose(grant.purpose);
-          setOrganizationId(grant.organization_id);
-          setFundingOrgId(grant.funding_org_id);
+          setGrant(grant);
           setSections(grant.sections);
           setReports(grant.reports);
           setLoading(false);
@@ -98,15 +91,15 @@ export default function GrantsShow(props) {
           console.log(error);
         });
       getAllBoilerplates(organizationClient)
-        .then((response) => {
-          setBoilerplates(response.data);
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
         .catch((error) => {
           console.log(error);
         });
       getAllBios(organizationClient)
-        .then((response) => {
-          setBios(response.data);
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
         .catch((error) => {
@@ -130,17 +123,12 @@ export default function GrantsShow(props) {
       submitted: newSubmitted,
       successful: newSuccessful,
       purpose: newPurpose,
-      organization_id: organizationId,
-      funding_org_id: fundingOrgId,
+      organization_id: grant.organizationId,
+      funding_org_id: grant.fundingOrgId,
     })
-      .then((response) => {
+      .then((updatedGrant) => {
         handleClose();
-        setTitle(response.data.title);
-        setRfpUrl(response.data.rfp_url);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setSuccessful(response.data.successful);
-        setPurpose(response.data.purpose);
+        setGrant(updatedGrant);
       })
       .catch((error) => {
         console.log("grant update error", error);
@@ -174,24 +162,20 @@ export default function GrantsShow(props) {
     }
   };
 
-  useEffect(() => {}, [sections]);
-
   const updateNewReports = (newReport) => {
-    const newReports = [...reports];
-    newReports.push(newReport);
+    const newReports = [...reports, newReport];
+    // newReports.push(newReport);
     setReports(newReports);
   };
-
-  useEffect(() => {}, [reports]);
 
   const handleGrantDelete = () => {
     const grantId = props.match.params.grant_id;
     getGrant(organizationClient, grantId)
-      .then((response) => {
-        if (response.data.message) {
+      .then((grant) => {
+        if (grant.message) {
           history.push(`/organizations/${currentOrganizationId}/grants`);
         }
-        console.log(response);
+        console.log(grant);
       })
       .catch((error) => {
         console.log(error);
@@ -305,12 +289,7 @@ export default function GrantsShow(props) {
                 <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
                   <Card.Body>
                     <GrantEditForm
-                      title={title}
-                      rfpUrl={rfpUrl}
-                      deadline={deadline}
-                      submitted={submitted}
-                      successful={successful}
-                      purpose={purpose}
+                      grant={grant}
                       onSubmit={handleSubmit}
                       onCancel={handleCancel}
                     />
@@ -381,7 +360,7 @@ export default function GrantsShow(props) {
           <ReportsNew
             sort_number={sections.length}
             grant_id={id}
-            grant_title={title}
+            grant_title={grant.title}
             updateNewReports={updateNewReports}
           />
         </Card.Body>

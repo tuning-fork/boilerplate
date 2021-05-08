@@ -33,9 +33,9 @@ export default function Boilerplates(props) {
     console.log(currentOrganizationId);
     if (currentOrganizationId) {
       getAllBoilerplates(organizationClient)
-        .then((response) => {
-          setBoilerplates(response.data);
-          setFilteredBoilerplates(response.data);
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
+          setFilteredBoilerplates(boilerplates);
           setLoading(false);
         })
         .catch((error) => {
