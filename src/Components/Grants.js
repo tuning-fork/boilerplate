@@ -61,8 +61,7 @@ export default function Grants() {
   }, [currentOrganizationId]);
 
   const updateGrants = (newGrant) => {
-    const newGrants = [...grants];
-    newGrants.push(newGrant);
+    const newGrants = [...grants, newGrant];
     setFilteredGrants(newGrants);
   };
 

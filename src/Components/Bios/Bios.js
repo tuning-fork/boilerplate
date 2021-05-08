@@ -55,8 +55,7 @@ export default function Bios(props) {
   };
 
   const updateBios = (newBio) => {
-    const newBios = [...bios];
-    newBios.push(newBio);
+    const newBios = [...bios, newBio];
     setBios(newBios);
   };
 

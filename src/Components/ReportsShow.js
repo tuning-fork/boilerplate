@@ -147,8 +147,7 @@ export default function ReportsShow(props) {
   };
 
   const updateReportSections = (newReportSection) => {
-    let newReportSections = [...reportSections];
-    newReportSections.push(newReportSection);
+    let newReportSections = [...reportSections, newReportSection];
     setReportSections(newReportSections);
   };
 

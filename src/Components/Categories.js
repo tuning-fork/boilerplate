@@ -31,8 +31,7 @@ export default function Categories() {
   }, [currentOrganizationId]);
 
   const updateCategories = (newCategory) => {
-    const newCategories = [...categories];
-    newCategories.push(newCategory);
+    const newCategories = [...categories, newCategory];
     setCategories(newCategories);
   };
 

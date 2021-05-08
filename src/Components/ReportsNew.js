@@ -45,7 +45,7 @@ export default function ReportsNew(props) {
       .then((response) => {
         if (response.data) {
           toggleHidden();
-          props.updateNewReports(response.data);
+          props.updateReports(response.data);
           clearForm();
         }
       })

@@ -46,10 +46,8 @@ export default function Boilerplates(props) {
   }, [currentOrganizationId]);
 
   const updateBoilerplates = (newBoilerplate) => {
-    const newBoilerplates = [...boilerplates];
-    newBoilerplates.push(newBoilerplate);
+    const newBoilerplates = [...boilerplates, newBoilerplate];
     setFilteredBoilerplates(newBoilerplates);
-    console.log("updateboilerplates ran!");
   };
 
   useEffect(() => {}, [filteredBoilerplates]);

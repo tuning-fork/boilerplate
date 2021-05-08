@@ -162,9 +162,8 @@ export default function GrantsShow(props) {
     }
   };
 
-  const updateNewReports = (newReport) => {
+  const updateReports = (newReport) => {
     const newReports = [...reports, newReport];
-    // newReports.push(newReport);
     setReports(newReports);
   };
 
@@ -361,7 +360,7 @@ export default function GrantsShow(props) {
             sort_number={sections.length}
             grant_id={id}
             grant_title={grant.title}
-            updateNewReports={updateNewReports}
+            updateReports={updateReports}
           />
         </Card.Body>
       </Card>

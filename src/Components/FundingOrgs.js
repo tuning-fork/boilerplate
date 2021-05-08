@@ -32,8 +32,7 @@ export default function FundingOrgs() {
   }, [loading, currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
-    const newFundingOrgs = [...fundingOrgs];
-    newFundingOrgs.push(newFundingOrg);
+    const newFundingOrgs = [...fundingOrgs, newFundingOrg];
     setFundingOrgs(newFundingOrgs);
   };
 
