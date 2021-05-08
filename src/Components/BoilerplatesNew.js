@@ -73,6 +73,7 @@ export default function BoilerplatesNew(props) {
         .then((boilerplate) => {
           if (boilerplate) {
             props.updateBoilerplates(boilerplate);
+
             clearForm();
           }
         })
