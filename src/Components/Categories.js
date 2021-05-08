@@ -22,8 +22,8 @@ export default function Categories() {
   useEffect(() => {
     if (currentOrganizationId) {
       getAllCategories(organizationClient)
-        .then((response) => {
-          setCategories(response.data);
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));

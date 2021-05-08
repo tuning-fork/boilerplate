@@ -76,8 +76,8 @@ export default function BoilerplatesShow(props) {
           console.log(error);
         });
       getAllCategories(organizationClient)
-        .then((response) => {
-          setCategories(response.data);
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -92,12 +92,12 @@ export default function BoilerplatesShow(props) {
       wordcount: countWords(newQuillText),
       organization_id: organizationId,
     })
-      .then((response) => {
+      .then((boilerplate) => {
         handleClose();
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setCategoryId(response.data.category_id);
-        setCategoryName(response.data.category.name);
+        setTitle(boilerplate.title);
+        setQuillText(boilerplate.text);
+        setCategoryId(boilerplate.category_id);
+        setCategoryName(boilerplate.category.name);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -111,11 +111,10 @@ export default function BoilerplatesShow(props) {
   const handleBoilerplateDelete = () => {
     const boilerplateId = props.match.params.boilerplate_id;
     deleteBoilerplate(organizationClient, boilerplateId)
-      .then((response) => {
-        if (response.data.message) {
+      .then((boilerplate) => {
+        if (boilerplate.message) {
           history.push(`/organizations/${currentOrganizationId}/boilerplates`);
         }
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
