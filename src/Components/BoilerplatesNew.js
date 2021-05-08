@@ -33,10 +33,8 @@ export default function BoilerplatesNew(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       getAllCategories(organizationClient)
-        .then((response) => {
-          console.log(response.data);
-          setCategories(response.data);
-          console.log(categories);
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -72,9 +70,9 @@ export default function BoilerplatesNew(props) {
         category_id: categoryId,
         wordcount: countWords(quillText),
       })
-        .then((response) => {
-          if (response.data) {
-            props.updateBoilerplates(response.data);
+        .then((boilerplate) => {
+          if (boilerplate) {
+            props.updateBoilerplates(boilerplate);
             clearForm();
           }
         })
