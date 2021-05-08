@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createGrant } from "../Services/Organizations/GrantsService";
+import { getAllFundingORgs } from "../Services/Organizations/FundingOrgsService";
 
 export default function GrantsNew(props) {
   const [loading, setLoading] = useState(true);
@@ -31,12 +32,9 @@ export default function GrantsNew(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setFundingOrgs(response.data);
+      getAllFundingOrgs(organizationClient)
+        .then((fundingOrgs) => {
+          setFundingOrgs(fundingOrgs);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -76,9 +74,9 @@ export default function GrantsNew(props) {
     };
     if (currentOrganizationId) {
       createGrant(organizationClient, newGrant)
-        .then((response) => {
-          if (response.data) {
-            props.updateGrants(response.data);
+        .then((grant) => {
+          if (grant) {
+            props.updateGrants(grant);
             clearForm();
           }
         })
