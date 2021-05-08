@@ -46,10 +46,6 @@ export default function CategoriesNew(props) {
     setOrganizationId("");
   };
 
-  const toggleHiddenNew = () => {
-    setIsHiddenNew(!isHiddenNew);
-  };
-
   return (
     <Card className="card-dashboard">
       <Card.Header>Add Category</Card.Header>

@@ -51,12 +51,12 @@ export default function CategoriesShow(props) {
     if (currentOrganizationId) {
       const CategoryId = props.match.params.category_id;
       getCategory(organizationClient, CategoryId)
-        .then((response) => {
-          setId(response.data.id);
-          setName(response.data.name);
-          setOrganizationId(response.data.organization_id);
-          setOrganizationName(response.data.organization.name);
-          setNewName(response.data.name);
+        .then((category) => {
+          setId(category.id);
+          setName(category.name);
+          setOrganizationId(category.organization_id);
+          setOrganizationName(category.organization.name);
+          setNewName(category.name);
           setLoading(false);
         })
         .catch((error) => {
@@ -74,8 +74,8 @@ export default function CategoriesShow(props) {
       name: newName,
       organization_id: organizationId,
     })
-      .then((response) => {
-        setName(response.data.name);
+      .then((category) => {
+        setName(category.name);
         toggleHidden();
         handleClose();
       })
@@ -91,11 +91,10 @@ export default function CategoriesShow(props) {
   const handleCategoryDelete = () => {
     const CategoryId = props.match.params.category_id;
     deleteCategory(organizationClient, CategoryId)
-      .then((response) => {
-        if (response.data.message) {
+      .then((category) => {
+        if (category.message) {
           history.push(`/organizations/${currentOrganizationId}/categories`);
         }
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
