@@ -5,7 +5,6 @@ import SectionsNew from "./SectionsNew";
 import ReportsNew from "./ReportsNew";
 import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
@@ -169,7 +168,7 @@ export default function GrantsShow(props) {
 
   const handleGrantDelete = () => {
     const grantId = props.match.params.grant_id;
-    getGrant(organizationClient, grantId)
+    deleteGrant(organizationClient, grantId)
       .then((grant) => {
         if (grant.message) {
           history.push(`/organizations/${currentOrganizationId}/grants`);

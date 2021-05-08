@@ -8,6 +8,8 @@ import "react-quill/dist/quill.snow.css";
 import { countWords } from "../Services/infofunctions";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -35,25 +37,21 @@ export default function SectionsNew(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setBoilerplates(response.data);
-        });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
-        .then((response) => {
-          setBios(response.data);
+        .catch((error) => {
+          console.log(error);
+        });
+      getAllBios(organizationClient)
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [currentOrganizationId]);
 

@@ -7,6 +7,11 @@ import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import {
+  getGrantSection,
+  updateGrantSection,
+  deleteGrantSection,
+} from "../Services/Organizations/Grants/GrantSectionsService";
 
 export default function SectionsShow(props) {
   const [id, setId] = useState("");
@@ -15,17 +20,17 @@ export default function SectionsShow(props) {
   const [sortOrder, setSortOrder] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [wordcount, setWordcount] = useState("");
-  const [boilerplates, setBoilerplates] = useState([]);
+
   const [boilerplateId, setBoilerplateId] = useState("");
   const [bioId, setBioId] = useState("");
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
-  const [bios, setBios] = useState([]);
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
 
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -33,19 +38,13 @@ export default function SectionsShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setWordcount(response.data.wordcount);
-          setSortOrder(response.data.sort_order);
-          setGrantId(response.data.grant_id);
+      getGrantSection(organizationClient, props.grant_id, props.section_id)
+        .then((section) => {
+          setTitle(section.title);
+          setQuillText(section.text);
+          setWordcount(section.wordcount);
+          setSortOrder(section.sort_order);
+          setGrantId(section.grant_id);
         })
         .catch((error) => console.log(error));
     }
@@ -60,26 +59,24 @@ export default function SectionsShow(props) {
     setQuillText(quillText);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .patch(
-        "/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/" +
-          props.section_id,
-        {
-          title: title,
-          text: quillText,
-          sort_order: sortOrder,
-          wordcount: countWords(quillText),
-          grant_id: grantId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          console.log(response.data);
+  const handleSubmit = ({
+    newTitle,
+    newText,
+    newSortOrder,
+    newWordCount,
+    grantId,
+  }) => {
+    updateGrantSection(organizationClient, id, {
+      title: newTitle,
+      text: newQuillText,
+      sort_order: newSortOrder,
+      wordcount: countWords(newQuillText),
+      grant_id: grantId,
+    })
+      .then((updatedGrantSection) => {
+        if (updatedGrantSection) {
           toggleHidden();
-          props.updateSections(response.data);
+          props.updateSections(updatedGrantSection);
         }
       })
       .catch((error) => {
@@ -88,16 +85,9 @@ export default function SectionsShow(props) {
   };
 
   const handleSectionDelete = () => {
-    axios
-      .delete(
-        "/api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/sections/" +
-          props.section_id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        console.log(response);
+    deleteGrantSection(organizationClient, grantId, sectionId)
+      .then((section) => {
+        console.log(section);
       })
       .catch((error) => {
         console.log(error);
