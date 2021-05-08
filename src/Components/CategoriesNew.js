@@ -29,9 +29,9 @@ export default function CategoriesNew(props) {
     };
     if (currentOrganizationId) {
       createCategory(organizationClient, newCategory)
-        .then((response) => {
-          if (response.data) {
-            props.updateCategories(response.data);
+        .then((category) => {
+          if (category) {
+            props.updateCategories(category);
             clearForm();
           }
         })
