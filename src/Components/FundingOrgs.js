@@ -21,10 +21,10 @@ export default function FundingOrgs() {
   useEffect(() => {
     if (currentOrganizationId) {
       getAllFundingOrgs(organizationClient)
-        .then((response) => {
-          setFundingOrgs(response.data);
+        .then((fundingOrgs) => {
+          setFundingOrgs(fundingOrgs);
           setLoading(false);
-          console.log(response.data);
+          console.log(fundingOrgs);
         })
         .catch((error) => console.log(error));
     }

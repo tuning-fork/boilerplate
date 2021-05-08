@@ -33,9 +33,9 @@ export default function FundingOrgsNew(props) {
     };
     if (currentOrganizationId) {
       createFundingOrg(organizationClient, newFundingOrg)
-        .then((response) => {
-          if (response.data) {
-            props.updateFundingOrgs(response.data);
+        .then((fundingOrg) => {
+          if (fundingOrg) {
+            props.updateFundingOrgs(fundingOrg);
             clearForm();
           }
         })
