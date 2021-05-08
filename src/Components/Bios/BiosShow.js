@@ -58,20 +58,20 @@ export default function BiosShow(props) {
     if (currentOrganizationId) {
       const bioId = props.match.params.bio_id;
       getBio(organizationClient, bioId)
-        .then((response) => {
-          setId(response.data.id);
-          setFirstName(response.data.first_name);
-          setLastName(response.data.last_name);
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setOrganizationId(response.data.organization_id);
-          setOrganization(response.data.organization);
-          setWordCount(response.data.wordcount);
+        .then((bio) => {
+          setId(bio.id);
+          setFirstName(bio.first_name);
+          setLastName(bio.last_name);
+          setTitle(bio.title);
+          setQuillText(bio.text);
+          setOrganizationId(bio.organization_id);
+          setOrganization(bio.organization);
+          setWordCount(bio.wordcount);
           setLoading(false);
-          setNewQuillText(response.data.text);
-          setNewFirstName(response.data.first_name);
-          setNewLastName(response.data.last_name);
-          setNewTitle(response.data.title);
+          setNewQuillText(bio.text);
+          setNewFirstName(bio.first_name);
+          setNewLastName(bio.last_name);
+          setNewTitle(bio.title);
         })
         .catch((error) => {
           console.log(error);
@@ -97,14 +97,13 @@ export default function BiosShow(props) {
       organization_id: currentOrganizationId,
       wordcount: countWords(newQuillText),
     })
-      .then((response) => {
-        console.log(response);
+      .then((bio) => {
         toggleHidden();
         handleClose();
-        setNewQuillText(response.data.text);
-        setNewFirstName(response.data.first_name);
-        setNewLastName(response.data.last_name);
-        setNewTitle(response.data.title);
+        setNewQuillText(bio.text);
+        setNewFirstName(bio.first_name);
+        setNewLastName(bio.last_name);
+        setNewTitle(bio.title);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -118,8 +117,8 @@ export default function BiosShow(props) {
   const handleBioDelete = () => {
     const bioId = props.match.params.bio_id;
     deleteBio(organizationClient, bioId)
-      .then((response) => {
-        if (response.data.message) {
+      .then((bio) => {
+        if (bio.message) {
           props.history.push(`/organizations/${currentOrganizationId}/bios`);
         }
         console.log(response);
