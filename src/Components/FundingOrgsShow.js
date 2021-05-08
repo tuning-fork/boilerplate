@@ -54,14 +54,14 @@ export default function FundingOrgsShow(props) {
     const fundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
       getFundingOrg(organizationClient, fundingOrgId)
-        .then((response) => {
-          setId(response.data.id);
-          setName(response.data.name);
-          setWebsite(response.data.website);
-          setOrganizationId(response.data.organization_id);
-          setOrganizationName(response.data.organization.name);
-          setNewName(response.data.name);
-          setNewWebsite(response.data.website);
+        .then((fundingOrg) => {
+          setId(fundingOrg.id);
+          setName(fundingOrg.name);
+          setWebsite(fundingOrg.website);
+          setOrganizationId(fundingOrg.organization_id);
+          setOrganizationName(fundingOrg.organization.name);
+          setNewName(fundingOrg.name);
+          setNewWebsite(fundingOrg.website);
           setLoading(false);
         })
         .catch((error) => {
@@ -80,11 +80,11 @@ export default function FundingOrgsShow(props) {
       website: newWebsite,
       organization_id: organizationId,
     })
-      .then((response) => {
+      .then((fundingOrg) => {
         handleClose();
-        updateOrganizationName(response.data.organization.name);
-        setNewName(response.data.name);
-        setNewWebsite(response.data.website);
+        updateOrganizationName(fundingOrg.organization.name);
+        setNewName(fundingOrg.name);
+        setNewWebsite(fundingOrg.website);
         toggleHidden();
       })
       .catch((error) => {
@@ -100,8 +100,8 @@ export default function FundingOrgsShow(props) {
     const fundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
       getFundingOrg(organizationClient, fundingOrgId)
-        .then((response) => {
-          if (response.data.message) {
+        .then((fundingOrg) => {
+          if (fundingOrg.message) {
             history.push(
               `/organizations/${currentOrganizationId}/funding_orgs`
             );
