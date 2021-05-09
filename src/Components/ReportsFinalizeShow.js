@@ -79,10 +79,11 @@ export default function ReportsFinalizeShow(props) {
 
   const handleSubmit = ({ newTitle, newDeadline, newSubmitted }) => {
     const grantId = props.match.params.grant_id;
+    const reportId = props.match.params.report_id;
     updateGrantReport(
       organizationClient,
       grantId,
-      id,
+      reportId,
       {
         title: newTitle,
         deadline: newDeadline,
@@ -105,6 +106,22 @@ export default function ReportsFinalizeShow(props) {
 
   const handleCancel = (event) => {
     handleClose();
+  };
+
+  const handleGrantDelete = () => {
+    const grantId = props.match.params.grant_id;
+    const reportId = id;
+    deleteGrantReport(organizationClient, grantId, reportId)
+      .then((report) => {
+        if (report.message) {
+          history.push(
+            `/organizations/${currentOrganizationId}/grants/${grantId}/reports/${reportId}`
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   if (loading) {

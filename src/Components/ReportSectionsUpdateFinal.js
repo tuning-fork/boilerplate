@@ -7,8 +7,13 @@ import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import {
+  getReportSection,
+  updateReportSection,
+  deleteReportSection,
+} from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 
-export default function ReportSectionsShow(props) {
+export default function ReportSectionsUpdateFinal(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(true);
@@ -22,26 +27,29 @@ export default function ReportSectionsShow(props) {
     setIsHidden(!isHidden);
   };
 
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setWordcount(response.data.wordcount);
-          setSortOrder(response.data.sort_order);
-          setReportId(response.data.report_id);
+      getGrantSection(
+        organizationClient,
+        props.grant_id,
+        props.report_id,
+        props.report_section_id
+      )
+        .then((reportSection) => {
+          setTitle(reportSection.title);
+          setQuillText(reportSection.text);
+          setWordcount(reportSection.wordcount);
+          setSortOrder(reportSection.sort_order);
+          setReportId(reportSection.report_id);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -50,22 +58,23 @@ export default function ReportSectionsShow(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .patch(
-        `api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-        {
-          title: title,
-          text: quillText,
-          sort_order: props.section_sort_order,
-          wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          console.log(response.data);
+    updateReportSection(
+      organizationClient,
+      props.grant_id,
+      props.report_id,
+      props.report_section_id,
+      {
+        title: title,
+        text: quillText,
+        sort_order: props.section_sort_order,
+        wordcount: countWords(quillText),
+      },
+      { headers: { Authorization: `Bearer ${localStorage.token}` } }
+    )
+      .then((reportSection) => {
+        if (reportSection) {
           toggleHidden();
-          props.updateReportSections(response.data);
+          props.updateReportSections(reportSection);
         }
       })
       .catch((error) => {
@@ -74,15 +83,12 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleReportSectionDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}report_sections/${props.section.id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        console.log(response);
+    const grantId = props.match.params.grant_id;
+    const reportId = props.match.params.report_id;
+    const reportSectionId = props.match.params.report_section_id;
+    deleteGrantSection(organizationClient, grantId, reportId, reportSectionId)
+      .then((reportSection) => {
+        console.log(reportSection);
       })
       .catch((error) => {
         console.log(error);

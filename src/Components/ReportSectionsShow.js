@@ -8,6 +8,11 @@ import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSections/ReportSectionEditForm";
 import countWords from "../Helpers/countWords";
+import {
+  getReportSection,
+  updateReportSection,
+  deleteReportSection,
+} from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,7 +38,11 @@ export default function ReportSectionsShow(props) {
   const [newTitle, setNewTitle] = useState("");
   const [newSortOrder, setNewSortOrder] = useState("");
 
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -44,25 +53,22 @@ export default function ReportSectionsShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setText(response.data.text);
-          setQuillText(response.data.text);
-          setSortOrder(response.data.sort_order);
-          setWordcount(response.data.wordcount);
-          setReportId(response.data.report_id);
+      const grantId = props.match.params.grant_id;
+      const reportId = props.match.params.report_id;
+      const reportSectionId = props.match.params.report_section_id;
+      getReportSection(organizationClient, grantId, reportId, reportSectionId)
+        .then((reportSection) => {
+          setId(reportSection.id);
+          setTitle(reportSection.title);
+          setText(reportSection.text);
+          setQuillText(reportSection.text);
+          setSortOrder(reportSection.sort_order);
+          setWordcount(reportSection.wordcount);
+          setReportId(reportSection.report_id);
           setLoading(false);
-          setNewTitle(response.data.title);
-          setNewQuillText(response.data.text);
-          setNewSortOrder(response.data.sort_order);
+          setNewTitle(reportSection.title);
+          setNewQuillText(reportSection.text);
+          setNewSortOrder(reportSection.sort_order);
         })
         .catch((error) => {
           console.log(error);
@@ -75,20 +81,25 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-        {
-          title: newTitle,
-          text: newQuillText,
-          sort_order: newSortOrder,
-          wordcount: countWords(newQuillText),
-          report_id: reportId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        props.editReportSections(response.data);
+    const grantId = props.match.params.grant_id;
+    const reportId = props.match.params.report_id;
+    const reportSectionId = props.match.params.report_section_id;
+    updateGrantSection(
+      organizationClient,
+      grantId,
+      reportId,
+      reportSectionId,
+      {
+        title: newTitle,
+        text: newQuillText,
+        sort_order: newSortOrder,
+        wordcount: countWords(newQuillText),
+        report_id: reportId,
+      },
+      { headers: { Authorization: `Bearer ${localStorage.token}` } }
+    )
+      .then((reportSection) => {
+        props.editReportSections(reportSection);
         toggleHidden();
       })
       .catch((error) => {
@@ -101,16 +112,13 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleReportSectionDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections/${props.report_section_id}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
+    const grantId = props.match.params.grant_id;
+    const reportId = props.match.params.report_id;
+    const reportSectionId = props.match.params.report_section_id;
+    deleteReportSection(organizationClient, grantId, reportId, reportSectionId)
+      .then((reportSection) => {
         toggleHidden();
-        props.deleteReportSections(response.data);
+        props.deleteReportSections(reportSection);
       })
       .catch((error) => {
         console.log(error);

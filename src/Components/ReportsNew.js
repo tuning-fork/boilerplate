@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrantReport } from "../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");
@@ -16,6 +17,7 @@ export default function ReportsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
+    organizationService,
   } = useCurrentOrganizationContext();
 
   const clearForm = () => {
@@ -34,16 +36,9 @@ export default function ReportsNew(props) {
       deadline: deadline,
       submitted: submitted,
     };
-    axios
-      .post(
-        `api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports`,
-        newReport,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
+    createGrantReport(organizationClient, props.grant_id, newReport)
+      .then((report) => {
+        if (report) {
           toggleHidden();
           props.updateReports(response.data);
           clearForm();
