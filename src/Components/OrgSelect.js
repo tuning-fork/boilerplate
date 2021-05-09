@@ -6,10 +6,10 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 
 export default function OrgSelect() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   const history = useHistory();
   console.log(currentUserStore.currentUser);
 
@@ -23,9 +23,13 @@ export default function OrgSelect() {
       (userOrganization) => event.target.value == userOrganization.id
     );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
+    console.log({ currentUserStore });
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
-      payload: selectedOrgInfo[0],
+      payload: {
+        currentOrganization: selectedOrgInfo[0],
+        jwt: currentUserStore?.jwt,
+      },
     });
     history.push("/dashboard");
   };

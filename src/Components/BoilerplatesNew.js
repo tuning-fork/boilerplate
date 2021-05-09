@@ -7,6 +7,8 @@ import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -19,26 +21,24 @@ export default function BoilerplatesNew(props) {
   const [isHiddenCategoriesNew, setIsHiddenCategoriesNew] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
-    axios
-      .get(`/api/organizations/${currentOrganizationId}/categories`, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setCategories(response.data);
-        console.log(categories);
-        setLoading(false);
-      })
-      .catch((error) => console.log(error));
+    if (currentOrganizationId) {
+      getAllCategories(organizationClient)
+        .then((categories) => {
+          setCategories(categories);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   const updateCategories = (newCategory) => {
@@ -62,27 +62,25 @@ export default function BoilerplatesNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/boilerplates`,
-        {
-          title: title,
-          text: quillText,
-          organization_id: currentOrganizationId,
-          category_id: categoryId,
-          wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateBoilerplates(response.data);
-          clearForm();
-        }
+    if (currentOrganizationId) {
+      createBoilerplate(organizationClient, {
+        title: title,
+        text: quillText,
+        organization_id: currentOrganizationId,
+        category_id: categoryId,
+        wordcount: countWords(quillText),
       })
-      .catch((error) => {
-        console.log("boilerplate creation error", error);
-      });
+        .then((boilerplate) => {
+          if (boilerplate) {
+            props.updateBoilerplates(boilerplate);
+
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("boilerplate creation error", error);
+        });
+    }
   };
 
   const countWords = (string) => {

@@ -11,10 +11,10 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 function Navigation(props) {
   // const [currentUserStore] = useCurrentUserContext();
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   const history = useHistory();
 
@@ -32,7 +32,10 @@ function Navigation(props) {
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
-      payload: selectedOrgInfo[0],
+      payload: {
+        currentOrganization: selectedOrgInfo[0],
+        jwt: currentUserStore?.jwt,
+      },
     });
   };
 

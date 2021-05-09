@@ -7,6 +7,9 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { countWords } from "../Services/infofunctions";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -23,35 +26,32 @@ export default function SectionsNew(props) {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganization.id}/boilerplates`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setBoilerplates(response.data);
-        });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
-        .then((response) => {
-          setBios(response.data);
+        .catch((error) => {
+          console.log(error);
+        });
+      getAllBios(organizationClient)
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [currentOrganizationId]);
 
@@ -107,17 +107,10 @@ export default function SectionsNew(props) {
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections`,
-        newSection,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.addNewSections(response.data);
+    createGrantSection(organizationClient, props.grant_id, newSection)
+      .then((section) => {
+        if (section) {
+          props.addNewSections(section);
           toggleHidden();
           clearForm();
         }

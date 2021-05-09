@@ -5,12 +5,18 @@ import SectionsNew from "./SectionsNew";
 import ReportsNew from "./ReportsNew";
 import SectionsShow from "./SectionsShow";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantEditForm from "./Grants/GrantEditForm";
+import {
+  getGrant,
+  updateGrant,
+  deleteGrant,
+} from "../Services/Organizations/GrantsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -35,6 +41,7 @@ export default function GrantsShow(props) {
   const [sections, setSections] = useState([]);
   const [reports, setReports] = useState([]);
   const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [grant, setGrant] = useState(null);
   const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -42,10 +49,11 @@ export default function GrantsShow(props) {
   const [name, setName] = useState([]);
   const history = useHistory();
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -64,63 +72,40 @@ export default function GrantsShow(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setRfpUrl(response.data.rfp_url);
-          setDeadline(response.data.deadline);
-          setSubmitted(response.data.submitted);
-          setSuccessful(response.data.successful);
-          setPurpose(response.data.purpose);
-          setOrganizationId(response.data.organization_id);
-          setFundingOrgId(response.data.funding_org_id);
-          setSections(response.data.sections);
-          setReports(response.data.reports);
+      const grantId = props.match.params.grant_id;
+      getGrant(organizationClient, grantId)
+        .then((grant) => {
+          setGrant(grant);
+          setSections(grant.sections);
+          setReports(grant.reports);
           setLoading(false);
-          setNewTitle(response.data.title);
-          setNewRfpUrl(response.data.rfp_url);
-          setNewDeadline(response.data.deadline);
-          setNewSubmitted(response.data.submitted);
-          setNewSuccessful(response.data.successful);
-          setNewPurpose(response.data.purpose);
+          setNewTitle(grant.title);
+          setNewRfpUrl(grant.rfp_url);
+          setNewDeadline(grant.deadline);
+          setNewSubmitted(grant.submitted);
+          setNewSuccessful(grant.successful);
+          setNewPurpose(grant.purpose);
         })
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBoilerplates(response.data);
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBios(response.data);
+      getAllBios(organizationClient)
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [currentOrganizationId]);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
+  }, [currentOrganizationId, organizationClient]);
 
   const handleSubmit = ({
     newTitle,
@@ -130,29 +115,19 @@ export default function GrantsShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/` + id,
-        {
-          title: newTitle,
-          rfp_url: newRfpUrl,
-          deadline: newDeadline,
-          submitted: newSubmitted,
-          successful: newSuccessful,
-          purpose: newPurpose,
-          organization_id: organizationId,
-          funding_org_id: fundingOrgId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
+    updateGrant(organizationClient, id, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      organization_id: grant.organizationId,
+      funding_org_id: grant.fundingOrgId,
+    })
+      .then((updatedGrant) => {
         handleClose();
-        setTitle(response.data.title);
-        setRfpUrl(response.data.rfp_url);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setSuccessful(response.data.successful);
-        setPurpose(response.data.purpose);
+        setGrant(updatedGrant);
       })
       .catch((error) => {
         console.log("grant update error", error);
@@ -186,26 +161,19 @@ export default function GrantsShow(props) {
     }
   };
 
-  useEffect(() => {}, [sections]);
-
-  const updateNewReports = (newReport) => {
-    const newReports = [...reports];
-    newReports.push(newReport);
+  const updateReports = (newReport) => {
+    const newReports = [...reports, newReport];
     setReports(newReports);
   };
 
-  useEffect(() => {}, [reports]);
-
   const handleGrantDelete = () => {
-    axios
-      .delete(`/api/organizations/${currentOrganizationId}/grants/` + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        if (response.data.message) {
+    const grantId = props.match.params.grant_id;
+    deleteGrant(organizationClient, grantId)
+      .then((grant) => {
+        if (grant.message) {
           history.push(`/organizations/${currentOrganizationId}/grants`);
         }
-        console.log(response);
+        console.log(grant);
       })
       .catch((error) => {
         console.log(error);
@@ -319,12 +287,7 @@ export default function GrantsShow(props) {
                 <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
                   <Card.Body>
                     <GrantEditForm
-                      title={title}
-                      rfpUrl={rfpUrl}
-                      deadline={deadline}
-                      submitted={submitted}
-                      successful={successful}
-                      purpose={purpose}
+                      grant={grant}
                       onSubmit={handleSubmit}
                       onCancel={handleCancel}
                     />
@@ -395,8 +358,8 @@ export default function GrantsShow(props) {
           <ReportsNew
             sort_number={sections.length}
             grant_id={id}
-            grant_title={title}
-            updateNewReports={updateNewReports}
+            grant_title={grant.title}
+            updateReports={updateReports}
           />
         </Card.Body>
       </Card>
