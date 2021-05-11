@@ -1,5 +1,5 @@
 // getGrantReport
-export const getGrantReport = (organizationClient, grantId, grantSectionId) => {
+export const getGrantReport = (organizationClient, grantId, reportId) => {
   return organizationClient
     .get(`/grants/${grantId}/reports/${reportId}`)
     .then((response) => response.data);

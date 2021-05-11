@@ -120,7 +120,6 @@ export default function BiosShow(props) {
         if (bio.message) {
           props.history.push(`/organizations/${currentOrganizationId}/bios`);
         }
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);

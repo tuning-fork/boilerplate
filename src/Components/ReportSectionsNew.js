@@ -25,7 +25,7 @@ export default function ReportSectionsNew(props) {
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -61,7 +61,7 @@ export default function ReportSectionsNew(props) {
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    createGrantReport(
+    createReportSection(
       organizationClient,
       props.grant_id,
       props.report_id,
@@ -91,7 +91,6 @@ export default function ReportSectionsNew(props) {
       suggestions = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(value) !== -1;
       });
-      console.log(suggestions);
     }
     setSuggestions(suggestions);
     setSearchText(value);

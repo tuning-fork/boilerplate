@@ -12,12 +12,12 @@ export default function ReportsNew(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(`Report for ${props.grant_title}`);
 
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-    organizationService,
+    organizationClient,
   } = useCurrentOrganizationContext();
 
   const clearForm = () => {
@@ -32,7 +32,7 @@ export default function ReportsNew(props) {
     event.preventDefault();
     const newReport = {
       grant_id: props.grant_id,
-      title: `Report for ${props.grant_title}`,
+      title: title,
       deadline: deadline,
       submitted: submitted,
     };
@@ -40,7 +40,7 @@ export default function ReportsNew(props) {
       .then((report) => {
         if (report) {
           toggleHidden();
-          props.updateReports(response.data);
+          props.updateReports(report);
           clearForm();
         }
       })
@@ -67,7 +67,7 @@ export default function ReportsNew(props) {
                 <Form.Control
                   type="text"
                   name="title"
-                  value={`Report for ${props.grant_title}`}
+                  value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
                 />

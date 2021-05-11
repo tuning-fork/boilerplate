@@ -15,6 +15,7 @@ import {
 
 export default function ReportsFinalizeShow(props) {
   const [id, setId] = useState("");
+  const [grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -46,6 +47,7 @@ export default function ReportsFinalizeShow(props) {
       getGrantReport(organizationClient, grantId, reportId)
         .then((report) => {
           setId(report.id);
+          setGrantId(report.grant_id);
           setTitle(report.title);
           setDeadline(report.deadline);
           setSubmitted(report.submitted);
@@ -108,16 +110,12 @@ export default function ReportsFinalizeShow(props) {
     handleClose();
   };
 
-  const handleGrantDelete = () => {
+  const handleGrantReportDelete = () => {
     const grantId = props.match.params.grant_id;
     const reportId = id;
     deleteGrantReport(organizationClient, grantId, reportId)
-      .then((report) => {
-        if (report.message) {
-          history.push(
-            `/organizations/${currentOrganizationId}/grants/${grantId}/reports/${reportId}`
-          );
-        }
+      .then((response) => {
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -144,23 +142,25 @@ export default function ReportsFinalizeShow(props) {
   return (
     <div className="container">
       {/* Report sections */}
-
-      <br />
       <div>
-        {reportSections.map((reportSection) => {
-          return (
-            <div key={reportSection.id}>
-              <ReportSectionsShow
-                report_id={id}
-                grant_id={props.grant_id}
-                report_section_id={reportSection.id}
-                report_section_title={reportSection.title}
-                report_section_text={reportSection.text}
-                updateReportSections={updateReportSections}
-              />
-            </div>
-          );
-        })}
+        {reportSections?.length ? (
+          reportSections.map((reportSection) => {
+            return (
+              <div key={reportSection.id}>
+                <ReportSectionsShow
+                  report_id={id}
+                  grant_id={props.grant_id}
+                  report_section_id={reportSection.id}
+                  report_section_title={reportSection.title}
+                  report_section_text={reportSection.text}
+                  updateReportSections={updateReportSections}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <h4>There are no report sections yet.</h4>
+        )}
       </div>
 
       {/* Report update */}

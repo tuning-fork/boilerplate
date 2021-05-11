@@ -57,8 +57,8 @@ export default function SectionsShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      const grantId = props.match.params.grant_id;
-      const sectionId = props.match.params.section_id;
+      const grantId = props.grant_id;
+      const sectionId = props.section_id;
       getGrantSection(organizationClient, grantId, sectionId).then(
         (section) => {
           setTitle(section.title);
@@ -87,7 +87,7 @@ export default function SectionsShow(props) {
           console.log(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -102,8 +102,8 @@ export default function SectionsShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
-    const grantId = props.match.params.grant_id;
-    const sectionId = props.match.params.section_id;
+    const grantId = props.grant_id;
+    const sectionId = props.section_id;
     updateGrantSection(
       organizationClient,
       grantId,

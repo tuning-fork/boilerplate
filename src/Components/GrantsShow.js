@@ -257,7 +257,7 @@ export default function GrantsShow(props) {
 
   const Header = (
     <Card.Header>
-      <h3>{title}</h3>
+      <h3>{grant.title}</h3>
       <FontAwesomeIcon
         icon={faEdit}
         style={{
@@ -274,11 +274,11 @@ export default function GrantsShow(props) {
       <Card>
         {Header}
         <Card.Body>
-          <h4>Purpose: {purpose}</h4>
-          <h4>RFP URL: {rfpUrl}</h4>
-          <h4>Deadline: {deadline}</h4>
-          <h4>Submitted: {submitted ? "yes" : "not yet"}</h4>
-          <h4>Successful: {successful ? "yes" : "not yet"}</h4>
+          <h4>Purpose: {grant.purpose}</h4>
+          <h4>RFP URL: {grant.rfpUrl}</h4>
+          <h4>Deadline: {grant.deadline}</h4>
+          <h4>Submitted: {grant.submitted ? "yes" : "not yet"}</h4>
+          <h4>Successful: {grant.successful ? "yes" : "not yet"}</h4>
 
           {/* beginning of grant update */}
           <div>
@@ -301,8 +301,8 @@ export default function GrantsShow(props) {
         {/* end of grant update, beginning of sections and reports */}
 
         <Card.Body onDrop={dropHandler} onDragOver={dragoverHandler}>
-          {sections.length ? (
-            sections.map((section) => {
+          {grant.sections.length ? (
+            grant.sections.map((section) => {
               return (
                 <div
                   id={"section-" + section.id}
@@ -312,7 +312,7 @@ export default function GrantsShow(props) {
                   onDragStart={dragstartHandler}
                 >
                   <SectionsShow
-                    grant_id={id}
+                    grant_id={grant.id}
                     section_id={section.id}
                     updateSections={updateSections}
                     bios={bios}
@@ -326,8 +326,8 @@ export default function GrantsShow(props) {
             <h4>There are no sections yet.</h4>
           )}
           <SectionsNew
-            sort_number={sections.length}
-            grant_id={id}
+            sort_number={grant.sections.length}
+            grant_id={grant.id}
             addNewSections={addNewSections}
           />
         </Card.Body>
@@ -338,12 +338,12 @@ export default function GrantsShow(props) {
           <h2>Reports:</h2>
         </Card.Header>
         <Card.Body>
-          {reports.length ? (
-            reports.map((report) => {
+          {grant.reports.length ? (
+            grant.reports.map((report) => {
               return (
                 <div key={report.id}>
                   <Link
-                    to={`/organizations/${currentOrganizationId}/grants/${id}/reports/${report.id}`}
+                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}/reports/${report.id}`}
                   >
                     <h4>{report.title}</h4>
                   </Link>
@@ -356,8 +356,8 @@ export default function GrantsShow(props) {
             <h4>There are no reports yet.</h4>
           )}
           <ReportsNew
-            sort_number={sections.length}
-            grant_id={id}
+            sort_number={grant.sections.length}
+            grant_id={grant.id}
             grant_title={grant.title}
             updateReports={updateReports}
           />
@@ -365,7 +365,7 @@ export default function GrantsShow(props) {
       </Card>
 
       <Link
-        to={`/organizations/${currentOrganizationId}/grants-finalize/${id}`}
+        to={`/organizations/${currentOrganizationId}/grants-finalize/${grant.id}/`}
       >
         <Button>Grant Finalize</Button>
       </Link>
