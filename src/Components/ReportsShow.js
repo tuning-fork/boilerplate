@@ -10,8 +10,8 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import ReportEditForm from "./Reports/ReportEditForm";
 import {
   getGrantReport,
-  updateGrantSection,
-  deleteGrantSection,
+  updateGrantReport,
+  deleteGrantReport,
 } from "../Services/Organizations/Grants/GrantReportsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
@@ -27,8 +27,8 @@ library.add(faEdit);
 
 export default function ReportsShow(props) {
   console.log("reports Show component rendered");
-  const [id, setId] = useState("");
-  const [grantId, setGrantId] = useState("");
+  const [id, setId] = useState(props.match.params.report_id);
+  const [grantId, setGrantId] = useState(props.match.params.grant_id);
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState("");
@@ -66,7 +66,7 @@ export default function ReportsShow(props) {
   useEffect(() => {
     if (currentOrganizationId) {
       const grantId = props.match.params.grant_id;
-      const reportId = props.match.params.report_id;
+      const reportId = id;
       getGrantReport(organizationClient, grantId, reportId)
         .then((report) => {
           setId(report.id);
@@ -184,7 +184,6 @@ export default function ReportsShow(props) {
         if (report.message) {
           history.push("/grants/" + grantId);
         }
-        console.log(`report delete ${response}`);
       })
       .catch((error) => {
         console.log(error);
@@ -275,7 +274,7 @@ export default function ReportsShow(props) {
           <h3>Report Sections:</h3>
         </Card.Header>
         <Card.Body>
-          {reportSections.length ? (
+          {reportSections?.length ? (
             reportSections.map((reportSection) => {
               return (
                 <div key={reportSection.id}>
@@ -297,7 +296,7 @@ export default function ReportsShow(props) {
       <br />
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports-finalize/${id}`}
+        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grantId}/reports-finalize/${id}`}
       >
         <Button>Report Finalize</Button>
       </Link>

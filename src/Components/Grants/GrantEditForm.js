@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 export default function GrantEditForm(props) {
   const { onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.grant.title);
-  const [newRfpUrl, setNewRfpUrl] = useState(props.grant.rfpUrl);
+  const [newRfpUrl, setNewRfpUrl] = useState(props.grant.rfp_url);
   const [newDeadline, setNewDeadline] = useState(props.grant.deadline);
   const [newSubmitted, setNewSubmitted] = useState(props.grant.submitted);
   const [newSuccessful, setNewSuccessful] = useState(props.grant.successful);

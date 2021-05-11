@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import FundingOrgsNew from "./FundingOrgsNew";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createGrant } from "../Services/Organizations/GrantsService";
-import { getAllFundingORgs } from "../Services/Organizations/FundingOrgsService";
+import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 
 export default function GrantsNew(props) {
   const [loading, setLoading] = useState(true);

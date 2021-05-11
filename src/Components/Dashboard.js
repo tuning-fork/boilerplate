@@ -66,7 +66,7 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Stored Content &gt;</Card.Header>
+              <Card.Header>Boilerplates &gt;</Card.Header>
               <Card.Body>
                 Store materials for your organization in this library. Save
                 information about your mission, programs, metrics, client

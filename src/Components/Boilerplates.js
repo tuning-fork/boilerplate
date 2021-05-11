@@ -167,7 +167,7 @@ export default function Boilerplates(props) {
 
   return (
     <div className="container">
-      <h1>Stored Content</h1>
+      <h1>Boilerplates</h1>
       <Button onClick={handleShow}>Add Content</Button>
       <div>
         <Modal onClose={handleClose} show={show}>

@@ -106,7 +106,6 @@ export default function FundingOrgsShow(props) {
               `/organizations/${currentOrganizationId}/funding_orgs`
             );
           }
-          console.log(response);
         })
         .catch((error) => {
           console.log(error);

@@ -53,9 +53,9 @@ export default function ReportSectionsShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      const grantId = props.match.params.grant_id;
-      const reportId = props.match.params.report_id;
-      const reportSectionId = props.match.params.report_section_id;
+      const grantId = props.grant_id;
+      const reportId = props.report_id;
+      const reportSectionId = props.report_section_id;
       getReportSection(organizationClient, grantId, reportId, reportSectionId)
         .then((reportSection) => {
           setId(reportSection.id);
@@ -81,10 +81,10 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
-    const grantId = props.match.params.grant_id;
-    const reportId = props.match.params.report_id;
-    const reportSectionId = props.match.params.report_section_id;
-    updateGrantSection(
+    const grantId = props.grant_id;
+    const reportId = props.report_id;
+    const reportSectionId = props.report_section_id;
+    updateReportSection(
       organizationClient,
       grantId,
       reportId,
