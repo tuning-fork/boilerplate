@@ -17,6 +17,7 @@ import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function GrantsFinalizeShow(props) {
+  const [grant, setGrant] = useState("");
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [rfpUrl, setRfpUrl] = useState("");
@@ -69,6 +70,7 @@ export default function GrantsFinalizeShow(props) {
       const grantId = props.match.params.grant_id;
       getGrant(organizationClient, grantId).then((grant) => {
         const zippySections = createUnzipped(grant.sections);
+        setGrant(grant);
         setId(grant.id);
         setTitle(grant.title);
         setRfpUrl(grant.rfp_url);
@@ -252,6 +254,7 @@ export default function GrantsFinalizeShow(props) {
           {!isHidden ? (
             <div>
               <GrantFinalizeEditForm
+                grant={grant}
                 title={title}
                 rfpUrl={rfpUrl}
                 deadline={deadline}

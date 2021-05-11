@@ -61,29 +61,32 @@ export default function SectionsNew(props) {
 
   const onTextChanged = (event) => {
     const searchValue = event.target.value.toLowerCase();
-    setSearchText(event.target.value);
+    let suggestions = [];
     if (searchValue.length <= 0) {
-      setSuggestions([]);
-      return;
-    }
-    if (filterParam === "filterTitle") {
-      let filteredByTitle = [];
-      filteredByTitle = boilerplates.filter((boilerplate) => {
+      suggestions = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
       });
-      setSuggestions(filteredByTitle);
-      setSearchText(searchValue);
-    } else if (filterParam === "filterCategory") {
-      let filteredByCategory = [];
-      filteredByCategory = boilerplates.filter((boilerplate) => {
-        return (
-          boilerplate.category_name.toLowerCase().indexOf(searchValue) !== -1
-        );
-      });
-      setSuggestions(filteredByCategory);
-      setSearchText(searchValue);
     }
+    setSuggestions(suggestions);
+    setSearchText(searchValue);
   };
+
+  // const onTextChanged = (event) => {
+  //   const searchValue = event.target.value.toLowerCase();
+  //   let combinedBoilerplates = boilerplates.map((boilerplate) => {
+  //     (...boilerplate, combined: `${boilerplate.title} ${boilerplatetext})`;
+  //   });
+  //   let suggestions = [];
+  //   if (searchValue.length <= 0) {
+  //     suggestions = combinedBoilerplates.filter((combinedBoilerplate) => {
+  //       return (
+  //         combinedBoilerplate.combined.toLowerCase().indexOf(searchValue) !== -1
+  //       );
+  //     });
+  //   }
+  //   setSuggestions(suggestions);
+  //   setSearchText(searchValue);
+  // };
 
   const clearForm = () => {
     setQuillText("");
