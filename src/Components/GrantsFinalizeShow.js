@@ -8,6 +8,13 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantFinalizeEditForm from "./Grants/GrantEditForm";
+import {
+  getGrant,
+  updateGrant,
+  createGrant,
+} from "../Services/Organizations/GrantsService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function GrantsFinalizeShow(props) {
   const [id, setId] = useState("");
@@ -43,7 +50,11 @@ export default function GrantsFinalizeShow(props) {
   const [newSuccessful, setNewSuccessful] = useState(false);
   const [newPurpose, setNewPurpose] = useState("");
 
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -55,48 +66,35 @@ export default function GrantsFinalizeShow(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          const zippySections = createUnzipped(response.data.sections);
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setRfpUrl(response.data.rfp_url);
-          setDeadline(response.data.deadline);
-          setSubmitted(response.data.submitted);
-          setSuccessful(response.data.successful);
-          setPurpose(response.data.purpose);
-          setOrganizationId(response.data.organizion_id);
-          setOrganizationName(response.data.organization_name);
-          setFundingOrgId(response.data.funding_org_id);
-          setSections(zippySections);
-          setReports(response.data.reports);
-          setLoading(false);
-          setNewTitle(response.data.title);
-          setNewRfpUrl(response.data.rfp_url);
-          setNewDeadline(response.data.deadline);
-          setNewSubmitted(response.data.submitted);
-          setNewSuccessful(response.data.successful);
-          setNewPurpose(response.data.purpose);
-        });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBoilerplates(response.data);
-        });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBios(response.data);
+      const grantId = props.match.params.grant_id;
+      getGrant(organizationClient, grantId).then((grant) => {
+        const zippySections = createUnzipped(grant.sections);
+        setId(grant.id);
+        setTitle(grant.title);
+        setRfpUrl(grant.rfp_url);
+        setDeadline(grant.deadline);
+        setSubmitted(grant.submitted);
+        setSuccessful(grant.successful);
+        setPurpose(grant.purpose);
+        setOrganizationId(grant.organizion_id);
+        setOrganizationName(grant.organization_name);
+        setFundingOrgId(grant.funding_org_id);
+        setSections(zippySections);
+        setReports(grant.reports);
+        setLoading(false);
+        setNewTitle(grant.title);
+        setNewRfpUrl(grant.rfp_url);
+        setNewDeadline(grant.deadline);
+        setNewSubmitted(grant.submitted);
+        setNewSuccessful(grant.successful);
+        setNewPurpose(grant.purpose);
+      });
+      getAllBoilerplates(organizationClient).then((boilerplates) => {
+        setBoilerplates(boilerplates);
+      });
+      getAllBios(organizationClient)
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
         .catch((error) => {
@@ -143,31 +141,26 @@ export default function GrantsFinalizeShow(props) {
     newSuccessful,
     newPurpose,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/` + id,
-        {
-          title: newTitle,
-          rfp_url: newRfpUrl,
-          deadline: newDeadline,
-          submitted: newSubmitted,
-          successful: newSuccessful,
-          purpose: newPurpose,
-          sections: [],
-          organization_id: organizationId,
-          funding_org_id: fundingOrgId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
+    updateGrant(organizationClient, id, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      sections: [],
+      organization_id: organizationId,
+      funding_org_id: fundingOrgId,
+    })
+      .then((grant) => {
         toggleHidden();
         handleClose();
-        setTitle(response.data.title);
-        setRfpUrl(response.data.rfp_url);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
-        setSuccessful(response.data.successful);
-        setPurpose(response.data.purpose);
+        setTitle(grant.title);
+        setRfpUrl(grant.rfp_url);
+        setDeadline(grant.deadline);
+        setSubmitted(grant.submitted);
+        setSuccessful(grant.successful);
+        setPurpose(grant.purpose);
       })
       .catch((error) => {
         console.log("grant update error", error);
@@ -180,29 +173,26 @@ export default function GrantsFinalizeShow(props) {
 
   const copyGrant = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/grants/copy`,
-        {
-          original_grant_id: id,
-          title: copyTitle,
-          rfp_url: copyRfpUrl,
-          deadline: copyDeadline,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        console.log(response.data.id);
-        setCopiedGrantId(response.data.id);
-        setShowCopyModal(true);
-        setSuccessfulCopy(true);
-        toggleCopyGrantHidden();
+    if (currentOrganizationId) {
+      createGrant(organizationClient, {
+        original_grant_id: id,
+        title: copyTitle,
+        rfp_url: copyRfpUrl,
+        deadline: copyDeadline,
       })
-      .catch((error) => {
-        console.log("grant copy error", error);
-        setShowCopyModal(true);
-        setSuccessfulCopy(false);
-      });
+        .then((grant) => {
+          console.log(grant.id);
+          setCopiedGrantId(grant.id);
+          setShowCopyModal(true);
+          setSuccessfulCopy(true);
+          toggleCopyGrantHidden();
+        })
+        .catch((error) => {
+          console.log("grant copy error", error);
+          setShowCopyModal(true);
+          setSuccessfulCopy(false);
+        });
+    }
   };
 
   const handleSectionDelete = () => {

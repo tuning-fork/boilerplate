@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function ReportSectionsNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -20,23 +22,23 @@ export default function ReportSectionsNew(props) {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationService,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
-        .then((response) => {
-          setBoilerplates(response.data);
-          setLoading(false);
+        .catch((error) => {
+          console.log(error);
         });
     }
   }, [loading, currentOrganizationId]);
@@ -59,17 +61,15 @@ export default function ReportSectionsNew(props) {
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/${props.report_id}/report_sections`,
-        newReportSection,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateReportSections(response.data);
+    createGrantReport(
+      organizationClient,
+      props.grant_id,
+      props.report_id,
+      newReportSection
+    )
+      .then((reportSection) => {
+        if (reportSection.data) {
+          props.updateReportSections(reportSection);
           clearForm();
         }
       })

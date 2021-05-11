@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
@@ -15,10 +16,11 @@ export default function Boilerplates(props) {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -30,13 +32,10 @@ export default function Boilerplates(props) {
   useEffect(() => {
     console.log(currentOrganizationId);
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBoilerplates(response.data);
-          setFilteredBoilerplates(response.data);
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
+          setFilteredBoilerplates(boilerplates);
           setLoading(false);
         })
         .catch((error) => {
@@ -47,10 +46,8 @@ export default function Boilerplates(props) {
   }, [currentOrganizationId]);
 
   const updateBoilerplates = (newBoilerplate) => {
-    const newBoilerplates = [...boilerplates];
-    newBoilerplates.push(newBoilerplate);
+    const newBoilerplates = [...boilerplates, newBoilerplate];
     setFilteredBoilerplates(newBoilerplates);
-    console.log("updateboilerplates ran!");
   };
 
   useEffect(() => {}, [filteredBoilerplates]);

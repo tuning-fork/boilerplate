@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
@@ -11,10 +12,11 @@ export default function CategoriesNew(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isHiddenNew, setIsHiddenNew] = useState(true);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -25,32 +27,23 @@ export default function CategoriesNew(props) {
       name: name,
       organization_id: currentOrganizationId,
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/categories`,
-        newCategory,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateCategories(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("category creation error", error);
-      });
+    if (currentOrganizationId) {
+      createCategory(organizationClient, newCategory)
+        .then((category) => {
+          if (category) {
+            props.updateCategories(category);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("category creation error", error);
+        });
+    }
   };
 
   const clearForm = () => {
     setName("");
     setOrganizationId("");
-  };
-
-  const toggleHiddenNew = () => {
-    setIsHiddenNew(!isHiddenNew);
   };
 
   return (

@@ -25,7 +25,7 @@ import Navigation from "./Components/Navigation";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 
-import Bios from "./Components/Bios";
+import Bios from "./Components/Bios/Bios";
 import Boilerplates from "./Components/Boilerplates";
 import Categories from "./Components/Categories";
 import Organizations from "./Components/Organizations";
@@ -36,7 +36,7 @@ import FundingOrgs from "./Components/FundingOrgs";
 // import Sections from './Components/Sections';
 // import ReportSections from './Components/ReportSections';
 
-import BiosShow from "./Components/BiosShow";
+import BiosShow from "./Components/Bios/BiosShow";
 import BoilerplatesShow from "./Components/BoilerplatesShow";
 import CategoriesShow from "./Components/CategoriesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
@@ -51,7 +51,7 @@ import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 // import GrantsPrintableShow from './Components/GrantsPrintableShow';
 // import ReportsPrintableShow from './Components/ReportsPrintableShow';
 
-import BiosNew from "./Components/BiosNew";
+import BiosNew from "./Components/Bios/BiosNew";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
 import CategoriesNew from "./Components/CategoriesNew";
 import FundingOrgsNew from "./Components/FundingOrgsNew";
@@ -63,10 +63,10 @@ import ReportsNew from "./Components/ReportsNew";
 
 export default function App() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
 
   return (
     <div className="App">

@@ -5,6 +5,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 export default function SectionToBoilerplateNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -20,31 +22,28 @@ export default function SectionToBoilerplateNew(props) {
   ] = useState(true);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/categories`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setCategories(response.data);
+      getAllCategories(organizationClient)
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
     }
   }, [currentOrganizationId]);
 
-  const updateCategories = (newCategories) => {
-    const categoriesArray = [...categories];
-    categoriesArray.push(newCategories);
+  const updateCategories = (newCategory) => {
+    const categoriesArray = [...categories, newCategory];
     setCategories(categoriesArray);
   };
 
@@ -70,16 +69,9 @@ export default function SectionToBoilerplateNew(props) {
       category_id: categoryId,
       wordcount: countWords(props.text),
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/boilerplates`,
-        newBoilerplate,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
+    createBoilerplate(organizationClient, newBoilerplate)
+      .then((boilerplate) => {
+        if (boilerplate) {
           props.toggleBoilerplateHidden();
         }
       })

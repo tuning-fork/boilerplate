@@ -2,11 +2,12 @@ import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BiosNew from "./BiosNew";
 import axios from "axios";
-import Modal from "./Elements/Modal";
+import Modal from "../Elements/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { getAllBios } from "../../Services/Organizations/BiosService";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -17,10 +18,11 @@ export default function Bios(props) {
   const [filteredBios, setFilteredBios] = useState([]);
   const [sortParam, setSortParam] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -32,14 +34,11 @@ export default function Bios(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          const zippyBios = createUnzipped(response.data);
+      getAllBios(organizationClient)
+        .then((bios) => {
+          const zippyBios = createUnzipped(bios);
           console.log(zippyBios);
-          setBios(response.data);
+          setBios(bios);
           setFilteredBios(zippyBios);
           setLoading(false);
         })
@@ -56,8 +55,7 @@ export default function Bios(props) {
   };
 
   const updateBios = (newBio) => {
-    const newBios = [...bios];
-    newBios.push(newBio);
+    const newBios = [...bios, newBio];
     setBios(newBios);
   };
 

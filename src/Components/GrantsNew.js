@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrant } from "../Services/Organizations/GrantsService";
+import { getAllFundingORgs } from "../Services/Organizations/FundingOrgsService";
 
 export default function GrantsNew(props) {
   const [loading, setLoading] = useState(true);
@@ -19,22 +21,20 @@ export default function GrantsNew(props) {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [isHiddenFundingOrgsNew, setIsHiddenFundingOrgsNew] = useState("");
   const [errors, setErrors] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setFundingOrgs(response.data);
+      getAllFundingOrgs(organizationClient)
+        .then((fundingOrgs) => {
+          setFundingOrgs(fundingOrgs);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -72,19 +72,18 @@ export default function GrantsNew(props) {
       organization_id: currentOrganizationStore.currentOrganization.id,
       funding_org_id: fundingOrgId,
     };
-    axios
-      .post(`/api/organizations/${currentOrganizationId}/grants`, newGrant, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        if (response.data) {
-          props.updateGrants(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("grant creation error", error);
-      });
+    if (currentOrganizationId) {
+      createGrant(organizationClient, newGrant)
+        .then((grant) => {
+          if (grant) {
+            props.updateGrants(grant);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("grant creation error", error);
+        });
+    }
   };
 
   return (

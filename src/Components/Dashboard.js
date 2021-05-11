@@ -5,23 +5,17 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import { useHistory } from "react-router-dom";
 
 export default function Dashboard() {
-  // const [currentUserStore] = useCurrentUserContext();
-  // const [currentOrganizationStore] = useCurrentOrganizationContext();
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganizationInfo &&
     currentOrganizationStore.currentOrganizationInfo.id;
-
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,7 +24,7 @@ export default function Dashboard() {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   //   // console.log(currentOrganizationStore);
-  // }, [currentOrganizationStore.currentOrganization]);
+  // }, {currentOrganizationStore.currentOrganization]);
 
   return (
     <div

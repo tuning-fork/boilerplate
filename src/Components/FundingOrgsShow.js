@@ -5,6 +5,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
+import {
+  getFundingOrg,
+  updateFundingOrg,
+  deleteFundingOrg,
+} from "../Services/Organizations/FundingOrgsService";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 
@@ -13,6 +18,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { updateGrant } from "../Services/Organizations/GrantsService";
 
 library.add(faTrashAlt);
 library.add(faEdit);
@@ -26,10 +32,11 @@ export default function FundingOrgsShow(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -44,22 +51,17 @@ export default function FundingOrgsShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+    const fundingOrgId = props.match.params.funding_org_id;
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/funding_orgs/${props.match.params.funding_org_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setName(response.data.name);
-          setWebsite(response.data.website);
-          setOrganizationId(response.data.organization_id);
-          setOrganizationName(response.data.organization.name);
-          setNewName(response.data.name);
-          setNewWebsite(response.data.website);
+      getFundingOrg(organizationClient, fundingOrgId)
+        .then((fundingOrg) => {
+          setId(fundingOrg.id);
+          setName(fundingOrg.name);
+          setWebsite(fundingOrg.website);
+          setOrganizationId(fundingOrg.organization_id);
+          setOrganizationName(fundingOrg.organization.name);
+          setNewName(fundingOrg.name);
+          setNewWebsite(fundingOrg.website);
           setLoading(false);
         })
         .catch((error) => {
@@ -73,21 +75,16 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleSubmit = ({ newName, newWebsite }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
-        {
-          name: newName,
-          website: newWebsite,
-          organization_id: organizationId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
+    updateFundingOrg(organizationClient, id, {
+      name: newName,
+      website: newWebsite,
+      organization_id: organizationId,
+    })
+      .then((fundingOrg) => {
         handleClose();
-        updateOrganizationName(response.data.organization.name);
-        setNewName(response.data.name);
-        setNewWebsite(response.data.website);
+        updateOrganizationName(fundingOrg.organization.name);
+        setNewName(fundingOrg.name);
+        setNewWebsite(fundingOrg.website);
         toggleHidden();
       })
       .catch((error) => {
@@ -100,22 +97,21 @@ export default function FundingOrgsShow(props) {
   };
 
   const handleFundingOrgDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/funding_orgs/` + id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data.message) {
-          history.push(`/organizations/${currentOrganizationId}/funding_orgs`);
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const fundingOrgId = props.match.params.funding_org_id;
+    if (currentOrganizationId) {
+      getFundingOrg(organizationClient, fundingOrgId)
+        .then((fundingOrg) => {
+          if (fundingOrg.message) {
+            history.push(
+              `/organizations/${currentOrganizationId}/funding_orgs`
+            );
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const updateOrganizationName = (organizationName) => {

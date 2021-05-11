@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import SectionToBoilerplateNew from "./SectionToBoilerplateNew";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import SectionEditForm from "./Sections/SectionEditForm";
 import countWords from "../Helpers/countWords";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
+import {
+  getGrantSection,
+  updateGrantSection,
+  deleteGrantSection,
+} from "../Services/Organizations/Grants/GrantSectionsService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -41,49 +46,46 @@ export default function SectionsShow(props) {
   const handleClose = (event) => setShow(false);
   const handleShow = (event) => setShow(true);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setWordcount(response.data.wordcount);
-          setSortOrder(response.data.sort_order);
-          setGrantId(response.data.grant_id);
-          setNewQuillText(response.data.text);
-          setNewTitle(response.data.title);
-          setNewSortOrder(response.data.sort_order);
-        });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/boilerplates`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+      const grantId = props.match.params.grant_id;
+      const sectionId = props.match.params.section_id;
+      getGrantSection(organizationClient, grantId, sectionId).then(
+        (section) => {
+          setTitle(section.title);
+          setQuillText(section.text);
+          setWordcount(section.wordcount);
+          setSortOrder(section.sort_order);
+          setGrantId(section.grant_id);
+          setNewQuillText(section.text);
+          setNewTitle(section.title);
+          setNewSortOrder(section.sort_order);
+        }
+      );
+      getAllBoilerplates(organizationClient)
+        .then((boilerplates) => {
+          setBoilerplates(boilerplates);
         })
-        .then((response) => {
-          setBoilerplates(response.data);
+        .catch((error) => {
+          console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setBios(response.data);
+      getAllBios(organizationClient)
+        .then((bios) => {
+          setBios(bios);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [currentOrganizationId]);
 
@@ -100,25 +102,28 @@ export default function SectionsShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/sections/${props.section_id}`,
-        {
-          title: newTitle,
-          text: newQuillText,
-          sort_order: newSortOrder,
-          wordcount: countWords(newQuillText),
-          grant_id: grantId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateSections(response.data);
+    const grantId = props.match.params.grant_id;
+    const sectionId = props.match.params.section_id;
+    updateGrantSection(
+      organizationClient,
+      grantId,
+      sectionId,
+      {
+        title: newTitle,
+        text: newQuillText,
+        sort_order: newSortOrder,
+        wordcount: countWords(newQuillText),
+        grant_id: grantId,
+      },
+      { headers: { Authorization: `Bearer ${localStorage.token}` } }
+    )
+      .then((section) => {
+        if (section) {
+          props.updateSections(section);
           handleClose();
-          setNewQuillText(response.data.text);
-          setNewTitle(response.data.title);
-          setNewSortOrder(response.data.sort_order);
+          setNewQuillText(section.text);
+          setNewTitle(section.title);
+          setNewSortOrder(section.sort_order);
         }
       })
       .catch((error) => {
@@ -131,13 +136,12 @@ export default function SectionsShow(props) {
   };
 
   const handleSectionDelete = () => {
-    axios
-      .delete("/api/sections/" + props.section_id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        if (response.data.message === "Section successfully destroyed") {
-          props.updateSections(response.data);
+    const grantId = props.match.params.grant_id;
+    const sectionId = props.match.params.section_id;
+    deleteGrantSection(organizationClient, grantId, sectionId)
+      .then((section) => {
+        if (section.message === "Section successfully destroyed") {
+          props.updateSections(section);
         }
       })
       .catch((error) => {

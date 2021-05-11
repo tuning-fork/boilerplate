@@ -4,15 +4,17 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -29,23 +31,18 @@ export default function FundingOrgsNew(props) {
       website: website,
       organization_id: currentOrganizationId,
     };
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/funding_orgs`,
-        newFundingOrg,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateFundingOrgs(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("funding org creation error", error);
-      });
+    if (currentOrganizationId) {
+      createFundingOrg(organizationClient, newFundingOrg)
+        .then((fundingOrg) => {
+          if (fundingOrg) {
+            props.updateFundingOrgs(fundingOrg);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("funding org creation error", error);
+        });
+    }
   };
 
   return (

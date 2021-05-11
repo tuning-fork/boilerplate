@@ -5,7 +5,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { createBio } from "../../Services/Organizations/BiosService";
 
 export default function BiosNew(props) {
   const [quillText, setQuillText] = useState("");
@@ -16,10 +17,11 @@ export default function BiosNew(props) {
   const [organizationId, setOrganizationId] = useState("");
   const [wordcount, setWordcount] = useState("");
   const [errors, setErrors] = useState([]);
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -37,28 +39,26 @@ export default function BiosNew(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `/api/organizations/${currentOrganizationId}/bios`,
-        {
-          first_name: firstName,
-          last_name: lastName,
-          title: title,
-          text: quillText,
-          organization_id: currentOrganizationId,
-          wordcount: countWords(quillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        if (response.data) {
-          props.updateBios(response.data);
-          clearForm();
-        }
-      })
-      .catch((error) => {
-        console.log("bio creation error", error);
-      });
+    const newBio = {
+      first_name: firstName,
+      last_name: lastName,
+      title: title,
+      text: quillText,
+      organization_id: currentOrganizationId,
+      wordcount: countWords(quillText),
+    };
+    if (currentOrganizationId) {
+      createBio(organizationClient, newBio)
+        .then((bio) => {
+          if (bio) {
+            props.updateBios(bio);
+            clearForm();
+          }
+        })
+        .catch((error) => {
+          console.log("bio creation error", error);
+        });
+    }
   };
 
   const countWords = (string) => {

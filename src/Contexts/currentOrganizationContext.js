@@ -16,9 +16,16 @@ const reducer = (state, action) => {
         allUserOrganizations: action.payload,
       };
     case "SET_CURRENT_ORGANIZATION":
+      const { currentOrganization, jwt } = action.payload;
+      const organizationClient = axios.create({
+        baseURL: `/api/organizations/${currentOrganization.id}`,
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+
       return {
         ...state,
-        currentOrganization: action.payload,
+        currentOrganization,
+        organizationClient,
       };
     default:
       return state;
@@ -29,14 +36,13 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const store = {
     allUserOrganizations: [],
     currentOrganization: null,
+    organizationClient: null,
   };
   const [currentOrganizationStore, currentOrganizationDispatch] = useReducer(
     reducer,
     store
   );
   const { currentUserStore } = useCurrentUserContext();
-
-  useEffect(() => {}, [currentOrganizationStore.currentOrganization]);
 
   useEffect(() => {
     const userId = currentUserStore.currentUser?.id;
@@ -79,7 +85,10 @@ export const CurrentOrganizationProvider = ({ children }) => {
         .then((response) => {
           currentOrganizationDispatch({
             type: "SET_CURRENT_ORGANIZATION",
-            payload: response.data,
+            payload: {
+              currentOrganization: response.data,
+              jwt: currentUserStore?.jwt,
+            },
           });
         });
     }
@@ -87,7 +96,11 @@ export const CurrentOrganizationProvider = ({ children }) => {
 
   return (
     <CurrentOrganizationContext.Provider
-      value={[currentOrganizationStore, currentOrganizationDispatch]}
+      value={{
+        currentOrganizationStore,
+        currentOrganizationDispatch,
+        organizationClient: currentOrganizationStore.organizationClient,
+      }}
     >
       {children}
     </CurrentOrganizationContext.Provider>
