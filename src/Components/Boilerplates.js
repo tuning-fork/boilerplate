@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BoilerplatesNew from "./BoilerplatesNew";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -30,7 +29,6 @@ export default function Boilerplates(props) {
   const handleShow = (event) => setShow(true);
 
   useEffect(() => {
-    console.log(currentOrganizationId);
     if (currentOrganizationId) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
@@ -80,28 +78,22 @@ export default function Boilerplates(props) {
       return;
     }
     if (filterParam === "filterWordCount") {
-      console.log(searchValue, "wordcount filter");
       let filteredByWordCount = [];
       filteredByWordCount = boilerplates.filter(
         (boilerplate) => boilerplate.wordcount < searchValue
       );
       setFilteredBoilerplates(filteredByWordCount);
-      console.log(filteredByWordCount);
     } else if (filterParam === "filterTitle") {
-      console.log(searchValue, "title filter");
       let filteredByTitle = [];
       filteredByTitle = boilerplates.filter((boilerplate) => {
         return boilerplate.title.toLowerCase().indexOf(searchValue) !== -1;
       });
       setFilteredBoilerplates(filteredByTitle);
-      console.log(filteredByTitle);
     } else if (filterParam === "filterText") {
-      console.log(searchValue, "text filter");
       let filteredByText = [];
       filteredByText = boilerplates.filter((boilerplate) => {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
       });
-      console.log(filteredByText);
     }
   };
 
@@ -110,7 +102,6 @@ export default function Boilerplates(props) {
   }
 
   let highlightedBoilerplates = filteredBoilerplates.map((boilerplate) => {
-    console.log(boilerplate);
     let resultsText = boilerplate.text.replace(
       new RegExp(searchText, "gi"),
       (match) => `<mark>${match}</mark>`

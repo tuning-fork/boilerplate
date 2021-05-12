@@ -23,11 +23,9 @@ library.add(faEdit);
 export default function BiosShow(props) {
   const [bio, setBio] = useState({});
   const [quillText, setQuillText] = useState("");
-  const [wordCount, setWordCount] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-
   const [newQuillText, setNewQuillText] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
