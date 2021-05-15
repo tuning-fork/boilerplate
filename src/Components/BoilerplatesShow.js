@@ -25,13 +25,14 @@ library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function BoilerplatesShow(props) {
-  const [id, setId] = useState("");
+  const [boilerplate, setBoilerplate] = useState({});
+  // const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
-  const [title, setTitle] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
-  const [organizationName, setOrganizationName] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [categoryName, setCategoryName] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [organizationId, setOrganizationId] = useState("");
+  // const [organizationName, setOrganizationName] = useState("");
+  // const [categoryId, setCategoryId] = useState("");
+  // const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -60,13 +61,14 @@ export default function BoilerplatesShow(props) {
       const boilerplateId = props.match.params.boilerplate_id;
       getBoilerplate(organizationClient, boilerplateId)
         .then((boilerplate) => {
-          setId(boilerplate.id);
-          setTitle(boilerplate.title);
+          setBoilerplate(boilerplate);
+          // setId(boilerplate.id);
+          // setTitle(boilerplate.title);
           setQuillText(boilerplate.text);
-          setWordcount(boilerplate.wordcount);
-          setOrganizationId(boilerplate.organization_id);
-          setCategoryId(boilerplate.category_id);
-          setCategoryName(boilerplate.category.name);
+          // setWordcount(boilerplate.wordcount);
+          // setOrganizationId(boilerplate.organization_id);
+          // setCategoryId(boilerplate.category_id);
+          // setCategoryName(boilerplate.category.name);
           setNewTitle(boilerplate.title);
           setNewQuillText(boilerplate.text);
           setNewCategoryId(boilerplate.category_id);
@@ -85,19 +87,19 @@ export default function BoilerplatesShow(props) {
   }, [currentOrganizationId]);
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
-    updateBoilerplate(organizationClient, id, {
+    updateBoilerplate(organizationClient, boilerplate.id, {
       title: newTitle,
       text: newQuillText,
       category_id: newCategoryId,
       wordcount: countWords(newQuillText),
-      organization_id: organizationId,
+      organization_id: boilerplate.organization.id,
     })
       .then((boilerplate) => {
         handleClose();
-        setTitle(boilerplate.title);
-        setQuillText(boilerplate.text);
-        setCategoryId(boilerplate.category_id);
-        setCategoryName(boilerplate.category.name);
+        setBoilerplate(boilerplate);
+        setNewTitle(boilerplate.title);
+        setNewQuillText(boilerplate.text);
+        setNewCategoryId(boilerplate.category_id);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -138,7 +140,7 @@ export default function BoilerplatesShow(props) {
           display: "inline",
         }}
       >
-        {title}
+        {boilerplate.title}
       </h3>
       <FontAwesomeIcon
         icon={faEdit}
@@ -167,7 +169,7 @@ export default function BoilerplatesShow(props) {
         {Header}
         <Card.Body>
           <p dangerouslySetInnerHTML={{ __html: quillText }}></p>
-          <h4>Category: {categoryName}</h4>
+          <h4>Category: {boilerplate.category.name}</h4>
           <h4>Word Count: {countWords(quillText)}</h4>
         </Card.Body>
       </Card>
@@ -175,9 +177,9 @@ export default function BoilerplatesShow(props) {
         <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
           <Card.Body>
             <BoilerplateEditForm
-              title={title}
+              title={boilerplate.title}
               quillText={quillText}
-              categoryId={categoryId}
+              categoryId={boilerplate.category_id}
               categories={categories}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
