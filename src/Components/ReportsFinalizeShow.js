@@ -7,9 +7,15 @@ import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import ReportFinalizeEditForm from "./Reports/ReportEditForm";
+import {
+  getGrantReport,
+  updateGrantReport,
+  deleteGrantReport,
+} from "../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsFinalizeShow(props) {
   const [id, setId] = useState("");
+  const [grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -21,10 +27,11 @@ export default function ReportsFinalizeShow(props) {
   const [newDeadline, setNewDeadline] = useState(props.deadline);
   const [newSubmitted, setNewSubmitted] = useState(props.submitted);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -35,23 +42,20 @@ export default function ReportsFinalizeShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/grants/${props.match.params.grant_id}/reports/${props.match.params.report_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setDeadline(response.data.deadline);
-          setSubmitted(response.data.submitted);
-          setReportSections(response.data.report_sections);
+      const grantId = props.match.params.grant_id;
+      const reportId = id;
+      getGrantReport(organizationClient, grantId, reportId)
+        .then((report) => {
+          setId(report.id);
+          setGrantId(report.grant_id);
+          setTitle(report.title);
+          setDeadline(report.deadline);
+          setSubmitted(report.submitted);
+          setReportSections(report.report_sections);
           setLoading(false);
-          setNewTitle(response.data.title);
-          setNewSubmitted(response.data.submitted);
-          setNewDeadline(response.data.deadline);
+          setNewTitle(report.title);
+          setNewSubmitted(report.submitted);
+          setNewDeadline(report.deadline);
         })
         .catch((error) => {
           console.log(error);
@@ -76,24 +80,26 @@ export default function ReportsFinalizeShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newDeadline, newSubmitted }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/grants/${props.grant_id}/reports/` +
-          id,
-        {
-          title: newTitle,
-          deadline: newDeadline,
-          submitted: newSubmitted,
-          report_sections: [],
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
+    const grantId = props.match.params.grant_id;
+    const reportId = props.match.params.report_id;
+    updateGrantReport(
+      organizationClient,
+      grantId,
+      reportId,
+      {
+        title: newTitle,
+        deadline: newDeadline,
+        submitted: newSubmitted,
+        report_sections: [],
+      },
+      { headers: { Authorization: `Bearer ${localStorage.token}` } }
+    )
+      .then((report) => {
         toggleHidden();
         handleClose();
-        setTitle(response.data.title);
-        setDeadline(response.data.deadline);
-        setSubmitted(response.data.submitted);
+        setTitle(report.title);
+        setDeadline(report.deadline);
+        setSubmitted(report.submitted);
       })
       .catch((error) => {
         console.log("report update error", error);
@@ -102,6 +108,18 @@ export default function ReportsFinalizeShow(props) {
 
   const handleCancel = (event) => {
     handleClose();
+  };
+
+  const handleGrantReportDelete = () => {
+    const grantId = props.match.params.grant_id;
+    const reportId = id;
+    deleteGrantReport(organizationClient, grantId, reportId)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   if (loading) {
@@ -124,23 +142,25 @@ export default function ReportsFinalizeShow(props) {
   return (
     <div className="container">
       {/* Report sections */}
-
-      <br />
       <div>
-        {reportSections.map((reportSection) => {
-          return (
-            <div key={reportSection.id}>
-              <ReportSectionsShow
-                report_id={id}
-                grant_id={props.grant_id}
-                report_section_id={reportSection.id}
-                report_section_title={reportSection.title}
-                report_section_text={reportSection.text}
-                updateReportSections={updateReportSections}
-              />
-            </div>
-          );
-        })}
+        {reportSections?.length ? (
+          reportSections.map((reportSection) => {
+            return (
+              <div key={reportSection.id}>
+                <ReportSectionsShow
+                  report_id={id}
+                  grant_id={props.grant_id}
+                  report_section_id={reportSection.id}
+                  report_section_title={reportSection.title}
+                  report_section_text={reportSection.text}
+                  updateReportSections={updateReportSections}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <h4>There are no report sections yet.</h4>
+        )}
       </div>
 
       {/* Report update */}

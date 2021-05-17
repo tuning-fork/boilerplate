@@ -4,25 +4,27 @@ import FundingOrgsNew from "./FundingOrgsNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 
 export default function FundingOrgs() {
   const [loading, setLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [currentOrganizationStore] = useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    currentOrganizationDispatch,
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/funding_orgs`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setFundingOrgs(response.data);
+      getAllFundingOrgs(organizationClient)
+        .then((fundingOrgs) => {
+          setFundingOrgs(fundingOrgs);
           setLoading(false);
-          console.log(response.data);
+          console.log(fundingOrgs);
         })
         .catch((error) => console.log(error));
     }
@@ -30,8 +32,7 @@ export default function FundingOrgs() {
   }, [loading, currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
-    const newFundingOrgs = [...fundingOrgs];
-    newFundingOrgs.push(newFundingOrg);
+    const newFundingOrgs = [...fundingOrgs, newFundingOrg];
     setFundingOrgs(newFundingOrgs);
   };
 

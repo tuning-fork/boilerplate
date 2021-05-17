@@ -4,27 +4,26 @@ import CategoriesNew from "./CategoriesNew";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [query] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/categories`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setCategories(response.data);
+      getAllCategories(organizationClient)
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -32,8 +31,7 @@ export default function Categories() {
   }, [currentOrganizationId]);
 
   const updateCategories = (newCategory) => {
-    const newCategories = [...categories];
-    newCategories.push(newCategory);
+    const newCategories = [...categories, newCategory];
     setCategories(newCategories);
   };
 

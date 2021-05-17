@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { createGrantReport } from "../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");
@@ -11,12 +12,13 @@ export default function ReportsNew(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(`Report for ${props.grant_title}`);
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setDeadline("");
@@ -30,22 +32,15 @@ export default function ReportsNew(props) {
     event.preventDefault();
     const newReport = {
       grant_id: props.grant_id,
-      title: `Report for ${props.grant_title}`,
+      title: title,
       deadline: deadline,
       submitted: submitted,
     };
-    axios
-      .post(
-        `api/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${props.grant_id}/reports`,
-        newReport,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
+    createGrantReport(organizationClient, props.grant_id, newReport)
+      .then((report) => {
+        if (report) {
           toggleHidden();
-          props.updateNewReports(response.data);
+          props.updateReports(report);
           clearForm();
         }
       })
@@ -72,7 +67,7 @@ export default function ReportsNew(props) {
                 <Form.Control
                   type="text"
                   name="title"
-                  value={`Report for ${props.grant_title}`}
+                  value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
                 />

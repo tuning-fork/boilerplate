@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllGrants } from "../Services/Organizations/GrantsService";
 
 export default function Grants() {
   const [loading, setLoading] = useState(true);
@@ -14,10 +15,11 @@ export default function Grants() {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -45,15 +47,12 @@ export default function Grants() {
   console.log("grant render");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/grants`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          const zippyGrants = createUnzipped(response.data);
-          console.log(zippyGrants);
-          setGrants(response.data);
+      getAllGrants(organizationClient)
+        .then((grants) => {
+          setGrants(grants);
+          const zippyGrants = createUnzipped(grants);
           setFilteredGrants(zippyGrants);
           setLoading(false);
         })
@@ -62,8 +61,7 @@ export default function Grants() {
   }, [currentOrganizationId]);
 
   const updateGrants = (newGrant) => {
-    const newGrants = [...grants];
-    newGrants.push(newGrant);
+    const newGrants = [...grants, newGrant];
     setFilteredGrants(newGrants);
   };
 

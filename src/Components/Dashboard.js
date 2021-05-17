@@ -5,13 +5,11 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import { useHistory } from "react-router-dom";
 
 export default function Dashboard() {
-  // const [currentUserStore] = useCurrentUserContext();
-  // const [currentOrganizationStore] = useCurrentOrganizationContext();
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+  } = useCurrentOrganizationContext();
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
@@ -26,7 +24,7 @@ export default function Dashboard() {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   //   // console.log(currentOrganizationStore);
-  // }, [currentOrganizationStore.currentOrganization]);
+  // }, {currentOrganizationStore.currentOrganization]);
 
   return (
     <div
@@ -68,7 +66,7 @@ export default function Dashboard() {
                 );
               }}
             >
-              <Card.Header>Stored Content &gt;</Card.Header>
+              <Card.Header>Boilerplates &gt;</Card.Header>
               <Card.Body>
                 Store materials for your organization in this library. Save
                 information about your mission, programs, metrics, client

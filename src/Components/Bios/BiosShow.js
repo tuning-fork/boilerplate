@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Modal from "../Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import BioEditForm from "./BioEditForm";
 import countWords from "../../Helpers/countWords";
+import {
+  getBio,
+  updateBio,
+  deleteBio,
+} from "../../Services/Organizations/BiosService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -34,10 +38,11 @@ export default function BiosShow(props) {
   const [newLastName, setNewLastName] = useState("");
   const [newTitle, setNewTitle] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -50,27 +55,22 @@ export default function BiosShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/bios/${props.match.params.bio_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setFirstName(response.data.first_name);
-          setLastName(response.data.last_name);
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setOrganizationId(response.data.organization_id);
-          setOrganization(response.data.organization);
-          setWordCount(response.data.wordcount);
+      const bioId = props.match.params.bio_id;
+      getBio(organizationClient, bioId)
+        .then((bio) => {
+          setId(bio.id);
+          setFirstName(bio.first_name);
+          setLastName(bio.last_name);
+          setTitle(bio.title);
+          setQuillText(bio.text);
+          setOrganizationId(bio.organization_id);
+          setOrganization(bio.organization);
+          setWordCount(bio.wordcount);
           setLoading(false);
-          setNewQuillText(response.data.text);
-          setNewFirstName(response.data.first_name);
-          setNewLastName(response.data.last_name);
-          setNewTitle(response.data.title);
+          setNewQuillText(bio.text);
+          setNewFirstName(bio.first_name);
+          setNewLastName(bio.last_name);
+          setNewTitle(bio.title);
         })
         .catch((error) => {
           console.log(error);
@@ -88,27 +88,21 @@ export default function BiosShow(props) {
     newTitle,
     newQuillText,
   }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/bios/` + id,
-        {
-          first_name: newFirstName,
-          last_name: newLastName,
-          title: newTitle,
-          text: newQuillText,
-          organization_id: currentOrganizationId,
-          wordcount: countWords(newQuillText),
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
-        console.log(response);
+    updateBio(organizationClient, id, {
+      first_name: newFirstName,
+      last_name: newLastName,
+      title: newTitle,
+      text: newQuillText,
+      organization_id: currentOrganizationId,
+      wordcount: countWords(newQuillText),
+    })
+      .then((bio) => {
         toggleHidden();
         handleClose();
-        setNewQuillText(response.data.text);
-        setNewFirstName(response.data.first_name);
-        setNewLastName(response.data.last_name);
-        setNewTitle(response.data.title);
+        setNewQuillText(bio.text);
+        setNewFirstName(bio.first_name);
+        setNewLastName(bio.last_name);
+        setNewTitle(bio.title);
       })
       .catch((error) => {
         console.log("bio update error", error);
@@ -120,15 +114,12 @@ export default function BiosShow(props) {
   };
 
   const handleBioDelete = () => {
-    axios
-      .delete(`/api/organizations/${currentOrganizationId}/bios/` + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        if (response.data.message) {
+    const bioId = props.match.params.bio_id;
+    deleteBio(organizationClient, bioId)
+      .then((bio) => {
+        if (bio.message) {
           props.history.push(`/organizations/${currentOrganizationId}/bios`);
         }
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);

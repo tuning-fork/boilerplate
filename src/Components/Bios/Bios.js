@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { getAllBios } from "../../Services/Organizations/BiosService";
 
 export default function Bios(props) {
   const [loading, setLoading] = useState(true);
@@ -17,10 +18,11 @@ export default function Bios(props) {
   const [filteredBios, setFilteredBios] = useState([]);
   const [sortParam, setSortParam] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
 
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
@@ -32,14 +34,11 @@ export default function Bios(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/bios`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          const zippyBios = createUnzipped(response.data);
+      getAllBios(organizationClient)
+        .then((bios) => {
+          const zippyBios = createUnzipped(bios);
           console.log(zippyBios);
-          setBios(response.data);
+          setBios(bios);
           setFilteredBios(zippyBios);
           setLoading(false);
         })
@@ -56,8 +55,7 @@ export default function Bios(props) {
   };
 
   const updateBios = (newBio) => {
-    const newBios = [...bios];
-    newBios.push(newBio);
+    const newBios = [...bios, newBio];
     setBios(newBios);
   };
 

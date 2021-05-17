@@ -5,7 +5,15 @@ import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
+import {
+  getBoilerplate,
+  updateBoilerplate,
+  deleteBoilerplate,
+} from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
+import { getAllCategories } from "../Services/Organizations/CategoriesService";
+import { getAllBios } from "../Services/Organizations/BiosService";
+import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -30,10 +38,11 @@ export default function BoilerplatesShow(props) {
   const history = useHistory();
   const [wordcount, setWordcount] = useState("");
 
-  const [
+  const {
     currentOrganizationStore,
     currentOrganizationDispatch,
-  ] = useCurrentOrganizationContext();
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -48,35 +57,27 @@ export default function BoilerplatesShow(props) {
 
   useEffect(() => {
     if (currentOrganizationId) {
-      axios
-        .get(
-          `/api/organizations/${currentOrganizationId}/boilerplates/${props.match.params.boilerplate_id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.token}` },
-          }
-        )
-        .then((response) => {
-          setId(response.data.id);
-          setTitle(response.data.title);
-          setQuillText(response.data.text);
-          setWordcount(response.data.wordcount);
-          setOrganizationId(response.data.organization_id);
-          setCategoryId(response.data.category_id);
-          setCategoryName(response.data.category.name);
-          setNewTitle(response.data.title);
-          setNewQuillText(response.data.text);
-          setNewCategoryId(response.data.category_id);
+      const boilerplateId = props.match.params.boilerplate_id;
+      getBoilerplate(organizationClient, boilerplateId)
+        .then((boilerplate) => {
+          setId(boilerplate.id);
+          setTitle(boilerplate.title);
+          setQuillText(boilerplate.text);
+          setWordcount(boilerplate.wordcount);
+          setOrganizationId(boilerplate.organization_id);
+          setCategoryId(boilerplate.category_id);
+          setCategoryName(boilerplate.category.name);
+          setNewTitle(boilerplate.title);
+          setNewQuillText(boilerplate.text);
+          setNewCategoryId(boilerplate.category_id);
           setLoading(false);
         })
         .catch((error) => {
           console.log(error);
         });
-      axios
-        .get(`/api/organizations/${currentOrganizationId}/categories`, {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        })
-        .then((response) => {
-          setCategories(response.data);
+      getAllCategories(organizationClient)
+        .then((categories) => {
+          setCategories(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
@@ -84,24 +85,19 @@ export default function BoilerplatesShow(props) {
   }, [currentOrganizationId]);
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
-    axios
-      .patch(
-        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
-        {
-          title: newTitle,
-          text: newQuillText,
-          category_id: newCategoryId,
-          wordcount: countWords(newQuillText),
-          organization_id: organizationId,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.token}` } }
-      )
-      .then((response) => {
+    updateBoilerplate(organizationClient, id, {
+      title: newTitle,
+      text: newQuillText,
+      category_id: newCategoryId,
+      wordcount: countWords(newQuillText),
+      organization_id: organizationId,
+    })
+      .then((boilerplate) => {
         handleClose();
-        setTitle(response.data.title);
-        setQuillText(response.data.text);
-        setCategoryId(response.data.category_id);
-        setCategoryName(response.data.category.name);
+        setTitle(boilerplate.title);
+        setQuillText(boilerplate.text);
+        setCategoryId(boilerplate.category_id);
+        setCategoryName(boilerplate.category.name);
       })
       .catch((error) => {
         console.log("boilerplate update error", error);
@@ -113,18 +109,12 @@ export default function BoilerplatesShow(props) {
   };
 
   const handleBoilerplateDelete = () => {
-    axios
-      .delete(
-        `/api/organizations/${currentOrganizationId}/boilerplates/` + id,
-        {
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        }
-      )
-      .then((response) => {
-        if (response.data.message) {
+    const boilerplateId = props.match.params.boilerplate_id;
+    deleteBoilerplate(organizationClient, boilerplateId)
+      .then((boilerplate) => {
+        if (boilerplate.message) {
           history.push(`/organizations/${currentOrganizationId}/boilerplates`);
         }
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
