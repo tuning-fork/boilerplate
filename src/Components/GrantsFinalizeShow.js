@@ -8,10 +8,12 @@ import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantFinalizeEditForm from "./Grants/GrantEditForm";
+import GrantCopyForm from "./Grants/GrantCopyForm";
 import {
   getGrant,
   updateGrant,
   createGrant,
+  copyGrant,
 } from "../Services/Organizations/GrantsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
@@ -173,14 +175,18 @@ export default function GrantsFinalizeShow(props) {
     handleClose();
   };
 
-  const copyGrant = (event) => {
-    event.preventDefault();
+  const handleCopyGrant = ({
+    copyTitle,
+    copyRfpUrl,
+    copyDeadline,
+    copyPurpose,
+  }) => {
     if (currentOrganizationId) {
-      createGrant(organizationClient, {
-        original_grant_id: id,
+      copyGrant(organizationClient, grant.id, {
         title: copyTitle,
         rfp_url: copyRfpUrl,
         deadline: copyDeadline,
+        purpose: copyPurpose,
       })
         .then((grant) => {
           console.log(grant.id);
@@ -304,38 +310,11 @@ export default function GrantsFinalizeShow(props) {
         <Card>
           {!isCopyGrantHidden ? (
             <Card.Body>
-              <Form onSubmit={copyGrant}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="copyTitle"
-                    value={copyTitle}
-                    onChange={(event) => setCopyTitle(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>RFP URL</Form.Label>
-                  <Form.Control
-                    name="copyRfpUrl"
-                    value={copyRfpUrl}
-                    onChange={(event) => setCopyRfpUrl(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Deadline</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    name="copyDeadline"
-                    value={copyDeadline}
-                    onChange={(event) => setCopyDeadline(event.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Button type="submit">Create Copy</Button>
-              </Form>
+              <GrantCopyForm
+                grant={grant}
+                onSubmit={handleCopyGrant}
+                onCancel={handleCancel}
+              />
             </Card.Body>
           ) : null}
         </Card>
