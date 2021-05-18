@@ -15,6 +15,7 @@ import {
 } from "../Services/Organizations/GrantsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
+import SortableElement from "./Elements/SortableElement";
 
 import {
   DndContext,
@@ -249,14 +250,21 @@ export default function GrantsFinalizeShow(props) {
   };
 
   function handleDragEnd(event) {
-    // const { active, over } = event;
-    // if (active.id !== over.id) {
-    //   setItems((items) => {
-    //     const oldIndex = items.indexOf(active.id);
-    //     const newIndex = items.indexOf(over.id);
-    //     return arrayMove(items, oldIndex, newIndex);
-    //   });
-    // }
+    console.log("dragged!");
+    console.log("active index", event.active.data.current.sortable.index);
+    console.log("over index", event.over.data.current.sortable.index);
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setSections((sections) => {
+        const oldIndex = sections.findIndex(
+          (section) => section.id === active.id
+        );
+        const newIndex = sections.findIndex(
+          (section) => section.id === over.id
+        );
+        return arrayMove(sections, oldIndex, newIndex);
+      });
+    }
   }
 
   if (loading) {
@@ -384,16 +392,18 @@ export default function GrantsFinalizeShow(props) {
             strategy={verticalListSortingStrategy}
           >
             {sections.map((section) => (
-              <SectionsShow
-                key={section.id}
-                isUnzipped={section.isUnzipped}
-                toggleUnzipped={toggleUnzipped}
-                section_id={section.id}
-                grant_id={id}
-                boilerplates={boilerplates}
-                bios={bios}
-                updateSections={updateSections}
-              />
+              <SortableElement key={section.id} id={section.id}>
+                <p>{section.id}</p>
+                {/* <SectionsShow
+                  isUnzipped={section.isUnzipped}
+                  toggleUnzipped={toggleUnzipped}
+                  section_id={section.id}
+                  grant_id={id}
+                  boilerplates={boilerplates}
+                  bios={bios}
+                  updateSections={updateSections}
+                /> */}
+              </SortableElement>
             ))}
           </SortableContext>
         </DndContext>
@@ -401,3 +411,21 @@ export default function GrantsFinalizeShow(props) {
     </div>
   );
 }
+
+//               )
+//             })}
+//           </SortableContext>
+//         </DndContext>
+//       </div>
+//     </div>
+//   );
+// }
+
+//               )
+//             })}
+//           </SortableContext>
+//         </DndContext>
+//       </div>
+//     </div>
+//   );
+// }
