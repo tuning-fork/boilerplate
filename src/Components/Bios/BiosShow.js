@@ -21,18 +21,11 @@ library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function BiosShow(props) {
-  const [id, setId] = useState("");
+  const [bio, setBio] = useState({});
   const [quillText, setQuillText] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [title, setTitle] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [wordCount, setWordCount] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-
   const [newQuillText, setNewQuillText] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
@@ -58,14 +51,8 @@ export default function BiosShow(props) {
       const bioId = props.match.params.bio_id;
       getBio(organizationClient, bioId)
         .then((bio) => {
-          setId(bio.id);
-          setFirstName(bio.first_name);
-          setLastName(bio.last_name);
-          setTitle(bio.title);
+          setBio(bio);
           setQuillText(bio.text);
-          setOrganizationId(bio.organization_id);
-          setOrganization(bio.organization);
-          setWordCount(bio.wordcount);
           setLoading(false);
           setNewQuillText(bio.text);
           setNewFirstName(bio.first_name);
@@ -88,7 +75,7 @@ export default function BiosShow(props) {
     newTitle,
     newQuillText,
   }) => {
-    updateBio(organizationClient, id, {
+    updateBio(organizationClient, bio.id, {
       first_name: newFirstName,
       last_name: newLastName,
       title: newTitle,
@@ -173,7 +160,7 @@ export default function BiosShow(props) {
               display: "inline",
             }}
           >
-            {firstName} {lastName}
+            {bio.first_name} {bio.last_name}
           </h3>
           <h3
             style={{
@@ -192,7 +179,7 @@ export default function BiosShow(props) {
               display: "inline",
             }}
           >
-            {title}
+            {bio.title}
           </h3>
           <FontAwesomeIcon
             icon={faEdit}
@@ -214,9 +201,9 @@ export default function BiosShow(props) {
           />
         </Card.Header>
         <Card.Body>
-          <h4 dangerouslySetInnerHTML={{ __html: quillText }}></h4>
-          <h4>Organization: {organization.name}</h4>
-          <h4>Word Count: {countWords(quillText)}</h4>
+          <h4 dangerouslySetInnerHTML={{ __html: bio.text }}></h4>
+          <h4>Organization: {bio.organization.name}</h4>
+          <h4>Word Count: {countWords(bio.text)}</h4>
         </Card.Body>
       </Card>
       <div>
@@ -224,10 +211,10 @@ export default function BiosShow(props) {
           <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
             <Card.Body>
               <BioEditForm
-                title={title}
+                title={bio.title}
                 quillText={quillText}
-                firstName={firstName}
-                lastName={lastName}
+                firstName={bio.first_name}
+                lastName={bio.last_name}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
               />

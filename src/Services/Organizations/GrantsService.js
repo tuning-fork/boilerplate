@@ -37,6 +37,8 @@ export const updateGrant = (organizationClient, grantId, fieldsToUpdate) => {
 
 // copyGrant
 
-export const copyGrant = (organizationClient) => {
-  return organizationClient.post(`/grants/`).then((response) => response.data);
+export const copyGrant = (organizationClient, grantId, copyGrantFields) => {
+  return organizationClient
+    .post(`/grants/${grantId}/copy`, copyGrantFields)
+    .then((response) => response.data);
 };
