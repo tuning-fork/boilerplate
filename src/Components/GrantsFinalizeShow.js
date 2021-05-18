@@ -264,6 +264,8 @@ export default function GrantsFinalizeShow(props) {
         );
         return arrayMove(sections, oldIndex, newIndex);
       });
+
+      // API call reorder with
     }
   }
 
