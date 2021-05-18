@@ -105,27 +105,19 @@ export default function BoilerplateEditForm(props) {
       </Form.Group>
       <div>
         <Button
-          variant="outline-success"
           type="submit"
           style={{
             maxWidth: "50%",
             align: "center",
-            backgroundColor: "#23cb87",
-            color: "#09191b",
-            fontWeight: "bolder",
           }}
           onClick={handleSubmit}
         >
           Save Changes
         </Button>
         <Button
-          variant="outline-success"
           style={{
             maxWidth: "50%",
             align: "center",
-            backgroundColor: "#23cb87",
-            color: "#09191b",
-            fontWeight: "bolder",
           }}
           onClick={handleCancel}
         >

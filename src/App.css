@@ -127,7 +127,14 @@ a.basic:hover {
   background-color: yellow;
 }
 
-.App {
-  margin: 0;
-  padding-bottom: 50%;
+.modal-popup {
+  display: block;
+  position: absolute;
+  height: 88%;
+  width: 50%;
+  overflow-y: auto;
+  overflow-x: auto;
+  border-radius: 0px;
+  position: fixed;
+  left: 25%;
 }

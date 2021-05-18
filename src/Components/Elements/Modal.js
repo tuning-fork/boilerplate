@@ -5,7 +5,7 @@ export default function Modal(props) {
     return null;
   }
   return (
-    <div>
+    <div className="modal-popup">
       <div>
         <button
           onClick={() => {
