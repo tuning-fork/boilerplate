@@ -12,7 +12,6 @@ import {
 } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
@@ -26,13 +25,7 @@ library.add(faEdit);
 
 export default function BoilerplatesShow(props) {
   const [boilerplate, setBoilerplate] = useState({});
-  // const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
-  // const [title, setTitle] = useState("");
-  // const [organizationId, setOrganizationId] = useState("");
-  // const [organizationName, setOrganizationName] = useState("");
-  // const [categoryId, setCategoryId] = useState("");
-  // const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -62,13 +55,7 @@ export default function BoilerplatesShow(props) {
       getBoilerplate(organizationClient, boilerplateId)
         .then((boilerplate) => {
           setBoilerplate(boilerplate);
-          // setId(boilerplate.id);
-          // setTitle(boilerplate.title);
           setQuillText(boilerplate.text);
-          // setWordcount(boilerplate.wordcount);
-          // setOrganizationId(boilerplate.organization_id);
-          // setCategoryId(boilerplate.category_id);
-          // setCategoryName(boilerplate.category.name);
           setNewTitle(boilerplate.title);
           setNewQuillText(boilerplate.text);
           setNewCategoryId(boilerplate.category_id);
