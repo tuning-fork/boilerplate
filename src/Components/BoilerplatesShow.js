@@ -26,13 +26,7 @@ library.add(faEdit);
 
 export default function BoilerplatesShow(props) {
   const [boilerplate, setBoilerplate] = useState({});
-  // const [id, setId] = useState("");
   const [quillText, setQuillText] = useState("");
-  // const [title, setTitle] = useState("");
-  // const [organizationId, setOrganizationId] = useState("");
-  // const [organizationName, setOrganizationName] = useState("");
-  // const [categoryId, setCategoryId] = useState("");
-  // const [categoryName, setCategoryName] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
