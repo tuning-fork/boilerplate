@@ -153,7 +153,7 @@ export default function BoilerplatesShow(props) {
         </Card.Body>
       </Card>
       <Modal show={show} onClose={handleClose}>
-        <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+        <Card>
           <Card.Body>
             <BoilerplateEditForm
               title={boilerplate.title}
