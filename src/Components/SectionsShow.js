@@ -8,7 +8,6 @@ import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import SectionEditForm from "./Sections/SectionEditForm";
 import countWords from "../Helpers/countWords";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import {
   getGrantSection,
@@ -38,7 +37,6 @@ export default function SectionsShow(props) {
   const [newQuillText, setNewQuillText] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newSortOrder, setNewSortOrder] = useState("");
-  const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -74,14 +72,6 @@ export default function SectionsShow(props) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      getAllBios(organizationClient)
-        .then((bios) => {
-          setBios(bios);
-          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
@@ -212,7 +202,6 @@ export default function SectionsShow(props) {
                 title={title}
                 quillText={quillText}
                 boilerplates={boilerplates}
-                bios={bios}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
               />
