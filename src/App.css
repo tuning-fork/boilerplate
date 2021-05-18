@@ -130,11 +130,11 @@ a.basic:hover {
 .modal-popup {
   display: block;
   position: absolute;
-  height: 88%;
   width: 50%;
   overflow-y: auto;
   overflow-x: auto;
   border-radius: 0px;
   position: fixed;
   left: 25%;
+  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
 }

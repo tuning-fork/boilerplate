@@ -56,6 +56,8 @@ import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
 // import ReportSectionsNew from './Components/ReportSectionsNew';
 
+import BoilerplatesEdit from "./Components/BoilerplatesEdit";
+
 export default function App() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
   const { currentOrganizationStore, currentOrganizationDispatch } =
@@ -146,6 +148,10 @@ export default function App() {
           <PrivateRoute
             path={"/organizations/:org_id/boilerplates/:boilerplate_id"}
             component={BoilerplatesShow}
+          />
+          <PrivateRoute
+            path={"/organizations/:org_id/boilerplates-edit/:boilerplate_id"}
+            component={BoilerplatesEdit}
           />
           <PrivateRoute
             path={"/organizations/:org_id/categories/:category_id"}
