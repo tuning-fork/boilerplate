@@ -15,7 +15,6 @@ import {
   updateGrant,
   deleteGrant,
 } from "../Services/Organizations/GrantsService";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
@@ -92,14 +91,6 @@ export default function GrantsShow(props) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      getAllBios(organizationClient)
-        .then((bios) => {
-          setBios(bios);
-          setLoading(false);
         })
         .catch((error) => {
           console.log(error);

@@ -5,7 +5,6 @@ import { useCurrentUserContext } from "./Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "./Contexts/currentOrganizationContext";
 
 import React, { Component, useEffect } from "react";
-// import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 

@@ -119,31 +119,21 @@ export default function BoilerplatesShow(props) {
   }
 
   const Header = (
-    <Card.Header style={{ backgroundColor: "#09191b" }}>
-      <h3
-        style={{
-          color: "#23cb87",
-          fontWeight: "bolder",
-          display: "inline",
-        }}
-      >
-        {boilerplate.title}
-      </h3>
+    <Card.Header>
+      <h3>{boilerplate.title}</h3>
       <FontAwesomeIcon
         icon={faEdit}
         style={{
-          color: "#fefefe",
+          color: "black",
           fontSize: "1.5rem",
-          marginLeft: "160px",
         }}
         onClick={handleShow}
       />
       <FontAwesomeIcon
         icon={faTrashAlt}
         style={{
-          color: "#fefefe",
+          color: "black",
           fontSize: "1.5rem",
-          marginLeft: "10px",
         }}
         onClick={handleBoilerplateDelete}
       />
@@ -155,9 +145,11 @@ export default function BoilerplatesShow(props) {
       <Card>
         {Header}
         <Card.Body>
+          <p>Category</p>
+          <p>{boilerplate.category.name}</p>
+          <p>Boilerplate Text</p>
           <p dangerouslySetInnerHTML={{ __html: quillText }}></p>
-          <h4>Category: {boilerplate.category.name}</h4>
-          <h4>Word Count: {countWords(quillText)}</h4>
+          <p>Word Count: {countWords(quillText)}</p>
         </Card.Body>
       </Card>
       <Modal show={show} onClose={handleClose}>

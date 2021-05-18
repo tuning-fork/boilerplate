@@ -15,7 +15,6 @@ import {
   createGrant,
   copyGrant,
 } from "../Services/Organizations/GrantsService";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 export default function GrantsFinalizeShow(props) {
@@ -37,7 +36,6 @@ export default function GrantsFinalizeShow(props) {
   const [isCopyGrantHidden, setIsCopyGrantHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);
   const [copyTitle, setCopyTitle] = useState("");
   const [copyRfpUrl, setCopyRfpUrl] = useState("");
@@ -96,14 +94,6 @@ export default function GrantsFinalizeShow(props) {
       getAllBoilerplates(organizationClient).then((boilerplates) => {
         setBoilerplates(boilerplates);
       });
-      getAllBios(organizationClient)
-        .then((bios) => {
-          setBios(bios);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
   }, [currentOrganizationId]);
 
@@ -329,7 +319,6 @@ export default function GrantsFinalizeShow(props) {
                 section_id={section.id}
                 grant_id={id}
                 boilerplates={boilerplates}
-                bios={bios}
                 updateSections={updateSections}
               />
             </div>
