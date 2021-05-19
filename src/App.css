@@ -137,4 +137,5 @@ a.basic:hover {
   position: fixed;
   left: 25%;
   box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
+  z-index: 999;
 }

@@ -36,6 +36,7 @@ export default function Categories() {
 
   const [name, setName] = useState("");
   const [newName, setNewName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState({});
 
   const [showCategoriesNew, setShowCategoriesNew] = useState(false);
   const [showCategoryEdit, setShowCategoryEdit] = useState(false);
@@ -44,7 +45,12 @@ export default function Categories() {
     setShowCategoryEdit(false);
   };
   const handleShowCategoriesNew = () => setShowCategoriesNew(true);
-  const handleShowCategoryEdit = () => setShowCategoryEdit(true);
+  const handleShowCategoryEdit = (selectedCategory) => {
+    console.log(selectedCategory);
+    setSelectedCategory(selectedCategory);
+    setShowCategoryEdit(true);
+    console.log(showCategoryEdit);
+  };
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -62,14 +68,14 @@ export default function Categories() {
     setCategories(newCategories);
   };
 
-  const handleSubmitEditCategory = ({ newName }) => {
+  const handleSubmitEditCategory = ({ newName }, id) => {
+    console.log(id);
     updateCategory(organizationClient, id, {
       name: newName,
-      organization_id: organizationId,
+      organization_id: currentOrganizationId,
     })
       .then((category) => {
-        setName(category.name);
-        toggleHidden();
+        setName(name);
         handleClose();
       })
       .catch((error) => {
@@ -81,7 +87,7 @@ export default function Categories() {
     handleClose();
   };
 
-  const handleCategoryDelete = () => {
+  const handleCategoryDelete = (categoryId) => {
     console.log("deleted!");
   };
 
@@ -110,7 +116,7 @@ export default function Categories() {
                     color: "black",
                     fontSize: "1.5rem",
                   }}
-                  onClick={handleShowCategoryEdit}
+                  onClick={() => handleShowCategoryEdit(category)}
                 />
                 <FontAwesomeIcon
                   icon={faTrashAlt}
@@ -118,23 +124,23 @@ export default function Categories() {
                     color: "black",
                     fontSize: "1.5rem",
                   }}
-                  onClick={handleCategoryDelete}
+                  onClick={() => handleCategoryDelete(category.id)}
                 />
-                <Modal show={showCategoriesNew} onClose={handleClose}>
-                  <CategoriesNew updateCategories={updateCategories} />
-                </Modal>
-                <Modal show={showCategoryEdit} onClose={handleClose}>
-                  <CategoryEditForm
-                    name={category.name}
-                    onSubmit={handleSubmitEditCategory}
-                    onCancel={handleCancel}
-                  />
-                </Modal>
               </div>
             );
           })}
         </Card>
       </div>
+      <Modal show={showCategoriesNew} onClose={handleClose}>
+        <CategoriesNew updateCategories={updateCategories} />
+      </Modal>
+      <Modal show={showCategoryEdit} onClose={handleClose}>
+        <CategoryEditForm
+          category={selectedCategory}
+          onSubmit={handleSubmitEditCategory}
+          onCancel={handleCancel}
+        />
+      </Modal>
     </div>
   );
 }
