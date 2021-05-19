@@ -34,7 +34,6 @@ import FundingOrgs from "./Components/FundingOrgs";
 // import ReportSections from './Components/ReportSections';
 
 import BoilerplatesShow from "./Components/BoilerplatesShow";
-import CategoriesShow from "./Components/CategoriesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import GrantsShow from "./Components/GrantsShow";
@@ -154,11 +153,6 @@ export default function App() {
             exact
             path={"/organizations/:org_id/boilerplates-edit/:boilerplate_id"}
             component={BoilerplatesEdit}
-          />
-          <PrivateRoute
-            exact
-            path={"/organizations/:org_id/categories/:category_id"}
-            component={CategoriesShow}
           />
           <PrivateRoute
             exact

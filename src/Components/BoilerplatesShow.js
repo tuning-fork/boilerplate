@@ -12,7 +12,6 @@ import {
 } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
-import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -130,7 +129,7 @@ export default function BoilerplatesShow(props) {
             color: "black",
             fontSize: "1.5rem",
           }}
-          onClick={handleShow}
+          // onClick={handleShow}
         />
       </Link>
       <FontAwesomeIcon
