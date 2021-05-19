@@ -146,38 +146,47 @@ export default function App() {
             component={Boilerplates}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/boilerplates/:boilerplate_id"}
             component={BoilerplatesShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/boilerplates-edit/:boilerplate_id"}
             component={BoilerplatesEdit}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/categories/:category_id"}
             component={CategoriesShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/funding_orgs/:funding_org_id"}
             component={FundingOrgsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id"}
             component={OrganizationsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/boilerplates-new"}
             component={BoilerplatesNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/categories-new"}
             component={CategoriesNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/funding_orgs-new"}
             component={FundingOrgsNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations-new"}
             component={OrganizationsNew}
           />

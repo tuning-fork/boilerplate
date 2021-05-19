@@ -1,9 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import BoilerplatesNew from "./BoilerplatesNew";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
@@ -159,12 +159,10 @@ export default function Boilerplates(props) {
   return (
     <div className="container">
       <h1>Boilerplates</h1>
-      <Button onClick={handleShow}>Add Content</Button>
+      <Link to={`/organizations/${currentOrganizationId}/boilerplates-new/`}>
+        <Button>Add Boilerplate</Button>
+      </Link>
       <div>
-        <Modal onClose={handleClose} show={show}>
-          <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
-        </Modal>
-
         {/* Search input field */}
         <Form>
           <Form.Group>
