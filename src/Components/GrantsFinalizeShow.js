@@ -53,7 +53,6 @@ export default function GrantsFinalizeShow(props) {
   const [isCopyGrantHidden, setIsCopyGrantHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [bios, setBios] = useState([]);
   const [boilerplates, setBoilerplates] = useState([]);
   const [copyTitle, setCopyTitle] = useState("");
   const [copyRfpUrl, setCopyRfpUrl] = useState("");
@@ -363,7 +362,6 @@ export default function GrantsFinalizeShow(props) {
           ) : null}
         </Card>
         {/* end of copy grant feature */}
-
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}

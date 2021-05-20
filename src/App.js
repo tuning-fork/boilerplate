@@ -5,7 +5,6 @@ import { useCurrentUserContext } from "./Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "./Contexts/currentOrganizationContext";
 
 import React, { Component, useEffect } from "react";
-// import Container from 'react-bootstrap/Container';
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 
@@ -35,7 +34,6 @@ import FundingOrgs from "./Components/FundingOrgs";
 // import ReportSections from './Components/ReportSections';
 
 import BoilerplatesShow from "./Components/BoilerplatesShow";
-import CategoriesShow from "./Components/CategoriesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import GrantsShow from "./Components/GrantsShow";
@@ -56,6 +54,8 @@ import GrantsNew from "./Components/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
 // import ReportSectionsNew from './Components/ReportSectionsNew';
+
+import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 
 export default function App() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
@@ -145,34 +145,42 @@ export default function App() {
             component={Boilerplates}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/boilerplates/:boilerplate_id"}
             component={BoilerplatesShow}
           />
           <PrivateRoute
-            path={"/organizations/:org_id/categories/:category_id"}
-            component={CategoriesShow}
+            exact
+            path={"/organizations/:org_id/boilerplates-edit/:boilerplate_id"}
+            component={BoilerplatesEdit}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/funding_orgs/:funding_org_id"}
             component={FundingOrgsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id"}
             component={OrganizationsShow}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/boilerplates-new"}
             component={BoilerplatesNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/categories-new"}
             component={CategoriesNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations/:org_id/funding_orgs-new"}
             component={FundingOrgsNew}
           />
           <PrivateRoute
+            exact
             path={"/organizations-new"}
             component={OrganizationsNew}
           />
