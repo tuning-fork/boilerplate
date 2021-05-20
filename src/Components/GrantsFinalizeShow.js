@@ -13,6 +13,7 @@ import {
   updateGrant,
   createGrant,
 } from "../Services/Organizations/GrantsService";
+import { reorderGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import SortableElement from "./Elements/SortableElement";
@@ -250,9 +251,6 @@ export default function GrantsFinalizeShow(props) {
   };
 
   function handleDragEnd(event) {
-    console.log("dragged!");
-    console.log("active index", event.active.data.current.sortable.index);
-    console.log("over index", event.over.data.current.sortable.index);
     const { active, over } = event;
     if (active.id !== over.id) {
       setSections((sections) => {
@@ -265,7 +263,19 @@ export default function GrantsFinalizeShow(props) {
         return arrayMove(sections, oldIndex, newIndex);
       });
 
-      // API call reorder with
+      const sectionId = active.id;
+      const sortOrder = active.data.current.sortable.index;
+
+      reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
+        .then((response) => {
+          console.log(
+            `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
+            response
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 
@@ -393,20 +403,21 @@ export default function GrantsFinalizeShow(props) {
             items={sections}
             strategy={verticalListSortingStrategy}
           >
-            {sections.map((section) => (
-              <SortableElement key={section.id} id={section.id}>
-                <p>{section.id}</p>
-                {/* <SectionsShow
-                  isUnzipped={section.isUnzipped}
-                  toggleUnzipped={toggleUnzipped}
-                  section_id={section.id}
-                  grant_id={id}
-                  boilerplates={boilerplates}
-                  bios={bios}
-                  updateSections={updateSections}
-                /> */}
-              </SortableElement>
-            ))}
+            <ol>
+              {sections.map((section) => (
+                <SortableElement key={section.id} id={section.id}>
+                  <SectionsShow
+                    isUnzipped={section.isUnzipped}
+                    toggleUnzipped={toggleUnzipped}
+                    section_id={section.id}
+                    grant_id={id}
+                    boilerplates={boilerplates}
+                    bios={bios}
+                    updateSections={updateSections}
+                  />
+                </SortableElement>
+              ))}
+            </ol>
           </SortableContext>
         </DndContext>
       </div>

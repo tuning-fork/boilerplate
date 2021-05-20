@@ -9,6 +9,7 @@ export default function SortableElement(props) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    listStyle: "none",
   };
 
   return (
