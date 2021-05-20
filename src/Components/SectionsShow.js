@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
@@ -28,9 +27,8 @@ export default function SectionsShow(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [isHidden, setIsHidden] = useState(true);
   const [isBoilerplateHidden, setIsBoilerplateHidden] = useState(true);
-  const [isUnzipped, setIsUnzipped] = useState(false);
+  const [isUnzipped, setIsUnzipped] = useState(true);
   const [wordcount, setWordcount] = useState("");
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
@@ -59,6 +57,7 @@ export default function SectionsShow(props) {
       const sectionId = props.section_id;
       getGrantSection(organizationClient, grantId, sectionId).then(
         (section) => {
+          console.log(section);
           setTitle(section.title);
           setQuillText(section.text);
           setWordcount(section.wordcount);
@@ -78,10 +77,6 @@ export default function SectionsShow(props) {
         });
     }
   }, [currentOrganizationId, organizationClient]);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
 
   const toggleUnzipped = () => {
     setIsUnzipped(!isUnzipped);
