@@ -14,7 +14,6 @@ import {
   createGrant,
 } from "../Services/Organizations/GrantsService";
 import { reorderGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import SortableElement from "./Elements/SortableElement";
 
@@ -118,14 +117,6 @@ export default function GrantsFinalizeShow(props) {
       getAllBoilerplates(organizationClient).then((boilerplates) => {
         setBoilerplates(boilerplates);
       });
-      getAllBios(organizationClient)
-        .then((bios) => {
-          setBios(bios);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
   }, [currentOrganizationId]);
 
@@ -412,7 +403,6 @@ export default function GrantsFinalizeShow(props) {
                     section_id={section.id}
                     grant_id={id}
                     boilerplates={boilerplates}
-                    bios={bios}
                     updateSections={updateSections}
                   />
                 </SortableElement>

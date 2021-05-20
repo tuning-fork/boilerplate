@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
@@ -8,7 +7,6 @@ import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import SectionEditForm from "./Sections/SectionEditForm";
 import countWords from "../Helpers/countWords";
-import { getAllBios } from "../Services/Organizations/BiosService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import {
   getGrantSection,
@@ -29,9 +27,8 @@ export default function SectionsShow(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [isHidden, setIsHidden] = useState(true);
   const [isBoilerplateHidden, setIsBoilerplateHidden] = useState(true);
-  const [isUnzipped, setIsUnzipped] = useState(false);
+  const [isUnzipped, setIsUnzipped] = useState(true);
   const [wordcount, setWordcount] = useState("");
   const [grantId, setGrantId] = useState("");
   const [errors, setErrors] = useState([]);
@@ -61,6 +58,7 @@ export default function SectionsShow(props) {
       const sectionId = props.section_id;
       getGrantSection(organizationClient, grantId, sectionId).then(
         (section) => {
+          console.log(section);
           setTitle(section.title);
           setQuillText(section.text);
           setWordcount(section.wordcount);
@@ -78,20 +76,8 @@ export default function SectionsShow(props) {
         .catch((error) => {
           console.log(error);
         });
-      getAllBios(organizationClient)
-        .then((bios) => {
-          setBios(bios);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
   }, [currentOrganizationId, organizationClient]);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
 
   const toggleUnzipped = () => {
     setIsUnzipped(!isUnzipped);
