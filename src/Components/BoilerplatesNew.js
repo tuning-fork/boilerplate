@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
@@ -128,10 +127,10 @@ export default function BoilerplatesNew(props) {
 
   return (
     <div className="container">
-      {/* <CategoriesNew
+      <CategoriesNew
         categories={categories}
         updateCategories={updateCategories}
-      /> */}
+      />
       <Card>
         <Card.Header>
           <h4>Add New Boilerplate</h4>
@@ -196,7 +195,7 @@ export default function BoilerplatesNew(props) {
                 }}
                 onClick={handleSubmit}
               >
-                Save Changes
+                Save
               </Button>
               <Button
                 style={{

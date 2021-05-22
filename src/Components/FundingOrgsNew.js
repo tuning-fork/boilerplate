@@ -70,8 +70,26 @@ export default function FundingOrgsNew(props) {
               required
             />
           </Form.Group>
-          <div className="text-center">
-            <Button type="submit">Add New Funding Org</Button>
+          <div>
+            <Button
+              type="submit"
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
+            {/* <Button
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button> */}
           </div>
         </Form>
         <br />

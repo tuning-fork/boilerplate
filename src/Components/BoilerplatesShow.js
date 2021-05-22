@@ -155,7 +155,7 @@ export default function BoilerplatesShow(props) {
           <p>Word Count: {countWords(quillText)}</p>
         </Card.Body>
       </Card>
-      {/* <Modal show={show} onClose={handleClose}>
+      <Modal show={show} onClose={handleClose}>
         <Card>
           <Card.Body>
             <BoilerplateEditForm
@@ -168,7 +168,7 @@ export default function BoilerplatesShow(props) {
             />
           </Card.Body>
         </Card>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }
