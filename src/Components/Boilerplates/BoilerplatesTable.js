@@ -1,6 +1,8 @@
 import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useTable } from "react-table";
+import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import './BoilerplatesTable.css'
 
 const renderDateColumn = (dateString) => formatDate(parseISO(dateString), 'PP')
@@ -24,6 +26,7 @@ export default function BoilerplatesTable(props) {
     rows,
     prepareRow
   } = useTable({ columns, data: boilerplates });
+  const buildOrganizationsLink = useBuildOrganizationsLink();
 
   const header = headerGroups.map((headerGroup) => (
     <tr {...headerGroup.getHeaderGroupProps()}>
@@ -36,11 +39,18 @@ export default function BoilerplatesTable(props) {
   ));
   const body = rows.map((row) => {
     prepareRow(row);
+
+    const { id } = row.original;
+    const boilerplateLink = buildOrganizationsLink(`/boilerplates/${id}`);
+
     return (
       <tr {...row.getRowProps()}>
         {row.cells.map((cell) => (
           <td {...cell.getCellProps()}>
-            {cell.render("Cell")}
+            {cell.column.Header === 'Title'
+              ? <Link to={boilerplateLink}>{cell.render("Cell")}</Link>
+              : cell.render("Cell")
+            }
           </td>
         ))}
       </tr>
