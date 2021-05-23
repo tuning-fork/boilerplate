@@ -109,10 +109,8 @@ export default function FundingOrgs() {
             {fundingOrgs.map((fundingOrg) => {
               return (
                 <div>
-                  <p>
-                    {fundingOrg.name}
-                    {fundingOrg.website}
-                  </p>
+                  <p>{fundingOrg.name}</p>
+                  <p>{fundingOrg.website}</p>
                   <FontAwesomeIcon
                     icon={faEdit}
                     style={{
