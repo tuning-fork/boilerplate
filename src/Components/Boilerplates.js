@@ -41,7 +41,7 @@ export default function Boilerplates(props) {
     );
 
     return { ...boilerplate, markedOnCategory, markedOnMaxWordCount };
-  })
+  });
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -70,7 +70,7 @@ export default function Boilerplates(props) {
     boilerplates
       .map(boilerplate => boilerplate.category_name)
       .sort()
-  )
+  );
 
   return (
     <div className="container">

@@ -5,7 +5,7 @@ import { useTable } from "react-table";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import './BoilerplatesTable.css'
 
-const renderDateColumn = (dateString) => formatDate(parseISO(dateString), 'PP')
+const renderDateColumn = (dateString) => formatDate(parseISO(dateString), 'PP');
 
 export default function BoilerplatesTable(props) {
   const columns = useMemo(
@@ -16,7 +16,7 @@ export default function BoilerplatesTable(props) {
       { Header: "Date Created", accessor: (row) => renderDateColumn(row.created_at) },
       { Header: "Last Modified", accessor: (row) => renderDateColumn(row.updated_at) },
     ],
-    []
+    [],
   );
   const boilerplates = useMemo(() => props.boilerplates, [props.boilerplates]);
   const {
@@ -48,22 +48,22 @@ export default function BoilerplatesTable(props) {
         {row.cells.map((cell) => {
           const renderedCell = (() => {
             if (cell.column.Header === 'Title') {
-              return <Link to={boilerplateLink}>{cell.render("Cell")}</Link>
+              return <Link to={boilerplateLink}>{cell.render("Cell")}</Link>;
             } else if (
               (cell.column.Header === 'Category' && markedOnCategory) ||
               (cell.column.Header === 'Word Count' && markedOnMaxWordCount)
             ) {
-              return <mark>{cell.render("Cell")}</mark>
+              return <mark>{cell.render("Cell")}</mark>;
             }
-            return cell.render("Cell")
+            return cell.render("Cell");
           })();
 
           return (
             <td {...cell.getCellProps()}>
               {renderedCell}
             </td>
-          )}
-        )}
+          );
+        })}
       </tr>
     );
   });
