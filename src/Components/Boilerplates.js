@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import BoilerplatesNew from "./BoilerplatesNew";
 import Card from "react-bootstrap/Card";
@@ -17,12 +17,9 @@ export default function Boilerplates(props) {
   const [sortParam, setSortParam] = useState("");
   const {
     currentOrganizationStore,
-    currentOrganizationDispatch,
     organizationClient,
   } = useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -41,14 +38,12 @@ export default function Boilerplates(props) {
           setLoading(false);
         });
     }
-  }, [currentOrganizationId]);
+  }, [organizationClient, currentOrganizationId]);
 
   const updateBoilerplates = (newBoilerplate) => {
     const newBoilerplates = [...boilerplates, newBoilerplate];
     setFilteredBoilerplates(newBoilerplates);
   };
-
-  useEffect(() => {}, [filteredBoilerplates]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -58,17 +53,17 @@ export default function Boilerplates(props) {
     setSortParam(event.target.value);
   };
 
-  const sortBoilerplates = (sortParam) => {
+  const sortBoilerplates = useCallback((sortParam) => {
     const filteredBoilerplatesClone = [...filteredBoilerplates];
     filteredBoilerplatesClone.sort(function (a, b) {
       return a[sortParam].localeCompare(b[sortParam]);
     });
     setFilteredBoilerplates(filteredBoilerplatesClone);
-  };
+  }, [filteredBoilerplates]);
 
   useEffect(() => {
     sortBoilerplates(sortParam);
-  }, [sortParam]);
+  }, [sortBoilerplates, sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -94,6 +89,7 @@ export default function Boilerplates(props) {
       filteredByText = boilerplates.filter((boilerplate) => {
         return boilerplate.text.toLowerCase().indexOf(searchValue) !== -1;
       });
+      setFilteredBoilerplates(filteredByText);
     }
   };
 
