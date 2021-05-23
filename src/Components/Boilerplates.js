@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import BoilerplatesNew from "./BoilerplatesNew";
 import Card from "react-bootstrap/Card";
@@ -155,7 +155,7 @@ export default function Boilerplates(props) {
   return (
     <div className="container">
       <h1>Boilerplates</h1>
-      <Button onClick={handleShow}>Add Content</Button>
+      <Button onClick={handleShow}>Add New Boilerplate</Button>
       <div>
         <Modal onClose={handleClose} show={show}>
           <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
