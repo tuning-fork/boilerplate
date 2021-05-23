@@ -1,5 +1,7 @@
+import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
+const renderDateColumn = (dateString) => formatDate(parseISO(dateString), 'PP')
 
 export default function BoilerplatesTable(props) {
   const columns = useMemo(
@@ -7,8 +9,8 @@ export default function BoilerplatesTable(props) {
       { Header: "Title", accessor: "title" },
       { Header: "Category", accessor: "category_name" },
       { Header: "Word Count", accessor: "wordcount" },
-      { Header: "Date Created", accessor: "created_at" },
-      { Header: "Last Modified", accessor: "updated_at" },
+      { Header: "Date Created", accessor: (row) => renderDateColumn(row.created_at) },
+      { Header: "Last Modified", accessor: (row) => renderDateColumn(row.updated_at) },
     ],
     []
   );
