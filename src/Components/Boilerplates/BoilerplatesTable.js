@@ -1,6 +1,8 @@
 import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
+import './BoilerplatesTable.css'
+
 const renderDateColumn = (dateString) => formatDate(parseISO(dateString), 'PP')
 
 export default function BoilerplatesTable(props) {
@@ -46,7 +48,7 @@ export default function BoilerplatesTable(props) {
   });
 
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} className="BoilerplatesTable">
       <thead>{header}</thead>
       <tbody {...getTableBodyProps()}>{body}</tbody>
     </table>
