@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "./Elements/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
+import BoilerplatesTable from "./Boilerplates/BoilerplatesTable";
 
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
@@ -205,6 +206,8 @@ export default function Boilerplates(props) {
             </Form.Group>
           </Form>
         </div>
+
+        <BoilerplatesTable boilerplates={filteredBoilerplates} />
 
         {highlightedBoilerplates}
       </div>
