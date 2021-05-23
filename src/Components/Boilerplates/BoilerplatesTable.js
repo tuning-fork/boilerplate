@@ -40,19 +40,30 @@ export default function BoilerplatesTable(props) {
   const body = rows.map((row) => {
     prepareRow(row);
 
-    const { id } = row.original;
+    const { id, markedOnCategory, markedOnMaxWordCount } = row.original;
     const boilerplateLink = buildOrganizationsLink(`/boilerplates/${id}`);
 
     return (
       <tr {...row.getRowProps()}>
-        {row.cells.map((cell) => (
-          <td {...cell.getCellProps()}>
-            {cell.column.Header === 'Title'
-              ? <Link to={boilerplateLink}>{cell.render("Cell")}</Link>
-              : cell.render("Cell")
+        {row.cells.map((cell) => {
+          const renderedCell = (() => {
+            if (cell.column.Header === 'Title') {
+              return <Link to={boilerplateLink}>{cell.render("Cell")}</Link>
+            } else if (
+              (cell.column.Header === 'Category' && markedOnCategory) ||
+              (cell.column.Header === 'Word Count' && markedOnMaxWordCount)
+            ) {
+              return <mark>{cell.render("Cell")}</mark>
             }
-          </td>
-        ))}
+            return cell.render("Cell")
+          })();
+
+          return (
+            <td {...cell.getCellProps()}>
+              {renderedCell}
+            </td>
+          )}
+        )}
       </tr>
     );
   });
