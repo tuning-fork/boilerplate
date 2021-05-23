@@ -8,6 +8,7 @@ import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
+  const { onSubmit, onCancel } = props;
   const [organizationId, setOrganizationId] = useState("");
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,11 @@ export default function CategoriesNew(props) {
     }
   };
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    onCancel();
+  };
+
   const clearForm = () => {
     setName("");
     setOrganizationId("");
@@ -61,19 +67,25 @@ export default function CategoriesNew(props) {
               required
             />
           </Form.Group>
-          <div className="text-center">
+          <div>
             <Button
-              variant="outline-success"
               type="submit"
               style={{
-                maxWidth: "25%",
+                maxWidth: "50%",
                 align: "center",
-                backgroundColor: "#23cb87",
-                color: "#09191b",
-                fontWeight: "bolder",
               }}
+              onClick={handleSubmit}
             >
-              Save Category
+              Save
+            </Button>
+            <Button
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleCancel}
+            >
+              Cancel
             </Button>
           </div>
         </Form>

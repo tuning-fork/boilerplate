@@ -46,10 +46,8 @@ export default function Categories() {
   };
   const handleShowCategoriesNew = () => setShowCategoriesNew(true);
   const handleShowCategoryEdit = (selectedCategory) => {
-    console.log(selectedCategory);
     setSelectedCategory(selectedCategory);
     setShowCategoryEdit(true);
-    console.log(showCategoryEdit);
   };
 
   useEffect(() => {
