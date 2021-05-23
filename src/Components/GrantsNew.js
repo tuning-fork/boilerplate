@@ -35,8 +35,8 @@ export default function GrantsNew(props) {
   const handleClose = () => {
     setShowFundingOrgsNew(false);
   };
-
   const handleShowFundingOrgsNew = () => setShowFundingOrgsNew(true);
+
   useEffect(() => {
     if (currentOrganizationId) {
       getAllFundingOrgs(organizationClient)
@@ -57,7 +57,7 @@ export default function GrantsNew(props) {
     setFundingOrgId("");
   };
 
-  const handleCancel = (event) => {
+  const handleCancelGrantNew = (event) => {
     event.preventDefault();
     history.push(`/organizations/${currentOrganizationId}/grants`);
   };
@@ -193,7 +193,7 @@ export default function GrantsNew(props) {
                 maxWidth: "50%",
                 align: "center",
               }}
-              onClick={handleCancel}
+              onClick={handleCancelGrantNew}
             >
               Cancel
             </Button>
