@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import CategoriesNew from "./CategoriesNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
+
+import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 import CategoryEditForm from "./Categories/CategoryEditForm";
@@ -104,6 +106,9 @@ export default function Categories() {
           <Card.Header className="card-component card-heading">
             Categories
           </Card.Header>
+          <Button onClick={handleShowCategoriesNew}>
+            <Button>Add Category</Button>
+          </Button>
           {categories.map((category) => {
             return (
               <div>

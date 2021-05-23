@@ -260,8 +260,8 @@ export default function GrantsShow(props) {
           {/* beginning of grant update */}
           <div>
             <div>
-              <Modal onClose={handleClose} show={show}>
-                <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+              <Modal className="modal-popup" onClose={handleClose} show={show}>
+                <Card>
                   <Card.Body>
                     <GrantEditForm
                       grant={grant}

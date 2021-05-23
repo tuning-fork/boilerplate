@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
@@ -37,7 +38,6 @@ export default function FundingOrgs() {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
-
   const [showFundingOrgsNew, setShowFundingOrgsNew] = useState(false);
   const [showFundingOrgEdit, setShowFundingOrgEdit] = useState(false);
   const handleClose = () => {
@@ -106,11 +106,14 @@ export default function FundingOrgs() {
             <Card.Header className="card-component card-heading">
               Funding Orgs
             </Card.Header>
+            <Button onClick={handleShowFundingOrgsNew}>
+              <Button>Add Funding Org</Button>
+            </Button>
             {fundingOrgs.map((fundingOrg) => {
               return (
                 <div>
-                  <p>{fundingOrg.name}</p>
-                  <p>{fundingOrg.website}</p>
+                  <p>Funding Org Name: {fundingOrg.name}</p>
+                  <p>Funding Org Website: {fundingOrg.website}</p>
                   <FontAwesomeIcon
                     icon={faEdit}
                     style={{

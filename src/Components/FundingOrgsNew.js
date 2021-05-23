@@ -9,6 +9,7 @@ import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
+  const { onSubmit, onCancel } = props;
   const [errors, setErrors] = useState([]);
   const {
     currentOrganizationStore,
@@ -43,6 +44,11 @@ export default function FundingOrgsNew(props) {
           console.log("funding org creation error", error);
         });
     }
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    onCancel();
   };
 
   return (
@@ -81,7 +87,7 @@ export default function FundingOrgsNew(props) {
             >
               Save
             </Button>
-            {/* <Button
+            <Button
               style={{
                 maxWidth: "50%",
                 align: "center",
@@ -89,7 +95,7 @@ export default function FundingOrgsNew(props) {
               onClick={handleCancel}
             >
               Cancel
-            </Button> */}
+            </Button>
           </div>
         </Form>
         <br />
