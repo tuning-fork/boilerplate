@@ -53,17 +53,17 @@ export default function Boilerplates(props) {
     setSortParam(event.target.value);
   };
 
-  const sortBoilerplates = useCallback((sortParam) => {
-    const filteredBoilerplatesClone = [...filteredBoilerplates];
-    filteredBoilerplatesClone.sort(function (a, b) {
-      return a[sortParam].localeCompare(b[sortParam]);
-    });
-    setFilteredBoilerplates(filteredBoilerplatesClone);
-  }, [filteredBoilerplates]);
+  // const sortBoilerplates = useCallback((sortParam) => {
+  //   const filteredBoilerplatesClone = [...filteredBoilerplates];
+  //   filteredBoilerplatesClone.sort(function (a, b) {
+  //     return a[sortParam].localeCompare(b[sortParam]);
+  //   });
+  //   setFilteredBoilerplates(filteredBoilerplatesClone);
+  // }, [filteredBoilerplates]);
 
-  useEffect(() => {
-    sortBoilerplates(sortParam);
-  }, [sortBoilerplates, sortParam]);
+  // useEffect(() => {
+  //   sortBoilerplates(sortParam);
+  // }, [sortBoilerplates, sortParam]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
