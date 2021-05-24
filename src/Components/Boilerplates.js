@@ -13,16 +13,18 @@ const NO_SELECTED_CATEGORY = "none";
 export default function Boilerplates(props) {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(NO_SELECTED_CATEGORY);
-  const [selectedMaxWordCount, setSelectedMaxWordCount] = useState('');
-  const {
-    currentOrganizationStore,
-    organizationClient,
-  } = useCurrentOrganizationContext();
-  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
+  const [selectedCategory, setSelectedCategory] =
+    useState(NO_SELECTED_CATEGORY);
+  const [selectedMaxWordCount, setSelectedMaxWordCount] = useState("");
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganization?.id;
 
-  const handleChangeSelectedCategory = (event) => setSelectedCategory(event.target.value);
-  const handleChangeSelectedMaxWordCount = (event) => setSelectedMaxWordCount(event.target.value);
+  const handleChangeSelectedCategory = (event) =>
+    setSelectedCategory(event.target.value);
+  const handleChangeSelectedMaxWordCount = (event) =>
+    setSelectedMaxWordCount(event.target.value);
 
   const [show, setShow] = useState(false);
   const handleClose = (event) => setShow(false);
@@ -30,15 +32,11 @@ export default function Boilerplates(props) {
 
   const markedBoilerplates = boilerplates.map((boilerplate) => {
     const maxWordCount = Number.parseInt(selectedMaxWordCount);
-    const markedOnCategory = (
-      boilerplate.category_name.includes(selectedCategory)
-      && selectedCategory !== NO_SELECTED_CATEGORY
-    );
-    const markedOnMaxWordCount = (
-      boilerplate.wordcount <= maxWordCount
-      && Number.isFinite(maxWordCount)
-      && !Number.isNaN(maxWordCount)
-    );
+    const markedOnCategory =
+      boilerplate.category_name.includes(selectedCategory) &&
+      selectedCategory !== NO_SELECTED_CATEGORY;
+    const markedOnMaxWordCount =
+      boilerplate.wordcount <= maxWordCount && Number.isFinite(maxWordCount);
 
     return { ...boilerplate, markedOnCategory, markedOnMaxWordCount };
   });
@@ -67,9 +65,7 @@ export default function Boilerplates(props) {
   }
 
   const categories = unique(
-    boilerplates
-      .map(boilerplate => boilerplate.category_name)
-      .sort()
+    boilerplates.map((boilerplate) => boilerplate.category_name).sort()
   );
 
   return (
@@ -90,7 +86,9 @@ export default function Boilerplates(props) {
             onChange={handleChangeSelectedCategory}
           >
             <option value={NO_SELECTED_CATEGORY}>Select Category</option>
-            {categories.map(category => (<option key={category}>{category}</option>))}
+            {categories.map((category) => (
+              <option key={category}>{category}</option>
+            ))}
           </Form.Control>
         </Form.Group>
         <Form.Group>
