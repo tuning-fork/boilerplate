@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
@@ -139,6 +140,9 @@ export default function BoilerplatesNew(props) {
           updateCategories={updateCategories}
         />
       </Modal>
+      <Link to={`/organizations/${currentOrganizationId}/boilerplates/`}>
+        <p>Back to Boilerplates</p>
+      </Link>
       <Card>
         <Card.Header>
           <h4>Add New Boilerplate</h4>

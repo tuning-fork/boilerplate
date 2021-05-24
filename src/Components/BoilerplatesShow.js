@@ -145,6 +145,9 @@ export default function BoilerplatesShow(props) {
 
   return (
     <div className="flex-container">
+      <Link to={`/organizations/${currentOrganizationId}/boilerplates/`}>
+        <p>Back to Boilerplates</p>
+      </Link>
       <Card>
         {Header}
         <Card.Body>

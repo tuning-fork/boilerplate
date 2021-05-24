@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
+import { Link } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createGrant } from "../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
@@ -96,6 +97,9 @@ export default function GrantsNew(props) {
 
   return (
     <Card>
+      <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+        <p>Back to Grants</p>
+      </Link>
       <Modal show={showFundingOrgsNew} onClose={handleClose}>
         <FundingOrgsNew
           funding_orgs={fundingOrgs}

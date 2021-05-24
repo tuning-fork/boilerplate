@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import SectionsNew from "./SectionsNew";
 import ReportsNew from "./ReportsNew";
 import SectionsShow from "./SectionsShow";
@@ -248,6 +247,9 @@ export default function GrantsShow(props) {
 
   return (
     <div className="container">
+      <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+        <p>Back to Grants</p>
+      </Link>
       <Card>
         {Header}
         <Card.Body>
