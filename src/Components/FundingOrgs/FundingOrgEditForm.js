@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 export default function FundingOrgsEditForm(props) {
   const { onSubmit, onCancel } = props;
-  const [fundingOrg, setFundingOrg] = useState(props.fundingOrg);
+  // const [fundingOrg, setFundingOrg] = useState(props.fundingOrg);
   const [newName, setNewName] = useState(props.fundingOrg.name);
   const [newWebsite, setNewWebsite] = useState(props.fundingOrg.website);
 

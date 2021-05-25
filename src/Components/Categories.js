@@ -133,10 +133,13 @@ export default function Categories() {
           })}
         </Card>
       </div>
-      <Modal show={showCategoriesNew} onClose={handleClose}>
-        <CategoriesNew updateCategories={updateCategories} />
+      <Modal show={showCategoriesNew}>
+        <CategoriesNew
+          updateCategories={updateCategories}
+          onClose={handleClose}
+        />
       </Modal>
-      <Modal show={showCategoryEdit} onClose={handleClose}>
+      <Modal show={showCategoryEdit}>
         <CategoryEditForm
           category={selectedCategory}
           onSubmit={handleSubmitEditCategory}

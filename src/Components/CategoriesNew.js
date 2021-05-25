@@ -1,5 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -8,7 +7,7 @@ import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
-  const { onSubmit, onCancel } = props;
+  const { onClose } = props;
   const [organizationId, setOrganizationId] = useState("");
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +33,7 @@ export default function CategoriesNew(props) {
           if (category) {
             props.updateCategories(category);
             clearForm();
+            onClose();
           }
         })
         .catch((error) => {
@@ -44,7 +44,7 @@ export default function CategoriesNew(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    onCancel();
+    onClose();
   };
 
   const clearForm = () => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import FundingOrgsNew from "./FundingOrgsNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
@@ -135,10 +134,13 @@ export default function FundingOrgs() {
             })}
           </Card>
         </div>
-        <Modal show={showFundingOrgsNew} onClose={handleClose}>
-          <FundingOrgsNew updateFundingOrgs={updateFundingOrgs} />
+        <Modal show={showFundingOrgsNew}>
+          <FundingOrgsNew
+            updateFundingOrgs={updateFundingOrgs}
+            onClose={handleClose}
+          />
         </Modal>
-        <Modal show={showFundingOrgEdit} onClose={handleClose}>
+        <Modal show={showFundingOrgEdit}>
           <FundingOrgEditForm
             fundingOrg={selectedFundingOrg}
             onSubmit={handleSubmitFundingOrgEdit}

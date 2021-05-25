@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -9,7 +8,7 @@ import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const { onSubmit, onCancel } = props;
+  const { onClose } = props;
   const [errors, setErrors] = useState([]);
   const {
     currentOrganizationStore,
@@ -38,6 +37,7 @@ export default function FundingOrgsNew(props) {
           if (fundingOrg) {
             props.updateFundingOrgs(fundingOrg);
             clearForm();
+            onClose();
           }
         })
         .catch((error) => {
@@ -48,7 +48,7 @@ export default function FundingOrgsNew(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    onCancel();
+    onClose();
   };
 
   return (
