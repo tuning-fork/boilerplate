@@ -1,5 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -8,6 +7,7 @@ import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
+  const { onClose } = props;
   const [organizationId, setOrganizationId] = useState("");
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,12 +33,18 @@ export default function CategoriesNew(props) {
           if (category) {
             props.updateCategories(category);
             clearForm();
+            onClose();
           }
         })
         .catch((error) => {
           console.log("category creation error", error);
         });
     }
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    onClose();
   };
 
   const clearForm = () => {
@@ -61,19 +67,25 @@ export default function CategoriesNew(props) {
               required
             />
           </Form.Group>
-          <div className="text-center">
+          <div>
             <Button
-              variant="outline-success"
               type="submit"
               style={{
-                maxWidth: "25%",
+                maxWidth: "50%",
                 align: "center",
-                backgroundColor: "#23cb87",
-                color: "#09191b",
-                fontWeight: "bolder",
               }}
+              onClick={handleSubmit}
             >
-              Save Category
+              Save
+            </Button>
+            <Button
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleCancel}
+            >
+              Cancel
             </Button>
           </div>
         </Form>

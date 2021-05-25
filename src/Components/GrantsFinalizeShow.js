@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SectionsShow from "./SectionsShow";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
+import { Link } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import GrantFinalizeEditForm from "./Grants/GrantEditForm";
@@ -289,6 +289,9 @@ export default function GrantsFinalizeShow(props) {
 
   return (
     <div className="component">
+      <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+        <p>Back to Grants</p>
+      </Link>
       {Header}
       <div>
         {/* beginning of grant update */}

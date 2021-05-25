@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -9,6 +8,7 @@ import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
+  const { onClose } = props;
   const [errors, setErrors] = useState([]);
   const {
     currentOrganizationStore,
@@ -37,12 +37,18 @@ export default function FundingOrgsNew(props) {
           if (fundingOrg) {
             props.updateFundingOrgs(fundingOrg);
             clearForm();
+            onClose();
           }
         })
         .catch((error) => {
           console.log("funding org creation error", error);
         });
     }
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    onClose();
   };
 
   return (
@@ -70,8 +76,26 @@ export default function FundingOrgsNew(props) {
               required
             />
           </Form.Group>
-          <div className="text-center">
-            <Button type="submit">Add New Funding Org</Button>
+          <div>
+            <Button
+              type="submit"
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
+            <Button
+              style={{
+                maxWidth: "50%",
+                align: "center",
+              }}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
           </div>
         </Form>
         <br />
