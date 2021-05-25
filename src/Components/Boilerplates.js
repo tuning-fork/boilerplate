@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import BoilerplatesNew from "./BoilerplatesNew";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Modal from "./Elements/Modal";
+import { Link } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import BoilerplatesTable from "./Boilerplates/BoilerplatesTable";
@@ -25,10 +24,6 @@ export default function Boilerplates(props) {
     setSelectedCategory(event.target.value);
   const handleChangeSelectedMaxWordCount = (event) =>
     setSelectedMaxWordCount(event.target.value);
-
-  const [show, setShow] = useState(false);
-  const handleClose = (event) => setShow(false);
-  const handleShow = (event) => setShow(true);
 
   const markedBoilerplates = boilerplates.map((boilerplate) => {
     const maxWordCount = Number.parseInt(selectedMaxWordCount);
@@ -55,11 +50,6 @@ export default function Boilerplates(props) {
     }
   }, [organizationClient, currentOrganizationId]);
 
-  const updateBoilerplates = (newBoilerplate) => {
-    const newBoilerplates = [...boilerplates, newBoilerplate];
-    setBoilerplates(newBoilerplates);
-  };
-
   if (loading) {
     return <h1 className="container">Loading....</h1>;
   }
@@ -72,10 +62,9 @@ export default function Boilerplates(props) {
     <div className="container">
       <h1>Boilerplates</h1>
 
-      <Button onClick={handleShow}>Add New Boilerplate</Button>
-      <Modal onClose={handleClose} show={show}>
-        <BoilerplatesNew updateBoilerplates={updateBoilerplates} />
-      </Modal>
+      <Link to={`/organizations/${currentOrganizationId}/boilerplates-new/`}>
+        <Button>Add Boilerplate</Button>
+      </Link>
 
       <Form>
         <Form.Group>
