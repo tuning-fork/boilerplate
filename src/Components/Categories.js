@@ -12,6 +12,9 @@ import {
   updateCategory,
   deleteCategory,
 } from "../Services/Organizations/CategoriesService";
+import CategoriesTable from "./Categories/CategoriesTable";
+
+const NO_SELECTED_CATEGORY = "none";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -22,7 +25,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(faTrashAlt);
 library.add(faEdit);
 
-export default function Categories() {
+export default function Categories(props) {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [query] = useState("");
@@ -105,9 +108,11 @@ export default function Categories() {
           <Card.Header className="card-component card-heading">
             Categories
           </Card.Header>
+
           <Button onClick={handleShowCategoriesNew}>
             <Button>Add Category</Button>
           </Button>
+
           {categories.map((category) => {
             return (
               <div>
@@ -146,6 +151,8 @@ export default function Categories() {
           onCancel={handleCancel}
         />
       </Modal>
+
+      <BoilerplatesTable categories={categories} />
     </div>
   );
 }
