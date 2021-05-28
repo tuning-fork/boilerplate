@@ -13,14 +13,13 @@ import {
   deleteCategory,
 } from "../Services/Organizations/CategoriesService";
 import CategoriesTable from "./Categories/CategoriesTable";
-
-const NO_SELECTED_CATEGORY = "none";
-
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const NO_SELECTED_CATEGORY = "none";
 
 library.add(faTrashAlt);
 library.add(faEdit);
@@ -113,7 +112,7 @@ export default function Categories(props) {
             <Button>Add Category</Button>
           </Button>
 
-          {categories.map((category) => {
+          {/* {categories.map((category) => {
             return (
               <div>
                 <p>{category.name}</p>
@@ -135,7 +134,7 @@ export default function Categories(props) {
                 />
               </div>
             );
-          })}
+          })} */}
         </Card>
       </div>
       <Modal show={showCategoriesNew}>
@@ -144,15 +143,7 @@ export default function Categories(props) {
           onClose={handleClose}
         />
       </Modal>
-      <Modal show={showCategoryEdit}>
-        <CategoryEditForm
-          category={selectedCategory}
-          onSubmit={handleSubmitEditCategory}
-          onCancel={handleCancel}
-        />
-      </Modal>
-
-      <BoilerplatesTable categories={categories} />
+      <CategoriesTable categories={categories} />
     </div>
   );
 }
