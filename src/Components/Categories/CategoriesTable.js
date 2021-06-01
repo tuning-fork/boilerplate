@@ -1,8 +1,8 @@
 import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { useTable } from "react-table";
 import "./CategoriesTable.css";
+
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -24,7 +24,6 @@ export default function CategoriesTable(props) {
     formatDate(parseISO(dateString), "PP");
 
   const [name, setName] = useState("");
-  const [newName, setNewName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
 
   const [showCategoryEdit, setShowCategoryEdit] = useState(false);
@@ -97,8 +96,6 @@ export default function CategoriesTable(props) {
 
   const body = rows.map((row) => {
     prepareRow(row);
-
-    // const { id } = row.original;
 
     return (
       <tr {...row.getRowProps()}>

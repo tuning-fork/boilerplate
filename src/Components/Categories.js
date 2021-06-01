@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import CategoriesNew from "./CategoriesNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
-import CategoryEditForm from "./Categories/CategoryEditForm";
 import {
   getCategory,
   updateCategory,
@@ -17,7 +15,6 @@ import CategoriesTable from "./Categories/CategoriesTable";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NO_SELECTED_CATEGORY = "none";
 
