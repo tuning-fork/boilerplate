@@ -100,11 +100,7 @@ export default function CategoriesTable(props) {
     return (
       <tr {...row.getRowProps()}>
         {row.cells.map((cell) => {
-          const renderedCell = (() => {
-            return cell.render("Cell");
-          })();
-
-          return <td {...cell.getCellProps()}>{renderedCell}</td>;
+          return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
         })}
         <FontAwesomeIcon
           icon={faEdit}
