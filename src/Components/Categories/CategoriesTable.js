@@ -106,22 +106,24 @@ export default function CategoriesTable(props) {
 
           return <td {...cell.getCellProps()}>{renderedCell}</td>;
         })}
-        <FontAwesomeIcon
-          icon={faEdit}
-          style={{
-            color: "black",
-            fontSize: "1.5rem",
-          }}
-          onClick={() => handleShowCategoryEdit(row)}
-        />
-        <FontAwesomeIcon
-          icon={faTrashAlt}
-          style={{
-            color: "black",
-            fontSize: "1.5rem",
-          }}
-          onClick={() => handleCategoryDelete(row.id)}
-        />
+        <td>
+          <FontAwesomeIcon
+            icon={faEdit}
+            style={{
+              color: "black",
+              fontSize: "1.5rem",
+            }}
+            onClick={() => handleShowCategoryEdit(row)}
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            style={{
+              color: "black",
+              fontSize: "1.5rem",
+            }}
+            onClick={() => handleCategoryDelete(row.id)}
+          />
+        </td>
       </tr>
     );
   });
