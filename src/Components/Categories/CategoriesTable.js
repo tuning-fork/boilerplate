@@ -1,8 +1,7 @@
-// import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTable } from "react-table";
 import "./CategoriesTable.css";
-import renderDate from "../../Helpers/renderDate";
+import formatDate from "../../Helpers/formatDate";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -21,9 +20,6 @@ library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function CategoriesTable(props) {
-  // const renderDateColumn = (dateString) =>
-  //   formatDate(parseISO(dateString), "PP");
-
   const [name, setName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
 
@@ -73,11 +69,11 @@ export default function CategoriesTable(props) {
       { Header: "Name", accessor: "name" },
       {
         Header: "Date Created",
-        accessor: (row) => renderDate(row.created_at),
+        accessor: (row) => formatDate(row.created_at),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => renderDate(row.updated_at),
+        accessor: (row) => formatDate(row.updated_at),
       },
     ],
     []

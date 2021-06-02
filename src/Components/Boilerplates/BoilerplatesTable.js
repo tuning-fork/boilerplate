@@ -1,12 +1,9 @@
-import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./BoilerplatesTable.css";
-import renderDate from "../../Helpers/renderDate";
-
-// const renderDateColumn = (dateString) => formatDate(parseISO(dateString), "PP");
+import formatDate from "../../Helpers/formatDate";
 
 export default function BoilerplatesTable(props) {
   const columns = useMemo(
@@ -16,11 +13,11 @@ export default function BoilerplatesTable(props) {
       { Header: "Word Count", accessor: "wordcount" },
       {
         Header: "Date Created",
-        accessor: (row) => renderDate(row.created_at),
+        accessor: (row) => formatDate(row.created_at),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => renderDate(row.updated_at),
+        accessor: (row) => formatDate(row.updated_at),
       },
     ],
     []
