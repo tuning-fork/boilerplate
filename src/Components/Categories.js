@@ -105,9 +105,7 @@ export default function Categories(props) {
             Categories
           </Card.Header>
 
-          <Button onClick={handleShowCategoriesNew}>
-            <Button>Add Category</Button>
-          </Button>
+          <Button onClick={handleShowCategoriesNew}>Add Category</Button>
 
           {/* {categories.map((category) => {
             return (
