@@ -1,7 +1,8 @@
-import { format as formatDate, parseISO } from "date-fns";
+// import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTable } from "react-table";
 import "./CategoriesTable.css";
+import renderDate from "../../Helpers/renderDate";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -20,8 +21,8 @@ library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function CategoriesTable(props) {
-  const renderDateColumn = (dateString) =>
-    formatDate(parseISO(dateString), "PP");
+  // const renderDateColumn = (dateString) =>
+  //   formatDate(parseISO(dateString), "PP");
 
   const [name, setName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
@@ -35,7 +36,9 @@ export default function CategoriesTable(props) {
     currentOrganizationDispatch,
     organizationClient,
   } = useCurrentOrganizationContext();
-  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganization &&
+    currentOrganizationStore.currentOrganization.id;
 
   const handleShowCategoryEdit = (selectedCategory) => {
     setSelectedCategory(selectedCategory);
@@ -70,11 +73,11 @@ export default function CategoriesTable(props) {
       { Header: "Name", accessor: "name" },
       {
         Header: "Date Created",
-        accessor: (row) => renderDateColumn(row.created_at),
+        accessor: (row) => renderDate(row.created_at),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => renderDateColumn(row.updated_at),
+        accessor: (row) => renderDate(row.updated_at),
       },
     ],
     []
@@ -98,7 +101,11 @@ export default function CategoriesTable(props) {
     return (
       <tr {...row.getRowProps()}>
         {row.cells.map((cell) => {
-          return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+          const renderedCell = (() => {
+            return cell.render("Cell");
+          })();
+
+          return <td {...cell.getCellProps()}>{renderedCell}</td>;
         })}
         <td>
           <FontAwesomeIcon

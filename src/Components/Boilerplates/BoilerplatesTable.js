@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useTable } from "react-table";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./BoilerplatesTable.css";
+import renderDate from "../../Helpers/renderDate";
 
-const renderDateColumn = (dateString) => formatDate(parseISO(dateString), "PP");
+// const renderDateColumn = (dateString) => formatDate(parseISO(dateString), "PP");
 
 export default function BoilerplatesTable(props) {
   const columns = useMemo(
@@ -15,11 +16,11 @@ export default function BoilerplatesTable(props) {
       { Header: "Word Count", accessor: "wordcount" },
       {
         Header: "Date Created",
-        accessor: (row) => renderDateColumn(row.created_at),
+        accessor: (row) => renderDate(row.created_at),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => renderDateColumn(row.updated_at),
+        accessor: (row) => renderDate(row.updated_at),
       },
     ],
     []
