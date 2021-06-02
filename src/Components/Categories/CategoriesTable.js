@@ -35,9 +35,7 @@ export default function CategoriesTable(props) {
     currentOrganizationDispatch,
     organizationClient,
   } = useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
 
   const handleShowCategoryEdit = (selectedCategory) => {
     setSelectedCategory(selectedCategory);
