@@ -50,7 +50,6 @@ export default function FundingOrgsNew(props) {
     setName("");
     setWebsite("");
   };
-  s;
 
   return (
     <Card className="card-dashboard">

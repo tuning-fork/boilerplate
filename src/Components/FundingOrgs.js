@@ -5,7 +5,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
-import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 import {
   getFundingOrg,
   updateFundingOrg,
@@ -47,7 +46,7 @@ export default function FundingOrgs() {
     setShowFundingOrgEdit(false);
   };
   const handleShowFundingOrgsNew = () => setShowFundingOrgsNew(true);
-  const handleShowFundingOrgEdit = (selectedFundingOrg) => {
+  const handleShowEditFundingOrg = (selectedFundingOrg) => {
     setSelectedFundingOrg(selectedFundingOrg);
     setShowFundingOrgEdit(true);
   };
@@ -89,15 +88,15 @@ export default function FundingOrgs() {
     handleClose();
   };
 
-  const handleFundingOrgDelete = (fundingOrg) => {
+  const handleDeleteFundingOrg = (fundingOrg) => {
     if (
       // eslint-disable-next-line no-restricted-globals
       confirm(
         `Are you sure you want to delete the ${fundingOrg.name} funding organization?`
       )
     ) {
-      deleteFundingOrg(organizationClient, funding_org.id)
-        .then((funding_org) => {
+      deleteFundingOrg(organizationClient, fundingOrg.id)
+        .then((fundingOrg) => {
           console.log("funding_org deleted!");
         })
         .catch((error) => {
@@ -140,7 +139,7 @@ export default function FundingOrgs() {
         </Modal>
         <FundingOrgsTable
           funding_orgs={fundingOrgs}
-          onShowEditFundingOrg={handleShowEditCategory}
+          onShowEditFundingOrg={handleShowEditFundingOrg}
           onDeleteFundingOrg={handleDeleteFundingOrg}
         />
       </div>
