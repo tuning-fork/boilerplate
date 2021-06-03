@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-// import axios from "axios";
-// import { useHistory } from "react-router-dom";
-// import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-
-export default function CategoriesShowForm(props) {
-  console.log("rendered!");
+export default function CategoryEditForm(props) {
   const { onSubmit, onCancel } = props;
   const [category, setCategory] = useState(props.category);
-  const [newName, setNewName] = useState(props.category.name);
+  const [newName, setNewName] = useState(props.category.values.name);
 
   const handleSubmit = (event) => {
     event.preventDefault();

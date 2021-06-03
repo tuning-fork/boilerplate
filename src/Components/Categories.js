@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import CategoriesNew from "./CategoriesNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
-import CategoryEditForm from "./Categories/CategoryEditForm";
 import {
   getCategory,
   updateCategory,
   deleteCategory,
 } from "../Services/Organizations/CategoriesService";
-
+import CategoriesTable from "./Categories/CategoriesTable";
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const NO_SELECTED_CATEGORY = "none";
 
 library.add(faTrashAlt);
 library.add(faEdit);
 
-export default function Categories() {
+export default function Categories(props) {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [query] = useState("");
@@ -105,10 +104,10 @@ export default function Categories() {
           <Card.Header className="card-component card-heading">
             Categories
           </Card.Header>
-          <Button onClick={handleShowCategoriesNew}>
-            <Button>Add Category</Button>
-          </Button>
-          {categories.map((category) => {
+
+          <Button onClick={handleShowCategoriesNew}>Add Category</Button>
+
+          {/* {categories.map((category) => {
             return (
               <div>
                 <p>{category.name}</p>
@@ -130,7 +129,7 @@ export default function Categories() {
                 />
               </div>
             );
-          })}
+          })} */}
         </Card>
       </div>
       <Modal show={showCategoriesNew}>
@@ -139,13 +138,7 @@ export default function Categories() {
           onClose={handleClose}
         />
       </Modal>
-      <Modal show={showCategoryEdit}>
-        <CategoryEditForm
-          category={selectedCategory}
-          onSubmit={handleSubmitEditCategory}
-          onCancel={handleCancel}
-        />
-      </Modal>
+      <CategoriesTable categories={categories} />
     </div>
   );
 }
