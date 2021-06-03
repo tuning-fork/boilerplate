@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-// import axios from "axios";
-// import { useHistory } from "react-router-dom";
-// import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-
 export default function FundingOrgsEditForm(props) {
   const { onSubmit, onCancel } = props;
-  // const [fundingOrg, setFundingOrg] = useState(props.fundingOrg);
   const [newName, setNewName] = useState(props.fundingOrg.name);
   const [newWebsite, setNewWebsite] = useState(props.fundingOrg.website);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit({
-      newName,
-      newWebsite,
-    });
+    onSubmit(
+      {
+        newName,
+        newWebsite,
+      },
+      props.funding_org.id
+    );
   };
 
   const handleCancel = (event) => {
