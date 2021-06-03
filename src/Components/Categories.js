@@ -11,6 +11,7 @@ import {
   deleteCategory,
 } from "../Services/Organizations/CategoriesService";
 import CategoriesTable from "./Categories/CategoriesTable";
+import CategoryEditForm from "./Categories/CategoryEditForm";
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -25,17 +26,12 @@ export default function Categories(props) {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [query] = useState("");
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
   const [name, setName] = useState("");
-  const [newName, setNewName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
 
   const [showCategoriesNew, setShowCategoriesNew] = useState(false);
@@ -45,7 +41,7 @@ export default function Categories(props) {
     setShowCategoryEdit(false);
   };
   const handleShowCategoriesNew = () => setShowCategoriesNew(true);
-  const handleShowCategoryEdit = (selectedCategory) => {
+  const handleShowEditCategory = (selectedCategory) => {
     setSelectedCategory(selectedCategory);
     setShowCategoryEdit(true);
   };
@@ -67,7 +63,7 @@ export default function Categories(props) {
   };
 
   const handleSubmitEditCategory = ({ newName }, id) => {
-    console.log(id);
+    console.log("id from form", id);
     updateCategory(organizationClient, id, {
       name: newName,
       organization_id: currentOrganizationId,
@@ -85,8 +81,19 @@ export default function Categories(props) {
     handleClose();
   };
 
-  const handleCategoryDelete = (categoryId) => {
-    console.log("deleted!");
+  const handleDeleteCategory = (category) => {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(`Are you sure you want to delete the ${category.name} category?`)
+    ) {
+      deleteCategory(organizationClient, category.id)
+        .then((category) => {
+          console.log("category deleted!");
+        })
+        .catch((error) => {
+          console.log("category delete error", error);
+        });
+    }
   };
 
   if (loading) {
@@ -106,30 +113,6 @@ export default function Categories(props) {
           </Card.Header>
 
           <Button onClick={handleShowCategoriesNew}>Add Category</Button>
-
-          {/* {categories.map((category) => {
-            return (
-              <div>
-                <p>{category.name}</p>
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  style={{
-                    color: "black",
-                    fontSize: "1.5rem",
-                  }}
-                  onClick={() => handleShowCategoryEdit(category)}
-                />
-                <FontAwesomeIcon
-                  icon={faTrashAlt}
-                  style={{
-                    color: "black",
-                    fontSize: "1.5rem",
-                  }}
-                  onClick={() => handleCategoryDelete(category.id)}
-                />
-              </div>
-            );
-          })} */}
         </Card>
       </div>
       <Modal show={showCategoriesNew}>
@@ -138,7 +121,18 @@ export default function Categories(props) {
           onClose={handleClose}
         />
       </Modal>
-      <CategoriesTable categories={categories} />
+      <Modal show={showCategoryEdit}>
+        <CategoryEditForm
+          category={selectedCategory}
+          onSubmit={handleSubmitEditCategory}
+          onCancel={handleCancel}
+        />
+      </Modal>
+      <CategoriesTable
+        categories={categories}
+        onShowEditCategory={handleShowEditCategory}
+        onDeleteCategory={handleDeleteCategory}
+      />
     </div>
   );
 }

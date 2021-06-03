@@ -4,8 +4,7 @@ import Button from "react-bootstrap/Button";
 
 export default function CategoryEditForm(props) {
   const { onSubmit, onCancel } = props;
-  const [category, setCategory] = useState(props.category);
-  const [newName, setNewName] = useState(props.category.values.name);
+  const [newName, setNewName] = useState(props.category.name);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,7 +12,7 @@ export default function CategoryEditForm(props) {
       {
         newName,
       },
-      category.id
+      props.category.id
     );
   };
 

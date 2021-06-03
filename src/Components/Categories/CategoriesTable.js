@@ -1,71 +1,22 @@
-// import { format as formatDate, parseISO } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTable } from "react-table";
 import "./CategoriesTable.css";
-import renderDate from "../../Helpers/renderDate";
+import formatDate from "../../Helpers/formatDate";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Modal from "./../Elements/Modal";
-import CategoryEditForm from "./../Categories/CategoryEditForm";
-import {
-  updateCategory,
-  deleteCategory,
-} from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
 library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function CategoriesTable(props) {
-  // const renderDateColumn = (dateString) =>
-  //   formatDate(parseISO(dateString), "PP");
-
-  const [name, setName] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState({});
-
   const [showCategoryEdit, setShowCategoryEdit] = useState(false);
   const handleClose = () => {
     setShowCategoryEdit(false);
-  };
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
-
-  const handleShowCategoryEdit = (selectedCategory) => {
-    setSelectedCategory(selectedCategory);
-    setShowCategoryEdit(true);
-  };
-
-  const handleSubmitEditCategory = ({ newName }, id) => {
-    console.log(id);
-    updateCategory(organizationClient, id, {
-      name: newName,
-      organization_id: currentOrganizationId,
-    })
-      .then((category) => {
-        setName(name);
-        handleClose();
-      })
-      .catch((error) => {
-        console.log("category update error", error);
-      });
-  };
-
-  const handleCancel = (event) => {
-    handleClose();
-  };
-
-  const handleCategoryDelete = (categoryId) => {
-    console.log("deleted!");
   };
 
   const columns = useMemo(
@@ -73,11 +24,11 @@ export default function CategoriesTable(props) {
       { Header: "Name", accessor: "name" },
       {
         Header: "Date Created",
-        accessor: (row) => renderDate(row.created_at),
+        accessor: (row) => formatDate(row.created_at),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => renderDate(row.updated_at),
+        accessor: (row) => formatDate(row.updated_at),
       },
     ],
     []
@@ -114,7 +65,7 @@ export default function CategoriesTable(props) {
               color: "black",
               fontSize: "1.5rem",
             }}
-            onClick={() => handleShowCategoryEdit(row)}
+            onClick={() => props.onShowEditCategory(row.original)}
           />
           <FontAwesomeIcon
             icon={faTrashAlt}
@@ -122,7 +73,7 @@ export default function CategoriesTable(props) {
               color: "black",
               fontSize: "1.5rem",
             }}
-            onClick={() => handleCategoryDelete(row.id)}
+            onClick={() => props.onDeleteCategory(row.original)}
           />
         </td>
       </tr>
@@ -130,18 +81,9 @@ export default function CategoriesTable(props) {
   });
 
   return (
-    <div>
-      <table {...getTableProps()} className="CategoriesTable">
-        <thead>{header}</thead>
-        <tbody {...getTableBodyProps()}>{body}</tbody>
-      </table>
-      <Modal show={showCategoryEdit}>
-        <CategoryEditForm
-          category={selectedCategory}
-          onSubmit={handleSubmitEditCategory}
-          onCancel={handleCancel}
-        />
-      </Modal>
-    </div>
+    <table {...getTableProps()} className="CategoriesTable">
+      <thead>{header}</thead>
+      <tbody {...getTableBodyProps()}>{body}</tbody>
+    </table>
   );
 }
