@@ -8,10 +8,10 @@ import { createCategory } from "../Services/Organizations/CategoriesService";
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
   const { onClose } = props;
-  const [organizationId, setOrganizationId] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isHiddenNew, setIsHiddenNew] = useState(true);
+  // const [organizationId, setOrganizationId] = useState("");
+  // const [errors, setErrors] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [isHiddenNew, setIsHiddenNew] = useState(true);
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -49,7 +49,6 @@ export default function CategoriesNew(props) {
 
   const clearForm = () => {
     setName("");
-    setOrganizationId("");
   };
 
   return (
