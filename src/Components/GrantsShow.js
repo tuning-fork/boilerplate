@@ -119,7 +119,7 @@ export default function GrantsShow(props) {
           console.log(error);
         });
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganizationId, organizationClient, props.match.params.grant_id]);
 
   const handleSubmit = ({
     newTitle,
