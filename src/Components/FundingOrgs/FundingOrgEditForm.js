@@ -14,7 +14,7 @@ export default function FundingOrgsEditForm(props) {
         newName,
         newWebsite,
       },
-      props.funding_org.id
+      props.fundingOrg.id
     );
   };
 
