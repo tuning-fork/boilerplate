@@ -1,0 +1,46 @@
+.GrantsFinalizeShow {
+  font-size: 18px;
+}
+
+.GrantsFinalizeShow__TopBar {
+  margin: 18px 0 30px 0;
+}
+
+.GrantsFinalizeShow__Header {
+  margin-bottom: 48px;
+}
+
+.GrantsFinalizeShow__Title {
+  margin-bottom: 21px;
+}
+
+.GrantsFinalizeShow__Fields dt {
+  margin-bottom: 12px;
+  font-weight: normal;
+}
+.GrantsFinalizeShow__Fields dd {
+  margin-bottom: 18px;
+  font-weight: bold;
+}
+
+.GrantsFinalizeShow__Deadline {
+  display: flex;
+  margin-bottom: 13px;
+}
+
+.GrantsFinalizeShow__TotalWordCount {
+  text-align: right;
+}
+.GrantsFinalizeShow__TotalWordCount > span {
+  font-weight: bold;
+}
+
+.GrantsFinalizeShow__SectionList {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 30px;
+}
+
+.GrantsFinalizeShow__AddSection {
+  margin: 10px 0 26px 0;
+}
