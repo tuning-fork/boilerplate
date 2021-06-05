@@ -3,14 +3,17 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { format as formatDate, parse as parseDate } from "date-fns";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import { getGrant } from "../../Services/Organizations/GrantsService";
+import {
+  getGrant,
+  updateGrant,
+} from "../../Services/Organizations/GrantsService";
 import "./GrantEdit.css";
 
 function formatDateForInput(date) {
-  return formatDate(date, "yyyy-MM-dd'T'hh:mm");
+  return formatDate(date, "yyyy-MM-dd'T'HH:mm");
 }
 function parseDateFromInput(dateString) {
-  return parseDate(dateString, "yyyy-MM-dd'T'hh:mm", new Date());
+  return parseDate(dateString, "yyyy-MM-dd'T'HH:mm", new Date());
 }
 
 export default function GrantEdit(props) {
@@ -18,7 +21,7 @@ export default function GrantEdit(props) {
     deadline: null,
     fundingOrganization: null,
     purpose: "",
-    rfpUrl: "",
+    rfp_url: "",
     title: "",
   });
 
@@ -26,6 +29,7 @@ export default function GrantEdit(props) {
   const { grant_id: grantId } = useParams();
 
   const handleDelete = () => {};
+
   const handleChangeField = (field) => (event) => {
     event.preventDefault();
 
@@ -39,11 +43,24 @@ export default function GrantEdit(props) {
       [field]: newValue,
     }));
   };
+
   const handleCancel = (event) => {
     event.preventDefault();
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    updateGrant(organizationClient, grantId, newGrantFields).then(
+      (updatedGrant) => {
+        setNewGrantFields({
+          deadline: new Date(updatedGrant.deadline),
+          fundingOrg: updatedGrant.funding_org,
+          purpose: updatedGrant.purpose,
+          rfp_url: updatedGrant.rfp_url,
+          title: updatedGrant.title,
+        });
+      }
+    );
   };
 
   useEffect(() => {
@@ -56,7 +73,7 @@ export default function GrantEdit(props) {
         deadline: new Date(grant.deadline),
         fundingOrg: grant.funding_org,
         purpose: grant.purpose,
-        rfpUrl: grant.rfp_url,
+        rfp_url: grant.rfp_url,
         title: grant.title,
       });
     });
@@ -99,8 +116,8 @@ export default function GrantEdit(props) {
             <Form.Label>RFP URL</Form.Label>
             <Form.Control
               type="url"
-              value={newGrantFields.rfpUrl}
-              onChange={handleChangeField("rfpUrl")}
+              value={newGrantFields.rfp_url}
+              onChange={handleChangeField("rfp_url")}
               required
             />
           </Form.Group>
