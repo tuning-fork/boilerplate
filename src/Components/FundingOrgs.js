@@ -5,18 +5,17 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
-import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 import {
   getFundingOrg,
   updateFundingOrg,
   deleteFundingOrg,
 } from "../Services/Organizations/FundingOrgsService";
-
+import FundingOrgsTable from "./FundingOrgs/FundingOrgsTable";
+import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faTrashAlt);
 library.add(faEdit);
@@ -26,8 +25,8 @@ export default function FundingOrgs() {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const [newName, setNewName] = useState("");
-  const [newWebsite, setNewWebsite] = useState("");
+  // const [newName, setNewName] = useState("");
+  // const [newWebsite, setNewWebsite] = useState("");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
   const {
     currentOrganizationStore,
@@ -44,7 +43,7 @@ export default function FundingOrgs() {
     setShowFundingOrgEdit(false);
   };
   const handleShowFundingOrgsNew = () => setShowFundingOrgsNew(true);
-  const handleShowFundingOrgEdit = (selectedFundingOrg) => {
+  const handleShowEditFundingOrg = (selectedFundingOrg) => {
     setSelectedFundingOrg(selectedFundingOrg);
     setShowFundingOrgEdit(true);
   };
@@ -55,19 +54,18 @@ export default function FundingOrgs() {
         .then((fundingOrgs) => {
           setFundingOrgs(fundingOrgs);
           setLoading(false);
-          console.log(fundingOrgs);
         })
         .catch((error) => console.log(error));
     }
     window.scrollTo(0, 0);
-  }, [loading, currentOrganizationId]);
+  }, [currentOrganizationId]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs, newFundingOrg];
     setFundingOrgs(newFundingOrgs);
   };
 
-  const handleSubmitFundingOrgEdit = ({ newName, newWebsite }, id) => {
+  const handleSubmitEditFundingOrg = ({ newName, newWebsite }, id) => {
     updateFundingOrg(organizationClient, id, {
       name: newName,
       website: newWebsite,
@@ -87,8 +85,21 @@ export default function FundingOrgs() {
     handleClose();
   };
 
-  const handleFundingOrgDelete = (fundingOrgId) => {
-    console.log("deleted!");
+  const handleDeleteFundingOrg = (fundingOrg) => {
+    if (
+      // eslint-disable-next-line no-restricted-globals
+      confirm(
+        `Are you sure you want to delete the ${fundingOrg.name} funding organization?`
+      )
+    ) {
+      deleteFundingOrg(organizationClient, fundingOrg.id)
+        .then((fundingOrg) => {
+          console.log("funding_org deleted!");
+        })
+        .catch((error) => {
+          console.log("funding_org delete error", error);
+        });
+    }
   };
 
   if (loading === true) {
@@ -105,33 +116,7 @@ export default function FundingOrgs() {
             <Card.Header className="card-component card-heading">
               Funding Orgs
             </Card.Header>
-            <Button onClick={handleShowFundingOrgsNew}>
-              <Button>Add Funding Org</Button>
-            </Button>
-            {fundingOrgs.map((fundingOrg) => {
-              return (
-                <div>
-                  <p>Funding Org Name: {fundingOrg.name}</p>
-                  <p>Funding Org Website: {fundingOrg.website}</p>
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    style={{
-                      color: "black",
-                      fontSize: "1.5rem",
-                    }}
-                    onClick={() => handleShowFundingOrgEdit(fundingOrg)}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    style={{
-                      color: "black",
-                      fontSize: "1.5rem",
-                    }}
-                    onClick={() => handleFundingOrgDelete(fundingOrg.id)}
-                  />
-                </div>
-              );
-            })}
+            <Button onClick={handleShowFundingOrgsNew}>Add New Funding Org</Button>
           </Card>
         </div>
         <Modal show={showFundingOrgsNew}>
@@ -143,10 +128,15 @@ export default function FundingOrgs() {
         <Modal show={showFundingOrgEdit}>
           <FundingOrgEditForm
             fundingOrg={selectedFundingOrg}
-            onSubmit={handleSubmitFundingOrgEdit}
+            onSubmit={handleSubmitEditFundingOrg}
             onCancel={handleCancel}
           />
         </Modal>
+        <FundingOrgsTable
+          funding_orgs={fundingOrgs}
+          onShowEditFundingOrg={handleShowEditFundingOrg}
+          onDeleteFundingOrg={handleDeleteFundingOrg}
+        />
       </div>
     );
   }

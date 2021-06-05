@@ -9,7 +9,7 @@ export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const { onClose } = props;
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
   const {
     currentOrganizationStore,
     currentOrganizationDispatch,
@@ -18,11 +18,6 @@ export default function FundingOrgsNew(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
-
-  const clearForm = () => {
-    setName("");
-    setWebsite("");
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,6 +44,11 @@ export default function FundingOrgsNew(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     onClose();
+  };
+
+  const clearForm = () => {
+    setName("");
+    setWebsite("");
   };
 
   return (
