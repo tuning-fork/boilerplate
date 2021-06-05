@@ -64,6 +64,7 @@ export default function GrantEdit(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
+    history.push(buildOrganizationsLink(`/grants/${grantId}`));
   };
 
   const handleSubmit = (event) => {
