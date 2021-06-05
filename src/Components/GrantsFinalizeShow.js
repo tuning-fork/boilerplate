@@ -62,7 +62,12 @@ export default function GrantsFinalizeShow(props) {
             >
               Make a Copy
             </Link>
-            <Button variant="outline-dark">Edit</Button>
+            <Link
+              className="btn btn-outline-dark"
+              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit`}
+            >
+              Edit
+            </Link>
           </div>
         </header>
         <dl className="GrantsFinalizeShow__Fields">
