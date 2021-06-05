@@ -182,7 +182,7 @@ export default function GrantEdit(props) {
           <Button variant="outline-dark" size="lg" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="dark" size="lg" type="submit" onClick={handleSubmit}>
+          <Button variant="dark" size="lg" type="submit">
             Finish
           </Button>
         </div>
