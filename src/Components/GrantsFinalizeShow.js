@@ -58,7 +58,7 @@ export default function GrantsFinalizeShow(props) {
           <div className="GrantsFinalizeShow__Actions">
             <Link
               className="GrantsFinalizeShow__MakeCopy"
-              to={`/organizations/${currentOrganizationId}/grants/`}
+              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy`}
             >
               Make a Copy
             </Link>
