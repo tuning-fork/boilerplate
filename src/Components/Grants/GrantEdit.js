@@ -81,6 +81,7 @@ export default function GrantEdit(props) {
           title: updatedGrant.title,
         });
         alert("Grant updated!");
+        history.push(buildOrganizationsLink(`/grants/${grantId}`));
       })
       .catch((error) => {
         console.error(error);
