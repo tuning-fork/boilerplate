@@ -119,9 +119,7 @@ export default function FundingOrgs() {
             <Card.Header className="card-component card-heading">
               Funding Orgs
             </Card.Header>
-            <Button onClick={handleShowFundingOrgsNew}>
-              <Button>Add Funding Org</Button>
-            </Button>
+            <Button onClick={handleShowFundingOrgsNew}>Add New Funding Org</Button>
           </Card>
         </div>
         <Modal show={showFundingOrgsNew}>
