@@ -32,6 +32,7 @@ import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
 import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
+import GrantCopy from "./Components/Grants/GrantCopy";
 
 export default function App() {
   return (
@@ -64,6 +65,10 @@ export default function App() {
           <PrivateRoute
             path={"/organizations/:org_id/grants/:grant_id/edit"}
             component={GrantEdit}
+          />
+          <PrivateRoute
+            path={"/organizations/:org_id/grants/:grant_id/copy"}
+            component={GrantCopy}
           />
           <PrivateRoute
             exact
