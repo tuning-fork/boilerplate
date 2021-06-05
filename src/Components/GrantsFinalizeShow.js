@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getGrant } from "../Services/Organizations/GrantsService";
 import formatDate from "../Helpers/formatDate";
+import countSectionWords from "../Helpers/countSectionWords";
 import SectionsShow from "./SectionsShow";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
-  return sections?.reduce((total, section) => total + section.wordcount, 0);
+  return sections?.reduce((total, section) => total + countSectionWords(section), 0);
 }
 
 export default function GrantsFinalizeShow(props) {
