@@ -10,6 +10,7 @@ import {
 } from "../../Services/Organizations/GrantsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./GrantEdit.css";
+import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 
 function formatDateForInput(date) {
   return formatDate(date, "yyyy-MM-dd'T'HH:mm");
@@ -21,11 +22,12 @@ function parseDateFromInput(dateString) {
 export default function GrantEdit(props) {
   const [newGrantFields, setNewGrantFields] = useState({
     deadline: null,
-    fundingOrganization: null,
+    funding_org_id: null,
     purpose: "",
     rfp_url: "",
     title: "",
   });
+  const [fundingOrgs, setFundingOrgs] = useState([]);
   const { organizationClient } = useCurrentOrganizationContext();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
@@ -96,11 +98,15 @@ export default function GrantEdit(props) {
     getGrant(organizationClient, grantId).then((grant) => {
       setNewGrantFields({
         deadline: new Date(grant.deadline),
-        fundingOrg: grant.funding_org,
+        funding_org_id: grant.funding_org?.id,
         purpose: grant.purpose,
         rfp_url: grant.rfp_url,
         title: grant.title,
       });
+    });
+
+    getAllFundingOrgs(organizationClient).then((fundingOrgs) => {
+      setFundingOrgs(fundingOrgs);
     });
   }, [grantId, organizationClient]);
 
@@ -119,13 +125,15 @@ export default function GrantEdit(props) {
             <Form.Label>Funding Organization</Form.Label>
             <Form.Control
               as="select"
-              value={newGrantFields.fundingOrg?.id}
-              onChange={handleChangeField("fundingOrganization")}
+              value={newGrantFields.funding_org_id || ""}
+              onChange={handleChangeField("funding_org_id")}
               required
             >
-              <option value={newGrantFields.fundingOrg?.id}>
-                {newGrantFields.fundingOrg?.name}
-              </option>
+              {fundingOrgs.map((fundingOrg) => (
+                <option key={fundingOrg.id} value={fundingOrg.id}>
+                  {fundingOrg.name}
+                </option>
+              ))}
             </Form.Control>
           </Form.Group>
           <Form.Group>
