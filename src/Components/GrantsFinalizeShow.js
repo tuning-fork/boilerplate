@@ -9,7 +9,10 @@ import SectionsShow from "./SectionsShow";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
-  return sections?.reduce((total, section) => total + countSectionWords(section), 0);
+  return sections?.reduce(
+    (total, section) => total + countSectionWords(section),
+    0
+  );
 }
 
 export default function GrantsFinalizeShow(props) {
@@ -49,8 +52,19 @@ export default function GrantsFinalizeShow(props) {
         </Link>
       </div>
 
-      <section className="GrantsFinalizeShow__Header">
-        <h1 className="GrantsFinalizeShow__Title">{grant.title}</h1>
+      <section className="GrantsFinalizeShow__Overview">
+        <header className="GrantsFinalizeShow__Header">
+          <h1 className="GrantsFinalizeShow__Title">{grant.title}</h1>
+          <div className="GrantsFinalizeShow__Actions">
+            <Link
+              className="GrantsFinalizeShow__MakeCopy"
+              to={`/organizations/${currentOrganizationId}/grants/`}
+            >
+              Make a Copy
+            </Link>
+            <Button variant="outline-dark">Edit</Button>
+          </div>
+        </header>
         <dl className="GrantsFinalizeShow__Fields">
           <div className="GrantsFinalizeShow__Deadline">
             <dt>Deadline:&nbsp;</dt>
@@ -67,20 +81,22 @@ export default function GrantsFinalizeShow(props) {
 
       <hr />
 
-      <p className="GrantsFinalizeShow__TotalWordCount">
-        Total word count: <span>{totalWordCount}</span>
-      </p>
+      <section>
+        <p className="GrantsFinalizeShow__TotalWordCount">
+          Total word count: <span>{totalWordCount}</span>
+        </p>
 
-      <ol className="GrantsFinalizeShow__SectionList">
-        {grant.sections?.map((section) => (
-          <React.Fragment key={section.id}>
-            <SectionsShow section={section} />
-            <Button className="GrantsFinalizeShow__AddSection">
-              Add Section
-            </Button>
-          </React.Fragment>
-        ))}
-      </ol>
+        <ol className="GrantsFinalizeShow__SectionList">
+          {grant.sections?.map((section) => (
+            <React.Fragment key={section.id}>
+              <SectionsShow section={section} />
+              <Button className="GrantsFinalizeShow__AddSection">
+                Add Section
+              </Button>
+            </React.Fragment>
+          ))}
+        </ol>
+      </section>
     </Container>
   );
 }
