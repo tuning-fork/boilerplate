@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { format as formatDate, parse as parseDate } from "date-fns";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import {
+  deleteGrant,
   getGrant,
   updateGrant,
 } from "../../Services/Organizations/GrantsService";
+import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./GrantEdit.css";
 
 function formatDateForInput(date) {
@@ -24,11 +26,27 @@ export default function GrantEdit(props) {
     rfp_url: "",
     title: "",
   });
-
   const { organizationClient } = useCurrentOrganizationContext();
+  const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
+  const history = useHistory();
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(`Are you sure you want to delete this grant?`)) {
+      deleteGrant(organizationClient, grantId)
+        .then(() => {
+          alert("Grant deleted!");
+          history.push(buildOrganizationsLink("/grants"));
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(
+            "Eek! Something went wrong when deleting the grant. Try again soon."
+          );
+        });
+    }
+  };
 
   const handleChangeField = (field) => (event) => {
     event.preventDefault();
