@@ -68,8 +68,8 @@ export default function GrantEdit(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateGrant(organizationClient, grantId, newGrantFields).then(
-      (updatedGrant) => {
+    updateGrant(organizationClient, grantId, newGrantFields)
+      .then((updatedGrant) => {
         setNewGrantFields({
           deadline: new Date(updatedGrant.deadline),
           fundingOrg: updatedGrant.funding_org,
@@ -77,8 +77,14 @@ export default function GrantEdit(props) {
           rfp_url: updatedGrant.rfp_url,
           title: updatedGrant.title,
         });
-      }
-    );
+        alert("Grant updated!");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(
+          "Eek! Something went wrong when updating the grant. Try again soon."
+        );
+      });
   };
 
   useEffect(() => {
