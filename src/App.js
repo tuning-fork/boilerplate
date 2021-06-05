@@ -1,8 +1,5 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import { useCurrentUserContext } from "./Contexts/currentUserContext";
-import { useCurrentOrganizationContext } from "./Contexts/currentOrganizationContext";
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
