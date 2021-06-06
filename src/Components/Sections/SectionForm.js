@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
@@ -7,8 +7,9 @@ import "./SectionForm.css";
 export default function SectionForm(props) {
   const [sectionFields, setSectionFields] = useState({
     title: "",
-    text: "",
+    html: "",
   });
+  const quillEl = useRef(null)
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -17,7 +18,10 @@ export default function SectionForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.onSubmit(sectionFields);
+    props.onSubmit({
+      ...sectionFields,
+      text: quillEl.current.getEditor().getText(),
+    });
   };
 
   return (
@@ -40,13 +44,14 @@ export default function SectionForm(props) {
         </Button>
         <ReactQuill
           className="SectionForm__ContentEditor"
-          value={sectionFields.text}
-          onChange={(text) =>
+          ref={quillEl}
+          value={sectionFields.html}
+          onChange={(html) => {
             setSectionFields({
               ...sectionFields,
-              text,
+              html,
             })
-          }
+          }}
         />
       </Form.Group>
       <div className="SectionForm__Actions">

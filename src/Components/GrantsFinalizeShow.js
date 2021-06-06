@@ -42,7 +42,8 @@ export default function GrantsFinalizeShow(props) {
 
   const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
     createGrantSection(organizationClient, grantId, {
-      ...newSectionFields,
+      title: newSectionFields.title,
+      text: newSectionFields.html,
       grant_id: grantId,
       sort_order: precedingSection.sort_order + 1,
       // TODO: consider moving wordcount to server-side
