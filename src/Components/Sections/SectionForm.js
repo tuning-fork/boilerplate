@@ -9,7 +9,7 @@ export default function SectionForm(props) {
     title: "",
     html: "",
   });
-  const quillEl = useRef(null)
+  const quillEl = useRef(null);
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -50,7 +50,7 @@ export default function SectionForm(props) {
             setSectionFields({
               ...sectionFields,
               html,
-            })
+            });
           }}
         />
       </Form.Group>
