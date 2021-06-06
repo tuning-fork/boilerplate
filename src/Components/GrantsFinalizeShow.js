@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { getGrant } from "../Services/Organizations/GrantsService";
+import * as GrantsService from "../Services/Organizations/GrantsService";
 import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 import formatDate from "../Helpers/formatDate";
 import countSectionWords from "../Helpers/countSectionWords";
@@ -30,6 +30,16 @@ export default function GrantsFinalizeShow(props) {
     currentOrganizationStore.currentOrganization?.id;
   const { grant_id: grantId } = useParams();
 
+  const getGrant = useCallback(() => {
+    if (!organizationClient) {
+      return;
+    }
+    GrantsService.getGrant(organizationClient, grantId)
+      .then((grant) => setGrant(grant))
+      .catch((error) => setErrors([error]))
+      .finally(() => setLoading(false));
+  }, [organizationClient, grantId]);
+
   const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
     createGrantSection(organizationClient, grantId, {
       ...newSectionFields,
@@ -40,20 +50,13 @@ export default function GrantsFinalizeShow(props) {
     }).then(() => {
       alert("Section created!");
       setNewSectionIndex(null);
-      // TODO: Fetch new sections
+      return getGrant();
     });
   };
 
   useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    getGrant(organizationClient, grantId)
-      .then((grant) => setGrant(grant))
-      .catch((error) => setErrors([error]))
-      .finally(() => setLoading(false));
-  }, [organizationClient, grantId]);
+    getGrant();
+  }, [getGrant]);
 
   if (errors.length) {
     console.error(errors);
