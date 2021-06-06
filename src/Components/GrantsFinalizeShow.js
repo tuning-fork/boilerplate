@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getGrant } from "../Services/Organizations/GrantsService";
+import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 import formatDate from "../Helpers/formatDate";
 import countSectionWords from "../Helpers/countSectionWords";
+import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
+import SectionForm from "./Sections/SectionForm";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -19,12 +22,27 @@ export default function GrantsFinalizeShow(props) {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [newSectionIndex, setNewSectionIndex] = useState(null);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
-  const grantId = props.match.params.grant_id;
+  const { grant_id: grantId } = useParams();
+
+  const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
+    createGrantSection(organizationClient, grantId, {
+      ...newSectionFields,
+      grant_id: grantId,
+      sort_order: precedingSection.sort_order + 1,
+      // TODO: consider moving wordcount to server-side
+      wordcount: countWords(newSectionFields.text),
+    }).then(() => {
+      alert("Section created!");
+      setNewSectionIndex(null);
+      // TODO: Fetch new sections
+    });
+  };
 
   useEffect(() => {
     if (!organizationClient) {
@@ -95,7 +113,21 @@ export default function GrantsFinalizeShow(props) {
           {grant.sections?.map((section) => (
             <React.Fragment key={section.id}>
               <SectionsShow section={section} />
-              <Button className="GrantsFinalizeShow__AddSection">
+              {newSectionIndex === section.id && (
+                <SectionForm
+                  onSubmit={(newSectionFields) =>
+                    handleSubmitSectionForm({
+                      newSectionFields,
+                      precedingSection: section,
+                    })
+                  }
+                  onCancel={() => setNewSectionIndex(null)}
+                />
+              )}
+              <Button
+                className="GrantsFinalizeShow__AddSection"
+                onClick={() => setNewSectionIndex(section.id)}
+              >
                 Add Section
               </Button>
             </React.Fragment>
