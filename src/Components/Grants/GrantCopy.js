@@ -10,6 +10,7 @@ import { format as formatDate, parse as parseDate } from "date-fns";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./GrantCopy.css";
 
+// TODO: move to helper
 function formatDateForInput(date) {
   return formatDate(date, "yyyy-MM-dd'T'HH:mm");
 }
