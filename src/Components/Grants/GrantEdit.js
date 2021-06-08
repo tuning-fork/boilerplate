@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
-import { format as formatDate, parse as parseDate } from "date-fns";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,
   getGrant,
   updateGrant,
 } from "../../Services/Organizations/GrantsService";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
-import "./GrantEdit.css";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
-
-function formatDateForInput(date) {
-  return formatDate(date, "yyyy-MM-dd'T'HH:mm");
-}
-function parseDateFromInput(dateString) {
-  return parseDate(dateString, "yyyy-MM-dd'T'HH:mm", new Date());
-}
+import parseDateFromInput from "../../Helpers/parseDateFromInput";
+import formatDateForInput from "../../Helpers/formatDateForInput";
+import "./GrantEdit.css";
 
 export default function GrantEdit(props) {
   const [newGrantFields, setNewGrantFields] = useState({

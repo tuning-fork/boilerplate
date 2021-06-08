@@ -6,17 +6,10 @@ import {
   copyGrant,
   getGrant,
 } from "../../Services/Organizations/GrantsService";
-import { format as formatDate, parse as parseDate } from "date-fns";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import parseDateFromInput from "../../Helpers/parseDateFromInput";
+import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantCopy.css";
-
-// TODO: move to helper
-function formatDateForInput(date) {
-  return formatDate(date, "yyyy-MM-dd'T'HH:mm");
-}
-function parseDateFromInput(dateString) {
-  return parseDate(dateString, "yyyy-MM-dd'T'HH:mm", new Date());
-}
 
 export default function GrantShow(props) {
   const [newGrantFields, setNewGrantFields] = useState({
