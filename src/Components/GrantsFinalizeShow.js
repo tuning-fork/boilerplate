@@ -46,7 +46,6 @@ export default function GrantsFinalizeShow(props) {
       text: newSectionFields.html,
       grant_id: grantId,
       sort_order: precedingSection.sort_order + 1,
-      // TODO: consider moving wordcount to server-side
       wordcount: countWords(newSectionFields.text),
     }).then(() => {
       alert("Section created!");
