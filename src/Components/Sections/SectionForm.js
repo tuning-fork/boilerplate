@@ -31,9 +31,12 @@ export default function SectionForm(props) {
         <Form.Control
           type="text"
           value={sectionFields.title}
-          onChange={(event) =>
-            setSectionFields({ ...sectionFields, title: event.target.value })
-          }
+          onChange={(event) => {
+            setSectionFields({
+              ...sectionFields,
+              title: event.target.value,
+            });
+          }}
           required
         />
       </Form.Group>
