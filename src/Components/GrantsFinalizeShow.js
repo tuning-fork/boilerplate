@@ -48,10 +48,12 @@ export default function GrantsFinalizeShow(props) {
     currentOrganizationStore.currentOrganization?.id;
   const { grant_id: grantId } = useParams();
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(PointerSensor)
+    // This breaks forms nested under drag and drop! The space key triggers
+    // this sensor. TODO: Circle back to this!
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates,
+    // })
   );
 
   const getGrant = useCallback(() => {
