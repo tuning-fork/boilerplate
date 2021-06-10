@@ -1,14 +1,32 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import * as GrantsService from "../Services/Organizations/GrantsService";
-import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
+import {
+  createGrantSection,
+  reorderGrantSection,
+} from "../Services/Organizations/Grants/GrantSectionsService";
 import formatDate from "../Helpers/formatDate";
 import countSectionWords from "../Helpers/countSectionWords";
 import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
+import SortableElement from "./Elements/SortableElement";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -29,6 +47,12 @@ export default function GrantsFinalizeShow(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
   const { grant_id: grantId } = useParams();
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const getGrant = useCallback(() => {
     if (!organizationClient) {
@@ -52,6 +76,37 @@ export default function GrantsFinalizeShow(props) {
       setNewSectionIndex(null);
       return getGrant();
     });
+  };
+
+  const handleReorderSection = (event) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setGrant((grant) => {
+        const oldIndex = grant.sections.findIndex(
+          (section) => section.id === active.id
+        );
+        const newIndex = grant.sections.findIndex(
+          (section) => section.id === over.id
+        );
+        const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
+
+        return { ...grant, sections: reorderedSections };
+      });
+
+      const sectionId = active.id;
+      const sortOrder = active.data.current.sortable.index;
+
+      reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
+        .then((response) => {
+          console.log(
+            `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
+            response
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -112,30 +167,41 @@ export default function GrantsFinalizeShow(props) {
           Total word count: <span>{totalWordCount}</span>
         </p>
 
-        <ol className="GrantsFinalizeShow__SectionList">
-          {grant.sections?.map((section) => (
-            <React.Fragment key={section.id}>
-              <SectionsShow section={section} />
-              {newSectionIndex === section.id && (
-                <SectionForm
-                  onSubmit={(newSectionFields) =>
-                    handleSubmitSectionForm({
-                      newSectionFields,
-                      precedingSection: section,
-                    })
-                  }
-                  onCancel={() => setNewSectionIndex(null)}
-                />
-              )}
-              <Button
-                className="GrantsFinalizeShow__AddSection"
-                onClick={() => setNewSectionIndex(section.id)}
-              >
-                Add Section
-              </Button>
-            </React.Fragment>
-          ))}
-        </ol>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleReorderSection}
+        >
+          <SortableContext
+            items={grant.sections}
+            strategy={verticalListSortingStrategy}
+          >
+            <ol className="GrantsFinalizeShow__SectionList">
+              {grant.sections?.map((section) => (
+                <SortableElement key={section.id} id={section.id}>
+                  <SectionsShow section={section} />
+                  {newSectionIndex === section.id && (
+                    <SectionForm
+                      onSubmit={(newSectionFields) =>
+                        handleSubmitSectionForm({
+                          newSectionFields,
+                          precedingSection: section,
+                        })
+                      }
+                      onCancel={() => setNewSectionIndex(null)}
+                    />
+                  )}
+                  <Button
+                    className="GrantsFinalizeShow__AddSection"
+                    onClick={() => setNewSectionIndex(section.id)}
+                  >
+                    Add Section
+                  </Button>
+                </SortableElement>
+              ))}
+            </ol>
+          </SortableContext>
+        </DndContext>
       </section>
     </Container>
   );
