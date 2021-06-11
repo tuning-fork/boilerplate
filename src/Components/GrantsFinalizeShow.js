@@ -46,8 +46,10 @@ export default function GrantsFinalizeShow(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [newSectionIndex, setNewSectionIndex] = useState(null);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
+  const {
+    currentOrganizationStore,
+    organizationClient,
+  } = useCurrentOrganizationContext();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
@@ -63,8 +65,9 @@ export default function GrantsFinalizeShow(props) {
 
   const [showGrantEditModal, setShowGrantEditModal] = useState(false);
   const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
-  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
-    useState(null);
+  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] = useState(
+    null
+  );
   const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
   const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
   const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
