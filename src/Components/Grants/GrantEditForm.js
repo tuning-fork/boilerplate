@@ -89,33 +89,8 @@ export default function GrantEditForm(props) {
         />
       </Form.Group>
       <div>
-        <Button
-          variant="outline-success"
-          type="submit"
-          style={{
-            maxWidth: "50%",
-            align: "center",
-            backgroundColor: "#23cb87",
-            color: "#09191b",
-            fontWeight: "bolder",
-          }}
-          onClick={handleSubmit}
-        >
-          Save Changes
-        </Button>
-        <Button
-          variant="outline-success"
-          style={{
-            maxWidth: "50%",
-            align: "center",
-            backgroundColor: "#23cb87",
-            color: "#09191b",
-            fontWeight: "bolder",
-          }}
-          onClick={handleCancel}
-        >
-          Cancel
-        </Button>
+        <Button onClick={handleSubmit}>Save Changes</Button>
+        <Button onClick={handleCancel}>Cancel</Button>
       </div>
     </Form>
   );

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import Modal from "./Elements/Modal";
 import {
   DndContext,
   closestCenter,
@@ -27,6 +29,7 @@ import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
+import GrantEditForm from "./Grants/GrantEditForm";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -56,6 +59,13 @@ export default function GrantsFinalizeShow(props) {
     // })
   );
 
+  const [showGrantEditModal, setShowGrantEditModal] = useState(false);
+  const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
+  const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
+  const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
+  const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
+  const handleCloseGrantCopyModal = (event) => setShowGrantCopyModal(false);
+
   const getGrant = useCallback(() => {
     if (!organizationClient) {
       return;
@@ -78,6 +88,37 @@ export default function GrantsFinalizeShow(props) {
       setNewSectionIndex(null);
       return getGrant();
     });
+  };
+
+  const handleSubmitEditGrantForm = ({
+    newTitle,
+    newRfpUrl,
+    newDeadline,
+    newSubmitted,
+    newSuccessful,
+    newPurpose,
+  }) => {
+    GrantsService.updateGrant(organizationClient, grantId, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      organization_id: grant.organizationId,
+      funding_org_id: grant.fundingOrgId,
+    })
+      .then((updatedGrant) => {
+        handleCloseGrantEditModal();
+        setGrant(updatedGrant);
+      })
+      .catch((error) => {
+        console.log("grant update error", error);
+      });
+  };
+
+  const handleCancelEditGrantForm = (event) => {
+    handleCloseGrantEditModal();
   };
 
   const handleReorderSection = (event) => {
@@ -140,12 +181,28 @@ export default function GrantsFinalizeShow(props) {
             >
               Make a Copy
             </Link>
-            <Link
+            {/* <Link
               className="btn btn-outline-dark"
               to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit`}
             >
               Edit
-            </Link>
+            </Link> */}
+            <Button onClick={handleShowGrantEditModal}>Edit</Button>
+            <Modal
+              className="modal-popup"
+              onClose={handleCloseGrantEditModal}
+              show={showGrantEditModal}
+            >
+              <Card>
+                <Card.Body>
+                  <GrantEditForm
+                    grant={grant}
+                    onSubmit={handleSubmitEditGrantForm}
+                    onCancel={handleCancelEditGrantForm}
+                  />
+                </Card.Body>
+              </Card>
+            </Modal>
           </div>
         </header>
         <dl className="GrantsFinalizeShow__Fields">

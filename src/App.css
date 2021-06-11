@@ -127,8 +127,9 @@ a.basic:hover {
   display: block;
   position: absolute;
   width: 50%;
-  overflow-y: auto;
-  overflow-x: auto;
+  margin-top: 25%;
+  /* overflow-y: auto;
+  overflow-x: auto; */
   border-radius: 0px;
   position: fixed;
   left: 25%;
