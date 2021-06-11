@@ -212,11 +212,7 @@ export default function GrantsFinalizeShow(props) {
             >
               <Card>
                 <Card.Body>
-                  <GrantCopy
-                    grant={grant}
-                    // onSubmit={handleSubmitCopyGrantForm}
-                    // onCancel={handleCancelCopyGrantForm}
-                  />
+                  <GrantCopy grant={grant} />
                 </Card.Body>
               </Card>
             </Modal>
