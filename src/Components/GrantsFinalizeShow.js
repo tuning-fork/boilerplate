@@ -30,6 +30,7 @@ import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
 import GrantEditForm from "./Grants/GrantEditForm";
+import GrantCopy from "./Grants/GrantCopy";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -187,6 +188,7 @@ export default function GrantsFinalizeShow(props) {
             >
               Edit
             </Link> */}
+            <Button onClick={handleShowGrantCopyModal}>Copy</Button>
             <Button onClick={handleShowGrantEditModal}>Edit</Button>
             <Modal
               className="modal-popup"
@@ -199,6 +201,21 @@ export default function GrantsFinalizeShow(props) {
                     grant={grant}
                     onSubmit={handleSubmitEditGrantForm}
                     onCancel={handleCancelEditGrantForm}
+                  />
+                </Card.Body>
+              </Card>
+            </Modal>
+            <Modal
+              className="modal-popup"
+              onClose={handleCloseGrantCopyModal}
+              show={showGrantCopyModal}
+            >
+              <Card>
+                <Card.Body>
+                  <GrantCopy
+                    grant={grant}
+                    // onSubmit={handleSubmitCopyGrantForm}
+                    // onCancel={handleCancelCopyGrantForm}
                   />
                 </Card.Body>
               </Card>
