@@ -1,26 +1,35 @@
+:root {
+  --primary: #009285;
+  --success: #15c15d;
+  --error: #ff4238;
+  --contrast-dark: #192434;
+  --contrast-grey: rgba(25, 59, 103, 0.05);
+  --contrast-light: #ffffff;
+}
+
 .Button {
   padding: 8px 14px;
   border-radius: 4px;
   border: unset;
-  color: #ffffff;
+  color: var(--contrast-light);
   cursor: pointer;
 }
 
 .Button--primary {
-  background-color: #009285;
+  background-color: var(--primary);
 }
 .Button--success {
-  background-color: #15c15d;
+  background-color: var(--success);
 }
 .Button--error {
-  background-color: #ff4238;
+  background-color: var(--error);
 }
 .Button--contrast {
-  background-color: #192434;
+  background-color: var(--contrast-dark);
 }
 
 .Button--outlined {
-  background-color: rgba(25, 59, 103, 0.05);
+  background-color: var(--contrast-grey);
 }
 .Button--text {
   background-color: inherit;
@@ -28,20 +37,20 @@
 
 .Button--outlined.Button--primary,
 .Button--text.Button--primary {
-  color: #009285;
+  color: var(--primary);
 }
 
 .Button--outlined.Button--success,
 .Button--text.Button--success {
-  color: #15c15d;
+  color: var(--success);
 }
 
 .Button--outlined.Button--error,
 .Button--text.Button--error {
-  color: #ff4238;
+  color: var(--error);
 }
 
 .Button--outlined.Button--contrast,
 .Button--text.Button--contrast {
-  color: #192434;
+  color: var(--contrast-dark);
 }
