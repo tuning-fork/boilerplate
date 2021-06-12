@@ -11,20 +11,22 @@
   padding: 8px 14px;
   border-radius: 4px;
   border: unset;
-  color: var(--contrast-light);
   cursor: pointer;
 }
 
-.Button--primary {
+.Button--contained {
+  color: var(--contrast-light);
+}
+.Button--contained.Button--primary {
   background-color: var(--primary);
 }
-.Button--success {
+.Button--contained.Button--success {
   background-color: var(--success);
 }
-.Button--error {
+.Button--contained.Button--error {
   background-color: var(--error);
 }
-.Button--contrast {
+.Button--contained.Button--contrast {
   background-color: var(--contrast-dark);
 }
 

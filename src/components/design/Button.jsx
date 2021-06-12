@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import "./Button.css";
 
 const variants = {
-  primary: "primary",
+  contained: "contained",
   outlined: "outlined",
   text: "text",
 };
 const colors = {
-  primary: "#009285",
-  success: "#15C15D",
-  error: "#FF4238",
-  contrast: "#192434",
+  primary: "primary",
+  success: "success",
+  error: "error",
+  contrast: "contrast",
 };
 
 export default function Button(props) {
@@ -31,6 +31,6 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  variant: "primary",
-  color: "primary",
+  variant: variants.contained,
+  color: colors.primary,
 };
