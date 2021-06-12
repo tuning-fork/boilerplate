@@ -1,0 +1,47 @@
+.Button {
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: unset;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.Button--primary {
+  background-color: #009285;
+}
+.Button--success {
+  background-color: #15c15d;
+}
+.Button--error {
+  background-color: #ff4238;
+}
+.Button--contrast {
+  background-color: #192434;
+}
+
+.Button--outlined {
+  background-color: rgba(25, 59, 103, 0.05);
+}
+.Button--text {
+  background-color: inherit;
+}
+
+.Button--outlined.Button--primary,
+.Button--text.Button--primary {
+  color: #009285;
+}
+
+.Button--outlined.Button--success,
+.Button--text.Button--success {
+  color: #15c15d;
+}
+
+.Button--outlined.Button--error,
+.Button--text.Button--error {
+  color: #ff4238;
+}
+
+.Button--outlined.Button--contrast,
+.Button--text.Button--contrast {
+  color: #192434;
+}
