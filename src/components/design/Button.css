@@ -1,7 +1,10 @@
 :root {
   --primary: #009285;
+  --primary-text: #3ea499;
   --success: #15c15d;
+  --success-text: #00a344;
   --error: #ff4238;
+  --error-text: #f52419;
   --contrast-dark: #192434;
   --contrast-grey: rgba(25, 59, 103, 0.05);
   --contrast-light: #ffffff;
@@ -39,17 +42,17 @@
 
 .Button--outlined.Button--primary,
 .Button--text.Button--primary {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .Button--outlined.Button--success,
 .Button--text.Button--success {
-  color: var(--success);
+  color: var(--success-text);
 }
 
 .Button--outlined.Button--error,
 .Button--text.Button--error {
-  color: var(--error);
+  color: var(--error-text);
 }
 
 .Button--outlined.Button--contrast,
