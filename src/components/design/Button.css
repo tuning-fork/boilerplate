@@ -24,28 +24,28 @@
 .button--contained.button--primary {
   background-color: var(--primary);
 }
-.button--contained.button--primary:hover {
+.button--contained.button--primary:hover:not(:active) {
   background-color: var(--primary-contrast);
 }
 
 .button--contained.button--success {
   background-color: var(--success);
 }
-.button--contained.button--success:hover {
+.button--contained.button--success:hover:not(:active) {
   background-color: var(--success-contrast);
 }
 
 .button--contained.button--error {
   background-color: var(--error);
 }
-.button--contained.button--error:hover {
+.button--contained.button--error:hover:not(:active) {
   background-color: var(--error-contrast);
 }
 
 .button--contained.button--contrast {
   background-color: var(--contrast-dark);
 }
-/* .button--contained.button--contrast:hover {
+/* .button--contained.button--contrast:hover:not(:active) {
   background-color: TODO
 } */
 
