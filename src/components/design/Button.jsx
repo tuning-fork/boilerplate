@@ -2,16 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Button.css";
 
-const variants = {
-  contained: "contained",
-  outlined: "outlined",
-  text: "text",
+const ButtonVariant = {
+  Contained: "contained",
+  Outlined: "outlined",
+  Text: "text",
 };
-const colors = {
-  primary: "primary",
-  success: "success",
-  error: "error",
-  contrast: "contrast",
+const ButtonColor = {
+  Primary: "primary",
+  Success: "success",
+  Error: "error",
+  Contrast: "contrast",
 };
 
 export default function Button(props) {
@@ -26,11 +26,11 @@ export default function Button(props) {
 }
 
 Button.propTypes = {
-  variant: PropTypes.oneOf(Object.keys(variants)),
-  color: PropTypes.oneOf(Object.keys(colors)),
+  variant: PropTypes.oneOf(Object.values(ButtonVariant)),
+  color: PropTypes.oneOf(Object.values(ButtonColor)),
 };
 
 Button.defaultProps = {
-  variant: variants.contained,
-  color: colors.primary,
+  variant: ButtonVariant.Contained,
+  color: ButtonColor.Primary,
 };
