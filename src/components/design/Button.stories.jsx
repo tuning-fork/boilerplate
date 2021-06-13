@@ -1,53 +1,61 @@
 import React from "react";
-import Button from "./Button";
+import Button, { ButtonVariant, ButtonColor } from "./Button";
+import SearchIcon from "@material-ui/icons/Search";
 import "./theme.css";
+
+SearchIcon.displayName = "SearchIcon";
 
 export default {
   title: "Design/Button",
   component: Button,
+  argTypes: {
+    text: {
+      defaultValue: "Button",
+      control: {
+        type: "text",
+      },
+    },
+    variant: {
+      options: Object.values(ButtonVariant),
+      control: { type: "radio" },
+    },
+    color: {
+      options: Object.values(ButtonColor),
+      control: { type: "radio" },
+    },
+  },
 };
 
 const Container = ({ children }) => (
-  <div style={{ display: "flex", justifyContent: "space-around" }}>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-evenly",
+      marginBottom: "20px",
+    }}
+  >
     {children}
   </div>
 );
 
-export const Primary = () => (
-  <Container>
-    <Button>Button</Button>
-    <Button color="error">Button</Button>
-    <Button color="success">Button</Button>
-    <Button color="contrast">Button</Button>
-  </Container>
+export const ButtonRegular = (props) => (
+  <Button variant={props.variant} color={props.color}>
+    {props.text}
+  </Button>
 );
 
-export const Outlined = () => (
+export const ButtonWithIcon = (props) => (
   <Container>
-    <Button variant="outlined">Button</Button>
-    <Button color="error" variant="outlined">
-      Button
+    <Button variant={props.variant} color={props.color}>
+      <SearchIcon />
     </Button>
-    <Button color="success" variant="outlined">
-      Button
+    <Button variant={props.variant} color={props.color}>
+      <SearchIcon />
+      {props.text}
     </Button>
-    <Button color="contrast" variant="outlined">
-      Button
-    </Button>
-  </Container>
-);
-
-export const Text = () => (
-  <Container>
-    <Button variant="text">Button</Button>
-    <Button color="error" variant="text">
-      Button
-    </Button>
-    <Button color="success" variant="text">
-      Button
-    </Button>
-    <Button color="contrast" variant="text">
-      Button
+    <Button variant={props.variant} color={props.color}>
+      {props.text}
+      <SearchIcon />
     </Button>
   </Container>
 );

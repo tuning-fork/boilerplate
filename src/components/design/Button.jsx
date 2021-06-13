@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Button.css";
 
-const ButtonVariant = {
+export const ButtonVariant = {
   Contained: "contained",
   Outlined: "outlined",
   Text: "text",
 };
-const ButtonColor = {
+export const ButtonColor = {
   Primary: "primary",
   Success: "success",
   Error: "error",
@@ -20,7 +20,15 @@ export default function Button(props) {
       className={`button button--${props.variant} button--${props.color}`}
       type="button"
     >
-      {props.children}
+      {Array.isArray(props.children)
+        ? props.children.map((child) => {
+            // Wrap text nodes in span for styling with icons.
+            if (typeof child === "string") {
+              return <span>{child}</span>;
+            }
+            return child;
+          })
+        : props.children}
     </button>
   );
 }
