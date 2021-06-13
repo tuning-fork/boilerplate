@@ -34,36 +34,13 @@ import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 
-import Button from "@material-ui/core/Button";
-
 export default function App(props) {
   console.log({ props });
 
   return (
     <div className="App">
       <BrowserRouter>
-        <div>
-          <Button variant="contained" color="primary">
-            Hi, I'm a Material-UI (tm) primary Button!
-          </Button>
-          <Button variant="contained" color="secondary">
-            Hi, I'm a Material-UI (tm) seconary Button!
-          </Button>
-          <Button variant="contained" color="error">
-            Hi, I'm a Material-UI (tm) error Button!
-          </Button>
-          <Button variant="contained" color="warning">
-            Hi, I'm a Material-UI (tm) warning Button!
-          </Button>
-          <Button variant="contained" color="success">
-            Hi, I'm a Material-UI (tm) success Button!
-          </Button>
-        </div>
-
         <Navigation />
-        <Button variant="contained" color="warning">
-          Hi, I'm the other Material-UI (tm) Button!
-        </Button>
         <Switch>
           <Route exact path="/">
             <Redirect to="/landing_page" />
