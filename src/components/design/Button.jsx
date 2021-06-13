@@ -17,7 +17,7 @@ const colors = {
 export default function Button(props) {
   return (
     <button
-      className={`Button Button--${props.variant} Button--${props.color}`}
+      className={`button button--${props.variant} button--${props.color}`}
       type="button"
     >
       {props.children}
