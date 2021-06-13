@@ -39,21 +39,21 @@ const Container = ({ children }) => (
 );
 
 export const ButtonRegular = (props) => (
-  <Button variant={props.variant} color={props.color}>
+  <Button variant={props.variant} color={props.color} type={props.type}>
     {props.text}
   </Button>
 );
 
 export const ButtonWithIcon = (props) => (
   <Container>
-    <Button variant={props.variant} color={props.color}>
+    <Button variant={props.variant} color={props.color} type={props.type}>
       <SearchIcon />
     </Button>
-    <Button variant={props.variant} color={props.color}>
+    <Button variant={props.variant} color={props.color} type={props.type}>
       <SearchIcon />
       {props.text}
     </Button>
-    <Button variant={props.variant} color={props.color}>
+    <Button variant={props.variant} color={props.color} type={props.type}>
       {props.text}
       <SearchIcon />
     </Button>
