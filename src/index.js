@@ -9,6 +9,7 @@ import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationConte
 //Material UI Theme Provider that is the wrapper for the Material-UI theme:
 import { ThemeProvider } from "@material-ui/core/styles";
 import { theme } from "./theme";
+import "./components/design/theme.css";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";

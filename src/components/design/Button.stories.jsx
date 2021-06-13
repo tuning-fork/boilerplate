@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import "./theme.css";
 
 export default {
   title: "Design/Button",

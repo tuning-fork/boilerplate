@@ -1,15 +1,3 @@
-:root {
-  --primary: #009285;
-  --primary-contrast: #3ea499;
-  --success: #15c15d;
-  --success-contrast: #00a344;
-  --error: #ff4238;
-  --error-contrast: #f52419;
-  --contrast-dark: #192434;
-  --contrast-grey: rgba(25, 59, 103, 0.05);
-  --contrast-light: #ffffff;
-}
-
 .button {
   padding: 8px 14px;
   border-radius: 4px;
