@@ -1,5 +1,4 @@
 import React, { Component, useState, useEffect } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -42,23 +41,23 @@ export default function SectionToBoilerplateNew(props) {
     }
   }, [currentOrganizationId]);
 
-  const updateCategories = (newCategory) => {
-    const categoriesArray = [...categories, newCategory];
-    setCategories(categoriesArray);
-  };
+  // const updateCategories = (newCategory) => {
+  //   const categoriesArray = [...categories, newCategory];
+  //   setCategories(categoriesArray);
+  // };
 
-  const clearForm = () => {
-    setQuillText("");
-    setTitle("");
-    setText("");
-    setOrganizationId("");
-    setCategoryId("");
-    setWordcount("");
-  };
+  // const clearForm = () => {
+  //   setQuillText("");
+  //   setTitle("");
+  //   setText("");
+  //   setOrganizationId("");
+  //   setCategoryId("");
+  //   setWordcount("");
+  // };
 
-  const toggleHiddenCategoriesOrganizationsNew = () => {
-    setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
-  };
+  // const toggleHiddenCategoriesOrganizationsNew = () => {
+  //   setIsHiddenCategoriesOrganizationsNew(!isHiddenCategoriesOrganizationsNew);
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();

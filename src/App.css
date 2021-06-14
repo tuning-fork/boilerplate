@@ -124,14 +124,11 @@ a.basic:hover {
 }
 
 .modal-popup {
-  display: block;
   position: absolute;
-  width: 50%;
-  overflow-y: auto;
-  overflow-x: auto;
-  border-radius: 0px;
-  position: fixed;
-  left: 25%;
-  box-shadow: 0 0 20px 0 rgba(100, 100, 100, 0.5);
-  z-index: 999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  box-shadow: 0 0 20px 0 rgb(100 100 100 / 50%);
+  background-color: #f5f7f9;
 }

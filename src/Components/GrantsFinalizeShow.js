@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import Modal from "./Elements/Modal";
 import {
   DndContext,
   closestCenter,
@@ -27,6 +29,9 @@ import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
+import GrantEditForm from "./Grants/GrantEditForm";
+import GrantCopy from "./Grants/GrantCopy";
+import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -56,6 +61,15 @@ export default function GrantsFinalizeShow(props) {
     // })
   );
 
+  const [showGrantEditModal, setShowGrantEditModal] = useState(false);
+  const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
+  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
+    useState(null);
+  const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
+  const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
+  const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
+  const handleCloseGrantCopyModal = (event) => setShowGrantCopyModal(false);
+
   const getGrant = useCallback(() => {
     if (!organizationClient) {
       return;
@@ -78,6 +92,37 @@ export default function GrantsFinalizeShow(props) {
       setNewSectionIndex(null);
       return getGrant();
     });
+  };
+
+  const handleSubmitEditGrantForm = ({
+    newTitle,
+    newRfpUrl,
+    newDeadline,
+    newSubmitted,
+    newSuccessful,
+    newPurpose,
+  }) => {
+    GrantsService.updateGrant(organizationClient, grantId, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      organization_id: grant.organizationId,
+      funding_org_id: grant.fundingOrgId,
+    })
+      .then((updatedGrant) => {
+        handleCloseGrantEditModal();
+        setGrant(updatedGrant);
+      })
+      .catch((error) => {
+        console.log("grant update error", error);
+      });
+  };
+
+  const handleCancelEditGrantForm = (event) => {
+    handleCloseGrantEditModal();
   };
 
   const handleReorderSection = (event) => {
@@ -134,18 +179,33 @@ export default function GrantsFinalizeShow(props) {
         <header className="GrantsFinalizeShow__Header">
           <h1 className="GrantsFinalizeShow__Title">{grant.title}</h1>
           <div className="GrantsFinalizeShow__Actions">
-            <Link
-              className="GrantsFinalizeShow__MakeCopy"
-              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy`}
+            <Button onClick={handleShowGrantCopyModal}>Copy</Button>
+            <Button onClick={handleShowGrantEditModal}>Edit</Button>
+            <Modal
+              onClose={handleCloseGrantEditModal}
+              show={showGrantEditModal}
             >
-              Make a Copy
-            </Link>
-            <Link
-              className="btn btn-outline-dark"
-              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit`}
+              <Card>
+                <Card.Body>
+                  <GrantEditForm
+                    grant={grant}
+                    onSubmit={handleSubmitEditGrantForm}
+                    onCancel={handleCloseGrantEditModal}
+                  />
+                </Card.Body>
+              </Card>
+            </Modal>
+            <Modal
+              className="modal-popup"
+              onClose={handleCloseGrantCopyModal}
+              show={showGrantCopyModal}
             >
-              Edit
-            </Link>
+              <Card>
+                <Card.Body>
+                  <GrantCopy grant={grant} />
+                </Card.Body>
+              </Card>
+            </Modal>
           </div>
         </header>
         <dl className="GrantsFinalizeShow__Fields">
@@ -159,16 +219,14 @@ export default function GrantsFinalizeShow(props) {
           <dd>{grant.purpose}</dd>
           <dt>RFP URL</dt>
           <dd>{grant.rfp_url}</dd>
+          <dt>Total word count:</dt>
+          <dd>{totalWordCount}</dd>
         </dl>
       </section>
 
       <hr />
 
       <section>
-        <p className="GrantsFinalizeShow__TotalWordCount">
-          Total word count: <span>{totalWordCount}</span>
-        </p>
-
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -181,7 +239,10 @@ export default function GrantsFinalizeShow(props) {
             <ol className="GrantsFinalizeShow__SectionList">
               {grant.sections?.map((section) => (
                 <SortableElement key={section.id} id={section.id}>
-                  <SectionsShow section={section} />
+                  <SectionsShow
+                    section={section}
+                    onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                  />
                   {newSectionIndex === section.id && (
                     <SectionForm
                       onSubmit={(newSectionFields) =>
@@ -205,6 +266,12 @@ export default function GrantsFinalizeShow(props) {
           </SortableContext>
         </DndContext>
       </section>
+      <Modal show={!!sectionToSaveAsBoilerplate}>
+        <SaveSectionAsBoilerplate
+          section={sectionToSaveAsBoilerplate}
+          onClose={() => setSectionToSaveAsBoilerplate(null)}
+        />
+      </Modal>
     </Container>
   );
 }
