@@ -128,7 +128,7 @@ a.basic:hover {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2000;
   box-shadow: 0 0 20px 0 rgb(100 100 100 / 50%);
   background-color: #f5f7f9;
 }
