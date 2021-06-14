@@ -229,9 +229,8 @@ export default function GrantsFinalizeShow(props) {
           <dd>{grant.purpose}</dd>
           <dt>RFP URL</dt>
           <dd>{grant.rfp_url}</dd>
-          <p className="GrantsFinalizeShow__TotalWordCount">
-            Total word count: <span>{totalWordCount}</span>
-          </p>
+          <dt>Total word count:</dt>
+          <dd>{totalWordCount}</dd>
         </dl>
       </section>
 
