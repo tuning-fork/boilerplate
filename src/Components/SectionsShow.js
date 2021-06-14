@@ -1,38 +1,21 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import countSectionWords from "../Helpers/countSectionWords";
 import "./SectionsShow.css";
 import { Button } from "react-bootstrap";
-import Modal from "./Elements/Modal";
-import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
 
 export default function SectionsShow(props) {
-  const { section } = props;
-  const [showSaveAsBoilerplateModal, setShowSaveAsBoilerplateModal] =
-    useState(false);
-  const handleShowSaveAsBoilerplateModal = (event) => {
-    setShowSaveAsBoilerplateModal(true);
-    console.log(`modal should render: ${showSaveAsBoilerplateModal}`);
-    console.log("hi!");
-  };
-  const handleCloseSaveAsBoilerplateModal = (event) =>
-    setShowSaveAsBoilerplateModal(false);
+  const { section, onSaveSectionAsBoilerplate = () => {} } = props;
 
   return (
     <>
       <div className="Section__Header">
         <h1 className="Section__Title">{section.title}</h1>
-        <Button onClick={handleShowSaveAsBoilerplateModal}>
+        <Button onClick={() => onSaveSectionAsBoilerplate(section)}>
           Save Section as Boilerplate
         </Button>
         <p>Word count: {countSectionWords(section)}</p>
       </div>
       <div dangerouslySetInnerHTML={{ __html: section.text }}></div>
-      <Modal
-        onClose={handleCloseSaveAsBoilerplateModal}
-        show={showSaveAsBoilerplateModal}
-      >
-        <SaveSectionAsBoilerplate section={section} />
-      </Modal>
     </>
   );
 }
