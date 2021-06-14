@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import { countWords } from "../../Services/infofunctions";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
@@ -12,11 +9,6 @@ import { getAllCategories } from "../../Services/Organizations/CategoriesService
 export default function SaveSectionAsBoilerplate(props) {
   const quillEl = useRef(null);
   const [categories, setCategories] = useState([]);
-  const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
-  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
-
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({
     title: props.section.title,
     text: props.section.text,
@@ -24,10 +16,6 @@ export default function SaveSectionAsBoilerplate(props) {
     wordcount: "",
   });
   const { organizationClient } = useCurrentOrganizationContext();
-  const buildOrganizationsLink = useBuildOrganizationsLink();
-  const { grant_id: grantId } = useParams();
-  const history = useHistory();
-
   const handleChangeField = (field) => (event) => {
     event.preventDefault();
 
@@ -41,16 +29,19 @@ export default function SaveSectionAsBoilerplate(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    props.onCancel();
+    props.onClose();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createBoilerplate(organizationClient, newBoilerplateFields)
+    createBoilerplate(organizationClient, {
+      ...newBoilerplateFields,
+      wordcount: countWords(quillEl.current.getEditor().getText()),
+    })
       .then((boilerplate) => {
         if (boilerplate) {
           alert("Section saved as boilerplate!");
-          // handle close save as boilerplate modal
+          props.onClose();
         }
       })
       .catch((error) => {
@@ -70,34 +61,6 @@ export default function SaveSectionAsBoilerplate(props) {
       setCategories(categories);
     });
   }, [organizationClient]);
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["clean"],
-      [{ color: [] }],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "color",
-  ];
 
   return (
     <Form className="SectionForm" onSubmit={handleSubmit}>
@@ -151,11 +114,10 @@ export default function SaveSectionAsBoilerplate(props) {
           className="SectionForm__ContentEditor"
           ref={quillEl}
           value={newBoilerplateFields.text}
-          onChange={(event) => {
+          onChange={(html) => {
             setNewBoilerplateFields({
               ...newBoilerplateFields,
-              text: event.target.value,
-              wordcount: countWords(event.target.value),
+              text: html,
             });
           }}
         />
