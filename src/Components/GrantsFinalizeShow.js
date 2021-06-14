@@ -176,18 +176,6 @@ export default function GrantsFinalizeShow(props) {
         <header className="GrantsFinalizeShow__Header">
           <h1 className="GrantsFinalizeShow__Title">{grant.title}</h1>
           <div className="GrantsFinalizeShow__Actions">
-            <Link
-              className="GrantsFinalizeShow__MakeCopy"
-              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy`}
-            >
-              Make a Copy
-            </Link>
-            {/* <Link
-              className="btn btn-outline-dark"
-              to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit`}
-            >
-              Edit
-            </Link> */}
             <Button onClick={handleShowGrantCopyModal}>Copy</Button>
             <Button onClick={handleShowGrantEditModal}>Edit</Button>
             <Modal
@@ -229,9 +217,9 @@ export default function GrantsFinalizeShow(props) {
           <dd>{grant.purpose}</dd>
           <dt>RFP URL</dt>
           <dd>{grant.rfp_url}</dd>
-          <p className="GrantsFinalizeShow__TotalWordCount">
+          <dt className="GrantsFinalizeShow__TotalWordCount">
             Total word count: <span>{totalWordCount}</span>
-          </p>
+          </dt>
         </dl>
       </section>
 
