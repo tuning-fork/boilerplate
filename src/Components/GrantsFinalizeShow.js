@@ -191,7 +191,6 @@ export default function GrantsFinalizeShow(props) {
             <Button onClick={handleShowGrantCopyModal}>Copy</Button>
             <Button onClick={handleShowGrantEditModal}>Edit</Button>
             <Modal
-              className="modal-popup"
               onClose={handleCloseGrantEditModal}
               show={showGrantEditModal}
             >
