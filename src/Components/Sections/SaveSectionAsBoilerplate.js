@@ -15,9 +15,7 @@ export default function SaveSectionAsBoilerplate(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const { currentOrganizationStore } = useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
 
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({
     title: props.section.title,

@@ -179,7 +179,6 @@ export default function GrantsFinalizeShow(props) {
             <Button onClick={handleShowGrantCopyModal}>Copy</Button>
             <Button onClick={handleShowGrantEditModal}>Edit</Button>
             <Modal
-              className="modal-popup"
               onClose={handleCloseGrantEditModal}
               show={showGrantEditModal}
             >
@@ -188,7 +187,7 @@ export default function GrantsFinalizeShow(props) {
                   <GrantEditForm
                     grant={grant}
                     onSubmit={handleSubmitEditGrantForm}
-                    onCancel={handleCancelEditGrantForm}
+                    onCancel={handleCloseGrantEditModal}
                   />
                 </Card.Body>
               </Card>
@@ -217,9 +216,8 @@ export default function GrantsFinalizeShow(props) {
           <dd>{grant.purpose}</dd>
           <dt>RFP URL</dt>
           <dd>{grant.rfp_url}</dd>
-          <dt className="GrantsFinalizeShow__TotalWordCount">
-            Total word count: <span>{totalWordCount}</span>
-          </dt>
+          <dt>Total word count:</dt>
+          <dd>{totalWordCount}</dd>
         </dl>
       </section>
 
