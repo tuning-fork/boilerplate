@@ -31,6 +31,7 @@ import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
 import GrantEditForm from "./Grants/GrantEditForm";
 import GrantCopy from "./Grants/GrantCopy";
+import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
 import "./GrantsFinalizeShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -62,6 +63,8 @@ export default function GrantsFinalizeShow(props) {
 
   const [showGrantEditModal, setShowGrantEditModal] = useState(false);
   const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
+  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
+    useState(null);
   const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
   const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
   const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
@@ -236,7 +239,10 @@ export default function GrantsFinalizeShow(props) {
             <ol className="GrantsFinalizeShow__SectionList">
               {grant.sections?.map((section) => (
                 <SortableElement key={section.id} id={section.id}>
-                  <SectionsShow section={section} />
+                  <SectionsShow
+                    section={section}
+                    onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                  />
                   {newSectionIndex === section.id && (
                     <SectionForm
                       onSubmit={(newSectionFields) =>
@@ -260,6 +266,12 @@ export default function GrantsFinalizeShow(props) {
           </SortableContext>
         </DndContext>
       </section>
+      <Modal show={!!sectionToSaveAsBoilerplate}>
+        <SaveSectionAsBoilerplate
+          section={sectionToSaveAsBoilerplate}
+          onClose={() => setSectionToSaveAsBoilerplate(null)}
+        />
+      </Modal>
     </Container>
   );
 }
