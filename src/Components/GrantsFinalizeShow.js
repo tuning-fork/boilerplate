@@ -200,7 +200,7 @@ export default function GrantsFinalizeShow(props) {
                   <GrantEditForm
                     grant={grant}
                     onSubmit={handleSubmitEditGrantForm}
-                    onCancel={handleCancelEditGrantForm}
+                    onCancel={handleCloseGrantEditModal}
                   />
                 </Card.Body>
               </Card>
