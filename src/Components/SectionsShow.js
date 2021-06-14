@@ -28,7 +28,6 @@ export default function SectionsShow(props) {
       </div>
       <div dangerouslySetInnerHTML={{ __html: section.text }}></div>
       <Modal
-        className="modal-popup"
         onClose={handleCloseSaveAsBoilerplateModal}
         show={showSaveAsBoilerplateModal}
       >
