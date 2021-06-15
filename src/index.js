@@ -6,7 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
-import "./components/design/theme.css";
+import "./Components/design/theme.css";
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
