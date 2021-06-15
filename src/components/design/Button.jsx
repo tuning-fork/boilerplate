@@ -18,7 +18,9 @@ export default function Button(props) {
   return (
     <button
       {...props}
-      className={`${props.className} button button--${props.variant} button--${props.color}`}
+      className={`${props.className} button button--${props.variant} button--${
+        props.color
+      } ${props.disabled ? "button--disabled" : ""}`}
     >
       {Array.isArray(props.children)
         ? props.children.map((child) => {
@@ -36,6 +38,7 @@ export default function Button(props) {
 Button.propTypes = {
   className: PropTypes.string,
   color: PropTypes.oneOf(Object.values(ButtonColor)),
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
   tabIndex: PropTypes.number,
   type: PropTypes.oneOf(["button", "reset", "submit"]),
@@ -45,6 +48,7 @@ Button.propTypes = {
 Button.defaultProps = {
   className: "",
   color: ButtonColor.Primary,
+  disabled: false,
   onClick: () => {},
   tabIndex: 0,
   type: "button",
