@@ -17,8 +17,8 @@ export const ButtonColor = {
 export default function Button(props) {
   return (
     <button
-      className={`button button--${props.variant} button--${props.color}`}
-      type={props.type}
+      {...props}
+      className={`${props.className} button button--${props.variant} button--${props.color}`}
     >
       {Array.isArray(props.children)
         ? props.children.map((child) => {
@@ -34,13 +34,19 @@ export default function Button(props) {
 }
 
 Button.propTypes = {
+  className: PropTypes.string,
+  color: PropTypes.oneOf(Object.values(ButtonColor)),
+  onClick: PropTypes.func,
+  tabIndex: PropTypes.number,
   type: PropTypes.oneOf(["button", "reset", "submit"]),
   variant: PropTypes.oneOf(Object.values(ButtonVariant)),
-  color: PropTypes.oneOf(Object.values(ButtonColor)),
 };
 
 Button.defaultProps = {
+  className: "",
+  color: ButtonColor.Primary,
+  onClick: () => {},
+  tabIndex: 0,
   type: "button",
   variant: ButtonVariant.Contained,
-  color: ButtonColor.Primary,
 };
