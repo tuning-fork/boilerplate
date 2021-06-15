@@ -6,9 +6,6 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
-//Material UI Theme Provider that is the wrapper for the Material-UI theme:
-import { ThemeProvider } from "@material-ui/core/styles";
-import { theme } from "./theme";
 import "./components/design/theme.css";
 
 axios.defaults.baseURL =
@@ -16,13 +13,11 @@ axios.defaults.baseURL =
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CurrentUserProvider>
-        <CurrentOrganizationProvider>
-          <App />
-        </CurrentOrganizationProvider>
-      </CurrentUserProvider>
-    </ThemeProvider>
+    <CurrentUserProvider>
+      <CurrentOrganizationProvider>
+        <App />
+      </CurrentOrganizationProvider>
+    </CurrentUserProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
