@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 import "./Button.css";
 
 export const ButtonVariant = {
@@ -18,9 +19,13 @@ export default function Button(props) {
   return (
     <button
       {...props}
-      className={`${props.className} button button--${props.variant} button--${
-        props.color
-      } ${props.disabled ? "button--disabled" : ""}`}
+      className={clsx(
+        props.className,
+        "button",
+        `button--${props.variant}`,
+        `button--${props.color}`,
+        props.disabled && "button--disabled"
+      )}
     >
       {Array.isArray(props.children)
         ? props.children.map((child) => {
