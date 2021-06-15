@@ -1,0 +1,82 @@
+.button {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: unset;
+  cursor: pointer;
+}
+
+.button > svg {
+  font-size: 16px;
+}
+.button > svg:not(:only-child):first-child {
+  margin-right: 6px;
+}
+.button > svg:not(:only-child):last-child {
+  margin-left: 6px;
+}
+
+.button--contained {
+  color: var(--contrast-light);
+}
+
+.button--contained.button--primary {
+  background-color: var(--primary);
+}
+.button--contained.button--primary:hover:not(:active) {
+  background-color: var(--primary-contrast);
+}
+
+.button--contained.button--success {
+  background-color: var(--success);
+}
+.button--contained.button--success:hover:not(:active) {
+  background-color: var(--success-contrast);
+}
+
+.button--contained.button--error {
+  background-color: var(--error);
+}
+.button--contained.button--error:hover:not(:active) {
+  background-color: var(--error-contrast);
+}
+
+.button--contained.button--contrast {
+  background-color: var(--contrast-dark);
+}
+/* .button--contained.button--contrast:hover:not(:active) {
+  background-color: TODO
+} */
+
+.button--outlined {
+  background-color: var(--contrast-grey);
+}
+
+.button--text {
+  background-color: inherit;
+}
+
+.button--outlined.button--primary,
+.button--text.button--primary {
+  color: var(--primary-contrast);
+}
+
+.button--outlined.button--success,
+.button--text.button--success {
+  color: var(--success-contrast);
+}
+
+.button--outlined.button--error,
+.button--text.button--error {
+  color: var(--error-contrast);
+}
+
+.button--outlined.button--contrast,
+.button--text.button--contrast {
+  color: var(--contrast-dark);
+}
+
+.button.button--disabled {
+  background-color: rgba(0, 0, 0, 0.3);
+}
