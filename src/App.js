@@ -34,9 +34,7 @@ import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 
-export default function App(props) {
-  console.log({ props });
-
+export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
