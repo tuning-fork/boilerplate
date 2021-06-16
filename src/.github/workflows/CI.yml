@@ -28,7 +28,9 @@ jobs:
         run: npm ci
 
       - name: Run linter
-        run: npm run lint
+        run: |
+          files_changed=(`git diff develop..HEAD --diff-filter=ACMR --name-only | grep -E '\.(js|jsx)$' | tr '\n' ' '`)
+          ./node_modules/.bin/eslint $files_changed
 
       - name: Run unit tests
         run: npm run test
