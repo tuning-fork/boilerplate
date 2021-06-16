@@ -27,7 +27,8 @@ h1,
 h2,
 h5,
 h6,
-b {
+b,
+button {
   font-weight: 500;
 }
 
@@ -70,4 +71,8 @@ a {
 }
 a:visited {
   color: var(--primary-contrast-alt);
+}
+
+button {
+  font-family: inherit;
 }
