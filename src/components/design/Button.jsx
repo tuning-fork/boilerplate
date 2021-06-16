@@ -28,10 +28,10 @@ export default function Button(props) {
       )}
     >
       {Array.isArray(props.children)
-        ? props.children.map((child) => {
+        ? props.children.map((child, index) => {
             // Wrap text nodes in span for styling with icons.
             if (typeof child === "string") {
-              return <span>{child}</span>;
+              return <span key={index}>{child}</span>;
             }
             return child;
           })
