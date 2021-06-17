@@ -1,11 +1,13 @@
 :root {
   --primary: #009285;
   --primary-contrast: #3ea499;
+  --primary-contrast-alt: #005f54;
   --success: #15c15d;
   --success-contrast: #00a344;
   --error: #ff4238;
   --error-contrast: #f52419;
   --contrast-dark: #192434;
+  --contrast-dark-alt: rgba(24, 39, 58, 0.94);
   --contrast-grey: rgba(25, 59, 103, 0.05);
   --contrast-light: #ffffff;
 }
