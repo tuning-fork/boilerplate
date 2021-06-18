@@ -1,4 +1,5 @@
-import React, { createPortal } from "react";
+import React from "react";
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./Modal.css";
