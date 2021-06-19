@@ -1,9 +1,3 @@
-//      Inputs:
-//          Text inputs
-//          Quilltext html inputs
-//          Dropdowns
-//          Checkboxes
-
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -12,15 +6,15 @@ import "./Input.css";
 export const InputType = {
   Text: "text",
   Checkbox: "checkbox",
-  // QuillText: "quilltext",
-  // Dropdown: "dropdown",
 };
 
 export default function Input(props) {
+  const { labelText, className, ...restProps } = props;
+
   return (
     <label>
-      {props.labelText}
-      <input {...props} className={clsx(props.className, "input")} />
+      <span className="input-label">{labelText}</span>
+      <input {...restProps} className={clsx(className, "input")} />
     </label>
   );
 }
