@@ -88,4 +88,5 @@ a:visited {
 button,
 input {
   font-family: inherit;
+  font-size: inherit;
 }
