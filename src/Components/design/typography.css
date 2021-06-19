@@ -85,6 +85,7 @@ a:visited {
   color: var(--primary-contrast-alt);
 }
 
-button {
+button,
+input {
   font-family: inherit;
 }
