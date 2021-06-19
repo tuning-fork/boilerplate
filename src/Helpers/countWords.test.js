@@ -10,8 +10,12 @@ describe("countWords", () => {
     expect(countWords("The house is 120 years old.")).toEqual(6);
   });
 
+  it("counts words with special characters", () => {
+    expect(countWords("The Cat's meow. In-between states.")).toEqual(5);
+  });
+
   it("does not include whitespace, tabs, or newlines in word count", () => {
-    expect(countWords("\n\tThat is       great!\n")).toEqual(3);
+    expect(countWords(" \n\tThat is       great!\n ")).toEqual(3);
   });
 
   it("returns zero given empty string", () => {
