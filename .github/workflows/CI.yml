@@ -1,4 +1,4 @@
-name: CI
+name: Lint & Test
 
 on: push
 
@@ -13,13 +13,13 @@ jobs:
           node-version: "14"
 
       - name: Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
 
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json')) }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -29,8 +29,12 @@ jobs:
 
       - name: Run linter
         run: |
-          files_changed=(`git diff develop..HEAD --diff-filter=ACMR --name-only | grep -E '\.(js|jsx)$' | tr '\n' ' '`)
-          ./node_modules/.bin/eslint $files_changed
+          files_changed=(`git diff origin/develop --diff-filter=ACMR --name-only | grep -E '\.(js|jsx)$' | tr '\n' ' '`)
+          if [[ ${#files_changed} > 0 ]]; then
+            ./node_modules/.bin/eslint $files_changed
+          else
+            echo "No JavaScript files changed. Skipping lint check."
+          fi
 
       - name: Run unit tests
         run: npm run test
