@@ -1,7 +1,6 @@
 import React from "react";
 import Button, { ButtonVariant, ButtonColor } from "./Button";
 import SearchIcon from "@material-ui/icons/Search";
-import "../theme.css";
 
 SearchIcon.displayName = "SearchIcon";
 

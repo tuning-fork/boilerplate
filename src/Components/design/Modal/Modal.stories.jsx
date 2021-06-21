@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 import Button from "../Button/Button";
-import "../theme.css";
 
 export default {
   title: "Design/Modal",

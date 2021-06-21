@@ -1,5 +1,4 @@
 import React from "react";
-import "../design.css";
 
 export default {
   title: "Design/Typography",
