@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Button, Container, Form, Card } from "react-bootstrap";
 import Modal from "./Elements/Modal";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
