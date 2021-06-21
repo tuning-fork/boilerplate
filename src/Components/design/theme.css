@@ -2,6 +2,9 @@
   --primary: #009285;
   --primary-contrast: #3ea499;
   --primary-contrast-alt: #005f54;
+  --secondary: rgba(224, 39, 128, 1);
+  --secondary-alt: rgba(236, 95, 163, 1);
+  --secondary-text-light: rgba(27, 43, 65, 0.72);
   --success: #15c15d;
   --success-contrast: #00a344;
   --error: #ff4238;
@@ -10,4 +13,5 @@
   --contrast-dark-alt: rgba(24, 39, 58, 0.94);
   --contrast-grey: rgba(25, 59, 103, 0.05);
   --contrast-light: #ffffff;
+  --background-grey-light: rgba(26, 56, 96, 0.1);
 }
