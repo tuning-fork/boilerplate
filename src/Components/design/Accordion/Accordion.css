@@ -1,0 +1,7 @@
+.accordion > * {
+  border-bottom: 1px solid rgba(26, 56, 96, 0.1);
+}
+
+.accordion > *:last-child {
+  border-bottom: 0;
+}

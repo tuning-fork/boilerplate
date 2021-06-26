@@ -4,7 +4,7 @@ import clsx from "clsx";
 import "./Accordion.css";
 
 export default function Accordion(props) {
-  return <div>{props.children}</div>;
+  return <div className="accordion">{props.children}</div>;
 }
 
 Accordion.propTypes = {

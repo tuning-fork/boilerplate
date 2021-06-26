@@ -8,8 +8,11 @@ import "./AccordionItem.css";
 export default function AccordionItem(props) {
   const [collapsed, setCollapsed] = useState(true);
   return (
-    <div>
-      <header onClick={() => setCollapsed(!collapsed)}>
+    <div className="accordion-item">
+      <header 
+        className="accordion-item__header"
+        onClick={() => setCollapsed(!collapsed)}
+      >
         {collapsed ? <RightArrowIcon /> : <DownArrowIcon />}
         {props.title}
       </header>
