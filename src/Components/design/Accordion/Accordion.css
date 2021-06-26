@@ -1,5 +1,5 @@
 .accordion > .accordion-item {
-  border-bottom: 1px solid rgba(26, 56, 96, 0.1);
+  border-bottom: 1px solid var(--contrast-10-light);
 }
 
 .accordion > .accordion-item:last-child {
