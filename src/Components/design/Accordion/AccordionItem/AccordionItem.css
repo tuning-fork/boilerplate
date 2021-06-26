@@ -1,11 +1,16 @@
 .accordion-item {
-  padding: 8px 0;
+  padding: 12px 0;
 }
 
-.accordion-item__header {
-  color: var(--secondary-text-light);
+.accordion-item__heading {
+  margin: 0;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
+  color: var(--secondary-text-light);
+}
+
+.accordion-item__heading > button {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  width: 100%;
 }
