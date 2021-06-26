@@ -80,3 +80,12 @@
 .button.button--disabled {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.button--none {
+  background: none;
+  color: unset;
+  display: block;
+  outline: none;
+  padding: 0;
+  font-size: unset;
+}
