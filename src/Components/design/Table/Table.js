@@ -36,25 +36,23 @@ export default function Table(props) {
     );
   };
 
+  const renderCell = (cell) => {
+    const isNumber = typeof cell.value === "number";
+
+    return (
+      <td
+        {...cell.getCellProps()}
+        className={clsx("table__cell", isNumber && "table__cell--number")}
+      >
+        {cell.render("Cell")}
+      </td>
+    );
+  };
+
   const renderRow = (row) => {
     prepareRow(row);
 
-    return (
-      <tr {...row.getRowProps()}>
-        {row.cells.map((cell) => {
-          const isNumber = typeof cell.value === "number";
-
-          return (
-            <td
-              {...cell.getCellProps()}
-              className={clsx("table__cell", isNumber && "table__cell--number")}
-            >
-              {cell.render("Cell")}
-            </td>
-          );
-        })}
-      </tr>
-    );
+    return <tr {...row.getRowProps()}>{row.cells.map(renderCell)}</tr>;
   };
 
   return (
