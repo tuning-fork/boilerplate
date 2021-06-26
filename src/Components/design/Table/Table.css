@@ -1,0 +1,11 @@
+.table {
+  width: 100%;
+}
+
+.table__header {
+  text-align: left;
+  padding: 0;
+  color: var(--secondary-text-light);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+}
