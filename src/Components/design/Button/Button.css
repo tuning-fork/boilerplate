@@ -88,4 +88,8 @@
   outline: none;
   padding: 0;
   font-size: unset;
+  border: 2px solid transparent;
+}
+.button--none:focus {
+  border: 2px solid var(--secondary);
 }
