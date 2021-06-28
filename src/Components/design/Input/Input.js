@@ -5,7 +5,6 @@ import "./Input.css";
 
 export const InputType = {
   Text: "text",
-  Checkbox: "checkbox",
 };
 
 export default function Input(props) {
