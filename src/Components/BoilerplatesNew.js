@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Button, Form, Card } from "react-bootstrap";
 import Modal from "./Elements/Modal";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -15,20 +13,14 @@ import { getAllCategories } from "../Services/Organizations/CategoriesService";
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [wordcount, setWordcount] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const history = useHistory();
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -48,7 +40,7 @@ export default function BoilerplatesNew(props) {
         })
         .catch((error) => console.log(error));
     }
-  }, []);
+  }, [currentOrganizationId, organizationClient]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
@@ -59,19 +51,14 @@ export default function BoilerplatesNew(props) {
   const clearForm = () => {
     setQuillText("");
     setTitle("");
-    setText("");
     setOrganizationId("");
     setCategoryId("");
-    setWordcount("");
   };
 
   const handleCancel = (event) => {
     event.preventDefault();
     history.push(`/organizations/${currentOrganizationId}/boilerplates`);
   };
-
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
 
   const handleSubmit = (event) => {
     event.preventDefault();

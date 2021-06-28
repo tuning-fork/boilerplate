@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,
   getGrant,
-  updateGrant,
 } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
-import parseDateFromInput from "../../Helpers/parseDateFromInput";
-import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantEdit.css";
+import GrantEditForm from "./GrantEditForm";
+import * as GrantsService from "../../Services/Organizations/GrantsService";
 
 export default function GrantEdit(props) {
-  const [newGrantFields, setNewGrantFields] = useState({
-    deadline: null,
-    funding_org_id: null,
-    purpose: "",
-    rfp_url: "",
-    title: "",
-  });
+  const [grant, setGrant] = useState(props.grant);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const { organizationClient } = useCurrentOrganizationContext();
   const buildOrganizationsLink = useBuildOrganizationsLink();
@@ -44,44 +37,30 @@ export default function GrantEdit(props) {
     }
   };
 
-  const handleChangeField = (field) => (event) => {
-    event.preventDefault();
-
-    const newValue =
-      field === "deadline"
-        ? parseDateFromInput(event.target.value)
-        : event.target.value;
-
-    setNewGrantFields((fields) => ({
-      ...fields,
-      [field]: newValue,
-    }));
-  };
-
-  const handleCancel = (event) => {
-    event.preventDefault();
-    history.push(buildOrganizationsLink(`/grants/${grantId}`));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    updateGrant(organizationClient, grantId, newGrantFields)
+  const handleSubmitGrantEdit = ({
+    newTitle,
+    newRfpUrl,
+    newDeadline,
+    newSubmitted,
+    newSuccessful,
+    newPurpose,
+  }) => {
+    GrantsService.updateGrant(organizationClient, grantId, {
+      title: newTitle,
+      rfp_url: newRfpUrl,
+      deadline: newDeadline,
+      submitted: newSubmitted,
+      successful: newSuccessful,
+      purpose: newPurpose,
+      organization_id: grant.organizationId,
+      funding_org_id: grant.fundingOrgId,
+    })
       .then((updatedGrant) => {
-        setNewGrantFields({
-          deadline: new Date(updatedGrant.deadline),
-          fundingOrg: updatedGrant.funding_org,
-          purpose: updatedGrant.purpose,
-          rfp_url: updatedGrant.rfp_url,
-          title: updatedGrant.title,
-        });
-        alert("Grant updated!");
-        history.push(buildOrganizationsLink(`/grants/${grantId}`));
+        props.onSubmit();
+        setGrant(updatedGrant);
       })
       .catch((error) => {
-        console.error(error);
-        alert(
-          "Eek! Something went wrong when updating the grant. Try again soon."
-        );
+        console.log("grant update error", error);
       });
   };
 
@@ -91,19 +70,20 @@ export default function GrantEdit(props) {
     }
 
     getGrant(organizationClient, grantId).then((grant) => {
-      setNewGrantFields({
-        deadline: new Date(grant.deadline),
-        funding_org_id: grant.funding_org?.id,
-        purpose: grant.purpose,
-        rfp_url: grant.rfp_url,
-        title: grant.title,
-      });
+      setGrant(grant);
     });
 
     getAllFundingOrgs(organizationClient).then((fundingOrgs) => {
       setFundingOrgs(fundingOrgs);
+      console.log(fundingOrgs);
     });
   }, [grantId, organizationClient]);
+
+  const updateFundingOrgs = (newFundingOrg) => {
+    const newFundingOrgs = [...fundingOrgs];
+    newFundingOrgs.push(newFundingOrg);
+    setFundingOrgs(newFundingOrgs);
+  };
 
   return (
     <Container className="GrantEdit" as="section">
@@ -113,74 +93,13 @@ export default function GrantEdit(props) {
           Delete Grant
         </Button>
       </header>
-
-      <Form onSubmit={handleSubmit}>
-        <div className="GrantEdit__Inputs">
-          <Form.Group>
-            <Form.Label>Funding Organization</Form.Label>
-            <Form.Control
-              as="select"
-              value={newGrantFields.funding_org_id || ""}
-              onChange={handleChangeField("funding_org_id")}
-              required
-            >
-              {fundingOrgs.map((fundingOrg) => (
-                <option key={fundingOrg.id} value={fundingOrg.id}>
-                  {fundingOrg.name}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              value={newGrantFields.title}
-              onChange={handleChangeField("title")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>RFP URL</Form.Label>
-            <Form.Control
-              type="url"
-              value={newGrantFields.rfp_url}
-              onChange={handleChangeField("rfp_url")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Deadline</Form.Label>
-            <Form.Control
-              type="datetime-local"
-              value={
-                newGrantFields.deadline
-                  ? formatDateForInput(newGrantFields.deadline)
-                  : ""
-              }
-              onChange={handleChangeField("deadline")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Purpose</Form.Label>
-            <Form.Control
-              type="text"
-              value={newGrantFields.purpose}
-              onChange={handleChangeField("purpose")}
-              required
-            />
-          </Form.Group>
-        </div>
-        <div className="GrantEdit__Actions">
-          <Button variant="outline-dark" size="lg" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button variant="dark" size="lg" type="submit">
-            Finish
-          </Button>
-        </div>
-      </Form>
+      <GrantEditForm
+        onSubmit={handleSubmitGrantEdit}
+        onCancel={props.onCancel}
+        updateFundingOrgs={updateFundingOrgs}
+        fundingOrgs={fundingOrgs}
+        grant={grant}
+      />
     </Container>
   );
 }

@@ -8,13 +8,8 @@ import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const { onClose } = props;
-  // const [errors, setErrors] = useState([]);
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -32,7 +27,7 @@ export default function FundingOrgsNew(props) {
           if (fundingOrg) {
             props.updateFundingOrgs(fundingOrg);
             clearForm();
-            onClose();
+            props.handleCloseFundingOrgsNew();
           }
         })
         .catch((error) => {
@@ -43,7 +38,7 @@ export default function FundingOrgsNew(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    onClose();
+    props.handleCloseFundingOrgsNew();
   };
 
   const clearForm = () => {

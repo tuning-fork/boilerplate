@@ -29,7 +29,7 @@ import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
-import GrantEditForm from "./Grants/GrantEditForm";
+import GrantEdit from "./Grants/GrantEdit";
 import GrantCopy from "./Grants/GrantCopy";
 import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
 import "./GrantsFinalizeShow.css";
@@ -97,34 +97,7 @@ export default function GrantsFinalizeShow(props) {
     });
   };
 
-  const handleSubmitEditGrantForm = ({
-    newTitle,
-    newRfpUrl,
-    newDeadline,
-    newSubmitted,
-    newSuccessful,
-    newPurpose,
-  }) => {
-    GrantsService.updateGrant(organizationClient, grantId, {
-      title: newTitle,
-      rfp_url: newRfpUrl,
-      deadline: newDeadline,
-      submitted: newSubmitted,
-      successful: newSuccessful,
-      purpose: newPurpose,
-      organization_id: grant.organizationId,
-      funding_org_id: grant.fundingOrgId,
-    })
-      .then((updatedGrant) => {
-        handleCloseGrantEditModal();
-        setGrant(updatedGrant);
-      })
-      .catch((error) => {
-        console.log("grant update error", error);
-      });
-  };
-
-  const handleCancelEditGrantForm = (event) => {
+  const handleCancelGrantEdit = (event) => {
     handleCloseGrantEditModal();
   };
 
@@ -190,10 +163,10 @@ export default function GrantsFinalizeShow(props) {
             >
               <Card>
                 <Card.Body>
-                  <GrantEditForm
+                  <GrantEdit
                     grant={grant}
-                    onSubmit={handleSubmitEditGrantForm}
-                    onCancel={handleCloseGrantEditModal}
+                    onSubmit={handleCloseGrantEditModal}
+                    onCancel={handleCancelGrantEdit}
                   />
                 </Card.Body>
               </Card>
