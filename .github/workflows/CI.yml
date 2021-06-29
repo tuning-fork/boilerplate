@@ -31,7 +31,7 @@ jobs:
         run: |
           files_changed=(`git diff origin/develop --diff-filter=ACMR --name-only | grep -E '\.(js|jsx)$' | tr '\n' ' '`)
           if [[ ${#files_changed} > 0 ]]; then
-            ./node_modules/.bin/eslint $files_changed
+            ./node_modules/.bin/eslint $files_changed --max-warnings 0
           else
             echo "No JavaScript files changed. Skipping lint check."
           fi
