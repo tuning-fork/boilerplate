@@ -1,15 +1,14 @@
 export const modules = {
   toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike", "link"],
+    [{ script: "sub" }, { script: "super" }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    //this align menu includes four default text-align: left, right, center, justify
+    [{ align: [] }],
+    //clean removes all formatting
     ["clean"],
-    [{ color: [] }],
+    // ["wow"],
   ],
 };
 
@@ -19,9 +18,9 @@ export const formats = [
   "italic",
   "underline",
   "strike",
-  "blockquote",
+  "link",
   "list",
+  "script",
   "bullet",
   "indent",
-  "color",
 ];
