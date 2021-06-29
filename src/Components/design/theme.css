@@ -30,3 +30,24 @@
   --body-text: rgba(24, 39, 58, 0.94);
   --disabled-text: rgba(28, 52, 84, 0.26);
 }
+
+body {
+  color: var(--body-text);
+  background-color: var(--base);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-text);
+}
+
+a {
+  color: var(--primary-text);
+}
+a:visited {
+  color: var(--primary-contrast-alt);
+}
