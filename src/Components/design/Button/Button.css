@@ -18,39 +18,30 @@
 }
 
 .button--contained {
-  color: var(--contrast-light);
+  color: var(--primary-contrast);
+}
+.button--contained:hover:not(:active) {
+  opacity: 0.85;
 }
 
 .button--contained.button--primary {
   background-color: var(--primary);
 }
-.button--contained.button--primary:hover:not(:active) {
-  background-color: var(--primary-contrast);
-}
 
 .button--contained.button--success {
   background-color: var(--success);
-}
-.button--contained.button--success:hover:not(:active) {
-  background-color: var(--success-contrast);
 }
 
 .button--contained.button--error {
   background-color: var(--error);
 }
-.button--contained.button--error:hover:not(:active) {
-  background-color: var(--error-contrast);
-}
 
 .button--contained.button--contrast {
-  background-color: var(--contrast-dark);
+  background-color: var(--contrast-100);
 }
-/* .button--contained.button--contrast:hover:not(:active) {
-  background-color: TODO
-} */
 
 .button--outlined {
-  background-color: var(--contrast-grey);
+  background-color: var(--contrast-5);
 }
 
 .button--text {
@@ -59,26 +50,26 @@
 
 .button--outlined.button--primary,
 .button--text.button--primary {
-  color: var(--primary-contrast);
+  color: var(--primary-text);
 }
 
 .button--outlined.button--success,
 .button--text.button--success {
-  color: var(--success-contrast);
+  color: var(--success-text);
 }
 
 .button--outlined.button--error,
 .button--text.button--error {
-  color: var(--error-contrast);
+  color: var(--error-text);
 }
 
 .button--outlined.button--contrast,
 .button--text.button--contrast {
-  color: var(--contrast-dark);
+  color: var(--contrast-100);
 }
 
 .button.button--disabled {
-  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0.5;
 }
 
 .button--none {

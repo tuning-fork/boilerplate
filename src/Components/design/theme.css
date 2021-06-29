@@ -1,19 +1,32 @@
 :root {
   --primary: #009285;
-  --primary-contrast: #3ea499;
-  --primary-contrast-alt: #005f54;
-  --secondary: rgba(224, 39, 128, 1);
-  --secondary-alt: rgba(236, 95, 163, 1);
-  --secondary-text-light: rgba(27, 43, 65, 0.72);
-  --success: #15c15d;
-  --success-contrast: #00a344;
+  --primary-text: #3ea499;
+  --primary-contrast: rgba(255, 255, 255, 1);
+  --secondary: #e02780;
+  --secondary-text: #ec5fa3;
   --error: #ff4238;
-  --error-contrast: #f52419;
-  --contrast-dark: #192434;
-  --contrast-dark-alt: rgba(24, 39, 58, 0.94);
-  --contrast-grey: rgba(25, 59, 103, 0.05);
-  --contrast-light: #ffffff;
-  --contrast-10-light: rgba(26, 56, 96, 0.1);
-  --contrast-20-light: rgba(28, 55, 90, 0.16);
-  --background-grey-light: rgba(26, 56, 96, 0.1);
+  --error-text: #f52419;
+  --success: #15c15d;
+  --success-text: hsl(145, 100%, 32%);
+  --base: #ffffff;
+  --base-contrast-5: linear-gradient(
+      0deg,
+      rgba(25, 59, 103, 0.05),
+      rgba(25, 59, 103, 0.05)
+    ),
+    #ffffff;
+  --contrast-100: #192434;
+  --contrast-90: rgba(24, 39, 58, 0.94);
+  --contrast-80: rgba(26, 41, 61, 0.83);
+  --contrast-70: rgba(27, 43, 65, 0.72);
+  --contrast-60: rgba(28, 46, 69, 0.6);
+  --contrast-50: rgba(28, 48, 74, 0.5);
+  --contrast-40: rgba(28, 50, 79, 0.38);
+  --contrast-30: rgba(28, 52, 84, 0.26);
+  --contrast-20: rgba(28, 55, 90, 0.16);
+  --contrast-10: rgba(26, 56, 96, 0.1);
+  --contrast-5: rgba(25, 59, 103, 0.05);
+  --heading-text: #192434;
+  --body-text: rgba(24, 39, 58, 0.94);
+  --disabled-text: rgba(28, 52, 84, 0.26);
 }
