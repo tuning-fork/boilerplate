@@ -1,8 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import { Suspense } from "react";
-import { NetworkErrorBoundary } from "rest-hooks";
-import { CacheProvider } from "rest-hooks";
+import { NetworkErrorBoundary, CacheProvider } from "rest-hooks";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -19,7 +17,7 @@ ReactDOM.render(
     <CacheProvider>
       <CurrentUserProvider>
         <CurrentOrganizationProvider>
-          <Suspense fallback={<p>LOADING...</p>}>
+          <Suspense fallback={<p>Loading...</p>}>
             <NetworkErrorBoundary>
               <App />
             </NetworkErrorBoundary>

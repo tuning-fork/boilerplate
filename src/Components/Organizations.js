@@ -56,14 +56,6 @@ export default function Organizations() {
     }
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="container">
-  //       <h1>Loading....</h1>
-  //     </div>
-  //   );
-  // }
-
   return (
     <Container className="Organizations">
       <Row>
