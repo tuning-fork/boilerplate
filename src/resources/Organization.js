@@ -1,25 +1,10 @@
-import CamelCaseResource from "./CamelCaseResource";
+import AuthenticatedResource from "./wrappers/AuthenticatedResource";
 
-export default class Organization extends CamelCaseResource {
+export default class Organization extends AuthenticatedResource {
   id = undefined;
   name = "";
   createdAt = null;
   updatedAt = null;
 
-  pk() {
-    return this.id?.toString();
-  }
-
-  static useFetchInit = (init) => {
-    const accessToken = localStorage.getItem("token");
-    return {
-      ...init,
-      headers: {
-        ...init.headers,
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-  };
-
-  static urlRoot = "http://localhost:3000/api/organizations";
+  static urlRoot = "/api/organizations";
 }
