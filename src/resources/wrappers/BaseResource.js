@@ -22,4 +22,17 @@ export default class BaseResource extends Resource {
     const jsonResponse = await super.fetch(input, init);
     return mapKeysDeeply(jsonResponse, camelCase);
   }
+
+  // Updates list after creating
+  static create() {
+    return super.create().extend({
+      schema: this,
+      update: (newResourceId) => ({
+        [this.list().key({})]: (resourceIds = []) => [
+          ...resourceIds,
+          newResourceId,
+        ],
+      }),
+    });
+  }
 }

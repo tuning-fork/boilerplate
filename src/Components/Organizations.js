@@ -16,6 +16,7 @@ export default function Organizations() {
     useState(false);
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
   const organizations = useResource(Organization.list(), {});
+  const createOrganization = useFetcher(Organization.create());
   const deleteOrganization = useFetcher(Organization.delete());
 
   const openAddNewOrganizationModal = () =>
@@ -23,9 +24,8 @@ export default function Organizations() {
   const closeAddNewOrganizationModal = () =>
     setShowingNewOrganizationModal(false);
 
-  const handleAddNewOrganization = (newOrganization) => {
-    closeAddNewOrganizationModal();
-  };
+  const handleAddNewOrganization = (fields) =>
+    createOrganization(fields, fields).then(closeAddNewOrganizationModal);
 
   const openEditOrganizationModal = () => setShowingEditOrganizationModal(true);
   const closeEditOrganizationModal = () =>
