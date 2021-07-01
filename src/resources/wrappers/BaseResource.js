@@ -4,6 +4,8 @@ import mapKeysDeeply from "../../Helpers/mapKeysDeeply";
 
 export default class BaseResource extends Resource {
   id = undefined;
+  createdAt = null;
+  updatedAt = null;
 
   pk() {
     return this.id?.toString();
@@ -17,7 +19,9 @@ export default class BaseResource extends Resource {
   // Convert snake_case keys from API to camelCase
   static async fetch(input, init) {
     if (init.body) {
-      init.body = mapKeysDeeply(init.body, snakeCase);
+      const camelBody = JSON.parse(init.body);
+      const snakeBody = mapKeysDeeply(camelBody, snakeCase);
+      init.body = JSON.stringify(snakeBody);
     }
     const jsonResponse = await super.fetch(input, init);
     return mapKeysDeeply(jsonResponse, camelCase);
