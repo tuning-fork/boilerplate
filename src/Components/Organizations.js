@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFetcher, useResource } from "rest-hooks";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { updateOrganization } from "../Services/OrganizationsService";
 import { Organization } from "../resources";
 import OrganizationsNew from "./OrganizationsNew";
 import OrganizationEditForm from "./Organizations/OrganizationEditForm";
@@ -17,6 +16,7 @@ export default function Organizations() {
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
   const organizations = useResource(Organization.list(), {});
   const createOrganization = useFetcher(Organization.create());
+  const updateOrganization = useFetcher(Organization.update());
   const deleteOrganization = useFetcher(Organization.delete());
 
   const openAddNewOrganizationModal = () =>
@@ -36,14 +36,10 @@ export default function Organizations() {
     openEditOrganizationModal();
   };
 
-  const handleEditOrganization = ({ newName }) => {
-    updateOrganization(editingOrganizationId, { name: newName })
-      .then(() => {
-        closeEditOrganizationModal();
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {});
-  };
+  const handleEditOrganization = ({ newName }) =>
+    updateOrganization({ id: editingOrganizationId }, { name: newName })
+      .then(() => closeEditOrganizationModal())
+      .catch((error) => console.log(error));
 
   const handleDeleteOrganization = (id) => {
     /* eslint-disable-next-line no-restricted-globals */
