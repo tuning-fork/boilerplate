@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useResource } from "rest-hooks";
+import { useFetcher, useResource } from "rest-hooks";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import {
-  updateOrganization,
-  deleteOrganization,
-} from "../Services/OrganizationsService";
+import { updateOrganization } from "../Services/OrganizationsService";
 import { Organization } from "../resources";
 import OrganizationsNew from "./OrganizationsNew";
 import OrganizationEditForm from "./Organizations/OrganizationEditForm";
@@ -19,6 +16,7 @@ export default function Organizations() {
     useState(false);
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
   const organizations = useResource(Organization.list(), {});
+  const deleteOrganization = useFetcher(Organization.delete());
 
   const openAddNewOrganizationModal = () =>
     setShowingNewOrganizationModal(true);
@@ -47,10 +45,10 @@ export default function Organizations() {
       .finally(() => {});
   };
 
-  const handleDeleteOrganization = (organizationId) => {
+  const handleDeleteOrganization = (id) => {
     /* eslint-disable-next-line no-restricted-globals */
     if (confirm("Are you sure you want to delete this organization?")) {
-      deleteOrganization(organizationId)
+      deleteOrganization({ id })
         .catch((error) => console.log(error))
         .finally(() => {});
     }
