@@ -8,11 +8,11 @@ import { createFundingOrg } from "../Services/Organizations/FundingOrgsService";
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
+  // const [errors, setErrors] = useState([]);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
   const handleSubmit = (event) => {
     event.preventDefault();
