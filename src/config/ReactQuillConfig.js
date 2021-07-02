@@ -8,7 +8,6 @@ export const modules = {
     [{ align: [] }],
     //clean removes all formatting
     ["clean"],
-    // ["wow"],
   ],
 };
 
