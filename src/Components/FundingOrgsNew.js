@@ -9,10 +9,8 @@ export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   // const [errors, setErrors] = useState([]);
-  const {
-    currentOrganizationStore,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
 
