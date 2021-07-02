@@ -8,7 +8,7 @@
 }
 
 .button > svg {
-  font-size: 16px;
+  font-size: 1.2rem;
 }
 .button > svg:not(:only-child):first-child {
   margin-right: 6px;
@@ -79,4 +79,17 @@
 
 .button.button--disabled {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.button--none {
+  background: none;
+  color: unset;
+  display: block;
+  outline: none;
+  padding: 0;
+  font-size: unset;
+  border: 2px solid transparent;
+}
+.button--none:focus {
+  border: 2px solid var(--secondary);
 }

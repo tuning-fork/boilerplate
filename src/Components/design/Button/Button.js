@@ -7,6 +7,7 @@ export const ButtonVariant = {
   Contained: "contained",
   Outlined: "outlined",
   Text: "text",
+  None: "none",
 };
 export const ButtonColor = {
   Primary: "primary",
