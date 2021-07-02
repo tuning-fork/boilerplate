@@ -1,78 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap"
-import { getUserOrganizations } from "../Services/UsersService";
-import { updateOrganization, deleteOrganization } from "../Services/OrganizationsService";
+import { useFetcher, useResource } from "rest-hooks";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { Organization } from "../resources";
 import OrganizationsNew from "./OrganizationsNew";
 import OrganizationEditForm from "./Organizations/OrganizationEditForm";
 import Modal from "./Elements/Modal";
-import "./Organizations.css"
+import "./Organizations.css";
 
 export default function Organizations() {
-  const [loading, setLoading] = useState(true);
-  const [organizations, setOrganizations] = useState([]);
-  const [showingNewOrganizationModal, setShowingNewOrganizationModal] = useState(false);
-  const [showingEditOrganizationModal, setShowingEditOrganizationModal] = useState(false);
+  const [showingNewOrganizationModal, setShowingNewOrganizationModal] =
+    useState(false);
+  const [showingEditOrganizationModal, setShowingEditOrganizationModal] =
+    useState(false);
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
+  const organizations = useResource(Organization.list(), {});
+  const createOrganization = useFetcher(Organization.create());
+  const updateOrganization = useFetcher(Organization.update());
+  const deleteOrganization = useFetcher(Organization.delete());
 
-  useEffect(() => {
-    setLoading(true);
-    getUserOrganizations()
-      .then((organizations) => {
-        setOrganizations(organizations);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const openAddNewOrganizationModal = () =>
+    setShowingNewOrganizationModal(true);
+  const closeAddNewOrganizationModal = () =>
+    setShowingNewOrganizationModal(false);
 
-  const openAddNewOrganizationModal = () => setShowingNewOrganizationModal(true);
-  const closeAddNewOrganizationModal = () => setShowingNewOrganizationModal(false);
-
-  const handleAddNewOrganization = (newOrganization) => {
-    closeAddNewOrganizationModal();
-  };
+  const handleAddNewOrganization = (fields) =>
+    createOrganization(fields, fields).then(closeAddNewOrganizationModal);
 
   const openEditOrganizationModal = () => setShowingEditOrganizationModal(true);
-  const closeEditOrganizationModal = () => setShowingEditOrganizationModal(false);
+  const closeEditOrganizationModal = () =>
+    setShowingEditOrganizationModal(false);
 
   const handleClickEditOrganization = (organizationId) => {
     setEditingOrganizationId(organizationId);
     openEditOrganizationModal();
   };
 
-  const handleEditOrganization = ({ newName }) => {
-    setLoading(true);
-    updateOrganization(editingOrganizationId, { name: newName })
-      .then(() => {
-        closeEditOrganizationModal();
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  const handleEditOrganization = ({ newName }) =>
+    updateOrganization({ id: editingOrganizationId }, { name: newName })
+      .then(() => closeEditOrganizationModal())
+      .catch((error) => console.log(error));
 
-  const handleDeleteOrganization = (organizationId) => {
+  const handleDeleteOrganization = (id) => {
     /* eslint-disable-next-line no-restricted-globals */
     if (confirm("Are you sure you want to delete this organization?")) {
-      setLoading(true);
-      deleteOrganization(organizationId)
+      deleteOrganization({ id })
         .catch((error) => console.log(error))
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => {});
     }
   };
-
-  if (loading) {
-    return (
-      <div className="container">
-        <h1>Loading....</h1>
-      </div>
-    );
-  }
 
   return (
     <Container className="Organizations">
@@ -81,7 +57,7 @@ export default function Organizations() {
           <h1>Organizations</h1>
           <b>Organization Name</b>
           <ul className="Organizations__List">
-            {organizations.map(organization => (
+            {organizations.map((organization) => (
               <li key={organization.id}>
                 <Link to={`/organizations/${organization.id}`}>
                   {organization.name}
@@ -103,7 +79,9 @@ export default function Organizations() {
           </ul>
         </Col>
         <Col>
-          <Button variant="dark" onClick={openAddNewOrganizationModal}>Add New Organization</Button>
+          <Button variant="dark" onClick={openAddNewOrganizationModal}>
+            Add New Organization
+          </Button>
         </Col>
       </Row>
 

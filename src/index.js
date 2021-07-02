@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
+import { NetworkErrorBoundary, CacheProvider } from "rest-hooks";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -13,11 +14,17 @@ axios.defaults.baseURL =
 
 ReactDOM.render(
   <React.StrictMode>
-    <CurrentUserProvider>
-      <CurrentOrganizationProvider>
-        <App />
-      </CurrentOrganizationProvider>
-    </CurrentUserProvider>
+    <CacheProvider>
+      <CurrentUserProvider>
+        <CurrentOrganizationProvider>
+          <Suspense fallback={<p>Loading...</p>}>
+            <NetworkErrorBoundary>
+              <App />
+            </NetworkErrorBoundary>
+          </Suspense>
+        </CurrentOrganizationProvider>
+      </CurrentUserProvider>
+    </CacheProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
