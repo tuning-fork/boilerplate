@@ -2,6 +2,13 @@
   display: inline-block;
 }
 
+.text-box--align-left .text-box__input {
+  text-align: left;
+}
+.text-box--align-right .text-box__input {
+  text-align: right;
+}
+
 .text-box__label {
   display: block;
   margin-bottom: 7px;
