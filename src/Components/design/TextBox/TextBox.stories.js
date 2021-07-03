@@ -20,6 +20,6 @@ export const TextBoxWithPrefixAndSuffix = () => (
   <div style={{ display: "flex", gap: "20px" }}>
     <Component labelText="Amount" prefix="$" />
     <Component labelText="Search" prefix={<SearchIcon />} />
-    <Component labelText="Amount" suffix="USD" />
+    <Component labelText="Amount" suffix="USD" align="right" />
   </div>
 );
