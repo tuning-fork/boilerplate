@@ -29,6 +29,7 @@
   --heading-text: #192434;
   --body-text: rgba(24, 39, 58, 0.94);
   --disabled-text: rgba(28, 52, 84, 0.26);
+  --focused: 2px solid var(--contrast-70);
 }
 
 body {

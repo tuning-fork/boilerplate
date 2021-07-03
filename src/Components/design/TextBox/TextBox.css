@@ -26,6 +26,10 @@
   display: flex;
 }
 
+.text-box__container:focus-within {
+  outline: var(--focused);
+}
+
 .text-box__prefix,
 .text-box__prefix > svg,
 .text-box__suffix,
