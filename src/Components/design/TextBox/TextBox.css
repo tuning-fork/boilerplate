@@ -1,0 +1,52 @@
+.text-box {
+  display: inline-block;
+}
+
+.text-box__label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--contrast-70);
+  line-height: normal;
+}
+
+.text-box__container {
+  border-radius: 4px;
+  border: 0;
+  background-color: var(--contrast-10);
+  padding: 7px 10px;
+  display: flex;
+}
+
+.text-box__prefix,
+.text-box__prefix > svg,
+.text-box__suffix,
+.text-box__suffix > svg {
+  display: block;
+}
+.text-box__prefix > svg,
+.text-box__suffix > svg {
+  font-size: var(--font-size-icon);
+}
+
+.text-box__prefix,
+.text-box__suffix {
+  line-height: normal;
+  color: var(--contrast-70);
+}
+
+.text-box__prefix {
+  margin-right: 6px;
+}
+
+.text-box__suffix {
+  margin-left: 6px;
+}
+
+.text-box__input {
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
