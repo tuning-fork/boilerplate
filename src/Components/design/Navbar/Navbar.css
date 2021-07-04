@@ -1,0 +1,8 @@
+.nav-bar > .nav-bar-item {
+    color: orange
+  }
+  
+  .nav-bar > .nav-bar-item:last-child {
+    color: orange
+  }
+  
