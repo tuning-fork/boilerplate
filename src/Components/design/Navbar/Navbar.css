@@ -1,8 +1,25 @@
-.nav-bar > .nav-bar-item {
-    color: orange
+.navbar {
+    display: block;
+    z-index: 2;
+    height: 100%; 
+    width: 160px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    padding: 24px;
+    background-color: #f5f7f9;
+    overflow-x: hidden; 
   }
-  
-  .nav-bar > .nav-bar-item:last-child {
-    color: orange
+
+.navbar > .navbar-navitem {
+    padding: 6px 8px 6px 16px;
+    font-size: 14px;
+    color: #818181;
+    display: inline-block;
+    color: orange;
   }
-  
+
+  .navbar > .navitem-a {
+    color: orange;
+  }

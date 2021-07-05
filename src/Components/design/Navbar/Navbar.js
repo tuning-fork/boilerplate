@@ -1,16 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import "./Accordion.css";
+import "./Navbar.css";
 
-export default function NavBar(props) {
+export default function Navbar(props) {
   return (
     <div className={clsx(props.className, "navbar")}>{props.children}</div>
   );
 }
 
-NavBar.propTypes = {
+Navbar.propTypes = {
   className: PropTypes.string,
 };
 
-NavBar.defaultProps = {};
+Navbar.defaultProps = {};
+
+const Container = ({ children }) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-evenly",
+      marginBottom: "20px",
+    }}
+  >
+    {children}
+  </div>
+);

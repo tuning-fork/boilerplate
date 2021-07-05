@@ -1,8 +1,8 @@
 import React from "react";
-import Component from "./NavBar";
+import Component from "./Navbar";
 import NavLink from "./NavLink/NavLink";
-import Button, { ButtonVariant, ButtonColor } from "./Button/Button";
-import Input, { InputType } from "./Input/Input";
+import Button, { ButtonVariant, ButtonColor } from "../Button/Button";
+import Input, { InputType } from "../Input/Input";
 // import Dropdown, { Dropdown } from "./Dropdown/Dropdown";
 //Dashboard Icon
 import HomeIcon from "@material-ui/icons/Home";
@@ -17,42 +17,49 @@ import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 //Categories Icon
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 
+HomeIcon.displayName = "HomeIcon";
+LocalAtmIcon.displayName = "LocalAtmIcon";
+ExtensionIcon.displayName = "ExtensionIcon";
+BarChartIcon.displayName = "BarChartIcon";
+AccountBalanceIcon.displayName = "AccountBalanceIcon";
+FormatListBulletedIcon.displayName = "FormatListBulletedIcon";
+
 export default {
-  title: "Design/NavBar",
+  title: "Design/Navbar",
   component: Component,
   argTypes: {},
 };
 
-export const NavBarVertical = (props) => (
-  <Component {...props}>
-    <NavLink>
+export const NavbarVertical = (props) => (
+  <Component {...props} className="navbar">
+    <div className="navbar-navitem">
       <HomeIcon />
-      {props.text}
-    </NavLink>
-    <NavLink>
+      <NavLink className="navitem-navlink">{props.text}</NavLink>
+    </div>
+    <div className="navbar-navitem">
       <LocalAtmIcon />
-      {props.text}
-    </NavLink>
-    <NavLink>
+      <NavLink className="navbar-navlink">{props.text}</NavLink>
+    </div>
+    <div className="navbar-navitem">
       <ExtensionIcon />
-      {props.text}
-    </NavLink>
-    <NavLink>
+      <NavLink className="navbar-navlink">{props.text}</NavLink>
+    </div>
+    <div className="navbar-navitem">
       <BarChartIcon />
-      {props.text}
-    </NavLink>
-    <NavLink>
+      <NavLink className="navbar-navlink">{props.text}</NavLink>
+    </div>
+    <div className="navbar-navitem">
       <AccountBalanceIcon />
-      {props.text}
-    </NavLink>
-    <NavLink>
+      <NavLink className="navbar-navlink">{props.text}</NavLink>
+    </div>
+    <div className="navbar-navitem">
       <FormatListBulletedIcon />
-      {props.text}
-    </NavLink>
+      <NavLink className="navbar-navlink">{props.text}</NavLink>
+    </div>
   </Component>
 );
 
-export const NavBarHorizontal = (props) => (
+export const NavbarHorizontal = (props) => (
   <Component {...props}>
     {/* <LogoType></LogoType>
     <LinkBreadCrumb></LinkBreadCrumb>
@@ -65,7 +72,7 @@ export const NavBarHorizontal = (props) => (
   </Component>
 );
 
-export const NavBarLogin = (props) => (
+export const NavbarLogin = (props) => (
   <Component {...props}>
     {/* <LogoType></LogoType> */}
     <Input></Input>
