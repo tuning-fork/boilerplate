@@ -1,23 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import SectionsNew from "./SectionsNew";
-import ReportsNew from "./ReportsNew";
-import SectionsShow from "./SectionsShow";
+import React, { useState, useEffect, useCallback } from "react";
+import { Container, Button } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
 import Modal from "./Elements/Modal";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import GrantEditForm from "./Grants/GrantEditForm";
-import {
-  getGrant,
-  updateGrant,
-  deleteGrant,
-} from "../Services/Organizations/GrantsService";
-import { reorderGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
-import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
-import SortableElement from "./Elements/SortableElement";
-
 import {
   DndContext,
   closestCenter,
@@ -32,179 +17,135 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import * as GrantsService from "../Services/Organizations/GrantsService";
+import {
+  createGrantSection,
+  reorderGrantSection,
+} from "../Services/Organizations/Grants/GrantSectionsService";
+import formatDate from "../Helpers/formatDate";
+import countSectionWords from "../Helpers/countSectionWords";
+import countWords from "../Helpers/countWords";
+import SectionsShow from "./SectionsShow";
+import SectionForm from "./Sections/SectionForm";
+import SortableElement from "./Elements/SortableElement";
+import GrantEdit from "./Grants/GrantEdit";
+import GrantCopy from "./Grants/GrantCopy";
+import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
+import "./GrantsShow.css";
 
-//fontawesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-library.add(faTrashAlt);
-library.add(faEdit);
+function countTotalSectionsWords(sections = []) {
+  return sections?.reduce(
+    (total, section) => total + countSectionWords(section),
+    0
+  );
+}
 
 export default function GrantsShow(props) {
-  const [id, setId] = useState("");
-  const [title, setTitle] = useState("");
-  const [rfpUrl, setRfpUrl] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [successful, setSuccessful] = useState(false);
-  const [purpose, setPurpose] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
-  const [fundingOrgId, setFundingOrgId] = useState("");
-  const [isHidden, setIsHidden] = useState(true);
-  const [sections, setSections] = useState([]);
-  const [reports, setReports] = useState([]);
-  const [fundingOrgs, setFundingOrgs] = useState([]);
   const [grant, setGrant] = useState(null);
-  const [bios, setBios] = useState([]);
-  const [boilerplates, setBoilerplates] = useState([]);
-  const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [name, setName] = useState([]);
-  const history = useHistory();
-
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const [errors, setErrors] = useState([]);
+  const [newSectionIndex, setNewSectionIndex] = useState(null);
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
+  const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
-
-  const [newTitle, setNewTitle] = useState("");
-  const [newRfpUrl, setNewRfpUrl] = useState("");
-  const [newDeadline, setNewDeadline] = useState("");
-  const [newSubmitted, setNewSubmitted] = useState(false);
-  const [newSuccessful, setNewSuccessful] = useState(false);
-  const [newPurpose, setNewPurpose] = useState("");
-
-  const [show, setShow] = useState(false);
-  const handleClose = (event) => setShow(false);
-  const handleShow = (event) => setShow(true);
-
+    currentOrganizationStore.currentOrganization?.id;
+  const { grant_id: grantId } = useParams();
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(PointerSensor)
+    // This breaks forms nested under drag and drop! The space key triggers
+    // this sensor. TODO: Circle back to this!
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates,
+    // })
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (currentOrganizationId) {
-      const grantId = props.match.params.grant_id;
-      getGrant(organizationClient, grantId)
-        .then((grant) => {
-          setGrant(grant);
-          setSections(grant.sections);
-          setReports(grant.reports);
-          setLoading(false);
-          setNewTitle(grant.title);
-          setNewRfpUrl(grant.rfp_url);
-          setNewDeadline(grant.deadline);
-          setNewSubmitted(grant.submitted);
-          setNewSuccessful(grant.successful);
-          setNewPurpose(grant.purpose);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      getAllBoilerplates(organizationClient)
-        .then((boilerplates) => {
-          setBoilerplates(boilerplates);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const [showGrantEditModal, setShowGrantEditModal] = useState(false);
+  const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
+  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
+    useState(null);
+  const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
+  const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
+  const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
+  const handleCloseGrantCopyModal = (event) => setShowGrantCopyModal(false);
+
+  const getGrant = useCallback(() => {
+    if (!organizationClient) {
+      return;
     }
-  }, [currentOrganizationId, organizationClient, props.match.params.grant_id]);
+    GrantsService.getGrant(organizationClient, grantId)
+      .then((grant) => setGrant(grant))
+      .catch((error) => setErrors([error]))
+      .finally(() => setLoading(false));
+  }, [organizationClient, grantId]);
 
-  const handleSubmit = ({
-    newTitle,
-    newRfpUrl,
-    newDeadline,
-    newSubmitted,
-    newSuccessful,
-    newPurpose,
-  }) => {
-    updateGrant(organizationClient, id, {
-      title: newTitle,
-      rfp_url: newRfpUrl,
-      deadline: newDeadline,
-      submitted: newSubmitted,
-      successful: newSuccessful,
-      purpose: newPurpose,
-      organization_id: grant.organizationId,
-      funding_org_id: grant.fundingOrgId,
-    })
-      .then((updatedGrant) => {
-        handleClose();
-        setGrant(updatedGrant);
-      })
-      .catch((error) => {
-        console.log("grant update error", error);
-      });
+  // Notes for GrantFinalizeShow in process
+  // since we'll eventually be integrating the PasteBoilerplate component
+
+  // We'll need to add in a getAllBoilerplates call to pull in the Boilerplates,
+  // whether it lives here or on the PasteBoilerplate component
+
+  // We'll need to add in an "Add New Sections" function
+  // Since GrantFinalizeShow will now allow include the whole Build a Grant Flow
+
+  // const addNewSections = (newSection) => {
+  //   const newSections = [...sections];
+  //   newSections.push(newSection);
+  //   setSections(newSections);
+  // };
+
+  // const updateSections = (updatedSection) => {
+  //   if (updatedSection.message) {
+  //     const sections = sections.filter(
+  //       (section) => section.id !== updatedSection.id
+  //     );
+  //     setSections(sections);
+  //   } else {
+  //     const sections = sections.map((section) => {
+  //       if (section.id === updatedSection.id) {
+  //         section = updatedSection;
+  //       }
+  //       return section;
+  //     });
+  //     setSections(sections);
+  //   }
+  // };
+
+  // This is not yet built out in the Figma, but GrantsShow also
+  // includes an index of reports and a form for adding new reports
+
+  const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
+    createGrantSection(organizationClient, grantId, {
+      title: newSectionFields.title,
+      text: newSectionFields.html,
+      grant_id: grantId,
+      sort_order: precedingSection.sort_order + 1,
+      wordcount: countWords(newSectionFields.text),
+    }).then(() => {
+      alert("Section created!");
+      setNewSectionIndex(null);
+      return getGrant();
+    });
   };
 
-  const handleCancel = (event) => {
-    handleClose();
+  const handleCancelGrantEdit = (event) => {
+    handleCloseGrantEditModal();
   };
 
-  const addNewSections = (newSection) => {
-    const newSections = [...sections];
-    newSections.push(newSection);
-    setSections(newSections);
-  };
-
-  const updateSections = (updatedSection) => {
-    if (updatedSection.message) {
-      const sections = sections.filter(
-        (section) => section.id !== updatedSection.id
-      );
-      setSections(sections);
-    } else {
-      const sections = sections.map((section) => {
-        if (section.id === updatedSection.id) {
-          section = updatedSection;
-        }
-        return section;
-      });
-      setSections(sections);
-    }
-  };
-
-  const updateReports = (newReport) => {
-    const newReports = [...reports, newReport];
-    setReports(newReports);
-  };
-
-  const handleGrantDelete = () => {
-    const grantId = props.match.params.grant_id;
-    deleteGrant(organizationClient, grantId)
-      .then((grant) => {
-        if (grant.message) {
-          history.push(`/organizations/${currentOrganizationId}/grants`);
-        }
-        console.log(grant);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  function handleDragEnd(event) {
+  const handleReorderSection = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setSections((sections) => {
-        const oldIndex = sections.findIndex(
+      setGrant((grant) => {
+        const oldIndex = grant.sections.findIndex(
           (section) => section.id === active.id
         );
-        const newIndex = sections.findIndex(
+        const newIndex = grant.sections.findIndex(
           (section) => section.id === over.id
         );
-        return arrayMove(sections, oldIndex, newIndex);
+        const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
+
+        return { ...grant, sections: reorderedSections };
       });
 
       const sectionId = active.id;
@@ -221,128 +162,124 @@ export default function GrantsShow(props) {
           console.log(error);
         });
     }
-  }
+  };
 
-  if (loading) {
-    return (
-      <div className="container">
-        <h1>Loading....</h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    getGrant();
+  }, [getGrant]);
 
-  const Header = (
-    <Card.Header>
-      <h3>{grant.title}</h3>
-      <FontAwesomeIcon
-        icon={faEdit}
-        style={{
-          color: "black",
-          fontSize: "1.5rem",
-        }}
-        onClick={handleShow}
-      />
-    </Card.Header>
-  );
+  if (errors.length) {
+    console.error(errors);
+    return <p>Error! {errors.map((error) => error.message)}</p>;
+  } else if (loading) {
+    return <h1>Loading....</h1>;
+  }
 
   return (
-    <div className="container">
-      <Link to={`/organizations/${currentOrganizationId}/grants/`}>
-        <p>Back to Grants</p>
-      </Link>
-      <Card>
-        {Header}
-        <Card.Body>
-          <h4>Purpose: {grant.purpose}</h4>
-          <h4>RFP URL: {grant.rfpUrl}</h4>
-          <h4>Deadline: {grant.deadline}</h4>
-          <h4>Submitted: {grant.submitted ? "yes" : "not yet"}</h4>
-          <h4>Successful: {grant.successful ? "yes" : "not yet"}</h4>
+    <Container className="GrantsShow" fluid>
+      <div className="GrantsShow__TopBar">
+        <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+          &lt; Back to All Grants
+        </Link>
+      </div>
 
-          {/* beginning of grant update */}
-          <div>
-            <div>
-              <Modal className="modal-popup" onClose={handleClose} show={show}>
-                <Card>
-                  <Card.Body>
-                    <GrantEditForm
-                      grant={grant}
-                      onSubmit={handleSubmit}
-                      onCancel={handleCancel}
-                    />
-                  </Card.Body>
-                </Card>
-              </Modal>
-            </div>
-          </div>
-        </Card.Body>
-
-        {/* end of grant update, beginning of sections and reports */}
-        <Card.Body>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={sections}
-              strategy={verticalListSortingStrategy}
+      <section className="GrantsShow__Overview">
+        <header className="GrantsShow__Header">
+          <h1 className="GrantsShow__Title">{grant.title}</h1>
+          <div className="GrantsShow__Actions">
+            <Button onClick={handleShowGrantCopyModal}>Copy</Button>
+            <Button onClick={handleShowGrantEditModal}>Edit</Button>
+            <Modal
+              onClose={handleCloseGrantEditModal}
+              show={showGrantEditModal}
             >
-              <ol>
-                {sections.map((section) => (
-                  <SortableElement key={section.id} id={section.id}>
-                    <SectionsShow section={section} />
-                  </SortableElement>
-                ))}
-              </ol>
-            </SortableContext>
-          </DndContext>
-          <SectionsNew
-            sort_number={sections.length}
-            grant_id={grant.id}
-            addNewSections={addNewSections}
-          />
-        </Card.Body>
-        {/* reports */}
+              <Card>
+                <Card.Body>
+                  <GrantEdit
+                    grant={grant}
+                    onSubmit={handleCloseGrantEditModal}
+                    onCancel={handleCancelGrantEdit}
+                  />
+                </Card.Body>
+              </Card>
+            </Modal>
+            <Modal
+              className="modal-popup"
+              onClose={handleCloseGrantCopyModal}
+              show={showGrantCopyModal}
+            >
+              <Card>
+                <Card.Body>
+                  <GrantCopy grant={grant} />
+                </Card.Body>
+              </Card>
+            </Modal>
+          </div>
+        </header>
+        <dl className="GrantsShow__Fields">
+          <div className="GrantsShow__Deadline">
+            <dt>Deadline:&nbsp;</dt>
+            <dd>{formatDate(grant.deadline)}</dd>
+          </div>
+          <dt>Funding Organization</dt>
+          <dd>{grant.funding_org_name}</dd>
+          <dt>Purpose</dt>
+          <dd>{grant.purpose}</dd>
+          <dt>RFP URL</dt>
+          <dd>{grant.rfp_url}</dd>
+          <dt>Total word count:</dt>
+          <dd>{totalWordCount}</dd>
+        </dl>
+      </section>
 
-        <Card.Header>
-          <h2>Reports:</h2>
-        </Card.Header>
-        <Card.Body>
-          {grant.reports.length ? (
-            grant.reports.map((report) => {
-              return (
-                <div key={report.id}>
-                  <Link
-                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}/reports/${report.id}`}
+      <hr />
+
+      <section>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleReorderSection}
+        >
+          <SortableContext
+            items={grant.sections}
+            strategy={verticalListSortingStrategy}
+          >
+            <ol className="GrantsShow__SectionList">
+              {grant.sections?.map((section) => (
+                <SortableElement key={section.id} id={section.id}>
+                  <SectionsShow
+                    section={section}
+                    onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                  />
+                  {newSectionIndex === section.id && (
+                    <SectionForm
+                      onSubmit={(newSectionFields) =>
+                        handleSubmitSectionForm({
+                          newSectionFields,
+                          precedingSection: section,
+                        })
+                      }
+                      onCancel={() => setNewSectionIndex(null)}
+                    />
+                  )}
+                  <Button
+                    className="GrantsShow__AddSection"
+                    onClick={() => setNewSectionIndex(section.id)}
                   >
-                    <h4>{report.title}</h4>
-                  </Link>
-                  <h4>{report.deadline}</h4>
-                  <h4>{report.submitted}</h4>
-                </div>
-              );
-            })
-          ) : (
-            <h4>There are no reports yet.</h4>
-          )}
-          <ReportsNew
-            sort_number={grant.sections.length}
-            grant_id={grant.id}
-            grant_title={grant.title}
-            updateReports={updateReports}
-          />
-        </Card.Body>
-      </Card>
-
-      <Link
-        to={`/organizations/${currentOrganizationId}/grants-finalize/${grant.id}/`}
-      >
-        <Button>Grant Finalize</Button>
-      </Link>
-      <Button variant="danger" onClick={handleGrantDelete}>
-        Delete Grant
-      </Button>
-    </div>
+                    Add Section
+                  </Button>
+                </SortableElement>
+              ))}
+            </ol>
+          </SortableContext>
+        </DndContext>
+      </section>
+      <Modal show={!!sectionToSaveAsBoilerplate}>
+        <SaveSectionAsBoilerplate
+          section={sectionToSaveAsBoilerplate}
+          onClose={() => setSectionToSaveAsBoilerplate(null)}
+        />
+      </Modal>
+    </Container>
   );
 }
