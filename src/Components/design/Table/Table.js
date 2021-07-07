@@ -11,6 +11,14 @@ export default function Table(props) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
+  const renderHeaderGroup = (headerGroup) => {
+    return (
+      <tr {...headerGroup.getHeaderGroupProps()}>
+        {headerGroup.headers.map(renderHeader)}
+      </tr>
+    );
+  };
+
   const renderHeader = (column) => {
     const isNumber = typeof column.accessor(data[0]) === "number";
 
@@ -24,12 +32,10 @@ export default function Table(props) {
     );
   };
 
-  const renderHeaderGroup = (headerGroup) => {
-    return (
-      <tr {...headerGroup.getHeaderGroupProps()}>
-        {headerGroup.headers.map(renderHeader)}
-      </tr>
-    );
+  const renderRow = (row) => {
+    prepareRow(row);
+
+    return <tr {...row.getRowProps()}>{row.cells.map(renderCell)}</tr>;
   };
 
   const renderCell = (cell) => {
@@ -43,12 +49,6 @@ export default function Table(props) {
         {cell.render("Cell")}
       </td>
     );
-  };
-
-  const renderRow = (row) => {
-    prepareRow(row);
-
-    return <tr {...row.getRowProps()}>{row.cells.map(renderCell)}</tr>;
   };
 
   return (
