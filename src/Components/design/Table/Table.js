@@ -17,11 +17,7 @@ export default function Table(props) {
     return (
       <th
         {...column.getHeaderProps()}
-        className={clsx(
-          console.dir(column),
-          "table__header",
-          isNumber && "table__header--number"
-        )}
+        className={clsx("table__header", isNumber && "table__header--number")}
       >
         {column.render("Header")}
       </th>
