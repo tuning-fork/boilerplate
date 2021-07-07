@@ -1,6 +1,6 @@
 .table__header {
   text-align: left;
-  color: var(--secondary-text-light);
+  color: var(--contrast-70);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
 }
