@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter, useHistory, NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./Sidebar.css";

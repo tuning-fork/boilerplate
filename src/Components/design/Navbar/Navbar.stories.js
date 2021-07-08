@@ -30,36 +30,7 @@ export default {
   argTypes: {},
 };
 
-export const NavbarVertical = (props) => (
-  <Component {...props} className="navbar">
-    <div className="navbar-navitem">
-      <HomeIcon />
-      <NavLink className="navitem-navlink">{props.text}</NavLink>
-    </div>
-    <div className="navbar-navitem">
-      <LocalAtmIcon />
-      <NavLink className="navbar-navlink">{props.text}</NavLink>
-    </div>
-    <div className="navbar-navitem">
-      <ExtensionIcon />
-      <NavLink className="navbar-navlink">{props.text}</NavLink>
-    </div>
-    <div className="navbar-navitem">
-      <BarChartIcon />
-      <NavLink className="navbar-navlink">{props.text}</NavLink>
-    </div>
-    <div className="navbar-navitem">
-      <AccountBalanceIcon />
-      <NavLink className="navbar-navlink">{props.text}</NavLink>
-    </div>
-    <div className="navbar-navitem">
-      <FormatListBulletedIcon />
-      <NavLink className="navbar-navlink">{props.text}</NavLink>
-    </div>
-  </Component>
-);
-
-export const NavbarHorizontal = (props) => (
+export const Navbar = (props) => (
   <Component {...props}>
     {/* <LogoType></LogoType>
     <LinkBreadCrumb></LinkBreadCrumb>
