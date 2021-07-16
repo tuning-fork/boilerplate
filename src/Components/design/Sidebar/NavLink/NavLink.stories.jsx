@@ -1,8 +1,8 @@
 import React from "react";
 import NavLink from "./NavLink";
 //Dashboard Icon
-import HomeIcon from "@material-ui/icons/Home";
-HomeIcon.displayName = "HomeIcon";
+// import HomeIcon from "@material-ui/icons/Home";
+// HomeIcon.displayName = "HomeIcon";
 
 export default {
   title: "Design/NavLink",
@@ -31,7 +31,7 @@ export const NavLinkRegular = (props) => (
 
 export const NavLinkWithIcon = (props) => (
   <div className="navlink-container">
-    <HomeIcon className="navlink-icon" />
+    {/* <HomeIcon className="navlink-icon" /> */}
     <NavLink {...props} href={props.hreflink}>
       {props.text}
     </NavLink>
