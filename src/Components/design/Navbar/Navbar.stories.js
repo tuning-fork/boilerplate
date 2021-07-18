@@ -8,14 +8,14 @@ export default {
   argTypes: {},
 };
 
-export const Sidebar = (props) => (
+export const Navbar = (props) => (
   <HashRouter>
     <div style={{ display: "flex", height: "100%" }}>
       <Component {...props} organizationId="2" />
       <Switch>
         <div style={{ backgroundColor: "#f5f7f9", padding: "20px", flex: "1" }}>
           <Route path="/organizations">All Organizations</Route>
-          {/* <Route path="/users/userid">User Profile</Route> */}
+          {/* <Route path="`/organizations/:org_id/users/:user_id}">User Profile</Route> */}
         </div>
       </Switch>
     </div>

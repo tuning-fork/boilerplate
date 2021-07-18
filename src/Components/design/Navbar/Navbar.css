@@ -1,22 +1,29 @@
 .navbar {
-  height: 100%;
+  width: 100%;
+  height: 44px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   border-right: 1px solid var(--contrast-10);
-}
-
-.navbar__navitem:first-child {
-  margin-top: 16px;
+  background-color: var(--primary-10);
 }
 
 .navbar__navitem {
-  position: relative;
+  /* position: relative;
   font-size: var(--font-size-small);
   color: var(--contrast-60);
   text-decoration: none;      
+   */ 
+  padding: 6px 6px 20px; 
+  /* display: inline-block; */
   display: flex; 
-  align-items: center;
-  padding: 6px 20px 6px 20px;
+  flex-direction: row;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bolder;
+}
+
+/* .navbar__navitem__orgselectlink {
+  color: var(--secondary-text);
 }
 
 .navbar__navitem:hover {
@@ -29,14 +36,4 @@
 
 .navbar__navitem.navbar__navitem--selected {
   color: var(--primary-text);
-}
-
-.navbar__navitem--selected::before {
-  position: absolute;
-  left: 0;
-  height: 100%;
-  width: 2px;
-  content: "";
-  border-radius: 0px 3px 3px 0px;
-  background-color: var(--primary-text);
-}
+} */

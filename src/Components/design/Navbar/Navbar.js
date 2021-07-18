@@ -9,7 +9,7 @@ import "./Navbar.css";
 
 export default function Navbar(props) {
   return (
-    <div className={clsx(props.className, "sidebar")}>
+    <div className={clsx(props.className, "navbar")}>
       <NavLink
         className="navbar__navitem"
         activeClassName="navbar__navitem--selected"
@@ -17,7 +17,8 @@ export default function Navbar(props) {
       >
         All Organizations
       </NavLink>
-      <div>Baklava Foundation</div>
+      <div className="navbar__navitem"> | </div>
+      <div className="navbar__navitem">Baklava Foundation</div>
       {/* <div className="userlogo"></div> */}
     </div>
   );
