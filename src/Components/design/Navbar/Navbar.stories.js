@@ -1,8 +1,6 @@
 import React from "react";
+import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Component from "./Navbar";
-import NavLink from "./NavLink/NavLink";
-import Button, { ButtonVariant, ButtonColor } from "../Button/Button";
-import Input, { InputType } from "../Input/Input";
 
 export default {
   title: "Design/Navbar",
@@ -10,25 +8,16 @@ export default {
   argTypes: {},
 };
 
-export const Navbar = (props) => (
-  <Component {...props}>
-    {/* <LogoType></LogoType>
-    <LinkBreadCrumb></LinkBreadCrumb>
-    <CurrentOrg></CurrentOrg> */}
-    {/* Need dropdown for User-Organizations Select */}
-    {/* <Dropdown></Dropdown> */}
-    {/* <CurrentUser></CurrentUser> */}
-    {/* Need dropdown for User Profile and Logout */}
-    {/* <Dropdown></Dropdown> */}
-  </Component>
-);
-
-export const NavbarLogin = (props) => (
-  <Component {...props}>
-    {/* <LogoType></LogoType> */}
-    <Input></Input>
-    <Input></Input>
-    <Button {...props}>{props.text}</Button>
-    <Button {...props}>{props.text}</Button>
-  </Component>
+export const Sidebar = (props) => (
+  <HashRouter>
+    <div style={{ display: "flex", height: "100%" }}>
+      <Component {...props} organizationId="2" />
+      <Switch>
+        <div style={{ backgroundColor: "#f5f7f9", padding: "20px", flex: "1" }}>
+          <Route path="/organizations">All Organizations</Route>
+          {/* <Route path="/users/userid">User Profile</Route> */}
+        </div>
+      </Switch>
+    </div>
+  </HashRouter>
 );

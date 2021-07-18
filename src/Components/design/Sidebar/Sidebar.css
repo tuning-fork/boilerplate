@@ -1,7 +1,11 @@
 .sidebar {
-  height: 100%;
+  width: 100%;
+  height: 44px;
+  position: absolute;
+  top: 0px;
   display: flex;
-  flex-direction: column;
+  display: inline;
+  flex-direction: row;
   border-right: 1px solid var(--contrast-10);
 }
 
@@ -23,15 +27,15 @@
   background-color: var(--primary-10);
 }
 
-.sidebar__navitem > svg {
+/* .sidebar__navitem > svg {
   margin-right: 5px
-}
+} */
 
-.sidebar__navitem.sidebar__navitem--selected {
+/* .sidebar__navitem.sidebar__navitem--selected {
   color: var(--primary-text);
-}
+} */
 
-.sidebar__navitem--selected::before {
+/* .sidebar__navitem--selected::before {
   position: absolute;
   left: 0;
   height: 100%;
@@ -39,4 +43,4 @@
   content: "";
   border-radius: 0px 3px 3px 0px;
   background-color: var(--primary-text);
-}
+} */
