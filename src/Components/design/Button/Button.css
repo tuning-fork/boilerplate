@@ -85,16 +85,17 @@
   border: 2px solid var(--secondary);
 }
 
-.buton.button--usericon {
+.button.button--usericon {
   border-radius: 50%;
+  background-color: var(--primary);
   color: var(--primary-contrast);
-  height: 40px;
-  line-height: 40px;  
-  width: 40px;  
-  border-radius: 50%;
-  text-align: center;
+  height: 36px;
+  width: 36px;  
+  justify-content: center;
   cursor: pointer;
-  padding: none;
+  display: inline-flex;
+  margin-left: 28px;
+  padding: 0px 0px 0px 0px;
 }
 .button--usericon:hover:not(:active) {
   opacity: 0.85;
