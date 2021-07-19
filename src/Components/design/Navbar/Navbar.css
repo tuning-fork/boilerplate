@@ -22,7 +22,7 @@
   font-weight: bolder;
 }
 
-/* .navbar__navitem__orgselectlink {
+.navbar__navitem.navbar__navitem.orgselectlink {
   color: var(--secondary-text);
 }
 
@@ -30,10 +30,6 @@
   background-color: var(--primary-10);
 }
 
-.navbar__navitem > svg {
+/* .navbar__navitem > svg {
   margin-right: 5px
-}
-
-.navbar__navitem.navbar__navitem--selected {
-  color: var(--primary-text);
 } */

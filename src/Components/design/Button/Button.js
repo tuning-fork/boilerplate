@@ -8,12 +8,14 @@ export const ButtonVariant = {
   Outlined: "outlined",
   Text: "text",
   None: "none",
+  UserIcon: "usericon",
 };
 export const ButtonColor = {
   Primary: "primary",
   Success: "success",
   Error: "error",
   Contrast: "contrast",
+  ColorWheel: "colorwheel",
 };
 
 export default function Button(props) {
@@ -25,6 +27,7 @@ export default function Button(props) {
         "button",
         `button--${props.variant}`,
         `button--${props.color}`,
+        `button--${props.text}`,
         props.disabled && "button--disabled"
       )}
     >
