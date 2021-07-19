@@ -11,16 +11,22 @@ export default function Navbar(props) {
     <div className={clsx(props.className, "navbar")}>
       <Logo className="navbar__logo" />
       <div className="navbar__links">
-        <NavLink
-          to={`/organizations/${props.organizationId}/dashboard`}
-          className="navbar__all-organizations"
-        >
-          {"<"} All Organizations
-        </NavLink>
-        <span className="navbar__divider"> | </span>
-        <span className="navbar__current-organization">Baklava Foundation</span>
+        {props.organizationName && (
+          <>
+            <NavLink
+              to={`/organizations/${props.organizationId}/dashboard`}
+              className="navbar__all-organizations"
+            >
+              {"<"} All Organizations
+            </NavLink>
+            <span className="navbar__divider"> | </span>
+            <span className="navbar__current-organization">
+              {props.organizationName}
+            </span>
+          </>
+        )}
         <Button className="button" variant="usericon">
-          JW
+          {props.userName}
         </Button>
       </div>
     </div>
@@ -29,6 +35,8 @@ export default function Navbar(props) {
 
 Navbar.propTypes = {
   className: PropTypes.string,
+  userName: PropTypes.string.isRequired,
+  organizationName: PropTypes.string,
 };
 
 Navbar.defaultProps = {};
