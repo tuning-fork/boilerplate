@@ -95,3 +95,13 @@ input {
   font-family: inherit;
   font-size: inherit;
 }
+
+dl dt {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+dl dd {
+  margin: 0 0 1rem 0;
+}
