@@ -27,7 +27,6 @@ export default function Button(props) {
         "button",
         `button--${props.variant}`,
         `button--${props.color}`,
-        `button--${props.text}`,
         props.disabled && "button--disabled"
       )}
     >
