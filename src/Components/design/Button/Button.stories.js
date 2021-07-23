@@ -56,3 +56,9 @@ export const ButtonWithIcon = (props) => (
     </Button>
   </Container>
 );
+
+export const ButtonUserIcon = (props) => (
+  <Button {...props} variant="usericon" color="colorwheel" text="JW">
+    {props.text}
+  </Button>
+);

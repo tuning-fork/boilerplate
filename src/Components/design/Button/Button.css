@@ -84,3 +84,24 @@
 .button--none:focus {
   border: 2px solid var(--secondary);
 }
+
+.button.button--usericon {
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+  height: 36px;
+  width: 36px;  
+  justify-content: center;
+  cursor: pointer;
+  display: inline-flex;
+  margin-left: 28px;
+  padding: 0px 0px 0px 0px;
+}
+.button--usericon:hover:not(:active) {
+  opacity: 0.85;
+  background-color: var(--secondary);
+}
+
+.button--usericon.button--colorwheel {
+  background-color: var(--primary);
+}
