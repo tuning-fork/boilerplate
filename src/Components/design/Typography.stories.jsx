@@ -7,6 +7,16 @@ export default {
 export const Typography = () => (
   <>
     <h1>Heading 1</h1>
+    <dl>
+      <dt>Funding Organization</dt>
+      <dd>The Good Place</dd>
+
+      <dt>RFP Website</dt>
+      <dd>goodorbad.com/newneighborhoods</dd>
+
+      <dt>Purpose</dt>
+      <dd>Moral Testing</dd>
+    </dl>
     <p>
       <b>Lorem ipsum dolor sit amet</b>, consectetur adipiscing elit, sed do
       eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
