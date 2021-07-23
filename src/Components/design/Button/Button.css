@@ -8,7 +8,7 @@
 }
 
 .button > svg {
-  font-size: 1.2rem;
+  font-size: var(--font-size-icon);
 }
 .button > svg:not(:only-child):first-child {
   margin-right: 6px;

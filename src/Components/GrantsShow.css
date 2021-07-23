@@ -1,63 +1,63 @@
-.GrantsFinalizeShow {
+.GrantsShow {
   font-size: 18px;
 }
 
-.GrantsFinalizeShow__TopBar {
+.GrantsShow__TopBar {
   margin: 18px 0 30px 0;
 }
 
-.GrantsFinalizeShow__Overview {
+.GrantsShow__Overview {
   margin-bottom: 48px;
 }
 
-.GrantsFinalizeShow__Header {
+.GrantsShow__Header {
   display: flex;
 }
 
-.GrantsFinalizeShow__Title {
+.GrantsShow__Title {
   flex: 1;
   margin-bottom: 21px;
 }
 
-.GrantsFinalizeShow__Actions {
+.GrantsShow__Actions {
   flex: 0.25;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.GrantsFinalizeShow__MakeCopy {
+.GrantsShow__MakeCopy {
   font-weight: bold;
   color: var(--black);
 }
 
-.GrantsFinalizeShow__Fields dt {
+.GrantsShow__Fields dt {
   margin-bottom: 12px;
   font-weight: normal;
 }
-.GrantsFinalizeShow__Fields dd {
+.GrantsShow__Fields dd {
   margin-bottom: 18px;
   font-weight: bold;
 }
 
-.GrantsFinalizeShow__Deadline {
+.GrantsShow__Deadline {
   display: flex;
   margin-bottom: 13px;
 }
 
-.GrantsFinalizeShow__TotalWordCount {
+.GrantsShow__TotalWordCount {
   text-align: right;
 }
-.GrantsFinalizeShow__TotalWordCount > span {
+.GrantsShow__TotalWordCount > span {
   font-weight: bold;
 }
 
-.GrantsFinalizeShow__SectionList {
+.GrantsShow__SectionList {
   list-style: none;
   padding-left: 0;
   margin-top: 30px;
 }
 
-.GrantsFinalizeShow__AddSection {
+.GrantsShow__AddSection {
   margin: 10px 0 26px 0;
 }

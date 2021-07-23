@@ -25,7 +25,7 @@ export default function Navbar(props) {
             </span>
           </>
         )}
-        <Button className="button" variant="usericon">
+        <Button variant="usericon">
           {props.userName}
         </Button>
       </div>

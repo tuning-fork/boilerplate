@@ -19,9 +19,8 @@ import FundingOrgs from "./Components/FundingOrgs";
 import BoilerplatesShow from "./Components/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
-import GrantsShow from "./Components/GrantsShow";
 import ReportsShow from "./Components/ReportsShow";
-import GrantsFinalizeShow from "./Components/GrantsFinalizeShow";
+import GrantsShow from "./Components/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
 import CategoriesNew from "./Components/CategoriesNew";
@@ -69,11 +68,6 @@ export default function App() {
           <PrivateRoute
             path={"/organizations/:org_id/grants/:grant_id/copy"}
             component={GrantCopy}
-          />
-          <PrivateRoute
-            exact
-            path={"/organizations/:org_id/grants-finalize/:grant_id"}
-            component={GrantsFinalizeShow}
           />
           <PrivateRoute
             exact
