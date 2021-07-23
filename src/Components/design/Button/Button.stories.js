@@ -58,7 +58,7 @@ export const ButtonWithIcon = (props) => (
 );
 
 export const ButtonUserIcon = (props) => (
-  <Button {...props} variant={"usericon"} color={"colorwheel"} text={"JW"}>
+  <Button {...props} variant="usericon" color="colorwheel" text="JW">
     {props.text}
   </Button>
 );
