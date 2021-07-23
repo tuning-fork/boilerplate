@@ -3,7 +3,6 @@
   height: 44px;
   position: absolute;
   top: 0px;
-  display: flex;
   display: inline;
   flex-direction: row;
   border-right: 1px solid var(--contrast-10);
