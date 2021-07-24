@@ -5,6 +5,8 @@
   --primary-contrast: rgba(255, 255, 255, 1);
   --secondary: #e02780;
   --secondary-text: #ec5fa3;
+  --tertiary-light: #ffd759;
+  --tertiary-dark: #b78b00;
   --error: #ff4238;
   --error-text: #f52419;
   --success: #15c15d;
