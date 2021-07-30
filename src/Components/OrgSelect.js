@@ -6,22 +6,20 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 
 export default function OrgSelect() {
   const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, currentOrganizationDispatch } =
+    useCurrentOrganizationContext();
   const history = useHistory();
-  console.log(currentUserStore.currentUser);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     console.log(currentUserStore);
-  }, [currentUserStore.currentUser]);
+  }, [currentUserStore, currentUserStore.currentUser]);
 
   const handleChange = (event) => {
-    const selectedOrgInfo = currentOrganizationStore.allUserOrganizations.filter(
-      (userOrganization) => event.target.value == userOrganization.id
-    );
+    const selectedOrgInfo =
+      currentOrganizationStore.allUserOrganizations.filter(
+        (userOrganization) => event.target.value == userOrganization.id
+      );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     console.log({ currentUserStore });
     currentOrganizationDispatch({
