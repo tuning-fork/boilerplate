@@ -9,13 +9,12 @@ export default function OrganizationLayout(props) {
   const { currentUserStore } = useCurrentUserContext();
   const { currentOrganizationStore } = useCurrentOrganizationContext();
   const { currentOrganization } = currentOrganizationStore;
-  const currentUserName = `${currentUserStore.currentUser?.first_name} ${currentUserStore.currentUser?.last_name}`;
 
   return (
     <main className="layout">
       <Navbar
         organizationName={currentOrganization?.name}
-        userName={currentUserName}
+        user={currentUserStore.currentUser}
       />
       <div className="layout__content">
         <Sidebar organizationId={currentOrganization?.id} />
