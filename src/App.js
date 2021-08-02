@@ -32,12 +32,13 @@ import ReportsNew from "./Components/ReportsNew";
 import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
+import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
 
 export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navigation />
+        {/* <Navigation /> */}
         <Switch>
           <Route exact path="/">
             <Redirect to="/landing_page" />
@@ -47,6 +48,18 @@ export default function App() {
           <Route path={"/login"} component={Login} />
           <Route path={"/reset_password"} component={ResetPassword} />
           <Route path={"/forgot_password"} component={ForgotPassword} />
+
+          <Route path="/organizations/:org_id/">
+            <OrganizationLayout>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path={"/organizations/:org_id/grants/"}
+                  component={GrantsShow}
+                />
+              </Switch>
+            </OrganizationLayout>
+          </Route>
 
           <PrivateRoute path={"/org_select"} component={OrgSelect} />
 
