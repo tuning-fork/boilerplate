@@ -29,7 +29,7 @@ export default function OrgSelect() {
         jwt: currentUserStore?.jwt,
       },
     });
-    history.push("/dashboard");
+    history.push(`/organizations/${selectedOrgInfo[0].id}/dashboard`);
   };
 
   return (
