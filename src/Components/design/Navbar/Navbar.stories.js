@@ -6,10 +6,10 @@ export default {
   title: "Design/Navbar",
   component: Component,
   argTypes: {
-    userName: {
-      defaultValue: "JW",
-      control: {
-        type: "text",
+    user: {
+      defaultValue: {
+        first_name: "Chidi",
+        last_name: "Anagonye",
       },
     },
     organizationName: {
