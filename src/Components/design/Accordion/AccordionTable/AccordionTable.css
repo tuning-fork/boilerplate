@@ -24,6 +24,10 @@
   text-overflow: ellipsis;
 }
 
+.accordion-table__cell--number {
+  text-align: right;
+}
+
 .accordion-table__row-header--first .accordion-table__cell {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);

@@ -18,11 +18,21 @@ export default function AccordionTable(props) {
           <div className="accordion-table__cell">
             {/* Empty cell to align with Accordion icon */}
           </div>
-          {columns.map((column, index) => (
-            <div className="accordion-table__cell" key={`column-${index}`}>
-              {column.Header}
-            </div>
-          ))}
+          {columns.map((column, index) => {
+            const isNumber = typeof data[0]?.[column.accessor] === "number";
+
+            return (
+              <div
+                key={index}
+                className={clsx(
+                  "accordion-table__cell",
+                  isNumber && "accordion-table__cell--number"
+                )}
+              >
+                {column.Header}
+              </div>
+            );
+          })}
         </div>
       </li>
       {data.map((row, index) => (
@@ -31,11 +41,22 @@ export default function AccordionTable(props) {
             heading="h6"
             buttonClassName="accordion-table__row-header"
           >
-            {columns.map((column, index) => (
-              <div className="accordion-table__cell" key={index}>
-                {row[column.accessor]}
-              </div>
-            ))}
+            {columns.map((column, index) => {
+              const cell = row[column.accessor];
+              const isNumber = typeof cell === "number";
+
+              return (
+                <div
+                  key={index}
+                  className={clsx(
+                    "accordion-table__cell",
+                    isNumber && "accordion-table__cell--number"
+                  )}
+                >
+                  {cell}
+                </div>
+              );
+            })}
           </AccordionItemHeader>
           <AccordionItemPanel className="accordion-table__row-panel">
             {row._expandableContent || "hi"}

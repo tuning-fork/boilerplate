@@ -57,7 +57,5 @@ const data = [
 ];
 
 export const AccordionTable = (props) => (
-  <div style={{ width: "80%", margin: "0 auto" }}>
-    <Component {...props} columns={columns} data={data} />
-  </div>
+  <Component {...props} columns={columns} data={data} />
 );
