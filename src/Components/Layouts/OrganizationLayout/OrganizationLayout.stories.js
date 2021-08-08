@@ -23,7 +23,8 @@ export const OrganizationLayout = (props) => (
 
 const ContextWrapper = () => {
   const { currentUserDispatch } = useCurrentUserContext();
-  const { currentOrganizationDispatch } = useCurrentOrganizationContext();
+  const { currentOrganizationDispatch, currentOrganizationStore } =
+    useCurrentOrganizationContext();
 
   useEffect(() => {
     currentUserDispatch({
@@ -35,6 +36,10 @@ const ContextWrapper = () => {
       payload: { currentOrganization: { id: "2", name: "Baklava Foundation" } },
     });
   }, [currentOrganizationDispatch, currentUserDispatch]);
+
+  if (!currentOrganizationStore.currentOrganization) {
+    return null;
+  }
 
   return (
     <Component organizationId="2">
