@@ -79,10 +79,9 @@
   outline: none;
   padding: 0;
   font-size: unset;
-  border: 2px solid transparent;
 }
 .button--none:focus {
-  border: 2px solid var(--secondary);
+  outline: 2px solid var(--secondary);
 }
 
 .button.button--usericon {
@@ -90,7 +89,7 @@
   background-color: var(--primary);
   color: var(--primary-contrast);
   height: 36px;
-  width: 36px;  
+  width: 36px;
   justify-content: center;
   cursor: pointer;
   display: inline-flex;
