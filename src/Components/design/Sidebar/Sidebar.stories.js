@@ -5,15 +5,14 @@ import Component from "./Sidebar";
 export default {
   title: "Design/Sidebar",
   component: Component,
-  argTypes: {},
 };
 
 export const Sidebar = (props) => (
   <HashRouter>
     <div style={{ display: "flex", height: "100%" }}>
       <Component {...props} organizationId="2" />
-      <Switch>
-        <div style={{ backgroundColor: "#f5f7f9", padding: "20px", flex: "1" }}>
+      <div style={{ backgroundColor: "#f5f7f9", padding: "20px", flex: "1" }}>
+        <Switch>
           <Route path="/organizations/:org_id/dashboard">Dashboard</Route>
           <Route path="/organizations/:org_id/reports">Reports</Route>
           <Route path="/organizations/:org_id/grants">Grants</Route>
@@ -26,8 +25,8 @@ export const Sidebar = (props) => (
           <Route path="/">
             <Redirect to="/organizations/2/dashboard" />
           </Route>
-        </div>
-      </Switch>
+        </Switch>
+      </div>
     </div>
   </HashRouter>
 );

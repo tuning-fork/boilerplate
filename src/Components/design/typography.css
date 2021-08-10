@@ -3,7 +3,7 @@
 :root {
   --font-size-icon: 1.2rem;
   --font-size-small: 0.8rem;
-  --font-size-base: 100%;
+  --font-size-base: 1rem;
   --font-size-large-1: 1.25rem;
   --font-size-large-2: 1.563rem;
   --font-size-large-3: 1.953rem;
@@ -14,7 +14,7 @@
 }
 
 html {
-  font-size: var(--font-size-base);
+  font-size: 100%;
 }
 
 body {

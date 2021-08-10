@@ -1,44 +1,35 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import RightArrowIcon from "@material-ui/icons/ChevronRight";
-import DownArrowIcon from "@material-ui/icons/ExpandMore";
 import { useId } from "react-aria";
-import Button from "../../Button/Button";
+import AccordionItemContext from "./AccordionItemContext";
 import "./AccordionItem.css";
 
 export default function AccordionItem(props) {
+  const { as: Component, className, children } = props;
   const [expanded, setExpanded] = useState(false);
-  const Icon = expanded ? DownArrowIcon : RightArrowIcon;
-  const headerButtonId = useId();
-  const panelId = useId();
+  const state = {
+    expanded,
+    setExpanded,
+    headerId: useId(),
+    panelId: useId(),
+  };
 
   return (
-    <div className={clsx(props.className, "accordion-item")}>
-      <props.heading className="accordion-item__heading">
-        <Button
-          id={headerButtonId}
-          variant="none"
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-          aria-controls={panelId}
-        >
-          <Icon className="accordion-item__icon" />
-          {props.title}
-        </Button>
-      </props.heading>
-      <section id={panelId} aria-labelledby={headerButtonId} hidden={!expanded}>
-        {props.children}
-      </section>
-    </div>
+    <AccordionItemContext.Provider value={state}>
+      <Component className={clsx(className, "accordion-item")}>
+        {children}
+      </Component>
+    </AccordionItemContext.Provider>
   );
 }
 
 AccordionItem.propTypes = {
   className: PropTypes.string,
-  heading: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6"]).isRequired,
-  title: PropTypes.string.isRequired,
   children: PropTypes.node,
+  as: PropTypes.node,
 };
 
-AccordionItem.defaultProps = {};
+AccordionItem.defaultProps = {
+  as: "div",
+};
