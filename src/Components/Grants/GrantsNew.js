@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import FundingOrgsNew from "./FundingOrgsNew";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Modal from "./Elements/Modal";
+import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
 import { Link } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { createGrant } from "../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
+import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { createGrant } from "../../Services/Organizations/GrantsService";
+import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
 import LeftArrowIcon from "@material-ui/icons/KeyboardArrowLeft";
-import Container from "./design/Container/Container";
-import TextBox from "./design/TextBox/TextBox";
-import Button from "./design/Button/Button";
+import Container from "../design/Container/Container";
+import TextBox from "../design/TextBox/TextBox";
+import Button from "../design/Button/Button";
+import "./GrantsNew.css";
 
 export default function GrantsNew(props) {
   // const [loading, setLoading] = useState(true);
@@ -30,11 +28,10 @@ export default function GrantsNew(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
 
-  const [showFundingOrgsNew, setShowFundingOrgsNew] = useState(false);
+  const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
   const handleClose = () => {
-    setShowFundingOrgsNew(false);
+    setShowingFundingOrgsNew(false);
   };
-  const handleShowFundingOrgsNew = () => setShowFundingOrgsNew(true);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -74,22 +71,37 @@ export default function GrantsNew(props) {
   };
 
   return (
-    <Container as="section" centered>
-      <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+    <Container as="section" centered className="grants-new">
+      <Link
+        className="grants-new__back-button"
+        to={`/organizations/${currentOrganizationId}/grants/`}
+      >
         <LeftArrowIcon />
         Back to All Grants
       </Link>
       <h1>Add New Grant</h1>
       <form onSubmit={handleSubmit}>
+        <Button
+          variant="outlined"
+          onClick={() => setShowingFundingOrgsNew(true)}
+        >
+          Add Funding Organization
+        </Button>
         <TextBox labelText="Title" />
         <TextBox labelText="RFP URL" />
         <TextBox labelText="Deadline" />
         <TextBox labelText="Purpose" />
-        <Button variant="text" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button type="submit">Save</Button>
+        <div className="grants-new__button-group">
+          <Button variant="text" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button type="submit">Save</Button>
+        </div>
       </form>
+      <FundingOrgsNew
+        show={showingFundingOrgsNew}
+        onClose={() => setShowingFundingOrgsNew(false)}
+      />
     </Container>
   );
 

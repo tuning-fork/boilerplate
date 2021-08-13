@@ -1,0 +1,21 @@
+.grants-new h1 {
+  margin-bottom: 62px;
+  margin-top: 16px;
+}
+
+.grants-new__back-button {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+}
+
+.grants-new__button-group {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.grants-new form {
+  width: 65%;
+}
