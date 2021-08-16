@@ -76,12 +76,10 @@
   background: none;
   color: unset;
   display: block;
-  outline: none;
   padding: 0;
   font-size: unset;
-}
-.button--none:focus {
-  outline: 2px solid var(--secondary);
+  font-weight: unset;
+  line-height: unset;
 }
 
 .button.button--usericon {

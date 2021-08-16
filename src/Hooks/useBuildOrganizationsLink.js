@@ -2,7 +2,8 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 
 export default function useBuildOrganizationsLink() {
   const { currentOrganizationStore } = useCurrentOrganizationContext();
-  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id;
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganization?.id;
 
   return (path) => {
     return `/organizations/${currentOrganizationId}${path}`;

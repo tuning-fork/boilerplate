@@ -67,10 +67,6 @@ export default function App() {
                   component={Dashboard}
                 />
                 <PrivateRoute
-                  path="/organizations/:org_id/grants/"
-                  component={Grants}
-                />
-                <PrivateRoute
                   path="/organizations/:org_id/grants/:grant_id"
                   component={GrantsShow}
                 />
@@ -107,16 +103,8 @@ export default function App() {
                   component={ReportsNew}
                 />
                 <PrivateRoute
-                  path="/organizations/:org_id/categories"
-                  component={Categories}
-                />
-                <PrivateRoute
-                  path="/organizations/:org_id/funding_orgs"
-                  component={FundingOrgs}
-                />
-                <PrivateRoute
-                  path="/organizations/:org_id/boilerplates"
-                  component={Boilerplates}
+                  path="/organizations/:org_id/grants/"
+                  component={Grants}
                 />
                 <PrivateRoute
                   path="/organizations/:org_id/boilerplates/:boilerplate_id"
@@ -137,12 +125,24 @@ export default function App() {
                   component={BoilerplatesNew}
                 />
                 <PrivateRoute
+                  path="/organizations/:org_id/boilerplates"
+                  component={Boilerplates}
+                />
+                <PrivateRoute
                   path="/organizations/:org_id/categories-new"
                   component={CategoriesNew}
                 />
                 <PrivateRoute
+                  path="/organizations/:org_id/categories"
+                  component={Categories}
+                />
+                <PrivateRoute
                   path="/organizations/:org_id/funding_orgs-new"
                   component={FundingOrgsNew}
+                />
+                <PrivateRoute
+                  path="/organizations/:org_id/funding_orgs"
+                  component={FundingOrgs}
                 />
                 <Redirect to="/organizations/:org_id/dashboard" />
               </Switch>

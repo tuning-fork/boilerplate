@@ -58,7 +58,7 @@ export default function FundingOrgs() {
         .catch((error) => console.log(error));
     }
     window.scrollTo(0, 0);
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs, newFundingOrg];
@@ -116,7 +116,9 @@ export default function FundingOrgs() {
             <Card.Header className="card-component card-heading">
               Funding Orgs
             </Card.Header>
-            <Button onClick={handleShowFundingOrgsNew}>Add New Funding Org</Button>
+            <Button onClick={handleShowFundingOrgsNew}>
+              Add New Funding Org
+            </Button>
           </Card>
         </div>
         <Modal show={showFundingOrgsNew}>
