@@ -1,12 +1,12 @@
 // import React from 'react';
 
 export const countWords = (string) => {
-    if (string) {
-      return (string.split(" ").length);
-    } else {
-      return 0;
-    }
+  if (string) {
+    return string.split(" ").length;
+  } else {
+    return 0;
   }
+};
 
 // //search boilerplates (and eventually bios) functions
 // //track input from search form

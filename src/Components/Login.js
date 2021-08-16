@@ -15,11 +15,8 @@ export default function Login() {
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
   const location = useLocation();
-  const {
-    currentUserStore,
-    currentUserDispatch,
-    login,
-  } = useCurrentUserContext();
+  const { currentUserStore, currentUserDispatch, login } =
+    useCurrentUserContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
