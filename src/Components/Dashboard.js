@@ -11,7 +11,8 @@ export default function Dashboard() {
   console.log(currentUserStore);
   console.log(currentOrganizationStore);
   const history = useHistory();
-  const currentOrganizationId = currentOrganizationStore.currentOrganization?.id
+  const currentOrganizationId =
+    currentOrganizationStore.currentOrganization?.id;
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -1,6 +1,6 @@
 :root {
   --primary: #009285;
-  --primary-10: rgba(0, 146, 133, .1);
+  --primary-10: rgba(0, 146, 133, 0.1);
   --primary-text: #3ea499;
   --primary-contrast: rgba(255, 255, 255, 1);
   --secondary: #e02780;
@@ -52,4 +52,9 @@ a {
 }
 a:visited {
   color: var(--primary-contrast-alt);
+}
+
+button:focus {
+  outline: var(--focused);
+  outline-offset: 2px;
 }
