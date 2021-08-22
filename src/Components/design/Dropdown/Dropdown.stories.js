@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Component from "./Dropdown";
 
 export default {
@@ -22,4 +22,17 @@ export default {
   },
 };
 
-export const Dropdown = (props) => <Component {...props} />;
+export const Dropdown = (props) => {
+  const [value, setValue] = useState(null);
+
+  return (
+    <>
+      <Component
+        {...props}
+        value={value}
+        onChange={(option) => setValue(option.value)}
+      />
+      <p>Selected value: {value}</p>
+    </>
+  );
+};
