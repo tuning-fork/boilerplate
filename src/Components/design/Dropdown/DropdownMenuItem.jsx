@@ -18,8 +18,8 @@ export default function DropdownMenuItem(props) {
     labelId,
   } = useContext(DropdownContext);
   const menuItemButtonEl = useRef(null);
-  const isSelected = option.value === selectedOption?.value;
-  const isFocused = option.value === focusedOption?.value;
+  const isSelected = option === selectedOption;
+  const isFocused = option === focusedOption;
 
   useEffect(() => {
     if (isMenuOpen && isFocused) {
