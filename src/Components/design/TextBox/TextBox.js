@@ -4,14 +4,28 @@ import clsx from "clsx";
 import "./TextBox.css";
 
 export default function TextBox(props) {
-  const { labelText, onChange, className, prefix, suffix, align, type } = props;
+  const {
+    labelText,
+    onChange,
+    className,
+    prefix,
+    suffix,
+    align,
+    required,
+    type,
+  } = props;
 
   return (
     <label className={clsx(className, "text-box", `text-box--align-${align}`)}>
       <span className="text-box__label">{labelText}</span>
       <span className="text-box__container">
         {prefix && <span className="text-box__prefix">{prefix}</span>}
-        <input className="text-box__input" type={type} onChange={onChange} />
+        <input
+          className="text-box__input"
+          type={type}
+          onChange={onChange}
+          required={required}
+        />
         {suffix && <span className="text-box__suffix">{suffix}</span>}
       </span>
     </label>
@@ -24,6 +38,7 @@ TextBox.propTypes = {
   labelText: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   prefix: PropTypes.node,
+  required: PropTypes.bool,
   suffix: PropTypes.node,
   type: PropTypes.string,
   value: PropTypes.string,
@@ -31,5 +46,6 @@ TextBox.propTypes = {
 
 TextBox.defaultProps = {
   align: "left",
+  required: false,
   type: "text",
 };

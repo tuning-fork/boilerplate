@@ -9,17 +9,18 @@ import LeftArrowIcon from "@material-ui/icons/KeyboardArrowLeft";
 import Container from "../design/Container/Container";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
+import Dropdown from "../design/Dropdown/Dropdown";
 import "./GrantsNew.css";
 
 export default function GrantsNew(props) {
   // const [loading, setLoading] = useState(true);
   const [newGrant, setNewGrant] = useState({
     title: "",
-    rfpUrl: "",
+    rfp_url: "",
     deadline: "",
     purpose: "",
+    funding_org_id: null,
   });
-  const [fundingOrgId, setFundingOrgId] = useState("");
   const [fundingOrgs, setFundingOrgs] = useState([]);
   // const [errors, setErrors] = useState("");
   const history = useHistory();
@@ -58,7 +59,6 @@ export default function GrantsNew(props) {
     createGrant(organizationClient, {
       ...newGrant,
       organization_id: currentOrganizationStore.currentOrganization.id,
-      // fundingOrgId,
     })
       .then((grant) => {
         history.push(
@@ -81,16 +81,58 @@ export default function GrantsNew(props) {
       </Link>
       <h1>Add New Grant</h1>
       <form onSubmit={handleSubmit}>
+        <Dropdown
+          labelText="Funding Organization"
+          placeholder="Select a Funding Organization"
+          selectedOption={{
+            value: newGrant.funding_org_id,
+            label: fundingOrgs.find(
+              (fundingOrg) => fundingOrg.id === newGrant.funding_org_id
+            ),
+          }}
+          options={fundingOrgs.map((fundingOrg) => ({
+            value: fundingOrg.id,
+            label: fundingOrg.name,
+          }))}
+          // onChange={(option) =>
+          //   setNewGrant({ ...newGrant, funding_org_id: option?.value })
+          // }
+        />
         <Button
           variant="outlined"
           onClick={() => setShowingFundingOrgsNew(true)}
         >
           Add Funding Organization
         </Button>
-        <TextBox labelText="Title" />
-        <TextBox labelText="RFP URL" />
-        <TextBox labelText="Deadline" />
-        <TextBox labelText="Purpose" />
+        <TextBox
+          labelText="Title"
+          onChange={(event) =>
+            setNewGrant({ ...newGrant, title: event.target.value })
+          }
+          required
+        />
+        <TextBox
+          labelText="RFP URL"
+          onChange={(event) =>
+            setNewGrant({ ...newGrant, rfp_url: event.target.value })
+          }
+          type="url"
+          required
+        />
+        <TextBox
+          labelText="Deadline"
+          onChange={(event) =>
+            setNewGrant({ ...newGrant, deadline: event.target.value })
+          }
+          required
+        />
+        <TextBox
+          labelText="Purpose"
+          onChange={(event) =>
+            setNewGrant({ ...newGrant, purpose: event.target.value })
+          }
+          required
+        />
         <div className="grants-new__button-group">
           <Button variant="text" onClick={handleCancel}>
             Cancel

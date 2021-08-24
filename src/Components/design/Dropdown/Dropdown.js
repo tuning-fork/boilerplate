@@ -10,18 +10,24 @@ import DropdownContext from "./DropdownContext";
 import "./Dropdown.css";
 
 export default function Dropdown(props) {
-  const { labelText, className, defaultItem, placeholder, onChange, options } =
-    props;
+  const {
+    labelText,
+    className,
+    placeholder,
+    selectedOption,
+    onChange,
+    options,
+  } = props;
   const dropdownEl = useRef(null);
 
-  const [selectedOption, setSelectedOption] = useState(defaultItem);
+  // const [selectedOption, setSelectedOption] = useState(defaultItem);
   const [focusedOption, setFocusedOption] = useState(options[0]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const labelId = useId();
   const context = {
     options,
     selectedOption,
-    setSelectedOption,
+    setSelectedOption: onChange,
     focusedOption,
     setFocusedOption,
     isMenuOpen,
@@ -45,9 +51,9 @@ export default function Dropdown(props) {
   }, [isMenuOpen]);
 
   // Invoke onChange when selected item changes
-  useEffect(() => {
-    onChange?.(selectedOption);
-  }, [onChange, selectedOption]);
+  // useEffect(() => {
+  //   onChange?.(selectedOption);
+  // }, [onChange]);
 
   return (
     <DropdownContext.Provider value={context}>
