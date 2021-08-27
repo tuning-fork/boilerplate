@@ -10,29 +10,23 @@ import DropdownContext from "./DropdownContext";
 import "./Dropdown.css";
 
 export default function Dropdown(props) {
-  const {
-    labelText,
-    className,
-    placeholder,
-    selectedOption,
-    onChange,
-    options,
-  } = props;
+  const { className, onChange, options, placeholder, value, labelText } = props;
   const dropdownEl = useRef(null);
 
-  // const [selectedOption, setSelectedOption] = useState(defaultItem);
-  const [focusedOption, setFocusedOption] = useState(options[0]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const labelId = useId();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [focusedOption, setFocusedOption] = useState(options[0]);
+  const selectedOption =
+    options.find((option) => option.value === value) || null;
   const context = {
+    focusedOption,
+    isMenuOpen,
+    labelId,
     options,
     selectedOption,
-    setSelectedOption: onChange,
-    focusedOption,
     setFocusedOption,
-    isMenuOpen,
     setIsMenuOpen,
-    labelId,
+    setSelectedOption: onChange,
   };
 
   // Hides menu when clicking outside dropdown
@@ -49,11 +43,6 @@ export default function Dropdown(props) {
       document.removeEventListener("click", handleDocumentClick, false);
     };
   }, [isMenuOpen]);
-
-  // Invoke onChange when selected item changes
-  // useEffect(() => {
-  //   onChange?.(selectedOption);
-  // }, [onChange]);
 
   return (
     <DropdownContext.Provider value={context}>
@@ -109,16 +98,15 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   className: PropTypes.string,
   labelText: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(optionPropType).isRequired,
-  defaultValue: optionPropType,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-  required: PropTypes.bool,
   multiple: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(optionPropType).isRequired,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  value: PropTypes.string.isRequired,
 };
 
 Dropdown.defaultProps = {
-  required: false,
   multiple: false,
+  required: false,
 };
