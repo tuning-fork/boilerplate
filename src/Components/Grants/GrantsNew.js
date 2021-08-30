@@ -84,21 +84,17 @@ export default function GrantsNew(props) {
         <Dropdown
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
-          selectedOption={{
-            value: newGrant.funding_org_id,
-            label: fundingOrgs.find(
-              (fundingOrg) => fundingOrg.id === newGrant.funding_org_id
-            ),
-          }}
+          value={newGrant.funding_org_id}
           options={fundingOrgs.map((fundingOrg) => ({
             value: fundingOrg.id,
             label: fundingOrg.name,
           }))}
-          // onChange={(option) =>
-          //   setNewGrant({ ...newGrant, funding_org_id: option?.value })
-          // }
+          onChange={(option) =>
+            setNewGrant({ ...newGrant, funding_org_id: option.value })
+          }
         />
         <Button
+          className="grants-new__add-funding-org"
           variant="outlined"
           onClick={() => setShowingFundingOrgsNew(true)}
         >
@@ -121,6 +117,7 @@ export default function GrantsNew(props) {
         />
         <TextBox
           labelText="Deadline"
+          type="datetime-local"
           onChange={(event) =>
             setNewGrant({ ...newGrant, deadline: event.target.value })
           }

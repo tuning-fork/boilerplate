@@ -16,6 +16,7 @@
   margin-top: 50px;
 }
 
-.grants-new form {
-  width: 65%;
+.grants-new__add-funding-org {
+  margin-bottom: 24px;
+  justify-content: center;
 }
