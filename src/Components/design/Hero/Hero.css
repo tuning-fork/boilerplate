@@ -1,9 +1,23 @@
 .hero {
-  width: 100%;
   border-right: 1px solid var(--contrast-10);
   background-color: var(--primary-10);
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.hero__left {
+  width: 50%;
+  overflow-wrap: break-word;
+}
+
+.hero__right {
 }
 
 .hero__deadline {
   background-color: var(--tertiary-light);
+  padding: 5px;
+  box-shadow: 10px 10px var(--tertiary-dark);
+  text-align: center;
+  margin-bottom: 30px;
 }

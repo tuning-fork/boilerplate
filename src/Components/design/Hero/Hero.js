@@ -2,31 +2,41 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../Button/Button";
-import Container from "../Container/Container";
 import "./Hero.css";
 
 export default function Hero(props) {
   return (
-    <div className={clsx(props.className, "hero")}>
-      <Container centered>
-        <div className="hero__breadcrumb">{props.breadCrumb}</div>
-        <div style={{ display: "flex" }}>
-          <h1 style={{ flexDirection: "column" }} className="hero__header">
-            {props.headerText}
-          </h1>
-          <div
-            style={{
-              flexDirection: "column",
-              marginRight: "80px",
-              marginLeft: "30px",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Button>Edit</Button>
-          </div>
+    <div className={clsx(props.className, "hero")} centered>
+      <div className="hero__left">
+        <div className="hero__breadcrumb">&lt; Back to All Grants</div>
+        <h1 className="hero__header">{props.headerText}</h1>
+        <dl>
+          <dt>Funding Organization</dt>
+          <dd>The Good Place</dd>
+
+          <dt>RFP Website</dt>
+          <dd>goodorbad.com/newneighborhoods</dd>
+
+          <dt>Purpose</dt>
+          <dd>Moral Testing</dd>
+        </dl>
+      </div>
+      <div className="hero__right">
+        <div
+          style={{
+            marginRight: "80px",
+            marginLeft: "30px",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button variant="outlined">Edit</Button>
         </div>
-        {props.children}
-      </Container>
+        <dl className="hero__deadline">
+          <dt>DEADLINE</dt>
+          <dd>June 30, 2021</dd>
+        </dl>
+        <div>Total Word Count: 0</div>
+      </div>
     </div>
   );
 }
