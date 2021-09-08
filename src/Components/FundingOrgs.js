@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FundingOrgsNew from "./FundingOrgsNew";
+import FundingOrgsNew from "./FundingOrgs/FundingOrgsNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";

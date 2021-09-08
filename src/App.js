@@ -1,5 +1,4 @@
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
@@ -24,9 +23,9 @@ import GrantsShow from "./Components/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
 import CategoriesNew from "./Components/CategoriesNew";
-import FundingOrgsNew from "./Components/FundingOrgsNew";
+import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgsNew";
 import OrganizationsNew from "./Components/OrganizationsNew";
-import GrantsNew from "./Components/GrantsNew";
+import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
 import BoilerplatesEdit from "./Components/BoilerplatesEdit";

@@ -1,5 +1,7 @@
 .dropdown {
   display: inline-block;
+  width: 100%;
+  margin-bottom: 24px;
 }
 
 .dropdown__label {
@@ -19,6 +21,7 @@
   border-radius: 4px;
   background-color: var(--contrast-10);
   cursor: pointer;
+  width: 100%;
 }
 
 .dropdown__input > span {
