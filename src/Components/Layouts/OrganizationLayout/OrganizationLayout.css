@@ -1,0 +1,7 @@
+.layout {
+    height: 100%
+}
+.layout__content {
+    display: flex;
+    height: 100%
+}

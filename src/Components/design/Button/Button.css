@@ -5,6 +5,7 @@
   border-radius: 4px;
   border: unset;
   cursor: pointer;
+  line-height: 18px;
 }
 
 .button > svg {
@@ -76,13 +77,10 @@
   background: none;
   color: unset;
   display: block;
-  outline: none;
   padding: 0;
   font-size: unset;
-  border: 2px solid transparent;
-}
-.button--none:focus {
-  border: 2px solid var(--secondary);
+  font-weight: unset;
+  line-height: unset;
 }
 
 .button.button--usericon {
@@ -90,7 +88,7 @@
   background-color: var(--primary);
   color: var(--primary-contrast);
   height: 36px;
-  width: 36px;  
+  width: 36px;
   justify-content: center;
   cursor: pointer;
   display: inline-flex;

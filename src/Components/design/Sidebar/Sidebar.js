@@ -83,6 +83,7 @@ export default function Sidebar(props) {
 
 Sidebar.propTypes = {
   className: PropTypes.string,
+  organizationId: PropTypes.string.isRequired,
 };
 
 Sidebar.defaultProps = {};

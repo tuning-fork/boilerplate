@@ -1,5 +1,6 @@
 .text-box {
-  display: inline-block;
+  display: block;
+  margin-bottom: 24px;
 }
 
 .text-box--align-left .text-box__input {
@@ -19,11 +20,12 @@
 }
 
 .text-box__container {
-  border-radius: 4px;
-  border: 0;
-  background-color: var(--contrast-10);
-  padding: 7px 10px;
   display: flex;
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  padding: 7px 10px;
+  background-color: var(--contrast-10);
 }
 
 .text-box__container:focus-within {

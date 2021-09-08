@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "./../Elements/Modal";
 import formatDateForInput from "../../Helpers/formatDateForInput";
 import parseDateFromInput from "../../Helpers/parseDateFromInput";
-import FundingOrgsNew from "./../FundingOrgsNew";
+import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
 
 export default function GrantEditForm(props) {
   const { onSubmit, onCancel, updateFundingOrgs } = props;

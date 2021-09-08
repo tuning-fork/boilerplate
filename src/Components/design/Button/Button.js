@@ -18,33 +18,37 @@ export const ButtonColor = {
   ColorWheel: "colorwheel",
 };
 
-export default function Button(props) {
+const Button = React.forwardRef((props, ref) => {
+  const { variant, color, children, ...restProps } = props;
+
   return (
     <button
-      {...props}
+      {...restProps}
+      ref={ref}
       className={clsx(
         props.className,
         "button",
-        `button--${props.variant}`,
-        `button--${props.color}`,
+        `button--${variant}`,
+        `button--${color}`,
         props.disabled && "button--disabled"
       )}
     >
-      {Array.isArray(props.children)
-        ? props.children.map((child, index) => {
+      {Array.isArray(children)
+        ? children.map((child, index) => {
             // Wrap text nodes in span for styling with icons.
             if (typeof child === "string") {
               return <span key={index}>{child}</span>;
             }
             return child;
           })
-        : props.children}
+        : children}
     </button>
   );
-}
+});
 
 Button.propTypes = {
   className: PropTypes.string,
+  children: PropTypes.node,
   color: PropTypes.oneOf(Object.values(ButtonColor)),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
@@ -62,3 +66,5 @@ Button.defaultProps = {
   type: "button",
   variant: ButtonVariant.Contained,
 };
+
+export default Button;

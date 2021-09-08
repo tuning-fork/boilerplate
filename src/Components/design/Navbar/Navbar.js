@@ -6,6 +6,10 @@ import Button from "../Button/Button";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import "./Navbar.css";
 
+const getUserInitials = (user) => {
+  return `${user?.first_name?.[0]}${user?.last_name?.[0]}`;
+};
+
 export default function Navbar(props) {
   return (
     <div className={clsx(props.className, "navbar")}>
@@ -25,9 +29,7 @@ export default function Navbar(props) {
             </span>
           </>
         )}
-        <Button variant="usericon">
-          {props.userName}
-        </Button>
+        <Button variant="usericon">{getUserInitials(props.user)}</Button>
       </div>
     </div>
   );
@@ -35,7 +37,7 @@ export default function Navbar(props) {
 
 Navbar.propTypes = {
   className: PropTypes.string,
-  userName: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   organizationName: PropTypes.string,
 };
 
