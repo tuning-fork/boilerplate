@@ -18,5 +18,8 @@
 
 .grants-new__add-funding-org {
   margin-bottom: 24px;
-  justify-content: center;
+}
+
+.grants-new__deadline input {
+  width: 100%;
 }

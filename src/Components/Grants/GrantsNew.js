@@ -13,7 +13,6 @@ import Dropdown from "../design/Dropdown/Dropdown";
 import "./GrantsNew.css";
 
 export default function GrantsNew(props) {
-  // const [loading, setLoading] = useState(true);
   const [newGrant, setNewGrant] = useState({
     title: "",
     rfp_url: "",
@@ -22,7 +21,6 @@ export default function GrantsNew(props) {
     funding_org_id: null,
   });
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  // const [errors, setErrors] = useState("");
   const history = useHistory();
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
@@ -30,28 +28,29 @@ export default function GrantsNew(props) {
     currentOrganizationStore.currentOrganization?.id;
 
   const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
-  const handleClose = () => {
-    setShowingFundingOrgsNew(false);
-  };
 
   useEffect(() => {
-    if (currentOrganizationId) {
-      getAllFundingOrgs(organizationClient)
-        .then((fundingOrgs) => {
-          setFundingOrgs(fundingOrgs);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [currentOrganizationId, organizationClient]);
+    getAllFundingOrgs(organizationClient)
+      .then((fundingOrgs) => {
+        setFundingOrgs(fundingOrgs);
+      })
+      .catch((error) => console.log(error));
+  }, [organizationClient]);
 
   const handleCancel = () => {
     history.push(`/organizations/${currentOrganizationId}/grants`);
   };
 
-  const updateFundingOrgs = (newFundingOrg) => {
-    const newFundingOrgs = [...fundingOrgs];
-    newFundingOrgs.push(newFundingOrg);
-    setFundingOrgs(newFundingOrgs);
+  const handleCloseFundingOrgsNew = (fundingOrgId) => {
+    setShowingFundingOrgsNew(false);
+    if (fundingOrgId) {
+      getAllFundingOrgs(organizationClient)
+        .then((fundingOrgs) => {
+          setFundingOrgs(fundingOrgs);
+        })
+        .catch((error) => console.log(error));
+      setNewGrant({ ...newGrant, funding_org_id: fundingOrgId });
+    }
   };
 
   const handleSubmit = (event) => {
@@ -121,6 +120,7 @@ export default function GrantsNew(props) {
           onChange={(event) =>
             setNewGrant({ ...newGrant, deadline: event.target.value })
           }
+          className="grants-new__deadline"
           required
         />
         <TextBox
@@ -139,120 +139,8 @@ export default function GrantsNew(props) {
       </form>
       <FundingOrgsNew
         show={showingFundingOrgsNew}
-        onClose={() => setShowingFundingOrgsNew(false)}
+        onClose={handleCloseFundingOrgsNew}
       />
     </Container>
   );
-
-  // return (
-  //   <Card>
-  //     <Link to={`/organizations/${currentOrganizationId}/grants/`}>
-  //       <p>Back to Grants</p>
-  //     </Link>
-  //     <Modal show={showFundingOrgsNew} onClose={handleClose}>
-  //       <FundingOrgsNew
-  //         funding_orgs={fundingOrgs}
-  //         updateFundingOrgs={updateFundingOrgs}
-  //       />
-  //     </Modal>
-  //     <Card.Header>Add New Grant</Card.Header>
-  //     <Card.Body>
-  //       <Form onSubmit={handleSubmit}>
-  //         <Form.Group>
-  //           <Form.Label>Funding Organization</Form.Label>
-  //           <Form.Control
-  //             as="select"
-  //             name="fundingOrgId"
-  //             value={fundingOrgId}
-  //             onChange={(event) => setFundingOrgId(event.target.value)}
-  //             required
-  //           >
-  //             <option value="" disabled>
-  //               Funding Organization
-  //             </option>
-  //             {fundingOrgs.map((fundingOrg) => {
-  //               return (
-  //                 <option
-  //                   key={fundingOrg.id}
-  //                   value={fundingOrg.id}
-  //                   onChange={(event) => setFundingOrgId(event.target.value)}
-  //                 >
-  //                   {fundingOrg.name}
-  //                 </option>
-  //               );
-  //             })}
-  //           </Form.Control>
-  //         </Form.Group>
-  //         <Button
-  //           variant="secondary"
-  //           size="sm"
-  //           onClick={handleShowFundingOrgsNew}
-  //         >
-  //           Add New Funding Organization
-  //         </Button>
-  //         <br />
-  //         <br />
-  //         <Form.Group>
-  //           <Form.Label>Title</Form.Label>
-  //           <Form.Control
-  //             type="text"
-  //             name="title"
-  //             value={title}
-  //             onChange={(event) => setTitle(event.target.value)}
-  //             required
-  //           />
-  //         </Form.Group>
-  //         <Form.Group>
-  //           <Form.Label>RFP URL</Form.Label>
-  //           <Form.Control
-  //             name="rfpUrl"
-  //             value={rfpUrl}
-  //             onChange={(event) => setRfpUrl(event.target.value)}
-  //             required
-  //           />
-  //         </Form.Group>
-  //         <Form.Group>
-  //           <Form.Label>Deadline</Form.Label>
-  //           <Form.Control
-  //             type="datetime-local"
-  //             name="deadline"
-  //             value={deadline}
-  //             onChange={(event) => setDeadline(event.target.value)}
-  //             required
-  //           />
-  //         </Form.Group>
-  //         <Form.Group>
-  //           <Form.Label>Purpose</Form.Label>
-  //           <Form.Control
-  //             name="purpose"
-  //             value={purpose}
-  //             onChange={(event) => setPurpose(event.target.value)}
-  //             required
-  //           />
-  //         </Form.Group>
-  //         <div>
-  //           <Button
-  //             type="submit"
-  //             style={{
-  //               maxWidth: "50%",
-  //               align: "center",
-  //             }}
-  //             onClick={handleSubmit}
-  //           >
-  //             Save Changes
-  //           </Button>
-  //           <Button
-  //             style={{
-  //               maxWidth: "50%",
-  //               align: "center",
-  //             }}
-  //             onClick={handleCancelGrantNew}
-  //           >
-  //             Cancel
-  //           </Button>
-  //         </div>
-  //       </Form>
-  //     </Card.Body>
-  //   </Card>
-  // );
 }

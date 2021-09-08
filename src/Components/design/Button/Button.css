@@ -5,6 +5,7 @@
   border-radius: 4px;
   border: unset;
   cursor: pointer;
+  line-height: 18px;
 }
 
 .button > svg {
