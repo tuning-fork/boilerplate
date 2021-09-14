@@ -11,9 +11,6 @@
   overflow-wrap: break-word;
 }
 
-.hero__right {
-}
-
 .hero__deadline {
   background-color: var(--tertiary-light);
   padding: 5px;

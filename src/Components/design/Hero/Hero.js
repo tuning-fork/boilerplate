@@ -6,7 +6,7 @@ import "./Hero.css";
 
 export default function Hero(props) {
   return (
-    <div className={clsx(props.className, "hero")} centered>
+    <div className={clsx(props.className, "hero")}>
       <div className="hero__left">
         <div className="hero__breadcrumb">&lt; Back to All Grants</div>
         <h1 className="hero__header">{props.headerText}</h1>
@@ -43,8 +43,6 @@ export default function Hero(props) {
 
 Hero.propTypes = {
   className: PropTypes.string,
-  userName: PropTypes.string.isRequired,
-  organizationName: PropTypes.string,
   headerText: PropTypes.string,
 };
 

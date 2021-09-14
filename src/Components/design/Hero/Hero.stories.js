@@ -15,4 +15,4 @@ export default {
   },
 };
 
-export const Hero = (props) => <Component {...props}></Component>;
+export const Hero = (props) => <Component {...props} />;
