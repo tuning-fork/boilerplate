@@ -1,26 +1,17 @@
 import React from "react";
-import Button, { ButtonVariant, ButtonColor } from "./Button";
+import Button from "./Button";
 import SearchIcon from "@material-ui/icons/Search";
 
+// Ensures icon component doesn't show up as <[object Object] /> in story "Show
+// code" section.
 SearchIcon.displayName = "SearchIcon";
 
 export default {
   title: "Design/Button",
   component: Button,
   argTypes: {
-    text: {
+    children: {
       defaultValue: "Button",
-      control: {
-        type: "text",
-      },
-    },
-    variant: {
-      options: Object.values(ButtonVariant),
-      control: { type: "radio" },
-    },
-    color: {
-      options: Object.values(ButtonColor),
-      control: { type: "radio" },
     },
   },
 };
@@ -38,7 +29,7 @@ const Container = ({ children }) => (
 );
 
 export const ButtonRegular = (props) => (
-  <Button {...props}>{props.text}</Button>
+  <Button {...props}>{props.children}</Button>
 );
 
 export const ButtonWithIcon = (props) => (
@@ -48,11 +39,17 @@ export const ButtonWithIcon = (props) => (
     </Button>
     <Button {...props}>
       <SearchIcon />
-      {props.text}
+      {props.children}
     </Button>
     <Button {...props}>
-      {props.text}
+      {props.children}
       <SearchIcon />
     </Button>
   </Container>
+);
+
+export const ButtonUserIcon = (props) => (
+  <Button {...props} variant="usericon" color="colorwheel" text="JW">
+    {props.children}
+  </Button>
 );

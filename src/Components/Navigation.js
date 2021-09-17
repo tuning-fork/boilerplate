@@ -1,16 +1,14 @@
-import React, { Component, useState } from "react";
-import { withRouter, useHistory } from "react-router-dom";
+import React from "react";
+import { withRouter, useHistory, Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-// import { useHistory } from "react-router-dom";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 function Navigation(props) {
-  // const [currentUserStore] = useCurrentUserContext();
-  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
+  const { currentUserStore } = useCurrentUserContext();
   const { currentOrganizationStore, currentOrganizationDispatch } =
     useCurrentOrganizationContext();
 
@@ -82,7 +80,11 @@ function Navigation(props) {
                   <h3 style={{ color: "#fefefe" }}>
                     You are logged in as{" "}
                     {currentUserStore?.currentUser?.first_name} and working in{" "}
-                    {currentOrganizationStore.currentOrganization.name}
+                    <Link
+                      to={`/organizations/${currentOrganizationStore.currentOrganization.id}/dashboard`}
+                    >
+                      {currentOrganizationStore.currentOrganization.name}
+                    </Link>
                   </h3>
                   <Form className="justify-content-end">
                     <Form.Group>

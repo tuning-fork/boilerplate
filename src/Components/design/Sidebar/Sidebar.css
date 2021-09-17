@@ -1,0 +1,24 @@
+.sidebar {
+  top: 0px;
+  display: inline;
+  flex-direction: row;
+  border-right: 1px solid var(--contrast-10);
+}
+
+.sidebar__navitem:first-child {
+  margin-top: 16px;
+}
+
+.sidebar__navitem {
+  position: relative;
+  font-size: var(--font-size-small);
+  color: var(--contrast-60);
+  text-decoration: none;      
+  display: flex; 
+  align-items: center;
+  padding: 6px 20px 6px 20px;
+}
+
+.sidebar__navitem:hover {
+  background-color: var(--primary-10);
+}

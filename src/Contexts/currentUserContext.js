@@ -1,8 +1,5 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import axios from "axios";
 import { login as createSession, authWithJwt } from "../Services/Auth/Login";
-import { id } from "date-fns/locale";
 
 export const CurrentUserContext = createContext();
 

@@ -1,0 +1,37 @@
+.navbar {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  padding-right: 1%;
+  border-right: 1px solid var(--contrast-10);
+  background-color: var(--primary-10);
+}
+
+.navbar__logo {
+  margin: auto 0;
+  padding: 13px;
+}
+
+.navbar__links {
+  flex: 1;
+  text-align: right;
+  margin: auto 0;
+}
+
+.navbar__all-organizations {
+  text-decoration: none;
+  color: var(--secondary-text);
+}
+
+.navbar__all-organizations:hover {
+  color: var(--primary);
+}
+
+.navbar__divider {
+  margin: 0 12px;
+}
+
+.navbar__current-organization {
+  font-size: var(--font-size-large-1);
+}
+

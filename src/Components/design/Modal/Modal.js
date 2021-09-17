@@ -10,7 +10,12 @@ export default function Modal(props) {
   }
   return createPortal(
     <>
-      <dialog className="modal" aria-labelledby="modal-heading" aria-modal open>
+      <dialog
+        className={clsx(props.className, "modal")}
+        aria-labelledby="modal-heading"
+        aria-modal
+        open
+      >
         <h1
           id="modal-heading"
           className={clsx(props.headingClassName, "modal__heading")}
@@ -29,6 +34,7 @@ Modal.propTypes = {
   show: PropTypes.bool,
   heading: PropTypes.string.isRequired,
   headingClassName: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Modal.defaultProps = {

@@ -1,0 +1,17 @@
+.funding-orgs-new {
+  width: 40%;
+}
+
+.funding-orgs-new__button-group {
+  margin-top: 98px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.funding-orgs-new__button-group button:last-child {
+  margin-left: 30px;
+}
+
+.funding-orgs-new .text-box {
+  margin-bottom: 45px;
+}

@@ -5,10 +5,11 @@
   border-radius: 4px;
   border: unset;
   cursor: pointer;
+  line-height: 18px;
 }
 
 .button > svg {
-  font-size: 1.2rem;
+  font-size: var(--font-size-icon);
 }
 .button > svg:not(:only-child):first-child {
   margin-right: 6px;
@@ -76,11 +77,29 @@
   background: none;
   color: unset;
   display: block;
-  outline: none;
   padding: 0;
   font-size: unset;
-  border: 2px solid transparent;
+  font-weight: unset;
+  line-height: unset;
 }
-.button--none:focus {
-  border: 2px solid var(--secondary);
+
+.button.button--usericon {
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+  height: 36px;
+  width: 36px;
+  justify-content: center;
+  cursor: pointer;
+  display: inline-flex;
+  margin-left: 28px;
+  padding: 0px 0px 0px 0px;
+}
+.button--usericon:hover:not(:active) {
+  opacity: 0.85;
+  background-color: var(--secondary);
+}
+
+.button--usericon.button--colorwheel {
+  background-color: var(--primary);
 }

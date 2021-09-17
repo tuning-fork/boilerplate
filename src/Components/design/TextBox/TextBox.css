@@ -1,0 +1,65 @@
+.text-box {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.text-box--align-left .text-box__input {
+  text-align: left;
+}
+.text-box--align-right .text-box__input {
+  text-align: right;
+}
+
+.text-box__label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--contrast-70);
+  line-height: normal;
+}
+
+.text-box__container {
+  display: flex;
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  padding: 7px 10px;
+  background-color: var(--contrast-10);
+}
+
+.text-box__container:focus-within {
+  outline: var(--focused);
+}
+
+.text-box__prefix,
+.text-box__prefix > svg,
+.text-box__suffix,
+.text-box__suffix > svg {
+  display: block;
+}
+.text-box__prefix > svg,
+.text-box__suffix > svg {
+  font-size: var(--font-size-icon);
+}
+
+.text-box__prefix,
+.text-box__suffix {
+  line-height: normal;
+  color: var(--contrast-70);
+}
+
+.text-box__prefix {
+  margin-right: 6px;
+}
+
+.text-box__suffix {
+  margin-left: 6px;
+}
+
+.text-box__input {
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
