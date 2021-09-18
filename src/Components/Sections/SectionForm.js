@@ -1,10 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "./SectionForm.css";
+import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function SectionForm(props) {
+  const { onPasteBoilerplate } = useContext(
+    PasteBoilerplateContentPopoutContext
+  );
+  const { unsubscribeBoilerplate } = useContext(
+    PasteBoilerplateContentPopoutContext
+  );
   const [sectionFields, setSectionFields] = useState({
     title: "",
     html: "",
@@ -14,6 +21,7 @@ export default function SectionForm(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     props.onCancel();
+    unsubscribeBoilerplate();
   };
 
   const handleSubmit = (event) => {
@@ -22,7 +30,20 @@ export default function SectionForm(props) {
       ...sectionFields,
       text: quillEl.current.getEditor().getText(),
     });
+    unsubscribeBoilerplate();
   };
+
+  const openPasteBoilerplate = (event) => {};
+
+  useEffect(() => {
+    onPasteBoilerplate((boilerplate) => {
+      console.log(boilerplate);
+      // setSectionFields({
+      //   ...sectionFields,
+      //   text: sectionFields.text + boilerplate,
+      // });
+    });
+  }, [onPasteBoilerplate]);
 
   return (
     <Form className="SectionForm" onSubmit={handleSubmit}>
@@ -42,7 +63,10 @@ export default function SectionForm(props) {
       </Form.Group>
       <Form.Group>
         <Form.Label>Section Content</Form.Label>
-        <Button className="SectionForm__PasteBoilerplateContent">
+        <Button
+          className="SectionForm__PasteBoilerplateContent"
+          // onClick={openPasteBoilerplate}
+        >
           Paste Boilerplate Content
         </Button>
         <ReactQuill
