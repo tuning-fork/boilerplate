@@ -12,7 +12,14 @@ export default function PasteBoilerplateContentPopout() {
   return (
     <aside className="paste-boilerplate-content-popout">
       <h2 className="heading-3">Paste Boilerplate Content</h2>
-      <button onClick={() => pasteBoilerplate("pancake")}>test button</button>
+      <button
+        onClick={() => {
+          console.log("you clicked the test button");
+          pasteBoilerplate("pancake");
+        }}
+      >
+        test button
+      </button>
       <TextBox labelText="Search (temp label)" />
       {/* Category will be a dropdown */}
       <TextBox labelText="Category" />
