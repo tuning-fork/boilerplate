@@ -46,7 +46,6 @@ export const CurrentOrganizationProvider = ({ children }) => {
 
   useEffect(() => {
     const userId = currentUserStore.currentUser?.id;
-
     if (!userId) {
       return;
     }

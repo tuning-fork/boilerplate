@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
 import { Link } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
@@ -18,7 +18,7 @@ export default function GrantsNew(props) {
     rfp_url: "",
     deadline: "",
     purpose: "",
-    funding_org_id: null,
+    funding_org_id: "",
   });
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
@@ -28,14 +28,27 @@ export default function GrantsNew(props) {
     currentOrganizationStore.currentOrganization?.id;
 
   const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
+  const mountRef = useRef(false);
 
   useEffect(() => {
+    let cancelled = false;
     getAllFundingOrgs(organizationClient)
       .then((fundingOrgs) => {
-        setFundingOrgs(fundingOrgs);
+        if (!cancelled) setFundingOrgs(fundingOrgs);
       })
       .catch((error) => console.log(error));
+    return () => {
+      cancelled = true;
+    };
   }, [organizationClient]);
+
+  useEffect(() => {
+    mountRef.current = true;
+    // on unmount, set to false
+    return () => {
+      mountRef.current = false;
+    };
+  }, []);
 
   const handleCancel = () => {
     history.push(`/organizations/${currentOrganizationId}/grants`);
@@ -46,7 +59,7 @@ export default function GrantsNew(props) {
     if (fundingOrgId) {
       getAllFundingOrgs(organizationClient)
         .then((fundingOrgs) => {
-          setFundingOrgs(fundingOrgs);
+          if (mountRef.current) setFundingOrgs(fundingOrgs);
         })
         .catch((error) => console.log(error));
       setNewGrant({ ...newGrant, funding_org_id: fundingOrgId });
