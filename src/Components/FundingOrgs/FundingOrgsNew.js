@@ -51,7 +51,7 @@ export default function FundingOrgsNew(props) {
           <Button variant="outlined" onClick={props.onClose}>
             Cancel
           </Button>
-          <Button type="submit">Save</Button>
+          <Button type="submit">Save New Funding Org</Button>
         </div>
       </form>
     </Modal>

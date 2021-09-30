@@ -17,6 +17,21 @@ jest.mock("../../Contexts/currentOrganizationContext");
 jest.mock("../../Services/Organizations/GrantsService", () => ({
   createGrant: jest.fn(),
 }));
+jest.mock("../FundingOrgs/FundingOrgsNew", () => ({
+  __esModule: true,
+  default: ({ onClose, show }) =>
+    show ? (
+      <button onClick={() => onClose("10")}>Save New Funding Org</button>
+    ) : null,
+}));
+
+const baseResponse = {
+  data: [
+    { id: "1", name: "org1" },
+    { id: "2", name: "org2" },
+    { id: "3", name: "org3" },
+  ],
+};
 
 describe("GrantsNew", () => {
   const history = createMemoryHistory();
@@ -36,21 +51,7 @@ describe("GrantsNew", () => {
   );
 
   beforeEach(() => {
-    //     localStorage.setItem("org_id", 1);
-    //     useCurrentUserContext.mockReturnValue({
-    //       currentUserStore: {
-    //         currentUser: {
-    //           id: 10,
-    //         },
-    //       },
-    //     });
-    axios.get.mockResolvedValue({
-      data: [
-        { id: "1", name: "org1", funding_org_id: "1" },
-        { id: "2", name: "org2", funding_org_id: "2" },
-        { id: "3", name: "org3", funding_org_id: "3" },
-      ],
-    });
+    axios.get.mockResolvedValue(baseResponse);
     // axios.create.mockReturnValue(axios);
     useCurrentOrganizationContext.mockReturnValue({
       organizationClient: axios,
@@ -74,6 +75,7 @@ describe("GrantsNew", () => {
   it("fetches funding organizations and renders them in the dropdown", async () => {
     render(<Component />);
     expect(await screen.findByText("org1")).toBeInTheDocument();
+    expect(axios.get).toHaveBeenCalled();
   });
 
   it("sets a funding org id value for newGrant", async () => {
@@ -81,6 +83,25 @@ describe("GrantsNew", () => {
     const option = await screen.findByText("org1");
     userEvent.click(option);
     expect(screen.getAllByText("org1")).toHaveLength(2);
+  });
+
+  it("closes the funding orgs new popup when the user...", async () => {
+    axios.get.mockResolvedValueOnce(baseResponse);
+    axios.get.mockResolvedValueOnce({
+      data: [
+        { id: "20", name: "org20" },
+        { id: "10", name: "org10" },
+        { id: "30", name: "org30" },
+      ],
+    });
+    const { unmount } = render(<Component />);
+    const addFundingOrg = screen.getByText("Add Funding Organization");
+    userEvent.click(addFundingOrg);
+    const saveFundingOrg = await screen.findByText("Save New Funding Org");
+    userEvent.click(saveFundingOrg);
+    expect(axios.get).toHaveBeenCalled();
+    expect(await screen.findAllByText("org10")).toHaveLength(2);
+    unmount();
   });
 
   it("creates new grant with input values and then reroutes to grants index", async () => {
