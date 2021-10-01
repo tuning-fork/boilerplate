@@ -10,7 +10,16 @@ import DropdownContext from "./DropdownContext";
 import "./Dropdown.css";
 
 export default function Dropdown(props) {
-  const { className, onChange, options, placeholder, value, labelText } = props;
+  const {
+    className,
+    onChange,
+    options,
+    placeholder,
+    value,
+    labelText,
+    altLabel,
+    onClickAltLabel,
+  } = props;
   const dropdownEl = useRef(null);
 
   const labelId = useId();
@@ -55,12 +64,17 @@ export default function Dropdown(props) {
           }
         }}
       >
-        <span
-          id={labelId}
-          className="dropdown__label"
-          onClick={() => setIsMenuOpen(true)}
-        >
-          {labelText}
+        <span id={labelId} className="dropdown__label">
+          <div onClick={() => setIsMenuOpen(true)}>{labelText}</div>
+          {altLabel && (
+            <Button
+              className="dropdown__alt-label"
+              variant="none"
+              onClick={onClickAltLabel}
+            >
+              {altLabel}
+            </Button>
+          )}
         </span>
         <Button
           variant="none"

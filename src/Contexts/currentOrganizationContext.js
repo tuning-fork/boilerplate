@@ -102,7 +102,9 @@ export const CurrentOrganizationProvider = ({ children }) => {
         organizationClient: currentOrganizationStore.organizationClient,
       }}
     >
-      {children}
+      {currentOrganizationStore.organizationClient
+        ? children
+        : "Loading Organization..."}
     </CurrentOrganizationContext.Provider>
   );
 };
