@@ -11,8 +11,29 @@ import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./GrantsNew.css";
+//import useQuery
+//import { GET_FUNDING_ORG } from graphQlquery....etc.
+//call useQuery, pass in useQuery string
 
 export default function GrantsNew(props) {
+  // const { data, loading } = useQuery(GET_FUNDING_ORG, {
+    // id: props.id
+  // })
+  if (loading) {
+    return "loadingspinner.svg"
+  }
+  if (loading) {
+    const newGrant = {
+      title: "",
+      rfp_url: "",
+      deadline: "",
+      purpose: "",
+      funding_org_id: null,
+    }
+  else {
+    const newGrant = data
+  }
+  
   const [newGrant, setNewGrant] = useState({
     title: "",
     rfp_url: "",
