@@ -6,10 +6,12 @@ import Accordion, {
   AccordionItemHeader,
   AccordionItemPanel,
 } from "../Accordion";
+import Button from "../../Button/Button";
 import "./AccordionTable.css";
 
 export default function AccordionTable(props) {
   const { columns, data, className } = props;
+  console.log(data);
 
   return (
     <Accordion as="ol" className={clsx(className, "accordion-table")}>
@@ -36,33 +38,36 @@ export default function AccordionTable(props) {
         </div>
       </li>
       {data.map((row, index) => (
-        <AccordionItem as="li" key={index}>
-          <AccordionItemHeader
-            heading="h6"
-            buttonClassName="accordion-table__row-header"
-          >
-            {columns.map((column, index) => {
-              const cell = row[column.accessor];
-              const isNumber = typeof cell === "number";
+        <div>
+          <AccordionItem as="li" key={index}>
+            <AccordionItemHeader
+              heading="h6"
+              buttonClassName="accordion-table__row-header"
+            >
+              {columns.map((column, index) => {
+                const cell = row[column.accessor];
+                const isNumber = typeof cell === "number";
 
-              return (
-                <div
-                  key={index}
-                  className={clsx(
-                    "accordion-table__cell",
-                    isNumber && "accordion-table__cell--number"
-                  )}
-                >
-                  {cell}
-                </div>
-              );
-            })}
-          </AccordionItemHeader>
-          <AccordionItemPanel className="accordion-table__row-panel">
-            {row._expandableContent || "hi"}
-            {/* {row.text || "hi"} */}
-          </AccordionItemPanel>
-        </AccordionItem>
+                return (
+                  <div
+                    key={index}
+                    className={clsx(
+                      "accordion-table__cell",
+                      isNumber && "accordion-table__cell--number"
+                    )}
+                  >
+                    {cell}
+                  </div>
+                );
+              })}
+            </AccordionItemHeader>
+            <AccordionItemPanel className="accordion-table__row-panel">
+              {/* {row._expandableContent || "hi"} */}
+              {row.text || "hi"}
+              <Button onClick{() => {}}</AccordionItemPanel>)>Button</Button>
+            </AccordionItemPanel>
+          </AccordionItem>
+        </div>
       ))}
     </Accordion>
   );

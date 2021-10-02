@@ -12,13 +12,16 @@ import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesSer
 export default function PasteBoilerplateContentPopout() {
   const columns = [
     { Header: "Title", accessor: "title" },
-    { Header: "Category", accessor: "category" },
-    { Header: "Word Count", accessor: "wordCount" },
+    { Header: "Category", accessor: "category_name" },
+    { Header: "Word Count", accessor: "wordcount" },
   ];
   const { organizationClient } = useCurrentOrganizationContext();
   const { pasteBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
+  // set up "waspasted" function for checkmark on boilerplates
+
+  //map through filteredboilerplates to get value for expandable content
   const [searchFilters, setSearchFilters] = useState({
     text: "",
     category: "",
@@ -30,6 +33,15 @@ export default function PasteBoilerplateContentPopout() {
       return boilerplate.title.includes(searchFilters.text);
     });
   }, [boilerplates, searchFilters]);
+
+  const filteredBoilerplatesWithRows = filteredBoilerplates.map(
+    (filteredBoilerplate) => ({
+      ...filteredBoilerplate,
+      row: filteredBoilerplate.text,
+    })
+  );
+
+  console.log(filteredBoilerplatesWithRows);
 
   useEffect(() => {
     getAllBoilerplates(organizationClient)
