@@ -16,7 +16,7 @@ export default function PasteBoilerplateContentPopout() {
     { Header: "Word Count", accessor: "wordcount" },
   ];
   const { organizationClient } = useCurrentOrganizationContext();
-  const { pasteBoilerplate, setIsOpen } = useContext(
+  const { pasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
   // set up "waspasted" function for checkmark on boilerplates
@@ -51,6 +51,23 @@ export default function PasteBoilerplateContentPopout() {
       .catch((error) => console.log(error));
   }, [organizationClient]);
 
+  // useEffect(() => {
+  //   onPasteBoilerplate((boilerplate) => {
+  //     setSectionFields((previousSectionFields) => ({
+  //       ...previousSectionFields,
+  //       html: previousSectionFields.html + "\n" + boilerplate,
+  //     }));
+  //     console.log(boilerplate, sectionFields);
+  //   });
+
+  // const handleClickPasteBoilerplate = () => {
+  //   console.log("you clicked Click Paste Boilerplate!");
+  // };
+
+  const handleClickPasteBoilerplate = (boilerplate) => {
+    pasteBoilerplate(boilerplate.text);
+  };
+
   return (
     <aside className="paste-boilerplate-content-popout">
       <h2 className="heading-3">Paste Boilerplate Content</h2>
@@ -84,7 +101,12 @@ export default function PasteBoilerplateContentPopout() {
           })
         }
       />
-      <AccordionTable columns={columns} data={filteredBoilerplates} />
+      <button onClick={() => pasteBoilerplate("banana")}>test button</button>
+      <AccordionTable
+        columns={columns}
+        data={filteredBoilerplates}
+        handleClickPasteBoilerplate={handleClickPasteBoilerplate}
+      />
     </aside>
   );
 }

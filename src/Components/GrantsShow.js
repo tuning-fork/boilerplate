@@ -83,6 +83,10 @@ export default function GrantsShow(props) {
       .finally(() => setLoading(false));
   }, [organizationClient, grantId]);
 
+  // const { boilerplateToPaste } = useContext(
+  //   PasteBoilerplateContentPopoutContext
+  // );
+
   // Notes for GrantFinalizeShow in process
   // since we'll eventually be integrating the PasteBoilerplate component
 

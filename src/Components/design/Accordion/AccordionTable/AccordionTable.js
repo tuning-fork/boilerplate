@@ -10,7 +10,7 @@ import Button from "../../Button/Button";
 import "./AccordionTable.css";
 
 export default function AccordionTable(props) {
-  const { columns, data, className } = props;
+  const { columns, data, className, handleClickPasteBoilerplate } = props;
   console.log(data);
 
   return (
@@ -64,7 +64,12 @@ export default function AccordionTable(props) {
             <AccordionItemPanel className="accordion-table__row-panel">
               {/* {row._expandableContent || "hi"} */}
               {row.text || "hi"}
-              <Button onClick{() => {}}</AccordionItemPanel>)>Button</Button>
+              {/* <Button onClick={() => handlePasteBoilerplate(row.id)}> */}
+              {/* <Button onClickPasteBoilerplate={() => handlePasteBoilerplate(row.id)}> */}
+              <Button onClick={() => handleClickPasteBoilerplate(row)}>
+                {" "}
+                Paste Boilerplate
+              </Button>
             </AccordionItemPanel>
           </AccordionItem>
         </div>

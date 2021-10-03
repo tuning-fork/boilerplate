@@ -6,9 +6,8 @@ import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function SectionForm(props) {
-  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
-    PasteBoilerplateContentPopoutContext
-  );
+  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
+    useContext(PasteBoilerplateContentPopoutContext);
   const [sectionFields, setSectionFields] = useState({
     title: "",
     html: "",
@@ -30,11 +29,15 @@ export default function SectionForm(props) {
     });
   };
 
+  const handleBanana = (banana) => {
+    console.log(banana);
+  };
+
   useEffect(() => {
-    onPasteBoilerplate((boilerplate) => {
+    onPasteBoilerplate((boilerplateText) => {
       setSectionFields((previousSectionFields) => ({
         ...previousSectionFields,
-        html: previousSectionFields.html + "\n" + boilerplate,
+        html: previousSectionFields.html + "\n" + boilerplateText,
       }));
     });
 
@@ -68,6 +71,7 @@ export default function SectionForm(props) {
         >
           Paste Boilerplate Content
         </Button>
+        {/* <Button onClick={() => onPasteBoilerplate(subscribers)}></Button> */}
         <ReactQuill
           className="SectionForm__ContentEditor"
           ref={quillEl}
