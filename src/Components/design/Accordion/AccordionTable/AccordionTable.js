@@ -8,6 +8,7 @@ import Accordion, {
 } from "../Accordion";
 import Button from "../../Button/Button";
 import "./AccordionTable.css";
+import PasteBoilerplateTextPanel from "../../../PasteBoilerplateContentPopout/PasteBoilerplateTextPanel";
 
 export default function AccordionTable(props) {
   const { columns, data, className, handleClickPasteBoilerplate } = props;
@@ -63,13 +64,18 @@ export default function AccordionTable(props) {
             </AccordionItemHeader>
             <AccordionItemPanel className="accordion-table__row-panel">
               {/* {row._expandableContent || "hi"} */}
-              {row.text || "hi"}
+              {/* {row.text || "hi"} */}
               {/* <Button onClick={() => handlePasteBoilerplate(row.id)}> */}
               {/* <Button onClickPasteBoilerplate={() => handlePasteBoilerplate(row.id)}> */}
-              <Button onClick={() => handleClickPasteBoilerplate(row)}>
+              {/* <Button onClick={() => handleClickPasteBoilerplate(row)}>
                 {" "}
                 Paste Boilerplate
-              </Button>
+              </Button> */}
+              <PasteBoilerplateTextPanel
+                row={row}
+                data={data}
+                handleClickPasteBoilerplate={handleClickPasteBoilerplate}
+              />
             </AccordionItemPanel>
           </AccordionItem>
         </div>
