@@ -29,10 +29,6 @@ export default function SectionForm(props) {
     });
   };
 
-  const handleBanana = (banana) => {
-    console.log(banana);
-  };
-
   useEffect(() => {
     onPasteBoilerplate((boilerplateText) => {
       setSectionFields((previousSectionFields) => ({
@@ -71,7 +67,6 @@ export default function SectionForm(props) {
         >
           Paste Boilerplate Content
         </Button>
-        {/* <Button onClick={() => onPasteBoilerplate(subscribers)}></Button> */}
         <ReactQuill
           className="SectionForm__ContentEditor"
           ref={quillEl}

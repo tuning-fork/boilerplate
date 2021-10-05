@@ -33,15 +33,18 @@ export default function PasteBoilerplateContentPopout() {
       return boilerplate.title.includes(searchFilters.text);
     });
   }, [boilerplates, searchFilters]);
-
   const filteredBoilerplatesWithRows = filteredBoilerplates.map(
     (filteredBoilerplate) => ({
       ...filteredBoilerplate,
       row: filteredBoilerplate.text,
     })
   );
-
-  console.log(filteredBoilerplatesWithRows);
+  const filteredBoilerplatesWithPasted = filteredBoilerplates.map(
+    (filteredBoilerplate) => ({
+      ...filteredBoilerplate,
+      wasPasted: false,
+    })
+  );
 
   useEffect(() => {
     getAllBoilerplates(organizationClient)
@@ -64,8 +67,17 @@ export default function PasteBoilerplateContentPopout() {
   //   console.log("you clicked Click Paste Boilerplate!");
   // };
 
-  const handleClickPasteBoilerplate = (boilerplate) => {
-    pasteBoilerplate(boilerplate.text);
+  const handleClickPasteBoilerplate = (pastedBoilerplate) => {
+    pasteBoilerplate(pastedBoilerplate.text);
+    handleWasPasted(pastedBoilerplate.id);
+  };
+
+  const handleWasPasted = (id) => {
+    filteredBoilerplatesWithPasted.map((filteredBoilerplateWithPasted) => {
+      if (filteredBoilerplateWithPasted.id === id) {
+        filteredBoilerplateWithPasted.wasPasted = true;
+      }
+    });
   };
 
   return (
@@ -104,8 +116,9 @@ export default function PasteBoilerplateContentPopout() {
       <button onClick={() => pasteBoilerplate("banana")}>test button</button>
       <AccordionTable
         columns={columns}
-        data={filteredBoilerplates}
+        data={filteredBoilerplatesWithPasted}
         handleClickPasteBoilerplate={handleClickPasteBoilerplate}
+        handleWasPasted={handleWasPasted}
       />
     </aside>
   );

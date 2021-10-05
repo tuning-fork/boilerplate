@@ -15,6 +15,7 @@ export default function PasteBoilerplateTextPanel(props) {
         {" "}
         Paste Boilerplate
       </Button>
+      {row.pasted ? <Button>Check!</Button> : null}
     </div>
   );
 }
