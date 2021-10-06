@@ -3,6 +3,7 @@ import TextBox from "../design/TextBox/TextBox";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import "./PasteBoilerplateContentPopout.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
+import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 import CloseIcon from "@material-ui/icons/Close";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
@@ -16,7 +17,7 @@ export default function PasteBoilerplateContentPopout() {
     { Header: "Word Count", accessor: "wordcount" },
   ];
   const { organizationClient } = useCurrentOrganizationContext();
-  const { pasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
+  const { pasteBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
   // set up "waspasted" function for checkmark on boilerplates
@@ -33,18 +34,26 @@ export default function PasteBoilerplateContentPopout() {
       return boilerplate.title.includes(searchFilters.text);
     });
   }, [boilerplates, searchFilters]);
-  const filteredBoilerplatesWithRows = filteredBoilerplates.map(
-    (filteredBoilerplate) => ({
+  const filteredBoilerplatesWithPanels = useMemo(() => {
+    return filteredBoilerplates.map((filteredBoilerplate) => ({
       ...filteredBoilerplate,
-      row: filteredBoilerplate.text,
-    })
-  );
+      _expandableContent: (
+        <PasteBoilerplateTextPanel boilerplate={filteredBoilerplate} />
+      ),
+    }));
+  }, [filteredBoilerplates]);
+
   const filteredBoilerplatesWithPasted = filteredBoilerplates.map(
     (filteredBoilerplate) => ({
       ...filteredBoilerplate,
       wasPasted: false,
     })
   );
+
+  // <PasteBoilerplateTextPanel
+  //               data={data}
+  //               handleClickPasteBoilerplate={handleClickPasteBoilerplate}
+  //             />
 
   useEffect(() => {
     getAllBoilerplates(organizationClient)
@@ -113,19 +122,12 @@ export default function PasteBoilerplateContentPopout() {
           })
         }
       />
-      <button onClick={() => pasteBoilerplate("banana")}>test button</button>
       <AccordionTable
         columns={columns}
-        data={filteredBoilerplatesWithPasted}
+        data={filteredBoilerplatesWithPanels}
         handleClickPasteBoilerplate={handleClickPasteBoilerplate}
         handleWasPasted={handleWasPasted}
       />
     </aside>
   );
 }
-
-// <heroheader>
-// </heroheader>
-// <aside />
-// <content>
-// <content></heroheader>

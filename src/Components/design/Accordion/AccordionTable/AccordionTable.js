@@ -63,19 +63,7 @@ export default function AccordionTable(props) {
               })}
             </AccordionItemHeader>
             <AccordionItemPanel className="accordion-table__row-panel">
-              {/* {row._expandableContent || "hi"} */}
-              {/* {row.text || "hi"} */}
-              {/* <Button onClick={() => handlePasteBoilerplate(row.id)}> */}
-              {/* <Button onClickPasteBoilerplate={() => handlePasteBoilerplate(row.id)}> */}
-              {/* <Button onClick={() => handleClickPasteBoilerplate(row)}>
-                {" "}
-                Paste Boilerplate
-              </Button> */}
-              <PasteBoilerplateTextPanel
-                row={row}
-                data={data}
-                handleClickPasteBoilerplate={handleClickPasteBoilerplate}
-              />
+              {row._expandableContent || "hi"}
             </AccordionItemPanel>
           </AccordionItem>
         </div>

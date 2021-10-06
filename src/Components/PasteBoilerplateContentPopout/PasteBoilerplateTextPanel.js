@@ -1,21 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
+import React, { useContext, useState } from "react";
 import Button from "../design/Button/Button";
+import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
+import CheckCircle from "@material-ui/icons/CheckCircle";
+import "./PasteBoilerplateTextPanel.css";
 
 export default function PasteBoilerplateTextPanel(props) {
-  const { data, row, handleClickPasteBoilerplate } = props;
-  console.log(data);
+  const { boilerplate } = props;
+  const { pasteBoilerplate } = useContext(PasteBoilerplateContentPopoutContext);
+  const [wasPasted, setWasPasted] = useState(false);
+
+  const handleClickPasteBoilerplate = () => {
+    pasteBoilerplate(boilerplate.text);
+    setWasPasted(true);
+  };
 
   return (
-    <div>
-      {/* {row._expandableContent || "hi"} */}
-      {row.text || "hi"}
-      <Button onClick={() => handleClickPasteBoilerplate(row)}>
-        {" "}
-        Paste Boilerplate
-      </Button>
-      {row.pasted ? <Button>Check!</Button> : null}
+    <div className="paste-boilerplate-text-panel">
+      <div dangerouslySetInnerHTML={{ __html: boilerplate.text }} />
+      <div className="paste-boilerplate-text-panel__bottom">
+        {wasPasted ? <CheckCircle /> : null}
+        <Button onClick={handleClickPasteBoilerplate}>
+          {" "}
+          Paste Boilerplate
+        </Button>
+      </div>
     </div>
   );
 }
