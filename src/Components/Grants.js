@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useQuery, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -7,8 +8,24 @@ import Form from "react-bootstrap/Form";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllGrants } from "../Services/Organizations/GrantsService";
 
+const GET_ALL_GRANTS = gql`
+  query GetAllGrants {
+    grants(organization_id: organizationClient) {
+      organization_id
+      title
+      funding_org_id
+      rfp_url
+      deadline
+      submitted
+      purpose
+      archived
+    }
+  }
+`;
+
 export default function Grants() {
-  const [loading, setLoading] = useState(true);
+  const { data, loading, error } = useQuery(GET_ALL_GRANTS);
+
   const [grants, setGrants] = useState([]);
   const [filteredGrants, setFilteredGrants] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -24,6 +41,30 @@ export default function Grants() {
     currentOrganizationStore.currentOrganization.id;
 
   const [show, setShow] = useState(false);
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   if (currentOrganizationId) {
+  //     getAllGrants(organizationClient)
+  //       .then((grants) => {
+  //         setGrants(grants);
+  //         const zippyGrants = createUnzipped(grants);
+  //         setFilteredGrants(zippyGrants);
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // }, [currentOrganizationId]);
+
+  useEffect(() => {
+    if (currentOrganizationId) {
+      useQuery(GET_ALL_GRANTS);
+      setGrants(data);
+      const zippyGrants = createUnzipped(grants);
+      setFilteredGrants(zippyGrants);
+      setLoading(false);
+    }
+  }, [currentOrganizationId]);
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -42,22 +83,6 @@ export default function Grants() {
     });
     setFilteredGrants(alteredGrants);
   };
-
-  console.log("grant render");
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (currentOrganizationId) {
-      getAllGrants(organizationClient)
-        .then((grants) => {
-          setGrants(grants);
-          const zippyGrants = createUnzipped(grants);
-          setFilteredGrants(zippyGrants);
-          setLoading(false);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [currentOrganizationId]);
 
   const updateGrants = (newGrant) => {
     const newGrants = [...grants, newGrant];
@@ -143,6 +168,10 @@ export default function Grants() {
         <h1>Loading....</h1>
       </div>
     );
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   let highlightedGrants = filteredGrants.map((grant) => {
