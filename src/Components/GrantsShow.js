@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
+import Container from "./design/Container/Container";
 import {
   DndContext,
   closestCenter,
@@ -183,111 +184,117 @@ export default function GrantsShow(props) {
   }
 
   return (
-    <Container className="GrantsShow" fluid>
-      {isOpen && <PasteBoilerplateContentPopout />}
-      <div className="GrantsShow__TopBar">
-        <Link to={`/organizations/${currentOrganizationId}/grants/`}>
-          &lt; Back to All Grants
-        </Link>
-      </div>
+    <div className="GrantsShow">
+      {isOpen && (
+        <div className="GrantsShow__PasteBoilerplatePopout">
+          <PasteBoilerplateContentPopout />
+        </div>
+      )}
+      <Container className="GrantsShow__Content" centered>
+        <div className="GrantsShow__TopBar">
+          <Link to={`/organizations/${currentOrganizationId}/grants/`}>
+            &lt; Back to All Grants
+          </Link>
+        </div>
 
-      <section className="GrantsShow__Overview">
-        <header className="GrantsShow__Header">
-          <h1 className="GrantsShow__Title">{grant.title}</h1>
-          <div className="GrantsShow__Actions">
-            <Button onClick={handleShowGrantCopyModal}>Copy</Button>
-            <Button onClick={handleShowGrantEditModal}>Edit</Button>
-            <Modal
-              onClose={handleCloseGrantEditModal}
-              show={showGrantEditModal}
-            >
-              <Card>
-                <Card.Body>
-                  <GrantEdit
-                    grant={grant}
-                    onSubmit={handleCloseGrantEditModal}
-                    onCancel={handleCancelGrantEdit}
-                  />
-                </Card.Body>
-              </Card>
-            </Modal>
-            <Modal
-              className="modal-popup"
-              onClose={handleCloseGrantCopyModal}
-              show={showGrantCopyModal}
-            >
-              <Card>
-                <Card.Body>
-                  <GrantCopy grant={grant} />
-                </Card.Body>
-              </Card>
-            </Modal>
-          </div>
-        </header>
-        <dl className="GrantsShow__Fields">
-          <div className="GrantsShow__Deadline">
-            <dt>Deadline:&nbsp;</dt>
-            <dd>{formatDate(grant.deadline)}</dd>
-          </div>
-          <dt>Funding Organization</dt>
-          <dd>{grant.funding_org_name}</dd>
-          <dt>Purpose</dt>
-          <dd>{grant.purpose}</dd>
-          <dt>RFP URL</dt>
-          <dd>{grant.rfp_url}</dd>
-          <dt>Total word count:</dt>
-          <dd>{totalWordCount}</dd>
-        </dl>
-      </section>
-
-      <hr />
-
-      <section>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleReorderSection}
-        >
-          <SortableContext
-            items={grant.sections}
-            strategy={verticalListSortingStrategy}
-          >
-            <ol className="GrantsShow__SectionList">
-              {grant.sections?.map((section) => (
-                <SortableElement key={section.id} id={section.id}>
-                  <SectionsShow
-                    section={section}
-                    onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
-                  />
-                  {newSectionIndex === section.id && (
-                    <SectionForm
-                      onSubmit={(newSectionFields) =>
-                        handleSubmitSectionForm({
-                          newSectionFields,
-                          precedingSection: section,
-                        })
-                      }
-                      onCancel={() => setNewSectionIndex(null)}
+        <section className="GrantsShow__Overview">
+          <header className="GrantsShow__Header">
+            <h1 className="GrantsShow__Title">{grant.title}</h1>
+            <div className="GrantsShow__Actions">
+              <Button onClick={handleShowGrantCopyModal}>Copy</Button>
+              <Button onClick={handleShowGrantEditModal}>Edit</Button>
+              <Modal
+                onClose={handleCloseGrantEditModal}
+                show={showGrantEditModal}
+              >
+                <Card>
+                  <Card.Body>
+                    <GrantEdit
+                      grant={grant}
+                      onSubmit={handleCloseGrantEditModal}
+                      onCancel={handleCancelGrantEdit}
                     />
-                  )}
-                  <Button
-                    className="GrantsShow__AddSection"
-                    onClick={() => setNewSectionIndex(section.id)}
-                  >
-                    Add Section
-                  </Button>
-                </SortableElement>
-              ))}
-            </ol>
-          </SortableContext>
-        </DndContext>
-      </section>
-      <Modal show={!!sectionToSaveAsBoilerplate}>
-        <SaveSectionAsBoilerplate
-          section={sectionToSaveAsBoilerplate}
-          onClose={() => setSectionToSaveAsBoilerplate(null)}
-        />
-      </Modal>
-    </Container>
+                  </Card.Body>
+                </Card>
+              </Modal>
+              <Modal
+                className="modal-popup"
+                onClose={handleCloseGrantCopyModal}
+                show={showGrantCopyModal}
+              >
+                <Card>
+                  <Card.Body>
+                    <GrantCopy grant={grant} />
+                  </Card.Body>
+                </Card>
+              </Modal>
+            </div>
+          </header>
+          <dl className="GrantsShow__Fields">
+            <div className="GrantsShow__Deadline">
+              <dt>Deadline:&nbsp;</dt>
+              <dd>{formatDate(grant.deadline)}</dd>
+            </div>
+            <dt>Funding Organization</dt>
+            <dd>{grant.funding_org_name}</dd>
+            <dt>Purpose</dt>
+            <dd>{grant.purpose}</dd>
+            <dt>RFP URL</dt>
+            <dd>{grant.rfp_url}</dd>
+            <dt>Total word count:</dt>
+            <dd>{totalWordCount}</dd>
+          </dl>
+        </section>
+
+        <hr />
+
+        <section>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleReorderSection}
+          >
+            <SortableContext
+              items={grant.sections}
+              strategy={verticalListSortingStrategy}
+            >
+              <ol className="GrantsShow__SectionList">
+                {grant.sections?.map((section) => (
+                  <SortableElement key={section.id} id={section.id}>
+                    <SectionsShow
+                      section={section}
+                      onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                    />
+                    {newSectionIndex === section.id && (
+                      <SectionForm
+                        onSubmit={(newSectionFields) =>
+                          handleSubmitSectionForm({
+                            newSectionFields,
+                            precedingSection: section,
+                          })
+                        }
+                        onCancel={() => setNewSectionIndex(null)}
+                      />
+                    )}
+                    <Button
+                      className="GrantsShow__AddSection"
+                      onClick={() => setNewSectionIndex(section.id)}
+                    >
+                      Add Section
+                    </Button>
+                  </SortableElement>
+                ))}
+              </ol>
+            </SortableContext>
+          </DndContext>
+        </section>
+        <Modal show={!!sectionToSaveAsBoilerplate}>
+          <SaveSectionAsBoilerplate
+            section={sectionToSaveAsBoilerplate}
+            onClose={() => setSectionToSaveAsBoilerplate(null)}
+          />
+        </Modal>
+      </Container>
+    </div>
   );
 }

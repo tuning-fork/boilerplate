@@ -6,9 +6,7 @@ import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentP
 import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 import CloseIcon from "@material-ui/icons/Close";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
-// import BoilerplatesTable from "./Boilerplates/BoilerplatesTable";
 
 export default function PasteBoilerplateContentPopout() {
   const columns = [
@@ -20,18 +18,26 @@ export default function PasteBoilerplateContentPopout() {
   const { pasteBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
-  // set up "waspasted" function for checkmark on boilerplates
 
-  //map through filteredboilerplates to get value for expandable content
   const [searchFilters, setSearchFilters] = useState({
     text: "",
     category: "",
-    maxWordCount: null,
+    maxWordCount: "",
   });
   const [boilerplates, setBoilerplates] = useState([]);
   const filteredBoilerplates = useMemo(() => {
     return boilerplates.filter((boilerplate) => {
-      return boilerplate.title.includes(searchFilters.text);
+      const matchesTitle = boilerplate.title
+        .toLowerCase()
+        .includes(searchFilters.text.toLowerCase());
+      const matchesCategory =
+        boilerplate.category_name.includes(searchFilters.category) ||
+        searchFilters.category === "";
+      const matchesMaxWordCount =
+        boilerplate.wordcount <= searchFilters.maxWordCount ||
+        searchFilters.maxWordCount === "";
+
+      return matchesTitle && matchesCategory && matchesMaxWordCount;
     });
   }, [boilerplates, searchFilters]);
   const filteredBoilerplatesWithPanels = useMemo(() => {
@@ -50,11 +56,6 @@ export default function PasteBoilerplateContentPopout() {
     })
   );
 
-  // <PasteBoilerplateTextPanel
-  //               data={data}
-  //               handleClickPasteBoilerplate={handleClickPasteBoilerplate}
-  //             />
-
   useEffect(() => {
     getAllBoilerplates(organizationClient)
       .then((boilerplates) => {
@@ -62,19 +63,6 @@ export default function PasteBoilerplateContentPopout() {
       })
       .catch((error) => console.log(error));
   }, [organizationClient]);
-
-  // useEffect(() => {
-  //   onPasteBoilerplate((boilerplate) => {
-  //     setSectionFields((previousSectionFields) => ({
-  //       ...previousSectionFields,
-  //       html: previousSectionFields.html + "\n" + boilerplate,
-  //     }));
-  //     console.log(boilerplate, sectionFields);
-  //   });
-
-  // const handleClickPasteBoilerplate = () => {
-  //   console.log("you clicked Click Paste Boilerplate!");
-  // };
 
   const handleClickPasteBoilerplate = (pastedBoilerplate) => {
     pasteBoilerplate(pastedBoilerplate.text);
@@ -103,7 +91,7 @@ export default function PasteBoilerplateContentPopout() {
           setSearchFilters({ ...searchFilters, text: event.target.value })
         }
       />
-      {/* Category will be a dropdown */}
+      {/* TODO: Category will be a dropdown */}
       <TextBox
         labelText="Category"
         onChange={(event) =>
@@ -115,6 +103,7 @@ export default function PasteBoilerplateContentPopout() {
       />
       <TextBox
         labelText="Max Word Count"
+        type="number"
         onChange={(event) =>
           setSearchFilters({
             ...searchFilters,

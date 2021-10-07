@@ -1,5 +1,10 @@
 .GrantsShow {
   font-size: 18px;
+  display: flex;
+}
+
+.GrantsShow__Content {
+  flex: 1;
 }
 
 .GrantsShow__TopBar {
@@ -60,4 +65,9 @@
 
 .GrantsShow__AddSection {
   margin: 10px 0 26px 0;
+}
+
+.GrantsShow__PasteBoilerplatePopout {
+  width: 488px;
+  order: 1;
 }
