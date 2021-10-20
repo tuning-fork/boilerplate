@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { Button } from "react-bootstrap";
+import Button from "./design/Button/Button";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
@@ -201,9 +201,23 @@ export default function GrantsShow(props) {
           <header className="GrantsShow__Header">
             <h1 className="GrantsShow__Title">{grant.title}</h1>
             <div className="GrantsShow__Actions">
-              <Button onClick={handleShowGrantCopyModal}>Copy</Button>
-              <Button onClick={handleShowGrantEditModal}>Edit</Button>
-              <Modal
+              <Button>
+                {" "}
+                <Link
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
+                >
+                  Copy
+                </Link>
+              </Button>
+              <Button>
+                {" "}
+                <Link
+                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
+                >
+                  Edit
+                </Link>
+              </Button>
+              {/* <Modal
                 onClose={handleCloseGrantEditModal}
                 show={showGrantEditModal}
               >
@@ -227,7 +241,7 @@ export default function GrantsShow(props) {
                     <GrantCopy grant={grant} />
                   </Card.Body>
                 </Card>
-              </Modal>
+              </Modal> */}
             </div>
           </header>
           <dl className="GrantsShow__Fields">

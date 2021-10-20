@@ -1,3 +1,23 @@
 .paste-boilerplate-content-popout {
   padding: 36px 24px;
+  border: 1px solid rgba(26, 56, 96, 0.1);
+  height: 100%
+}
+
+.paste-boilerplate-content-popout__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.paste-boilerplate-content-popout__secondary-search {
+  display: flex;
+  gap: 18px;
+}
+
+.paste-boilerplate-content-popout__category-search {
+  width: 70%;
+}
+
+.paste-boilerplate-content-popout__max-word-count {
+  width: 30%; 
 }

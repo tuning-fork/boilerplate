@@ -79,12 +79,15 @@ export default function PasteBoilerplateContentPopout() {
 
   return (
     <aside className="paste-boilerplate-content-popout">
-      <h2 className="heading-3">Paste Boilerplate Content</h2>
-      <CloseIcon
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      />
+      <header className="paste-boilerplate-content-popout__header">
+        <h2 className="heading-3">Paste Boilerplate Content</h2>
+        <CloseIcon
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        />
+      </header>
+
       <TextBox
         labelText="Search"
         onChange={(event) =>
@@ -92,25 +95,30 @@ export default function PasteBoilerplateContentPopout() {
         }
       />
       {/* TODO: Category will be a dropdown */}
-      <TextBox
-        labelText="Category"
-        onChange={(event) =>
-          setSearchFilters({
-            ...searchFilters,
-            category: event.target.value,
-          })
-        }
-      />
-      <TextBox
-        labelText="Max Word Count"
-        type="number"
-        onChange={(event) =>
-          setSearchFilters({
-            ...searchFilters,
-            maxWordCount: event.target.value,
-          })
-        }
-      />
+      <div className="paste-boilerplate-content-popout__secondary-search">
+        <TextBox
+          labelText="Category"
+          onChange={(event) =>
+            setSearchFilters({
+              ...searchFilters,
+              category: event.target.value,
+            })
+          }
+          className="paste-boilerplate-content-popout__category-search"
+        />
+
+        <TextBox
+          labelText="Max Word Count"
+          type="number"
+          onChange={(event) =>
+            setSearchFilters({
+              ...searchFilters,
+              maxWordCount: event.target.value,
+            })
+          }
+          className="paste-boilerplate-content-popout__max-word-count"
+        />
+      </div>
       <AccordionTable
         columns={columns}
         data={filteredBoilerplatesWithPanels}
