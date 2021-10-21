@@ -16,10 +16,6 @@ export const PasteBoilerplateContentPopoutProvider = ({ children }) => {
   );
   const pasteBoilerplate = useCallback(
     (boilerplate) => {
-      console.log(
-        `pasteboilerplate was called with ${boilerplate}. Our subscribers are:`,
-        subscribers
-      );
       subscribers.forEach((subscriber) => subscriber(boilerplate));
     },
     [subscribers]
