@@ -57,21 +57,23 @@ export default function GrantsIndex(props) {
   });
 
   useEffect(() => {
-    getAllGrants(organizationClient)
-      .then((grants) => {
-        setGrants(grants);
-      })
-      .catch((error) => console.log(error));
+    if (organizationClient)
+      getAllGrants(organizationClient)
+        .then((grants) => {
+          setGrants(grants);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
   }, [organizationClient]);
 
-  // const filteredGrants = useMemo(() => {
-  //   return grants.filter((grant) => {
-  //     const matchesTitle = grant.title
-  //       .toLowerCase()
-  //       .includes(searchFilters.title.toLowerCase());
-  //     return matchesTitle;
-  //   });
-  // }, [grants, searchFilters]);
+  const filteredGrants = useMemo(() => {
+    return grants.filter((grant) => {
+      const matchesTitle = grant.title
+        .toLowerCase()
+        .includes(searchFilters.title.toLowerCase());
+      return matchesTitle;
+    });
+  }, [grants, searchFilters]);
 
   if (errors.length) {
     console.error(errors);
