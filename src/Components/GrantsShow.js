@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import Button from "./design/Button/Button";
 import { Link, useParams } from "react-router-dom";
-import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import Container from "./design/Container/Container";
 import {
