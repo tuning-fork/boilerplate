@@ -6,12 +6,10 @@ import Accordion, {
   AccordionItemHeader,
   AccordionItemPanel,
 } from "../Accordion";
-import Button from "../../Button/Button";
 import "./AccordionTable.css";
-import PasteBoilerplateTextPanel from "../../../PasteBoilerplateContentPopout/PasteBoilerplateTextPanel";
 
 export default function AccordionTable(props) {
-  const { columns, data, className, handleClickPasteBoilerplate } = props;
+  const { columns, data, className } = props;
 
   return (
     <Accordion as="ol" className={clsx(className, "accordion-table")}>
@@ -38,34 +36,32 @@ export default function AccordionTable(props) {
         </div>
       </li>
       {data.map((row, index) => (
-        <div>
-          <AccordionItem as="li" key={index}>
-            <AccordionItemHeader
-              heading="h6"
-              buttonClassName="accordion-table__row-header"
-            >
-              {columns.map((column, index) => {
-                const cell = row[column.accessor];
-                const isNumber = typeof cell === "number";
+        <AccordionItem as="li" key={index}>
+          <AccordionItemHeader
+            heading="h6"
+            buttonClassName="accordion-table__row-header"
+          >
+            {columns.map((column, index) => {
+              const cell = row[column.accessor];
+              const isNumber = typeof cell === "number";
 
-                return (
-                  <div
-                    key={index}
-                    className={clsx(
-                      "accordion-table__cell",
-                      isNumber && "accordion-table__cell--number"
-                    )}
-                  >
-                    {cell}
-                  </div>
-                );
-              })}
-            </AccordionItemHeader>
-            <AccordionItemPanel className="accordion-table__row-panel">
-              {row._expandableContent || "hi"}
-            </AccordionItemPanel>
-          </AccordionItem>
-        </div>
+              return (
+                <div
+                  key={index}
+                  className={clsx(
+                    "accordion-table__cell",
+                    isNumber && "accordion-table__cell--number"
+                  )}
+                >
+                  {cell}
+                </div>
+              );
+            })}
+          </AccordionItemHeader>
+          <AccordionItemPanel className="accordion-table__row-panel">
+            {row._expandableContent}
+          </AccordionItemPanel>
+        </AccordionItem>
       ))}
     </Accordion>
   );
