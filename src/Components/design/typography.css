@@ -35,7 +35,6 @@ h6,
 .heading-4,
 .heading-5,
 .heading-6 {
-  /* margin: 3rem 0 1.38rem; */
   margin-bottom: 1.38rem;
   font-weight: var(--font-weight-normal);
   line-height: 1.3;
