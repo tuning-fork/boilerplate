@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import TextBox from "../design/TextBox/TextBox";
+import Dropdown from "../design/Dropdown/Dropdown";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import "./PasteBoilerplateContentPopout.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
@@ -7,6 +8,7 @@ import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 import CloseIcon from "@material-ui/icons/Close";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
 export default function PasteBoilerplateContentPopout() {
   const columns = [
@@ -23,6 +25,7 @@ export default function PasteBoilerplateContentPopout() {
     maxWordCount: "",
   });
   const [boilerplates, setBoilerplates] = useState([]);
+  const [categories, setCategories] = useState([]);
   const filteredBoilerplates = useMemo(() => {
     return boilerplates.filter((boilerplate) => {
       const matchesTitle = boilerplate.title
@@ -53,6 +56,11 @@ export default function PasteBoilerplateContentPopout() {
         setBoilerplates(boilerplates);
       })
       .catch((error) => console.log(error));
+    getAllCategories(organizationClient)
+      .then((categories) => {
+        setCategories(categories);
+      })
+      .catch((error) => console.log(error));
   }, [organizationClient]);
 
   return (
@@ -72,16 +80,20 @@ export default function PasteBoilerplateContentPopout() {
           setSearchFilters({ ...searchFilters, text: event.target.value })
         }
       />
-      {/* TODO: Category will be a dropdown */}
       <div className="paste-boilerplate-content-popout__secondary-search">
-        <TextBox
+        <Dropdown
+          options={categories.map((category) => ({
+            value: category.name,
+            label: category.name,
+          }))}
           labelText="Category"
-          onChange={(event) =>
+          onChange={(category) =>
             setSearchFilters({
               ...searchFilters,
-              category: event.target.value,
+              category: category.value,
             })
           }
+          value={searchFilters.category}
           className="paste-boilerplate-content-popout__category-search"
         />
 
