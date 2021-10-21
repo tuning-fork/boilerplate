@@ -20,7 +20,7 @@ export default function GrantsNew(props) {
     purpose: "",
     funding_org_id: null,
   });
-  const [fundingOrgs, setFundingOrgs] = useState([1, 2, 3]);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
