@@ -15,9 +15,7 @@ export default function PasteBoilerplateContentPopout() {
     { Header: "Word Count", accessor: "wordcount" },
   ];
   const { organizationClient } = useCurrentOrganizationContext();
-  const { pasteBoilerplate, setIsOpen } = useContext(
-    PasteBoilerplateContentPopoutContext
-  );
+  const { setIsOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [searchFilters, setSearchFilters] = useState({
     text: "",
@@ -49,13 +47,6 @@ export default function PasteBoilerplateContentPopout() {
     }));
   }, [filteredBoilerplates]);
 
-  const filteredBoilerplatesWithPasted = filteredBoilerplates.map(
-    (filteredBoilerplate) => ({
-      ...filteredBoilerplate,
-      wasPasted: false,
-    })
-  );
-
   useEffect(() => {
     getAllBoilerplates(organizationClient)
       .then((boilerplates) => {
@@ -63,19 +54,6 @@ export default function PasteBoilerplateContentPopout() {
       })
       .catch((error) => console.log(error));
   }, [organizationClient]);
-
-  const handleClickPasteBoilerplate = (pastedBoilerplate) => {
-    pasteBoilerplate(pastedBoilerplate.text);
-    handleWasPasted(pastedBoilerplate.id);
-  };
-
-  const handleWasPasted = (id) => {
-    filteredBoilerplatesWithPasted.map((filteredBoilerplateWithPasted) => {
-      if (filteredBoilerplateWithPasted.id === id) {
-        filteredBoilerplateWithPasted.wasPasted = true;
-      }
-    });
-  };
 
   return (
     <aside className="paste-boilerplate-content-popout">
@@ -119,12 +97,7 @@ export default function PasteBoilerplateContentPopout() {
           className="paste-boilerplate-content-popout__max-word-count"
         />
       </div>
-      <AccordionTable
-        columns={columns}
-        data={filteredBoilerplatesWithPanels}
-        handleClickPasteBoilerplate={handleClickPasteBoilerplate}
-        handleWasPasted={handleWasPasted}
-      />
+      <AccordionTable columns={columns} data={filteredBoilerplatesWithPanels} />
     </aside>
   );
 }
