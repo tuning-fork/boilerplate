@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "./Button";
-import SearchIcon from "@material-ui/icons/Search";
+import { MdSearch } from "react-icons/md";
 
 // Ensures icon component doesn't show up as <[object Object] /> in story "Show
 // code" section.
-SearchIcon.displayName = "SearchIcon";
+MdSearch.displayName = "SearchIcon";
 
 export default {
   title: "Design/Button",
@@ -35,15 +35,15 @@ export const ButtonRegular = (props) => (
 export const ButtonWithIcon = (props) => (
   <Container>
     <Button {...props}>
-      <SearchIcon />
+      <MdSearch />
     </Button>
     <Button {...props}>
-      <SearchIcon />
+      <MdSearch />
       {props.children}
     </Button>
     <Button {...props}>
       {props.children}
-      <SearchIcon />
+      <MdSearch />
     </Button>
   </Container>
 );

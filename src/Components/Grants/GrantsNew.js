@@ -5,7 +5,7 @@ import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizatio
 import { createGrant } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
-import LeftArrowIcon from "@material-ui/icons/KeyboardArrowLeft";
+import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
@@ -75,7 +75,7 @@ export default function GrantsNew(props) {
         className="grants-new__back-button"
         to={`/organizations/${currentOrganizationId}/grants/`}
       >
-        <LeftArrowIcon />
+        <MdChevronLeft />
         Back to All Grants
       </Link>
       <h1>Add New Grant</h1>
