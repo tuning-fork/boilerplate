@@ -12,7 +12,6 @@ import PasteBoilerplateTextPanel from "../../../PasteBoilerplateContentPopout/Pa
 
 export default function AccordionTable(props) {
   const { columns, data, className, handleClickPasteBoilerplate } = props;
-  console.log(data);
 
   return (
     <Accordion as="ol" className={clsx(className, "accordion-table")}>
