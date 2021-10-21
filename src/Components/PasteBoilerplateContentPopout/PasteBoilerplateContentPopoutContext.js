@@ -7,7 +7,6 @@ export const PasteBoilerplateContentPopoutProvider = ({ children }) => {
   const [subscribers, setSubscribers] = useState([]);
   const onPasteBoilerplate = useCallback(
     (newSubscriber) => {
-      console.log("adding subscriber");
       setSubscribers((currentSubscribers) => [
         ...currentSubscribers,
         newSubscriber,
