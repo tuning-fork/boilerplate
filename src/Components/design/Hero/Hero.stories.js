@@ -1,4 +1,3 @@
-import { CenterFocusStrong } from "@material-ui/icons";
 import React from "react";
 import Component from "./Hero";
 

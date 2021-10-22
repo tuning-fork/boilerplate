@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Button from "../design/Button/Button";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
-import CheckCircle from "@material-ui/icons/CheckCircle";
+import { MdCheckCircle } from "react-icons/md";
 import "./PasteBoilerplateTextPanel.css";
 
 export default function PasteBoilerplateTextPanel(props) {
@@ -18,7 +18,7 @@ export default function PasteBoilerplateTextPanel(props) {
     <div className="paste-boilerplate-text-panel">
       <div dangerouslySetInnerHTML={{ __html: boilerplate.text }} />
       <div className="paste-boilerplate-text-panel__bottom">
-        {wasPasted ? <CheckCircle /> : null}
+        {wasPasted ? <MdCheckCircle /> : null}
         <Button onClick={handleClickPasteBoilerplate}>
           {" "}
           Paste Boilerplate

@@ -5,7 +5,8 @@ import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import "./PasteBoilerplateContentPopout.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
-import CloseIcon from "@material-ui/icons/Close";
+
+import { MdClose } from "react-icons/md";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
@@ -67,7 +68,7 @@ export default function PasteBoilerplateContentPopout() {
     <aside className="paste-boilerplate-content-popout">
       <header className="paste-boilerplate-content-popout__header">
         <h2 className="heading-3">Paste Boilerplate Content</h2>
-        <CloseIcon
+        <MdClose
           onClick={() => {
             setIsOpen(false);
           }}
