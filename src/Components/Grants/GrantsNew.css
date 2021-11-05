@@ -9,15 +9,15 @@
   align-items: center;
 }
 
-.grants-new__button-group {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 50px;
+.grants-new__funding-org-link {
+  margin-bottom: 24px;
 }
 
-.grants-new__add-funding-org {
-  margin-bottom: 24px;
+.grants-new__button-group {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 50px;
 }
 
 .grants-new__deadline input {

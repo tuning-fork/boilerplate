@@ -59,7 +59,7 @@ export default function AccordionTable(props) {
             })}
           </AccordionItemHeader>
           <AccordionItemPanel className="accordion-table__row-panel">
-            {row._expandableContent || "hi"}
+            {row._expandableContent}
           </AccordionItemPanel>
         </AccordionItem>
       ))}

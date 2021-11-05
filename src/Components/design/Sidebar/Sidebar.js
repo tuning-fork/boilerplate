@@ -2,19 +2,15 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-// Dashboard Icon
-import HomeIcon from "@material-ui/icons/Home";
-//Grants Icon
-import LocalAtmIcon from "@material-ui/icons/LocalAtm";
-//Boilerplates Icon
-import ExtensionIcon from "@material-ui/icons/Extension";
-//Reports Icon
-import BarChartIcon from "@material-ui/icons/BarChart";
-//Funding Organizations Icon
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
-//Categories Icon
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import PersonIcon from "@material-ui/icons/Person";
+import {
+  MdHome,
+  MdLocalAtm,
+  MdExtension,
+  MdBarChart,
+  MdAccountBalance,
+  MdFormatListBulleted,
+  MdPerson,
+} from "react-icons/md";
 
 import "./Sidebar.css";
 
@@ -26,7 +22,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/dashboard`}
       >
-        <HomeIcon />
+        <MdHome />
         Dashboard
       </NavLink>
       <NavLink
@@ -34,7 +30,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/grants`}
       >
-        <LocalAtmIcon />
+        <MdLocalAtm />
         Grants
       </NavLink>
       <NavLink
@@ -42,7 +38,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/boilerplates`}
       >
-        <ExtensionIcon />
+        <MdExtension />
         Boilerplates
       </NavLink>
       <NavLink
@@ -50,7 +46,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/reports`}
       >
-        <BarChartIcon />
+        <MdBarChart />
         Reports
       </NavLink>
       <NavLink
@@ -58,7 +54,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/funding_orgs`}
       >
-        <AccountBalanceIcon />
+        <MdAccountBalance />
         Funding Organizations
       </NavLink>
       <NavLink
@@ -66,7 +62,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/categories`}
       >
-        <FormatListBulletedIcon />
+        <MdFormatListBulleted />
         Categories
       </NavLink>
       <NavLink
@@ -74,7 +70,7 @@ export default function Sidebar(props) {
         activeClassName="sidebar__navitem--selected"
         to={`/organizations/${props.organizationId}/users`}
       >
-        <PersonIcon />
+        <MdPerson />
         Users
       </NavLink>
     </div>

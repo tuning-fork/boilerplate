@@ -8,6 +8,11 @@
   line-height: 18px;
 }
 
+.button > a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .button > svg {
   font-size: var(--font-size-icon);
 }

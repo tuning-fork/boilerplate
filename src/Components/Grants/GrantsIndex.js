@@ -56,6 +56,8 @@ export default function GrantsIndex(props) {
     title: "",
   });
 
+  console.log("grants", grants);
+
   useEffect(() => {
     if (organizationClient)
       getAllGrants(organizationClient)
@@ -86,7 +88,7 @@ export default function GrantsIndex(props) {
     <div className="GrantsIndex">
       <section className="GrantsIndex__Overview">
         <header className="GrantsIndex__Header">
-          <h1 className="GrantsIndex__HeaderText">Grants</h1>
+          <h1 className="GrantsIndex__HeaderText">All Grants</h1>
           <div className="GrantsIndex__Actions">
             <Button>
               <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
@@ -104,6 +106,9 @@ export default function GrantsIndex(props) {
             className="GrantsIndex__SearchInput"
           />
         </div>
+      </section>
+      <section>
+        <div></div>
       </section>
     </div>
   );

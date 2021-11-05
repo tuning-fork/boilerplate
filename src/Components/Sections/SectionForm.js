@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "./SectionForm.css";
+import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function SectionForm(props) {
+  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
+    useContext(PasteBoilerplateContentPopoutContext);
   const [sectionFields, setSectionFields] = useState({
     title: "",
     html: "",
@@ -14,15 +17,30 @@ export default function SectionForm(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     props.onCancel();
+    setIsOpen(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     props.onSubmit({
       ...sectionFields,
       text: quillEl.current.getEditor().getText(),
     });
   };
+
+  useEffect(() => {
+    onPasteBoilerplate((boilerplateText) => {
+      setSectionFields((previousSectionFields) => ({
+        ...previousSectionFields,
+        html: previousSectionFields.html + "\n" + boilerplateText,
+      }));
+    });
+
+    return () => {
+      unsubscribeBoilerplate();
+    };
+  }, [onPasteBoilerplate, unsubscribeBoilerplate, setSectionFields]);
 
   return (
     <Form className="SectionForm" onSubmit={handleSubmit}>
@@ -32,17 +50,21 @@ export default function SectionForm(props) {
           type="text"
           value={sectionFields.title}
           onChange={(event) => {
-            setSectionFields({
-              ...sectionFields,
-              title: event.target.value,
-            });
+            const { value } = event.target;
+            setSectionFields((previousSectionFields) => ({
+              ...previousSectionFields,
+              title: value,
+            }));
           }}
           required
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Section Content</Form.Label>
-        <Button className="SectionForm__PasteBoilerplateContent">
+        <Button
+          className="SectionForm__PasteBoilerplateContent"
+          onClick={() => setIsOpen(true)}
+        >
           Paste Boilerplate Content
         </Button>
         <ReactQuill
@@ -50,10 +72,10 @@ export default function SectionForm(props) {
           ref={quillEl}
           value={sectionFields.html}
           onChange={(html) => {
-            setSectionFields({
-              ...sectionFields,
+            setSectionFields((previousSectionFields) => ({
+              ...previousSectionFields,
               html,
-            });
+            }));
           }}
         />
       </Form.Group>

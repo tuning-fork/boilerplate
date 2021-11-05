@@ -5,12 +5,19 @@
 }
 
 .dropdown__label {
-  display: block;
   margin-bottom: 7px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
   color: var(--contrast-70);
   line-height: normal;
+  display: flex;
+  justify-content: space-between; 
+}
+
+.dropdown__alt-label {
+  color: var(--primary);
+  font-weight: var(--font-weight-normal);
+  text-decoration-line: underline;
 }
 
 .dropdown__input {

@@ -5,7 +5,7 @@ import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizatio
 import { createGrant } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
-import LeftArrowIcon from "@material-ui/icons/KeyboardArrowLeft";
+import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
@@ -75,72 +75,71 @@ export default function GrantsNew(props) {
         className="grants-new__back-button"
         to={`/organizations/${currentOrganizationId}/grants/`}
       >
-        <LeftArrowIcon />
+        <MdChevronLeft />
         Back to All Grants
       </Link>
       <h1>Add New Grant</h1>
-      <form onSubmit={handleSubmit}>
-        <Dropdown
-          labelText="Funding Organization"
-          placeholder="Select a Funding Organization"
-          value={newGrant.funding_org_id}
-          options={fundingOrgs.map((fundingOrg) => ({
-            value: fundingOrg.id,
-            label: fundingOrg.name,
-          }))}
-          onChange={(option) =>
-            setNewGrant({ ...newGrant, funding_org_id: option.value })
-          }
+      <div>
+        <form onSubmit={handleSubmit}>
+          <Dropdown
+            altLabel="Add Funding Organization"
+            onClickAltLabel={() => {
+              setShowingFundingOrgsNew(true);
+            }}
+            labelText="Funding Organization"
+            placeholder="Select a Funding Organization"
+            value={newGrant.funding_org_id}
+            options={fundingOrgs.map((fundingOrg) => ({
+              value: fundingOrg.id,
+              label: fundingOrg.name,
+            }))}
+            onChange={(option) =>
+              setNewGrant({ ...newGrant, funding_org_id: option.value })
+            }
+          />
+          <TextBox
+            labelText="Title"
+            onChange={(event) =>
+              setNewGrant({ ...newGrant, title: event.target.value })
+            }
+            required
+          />
+          <TextBox
+            labelText="RFP URL"
+            onChange={(event) =>
+              setNewGrant({ ...newGrant, rfp_url: event.target.value })
+            }
+            type="url"
+            required
+          />
+          <TextBox
+            labelText="Deadline"
+            type="datetime-local"
+            onChange={(event) =>
+              setNewGrant({ ...newGrant, deadline: event.target.value })
+            }
+            className="grants-new__deadline"
+            required
+          />
+          <TextBox
+            labelText="Purpose"
+            onChange={(event) =>
+              setNewGrant({ ...newGrant, purpose: event.target.value })
+            }
+            required
+          />
+          <div className="grants-new__button-group">
+            <Button variant="text" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="submit">Save</Button>
+          </div>
+        </form>
+        <FundingOrgsNew
+          show={showingFundingOrgsNew}
+          onClose={handleCloseFundingOrgsNew}
         />
-        <Button
-          className="grants-new__add-funding-org"
-          variant="outlined"
-          onClick={() => setShowingFundingOrgsNew(true)}
-        >
-          Add Funding Organization
-        </Button>
-        <TextBox
-          labelText="Title"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, title: event.target.value })
-          }
-          required
-        />
-        <TextBox
-          labelText="RFP URL"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, rfp_url: event.target.value })
-          }
-          type="url"
-          required
-        />
-        <TextBox
-          labelText="Deadline"
-          type="datetime-local"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, deadline: event.target.value })
-          }
-          className="grants-new__deadline"
-          required
-        />
-        <TextBox
-          labelText="Purpose"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, purpose: event.target.value })
-          }
-          required
-        />
-        <div className="grants-new__button-group">
-          <Button variant="text" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type="submit">Save</Button>
-        </div>
-      </form>
-      <FundingOrgsNew
-        show={showingFundingOrgsNew}
-        onClose={handleCloseFundingOrgsNew}
-      />
+      </div>
     </Container>
   );
 }
