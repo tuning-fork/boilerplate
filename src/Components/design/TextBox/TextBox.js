@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./TextBox.css";
+import { MdSearch } from "react-icons/md";
 
 export default function TextBox(props) {
   const {
@@ -13,6 +14,7 @@ export default function TextBox(props) {
     align,
     required,
     type,
+    search,
   } = props;
 
   return (
@@ -20,6 +22,7 @@ export default function TextBox(props) {
       <span className="text-box__label">{labelText}</span>
       <span className="text-box__container">
         {prefix && <span className="text-box__prefix">{prefix}</span>}
+        {search ? <MdSearch className="text-box__search_icon" /> : null}
         <input
           className="text-box__input"
           type={type}

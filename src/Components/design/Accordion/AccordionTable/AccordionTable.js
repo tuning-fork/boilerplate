@@ -7,9 +7,17 @@ import Accordion, {
   AccordionItemPanel,
 } from "../Accordion";
 import "./AccordionTable.css";
+import formatDate from "../../../../Helpers/formatDate";
+import daysLeft from "../../../../Helpers/daysLeft";
+import { MdAlarm, MdAccessTime } from "react-icons/md";
 
 export default function AccordionTable(props) {
   const { columns, data, className } = props;
+
+  console.log("data", data);
+
+  const dateTypes = ["created_at", "updated_at", "deadline"];
+  const isMessage = true;
 
   return (
     <Accordion as="ol" className={clsx(className, "accordion-table")}>
@@ -35,34 +43,44 @@ export default function AccordionTable(props) {
           })}
         </div>
       </li>
-      {data.map((row, index) => (
-        <AccordionItem as="li" key={index}>
-          <AccordionItemHeader
-            heading="h6"
-            buttonClassName="accordion-table__row-header"
-          >
-            {columns.map((column, index) => {
-              const cell = row[column.accessor];
-              const isNumber = typeof cell === "number";
-
-              return (
-                <div
-                  key={index}
-                  className={clsx(
-                    "accordion-table__cell",
-                    isNumber && "accordion-table__cell--number"
-                  )}
-                >
-                  {cell}
-                </div>
-              );
-            })}
-          </AccordionItemHeader>
-          <AccordionItemPanel className="accordion-table__row-panel">
-            {row._expandableContent}
-          </AccordionItemPanel>
-        </AccordionItem>
-      ))}
+      {data.map((row, index) => {
+        return (
+          <AccordionItem as="li" key={index}>
+            <AccordionItemHeader
+              heading="h6"
+              buttonClassName="accordion-table__row-header"
+            >
+              {columns.map((column, index) => {
+                const cell = row[column.accessor];
+                const isDate = dateTypes.includes(column.accessor);
+                const isDeadline = column.accessor === "deadline";
+                const isNumber = typeof cell === "number";
+                const days =
+                  column.accessor === "deadline" ? daysLeft(cell) : null;
+                console.log("days", days);
+                return (
+                  <div
+                    key={index}
+                    className={clsx(
+                      "accordion-table__cell",
+                      isNumber && "accordion-table__cell--number",
+                      isMessage && "accordion-table__cell--message"
+                    )}
+                  >
+                    {isDeadline ? (
+                      <MdAccessTime className="accordion-table__urgent" />
+                    ) : null}
+                    {isDate ? formatDate(cell) : cell}
+                  </div>
+                );
+              })}
+            </AccordionItemHeader>
+            <AccordionItemPanel className="accordion-table__row-panel">
+              {row._expandableContent}
+            </AccordionItemPanel>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   );
 }

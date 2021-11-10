@@ -1,0 +1,8 @@
+.GrantsIndex {
+  padding-left: 20px;
+  flex: 1;
+}
+
+.GrantsIndex__Overview {
+  width: 40vw;
+}

@@ -63,3 +63,7 @@
   outline: 0;
   background: transparent;
 }
+
+.text-box__search_icon {
+  font-size: 25px;
+}

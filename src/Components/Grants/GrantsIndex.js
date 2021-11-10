@@ -9,6 +9,7 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Modal from "../Elements/Modal";
 import Container from "../design/Container/Container";
+import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import {
@@ -56,6 +57,15 @@ export default function GrantsIndex(props) {
     title: "",
   });
 
+  const columns = [
+    { Header: "Deadline", accessor: "deadline" },
+    { Header: "Title", accessor: "title" },
+    { Header: "Funding Org", accessor: "funding_org_name" },
+    { Header: "Purpose", accessor: "purpose" },
+    { Header: "Date Created", accessor: "created_at" },
+    { Header: "Last Modified", accessor: "updated_at" },
+  ];
+
   console.log("grants", grants);
 
   useEffect(() => {
@@ -99,7 +109,8 @@ export default function GrantsIndex(props) {
         </header>
         <div className="GrantsIndex__SearchBar">
           <TextBox
-            labelText="Search"
+            // labelText="Search"
+            search
             onChange={(event) =>
               setSearchFilters({ ...searchFilters, text: event.target.value })
             }
@@ -107,8 +118,10 @@ export default function GrantsIndex(props) {
           />
         </div>
       </section>
-      <section>
-        <div></div>
+      <section className="GrantsIndex__TableSection">
+        <div className="GrantsIndex__Table">
+          <AccordionTable columns={columns} data={filteredGrants} />
+        </div>
       </section>
     </div>
   );
