@@ -3,6 +3,7 @@ import Button from "./design/Button/Button";
 import { Link, useParams } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import Container from "./design/Container/Container";
+import Hero from "./design/Hero/Hero";
 import {
   DndContext,
   closestCenter,
@@ -186,75 +187,17 @@ export default function GrantsShow(props) {
         </div>
       )}
       <Container className="GrantsShow__Content" centered>
-        <div className="GrantsShow__TopBar">
-          <Link to={`/organizations/${currentOrganizationId}/grants/`}>
-            &lt; Back to All Grants
-          </Link>
-        </div>
-
-        <section className="GrantsShow__Overview">
-          <header className="GrantsShow__Header">
-            <h1 className="GrantsShow__Title">{grant.title}</h1>
-            <div className="GrantsShow__Actions">
-              <Button>
-                {" "}
-                <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
-                >
-                  Copy
-                </Link>
-              </Button>
-              <Button>
-                {" "}
-                <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
-                >
-                  Edit
-                </Link>
-              </Button>
-              {/* <Modal
-                onClose={handleCloseGrantEditModal}
-                show={showGrantEditModal}
-              >
-                <Card>
-                  <Card.Body>
-                    <GrantEdit
-                      grant={grant}
-                      onSubmit={handleCloseGrantEditModal}
-                      onCancel={handleCancelGrantEdit}
-                    />
-                  </Card.Body>
-                </Card>
-              </Modal>
-              <Modal
-                className="modal-popup"
-                onClose={handleCloseGrantCopyModal}
-                show={showGrantCopyModal}
-              >
-                <Card>
-                  <Card.Body>
-                    <GrantCopy grant={grant} />
-                  </Card.Body>
-                </Card>
-              </Modal> */}
-            </div>
-          </header>
-          <dl className="GrantsShow__Fields">
-            <div className="GrantsShow__Deadline">
-              <dt>Deadline:&nbsp;</dt>
-              <dd>{formatDate(grant.deadline)}</dd>
-            </div>
-            <dt>Funding Organization</dt>
-            <dd>{grant.funding_org_name}</dd>
-            <dt>Purpose</dt>
-            <dd>{grant.purpose}</dd>
-            <dt>RFP URL</dt>
-            <dd>{grant.rfp_url}</dd>
-            <dt>Total word count:</dt>
-            <dd>{totalWordCount}</dd>
-          </dl>
-        </section>
-
+        <Hero
+          headerText={grant.title}
+          fundingOrgText={grant.funding_org_name}
+          rfpWebsiteText={grant.rfp_url}
+          purposeText={grant.purpose}
+          deadlineText={grant.deadline}
+          totalWordCount={totalWordCount}
+          breadCrumbLink={`/organizations/${currentOrganizationId}/grants/`}
+          copyLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
+          editLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
+        />
         <hr />
 
         <section>

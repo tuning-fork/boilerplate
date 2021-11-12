@@ -19,6 +19,15 @@
   overflow-wrap: break-word;
   align-items: center;
   gap: 2rem;
+  justify-content: space-between;
+}
+
+.hero__buttons {
+  display: flex;
+  gap: 2rem;
+}
+.hero__buttons button {
+  flex: 1;
 }
 
 .hero__details {

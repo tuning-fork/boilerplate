@@ -5,6 +5,7 @@
 .container--centered {
   margin: 0 auto;
   width: 60%;
+  padding: 0;
 }
 
 /* Extra small devices (phones, 600px and down) */
