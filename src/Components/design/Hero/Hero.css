@@ -24,7 +24,7 @@
 
 .hero__buttons {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 .hero__buttons button {
   flex: 1;
