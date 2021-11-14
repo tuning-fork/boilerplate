@@ -1,18 +1,27 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import TextBox from "../design/TextBox/TextBox";
+import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import ReactQuill from "react-quill";
+import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
+import countWords from "../../Helpers/countWords";
 
 export default function SectionForm(props) {
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
     useContext(PasteBoilerplateContentPopoutContext);
   const [sectionFields, setSectionFields] = useState({
     title: "",
+    text: "",
     html: "",
   });
   const quillEl = useRef(null);
+
+  const wordCount = useMemo(() => {
+    return countWords(sectionFields.text);
+  }, [sectionFields.text]);
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -25,7 +34,6 @@ export default function SectionForm(props) {
 
     props.onSubmit({
       ...sectionFields,
-      text: quillEl.current.getEditor().getText(),
     });
   };
 
@@ -43,22 +51,40 @@ export default function SectionForm(props) {
   }, [onPasteBoilerplate, unsubscribeBoilerplate, setSectionFields]);
 
   return (
-    <Form className="SectionForm" onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Section Title</Form.Label>
-        <Form.Control
-          type="text"
-          value={sectionFields.title}
-          onChange={(event) => {
-            const { value } = event.target;
+    <form className="SectionForm" onSubmit={handleSubmit}>
+      <TextBox
+        value={sectionFields.title}
+        onChange={(event) => {
+          const { value } = event.target;
+          setSectionFields((previousSectionFields) => ({
+            ...previousSectionFields,
+            title: value,
+          }));
+        }}
+        required
+        labelText="Section Title"
+      />
+
+      <div>
+        <div class="SectionForm__ContentEditorHeader">
+          <Label for="text-editor">Section Content</Label>
+          <b>WORD COUNT: {wordCount}</b>
+        </div>
+        <RichTextEditor
+          id="text-editor"
+          className="SectionForm__ContentEditor"
+          ref={quillEl}
+          value={sectionFields.html}
+          onChange={(html) => {
             setSectionFields((previousSectionFields) => ({
               ...previousSectionFields,
-              title: value,
+              text: quillEl.current.getEditor().getText(),
+              html,
             }));
           }}
-          required
         />
-      </Form.Group>
+      </div>
+
       <Form.Group>
         <Form.Label>Section Content</Form.Label>
         <Button
@@ -67,17 +93,6 @@ export default function SectionForm(props) {
         >
           Paste Boilerplate Content
         </Button>
-        <ReactQuill
-          className="SectionForm__ContentEditor"
-          ref={quillEl}
-          value={sectionFields.html}
-          onChange={(html) => {
-            setSectionFields((previousSectionFields) => ({
-              ...previousSectionFields,
-              html,
-            }));
-          }}
-        />
       </Form.Group>
       <div className="SectionForm__Actions">
         <Link>Store Section as Boilerplate</Link>
@@ -88,6 +103,6 @@ export default function SectionForm(props) {
           Save
         </Button>
       </div>
-    </Form>
+    </form>
   );
 }

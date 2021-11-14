@@ -13,6 +13,12 @@
   min-height: 180px;
 }
 
+.SectionForm__ContentEditorHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+}
+
 .SectionForm__Actions {
   display: flex;
   align-items: center;

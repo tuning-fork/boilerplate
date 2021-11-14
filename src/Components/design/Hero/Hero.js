@@ -50,7 +50,7 @@ export default function Hero(props) {
               <dt>DEADLINE</dt>
               <dd>{formattedDeadline}</dd>
             </dl>
-            <div>Total Word Count: {props.totalWordCount}</div>
+            <b>Total Word Count: {props.totalWordCount}</b>
           </div>
         </div>
       </div>

@@ -198,7 +198,6 @@ export default function GrantsShow(props) {
           copyLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
           editLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
         />
-        <hr />
 
         <section>
           <DndContext
