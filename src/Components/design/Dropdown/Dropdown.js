@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useId } from "@react-aria/utils";
-import DownArrowIcon from "@material-ui/icons/ExpandMore";
+// import DownArrowIcon from "@material-ui/icons/ExpandMore";
 import Button from "../Button/Button";
 import DropdownMenu from "./DropdownMenu";
 import { optionPropType } from "./DropdownMenuItem";
@@ -83,7 +83,7 @@ export default function Dropdown(props) {
           ) : (
             <span className="dropdown__placeholder">{placeholder}</span>
           )}
-          <DownArrowIcon />
+          {/* <DownArrowIcon /> */}
         </Button>
         <DropdownMenu
           aria-expanded={isMenuOpen}
