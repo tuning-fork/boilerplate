@@ -86,7 +86,6 @@ export default function SectionForm(props) {
       </div>
 
       <Form.Group>
-        <Form.Label>Section Content</Form.Label>
         <Button
           className="SectionForm__PasteBoilerplateContent"
           onClick={() => setIsOpen(true)}
