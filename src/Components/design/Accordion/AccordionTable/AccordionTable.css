@@ -9,6 +9,10 @@
   margin-bottom: 12px;
 }
 
+/* .accordion-table__cell--header {
+  padding-right: 100px;
+} */
+
 .accordion-table__row-header {
   display: grid;
   grid-template-columns: var(--font-size-icon) repeat(
@@ -30,7 +34,7 @@
 
 .accordion-table__cell--message {
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: flex-start;
 }
 
@@ -38,14 +42,9 @@
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   color: var(--contrast-70);
+  padding-left: 38px;
 }
 
 .accordion-table__row-panel {
   padding: 4px 0;
-}
-
-.accordion-table__urgent {
-  font-size: 25px;
-  color: var(--secondary-text);
-  padding-right: 13px;
 }

@@ -10,6 +10,7 @@ import "./AccordionTable.css";
 import formatDate from "../../../../Helpers/formatDate";
 import daysLeft from "../../../../Helpers/daysLeft";
 import { MdAlarm, MdAccessTime } from "react-icons/md";
+import DeadlineClock from "../../DeadlineClock/DeadlineClock";
 
 export default function AccordionTable(props) {
   const { columns, data, className } = props;
@@ -28,7 +29,6 @@ export default function AccordionTable(props) {
           </div>
           {columns.map((column, index) => {
             const isNumber = typeof data[0]?.[column.accessor] === "number";
-
             return (
               <div
                 key={index}
@@ -67,9 +67,7 @@ export default function AccordionTable(props) {
                       isMessage && "accordion-table__cell--message"
                     )}
                   >
-                    {isDeadline ? (
-                      <MdAccessTime className="accordion-table__urgent" />
-                    ) : null}
+                    <DeadlineClock deadline={isDeadline} days={days} />
                     {isDate ? formatDate(cell) : cell}
                   </div>
                 );
