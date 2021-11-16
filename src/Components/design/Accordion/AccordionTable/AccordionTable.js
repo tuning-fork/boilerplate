@@ -9,11 +9,11 @@ import Accordion, {
 import "./AccordionTable.css";
 import formatDate from "../../../../Helpers/formatDate";
 import daysLeft from "../../../../Helpers/daysLeft";
-import { MdAlarm, MdAccessTime } from "react-icons/md";
 import DeadlineClock from "../../DeadlineClock/DeadlineClock";
+import Dropdown from "../../Dropdown/Dropdown";
 
 export default function AccordionTable(props) {
-  const { columns, data, className } = props;
+  const { columns, data, className, dropDownProps } = props;
 
   console.log("data", data);
 
@@ -76,6 +76,14 @@ export default function AccordionTable(props) {
             <AccordionItemPanel className="accordion-table__row-panel">
               {row._expandableContent}
             </AccordionItemPanel>
+            <Dropdown
+              labelText={dropDownProps.labelText}
+              onChange={() => {
+                console.log("banana");
+              }}
+              options={dropDownProps.options}
+              value={dropDownProps.placeholder}
+            />
           </AccordionItem>
         );
       })}

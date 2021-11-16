@@ -66,6 +66,17 @@ export default function GrantsIndex(props) {
     { Header: "Last Modified", accessor: "updated_at" },
   ];
 
+  const dropDownProps = {
+    labelText: "Further Actions",
+    placeholder: "Pick One",
+    options: [
+      { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
+      { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
+      { value: "MARK_AS_COPY", label: "Mark as Copy" },
+      { value: "ARCHIVE", label: "Archive" },
+    ],
+  };
+
   console.log("grants", grants);
 
   useEffect(() => {
@@ -120,7 +131,11 @@ export default function GrantsIndex(props) {
       </section>
       <section className="GrantsIndex__TableSection">
         <div className="GrantsIndex__Table">
-          <AccordionTable columns={columns} data={filteredGrants} />
+          <AccordionTable
+            dropDownProps={dropDownProps}
+            columns={columns}
+            data={filteredGrants}
+          />
         </div>
       </section>
     </div>

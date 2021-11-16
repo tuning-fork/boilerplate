@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { useId } from "react-aria";
 import AccordionItemContext from "./AccordionItemContext";
 import "./AccordionItem.css";
+import Dropdown from "../../Dropdown/Dropdown";
 
 export default function AccordionItem(props) {
   const { as: Component, className, children } = props;
@@ -20,6 +21,7 @@ export default function AccordionItem(props) {
       <Component className={clsx(className, "accordion-item")}>
         {children}
       </Component>
+      {/* <Dropdown /> */}
     </AccordionItemContext.Provider>
   );
 }
