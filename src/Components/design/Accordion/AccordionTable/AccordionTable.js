@@ -11,6 +11,7 @@ import formatDate from "../../../../Helpers/formatDate";
 import daysLeft from "../../../../Helpers/daysLeft";
 import DeadlineClock from "../../DeadlineClock/DeadlineClock";
 import Dropdown from "../../Dropdown/Dropdown";
+import DropdownMini from "../../DropdownMini/DropdownMini";
 
 export default function AccordionTable(props) {
   const { columns, data, className, dropDownProps } = props;
@@ -76,7 +77,15 @@ export default function AccordionTable(props) {
             <AccordionItemPanel className="accordion-table__row-panel">
               {row._expandableContent}
             </AccordionItemPanel>
-            <Dropdown
+            {/* <Dropdown
+              labelText={dropDownProps.labelText}
+              onChange={() => {
+                console.log("banana");
+              }}
+              options={dropDownProps.options}
+              value={dropDownProps.placeholder}
+            /> */}
+            <DropdownMini
               labelText={dropDownProps.labelText}
               onChange={() => {
                 console.log("banana");
