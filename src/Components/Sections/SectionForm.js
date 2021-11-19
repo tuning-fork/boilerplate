@@ -1,13 +1,15 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
+import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import countWords from "../../Helpers/countWords";
+import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
@@ -65,14 +67,14 @@ export default function SectionForm(props) {
         labelText="Section Title"
       />
 
-      <div>
+      <div className="SectionForm__ContentEditor">
         <div class="SectionForm__ContentEditorHeader">
           <Label for="text-editor">Section Content</Label>
           <b>WORD COUNT: {wordCount}</b>
         </div>
         <RichTextEditor
           id="text-editor"
-          className="SectionForm__ContentEditor"
+          className="SectionForm__ContentEditorInput"
           ref={quillEl}
           value={sectionFields.html}
           onChange={(html) => {
@@ -83,24 +85,25 @@ export default function SectionForm(props) {
             }));
           }}
         />
-      </div>
-
-      <Form.Group>
         <Button
           className="SectionForm__PasteBoilerplateContent"
           onClick={() => setIsOpen(true)}
+          variant="text"
         >
+          <MdContentPaste />
           Paste Boilerplate Content
         </Button>
-      </Form.Group>
+      </div>
       <div className="SectionForm__Actions">
-        <Link>Store Section as Boilerplate</Link>
-        <Button variant="outline-dark" size="lg" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button variant="dark" size="lg" type="submit">
-          Save
-        </Button>
+        <div>
+          <Button variant="outlined">Store Section as Boilerplate</Button>
+        </div>
+        <div className="SectionForm__FormControls">
+          <Button variant="text" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button type="submit">Save</Button>
+        </div>
       </div>
     </form>
   );
