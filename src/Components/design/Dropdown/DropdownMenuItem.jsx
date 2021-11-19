@@ -23,6 +23,7 @@ export default function DropdownMenuItem(props) {
 
   useEffect(() => {
     if (isMenuOpen && isFocused) {
+      //eslint-disable-next-line
       menuItemButtonEl?.current?.focus();
     }
   }, [isFocused, isMenuOpen]);
