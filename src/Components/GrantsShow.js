@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { MdAddCircle } from "react-icons/md";
-import Button from "./design/Button/Button";
 import { Link, useParams } from "react-router-dom";
-import Modal from "./Elements/Modal";
+import Button from "./design/Button/Button";
+import Modal from "./design/Modal/Modal";
 import Container from "./design/Container/Container";
 import Hero from "./design/Hero/Hero";
 import {
@@ -33,7 +33,7 @@ import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
 import GrantEdit from "./Grants/GrantEdit";
 import GrantCopy from "./Grants/GrantCopy";
-import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
+import StoreSectionAsBoilerplate from "./Sections/StoreSectionAsBoilerplate";
 import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
@@ -201,7 +201,7 @@ export default function GrantsShow(props) {
         />
 
         <section>
-          <DndContext
+          {/* <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleReorderSection}
@@ -209,41 +209,42 @@ export default function GrantsShow(props) {
             <SortableContext
               items={grant.sections}
               strategy={verticalListSortingStrategy}
-            >
-              <ol className="GrantsShow__SectionList">
-                {grant.sections?.map((section) => (
-                  <SortableElement key={section.id} id={section.id}>
-                    <SectionsShow
-                      section={section}
-                      onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
-                    />
-                    {newSectionIndex === section.id && (
-                      <SectionForm
-                        onSubmit={(newSectionFields) =>
-                          handleSubmitSectionForm({
-                            newSectionFields,
-                            precedingSection: section,
-                          })
-                        }
-                        onCancel={() => setNewSectionIndex(null)}
-                      />
-                    )}
-                    <Button
-                      className="GrantsShow__AddSection"
-                      onClick={() => setNewSectionIndex(section.id)}
-                      variant="text"
-                    >
-                      <MdAddCircle />
-                      Add Section
-                    </Button>
-                  </SortableElement>
-                ))}
-              </ol>
-            </SortableContext>
-          </DndContext>
+            > */}
+          <ol className="GrantsShow__SectionList">
+            {grant.sections?.map((section) => (
+              <SortableElement key={section.id} id={section.id}>
+                <SectionsShow section={section} />
+                {newSectionIndex === section.id && (
+                  <SectionForm
+                    onStoreSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                    onSubmit={(newSectionFields) =>
+                      handleSubmitSectionForm({
+                        newSectionFields,
+                        precedingSection: section,
+                      })
+                    }
+                    onCancel={() => setNewSectionIndex(null)}
+                  />
+                )}
+                <Button
+                  className="GrantsShow__AddSection"
+                  onClick={() => setNewSectionIndex(section.id)}
+                  variant="text"
+                >
+                  <MdAddCircle />
+                  Add Section
+                </Button>
+              </SortableElement>
+            ))}
+          </ol>
+          {/* </SortableContext>
+          </DndContext> */}
         </section>
-        <Modal show={!!sectionToSaveAsBoilerplate}>
-          <SaveSectionAsBoilerplate
+        <Modal
+          show={!!sectionToSaveAsBoilerplate}
+          heading="Store Section as Boilerplate"
+        >
+          <StoreSectionAsBoilerplate
             section={sectionToSaveAsBoilerplate}
             onClose={() => setSectionToSaveAsBoilerplate(null)}
           />

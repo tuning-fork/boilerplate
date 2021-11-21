@@ -6,7 +6,7 @@ import "./Label.css";
 export default function Label(props) {
   const { children, className } = props;
   return (
-    <label className={clsx(className, "label")} for={props.for}>
+    <label className={clsx(className, "label")} htmlFor={props.htmlFor}>
       {children}
     </label>
   );
@@ -15,7 +15,7 @@ export default function Label(props) {
 Label.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  for: PropTypes.string.isRequired,
+  htmlFor: PropTypes.string.isRequired,
 };
 
 Label.defaultProps = {};

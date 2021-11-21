@@ -6,7 +6,7 @@ import { countWords } from "../../Services/infofunctions";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
-export default function SaveSectionAsBoilerplate(props) {
+export default function StoreSectionAsBoilerplate(props) {
   const quillEl = useRef(null);
   const [categories, setCategories] = useState([]);
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({

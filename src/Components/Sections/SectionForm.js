@@ -1,10 +1,7 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { Form } from "react-bootstrap";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
-import ReactQuill from "react-quill";
 import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -12,8 +9,12 @@ import countWords from "../../Helpers/countWords";
 import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
-  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
-    useContext(PasteBoilerplateContentPopoutContext);
+  const {
+    onPasteBoilerplate,
+    unsubscribeBoilerplate,
+    setIsOpen,
+    onStoreSectionAsBoilerplate = () => {},
+  } = useContext(PasteBoilerplateContentPopoutContext);
   const [sectionFields, setSectionFields] = useState({
     title: "",
     text: "",
@@ -68,8 +69,8 @@ export default function SectionForm(props) {
       />
 
       <div className="SectionForm__ContentEditor">
-        <div class="SectionForm__ContentEditorHeader">
-          <Label for="text-editor">Section Content</Label>
+        <div className="SectionForm__ContentEditorHeader">
+          <Label htmlFor="text-editor">Section Content</Label>
           <b>WORD COUNT: {wordCount}</b>
         </div>
         <RichTextEditor
@@ -96,7 +97,15 @@ export default function SectionForm(props) {
       </div>
       <div className="SectionForm__Actions">
         <div>
-          <Button variant="outlined">Store Section as Boilerplate</Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              console.log("Called store section button!", sectionFields);
+              onStoreSectionAsBoilerplate(sectionFields);
+            }}
+          >
+            Store Section as Boilerplate
+          </Button>
         </div>
         <div className="SectionForm__FormControls">
           <Button variant="text" onClick={handleCancel}>
