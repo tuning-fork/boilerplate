@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
+import { MdAddCircle } from "react-icons/md";
 import Button from "./design/Button/Button";
 import { Link, useParams } from "react-router-dom";
 import Modal from "./Elements/Modal";
@@ -230,7 +231,9 @@ export default function GrantsShow(props) {
                     <Button
                       className="GrantsShow__AddSection"
                       onClick={() => setNewSectionIndex(section.id)}
+                      variant="text"
                     >
+                      <MdAddCircle />
                       Add Section
                     </Button>
                   </SortableElement>
