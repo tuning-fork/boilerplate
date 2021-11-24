@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { MdChevronRight, MdExpandMore } from "react-icons/md";
 import AccordionItemContext from "./AccordionItemContext";
 import Button from "../../Button/Button";
+import DropdownMini from "../../DropdownMini/DropdownMini";
 
 export default function AccordionItemHeader(props) {
   const { heading: Heading, className, children } = props;
@@ -23,6 +24,7 @@ export default function AccordionItemHeader(props) {
       >
         <Icon className="accordion-item__icon" />
         {children}
+        <Button className="">"banana"</Button>
       </Button>
     </Heading>
   );

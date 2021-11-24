@@ -12,6 +12,12 @@
   padding: 8px 0;
 }
 
+.accordion-item__header-button .dropdown-mini {
+  text-align: end;
+  background-color: red;
+  width: 18px;
+}
+
 svg.accordion-item__icon {
   font-size: var(--font-size-large-1);
 }

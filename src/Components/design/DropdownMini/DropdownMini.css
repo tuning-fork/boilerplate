@@ -1,7 +1,9 @@
 .dropdown-mini {
   display: inline-block;
   width: 100%;
-  margin-bottom: 24px;
+  /* justify-content: end; */
+  text-align: end;
+  /* margin-bottom: 24px; */
 }
 
 .dropdown-mini__label {
