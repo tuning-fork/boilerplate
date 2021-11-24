@@ -9,12 +9,10 @@ import countWords from "../../Helpers/countWords";
 import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
-  const {
-    onPasteBoilerplate,
-    unsubscribeBoilerplate,
-    setIsOpen,
-    onStoreSectionAsBoilerplate = () => {},
-  } = useContext(PasteBoilerplateContentPopoutContext);
+  const { onStoreSectionAsBoilerplate = () => {} } = props;
+  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
+    PasteBoilerplateContentPopoutContext
+  );
   const [sectionFields, setSectionFields] = useState({
     title: "",
     text: "",

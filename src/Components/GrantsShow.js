@@ -68,7 +68,7 @@ export default function GrantsShow(props) {
 
   const [showGrantEditModal, setShowGrantEditModal] = useState(false);
   const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
-  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
+  const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
   const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
   const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
@@ -216,7 +216,7 @@ export default function GrantsShow(props) {
                 <SectionsShow section={section} />
                 {newSectionIndex === section.id && (
                   <SectionForm
-                    onStoreSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
+                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
                     onSubmit={(newSectionFields) =>
                       handleSubmitSectionForm({
                         newSectionFields,
@@ -241,12 +241,12 @@ export default function GrantsShow(props) {
           </DndContext> */}
         </section>
         <Modal
-          show={!!sectionToSaveAsBoilerplate}
+          show={!!sectionToStoreAsBoilerplate}
           heading="Store Section as Boilerplate"
         >
           <StoreSectionAsBoilerplate
-            section={sectionToSaveAsBoilerplate}
-            onClose={() => setSectionToSaveAsBoilerplate(null)}
+            section={sectionToStoreAsBoilerplate}
+            onClose={() => setSectionToStoreAsBoilerplate(null)}
           />
         </Modal>
       </Container>

@@ -1,13 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import ReactQuill from "react-quill";
+import React, { useEffect, useState, useRef } from "react";
+import Label from "../design/Label/Label";
+import TextBox from "../design/TextBox/TextBox";
+import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
+import Button from "../design/Button/Button";
+import Dropdown from "../design/Dropdown/Dropdown";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { countWords } from "../../Services/infofunctions";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import "./StoreSectionAsBoilerplate.css";
 
 export default function StoreSectionAsBoilerplate(props) {
-  const quillEl = useRef(null);
   const [categories, setCategories] = useState([]);
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({
     title: props.section.title,
@@ -16,21 +19,7 @@ export default function StoreSectionAsBoilerplate(props) {
     wordcount: "",
   });
   const { organizationClient } = useCurrentOrganizationContext();
-  const handleChangeField = (field) => (event) => {
-    event.preventDefault();
-
-    const newValue = event.target.value;
-
-    setNewBoilerplateFields((fields) => ({
-      ...fields,
-      [field]: newValue,
-    }));
-  };
-
-  const handleCancel = (event) => {
-    event.preventDefault();
-    props.onClose();
-  };
+  const quillEl = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,79 +46,57 @@ export default function StoreSectionAsBoilerplate(props) {
       return;
     }
 
-    getAllCategories(organizationClient).then((categories) => {
-      setCategories(categories);
-    });
+    getAllCategories(organizationClient).then(setCategories);
   }, [organizationClient]);
 
   return (
-    <Form className="SectionForm" onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="category_id"
-          value={newBoilerplateFields.category_id}
-          onChange={handleChangeField("category_id")}
-          required
-        >
-          <option value="" disabled>
-            Select Category
-          </option>
-          {categories.map((category) => {
-            return (
-              <option
-                key={category.id}
-                value={category.id}
-                onChange={(event) => {
-                  setNewBoilerplateFields({
-                    ...newBoilerplateFields,
-                    category_id: event.target.value,
-                  });
-                }}
-              >
-                {category.name}
-              </option>
-            );
-          })}
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Boilerplate Title</Form.Label>
-        <Form.Control
-          type="text"
-          value={newBoilerplateFields.title}
-          onChange={(event) => {
-            setNewBoilerplateFields({
-              ...newBoilerplateFields,
-              title: event.target.value,
-            });
-          }}
-          required
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Boilerplate Text</Form.Label>
-        <ReactQuill
-          className="SectionForm__ContentEditor"
-          ref={quillEl}
-          value={newBoilerplateFields.text}
-          onChange={(html) => {
-            setNewBoilerplateFields({
-              ...newBoilerplateFields,
-              text: html,
-            });
-          }}
-        />
-      </Form.Group>
-      <div className="SectionForm__Actions">
-        <Button variant="outline-dark" size="lg" onClick={handleCancel}>
+    <form className="store-section-as-boilerplate" onSubmit={handleSubmit}>
+      <TextBox
+        labelText="Title"
+        value={newBoilerplateFields.title}
+        onChange={(event) => {
+          setNewBoilerplateFields({
+            ...newBoilerplateFields,
+            title: event.target.value,
+          });
+        }}
+        required
+      />
+
+      <Dropdown
+        labelText="Category"
+        placeholder="Select Category"
+        value={newBoilerplateFields.category_id}
+        onChange={(option) => {
+          setNewBoilerplateFields({
+            ...newBoilerplateFields,
+            category_id: option.value,
+          });
+        }}
+        options={categories.map((category) => ({
+          value: category.id,
+          label: category.name,
+        }))}
+      />
+
+      <Label htmlFor="boilerplate-text">Text</Label>
+      <RichTextEditor
+        id="boilerplate-text"
+        value={newBoilerplateFields.text}
+        ref={quillEl}
+        onChange={(html) => {
+          setNewBoilerplateFields((fields) => ({
+            ...fields,
+            text: html,
+          }));
+        }}
+      />
+      <div className="store-section-as-boilerplate__actions">
+        <Button variant="outlined" onClick={props.onClose}>
           Cancel
         </Button>
-        <Button variant="dark" size="lg" type="submit">
-          Save
-        </Button>
+        <Button type="submit">Save</Button>
       </div>
-    </Form>
+    </form>
   );
 }

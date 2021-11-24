@@ -13,6 +13,7 @@ export default function TextBox(props) {
     align,
     required,
     type,
+    value,
   } = props;
 
   return (
@@ -23,6 +24,7 @@ export default function TextBox(props) {
         <input
           className="text-box__input"
           type={type}
+          value={value}
           onChange={onChange}
           required={required}
         />
