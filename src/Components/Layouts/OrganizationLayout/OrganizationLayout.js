@@ -10,6 +10,10 @@ export default function OrganizationLayout(props) {
   const { currentOrganizationStore } = useCurrentOrganizationContext();
   const { currentOrganization } = currentOrganizationStore;
 
+  if (!currentUserStore.currentUser || !currentOrganization) {
+    return "Loading...";
+  }
+
   return (
     <main className="layout">
       <Navbar
