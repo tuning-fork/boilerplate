@@ -17,8 +17,7 @@ export default function Grants() {
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -59,7 +58,8 @@ export default function Grants() {
     setSortParam(event.target.value);
   };
 
-  const sortGrants = useCallback(
+  // Turning off sorting until circling back to grants index mockaframe
+  const _sortGrants = useCallback(
     (sortParam) => {
       const filteredGrantsClone = [...filteredGrants];
       filteredGrantsClone.sort(function (a, b) {
@@ -69,10 +69,9 @@ export default function Grants() {
     },
     [filteredGrants]
   );
-
-  useEffect(() => {
-    sortGrants(sortParam);
-  }, [sortParam, sortGrants]);
+  // useEffect(() => {
+  //   sortGrants(sortParam);
+  // }, [sortParam, sortGrants]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
