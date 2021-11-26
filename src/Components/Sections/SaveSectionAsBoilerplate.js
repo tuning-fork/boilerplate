@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import { countWords } from "../../Services/infofunctions";
+import countWords from "../../Helpers/countWords";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
@@ -45,7 +45,7 @@ export default function SaveSectionAsBoilerplate(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert(
           "Oh no! Something went wrong when you were trying to save the section as boilerplate."
         );

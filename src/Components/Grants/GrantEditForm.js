@@ -31,7 +31,7 @@ export default function GrantEditForm(props) {
     updateFundingOrgs();
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     onCancel();
   };
 

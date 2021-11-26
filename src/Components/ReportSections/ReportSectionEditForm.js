@@ -41,7 +41,7 @@ export default function ReportSectionEditForm(props) {
   const { onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);
-  const [newSortOrder, setNewSortOrder] = useState(props.sortOrder);
+  const [newSortOrder, _setNewSortOrder] = useState(props.sortOrder);
 
   const handleSubmit = (event) => {
     event.preventDefault();

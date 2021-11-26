@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -14,16 +14,11 @@ export default function Grants() {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
-
-  const [show, setShow] = useState(false);
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -37,13 +32,10 @@ export default function Grants() {
       if (id === grantKey.id) {
         grantKey.isUnzipped = bool;
       }
-      console.log(grantKey);
       return grantKey;
     });
     setFilteredGrants(alteredGrants);
   };
-
-  console.log("grant render");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -55,16 +47,9 @@ export default function Grants() {
           setFilteredGrants(zippyGrants);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId]);
-
-  const updateGrants = (newGrant) => {
-    const newGrants = [...grants, newGrant];
-    setFilteredGrants(newGrants);
-  };
-
-  useEffect(() => {}, [filteredGrants]);
+  }, [currentOrganizationId, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -74,17 +59,20 @@ export default function Grants() {
     setSortParam(event.target.value);
   };
 
-  const sortGrants = (sortParam) => {
-    const filteredGrantsClone = [...filteredGrants];
-    filteredGrantsClone.sort(function (a, b) {
-      return a[sortParam].localeCompare(b[sortParam]);
-    });
-    setFilteredGrants(filteredGrantsClone);
-  };
+  const sortGrants = useCallback(
+    (sortParam) => {
+      const filteredGrantsClone = [...filteredGrants];
+      filteredGrantsClone.sort(function (a, b) {
+        return a[sortParam].localeCompare(b[sortParam]);
+      });
+      setFilteredGrants(filteredGrantsClone);
+    },
+    [filteredGrants]
+  );
 
   useEffect(() => {
     sortGrants(sortParam);
-  }, [sortParam]);
+  }, [sortParam, sortGrants]);
 
   const handleChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -94,29 +82,23 @@ export default function Grants() {
       return;
     }
     if (filterParam === "filterTitle") {
-      console.log(searchValue, "title filter");
       let filteredByTitle = [];
       filteredByTitle = grants.filter((grant) => {
         return grant.title.toLowerCase().indexOf(searchValue) !== -1;
       });
       setFilteredGrants(filteredByTitle);
-      console.log(filteredByTitle);
     } else if (filterParam === "filterPurpose") {
-      console.log(searchValue, "purpose filter");
       let filteredByPurpose = [];
       filteredByPurpose = grants.filter((grant) => {
         return grant.purpose.toLowerCase().indexOf(searchValue) !== -1;
       });
       setFilteredGrants(filteredByPurpose);
-      console.log(filteredByPurpose);
     } else if (filterParam === "filterFundingOrg") {
-      console.log(searchValue, "funding org");
       let filteredByFundingOrg = [];
       filteredByFundingOrg = grants.filter((grant) => {
         return grant.funding_org_name.toLowerCase().indexOf(searchValue) !== -1;
       });
       setFilteredGrants(filteredByFundingOrg);
-      console.log(filteredByFundingOrg);
     }
   };
 
@@ -126,15 +108,6 @@ export default function Grants() {
     const month = d.getMonth() + 1;
     const day = d.getDay();
     return `${month} ${day} ${year}`;
-  };
-
-  const formatFromNow = (fromNowString) => {
-    var splitStr = fromNowString.toLowerCase().split(" ");
-    for (var i = 0; i < splitStr.length; i++) {
-      splitStr[i] =
-        splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-    return splitStr.join(" ");
   };
 
   if (loading) {

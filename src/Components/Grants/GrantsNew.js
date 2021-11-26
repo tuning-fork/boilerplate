@@ -12,7 +12,7 @@ import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./GrantsNew.css";
 
-export default function GrantsNew(props) {
+export default function GrantsNew() {
   const [newGrant, setNewGrant] = useState({
     title: "",
     rfp_url: "",
@@ -34,7 +34,7 @@ export default function GrantsNew(props) {
       .then((fundingOrgs) => {
         setFundingOrgs(fundingOrgs);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, [organizationClient]);
 
   const handleCancel = () => {
@@ -48,7 +48,7 @@ export default function GrantsNew(props) {
         .then((fundingOrgs) => {
           setFundingOrgs(fundingOrgs);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
       setNewGrant({ ...newGrant, funding_org_id: fundingOrgId });
     }
   };
@@ -65,7 +65,7 @@ export default function GrantsNew(props) {
         );
       })
       .catch((error) => {
-        console.log("grant creation error", error);
+        console.error("grant creation error", error);
       });
   };
 

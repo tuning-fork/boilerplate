@@ -27,26 +27,19 @@ export default function BoilerplatesShow(props) {
   const [quillText, setQuillText] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const history = useHistory();
-  const [wordcount, setWordcount] = useState("");
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [newTitle, setNewTitle] = useState("");
-  const [newQuillText, setNewQuillText] = useState("");
-  const [newCategoryId, setNewCategoryId] = useState("");
-
+  const [_newTitle, setNewTitle] = useState("");
+  const [_newQuillText, setNewQuillText] = useState("");
+  const [_newCategoryId, setNewCategoryId] = useState("");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -61,16 +54,20 @@ export default function BoilerplatesShow(props) {
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.match.params.boilerplate_id,
+  ]);
 
   const handleSubmit = ({ newTitle, newQuillText, newCategoryId }) => {
     updateBoilerplate(organizationClient, boilerplate.id, {
@@ -88,11 +85,11 @@ export default function BoilerplatesShow(props) {
         setNewCategoryId(boilerplate.category_id);
       })
       .catch((error) => {
-        console.log("boilerplate update error", error);
+        console.error("boilerplate update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -105,7 +102,7 @@ export default function BoilerplatesShow(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

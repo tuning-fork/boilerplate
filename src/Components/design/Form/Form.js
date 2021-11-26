@@ -14,7 +14,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Form.css";
 
-export default function Form(props) {
+export default function Form() {
   return (
     <div className="form">
       <div className="form__content"></div>

@@ -45,7 +45,6 @@ export default function LandingPage() {
             fontWeight: "bolder",
             fontStyle: "italic",
             display: "inline",
-            display: "inline",
             textDecorationLine: "underline",
             textDecorationColor: "#23cb87",
           }}

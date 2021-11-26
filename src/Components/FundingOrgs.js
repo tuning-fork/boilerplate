@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 import {
-  getFundingOrg,
   updateFundingOrg,
   deleteFundingOrg,
 } from "../Services/Organizations/FundingOrgsService";
@@ -25,14 +24,9 @@ export default function FundingOrgs() {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  // const [newName, setNewName] = useState("");
-  // const [newWebsite, setNewWebsite] = useState("");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -55,7 +49,7 @@ export default function FundingOrgs() {
           setFundingOrgs(fundingOrgs);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
     window.scrollTo(0, 0);
   }, [currentOrganizationId, organizationClient]);
@@ -71,17 +65,17 @@ export default function FundingOrgs() {
       website: newWebsite,
       organization_id: currentOrganizationId,
     })
-      .then((fundingOrg) => {
+      .then(() => {
         setName(name);
         setWebsite(website);
         handleClose();
       })
       .catch((error) => {
-        console.log("funding org update error", error);
+        console.error("funding org update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -92,13 +86,9 @@ export default function FundingOrgs() {
         `Are you sure you want to delete the ${fundingOrg.name} funding organization?`
       )
     ) {
-      deleteFundingOrg(organizationClient, fundingOrg.id)
-        .then((fundingOrg) => {
-          console.log("funding_org deleted!");
-        })
-        .catch((error) => {
-          console.log("funding_org delete error", error);
-        });
+      deleteFundingOrg(organizationClient, fundingOrg.id).catch((error) => {
+        console.error("funding_org delete error", error);
+      });
     }
   };
 

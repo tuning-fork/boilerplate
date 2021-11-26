@@ -13,10 +13,9 @@ import { getAllCategories } from "../Services/Organizations/CategoriesService";
 export default function BoilerplatesNew(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
+  const [_organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const { currentOrganizationStore, organizationClient } =
@@ -36,9 +35,8 @@ export default function BoilerplatesNew(props) {
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
-          setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
   }, [currentOrganizationId, organizationClient]);
 
@@ -78,7 +76,7 @@ export default function BoilerplatesNew(props) {
           }
         })
         .catch((error) => {
-          console.log("boilerplate creation error", error);
+          console.error("boilerplate creation error", error);
         });
     }
   };

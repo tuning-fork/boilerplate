@@ -5,11 +5,8 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import { useHistory } from "react-router-dom";
 
 export default function Dashboard() {
-  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const { currentOrganizationStore, currentOrganizationDispatch } =
-    useCurrentOrganizationContext();
-  console.log(currentUserStore);
-  console.log(currentOrganizationStore);
+  const { currentUserStore } = useCurrentUserContext();
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const history = useHistory();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;

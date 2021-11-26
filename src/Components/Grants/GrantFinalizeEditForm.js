@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 export default function GrantEditForm(props) {
-  const { onSubmit, onCancel } = props;
+  const { onSubmit } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newRfpUrl, setNewRfpUrl] = useState(props.rfpUrl);
   const [newDeadline, setNewDeadline] = useState(props.deadline);
@@ -21,11 +21,6 @@ export default function GrantEditForm(props) {
       newSuccessful,
       newPurpose,
     });
-  };
-
-  const handleCancel = (event) => {
-    event.preventDefault();
-    onCancel();
   };
 
   return (

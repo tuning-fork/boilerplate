@@ -1,18 +1,16 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 
-export default function Signup(props) {
+export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [active, setActive] = useState(true);
-  const [errors, setErrors] = useState("");
   const [errorType, setErrorType] = useState("");
   const [errorText, setErrorText] = useState("");
   const history = useHistory();
@@ -45,7 +43,7 @@ export default function Signup(props) {
       .catch((error) => {
         setErrorType(error.response.status);
         setErrorText(error.response.statusText);
-        console.log(errors);
+        console.error(error);
       });
     event.preventDefault();
   };
