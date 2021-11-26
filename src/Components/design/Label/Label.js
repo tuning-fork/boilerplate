@@ -14,7 +14,7 @@ export default function Label(props) {
 
 Label.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   htmlFor: PropTypes.string.isRequired,
 };
 
