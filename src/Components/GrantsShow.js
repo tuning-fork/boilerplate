@@ -1,38 +1,35 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { MdAddCircle } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from "./design/Button/Button";
 import Modal from "./design/Modal/Modal";
 import Container from "./design/Container/Container";
 import Hero from "./design/Hero/Hero";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+// import {
+// DndContext,
+// closestCenter,
+// KeyboardSensor,
+//   PointerSensor,
+//   useSensor,
+//   useSensors,
+// } from "@dnd-kit/core";
+// import {
+// arrayMove,
+// SortableContext,
+// sortableKeyboardCoordinates,
+// verticalListSortingStrategy,
+// } from "@dnd-kit/sortable";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import * as GrantsService from "../Services/Organizations/GrantsService";
 import {
   createGrantSection,
-  reorderGrantSection,
+  // reorderGrantSection,
 } from "../Services/Organizations/Grants/GrantSectionsService";
-import formatDate from "../Helpers/formatDate";
 import countSectionWords from "../Helpers/countSectionWords";
 import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
-import GrantEdit from "./Grants/GrantEdit";
-import GrantCopy from "./Grants/GrantCopy";
 import StoreSectionAsBoilerplate from "./Sections/StoreSectionAsBoilerplate";
 import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -45,7 +42,7 @@ function countTotalSectionsWords(sections = []) {
   );
 }
 
-export default function GrantsShow(props) {
+export default function GrantsShow() {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -56,24 +53,18 @@ export default function GrantsShow(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
   const { grant_id: grantId } = useParams();
-  const sensors = useSensors(
-    useSensor(PointerSensor)
-    // This breaks forms nested under drag and drop! The space key triggers
-    // this sensor. TODO: Circle back to this!
-    // useSensor(KeyboardSensor, {
-    //   coordinateGetter: sortableKeyboardCoordinates,
-    // })
-  );
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor)
+  //   // This breaks forms nested under drag and drop! The space key triggers
+  //   // this sensor. TODO: Circle back to this!
+  //   // useSensor(KeyboardSensor, {
+  //   //   coordinateGetter: sortableKeyboardCoordinates,
+  //   // })
+  // );
   const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
-  const [showGrantEditModal, setShowGrantEditModal] = useState(false);
-  const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
-  const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
-  const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
-  const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
-  const handleCloseGrantCopyModal = (event) => setShowGrantCopyModal(false);
 
   const getGrant = useCallback(() => {
     if (!organizationClient) {
@@ -86,7 +77,6 @@ export default function GrantsShow(props) {
   }, [organizationClient, grantId]);
 
   // Notes for GrantFinalizeShow in process
-  // since we'll eventually be integrating the PasteBoilerplate component
 
   // We'll need to add in a getAllBoilerplates call to pull in the Boilerplates,
   // whether it lives here or on the PasteBoilerplate component
@@ -134,40 +124,36 @@ export default function GrantsShow(props) {
     });
   };
 
-  const handleCancelGrantEdit = (event) => {
-    handleCloseGrantEditModal();
-  };
+  // const handleReorderSection = (event) => {
+  //   const { active, over } = event;
+  //   if (active.id !== over.id) {
+  //     setGrant((grant) => {
+  //       const oldIndex = grant.sections.findIndex(
+  //         (section) => section.id === active.id
+  //       );
+  //       const newIndex = grant.sections.findIndex(
+  //         (section) => section.id === over.id
+  //       );
+  //       const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
 
-  const handleReorderSection = (event) => {
-    const { active, over } = event;
-    if (active.id !== over.id) {
-      setGrant((grant) => {
-        const oldIndex = grant.sections.findIndex(
-          (section) => section.id === active.id
-        );
-        const newIndex = grant.sections.findIndex(
-          (section) => section.id === over.id
-        );
-        const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
+  //       return { ...grant, sections: reorderedSections };
+  //     });
 
-        return { ...grant, sections: reorderedSections };
-      });
+  //     const sectionId = active.id;
+  //     const sortOrder = active.data.current.sortable.index;
 
-      const sectionId = active.id;
-      const sortOrder = active.data.current.sortable.index;
-
-      reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
-        .then((response) => {
-          console.log(
-            `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
-            response
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
+  //     reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
+  //       .then((response) => {
+  //         console.log(
+  //           `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
+  //           response
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
 
   useEffect(() => {
     getGrant();
