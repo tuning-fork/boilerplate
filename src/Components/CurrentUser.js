@@ -11,10 +11,8 @@ export default function CurrentUser(props) {
   const [email, setEmail] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [organizationUsers, setOrganizationUsers] = useState([]);
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, currentOrganizationDispatch } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
