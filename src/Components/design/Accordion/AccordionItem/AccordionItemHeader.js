@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import AccordionItemContext from "./AccordionItemContext";
 import Button from "../../Button/Button";
 import DropdownMini from "../../DropdownMini/DropdownMini";
 
 export default function AccordionItemHeader(props) {
-  const { heading: Heading, className, children } = props;
+  const { heading: Heading, className, children, dropDownProps } = props;
   const { expanded, setExpanded, panelId, headerId } =
     useContext(AccordionItemContext);
-  const Icon = expanded ? MdExpandMore : MdChevronRight;
+  const ExpandIcon = expanded ? MdExpandMore : MdChevronRight;
+  const SeeMoreIcon = BsThreeDotsVertical;
 
   return (
     <Heading className={clsx(className, "accordion-item__header")}>
@@ -22,9 +24,17 @@ export default function AccordionItemHeader(props) {
         aria-controls={panelId}
         className={clsx(props.buttonClassName, "accordion-item__header-button")}
       >
-        <Icon className="accordion-item__icon" />
+        <ExpandIcon className="accordion-item__icon" />
         {children}
-        <Button className="">"banana"</Button>
+        <DropdownMini
+          className="accordion-item__see-more"
+          labelText={dropDownProps.labelText}
+          onChange={() => {
+            console.log("banana");
+          }}
+          options={dropDownProps.options}
+          value={dropDownProps.placeholder}
+        />
       </Button>
     </Heading>
   );

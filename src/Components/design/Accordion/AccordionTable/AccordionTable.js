@@ -48,6 +48,7 @@ export default function AccordionTable(props) {
             <AccordionItemHeader
               heading="h6"
               buttonClassName="accordion-table__row-header"
+              dropDownProps={dropDownProps}
             >
               {columns.map((column, index) => {
                 const cell = row[column.accessor];
@@ -69,62 +70,14 @@ export default function AccordionTable(props) {
                     >
                       <DeadlineClock deadline={isDeadline} days={days} />
                       {isDate ? formatDate(cell) : cell}
-                      {/* {column.Header === "Last Modified" ? (
-                        <DropdownMini
-                          labelText={dropDownProps.labelText}
-                          onChange={() => {
-                            console.log("banana");
-                          }}
-                          options={dropDownProps.options}
-                          value={dropDownProps.placeholder}
-                        />
-                      ) : null} */}
                     </div>
-
-                    {/* {column.Header === "Last Modified" ? (
-                      <div>
-                        <DropdownMini
-                          labelText={dropDownProps.labelText}
-                          onChange={() => {
-                            console.log("banana");
-                          }}
-                          options={dropDownProps.options}
-                          value={dropDownProps.placeholder}
-                        />
-                      </div>
-                    ) : null} */}
                   </div>
                 );
               })}
-              <DropdownMini
-                buttonClassName="accordion-table__row-header__dropdown-mini"
-                labelText={dropDownProps.labelText}
-                onChange={() => {
-                  console.log("banana");
-                }}
-                options={dropDownProps.options}
-                value={dropDownProps.placeholder}
-              />
             </AccordionItemHeader>
-            {/* <DropdownMini
-              labelText={dropDownProps.labelText}
-              onChange={() => {
-                console.log("banana");
-              }}
-              options={dropDownProps.options}
-              value={dropDownProps.placeholder}
-            /> */}
             <AccordionItemPanel className="accordion-table__row-panel">
               {row._expandableContent}
             </AccordionItemPanel>
-            {/* <DropdownMini
-              labelText={dropDownProps.labelText}
-              onChange={() => {
-                console.log("banana");
-              }}
-              options={dropDownProps.options}
-              value={dropDownProps.placeholder}
-            /> */}
           </AccordionItem>
         );
       })}

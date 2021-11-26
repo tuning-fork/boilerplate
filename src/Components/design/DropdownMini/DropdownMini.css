@@ -1,9 +1,5 @@
 .dropdown-mini {
-  display: inline-block;
-  width: 100%;
-  /* justify-content: end; */
   text-align: end;
-  /* margin-bottom: 24px; */
 }
 
 .dropdown-mini__label {
@@ -72,3 +68,9 @@
 .dropdown-mini__menu-item > button:focus {
   background-color: var(--primary-10);
 }
+/* .dropdown-mini:not(:only-child):last-child {
+  margin-left: 6px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: orange;
+} */

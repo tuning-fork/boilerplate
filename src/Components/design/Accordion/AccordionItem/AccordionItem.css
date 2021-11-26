@@ -12,12 +12,16 @@
   padding: 8px 0;
 }
 
-.accordion-item__header-button .dropdown-mini {
-  text-align: end;
-  background-color: red;
-  width: 18px;
-}
+
+/* .accordion-item__header-button .accordion-item__see-more {
+  
+} */
+
+.accordion-item__see-more {
+  grid-column: none;
+} 
 
 svg.accordion-item__icon {
   font-size: var(--font-size-large-1);
 }
+

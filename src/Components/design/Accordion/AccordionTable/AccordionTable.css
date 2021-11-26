@@ -7,11 +7,8 @@
 
 .accordion-table > li:first-child {
   margin-bottom: 12px;
+  
 }
-
-/* .accordion-table__cell--header {
-  padding-right: 100px;
-} */
 
 .accordion-table__row-header {
   display: grid;
@@ -48,3 +45,5 @@
 .accordion-table__row-panel {
   padding: 4px 0;
 }
+
+
