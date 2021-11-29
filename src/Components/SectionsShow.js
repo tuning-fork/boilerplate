@@ -9,7 +9,7 @@ export default function SectionsShow(props) {
     <>
       <div className="Section__Header">
         <h1 className="Section__Title">{section.title}</h1>
-        <p>Word count: {countSectionWords(section)}</p>
+        <b>WORD COUNT: {countSectionWords(section)}</b>
       </div>
       <div dangerouslySetInnerHTML={{ __html: section.text }}></div>
     </>
