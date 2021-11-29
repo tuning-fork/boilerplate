@@ -60,7 +60,7 @@ export default function GrantEdit(props) {
         setGrant(updatedGrant);
       })
       .catch((error) => {
-        console.log("grant update error", error);
+        console.error("grant update error", error);
       });
   };
 
@@ -75,7 +75,6 @@ export default function GrantEdit(props) {
 
     getAllFundingOrgs(organizationClient).then((fundingOrgs) => {
       setFundingOrgs(fundingOrgs);
-      console.log(fundingOrgs);
     });
   }, [grantId, organizationClient]);
 

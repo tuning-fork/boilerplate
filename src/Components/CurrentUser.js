@@ -5,19 +5,15 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
-export default function CurrentUser(props) {
+export default function CurrentUser() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [organizationUsers, setOrganizationUsers] = useState([]);
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-  } = useCurrentOrganizationContext();
+  const [_organizationUsers, setOrganizationUsers] = useState([]);
+  const { currentOrganizationStore } = useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -33,11 +29,11 @@ export default function CurrentUser(props) {
           setEmail(response.data.email);
           setOrganizationUsers(response.data.organization_users);
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, currentOrganizationStore.currentOrganization.id]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -55,9 +51,9 @@ export default function CurrentUser(props) {
         },
         { headers: { Authorization: `Bearer ${localStorage.token}` } }
       )
-      .then((response) => toggleHidden())
+      .then(() => toggleHidden())
       .catch((error) => {
-        console.log("user update error", error);
+        console.error("user update error", error);
       });
     event.preventDefault();
   };

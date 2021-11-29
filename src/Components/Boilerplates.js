@@ -9,7 +9,7 @@ import unique from "../Helpers/unique";
 
 const NO_SELECTED_CATEGORY = "none";
 
-export default function Boilerplates(props) {
+export default function Boilerplates() {
   const [loading, setLoading] = useState(true);
   const [boilerplates, setBoilerplates] = useState([]);
   const [selectedCategory, setSelectedCategory] =
@@ -44,7 +44,7 @@ export default function Boilerplates(props) {
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           setLoading(false);
         });
     }

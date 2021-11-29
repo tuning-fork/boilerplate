@@ -1,15 +1,15 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
 export default function OrganizationUser(props) {
-  const [userId, setUserId] = useState(localStorage.user_id);
+  const [userId, _setUserId] = useState(localStorage.user_id);
   const [organizationId, setOrganizationId] = useState("");
   const [organizations, setOrganizations] = useState([]);
-  const [organizationUsers, setOrganizationUsers] = useState([]);
-  const [organization, setOrganization] = useState("");
+  const [organizationUsers, _setOrganizationUsers] = useState([]);
+  const [_organization, setOrganization] = useState("");
 
   useEffect(() => {
     axios
@@ -19,7 +19,7 @@ export default function OrganizationUser(props) {
       .then((response) => {
         setOrganizations(response.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, []);
 
   const clearForm = () => {
@@ -43,7 +43,7 @@ export default function OrganizationUser(props) {
         }
       })
       .catch((error) => {
-        console.log("organization user creation error", error);
+        console.error("organization user creation error", error);
       });
   };
 

@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import Button from "./design/Button/Button";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Modal from "./Elements/Modal";
 import Container from "./design/Container/Container";
 import Hero from "./design/Hero/Hero";
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -15,7 +14,6 @@ import {
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
@@ -24,14 +22,11 @@ import {
   createGrantSection,
   reorderGrantSection,
 } from "../Services/Organizations/Grants/GrantSectionsService";
-import formatDate from "../Helpers/formatDate";
 import countSectionWords from "../Helpers/countSectionWords";
 import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
-import GrantEdit from "./Grants/GrantEdit";
-import GrantCopy from "./Grants/GrantCopy";
 import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
 import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -44,7 +39,7 @@ function countTotalSectionsWords(sections = []) {
   );
 }
 
-export default function GrantsShow(props) {
+export default function GrantsShow() {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -65,14 +60,8 @@ export default function GrantsShow(props) {
   );
   const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
-  const [showGrantEditModal, setShowGrantEditModal] = useState(false);
-  const [showGrantCopyModal, setShowGrantCopyModal] = useState(false);
   const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
     useState(null);
-  const handleShowGrantEditModal = (event) => setShowGrantEditModal(true);
-  const handleCloseGrantEditModal = (event) => setShowGrantEditModal(false);
-  const handleShowGrantCopyModal = (event) => setShowGrantCopyModal(true);
-  const handleCloseGrantCopyModal = (event) => setShowGrantCopyModal(false);
 
   const getGrant = useCallback(() => {
     if (!organizationClient) {
@@ -133,10 +122,6 @@ export default function GrantsShow(props) {
     });
   };
 
-  const handleCancelGrantEdit = (event) => {
-    handleCloseGrantEditModal();
-  };
-
   const handleReorderSection = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
@@ -163,7 +148,7 @@ export default function GrantsShow(props) {
           );
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
   };

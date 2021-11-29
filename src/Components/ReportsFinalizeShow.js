@@ -1,44 +1,35 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import ReportSectionsShow from "./ReportSectionsShow";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Modal from "react-bootstrap/Modal";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import ReportFinalizeEditForm from "./Reports/ReportEditForm";
 import {
   getGrantReport,
   updateGrantReport,
-  deleteGrantReport,
+  // deleteGrantReport,
 } from "../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsFinalizeShow(props) {
   const [id, setId] = useState("");
-  const [grantId, setGrantId] = useState("");
+  const [_grantId, setGrantId] = useState("");
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
   const [reportSections, setReportSections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
-  const [newTitle, setNewTitle] = useState(props.title);
-  const [newDeadline, setNewDeadline] = useState(props.deadline);
-  const [newSubmitted, setNewSubmitted] = useState(props.submitted);
+  const [_newTitle, setNewTitle] = useState(props.title);
+  const [_newDeadline, setNewDeadline] = useState(props.deadline);
+  const [_newSubmitted, setNewSubmitted] = useState(props.submitted);
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [show, setShow] = useState(false);
-  const handleClose = (event) => setShow(false);
-  const handleShow = (event) => setShow(true);
+  const [_show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -58,10 +49,15 @@ export default function ReportsFinalizeShow(props) {
           setNewDeadline(report.deadline);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.match.params.grant_id,
+    id,
+  ]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -102,25 +98,22 @@ export default function ReportsFinalizeShow(props) {
         setSubmitted(report.submitted);
       })
       .catch((error) => {
-        console.log("report update error", error);
+        console.error("report update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
-  const handleGrantReportDelete = () => {
-    const grantId = props.match.params.grant_id;
-    const reportId = id;
-    deleteGrantReport(organizationClient, grantId, reportId)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const handleGrantReportDelete = () => {
+  //   const grantId = props.match.params.grant_id;
+  //   const reportId = id;
+  //   deleteGrantReport(organizationClient, grantId, reportId)
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   if (loading) {
     return (
@@ -129,15 +122,6 @@ export default function ReportsFinalizeShow(props) {
       </div>
     );
   }
-
-  const Header = (
-    <Card.Header>
-      <h1>Report Finalize - View and Finalize Report Draft</h1>
-      <h5>{title}</h5>
-      <h5>{deadline}</h5>
-      <h5>Submitted: {submitted ? "yes" : "not yet"}</h5>
-    </Card.Header>
-  );
 
   return (
     <div className="container">

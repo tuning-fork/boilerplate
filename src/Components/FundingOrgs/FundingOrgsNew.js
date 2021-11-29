@@ -27,7 +27,7 @@ export default function FundingOrgsNew(props) {
           props.onClose(fundingOrg.id);
         })
         .catch((error) => {
-          console.log("funding org creation error", error);
+          console.error("funding org creation error", error);
         });
     }
   };

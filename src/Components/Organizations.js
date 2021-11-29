@@ -39,13 +39,13 @@ export default function Organizations() {
   const handleEditOrganization = ({ newName }) =>
     updateOrganization({ id: editingOrganizationId }, { name: newName })
       .then(() => closeEditOrganizationModal())
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
 
   const handleDeleteOrganization = (id) => {
     /* eslint-disable-next-line no-restricted-globals */
     if (confirm("Are you sure you want to delete this organization?")) {
       deleteOrganization({ id })
-        .catch((error) => console.log(error))
+        .catch((error) => console.error(error))
         .finally(() => {});
     }
   };

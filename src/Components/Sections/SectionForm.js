@@ -6,8 +6,9 @@ import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function SectionForm(props) {
-  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen, subscribers } =
-    useContext(PasteBoilerplateContentPopoutContext);
+  const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
+    PasteBoilerplateContentPopoutContext
+  );
   const [sectionFields, setSectionFields] = useState({
     title: "",
     html: "",

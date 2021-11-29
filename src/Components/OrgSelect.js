@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 
 export default function OrgSelect() {
-  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
+  const { currentUserStore } = useCurrentUserContext();
   const { currentOrganizationStore, currentOrganizationDispatch } =
     useCurrentOrganizationContext();
   const history = useHistory();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(currentUserStore);
   }, [currentUserStore, currentUserStore.currentUser]);
 
   const handleChange = (event) => {
     const selectedOrgInfo =
       currentOrganizationStore.allUserOrganizations.filter(
-        (userOrganization) => event.target.value == userOrganization.id
+        (userOrganization) => event.target.value === userOrganization.id
       );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
-    console.log({ currentUserStore });
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
       payload: {

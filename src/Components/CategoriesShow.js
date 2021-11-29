@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
-import { id } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import CategoryEditForm from "./Categories/CategoryEditForm";
-import countWords from "../Helpers/countWords";
 import {
   getCategory,
   updateCategory,
@@ -28,20 +25,15 @@ export default function CategoriesShow(props) {
   const [name, setName] = useState("");
   const [organizationId, setOrganizationId] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [organizationName, setOrganizationName] = useState("");
+  const [_organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const history = useHistory();
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
-  const [newName, setNewName] = useState("");
+  const [_newName, setNewName] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -60,10 +52,14 @@ export default function CategoriesShow(props) {
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.match.params.category_id,
+  ]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -80,11 +76,11 @@ export default function CategoriesShow(props) {
         handleClose();
       })
       .catch((error) => {
-        console.log("category update error", error);
+        console.error("category update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -97,7 +93,7 @@ export default function CategoriesShow(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
