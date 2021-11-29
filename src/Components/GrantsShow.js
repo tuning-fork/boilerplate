@@ -173,7 +173,7 @@ export default function GrantsShow() {
           <PasteBoilerplateContentPopout />
         </div>
       )}
-      <Container className="GrantsShow__Content" centered>
+      <div className="GrantsShow__Content">
         <Hero
           headerText={grant.title}
           fundingOrgText={grant.funding_org_name}
@@ -185,8 +185,7 @@ export default function GrantsShow() {
           copyLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
           editLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
         />
-
-        <section>
+        <Container as="section" centered>
           {/* <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -225,17 +224,17 @@ export default function GrantsShow() {
           </ol>
           {/* </SortableContext>
           </DndContext> */}
-        </section>
-        <Modal
-          show={!!sectionToStoreAsBoilerplate}
-          heading="Store Section as Boilerplate"
-        >
-          <StoreSectionAsBoilerplate
-            section={sectionToStoreAsBoilerplate}
-            onClose={() => setSectionToStoreAsBoilerplate(null)}
-          />
-        </Modal>
-      </Container>
+        </Container>
+      </div>
+      <Modal
+        show={!!sectionToStoreAsBoilerplate}
+        heading="Store Section as Boilerplate"
+      >
+        <StoreSectionAsBoilerplate
+          section={sectionToStoreAsBoilerplate}
+          onClose={() => setSectionToStoreAsBoilerplate(null)}
+        />
+      </Modal>
     </div>
   );
 }
