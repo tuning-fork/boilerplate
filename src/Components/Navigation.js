@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, useHistory, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
@@ -12,8 +12,6 @@ function Navigation(props) {
   const { currentOrganizationStore, currentOrganizationDispatch } =
     useCurrentOrganizationContext();
 
-  const history = useHistory();
-
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
@@ -24,7 +22,7 @@ function Navigation(props) {
   const handleChange = (event) => {
     const selectedOrgInfo =
       currentOrganizationStore.allUserOrganizations.filter(
-        (userOrganization) => event.target.value == userOrganization.id
+        (userOrganization) => event.target.value === userOrganization.id
       );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({

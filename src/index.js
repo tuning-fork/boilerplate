@@ -11,7 +11,7 @@ import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerp
 import "./Components/design.css";
 
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
+  process.env.NODE_ENV === "development" ? "http://localhost:3000/" : "/";
 
 ReactDOM.render(
   <React.StrictMode>

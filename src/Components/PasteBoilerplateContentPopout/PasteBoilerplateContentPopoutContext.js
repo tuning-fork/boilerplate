@@ -21,7 +21,7 @@ export const PasteBoilerplateContentPopoutProvider = ({ children }) => {
     [subscribers]
   );
   const unsubscribeBoilerplate = useCallback(() => {
-    setSubscribers((currentSubscribers) => []);
+    setSubscribers([]);
   }, [setSubscribers]);
   const context = {
     isOpen,

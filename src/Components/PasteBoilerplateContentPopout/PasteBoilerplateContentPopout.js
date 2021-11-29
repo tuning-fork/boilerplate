@@ -56,12 +56,12 @@ export default function PasteBoilerplateContentPopout() {
       .then((boilerplates) => {
         setBoilerplates(boilerplates);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
     getAllCategories(organizationClient)
       .then((categories) => {
         setCategories(categories);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, [organizationClient]);
 
   return (

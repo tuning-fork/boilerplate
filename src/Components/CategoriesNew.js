@@ -8,11 +8,8 @@ import { createCategory } from "../Services/Organizations/CategoriesService";
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
   const { onClose } = props;
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -33,7 +30,7 @@ export default function CategoriesNew(props) {
           }
         })
         .catch((error) => {
-          console.log("category creation error", error);
+          console.error("category creation error", error);
         });
     }
   };

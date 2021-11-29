@@ -11,7 +11,7 @@ export default {
   component: Component,
 };
 
-export const OrganizationLayout = (props) => (
+export const OrganizationLayout = () => (
   <CurrentUserProvider>
     <CurrentOrganizationProvider>
       <HashRouter>

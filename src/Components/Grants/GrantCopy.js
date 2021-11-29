@@ -11,7 +11,7 @@ import parseDateFromInput from "../../Helpers/parseDateFromInput";
 import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantCopy.css";
 
-export default function GrantCopy(props) {
+export default function GrantCopy() {
   const [newGrantFields, setNewGrantFields] = useState({
     deadline: null,
     purpose: "",

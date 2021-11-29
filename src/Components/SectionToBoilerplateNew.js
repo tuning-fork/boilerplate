@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -6,26 +6,13 @@ import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
+import countWords from "../Helpers/countWords";
 
 export default function SectionToBoilerplateNew(props) {
-  const [quillText, setQuillText] = useState("");
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [organizationId, setOrganizationId] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [wordcount, setWordcount] = useState("");
   const [categories, setCategories] = useState([]);
-  const [
-    isHiddenCategoriesOrganizationsNew,
-    setIsHiddenCategoriesOrganizationsNew,
-  ] = useState(true);
-  const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -35,11 +22,10 @@ export default function SectionToBoilerplateNew(props) {
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
-          setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   // const updateCategories = (newCategory) => {
   //   const categoriesArray = [...categories, newCategory];
@@ -75,45 +61,9 @@ export default function SectionToBoilerplateNew(props) {
         }
       })
       .catch((error) => {
-        console.log("boilerplate creation error", error);
+        console.error("boilerplate creation error", error);
       });
   };
-
-  const countWords = (string) => {
-    if (string) {
-      return string.split(" ").length;
-    } else {
-      return 0;
-    }
-  };
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["clean"],
-      [{ color: [] }],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "color",
-  ];
 
   return (
     <div>

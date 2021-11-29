@@ -5,10 +5,10 @@ import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import { countWords } from "../../Services/infofunctions";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
+import countWords from "../../Helpers/countWords";
 
 export default function StoreSectionAsBoilerplate(props) {
   const [categories, setCategories] = useState([]);

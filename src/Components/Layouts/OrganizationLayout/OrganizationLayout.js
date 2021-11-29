@@ -10,6 +10,10 @@ export default function OrganizationLayout(props) {
   const { currentOrganizationStore } = useCurrentOrganizationContext();
   const { currentOrganization } = currentOrganizationStore;
 
+  if (!currentUserStore.currentUser || !currentOrganization) {
+    return "Loading...";
+  }
+
   return (
     <main className="layout">
       <Navbar
@@ -17,7 +21,7 @@ export default function OrganizationLayout(props) {
         user={currentUserStore.currentUser}
       />
       <div className="layout__content">
-        <Sidebar organizationId={currentOrganization?.id} />
+        <Sidebar organizationId={currentOrganization?.id.toString()} />
         {props.children}
       </div>
     </main>

@@ -17,11 +17,6 @@ export default function ReportFinalizeEditForm(props) {
     });
   };
 
-  const handleCancel = (event) => {
-    event.preventDefault();
-    onCancel();
-  };
-
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
@@ -30,7 +25,7 @@ export default function ReportFinalizeEditForm(props) {
           type="text"
           value={newTitle}
           name="newTitle"
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) => setNewTitle(event.target.value)}
           required
         />
       </Form.Group>
@@ -40,7 +35,7 @@ export default function ReportFinalizeEditForm(props) {
           type="datetime"
           value={newDeadline}
           name="newDeadline"
-          onChange={(event) => setDeadline(event.target.value)}
+          onChange={(event) => setNewDeadline(event.target.value)}
           required
         />
       </Form.Group>
@@ -50,14 +45,14 @@ export default function ReportFinalizeEditForm(props) {
           type="checkbox"
           name="newSubmitted"
           checked={newSubmitted}
-          onChange={(event) => setSubmitted(event.target.value)}
+          onChange={(event) => setNewSubmitted(event.target.value)}
         />
       </Form.Group>
       <div className="text-center">
         <Button type="submit" className="btn-lg">
           Submit
         </Button>
-        <Button onClick={toggleHidden} className="btn-lg">
+        <Button onClick={onCancel} className="btn-lg">
           Close
         </Button>
       </div>

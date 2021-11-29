@@ -5,39 +5,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import countWords from "../../Helpers/countWords";
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["clean"],
-    [{ color: [] }],
-  ],
-};
-
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "color",
-];
-
 export default function SectionEditForm(props) {
   const { onSubmit, onCancel } = props;
   const [newTitle, setNewTitle] = useState(props.title);
   const [newQuillText, setNewQuillText] = useState(props.quillText);
-  const [newSortOrder, setNewSortOrder] = useState(props.sortOrder);
+  const [newSortOrder, _setNewSortOrder] = useState(props.sortOrder);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
 
   const handleSubmit = (event) => {
