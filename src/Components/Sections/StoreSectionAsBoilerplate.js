@@ -74,7 +74,7 @@ export default function StoreSectionAsBoilerplate(props) {
           });
         }}
         options={categories.map((category) => ({
-          value: category.id,
+          value: category.id?.toString(),
           label: category.name,
         }))}
       />
