@@ -45,7 +45,11 @@ export default function DropdownMini(props) {
   return (
     <DropdownMiniContext.Provider value={context}>
       <div
-        className={clsx(className, "dropdown-mini")}
+        className={
+          isMenuOpen
+            ? clsx(className, "dropdown-mini-open")
+            : clsx(className, "dropdown-mini")
+        }
         ref={dropdownEl}
         onKeyDown={(event) => {
           if (event.key === "Escape") {
