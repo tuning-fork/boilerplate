@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Button from "../Button/Button";
 import DropdownMiniMenu from "./DropdownMiniMenu";
 import { optionPropType } from "./DropdownMiniMenuItem";
 import DropdownMiniContext from "./DropdownMiniContext";
 import "./DropdownMini.css";
+import { debug } from "debug";
 
 export default function DropdownMini(props) {
-  const { className, onChange, options, placeholder, value } = props;
+  const { className, onChange, options, value } = props;
   const dropdownEl = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [addDropdownActive, setAddDropdownActive] = useState(false);
   const [focusedOption, setFocusedOption] = useState(options[0]);
   const selectedOption =
     options.find((option) => option.value === value) || null;
@@ -35,7 +36,6 @@ export default function DropdownMini(props) {
     };
 
     document.addEventListener("click", handleDocumentClick, false);
-
     return () => {
       document.removeEventListener("click", handleDocumentClick, false);
     };
@@ -58,10 +58,9 @@ export default function DropdownMini(props) {
       >
         <div
           aria-haspopup="listbox"
-          onMouseDown={(event) => {
+          onClick={(event) => {
             event.stopPropagation();
             event.preventDefault();
-
             setIsMenuOpen((isOpen) => !isOpen);
           }}
           onKeyDown={(event) => {
