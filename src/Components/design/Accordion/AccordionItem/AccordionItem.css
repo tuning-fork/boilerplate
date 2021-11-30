@@ -12,11 +12,6 @@
   padding: 8px 0;
 }
 
-
-/* .accordion-item__header-button .accordion-item__see-more {
-  
-} */
-
 .accordion-item__see-more {
   grid-column: none;
 } 
