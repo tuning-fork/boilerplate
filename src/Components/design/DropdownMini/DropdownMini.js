@@ -13,7 +13,6 @@ export default function DropdownMini(props) {
   const dropdownEl = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [addDropdownActive, setAddDropdownActive] = useState(false);
   const [focusedOption, setFocusedOption] = useState(options[0]);
   const selectedOption =
     options.find((option) => option.value === value) || null;
