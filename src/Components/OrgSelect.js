@@ -17,7 +17,8 @@ export default function OrgSelect() {
   const handleChange = (event) => {
     const selectedOrgInfo =
       currentOrganizationStore.allUserOrganizations.filter(
-        (userOrganization) => event.target.value === userOrganization.id
+        (userOrganization) =>
+          event.target.value === userOrganization.id?.toString()
       );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
