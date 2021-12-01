@@ -51,7 +51,9 @@ export default function Dashboard() {
     <section className="dashboard">
       <header className="dashboard__header">
         <h1>Welcome, {currentUserStore.currentUser.first_name}!</h1>
-        <Button>Add New Grant</Button>
+        <Button as={CurrentOrganizationLink} to="/grants-new">
+          Add New Grant
+        </Button>
       </header>
 
       <article className="dashboard__recent-drafts">
