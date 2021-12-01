@@ -15,14 +15,13 @@ export const ButtonColor = {
   Success: "success",
   Error: "error",
   Contrast: "contrast",
-  ColorWheel: "colorwheel",
 };
 
 const Button = React.forwardRef((props, ref) => {
-  const { variant, color, children, ...restProps } = props;
+  const { variant, color, children, as: Component, ...restProps } = props;
 
   return (
-    <button
+    <Component
       {...restProps}
       ref={ref}
       className={clsx(
@@ -42,11 +41,12 @@ const Button = React.forwardRef((props, ref) => {
             return child;
           })
         : children}
-    </button>
+    </Component>
   );
 });
 
 Button.propTypes = {
+  as: PropTypes.elementType,
   className: PropTypes.string,
   children: PropTypes.node,
   color: PropTypes.oneOf(Object.values(ButtonColor)),
@@ -58,11 +58,9 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  className: "",
+  as: "button",
   color: ButtonColor.Primary,
   disabled: false,
-  onClick: () => {},
-  tabIndex: 0,
   type: "button",
   variant: ButtonVariant.Contained,
 };
