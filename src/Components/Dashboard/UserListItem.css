@@ -1,0 +1,17 @@
+.user-list-item > a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0;
+  transition: ease-in-out 0.4s;
+  color: inherit;
+  text-decoration: none;
+}
+
+.user-list-item > a:hover,
+.user-list-item > a:active,
+.user-list-item > a:focus {
+  padding-left: 0.5rem;
+  background-color: var(--contrast-20);
+  border-radius: 6px;
+}
