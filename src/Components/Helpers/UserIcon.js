@@ -1,4 +1,5 @@
 import React from "react";
+import { PropTypes } from "prop-types";
 import { Rng } from "../../Helpers/Rng";
 import "./UserIcon.css";
 
@@ -23,3 +24,8 @@ export default function UserIcon(props) {
     </div>
   );
 }
+
+UserIcon.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+};
