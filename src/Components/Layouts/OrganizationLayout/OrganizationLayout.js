@@ -17,11 +17,11 @@ export default function OrganizationLayout(props) {
   return (
     <main className="layout">
       <Navbar
-        organizationName={currentOrganization?.name}
+        organizationName={currentOrganization.name}
         user={currentUserStore.currentUser}
       />
       <div className="layout__content">
-        <Sidebar organizationId={currentOrganization?.id.toString()} />
+        <Sidebar />
         {props.children}
       </div>
     </main>

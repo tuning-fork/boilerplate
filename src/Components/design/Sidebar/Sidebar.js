@@ -11,75 +11,96 @@ import {
   MdFormatListBulleted,
   MdPerson,
 } from "react-icons/md";
-
 import "./Sidebar.css";
+import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Sidebar(props) {
   return (
-    <div className={clsx(props.className, "sidebar")}>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/dashboard`}
-      >
-        <MdHome />
-        Dashboard
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/grants`}
-      >
-        <MdLocalAtm />
-        Grants
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/boilerplates`}
-      >
-        <MdExtension />
-        Boilerplates
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/reports`}
-      >
-        <MdBarChart />
-        Reports
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/funding_orgs`}
-      >
-        <MdAccountBalance />
-        Funding Organizations
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/categories`}
-      >
-        <MdFormatListBulleted />
-        Categories
-      </NavLink>
-      <NavLink
-        className="sidebar__navitem"
-        activeClassName="sidebar__navitem--selected"
-        to={`/organizations/${props.organizationId}/users`}
-      >
-        <MdPerson />
-        Users
-      </NavLink>
-    </div>
+    <nav className={clsx(props.className, "sidebar")}>
+      <ul className="sidebar__list">
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/dashboard"
+          >
+            <MdHome />
+            Dashboard
+          </CurrentOrganizationLink>
+        </li>
+
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/grants"
+          >
+            <MdLocalAtm />
+            Grants
+          </CurrentOrganizationLink>
+        </li>
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/boilerplates"
+          >
+            <MdExtension />
+            Boilerplates
+          </CurrentOrganizationLink>
+        </li>
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/reports"
+          >
+            <MdBarChart />
+            Reports
+          </CurrentOrganizationLink>
+        </li>
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/funding_orgs"
+          >
+            <MdAccountBalance />
+            Funding Organizations
+          </CurrentOrganizationLink>
+        </li>
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/categories"
+          >
+            <MdFormatListBulleted />
+            Categories
+          </CurrentOrganizationLink>
+        </li>
+        <li>
+          <CurrentOrganizationLink
+            as={NavLink}
+            className="sidebar__navitem"
+            activeClassName="sidebar__navitem--selected"
+            to="/users"
+          >
+            <MdPerson />
+            Users
+          </CurrentOrganizationLink>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
 Sidebar.propTypes = {
   className: PropTypes.string,
-  organizationId: PropTypes.string.isRequired,
 };
-
-Sidebar.defaultProps = {};
