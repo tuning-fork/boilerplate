@@ -1,51 +1,49 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
+import { differenceInDays } from "date-fns";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
+import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { getAllUsers } from "../Services/Organizations/OrganizationUsersService";
+import { getAllGrants } from "../Services/Organizations/GrantsService";
 import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
 
+// Includes dates starting from today to 6 days in the past
+const isRecent = (date) => {
+  const diff = differenceInDays(new Date(), date);
+  return diff >= 0 && diff <= 6;
+};
+
+// Includes dates starting from today to 6 days into the future
+const isSoon = (date) => {
+  const diff = differenceInDays(new Date(), date);
+  return diff <= 0 && diff >= -6;
+};
+
 export default function Dashboard() {
   const { currentUserStore } = useCurrentUserContext();
+  const { organizationClient } = useCurrentOrganizationContext();
 
-  const recentDrafts = [
-    { id: 1, title: "Good Place Neighborhood Grant", deadline: new Date() },
-  ];
-  const dueSoon = [
-    {
-      id: 2,
-      title: "Bad Janet Restorative Justice Initiative Grant ",
-      deadline: new Date(),
-    },
-    {
-      id: 3,
-      title: "Jason Mendoza Guacamole Grant",
-      deadline: new Date(),
-    },
-    {
-      id: 4,
-      title: "Party Shrimp Platter Party Grant",
-      deadline: new Date(),
-    },
-    {
-      id: 5,
-      title: "Cocaine Cannonball Run on Blu-Ray Grant ",
-      deadline: new Date(),
-    },
-    {
-      id: 6,
-      title: "Derek Derek Derek Derek Derek Derek Derek...",
-      deadline: new Date(),
-    },
-  ];
-  const users = [
-    { id: 1, first_name: "Chidi", last_name: "Anagonye" },
-    { id: 2, first_name: "Tahani", last_name: "Al-Jamil" },
-    { id: 3, first_name: "Jason", last_name: "Mendoza" },
-    { id: 4, first_name: "Elenor", last_name: "Shellstrop" },
-  ];
+  const [users, setUsers] = useState([]);
+  const [grants, setGrants] = useState([]);
+  const recentDrafts = useMemo(
+    () => grants.filter((grant) => isRecent(grant.updatedAt)),
+    [grants]
+  );
+  const dueSoon = useMemo(
+    () => grants.filter((grant) => isSoon(grant.deadline)),
+    [grants]
+  );
+
+  useEffect(() => {
+    if (organizationClient) {
+      getAllUsers(organizationClient).then(setUsers);
+      getAllGrants(organizationClient).then(setGrants);
+    }
+  }, [organizationClient]);
 
   return (
     <section className="dashboard">
@@ -61,7 +59,7 @@ export default function Dashboard() {
         <ul className="dashboard__recent-drafts-list">
           {recentDrafts.map((recentDraftGrant) => (
             <GrantListItem
-              key={recentDraftGrant.id.toString()}
+              key={recentDraftGrant.id}
               grant={recentDraftGrant}
               icon={MdAccessTime}
             />
@@ -74,7 +72,7 @@ export default function Dashboard() {
         <ul className="dashboard__due-soon-list">
           {dueSoon.map((dueSoonGrant) => (
             <GrantListItem
-              key={dueSoonGrant.id.toString()}
+              key={dueSoonGrant.id}
               grant={dueSoonGrant}
               icon={MdAlarm}
             />
@@ -99,7 +97,7 @@ export default function Dashboard() {
         </header>
         <ul className="dashboard__users-list">
           {users.map((user) => (
-            <UserListItem key={user.id.toString()} user={user} />
+            <UserListItem key={user.id} user={user} />
           ))}
         </ul>
       </article>

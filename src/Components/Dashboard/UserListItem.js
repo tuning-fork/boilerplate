@@ -9,8 +9,8 @@ export default function UserListItem(props) {
   return (
     <li className="user-list-item">
       <CurrentOrganizationLink to={`/users/${user.id}`}>
-        <UserIcon firstName={user.first_name} lastName={user.last_name} />
-        {user.first_name} {user.last_name}
+        <UserIcon firstName={user.firstName} lastName={user.lastName} />
+        {user.firstName} {user.lastName}
       </CurrentOrganizationLink>
     </li>
   );
