@@ -39,12 +39,6 @@ export const ButtonWithIcon = (props) => (
   </div>
 );
 
-export const ButtonUserIcon = (props) => (
-  <Button {...props} variant="usericon">
-    JW
-  </Button>
-);
-
 export const ButtonLink = (props) => (
   <HashRouter>
     <div style={{ display: "flex", gap: "1rem" }}>

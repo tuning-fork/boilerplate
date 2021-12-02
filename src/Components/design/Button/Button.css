@@ -85,28 +85,11 @@
 }
 
 .button--none {
+  display: inline-block;
+  padding: 0;
   background: none;
   color: unset;
-  display: block;
-  padding: 0;
   font-size: unset;
   font-weight: unset;
   line-height: unset;
-}
-
-.button.button--usericon {
-  border-radius: 50%;
-  background-color: var(--primary);
-  color: var(--primary-contrast);
-  height: 36px;
-  width: 36px;
-  justify-content: center;
-  cursor: pointer;
-  display: inline-flex;
-  margin-left: 28px;
-  padding: 0px 0px 0px 0px;
-}
-.button--usericon:hover:not(:active) {
-  opacity: 0.85;
-  background-color: var(--secondary);
 }
