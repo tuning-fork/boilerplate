@@ -7,6 +7,7 @@ import { getAllUsers } from "../Services/Organizations/OrganizationUsersService"
 import { getAllGrants } from "../Services/Organizations/GrantsService";
 import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
+import Spinner from "./Helpers/Spinner";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
@@ -27,7 +28,10 @@ export default function Dashboard() {
   const { currentUserStore } = useCurrentUserContext();
   const { organizationClient } = useCurrentOrganizationContext();
 
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [users, setUsers] = useState([]);
+
+  const [loadingGrants, setLoadingGrants] = useState(true);
   const [grants, setGrants] = useState([]);
   const recentDrafts = useMemo(
     () => grants.filter((grant) => isRecent(grant.updatedAt)),
@@ -40,8 +44,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (organizationClient) {
-      getAllUsers(organizationClient).then(setUsers);
-      getAllGrants(organizationClient).then(setGrants);
+      getAllUsers(organizationClient)
+        .then(setUsers)
+        .finally(() => setLoadingUsers(false));
+
+      getAllGrants(organizationClient)
+        .then(setGrants)
+        .finally(() => setLoadingGrants(false));
     }
   }, [organizationClient]);
 
@@ -64,7 +73,10 @@ export default function Dashboard() {
               icon={MdAccessTime}
             />
           ))}
-          {!recentDrafts.length && <p>No recent grant drafts.</p>}
+          {loadingGrants && <Spinner />}
+          {!loadingGrants && !recentDrafts.length && (
+            <p>No recent grant drafts.</p>
+          )}
         </ul>
       </article>
 
@@ -78,7 +90,8 @@ export default function Dashboard() {
               icon={MdAlarm}
             />
           ))}
-          {!recentDrafts.length && <p>No grants due soon.</p>}
+          {loadingGrants && <Spinner />}
+          {!loadingGrants && !recentDrafts.length && <p>No grants due soon.</p>}
         </ul>
         <CurrentOrganizationLink
           to="/grants"
@@ -101,6 +114,7 @@ export default function Dashboard() {
           {users.map((user) => (
             <UserListItem key={user.id} user={user} />
           ))}
+          {loadingUsers && <Spinner />}
         </ul>
       </article>
     </section>
