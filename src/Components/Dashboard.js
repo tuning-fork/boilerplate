@@ -64,6 +64,7 @@ export default function Dashboard() {
               icon={MdAccessTime}
             />
           ))}
+          {!recentDrafts.length && <p>No recent grant drafts.</p>}
         </ul>
       </article>
 
@@ -77,6 +78,7 @@ export default function Dashboard() {
               icon={MdAlarm}
             />
           ))}
+          {!recentDrafts.length && <p>No grants due soon.</p>}
         </ul>
         <CurrentOrganizationLink
           to="/grants"
