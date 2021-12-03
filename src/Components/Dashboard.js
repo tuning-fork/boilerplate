@@ -1,28 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
-import { differenceInDays } from "date-fns";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllUsers } from "../Services/Organizations/OrganizationUsersService";
 import { getAllGrants } from "../Services/Organizations/GrantsService";
+import isRecent from "../Helpers/isRecent";
+import isSoon from "../Helpers/isSoon";
 import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
 import Spinner from "./Helpers/Spinner";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
-
-// Includes dates starting from today to 6 days in the past
-const isRecent = (date) => {
-  const diff = differenceInDays(new Date(), date);
-  return diff >= 0 && diff <= 6;
-};
-
-// Includes dates starting from today to 6 days into the future
-const isSoon = (date) => {
-  const diff = differenceInDays(new Date(), date);
-  return diff <= 0 && diff >= -6;
-};
 
 export default function Dashboard() {
   const { currentUserStore } = useCurrentUserContext();
