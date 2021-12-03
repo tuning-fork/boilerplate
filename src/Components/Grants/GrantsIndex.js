@@ -182,10 +182,6 @@ export default function GrantsIndex(props) {
       <section className="GrantsIndex__Overview">
         <header className="GrantsIndex__Header">
           <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-        </header>
-      </section>
-      <section className="GrantsIndex__Actions">
-        <div className="GrantsIndex__SearchBar">
           <div className="GrantsIndex__AddNew">
             <Button>
               <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
@@ -193,15 +189,10 @@ export default function GrantsIndex(props) {
               </Link>
             </Button>
           </div>
-          <TextBox
-            // labelText="Search"
-            search
-            onChange={(event) =>
-              setSearchFilters({ ...searchFilters, text: event.target.value })
-            }
-            className="GrantsIndex__SearchInput"
-          />
-        </div>
+        </header>
+      </section>
+      <section className="GrantsIndex__Actions">
+        <div className="GrantsIndex__SearchBar"></div>
       </section>
       <section className="GrantsIndex__TableSection">
         <div className="GrantsIndex__TableTabs">
@@ -240,6 +231,14 @@ export default function GrantsIndex(props) {
           >
             Archived
           </Button>
+          <TextBox
+            // labelText="Search"
+            search
+            onChange={(event) =>
+              setSearchFilters({ ...searchFilters, text: event.target.value })
+            }
+            className="GrantsIndex__SearchInput"
+          />
         </div>
         <div className="GrantsIndex__Table">
           <AccordionTable

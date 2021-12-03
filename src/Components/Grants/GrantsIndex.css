@@ -2,11 +2,21 @@
   padding-left: 20px;
   flex: 1;
 }
-
-.GrantsIndex__Overview {
-  padding-right: 20px;
+.GrantsIndex__Header {
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 30vw;
+  align-items: baseline;
+}
+
+.GrantsIndex__HeaderText {
+  padding-top: 20px;
+}
+
+.GrantsIndex__Overview {
+  flex-direction: row;
+
 }
 
 .GrantsIndex__Actions {
@@ -17,12 +27,12 @@
 }
 
 .GrantsIndex__SearchInput {
-  width: 40vw;
+  width: 15vw;
 }
 
 .GrantsIndex__AddNew {
-  display: flex;
-  justify-content: right;
+  display: block;
+  /* justify-content: right; */
 }
 
 .GrantsIndex__TableTabs {
