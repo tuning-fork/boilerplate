@@ -12,6 +12,6 @@
 .user-list-item > a:active,
 .user-list-item > a:focus {
   padding-left: 0.5rem;
-  background-color: var(--contrast-20);
+  background-color: var(--primary-10);
   border-radius: 6px;
 }

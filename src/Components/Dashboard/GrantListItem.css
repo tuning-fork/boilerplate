@@ -16,7 +16,7 @@
 .grant-list-item > a:hover,
 .grant-list-item > a:active,
 .grant-list-item > a:focus {
-  background-color: var(--contrast-20);
+  background-color: var(--primary-10);
 }
 
 .grant {
