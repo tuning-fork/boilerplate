@@ -38,6 +38,7 @@ export default function GrantsIndex(props) {
   const [grants, setGrants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [filteredGrantsByTabName, setFilteredGrantsByTabName] = useState([]);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   // const totalWordCount = countTotalSectionsWords(grant?.sections);
@@ -77,7 +78,15 @@ export default function GrantsIndex(props) {
     ],
   };
 
-  console.log("grants", grants);
+  // const tabFilters = {
+  //   filters: [
+  //     { value: "ALL", label: "All" },
+  //     { value: "DRAFTS", label: "Drafts" },
+  //     { value: "SUBMITTED", label: "Submitted" },
+  //     { value: "SUCCESSFUL", label: "Successful" },
+  //     { value: "ARCHIVED", label: "Archived" },
+  //   ],
+  // };
 
   useEffect(() => {
     if (organizationClient)
@@ -98,6 +107,69 @@ export default function GrantsIndex(props) {
     });
   }, [grants, searchFilters]);
 
+  const filterGrantsByTabName = (tabName) => {
+    const filteredByTab = filteredGrants.filter((grant) => {
+      if (tabName === "All") {
+        return grant;
+      } else if (tabName === "Archived") {
+        return grant.archived === true;
+      } else if (tabName === "Drafts") {
+        return grant.submitted === false;
+      } else if (tabName === "Successful") {
+        return grant.successful === true;
+      } else if (tabName === "Submitted") {
+        return grant.submitted === true;
+      }
+      return grant;
+    });
+    setFilteredGrantsByTabName(filteredByTab);
+  };
+
+  const handleTabSelect = (tabName) => {
+    filterGrantsByTabName(tabName);
+  };
+
+  //click the button
+  //fires the handle click function
+  //handle click function updates the value of tabName
+  //...and runs a function that filters the grants through tabName
+
+  // const filterByTab = (tabName) => {
+  //   filteredGrants.filter((grant) => {
+  //     if (tabName === "All") {
+  //       return grant;
+  //     } else if (tabName === "Archived") {
+  //       return grant.archived === true;
+  //     } else if (tabName === "Drafts") {
+  //       return grant.submitted === false;
+  //     } else if (tabName === "Successful") {
+  //       return grant.successful === true;
+  //     } else if (tabName === "Submitted") {
+  //       return grant.submitted === true;
+  //     }
+  //     return grant;
+  //   });
+  // };
+
+  // const handleTableTabSelect = (tabName) => {
+  //   console.log(tabName);
+  //   const filteredByTab = () =>
+  //     filteredGrants.filter((grant) => {
+  //       if (tabName === "All") {
+  //         return grant;
+  //       } else if (tabName === "Archived") {
+  //         return grant.archived === true;
+  //       } else if (tabName === "Drafts") {
+  //         return grant.submitted === false;
+  //       } else if (tabName === "Successful") {
+  //         return grant.successful === true;
+  //       } else if (tabName === "Submitted") {
+  //         return grant.submitted === true;
+  //       }
+  //     });
+  //   return filteredByTab;
+  // };
+
   if (errors.length) {
     console.error(errors);
     return <p>Error! {errors.map((error) => error.message)}</p>;
@@ -110,15 +182,17 @@ export default function GrantsIndex(props) {
       <section className="GrantsIndex__Overview">
         <header className="GrantsIndex__Header">
           <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-          <div className="GrantsIndex__Actions">
+        </header>
+      </section>
+      <section className="GrantsIndex__Actions">
+        <div className="GrantsIndex__SearchBar">
+          <div className="GrantsIndex__AddNew">
             <Button>
               <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
-                Copy
+                Add New Grant
               </Link>
             </Button>
           </div>
-        </header>
-        <div className="GrantsIndex__SearchBar">
           <TextBox
             // labelText="Search"
             search
@@ -130,11 +204,49 @@ export default function GrantsIndex(props) {
         </div>
       </section>
       <section className="GrantsIndex__TableSection">
+        <div className="GrantsIndex__TableTabs">
+          <Button
+            onClick={() => handleTabSelect("All")}
+            className="GrantsIndex__TableTabButton"
+            variant="none"
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => handleTabSelect("Drafts")}
+            className="GrantsIndex__TableTabButton"
+            variant="none"
+          >
+            Drafts
+          </Button>
+          <Button
+            onClick={() => handleTabSelect("Submitted")}
+            className="GrantsIndex__TableTabButton"
+            variant="none"
+          >
+            Submitted
+          </Button>
+          <Button
+            onClick={() => handleTabSelect("Successful")}
+            className="GrantsIndex__TableTabButton"
+            variant="none"
+          >
+            Successful
+          </Button>
+          <Button
+            onClick={() => handleTabSelect("Archived")}
+            className="GrantsIndex__TableTabButton"
+            variant="none"
+          >
+            Archived
+          </Button>
+        </div>
         <div className="GrantsIndex__Table">
           <AccordionTable
             dropDownProps={dropDownProps}
             columns={columns}
-            data={filteredGrants}
+            // data={filteredGrants}
+            data={filteredGrantsByTabName}
           />
         </div>
       </section>

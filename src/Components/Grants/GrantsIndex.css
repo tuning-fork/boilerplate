@@ -4,5 +4,45 @@
 }
 
 .GrantsIndex__Overview {
+  padding-right: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.GrantsIndex__Actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 18px;
+}
+
+.GrantsIndex__SearchInput {
   width: 40vw;
+}
+
+.GrantsIndex__AddNew {
+  display: flex;
+  justify-content: right;
+}
+
+.GrantsIndex__TableTabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 40vw;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-size: 18px;
+}
+
+.GrantsIndex__TableTabButton {
+  border-radius: unset;
+}
+
+.GrantsIndex__TableTabButton:hover,
+.GrantsIndex__TableTabButton:focus,
+.GrantsIndex__TableTabButton--selected {
+  border-bottom: 5px solid var(--primary-shade);
+  outline: none;
 }

@@ -12,12 +12,12 @@ export default function DeadlineClock(props) {
       {deadline && days <= 7 && days >= 3 ? (
         <MdAccessTime className="deadline-clock__urgent" />
       ) : (
-        <div style={{ width: "38px" }}></div>
+        <div></div>
       )}
       {deadline && days <= 3 ? (
         <MdAlarm className="deadline-clock__emergency" />
       ) : (
-        <div style={{ width: "38px" }}></div>
+        <div></div>
       )}
     </div>
   );

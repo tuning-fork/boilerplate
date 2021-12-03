@@ -39,6 +39,10 @@
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   color: var(--contrast-70);
+  text-align: left;
+}
+
+.accordion-table__deadline__cell {
   padding-left: 38px;
 }
 
