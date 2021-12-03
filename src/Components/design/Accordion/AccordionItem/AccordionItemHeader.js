@@ -16,15 +16,19 @@ export default function AccordionItemHeader(props) {
 
   return (
     <Heading className={clsx(className, "accordion-item__header")}>
-      <Button
-        id={headerId}
-        variant="none"
-        onClick={() => setExpanded(!expanded)}
-        aria-expanded={expanded}
-        aria-controls={panelId}
-        className={clsx(props.buttonClassName, "accordion-item__header-button")}
+      <div
+        className={clsx(props.buttonClassName, "accordion-item__header__row")}
       >
-        <ExpandIcon className="accordion-item__icon" />
+        <Button
+          id={headerId}
+          variant="none"
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          aria-controls={panelId}
+          // className={clsx(props.buttonClassName, "accordion-item__header-button"
+        >
+          <ExpandIcon className="accordion-item__icon" />
+        </Button>
         {children}
         <DropdownMini
           className="accordion-item__see-more"
@@ -35,7 +39,7 @@ export default function AccordionItemHeader(props) {
           options={dropDownProps.options}
           value={dropDownProps.placeholder}
         />
-      </Button>
+      </div>
     </Heading>
   );
 }
