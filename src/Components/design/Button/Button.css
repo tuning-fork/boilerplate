@@ -81,7 +81,7 @@
 .button--none {
   background: none;
   color: unset;
-  display: block;
+  display: inline-block;
   padding: 0;
   font-size: unset;
   font-weight: unset;

@@ -9,14 +9,14 @@ import countWords from "../../Helpers/countWords";
 import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
-  const { onStoreSectionAsBoilerplate = () => {} } = props;
+  const { onStoreSectionAsBoilerplate = () => {}, section } = props;
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
   const [sectionFields, setSectionFields] = useState({
-    title: "",
-    text: "",
-    html: "",
+    title: section.title || "",
+    text: section.text || "",
+    html: section.text || "",
   });
   const quillEl = useRef(null);
 

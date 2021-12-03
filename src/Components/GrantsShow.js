@@ -47,6 +47,7 @@ export default function GrantsShow() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [newSectionIndex, setNewSectionIndex] = useState(null);
+  const [editingSectionId, setEditingSectionId] = useState(null);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
@@ -198,7 +199,24 @@ export default function GrantsShow() {
           <ol className="GrantsShow__SectionList">
             {grant.sections?.map((section) => (
               <SortableElement key={section.id} id={section.id}>
-                <SectionsShow section={section} />
+                {editingSectionId === section.id ? (
+                  <SectionForm
+                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
+                    onSubmit={(newSectionFields) =>
+                      console.log({
+                        newSectionFields,
+                        section,
+                      })
+                    }
+                    onCancel={() => setEditingSectionId(null)}
+                    section={section}
+                  />
+                ) : (
+                  <SectionsShow
+                    section={section}
+                    onClickEdit={setEditingSectionId}
+                  />
+                )}
                 {newSectionIndex === section.id && (
                   <SectionForm
                     onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
