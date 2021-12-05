@@ -11,6 +11,7 @@
 }
 
 .button > svg {
+  vertical-align: middle;
   font-size: var(--font-size-icon);
 }
 .button > svg:not(:only-child):first-child {
@@ -50,6 +51,8 @@
 
 .button--text {
   background-color: inherit;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .button--outlined.button--primary,
