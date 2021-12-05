@@ -78,20 +78,6 @@ export default function GrantsShow() {
       .finally(() => setLoading(false));
   }, [organizationClient, grantId]);
 
-  // Notes for GrantFinalizeShow in process
-
-  // We'll need to add in a getAllBoilerplates call to pull in the Boilerplates,
-  // whether it lives here or on the PasteBoilerplate component
-
-  // We'll need to add in an "Add New Sections" function
-  // Since GrantFinalizeShow will now allow include the whole Build a Grant Flow
-
-  // const addNewSections = (newSection) => {
-  //   const newSections = [...sections];
-  //   newSections.push(newSection);
-  //   setSections(newSections);
-  // };
-
   // const updateSections = (updatedSection) => {
   //   if (updatedSection.message) {
   //     const sections = sections.filter(
@@ -108,9 +94,6 @@ export default function GrantsShow() {
   //     setSections(sections);
   //   }
   // };
-
-  // This is not yet built out in the Figma, but GrantsShow also
-  // includes an index of reports and a form for adding new reports
 
   const handleCreateSection = ({ newSectionFields, precedingSection }) => {
     createGrantSection(organizationClient, grantId, {
