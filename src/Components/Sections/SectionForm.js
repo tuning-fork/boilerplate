@@ -15,9 +15,9 @@ export default function SectionForm(props) {
   );
   const [sectionFields, setSectionFields] = useState({
     ...section,
-    title: section.title || "",
-    text: section.text || "",
-    html: section.text || "",
+    title: section?.title || "",
+    text: section?.text || "",
+    html: section?.text || "",
   });
   const quillEl = useRef(null);
 
