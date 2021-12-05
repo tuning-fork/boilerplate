@@ -1,15 +1,12 @@
 .button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   padding: 8px 14px;
   border-radius: 4px;
   border: unset;
   cursor: pointer;
   line-height: 18px;
-}
-
-.button > a {
-  color: inherit;
+  font-weight: var(--font-weight-bold);
   text-decoration: none;
 }
 
@@ -23,7 +20,8 @@
   margin-left: 6px;
 }
 
-.button--contained {
+.button--contained,
+.button--contained:visited {
   color: var(--primary-contrast);
 }
 .button--contained:hover:not(:active) {
@@ -55,22 +53,30 @@
 }
 
 .button--outlined.button--primary,
-.button--text.button--primary {
+.button--outlined.button--primary:visited,
+.button--text.button--primary,
+.button--text.button--primary:visited {
   color: var(--primary-text);
 }
 
 .button--outlined.button--success,
-.button--text.button--success {
+.button--outlined.button--success:visited,
+.button--text.button--success,
+.button--text.button--success:visited {
   color: var(--success-text);
 }
 
 .button--outlined.button--error,
-.button--text.button--error {
+.button--outlined.button--error:visited,
+.button--text.button--error,
+.button--text.button--error:visited {
   color: var(--error-text);
 }
 
 .button--outlined.button--contrast,
-.button--text.button--contrast {
+.button--outlined.button--contrast:visited,
+.button--text.button--contrast,
+.button--text.button--contrast:visited {
   color: var(--contrast-100);
 }
 
@@ -79,32 +85,11 @@
 }
 
 .button--none {
+  display: inline-block;
+  padding: 0;
   background: none;
   color: unset;
-  display: block;
-  padding: 0;
   font-size: unset;
   font-weight: unset;
   line-height: unset;
-}
-
-.button.button--usericon {
-  border-radius: 50%;
-  background-color: var(--primary);
-  color: var(--primary-contrast);
-  height: 36px;
-  width: 36px;
-  justify-content: center;
-  cursor: pointer;
-  display: inline-flex;
-  margin-left: 28px;
-  padding: 0px 0px 0px 0px;
-}
-.button--usericon:hover:not(:active) {
-  opacity: 0.85;
-  background-color: var(--secondary);
-}
-
-.button--usericon.button--colorwheel {
-  background-color: var(--primary);
 }

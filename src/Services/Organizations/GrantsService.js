@@ -1,3 +1,18 @@
+const mapGrant = (apiGrant) => ({
+  archived: apiGrant.archived,
+  createdAt: new Date(apiGrant.created_at),
+  deadline: new Date(apiGrant.deadline),
+  fundingOrgId: apiGrant.funding_org_id.toString(),
+  id: apiGrant.id.toString(),
+  organizationId: apiGrant.organization_id.toString(),
+  purpose: apiGrant.purpose,
+  rfpUrl: apiGrant.rfp_url,
+  submitted: apiGrant.submitted,
+  successful: apiGrant.successful,
+  title: apiGrant.title,
+  updatedAt: new Date(apiGrant.updated_at),
+});
+
 // getGrant
 export const getGrant = (organizationClient, grantId) => {
   return organizationClient
@@ -8,7 +23,9 @@ export const getGrant = (organizationClient, grantId) => {
 // listGrants
 
 export const getAllGrants = (organizationClient) => {
-  return organizationClient.get(`/grants/`).then((response) => response.data);
+  return organizationClient
+    .get(`/grants`)
+    .then((response) => response.data.map(mapGrant));
 };
 
 // deleteGrant
