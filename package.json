@@ -30,7 +30,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-table": "^7.7.0",
-    "rest-hooks": "^5.3.2"
+    "rest-hooks": "^5.3.2",
+    "seedrandom": "^3.0.5"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
