@@ -196,8 +196,8 @@ export default function GrantsShow() {
           deadlineText={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganizationId}/grants/`}
-          copyLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
-          editLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
+          copyLink={`/grants/${grant.id}/copy/`}
+          editLink={`/grants/${grant.id}/edit/`}
         />
         <Container as="section" centered>
           {/* <DndContext

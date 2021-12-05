@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Button from "../Button/Button";
 import "./Hero.css";
 import formatDate from "../../../Helpers/formatDate";
+import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadlineText);
@@ -18,17 +19,17 @@ export default function Hero(props) {
           <h1>{props.headerText}</h1>
           <div className="hero__buttons">
             <Button
-              style={{ height: "min-content" }}
-              to={props.copyLink}
               variant="outlined"
+              as={CurrentOrganizationLink}
+              to={props.copyLink}
             >
               Copy
             </Button>
 
             <Button
-              style={{ height: "min-content" }}
-              to={props.editLink}
               variant="outlined"
+              as={CurrentOrganizationLink}
+              to={props.editLink}
             >
               Edit
             </Button>
