@@ -48,9 +48,11 @@ export default function Hero(props) {
           <div className="hero__details-right">
             <dl className="hero__deadline">
               <dt>DEADLINE</dt>
-              <dd>{formattedDeadline}</dd>
+              <dd>
+                <time dateTime={props.deadlineText}>{formattedDeadline}</time>
+              </dd>
             </dl>
-            <b>Total Word Count: {props.totalWordCount}</b>
+            <b>TOTAL WORD COUNT: {props.totalWordCount}</b>
           </div>
         </div>
       </div>
