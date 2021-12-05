@@ -1,5 +1,6 @@
- .SectionForm {
+.SectionForm {
   padding: 35px 20px;
+  margin-bottom: 1rem;
   border: 1px solid #c4c4c4;
   border-radius: 6px;
 }
