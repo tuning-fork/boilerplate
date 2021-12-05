@@ -238,7 +238,6 @@ export default function GrantsShow() {
                   />
                 )}
                 <Button
-                  className="GrantsShow__AddSection"
                   onClick={() => setNewSectionIndex(section.id)}
                   variant="text"
                 >
