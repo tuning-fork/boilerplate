@@ -14,6 +14,7 @@ export default function SectionForm(props) {
     PasteBoilerplateContentPopoutContext
   );
   const [sectionFields, setSectionFields] = useState({
+    ...section,
     title: section.title || "",
     text: section.text || "",
     html: section.text || "",

@@ -23,6 +23,7 @@ import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationCo
 import * as GrantsService from "../Services/Organizations/GrantsService";
 import {
   createGrantSection,
+  updateGrantSection,
   // reorderGrantSection,
 } from "../Services/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "../Helpers/countSectionWords";
@@ -111,7 +112,7 @@ export default function GrantsShow() {
   // This is not yet built out in the Figma, but GrantsShow also
   // includes an index of reports and a form for adding new reports
 
-  const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
+  const handleCreateSection = ({ newSectionFields, precedingSection }) => {
     createGrantSection(organizationClient, grantId, {
       title: newSectionFields.title,
       text: newSectionFields.html,
@@ -121,6 +122,18 @@ export default function GrantsShow() {
     }).then(() => {
       alert("Section created!");
       setNewSectionIndex(null);
+      return getGrant();
+    });
+  };
+
+  const handleEditSection = (newSectionFields) => {
+    updateGrantSection(organizationClient, grantId, newSectionFields.id, {
+      title: newSectionFields.title,
+      text: newSectionFields.html,
+      wordcount: countWords(newSectionFields.text),
+    }).then(() => {
+      alert("Section edited!");
+      setEditingSectionId(null);
       return getGrant();
     });
   };
@@ -202,12 +215,7 @@ export default function GrantsShow() {
                 {editingSectionId === section.id ? (
                   <SectionForm
                     onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
-                    onSubmit={(newSectionFields) =>
-                      console.log({
-                        newSectionFields,
-                        section,
-                      })
-                    }
+                    onSubmit={handleEditSection}
                     onCancel={() => setEditingSectionId(null)}
                     section={section}
                   />
@@ -221,7 +229,7 @@ export default function GrantsShow() {
                   <SectionForm
                     onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
                     onSubmit={(newSectionFields) =>
-                      handleSubmitSectionForm({
+                      handleCreateSection({
                         newSectionFields,
                         precedingSection: section,
                       })
