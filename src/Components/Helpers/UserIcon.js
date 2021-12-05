@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import { Rng } from "../../Helpers/Rng";
+import randomElement from "../../Helpers/array/randomElement";
 import "./UserIcon.css";
 
 const BACKGROUND_COLORS = ["#DF0B92", "#097FAA", "#AD6200", "#084391"];
@@ -8,8 +8,7 @@ const randomBackgroundColor = (string) => {
   const seed = string
     .split("")
     .reduce((seed, char) => seed + char.charCodeAt(0), 0);
-  const rng = new Rng(seed);
-  const backgroundColor = rng.choice(BACKGROUND_COLORS);
+  const backgroundColor = randomElement(BACKGROUND_COLORS, seed);
 
   return backgroundColor;
 };
