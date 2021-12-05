@@ -10,6 +10,7 @@ import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import parseDateFromInput from "../../Helpers/parseDateFromInput";
 import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantCopy.css";
+import GrantForm from "./GrantForm";
 
 export default function GrantCopy() {
   const [newGrantFields, setNewGrantFields] = useState({
@@ -76,7 +77,13 @@ export default function GrantCopy() {
     <Container className="GrantCopy" as="section">
       <h1>Copy Grant</h1>
 
-      <Form onSubmit={handleSubmit}>
+      <GrantForm
+        fundingOrgs={[]}
+        onSubmit={() => "todo"}
+        onCancel={() => "todo"}
+      />
+
+      {/* <Form onSubmit={handleSubmit}>
         <div className="GrantCopy__Inputs">
           <Form.Group>
             <Form.Label>Title</Form.Label>
@@ -126,7 +133,7 @@ export default function GrantCopy() {
             Copy
           </Button>
         </div>
-      </Form>
+      </Form> */}
     </Container>
   );
 }
