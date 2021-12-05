@@ -1,0 +1,54 @@
+.dashboard {
+  display: grid;
+  grid-template:
+    "header header header"
+    "recent-drafts . users"
+    "due-soon . users"
+    / 50% 10% 40%;
+  width: 100%;
+  padding: 4rem;
+}
+
+.dashboard__header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__recent-drafts {
+  grid-area: recent-drafts;
+}
+
+.dashboard__due-soon {
+  grid-area: due-soon;
+}
+
+.dashboard__all-grants-link {
+  float: right;
+}
+
+.dashboard__users {
+  grid-area: users;
+}
+
+.dashboard__users > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__users > header > h2 {
+  margin: 0;
+}
+
+.dashboard__users > header > a {
+  color: var(--heading-text);
+}
+
+.dashboard__recent-drafts-list,
+.dashboard__due-soon-list,
+.dashboard__users-list {
+  list-style: none;
+  padding: 0;
+}
