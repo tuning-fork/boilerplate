@@ -182,17 +182,29 @@ export default function GrantsIndex(props) {
       <section className="GrantsIndex__Overview">
         <header className="GrantsIndex__Header">
           <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-          <div className="GrantsIndex__AddNew">
-            <Button>
-              <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
-                Add New Grant
-              </Link>
-            </Button>
-          </div>
+          {/* <Button>
+            <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
+              Add New Grant
+            </Link>
+          </Button> */}
         </header>
       </section>
       <section className="GrantsIndex__Actions">
-        <div className="GrantsIndex__SearchBar"></div>
+        {/* <div className="GrantsIndex__SearchBar"> */}
+        <TextBox
+          // labelText="Search"
+          search
+          onChange={(event) =>
+            setSearchFilters({ ...searchFilters, text: event.target.value })
+          }
+          className="GrantsIndex__SearchInput"
+        />
+        <Button>
+          <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
+            Add New Grant
+          </Link>
+        </Button>
+        {/* </div> */}
       </section>
       <section className="GrantsIndex__TableSection">
         <div className="GrantsIndex__TableTabs">
@@ -231,14 +243,14 @@ export default function GrantsIndex(props) {
           >
             Archived
           </Button>
-          <TextBox
+          {/* <TextBox
             // labelText="Search"
             search
             onChange={(event) =>
               setSearchFilters({ ...searchFilters, text: event.target.value })
             }
             className="GrantsIndex__SearchInput"
-          />
+          /> */}
         </div>
         <div className="GrantsIndex__Table">
           <AccordionTable

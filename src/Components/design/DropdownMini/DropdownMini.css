@@ -12,7 +12,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-inline-start: -13rem;
+  margin-inline-start: -9rem;
 }
 
 .dropdown-mini__label {

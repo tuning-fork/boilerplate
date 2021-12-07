@@ -14,7 +14,7 @@ import DropdownMini from "../../DropdownMini/DropdownMini";
 export default function AccordionTable(props) {
   const { columns, data, className, dropDownProps } = props;
 
-  console.log("data", data);
+  // console.log("data", data);
 
   const dateTypes = ["created_at", "updated_at", "deadline"];
   const isMessage = true;
@@ -40,6 +40,9 @@ export default function AccordionTable(props) {
               </div>
             );
           })}
+          <div className="accordion-table__spacer">
+            <div>{/* Empty cell to align with SeeMore icon */}</div>
+          </div>
         </div>
       </li>
       {data.map((row, index) => {

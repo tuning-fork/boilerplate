@@ -49,3 +49,8 @@
 .accordion-table__row-panel {
   padding: 4px 0;
 }
+
+.accordion-table__spacer {
+  grid-column: none;
+  width: 1em;
+}
