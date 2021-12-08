@@ -39,6 +39,7 @@ export default function GrantsIndex(props) {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [filteredGrantsByTabName, setFilteredGrantsByTabName] = useState([]);
+  const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   // const totalWordCount = countTotalSectionsWords(grant?.sections);
@@ -78,16 +79,6 @@ export default function GrantsIndex(props) {
     ],
   };
 
-  // const tabFilters = {
-  //   filters: [
-  //     { value: "ALL", label: "All" },
-  //     { value: "DRAFTS", label: "Drafts" },
-  //     { value: "SUBMITTED", label: "Submitted" },
-  //     { value: "SUCCESSFUL", label: "Successful" },
-  //     { value: "ARCHIVED", label: "Archived" },
-  //   ],
-  // };
-
   useEffect(() => {
     if (organizationClient)
       getAllGrants(organizationClient)
@@ -107,68 +98,29 @@ export default function GrantsIndex(props) {
     });
   }, [grants, searchFilters]);
 
-  const filterGrantsByTabName = (tabName) => {
+  useEffect(() => {
+    if (organizationClient) {
+      setFilteredGrantsByTabName(filteredGrants);
+    }
+  }, [organizationClient, filteredGrants]);
+
+  const filterGrantsByTabName = (tabSelect) => {
     const filteredByTab = filteredGrants.filter((grant) => {
-      if (tabName === "All") {
+      if (tabSelect === "All") {
         return grant;
-      } else if (tabName === "Archived") {
+      } else if (tabSelect === "Archived") {
         return grant.archived === true;
-      } else if (tabName === "Drafts") {
+      } else if (tabSelect === "Drafts") {
         return grant.submitted === false;
-      } else if (tabName === "Successful") {
+      } else if (tabSelect === "Successful") {
         return grant.successful === true;
-      } else if (tabName === "Submitted") {
+      } else if (tabSelect === "Submitted") {
         return grant.submitted === true;
       }
       return grant;
     });
     setFilteredGrantsByTabName(filteredByTab);
   };
-
-  const handleTabSelect = (tabName) => {
-    filterGrantsByTabName(tabName);
-  };
-
-  //click the button
-  //fires the handle click function
-  //handle click function updates the value of tabName
-  //...and runs a function that filters the grants through tabName
-
-  // const filterByTab = (tabName) => {
-  //   filteredGrants.filter((grant) => {
-  //     if (tabName === "All") {
-  //       return grant;
-  //     } else if (tabName === "Archived") {
-  //       return grant.archived === true;
-  //     } else if (tabName === "Drafts") {
-  //       return grant.submitted === false;
-  //     } else if (tabName === "Successful") {
-  //       return grant.successful === true;
-  //     } else if (tabName === "Submitted") {
-  //       return grant.submitted === true;
-  //     }
-  //     return grant;
-  //   });
-  // };
-
-  // const handleTableTabSelect = (tabName) => {
-  //   console.log(tabName);
-  //   const filteredByTab = () =>
-  //     filteredGrants.filter((grant) => {
-  //       if (tabName === "All") {
-  //         return grant;
-  //       } else if (tabName === "Archived") {
-  //         return grant.archived === true;
-  //       } else if (tabName === "Drafts") {
-  //         return grant.submitted === false;
-  //       } else if (tabName === "Successful") {
-  //         return grant.successful === true;
-  //       } else if (tabName === "Submitted") {
-  //         return grant.submitted === true;
-  //       }
-  //     });
-  //   return filteredByTab;
-  // };
 
   if (errors.length) {
     console.error(errors);
@@ -182,17 +134,11 @@ export default function GrantsIndex(props) {
       <section className="GrantsIndex__Overview">
         <header className="GrantsIndex__Header">
           <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-          {/* <Button>
-            <Link to={`/organizations/${currentOrganizationId}/grants-new/`}>
-              Add New Grant
-            </Link>
-          </Button> */}
         </header>
       </section>
       <section className="GrantsIndex__Actions">
         {/* <div className="GrantsIndex__SearchBar"> */}
         <TextBox
-          // labelText="Search"
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, text: event.target.value })
@@ -209,54 +155,45 @@ export default function GrantsIndex(props) {
       <section className="GrantsIndex__TableSection">
         <div className="GrantsIndex__TableTabs">
           <Button
-            onClick={() => handleTabSelect("All")}
+            onClick={() => filterGrantsByTabName("All")}
             className="GrantsIndex__TableTabButton"
             variant="none"
           >
             All
           </Button>
           <Button
-            onClick={() => handleTabSelect("Drafts")}
+            onClick={() => filterGrantsByTabName("Drafts")}
             className="GrantsIndex__TableTabButton"
             variant="none"
           >
             Drafts
           </Button>
           <Button
-            onClick={() => handleTabSelect("Submitted")}
+            onClick={() => filterGrantsByTabName("Submitted")}
             className="GrantsIndex__TableTabButton"
             variant="none"
           >
             Submitted
           </Button>
           <Button
-            onClick={() => handleTabSelect("Successful")}
+            onClick={() => filterGrantsByTabName("Successful")}
             className="GrantsIndex__TableTabButton"
             variant="none"
           >
             Successful
           </Button>
           <Button
-            onClick={() => handleTabSelect("Archived")}
+            onClick={() => filterGrantsByTabName("Archived")}
             className="GrantsIndex__TableTabButton"
             variant="none"
           >
             Archived
           </Button>
-          {/* <TextBox
-            // labelText="Search"
-            search
-            onChange={(event) =>
-              setSearchFilters({ ...searchFilters, text: event.target.value })
-            }
-            className="GrantsIndex__SearchInput"
-          /> */}
         </div>
         <div className="GrantsIndex__Table">
           <AccordionTable
             dropDownProps={dropDownProps}
             columns={columns}
-            // data={filteredGrants}
             data={filteredGrantsByTabName}
           />
         </div>
