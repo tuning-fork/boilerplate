@@ -10,7 +10,6 @@ import "./AccordionTable.css";
 import formatDate from "../../../../Helpers/formatDate";
 import daysLeft from "../../../../Helpers/daysLeft";
 import DeadlineClock from "../../DeadlineClock/DeadlineClock";
-import DropdownMini from "../../DropdownMini/DropdownMini";
 export default function AccordionTable(props) {
   const { columns, data, className, dropDownProps } = props;
 
@@ -27,13 +26,15 @@ export default function AccordionTable(props) {
             {/* Empty cell to align with Accordion icon */}
           </div>
           {columns.map((column, index) => {
-            const isNumber = typeof data[0]?.[column.accessor] === "number";
+            {
+              /* const isNumber = typeof data[0]?.[column.accessor] === "number"; */
+            }
             return (
               <div
                 key={index}
                 className={clsx(
-                  "accordion-table__cell",
-                  isNumber && "accordion-table__cell--number"
+                  "accordion-table__cell"
+                  // isNumber && "accordion-table__cell--number"
                 )}
               >
                 {column.Header}
@@ -58,7 +59,9 @@ export default function AccordionTable(props) {
                 console.log("column", column);
                 const isDate = dateTypes.includes(column.accessor);
                 const isDeadline = column.accessor === "deadline";
-                const isNumber = typeof cell === "number";
+                {
+                  /* const isNumber = typeof cell === "number"; */
+                }
                 const days =
                   column.accessor === "deadline" ? daysLeft(cell) : null;
                 return (
@@ -67,7 +70,7 @@ export default function AccordionTable(props) {
                       key={index}
                       className={clsx(
                         "accordion-table__cell",
-                        isNumber && "accordion-table__cell--number",
+                        // isNumber && "accordion-table__cell--number",
                         isMessage && "accordion-table__cell--message"
                       )}
                     >

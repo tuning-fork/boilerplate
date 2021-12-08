@@ -7,11 +7,8 @@ import React, {
 } from "react";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
-import Modal from "../Elements/Modal";
-import Container from "../design/Container/Container";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import { Link, useParams } from "react-router-dom";
-import Card from "react-bootstrap/Card";
 import {
   DndContext,
   closestCenter,

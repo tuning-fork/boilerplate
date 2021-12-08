@@ -10,7 +10,8 @@ import ForgotPassword from "./Components/ForgotPassword";
 import OrgSelect from "./Components/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import Navigation from "./Components/Navigation";
-import Boilerplates from "./Components/Boilerplates";
+// import Boilerplates from "./Components/Boilerplates";
+import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import Categories from "./Components/Categories";
 import Organizations from "./Components/Organizations";
 // import Grants from "./Components/Grants";
@@ -126,7 +127,7 @@ export default function App() {
                 />
                 <PrivateRoute
                   path="/organizations/:org_id/boilerplates"
-                  component={Boilerplates}
+                  component={BoilerplatesIndex}
                 />
                 <PrivateRoute
                   path="/organizations/:org_id/categories-new"

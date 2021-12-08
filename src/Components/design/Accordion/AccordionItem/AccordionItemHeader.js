@@ -30,15 +30,17 @@ export default function AccordionItemHeader(props) {
           <ExpandIcon className="accordion-item__icon" />
         </Button>
         {children}
-        <DropdownMini
-          className="accordion-item__see-more"
-          labelText={dropDownProps.labelText}
-          onChange={() => {
-            console.log("banana");
-          }}
-          options={dropDownProps.options}
-          value={dropDownProps.placeholder}
-        />
+        {dropDownProps ? (
+          <DropdownMini
+            className="accordion-item__see-more"
+            labelText={dropDownProps.labelText}
+            onChange={() => {
+              console.log("banana");
+            }}
+            options={dropDownProps.options}
+            value={dropDownProps.placeholder}
+          />
+        ) : null}
       </div>
     </Heading>
   );

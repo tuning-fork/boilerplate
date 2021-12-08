@@ -1,0 +1,43 @@
+.BoilerplatesIndex {
+    padding-left: 20px;
+    padding-right: 20px;
+    flex: 1;
+  }
+  .BoilerplatesIndex__Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80vw;
+    align-items: center;
+  }
+  
+  .BoilerplatesIndex__HeaderText {
+    padding-top: 20px;
+    padding-left: 18px;
+  }
+  
+  .BoilerplatesIndex__Overview {
+    flex-direction: row;
+  }
+  
+  .BoilerplatesIndex__Actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 18px;
+    padding-left: 18px;
+    margin-bottom: 0px;
+  }
+  
+  .BoilerplatesIndex__SearchInput {
+    width: 40vw;
+  }
+  
+  .BoilerplatesIndex__AddNew {
+    display: block;
+    margin-bottom: 1.38rem;
+    /* justify-content: right; */
+  }
+  
+  
