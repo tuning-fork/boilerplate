@@ -10,51 +10,47 @@ import TextBox from "../design/TextBox/TextBox";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import { Link, useParams } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
 import countWords from "../../Helpers/countWords";
-import "./BoilerplatesIndex.css";
+import "./CategoriesIndex.css";
 
-export default function BoilerplatesIndex(props) {
-  const [boilerplates, setBoilerplates] = useState([]);
+export default function CategoriesIndex(props) {
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
+  const [editButton, setEditButton] = useState(true);
+  const [deleteButton, setDeleteButton] = useState(true);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
 
   const [searchFilters, setSearchFilters] = useState({
-    title: "",
+    name: "",
   });
 
-  const columns = [
-    { Header: "Title", accessor: "title" },
-    { Header: "Category", accessor: "category_name" },
-    { Header: "Word Count", accessor: "wordcount" },
-    { Header: "Date Created", accessor: "created_at" },
-    { Header: "Last Modified", accessor: "updated_at" },
-  ];
+  const columns = [{ Header: "Category Name", accessor: "name" }];
 
   useEffect(() => {
     if (organizationClient)
-      getAllBoilerplates(organizationClient)
-        .then((boilerplates) => {
-          setBoilerplates(boilerplates);
-          console.log(boilerplates);
+      getAllCategories(organizationClient)
+        .then((categories) => {
+          setCategories(categories);
+          console.log(categories);
           setLoading(false);
         })
         .catch((error) => console.log(error));
   }, [organizationClient]);
 
-  const filteredBoilerplates = useMemo(() => {
-    return boilerplates.filter((boilerplate) => {
-      const matchesTitle = boilerplate.title
+  const filteredCategories = useMemo(() => {
+    return categories.filter((category) => {
+      const matchesName = category.name
         .toLowerCase()
-        .includes(searchFilters.title.toLowerCase());
-      return matchesTitle;
+        .includes(searchFilters.name.toLowerCase());
+      return matchesName;
     });
-  }, [boilerplates, searchFilters]);
+  }, [categories, searchFilters]);
 
   if (errors.length) {
     console.error(errors);
@@ -64,36 +60,36 @@ export default function BoilerplatesIndex(props) {
   }
 
   return (
-    <div className="BoilerplatesIndex">
-      <section className="BoilerplatesIndex__Overview">
-        <header className="BoilerplatesIndex__Header">
-          <h1 className="BoilerplatesIndex__HeaderText">All Boilerplates</h1>
+    <div className="CategoriesIndex">
+      <section className="CategoriesIndex__Overview">
+        <header className="CategoriesIndex__Header">
+          <h1 className="CategoriesIndex__HeaderText">All Categories</h1>
         </header>
       </section>
-      <section className="BoilerplatesIndex__Actions">
-        {/* <div className="BoilerplatesIndex__SearchBar"> */}
+      <section className="CategoriesIndex__Actions">
+        {/* <div className="CategoriesIndex__SearchBar"> */}
         <TextBox
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, text: event.target.value })
           }
-          className="BoilerplatesIndex__SearchInput"
+          className="CategoriesIndex__SearchInput"
         />
         <Button>
-          <Link
-            to={`/organizations/${currentOrganizationId}/boilerplates-new/`}
-          >
-            Add New Boilerplate
+          <Link to={`/organizations/${currentOrganizationId}/categories-new/`}>
+            Add New Category
           </Link>
         </Button>
         {/* </div> */}
       </section>
-      <section className="BoilerplatesIndex__TableSection">
-        <div className="BoilerplatesIndex__Table">
+      <section className="CategoriesIndex__TableSection">
+        <div className="CategoriesIndex__Table">
           <AccordionTable
             columns={columns}
-            data={filteredBoilerplates}
+            data={filteredCategories}
             dropDownProps={false}
+            editButton={editButton}
+            deleteButton={deleteButton}
           />
         </div>
       </section>

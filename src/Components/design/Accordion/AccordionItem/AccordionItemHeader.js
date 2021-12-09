@@ -8,7 +8,14 @@ import Button from "../../Button/Button";
 import DropdownMini from "../../DropdownMini/DropdownMini";
 
 export default function AccordionItemHeader(props) {
-  const { heading: Heading, className, children, dropDownProps } = props;
+  const {
+    heading: Heading,
+    className,
+    children,
+    dropDownProps,
+    editButton,
+    deleteButton,
+  } = props;
   const { expanded, setExpanded, panelId, headerId } =
     useContext(AccordionItemContext);
   const ExpandIcon = expanded ? MdExpandMore : MdChevronRight;
@@ -41,6 +48,8 @@ export default function AccordionItemHeader(props) {
             value={dropDownProps.placeholder}
           />
         ) : null}
+        {editButton ? <Button>Edit</Button> : null}
+        {deleteButton ? <Button>Delete</Button> : null}
       </div>
     </Heading>
   );
@@ -55,3 +64,21 @@ AccordionItemHeader.propTypes = {
 AccordionItemHeader.defaultProps = {
   heading: "h1",
 };
+
+{
+  /* <Modal show={!!sectionToSaveAsBoilerplate}>
+  <SaveSectionAsBoilerplate
+    section={sectionToSaveAsBoilerplate}
+    onClose={() => setSectionToSaveAsBoilerplate(null)}
+  />
+</Modal>; */
+}
+
+// x button on the table header item that opens the edit modal for that category
+// x button on the table header that triggers the delete function on that category
+// on click delete function
+// modal on the category index that opens when the button is clicked
+// edit category component in the modal
+// edit form
+// on submit edit function
+// use add new category in paste boilerplate component

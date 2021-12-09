@@ -11,7 +11,8 @@ import formatDate from "../../../../Helpers/formatDate";
 import daysLeft from "../../../../Helpers/daysLeft";
 import DeadlineClock from "../../DeadlineClock/DeadlineClock";
 export default function AccordionTable(props) {
-  const { columns, data, className, dropDownProps } = props;
+  const { columns, data, className, dropDownProps, editButton, deleteButton } =
+    props;
 
   // console.log("data", data);
 
@@ -26,15 +27,13 @@ export default function AccordionTable(props) {
             {/* Empty cell to align with Accordion icon */}
           </div>
           {columns.map((column, index) => {
-            {
-              /* const isNumber = typeof data[0]?.[column.accessor] === "number"; */
-            }
+            const isNumber = typeof data[0]?.[column.accessor] === "number";
             return (
               <div
                 key={index}
                 className={clsx(
-                  "accordion-table__cell"
-                  // isNumber && "accordion-table__cell--number"
+                  "accordion-table__cell",
+                  isNumber && "accordion-table__cell--number"
                 )}
               >
                 {column.Header}
@@ -53,15 +52,15 @@ export default function AccordionTable(props) {
               heading="h6"
               buttonClassName="accordion-table__row-header"
               dropDownProps={dropDownProps}
+              editButton={editButton}
+              deleteButton={deleteButton}
             >
               {columns.map((column, index) => {
                 const cell = row[column.accessor];
                 console.log("column", column);
                 const isDate = dateTypes.includes(column.accessor);
                 const isDeadline = column.accessor === "deadline";
-                {
-                  /* const isNumber = typeof cell === "number"; */
-                }
+                const isNumber = typeof cell === "number";
                 const days =
                   column.accessor === "deadline" ? daysLeft(cell) : null;
                 return (
@@ -70,7 +69,7 @@ export default function AccordionTable(props) {
                       key={index}
                       className={clsx(
                         "accordion-table__cell",
-                        // isNumber && "accordion-table__cell--number",
+                        isNumber && "accordion-table__cell--number",
                         isMessage && "accordion-table__cell--message"
                       )}
                     >

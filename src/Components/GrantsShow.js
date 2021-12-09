@@ -212,31 +212,6 @@ export default function GrantsShow(props) {
                   Edit
                 </Link>
               </Button>
-              {/* <Modal
-                onClose={handleCloseGrantEditModal}
-                show={showGrantEditModal}
-              >
-                <Card>
-                  <Card.Body>
-                    <GrantEdit
-                      grant={grant}
-                      onSubmit={handleCloseGrantEditModal}
-                      onCancel={handleCancelGrantEdit}
-                    />
-                  </Card.Body>
-                </Card>
-              </Modal>
-              <Modal
-                className="modal-popup"
-                onClose={handleCloseGrantCopyModal}
-                show={showGrantCopyModal}
-              >
-                <Card>
-                  <Card.Body>
-                    <GrantCopy grant={grant} />
-                  </Card.Body>
-                </Card>
-              </Modal> */}
             </div>
           </header>
           <dl className="GrantsShow__Fields">
