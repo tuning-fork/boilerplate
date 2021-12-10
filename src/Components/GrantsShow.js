@@ -47,7 +47,7 @@ export default function GrantsShow() {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [newSectionIndex, setNewSectionIndex] = useState(null);
+  const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
@@ -100,11 +100,11 @@ export default function GrantsShow() {
       title: newSectionFields.title,
       text: newSectionFields.html,
       grant_id: grantId,
-      sort_order: precedingSection.sort_order + 1,
+      sort_order: precedingSection ? precedingSection.sort_order + 1 : 0,
       wordcount: countWords(newSectionFields.text),
     }).then(() => {
       alert("Section created!");
-      setNewSectionIndex(null);
+      setNewSectionId(null);
       return getGrant();
     });
   };
@@ -163,14 +163,33 @@ export default function GrantsShow() {
     return <h1>Loading....</h1>;
   }
 
+  const noSectionsContent = newSectionId ? (
+    <SectionForm
+      onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
+      onSubmit={(newSectionFields) => handleCreateSection({ newSectionFields })}
+      onCancel={() => setNewSectionId(null)}
+    />
+  ) : (
+    <>
+      <p className="grants-show__welcome-alert">
+        Welcome to your grant! Get started by clicking the Add Section Button
+        below.
+      </p>
+      <Button onClick={() => setNewSectionId(1)} variant="text">
+        <MdAddCircle />
+        Add Section
+      </Button>
+    </>
+  );
+
   return (
-    <div className="GrantsShow">
+    <div className="grants-show">
       {isOpen && (
-        <div className="GrantsShow__PasteBoilerplatePopout">
+        <div className="grants-show__paste-boilerplate-popout">
           <PasteBoilerplateContentPopout />
         </div>
       )}
-      <div className="GrantsShow__Content">
+      <div className="grants-show__content">
         <Hero
           headerText={grant.title}
           fundingOrgText={grant.funding_org_name}
@@ -182,7 +201,11 @@ export default function GrantsShow() {
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
         />
-        <Container as="section" centered>
+        <Container
+          className="grants-show__sections-container"
+          as="section"
+          centered
+        >
           {/* <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -192,44 +215,52 @@ export default function GrantsShow() {
               items={grant.sections}
               strategy={verticalListSortingStrategy}
             > */}
-          <ol className="GrantsShow__SectionList">
-            {grant.sections?.map((section) => (
-              <SortableElement key={section.id} id={section.id}>
-                {editingSectionId === section.id ? (
-                  <SectionForm
-                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
-                    onSubmit={handleEditSection}
-                    onCancel={() => setEditingSectionId(null)}
-                    section={section}
-                  />
-                ) : (
-                  <SectionsShow
-                    section={section}
-                    onClickEdit={setEditingSectionId}
-                  />
-                )}
-                {newSectionIndex === section.id && (
-                  <SectionForm
-                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
-                    onSubmit={(newSectionFields) =>
-                      handleCreateSection({
-                        newSectionFields,
-                        precedingSection: section,
-                      })
-                    }
-                    onCancel={() => setNewSectionIndex(null)}
-                  />
-                )}
-                <Button
-                  onClick={() => setNewSectionIndex(section.id)}
-                  variant="text"
-                >
-                  <MdAddCircle />
-                  Add Section
-                </Button>
-              </SortableElement>
-            ))}
-          </ol>
+          {grant.sections.length ? (
+            <ol className="grants-show__section-list">
+              {grant.sections?.map((section) => (
+                <SortableElement key={section.id} id={section.id}>
+                  {editingSectionId === section.id ? (
+                    <SectionForm
+                      onStoreSectionAsBoilerplate={
+                        setSectionToStoreAsBoilerplate
+                      }
+                      onSubmit={handleEditSection}
+                      onCancel={() => setEditingSectionId(null)}
+                      section={section}
+                    />
+                  ) : (
+                    <SectionsShow
+                      section={section}
+                      onClickEdit={setEditingSectionId}
+                    />
+                  )}
+                  {newSectionId === section.id && (
+                    <SectionForm
+                      onStoreSectionAsBoilerplate={
+                        setSectionToStoreAsBoilerplate
+                      }
+                      onSubmit={(newSectionFields) =>
+                        handleCreateSection({
+                          newSectionFields,
+                          precedingSection: section,
+                        })
+                      }
+                      onCancel={() => setNewSectionId(null)}
+                    />
+                  )}
+                  <Button
+                    onClick={() => setNewSectionId(section.id)}
+                    variant="text"
+                  >
+                    <MdAddCircle />
+                    Add Section
+                  </Button>
+                </SortableElement>
+              ))}
+            </ol>
+          ) : (
+            noSectionsContent
+          )}
           {/* </SortableContext>
           </DndContext> */}
         </Container>

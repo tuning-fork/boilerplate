@@ -17,7 +17,7 @@ const mapGrant = (apiGrant) => ({
 export const getGrant = (organizationClient, grantId) => {
   return organizationClient
     .get(`/grants/${grantId}`)
-    .then((response) => response.data);
+    .then((response) => mapGrant(response.data));
 };
 
 // listGrants

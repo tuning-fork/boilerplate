@@ -38,33 +38,41 @@ export default function GrantForm(props) {
         />
         <TextBox
           labelText="Title"
+          value={grantFields.title}
           onChange={(event) =>
             setGrantFields({ ...grantFields, title: event.target.value })
           }
+          value={grantFields.title}
           required
         />
         <TextBox
           labelText="RFP URL"
+          value={grantFields.rfpUrl}
           onChange={(event) =>
-            setGrantFields({ ...grantFields, rfp_url: event.target.value })
+            setGrantFields({ ...grantFields, rfpUrl: event.target.value })
           }
+          value={grantFields.rfp_url}
           type="url"
           required
         />
         <TextBox
           labelText="Deadline"
           type="datetime-local"
+          value={grantFields.deadline}
           onChange={(event) =>
             setGrantFields({ ...grantFields, deadline: event.target.value })
           }
+          value={grantFields.deadline}
           className="grants-new__deadline"
           required
         />
         <TextBox
           labelText="Purpose"
+          value={grantFields.purpose}
           onChange={(event) =>
             setGrantFields({ ...grantFields, purpose: event.target.value })
           }
+          value={grantFields.purpose}
           required
         />
         <div className="grants-new__button-group">
