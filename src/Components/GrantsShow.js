@@ -1,33 +1,37 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import Button from "./design/Button/Button";
+import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Modal from "./Elements/Modal";
+import Button from "./design/Button/Button";
+import Modal from "./design/Modal/Modal";
 import Container from "./design/Container/Container";
 import Hero from "./design/Hero/Hero";
-import {
-  DndContext,
-  closestCenter,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+// import {
+// DndContext,
+// closestCenter,
+// KeyboardSensor,
+//   PointerSensor,
+//   useSensor,
+//   useSensors,
+// } from "@dnd-kit/core";
+// import {
+// arrayMove,
+// SortableContext,
+// sortableKeyboardCoordinates,
+// verticalListSortingStrategy,
+// } from "@dnd-kit/sortable";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import * as GrantsService from "../Services/Organizations/GrantsService";
 import {
   createGrantSection,
-  reorderGrantSection,
+  updateGrantSection,
+  // reorderGrantSection,
 } from "../Services/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "../Helpers/countSectionWords";
 import countWords from "../Helpers/countWords";
 import SectionsShow from "./SectionsShow";
 import SectionForm from "./Sections/SectionForm";
 import SortableElement from "./Elements/SortableElement";
-import SaveSectionAsBoilerplate from "./Sections/SaveSectionAsBoilerplate";
+import StoreSectionAsBoilerplate from "./Sections/StoreSectionAsBoilerplate";
 import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
@@ -44,23 +48,24 @@ export default function GrantsShow() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [newSectionIndex, setNewSectionIndex] = useState(null);
+  const [editingSectionId, setEditingSectionId] = useState(null);
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
   const { grant_id: grantId } = useParams();
-  const sensors = useSensors(
-    useSensor(PointerSensor)
-    // This breaks forms nested under drag and drop! The space key triggers
-    // this sensor. TODO: Circle back to this!
-    // useSensor(KeyboardSensor, {
-    //   coordinateGetter: sortableKeyboardCoordinates,
-    // })
-  );
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor)
+  //   // This breaks forms nested under drag and drop! The space key triggers
+  //   // this sensor. TODO: Circle back to this!
+  //   // useSensor(KeyboardSensor, {
+  //   //   coordinateGetter: sortableKeyboardCoordinates,
+  //   // })
+  // );
   const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
-  const [sectionToSaveAsBoilerplate, setSectionToSaveAsBoilerplate] =
+  const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
   const getGrant = useCallback(() => {
@@ -72,21 +77,6 @@ export default function GrantsShow() {
       .catch((error) => setErrors([error]))
       .finally(() => setLoading(false));
   }, [organizationClient, grantId]);
-
-  // Notes for GrantFinalizeShow in process
-  // since we'll eventually be integrating the PasteBoilerplate component
-
-  // We'll need to add in a getAllBoilerplates call to pull in the Boilerplates,
-  // whether it lives here or on the PasteBoilerplate component
-
-  // We'll need to add in an "Add New Sections" function
-  // Since GrantFinalizeShow will now allow include the whole Build a Grant Flow
-
-  // const addNewSections = (newSection) => {
-  //   const newSections = [...sections];
-  //   newSections.push(newSection);
-  //   setSections(newSections);
-  // };
 
   // const updateSections = (updatedSection) => {
   //   if (updatedSection.message) {
@@ -105,10 +95,7 @@ export default function GrantsShow() {
   //   }
   // };
 
-  // This is not yet built out in the Figma, but GrantsShow also
-  // includes an index of reports and a form for adding new reports
-
-  const handleSubmitSectionForm = ({ newSectionFields, precedingSection }) => {
+  const handleCreateSection = ({ newSectionFields, precedingSection }) => {
     createGrantSection(organizationClient, grantId, {
       title: newSectionFields.title,
       text: newSectionFields.html,
@@ -122,36 +109,48 @@ export default function GrantsShow() {
     });
   };
 
-  const handleReorderSection = (event) => {
-    const { active, over } = event;
-    if (active.id !== over.id) {
-      setGrant((grant) => {
-        const oldIndex = grant.sections.findIndex(
-          (section) => section.id === active.id
-        );
-        const newIndex = grant.sections.findIndex(
-          (section) => section.id === over.id
-        );
-        const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
-
-        return { ...grant, sections: reorderedSections };
-      });
-
-      const sectionId = active.id;
-      const sortOrder = active.data.current.sortable.index;
-
-      reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
-        .then((response) => {
-          console.log(
-            `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
-            response
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+  const handleEditSection = (newSectionFields) => {
+    updateGrantSection(organizationClient, grantId, newSectionFields.id, {
+      title: newSectionFields.title,
+      text: newSectionFields.html,
+      wordcount: countWords(newSectionFields.text),
+    }).then(() => {
+      alert("Section edited!");
+      setEditingSectionId(null);
+      return getGrant();
+    });
   };
+
+  // const handleReorderSection = (event) => {
+  //   const { active, over } = event;
+  //   if (active.id !== over.id) {
+  //     setGrant((grant) => {
+  //       const oldIndex = grant.sections.findIndex(
+  //         (section) => section.id === active.id
+  //       );
+  //       const newIndex = grant.sections.findIndex(
+  //         (section) => section.id === over.id
+  //       );
+  //       const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
+
+  //       return { ...grant, sections: reorderedSections };
+  //     });
+
+  //     const sectionId = active.id;
+  //     const sortOrder = active.data.current.sortable.index;
+
+  //     reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
+  //       .then((response) => {
+  //         console.log(
+  //           `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
+  //           response
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
 
   useEffect(() => {
     getGrant();
@@ -171,7 +170,7 @@ export default function GrantsShow() {
           <PasteBoilerplateContentPopout />
         </div>
       )}
-      <Container className="GrantsShow__Content" centered>
+      <div className="GrantsShow__Content">
         <Hero
           headerText={grant.title}
           fundingOrgText={grant.funding_org_name}
@@ -180,13 +179,11 @@ export default function GrantsShow() {
           deadlineText={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganizationId}/grants/`}
-          copyLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/copy/`}
-          editLink={`/organizations/${currentOrganizationId}/grants/${grant.id}/edit/`}
+          copyLink={`/grants/${grant.id}/copy/`}
+          editLink={`/grants/${grant.id}/edit/`}
         />
-        <hr />
-
-        <section>
-          <DndContext
+        <Container as="section" centered>
+          {/* <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleReorderSection}
@@ -194,44 +191,58 @@ export default function GrantsShow() {
             <SortableContext
               items={grant.sections}
               strategy={verticalListSortingStrategy}
-            >
-              <ol className="GrantsShow__SectionList">
-                {grant.sections?.map((section) => (
-                  <SortableElement key={section.id} id={section.id}>
-                    <SectionsShow
-                      section={section}
-                      onSaveSectionAsBoilerplate={setSectionToSaveAsBoilerplate}
-                    />
-                    {newSectionIndex === section.id && (
-                      <SectionForm
-                        onSubmit={(newSectionFields) =>
-                          handleSubmitSectionForm({
-                            newSectionFields,
-                            precedingSection: section,
-                          })
-                        }
-                        onCancel={() => setNewSectionIndex(null)}
-                      />
-                    )}
-                    <Button
-                      className="GrantsShow__AddSection"
-                      onClick={() => setNewSectionIndex(section.id)}
-                    >
-                      Add Section
-                    </Button>
-                  </SortableElement>
-                ))}
-              </ol>
-            </SortableContext>
-          </DndContext>
-        </section>
-        <Modal show={!!sectionToSaveAsBoilerplate}>
-          <SaveSectionAsBoilerplate
-            section={sectionToSaveAsBoilerplate}
-            onClose={() => setSectionToSaveAsBoilerplate(null)}
-          />
-        </Modal>
-      </Container>
+            > */}
+          <ol className="GrantsShow__SectionList">
+            {grant.sections?.map((section) => (
+              <SortableElement key={section.id} id={section.id}>
+                {editingSectionId === section.id ? (
+                  <SectionForm
+                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
+                    onSubmit={handleEditSection}
+                    onCancel={() => setEditingSectionId(null)}
+                    section={section}
+                  />
+                ) : (
+                  <SectionsShow
+                    section={section}
+                    onClickEdit={setEditingSectionId}
+                  />
+                )}
+                {newSectionIndex === section.id && (
+                  <SectionForm
+                    onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
+                    onSubmit={(newSectionFields) =>
+                      handleCreateSection({
+                        newSectionFields,
+                        precedingSection: section,
+                      })
+                    }
+                    onCancel={() => setNewSectionIndex(null)}
+                  />
+                )}
+                <Button
+                  onClick={() => setNewSectionIndex(section.id)}
+                  variant="text"
+                >
+                  <MdAddCircle />
+                  Add Section
+                </Button>
+              </SortableElement>
+            ))}
+          </ol>
+          {/* </SortableContext>
+          </DndContext> */}
+        </Container>
+      </div>
+      <Modal
+        show={!!sectionToStoreAsBoilerplate}
+        heading="Store Section as Boilerplate"
+      >
+        <StoreSectionAsBoilerplate
+          section={sectionToStoreAsBoilerplate}
+          onClose={() => setSectionToStoreAsBoilerplate(null)}
+        />
+      </Modal>
     </div>
   );
 }

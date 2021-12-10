@@ -1,0 +1,8 @@
+.label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--contrast-70);
+  line-height: normal;
+}

@@ -1,19 +1,29 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
-import ReactQuill from "react-quill";
+import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
+import TextBox from "../design/TextBox/TextBox";
+import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
+import Button from "../design/Button/Button";
+import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
+import countWords from "../../Helpers/countWords";
+import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
+  const { onStoreSectionAsBoilerplate = () => {}, section } = props;
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
   const [sectionFields, setSectionFields] = useState({
-    title: "",
-    html: "",
+    ...section,
+    title: section?.title || "",
+    text: section?.text || "",
+    html: section?.text || "",
   });
   const quillEl = useRef(null);
+
+  const wordCount = useMemo(() => {
+    return countWords(sectionFields.text);
+  }, [sectionFields.text]);
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -26,7 +36,6 @@ export default function SectionForm(props) {
 
     props.onSubmit({
       ...sectionFields,
-      text: quillEl.current.getEditor().getText(),
     });
   };
 
@@ -44,51 +53,66 @@ export default function SectionForm(props) {
   }, [onPasteBoilerplate, unsubscribeBoilerplate, setSectionFields]);
 
   return (
-    <Form className="SectionForm" onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Section Title</Form.Label>
-        <Form.Control
-          type="text"
-          value={sectionFields.title}
-          onChange={(event) => {
-            const { value } = event.target;
-            setSectionFields((previousSectionFields) => ({
-              ...previousSectionFields,
-              title: value,
-            }));
-          }}
-          required
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Section Content</Form.Label>
-        <Button
-          className="SectionForm__PasteBoilerplateContent"
-          onClick={() => setIsOpen(true)}
-        >
-          Paste Boilerplate Content
-        </Button>
-        <ReactQuill
-          className="SectionForm__ContentEditor"
+    <form className="SectionForm" onSubmit={handleSubmit}>
+      <TextBox
+        value={sectionFields.title}
+        onChange={(event) => {
+          const { value } = event.target;
+          setSectionFields((previousSectionFields) => ({
+            ...previousSectionFields,
+            title: value,
+          }));
+        }}
+        required
+        labelText="Section Title"
+      />
+
+      <div className="SectionForm__ContentEditor">
+        <div className="SectionForm__ContentEditorHeader">
+          <Label htmlFor="text-editor">Section Content</Label>
+          <b>WORD COUNT: {wordCount}</b>
+        </div>
+        <RichTextEditor
+          id="text-editor"
+          className="SectionForm__ContentEditorInput"
           ref={quillEl}
           value={sectionFields.html}
           onChange={(html) => {
             setSectionFields((previousSectionFields) => ({
               ...previousSectionFields,
+              text: quillEl.current.getEditor().getText(),
               html,
             }));
           }}
         />
-      </Form.Group>
-      <div className="SectionForm__Actions">
-        <Link>Store Section as Boilerplate</Link>
-        <Button variant="outline-dark" size="lg" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button variant="dark" size="lg" type="submit">
-          Save
+        <Button
+          className="SectionForm__PasteBoilerplateContent"
+          onClick={() => setIsOpen(true)}
+          variant="text"
+        >
+          <MdContentPaste />
+          Paste Boilerplate Content
         </Button>
       </div>
-    </Form>
+      <div className="SectionForm__Actions">
+        <div>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              console.log("Called store section button!", sectionFields);
+              onStoreSectionAsBoilerplate(sectionFields);
+            }}
+          >
+            Store Section as Boilerplate
+          </Button>
+        </div>
+        <div className="SectionForm__FormControls">
+          <Button variant="text" onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button type="submit">Save</Button>
+        </div>
+      </div>
+    </form>
   );
 }

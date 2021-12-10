@@ -1,19 +1,23 @@
 import React from "react";
+import { MdEditNote } from "react-icons/md";
+import Button from "./design/Button/Button";
 import countSectionWords from "../Helpers/countSectionWords";
 import "./SectionsShow.css";
-import { Button } from "react-bootstrap";
 
 export default function SectionsShow(props) {
-  const { section, onSaveSectionAsBoilerplate = () => {} } = props;
+  const { section, onClickEdit } = props;
 
   return (
     <>
-      <div className="Section__Header">
-        <h1 className="Section__Title">{section.title}</h1>
-        <Button onClick={() => onSaveSectionAsBoilerplate(section)}>
-          Save Section as Boilerplate
-        </Button>
-        <p>Word count: {countSectionWords(section)}</p>
+      <div className="section__header">
+        <h2 className="section__title heading-4">
+          {section.title}{" "}
+          <Button variant="none" onClick={() => onClickEdit(section.id)}>
+            <MdEditNote className="section__edit-icon" />
+          </Button>
+        </h2>
+
+        <b>WORD COUNT: {countSectionWords(section)}</b>
       </div>
       <div dangerouslySetInnerHTML={{ __html: section.text }}></div>
     </>

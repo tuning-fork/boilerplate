@@ -1,0 +1,6 @@
+.store-section-as-boilerplate__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 36px;
+  gap: 1rem;
+}
