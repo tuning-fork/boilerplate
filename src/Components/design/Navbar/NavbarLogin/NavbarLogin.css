@@ -1,0 +1,17 @@
+.navbar-login__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 7rem; */
+}
+
+.navbar-login__inputs {
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 7rem; */
+}
+
+.navbar-login__actions {
+}

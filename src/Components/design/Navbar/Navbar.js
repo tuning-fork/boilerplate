@@ -14,7 +14,7 @@ export default function Navbar(props) {
   return (
     <div className={clsx(props.className, "navbar")}>
       <Logo className="navbar__logo" />
-      <div className="navbar__links">
+      <div className={clsx(props.className, "navbar__links")}>
         {props.organizationName && (
           <>
             <NavLink
@@ -29,7 +29,6 @@ export default function Navbar(props) {
             </span>
           </>
         )}
-        <Button variant="usericon">{getUserInitials(props.user)}</Button>
       </div>
     </div>
   );

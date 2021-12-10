@@ -6,6 +6,7 @@ import "./TextBox.css";
 export default function TextBox(props) {
   const {
     labelText,
+    placeholderText,
     onChange,
     className,
     prefix,
@@ -25,6 +26,7 @@ export default function TextBox(props) {
           type={type}
           onChange={onChange}
           required={required}
+          placeholder={placeholderText}
         />
         {suffix && <span className="text-box__suffix">{suffix}</span>}
       </span>
@@ -35,7 +37,8 @@ export default function TextBox(props) {
 TextBox.propTypes = {
   align: PropTypes.oneOf(["left", "right"]),
   className: PropTypes.string,
-  labelText: PropTypes.string.isRequired,
+  labelText: PropTypes.string,
+  placeholderText: PropTypes.string,
   onChange: PropTypes.func,
   prefix: PropTypes.node,
   required: PropTypes.bool,

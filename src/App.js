@@ -9,7 +9,6 @@ import ResetPassword from "./Components/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword";
 import OrgSelect from "./Components/OrgSelect";
 import Dashboard from "./Components/Dashboard";
-import Navigation from "./Components/Navigation";
 import Boilerplates from "./Components/Boilerplates";
 import Categories from "./Components/Categories";
 import Organizations from "./Components/Organizations";
@@ -32,6 +31,7 @@ import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
+import SplashpageLayout from "./Components/Layouts/SplashpageLayout/SplashpageLayout";
 
 export default function App() {
   return (
@@ -45,7 +45,6 @@ export default function App() {
             path="/landing_page"
             component={() => (
               <>
-                <Navigation />
                 <LandingPage />
               </>
             )}
