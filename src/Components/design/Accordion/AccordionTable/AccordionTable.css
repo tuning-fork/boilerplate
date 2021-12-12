@@ -52,5 +52,5 @@
 
 .accordion-table__spacer {
   grid-column: none;
-  width: 1em;
+  width: 1rem;
 }
