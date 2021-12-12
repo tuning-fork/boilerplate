@@ -132,9 +132,7 @@ export default function GrantsIndex(props) {
   return (
     <div className="GrantsIndex">
       <section className="GrantsIndex__Overview">
-        <header className="GrantsIndex__Header">
-          <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-        </header>
+        <h1 className="GrantsIndex__HeaderText">All Grants</h1>
       </section>
       <section className="GrantsIndex__Actions">
         {/* <div className="GrantsIndex__SearchBar"> */}
