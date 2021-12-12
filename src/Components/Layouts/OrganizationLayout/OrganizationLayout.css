@@ -3,6 +3,5 @@
 }
 .layout__content {
   display: flex;
-  flex-direction: row;
   height: 100%;
 }
