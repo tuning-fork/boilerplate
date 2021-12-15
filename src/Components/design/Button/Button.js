@@ -9,6 +9,7 @@ export const ButtonVariant = {
   Text: "text",
   None: "none",
   UserIcon: "usericon",
+  SignIn: "signin",
 };
 export const ButtonColor = {
   Primary: "primary",
