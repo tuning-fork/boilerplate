@@ -6,12 +6,15 @@ import {
   copyGrant,
   getGrant,
 } from "../../Services/Organizations/GrantsService";
+import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
 import "./GrantCopy.css";
 
 export default function GrantCopy() {
   const [grant, setGrant] = useState(null);
+  const [fundingOrgs, setFundingOrgs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { organizationClient } = useCurrentOrganizationContext();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
@@ -40,18 +43,28 @@ export default function GrantCopy() {
     if (!organizationClient) {
       return;
     }
-    getGrant(organizationClient, grantId).then(setGrant);
+
+    Promise.all([
+      getGrant(organizationClient, grantId).then(setGrant),
+      getAllFundingOrgs(organizationClient).then(setFundingOrgs),
+    ]).finally(() => setIsLoading(false));
   }, [grantId, organizationClient]);
 
+  if (isLoading) {
+    return "Loading...";
+  }
+
   return (
-    <Container className="GrantCopy" as="section">
-      <h1>Copy Grant</h1>
-      <GrantForm
-        fundingOrgs={[]}
-        grant={grant}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />
-    </Container>
+    <div className="grant-copy">
+      <Container as="section" centered>
+        <h1 className="grant-copy__header">Copy Grant</h1>
+        <GrantForm
+          grant={{ ...grant, title: `${grant.title} copy` }}
+          fundingOrgs={fundingOrgs}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
+      </Container>
+    </div>
   );
 }

@@ -100,7 +100,7 @@ export default function GrantsShow() {
       title: newSectionFields.title,
       text: newSectionFields.html,
       grant_id: grantId,
-      sort_order: precedingSection ? precedingSection.sort_order + 1 : 0,
+      sort_order: precedingSection ? precedingSection.sortOrder + 1 : 0,
       wordcount: countWords(newSectionFields.text),
     }).then(() => {
       alert("Section created!");
@@ -192,10 +192,10 @@ export default function GrantsShow() {
       <div className="grants-show__content">
         <Hero
           headerText={grant.title}
-          fundingOrgText={grant.funding_org_name}
-          rfpWebsiteText={grant.rfp_url}
+          fundingOrgText={grant.fundingOrgName}
+          rfpWebsiteText={grant.rfpUrl}
           purposeText={grant.purpose}
-          deadlineText={grant.deadline}
+          deadline={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganizationId}/grants/`}
           copyLink={`/grants/${grant.id}/copy/`}
@@ -217,7 +217,7 @@ export default function GrantsShow() {
             > */}
           {grant.sections.length ? (
             <ol className="grants-show__section-list">
-              {grant.sections?.map((section) => (
+              {grant.sections.map((section) => (
                 <SortableElement key={section.id} id={section.id}>
                   {editingSectionId === section.id ? (
                     <SectionForm

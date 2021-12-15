@@ -1,0 +1,10 @@
+.grant-form {
+  height: 100%;
+}
+
+.grant-form__actions {
+  float: right;
+}
+.grant-form__actions > button {
+  margin-left: 20px;
+}

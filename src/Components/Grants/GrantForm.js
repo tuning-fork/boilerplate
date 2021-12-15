@@ -3,6 +3,9 @@ import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
 import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
+import parseDateFromInput from "../../Helpers/parseDateFromInput";
+import formatDateForInput from "../../Helpers/formatDateForInput";
+import "./GrantForm.css";
 
 export default function GrantForm(props) {
   const [grantFields, setGrantFields] = useState({
@@ -21,19 +24,19 @@ export default function GrantForm(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="grant-form">
         <Dropdown
           altLabel="Add Funding Organization"
           onClickAltLabel={() => setShowingFundingOrgsNew(true)}
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
-          value={grantFields.funding_org_id}
+          value={grantFields.fundingOrgId}
           options={props.fundingOrgs.map((fundingOrg) => ({
             value: fundingOrg.id,
             label: fundingOrg.name,
           }))}
           onChange={(option) =>
-            setGrantFields({ ...grantFields, funding_org_id: option.value })
+            setGrantFields({ ...grantFields, fundingOrgId: option.value })
           }
         />
         <TextBox
@@ -42,7 +45,6 @@ export default function GrantForm(props) {
           onChange={(event) =>
             setGrantFields({ ...grantFields, title: event.target.value })
           }
-          value={grantFields.title}
           required
         />
         <TextBox
@@ -51,19 +53,19 @@ export default function GrantForm(props) {
           onChange={(event) =>
             setGrantFields({ ...grantFields, rfpUrl: event.target.value })
           }
-          value={grantFields.rfp_url}
           type="url"
           required
         />
         <TextBox
           labelText="Deadline"
           type="datetime-local"
-          value={grantFields.deadline}
+          value={formatDateForInput(grantFields.deadline)}
           onChange={(event) =>
-            setGrantFields({ ...grantFields, deadline: event.target.value })
+            setGrantFields({
+              ...grantFields,
+              deadline: parseDateFromInput(event.target.value),
+            })
           }
-          value={grantFields.deadline}
-          className="grants-new__deadline"
           required
         />
         <TextBox
@@ -72,10 +74,9 @@ export default function GrantForm(props) {
           onChange={(event) =>
             setGrantFields({ ...grantFields, purpose: event.target.value })
           }
-          value={grantFields.purpose}
           required
         />
-        <div className="grants-new__button-group">
+        <div className="grant-form__actions">
           <Button variant="text" onClick={props.onCancel}>
             Cancel
           </Button>

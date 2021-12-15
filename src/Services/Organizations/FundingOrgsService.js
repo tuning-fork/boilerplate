@@ -1,3 +1,12 @@
+const mapFundingOrg = (apiFundingOrg) => ({
+  createdAt: new Date(apiFundingOrg.created_at),
+  updatedAt: new Date(apiFundingOrg.updated_at),
+  name: apiFundingOrg.name,
+  website: apiFundingOrg.website,
+  id: apiFundingOrg.id.toString(),
+  organizationId: apiFundingOrg.organization_id.toString(),
+});
+
 // getFundingOrg
 export const getFundingOrg = (organizationClient, fundingOrgId) => {
   return organizationClient
@@ -10,7 +19,7 @@ export const getFundingOrg = (organizationClient, fundingOrgId) => {
 export const getAllFundingOrgs = (organizationClient) => {
   return organizationClient
     .get(`/funding_orgs/`)
-    .then((response) => response.data);
+    .then((response) => response.data.map(mapFundingOrg));
 };
 
 // deleteFundingOrg

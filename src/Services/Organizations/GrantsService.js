@@ -1,8 +1,11 @@
+import { mapSection } from "./Grants/GrantSectionsService";
+
 const mapGrant = (apiGrant) => ({
   archived: apiGrant.archived,
   createdAt: new Date(apiGrant.created_at),
   deadline: new Date(apiGrant.deadline),
   fundingOrgId: apiGrant.funding_org_id.toString(),
+  fundingOrgName: apiGrant.funding_org_name,
   id: apiGrant.id.toString(),
   organizationId: apiGrant.organization_id.toString(),
   purpose: apiGrant.purpose,
@@ -11,6 +14,13 @@ const mapGrant = (apiGrant) => ({
   successful: apiGrant.successful,
   title: apiGrant.title,
   updatedAt: new Date(apiGrant.updated_at),
+  sections: apiGrant.sections ? apiGrant.sections.map(mapSection) : [],
+});
+
+const mapGrantToApiGrant = (grant) => ({
+  ...grant,
+  rfp_url: grant.rfpUrl,
+  funding_org_id: grant.fundingOrgId,
 });
 
 // getGrant
@@ -56,6 +66,6 @@ export const updateGrant = (organizationClient, grantId, fieldsToUpdate) => {
 
 export const copyGrant = (organizationClient, grantId, copyGrantFields) => {
   return organizationClient
-    .post(`/grants/${grantId}/copy`, copyGrantFields)
+    .post(`/grants/${grantId}/copy`, mapGrantToApiGrant(copyGrantFields))
     .then((response) => response.data);
 };
