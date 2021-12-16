@@ -1,17 +1,31 @@
 .navbar-login__form {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   /* width: 7rem; */
-}
-
-.navbar-login__inputs {
-  /* display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 7rem; */
+  margin: unset;
 }
 
 .navbar-login__actions {
+  margin: unset;
+  display: flex;
+  margin-top: 4px;
+}
+
+.navbar-login__inputs {
+  margin: 0px 0px 0px 0px;
+}
+
+.navbar-login__inputs > .text-box__container {
+  border-right: 1px solid var(--contrast-10);
+  background-color: var(--base-contrast-5);
+}
+
+.navbar-login__items {
+  padding-right: 8px;
+}
+
+.navbar-login__image {
+  width: 9rem;
 }

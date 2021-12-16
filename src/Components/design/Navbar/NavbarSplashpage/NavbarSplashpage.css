@@ -2,6 +2,7 @@
   width: 100%;
   height: 44px;
   display: flex;
+  justify-content: space-between;
   padding-right: 1%;
   border-right: 1px solid var(--contrast-10);
   background-color: var(--base-contrast-5);
@@ -14,5 +15,5 @@
 
 .navbar-splashpage__login {
   align-items: right;
-  justify-content: space-between;
+  justify-content: space-around;
 }
