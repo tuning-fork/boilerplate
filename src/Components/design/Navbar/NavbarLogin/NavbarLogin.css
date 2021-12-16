@@ -18,8 +18,11 @@
 }
 
 .navbar-login__inputs > .text-box__container {
-  border-right: 1px solid var(--contrast-10);
+  border: 1px solid var(--contrast-50);
+  border-radius: 4px;
   background-color: var(--base-contrast-5);
+  height: 32px;
+  width: 200px;
 }
 
 .navbar-login__items {
