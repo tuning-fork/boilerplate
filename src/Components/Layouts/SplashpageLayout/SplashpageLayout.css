@@ -1,7 +1,19 @@
-.layout {
+.splashpage-layout {
   height: 100%;
 }
-.layout__content {
+.splashpage-layout__content {
   display: flex;
   height: 100%;
+}
+
+.splashpage-layout__graphic-elements {
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+
+.splashpage-layout__bottom-buttons {
+  z-index: 10;
+  padding-left: 18vw;
+  padding-bottom: 85vw;
 }
