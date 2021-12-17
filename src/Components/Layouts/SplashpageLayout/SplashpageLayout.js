@@ -12,19 +12,21 @@ export default function SplashpageLayout(props) {
   return (
     <main className="splashpage-layout">
       <NavbarSplashpage />
-      <div className="splashpage-layout__content">{props.children}</div>
-      <img
-        src={allSplashpageGraphicElements}
-        alt="Splashpage graphics"
-        className="splashpage-layout__graphic-elements"
-      />
-      <div className="splashpage-layout__bottom-buttons">
-        <Button variant="none">
-          <img src={getStartedButton} alt="Get started graphic button" />
-        </Button>
-        <Button variant="none">or Sign In</Button>
+      <div className="splashpage-layout__content">
+        {props.children}
+        <img
+          src={allSplashpageGraphicElements}
+          alt="Splashpage graphics"
+          className="splashpage-layout__graphic-elements"
+        />
+        <div className="splashpage-layout__bottom-buttons">
+          <Button className="splashpage-layout__fancy-button" variant="none">
+            <img src={getStartedButton} alt="Get started graphic button" />
+          </Button>
+          <Button variant="none">or Sign In</Button>
+        </div>
+        {showNavbarLogin ? <NavbarLogin /> : null}
       </div>
-      {showNavbarLogin ? <NavbarLogin /> : null}
     </main>
   );
 }
