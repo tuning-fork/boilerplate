@@ -21,6 +21,7 @@ const mapGrantToApiGrant = (grant) => ({
   ...grant,
   rfp_url: grant.rfpUrl,
   funding_org_id: grant.fundingOrgId,
+  organization_id: grant.organizationId,
 });
 
 // getGrant
@@ -50,7 +51,7 @@ export const deleteGrant = (organizationClient, grantId) => {
 
 export const createGrant = (organizationClient, newGrant) => {
   return organizationClient
-    .post(`/grants/`, newGrant)
+    .post(`/grants/`, mapGrantToApiGrant(newGrant))
     .then((response) => response.data);
 };
 
@@ -58,7 +59,7 @@ export const createGrant = (organizationClient, newGrant) => {
 
 export const updateGrant = (organizationClient, grantId, fieldsToUpdate) => {
   return organizationClient
-    .patch(`/grants/${grantId}`, fieldsToUpdate)
+    .patch(`/grants/${grantId}`, mapGrantToApiGrant(fieldsToUpdate))
     .then((response) => response.data);
 };
 

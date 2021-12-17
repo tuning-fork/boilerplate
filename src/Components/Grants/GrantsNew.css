@@ -1,25 +1,15 @@
-.grants-new h1 {
-  margin-bottom: 62px;
-  margin-top: 16px;
+.grants-new {
+  display: flex;
+  width: 100%;
+}
+
+.grants-new__header {
+  margin: 1rem 0 3rem 0;
 }
 
 .grants-new__back-button {
   display: flex;
   text-decoration: none;
   align-items: center;
-}
-
-.grants-new__funding-org-link {
-  margin-bottom: 24px;
-}
-
-.grants-new__button-group {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-top: 50px;
-}
-
-.grants-new__deadline input {
-  width: 100%;
+  padding-top: 2rem;
 }

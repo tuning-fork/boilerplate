@@ -6,5 +6,8 @@ import { format } from "date-fns";
  * @returns The formatted date string in the format of: "yyyy-MM-ddTHH:mm".
  */
 export default function formatDateForInput(date) {
+  if (!date) {
+    return "";
+  }
   return format(date, "yyyy-MM-dd'T'HH:mm");
 }
