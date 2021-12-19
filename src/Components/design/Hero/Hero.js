@@ -8,7 +8,7 @@ import formatDate from "../../../Helpers/formatDate";
 import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
-  const formattedDeadline = formatDate(props.deadlineText);
+  const formattedDeadline = formatDate(props.deadline);
   return (
     <div className={clsx(props.className, "hero")}>
       <div className="hero__contents">
@@ -50,7 +50,9 @@ export default function Hero(props) {
             <dl className="hero__deadline">
               <dt>DEADLINE</dt>
               <dd>
-                <time dateTime={props.deadlineText}>{formattedDeadline}</time>
+                <time dateTime={props.deadline.toJSON()}>
+                  {formattedDeadline}
+                </time>
               </dd>
             </dl>
             <b>TOTAL WORD COUNT: {props.totalWordCount}</b>
@@ -67,7 +69,7 @@ Hero.propTypes = {
   fundingOrgText: PropTypes.string,
   rfpWebsiteText: PropTypes.string,
   purposeText: PropTypes.string,
-  deadlineText: PropTypes.string,
+  deadline: PropTypes.instanceOf(Date),
   totalWordCount: PropTypes.number,
   breadCrumbLink: PropTypes.string,
   editLink: PropTypes.string,

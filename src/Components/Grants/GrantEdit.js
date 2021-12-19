@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
@@ -9,16 +8,19 @@ import {
 } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import "./GrantEdit.css";
-import GrantEditForm from "./GrantEditForm";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
+import GrantForm from "./GrantForm";
+import Button from "../design/Button/Button";
+import Container from "../design/Container/Container";
 
-export default function GrantEdit(props) {
-  const [grant, setGrant] = useState(props.grant);
+export default function GrantEdit() {
+  const [grant, setGrant] = useState();
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const { organizationClient } = useCurrentOrganizationContext();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleDelete = () => {
     // eslint-disable-next-line no-restricted-globals
@@ -37,28 +39,17 @@ export default function GrantEdit(props) {
     }
   };
 
-  const handleSubmitGrantEdit = ({
-    newTitle,
-    newRfpUrl,
-    newDeadline,
-    newSubmitted,
-    newSuccessful,
-    newPurpose,
-  }) => {
+  const goToGrant = () =>
+    history.push(buildOrganizationsLink(`/grants/${grantId}`));
+
+  const handleSubmit = (grantFields) => {
     GrantsService.updateGrant(organizationClient, grantId, {
-      title: newTitle,
-      rfp_url: newRfpUrl,
-      deadline: newDeadline,
-      submitted: newSubmitted,
-      successful: newSuccessful,
-      purpose: newPurpose,
-      organization_id: grant.organizationId,
-      funding_org_id: grant.fundingOrgId,
+      ...grantFields,
+      organizationId: grant.organizationId,
+      fundingOrgId: grant.fundingOrgId,
     })
-      .then((updatedGrant) => {
-        props.onSubmit();
-        setGrant(updatedGrant);
-      })
+      .then(setGrant)
+      .then(goToGrant)
       .catch((error) => {
         console.error("grant update error", error);
       });
@@ -69,36 +60,32 @@ export default function GrantEdit(props) {
       return;
     }
 
-    getGrant(organizationClient, grantId).then((grant) => {
-      setGrant(grant);
-    });
-
-    getAllFundingOrgs(organizationClient).then((fundingOrgs) => {
-      setFundingOrgs(fundingOrgs);
-    });
+    Promise.all([
+      getGrant(organizationClient, grantId).then(setGrant),
+      getAllFundingOrgs(organizationClient).then(setFundingOrgs),
+    ]).finally(() => setIsLoading(false));
   }, [grantId, organizationClient]);
 
-  const updateFundingOrgs = (newFundingOrg) => {
-    const newFundingOrgs = [...fundingOrgs];
-    newFundingOrgs.push(newFundingOrg);
-    setFundingOrgs(newFundingOrgs);
-  };
+  if (isLoading) {
+    return "Loading...";
+  }
 
   return (
-    <Container className="GrantEdit" as="section">
-      <header className="GrantEdit__Header">
-        <h1>Edit Grant</h1>
-        <Button variant="outline-dark" onClick={handleDelete}>
-          Delete Grant
-        </Button>
-      </header>
-      <GrantEditForm
-        onSubmit={handleSubmitGrantEdit}
-        onCancel={props.onCancel}
-        updateFundingOrgs={updateFundingOrgs}
-        fundingOrgs={fundingOrgs}
-        grant={grant}
-      />
-    </Container>
+    <div className="grant-edit">
+      <Container as="section" centered>
+        <header className="grant-edit__header">
+          <h1>Edit Grant</h1>
+          <Button color="error" onClick={handleDelete}>
+            Delete Grant
+          </Button>
+        </header>
+        <GrantForm
+          grant={grant}
+          fundingOrgs={fundingOrgs}
+          onSubmit={handleSubmit}
+          onCancel={goToGrant}
+        />
+      </Container>
+    </div>
   );
 }

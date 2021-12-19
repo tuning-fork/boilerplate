@@ -5,13 +5,13 @@ describe("countSectionWords", () => {
     expect(
       countSectionWords({
         title: "Hello!",
-        wordcount: 100,
+        wordCount: 100,
       })
     ).toEqual(101);
     expect(
       countSectionWords({
         title: "Lorem Ipsum",
-        wordcount: 38,
+        wordCount: 38,
       })
     ).toEqual(40);
   });
@@ -20,7 +20,7 @@ describe("countSectionWords", () => {
     expect(
       countSectionWords({
         title: "",
-        wordcount: 0,
+        wordCount: 0,
       })
     ).toEqual(0);
   });

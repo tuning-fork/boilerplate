@@ -6,5 +6,5 @@ import countWords from "./countWords";
  * @returns The total number of words.
  */
 export default function countSectionWords(section) {
-  return countWords(section.title) + section.wordcount;
+  return countWords(section.title) + section.wordCount;
 }
