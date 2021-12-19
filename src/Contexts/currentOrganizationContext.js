@@ -15,16 +15,14 @@ import {
 
 export const CurrentOrganizationContext = createContext();
 
-export const useCurrentOrganizationContext = () =>
-  useContext(CurrentOrganizationContext);
-
 export const useCurrentOrganization = () =>
   useContext(CurrentOrganizationContext);
 
 export const CurrentOrganizationProvider = ({ children }) => {
   const [organizations, setOrganizations] = useState([]);
-  const [selectedOrganization, setSelectedOrganization] = useState();
+  const [currentOrganization, setCurrentOrganization] = useState();
   const [organizationClient, setOrganizationClient] = useState();
+  const [isLoadingOrganization, setIsLoadingOrganization] = useState(false);
   const { user, authenticatedApiClient } = useCurrentUser();
 
   const fetchUserOrganizations = useCallback(async () => {
@@ -35,25 +33,32 @@ export const CurrentOrganizationProvider = ({ children }) => {
     setOrganizations(organizations);
   }, [user, authenticatedApiClient]);
 
-  const fetchSelectedOrganization = async (organizationId) => {
-    const organization = await getOrganization(
-      authenticatedApiClient,
-      organizationId
-    );
-    setSelectedOrganization(organization);
+  const fetchCurrentOrganization = async (organizationId) => {
+    try {
+      setIsLoadingOrganization(true);
 
-    const organizationClient = axios.create({
-      ...authenticatedApiClient.defaults,
-      baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
-    });
-    setOrganizationClient(organizationClient);
+      const organizationClient = axios.create({
+        ...authenticatedApiClient.defaults,
+        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
+      });
+      setOrganizationClient(() => organizationClient);
+
+      const organization = await getOrganization(
+        authenticatedApiClient,
+        organizationId
+      );
+      setCurrentOrganization(organization);
+    } finally {
+      setIsLoadingOrganization(false);
+    }
   };
 
   const context = {
-    fetchSelectedOrganization,
+    currentOrganization,
+    fetchCurrentOrganization,
+    isLoadingOrganization,
     organizationClient,
     organizations,
-    selectedOrganization,
   };
 
   useEffect(() => {

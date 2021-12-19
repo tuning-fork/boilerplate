@@ -4,12 +4,12 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 
 export default function CurrentOrganizationLink(props) {
   const { as: Component, to, ...restProps } = props;
-  const { selectedOrganization } = useCurrentOrganization();
+  const { currentOrganization } = useCurrentOrganization();
 
   return (
     <Component
       {...restProps}
-      to={`/organizations/${selectedOrganization.id}${to}`}
+      to={`/organizations/${currentOrganization.id}${to}`}
     />
   );
 }

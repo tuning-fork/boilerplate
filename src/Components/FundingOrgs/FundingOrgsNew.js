@@ -2,26 +2,23 @@ import React, { useState } from "react";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Modal from "../design/Modal/Modal";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createFundingOrg } from "../../Services/Organizations/FundingOrgsService";
 import "./FundingOrgsNew.css";
 
 export default function FundingOrgsNew(props) {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newFundingOrg = {
       name: name,
       website: website,
-      organization_id: currentOrganizationId,
+      organization_id: currentOrganization.id,
     };
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       createFundingOrg(organizationClient, newFundingOrg)
         .then((fundingOrg) => {
           props.onClose(fundingOrg.id);

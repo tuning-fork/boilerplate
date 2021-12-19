@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import countWords from "../Helpers/countWords";
@@ -22,13 +22,10 @@ export default function SectionsNew(props) {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -37,7 +34,7 @@ export default function SectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);

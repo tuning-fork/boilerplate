@@ -3,7 +3,7 @@ import CategoriesNew from "./CategoriesNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 import {
   updateCategory,
@@ -22,10 +22,7 @@ library.add(faEdit);
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [name, setName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
@@ -43,7 +40,7 @@ export default function Categories() {
   };
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
@@ -51,7 +48,7 @@ export default function Categories() {
         })
         .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories, newCategory];
@@ -61,7 +58,7 @@ export default function Categories() {
   const handleSubmitEditCategory = ({ newName }, id) => {
     updateCategory(organizationClient, id, {
       name: newName,
-      organization_id: currentOrganizationId,
+      organization_id: currentOrganization.id,
     })
       .then(() => {
         setName(name);

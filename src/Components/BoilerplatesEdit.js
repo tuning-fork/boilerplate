@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import {
   getBoilerplate,
@@ -23,11 +23,7 @@ export default function BoilerplatesShow(props) {
   const [quillText, setQuillText] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_newTitle, setNewTitle] = useState("");
   const [_newQuillText, setNewQuillText] = useState("");
@@ -37,7 +33,7 @@ export default function BoilerplatesShow(props) {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const boilerplateId = props.match.params.boilerplate_id;
       getBoilerplate(organizationClient, boilerplateId)
         .then((boilerplate) => {
@@ -59,7 +55,7 @@ export default function BoilerplatesShow(props) {
         .catch((error) => console.error(error));
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.match.params.boilerplate_id,
   ]);
@@ -93,7 +89,7 @@ export default function BoilerplatesShow(props) {
   //   deleteBoilerplate(organizationClient, boilerplateId)
   //     .then((boilerplate) => {
   //       if (boilerplate.message) {
-  //         history.push(`/organizations/${currentOrganizationId}/boilerplates`);
+  //         history.push(`/organizations/${currentOrganization.id}/boilerplates`);
   //       }
   //     })
   //     .catch((error) => {

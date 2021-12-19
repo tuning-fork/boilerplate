@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createGrant } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
@@ -13,10 +13,7 @@ export default function GrantsNew() {
   const [isLoading, setIsLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
     if (!organizationClient) {
@@ -30,17 +27,17 @@ export default function GrantsNew() {
   }, [organizationClient]);
 
   const handleCancel = () => {
-    history.push(`/organizations/${currentOrganizationId}/grants`);
+    history.push(`/organizations/${currentOrganization.id}/grants`);
   };
 
   const handleSubmit = (grantFields) => {
     createGrant(organizationClient, {
       ...grantFields,
-      organizationId: currentOrganizationStore.currentOrganization.id,
+      organizationId: currentOrganization.id,
     })
       .then((grant) => {
         history.push(
-          `/organizations/${currentOrganizationId}/grants/${grant.id}`
+          `/organizations/${currentOrganization.id}/grants/${grant.id}`
         );
       })
       .catch((error) => {

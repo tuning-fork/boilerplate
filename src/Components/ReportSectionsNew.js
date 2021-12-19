@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 
@@ -19,14 +19,10 @@ export default function ReportSectionsNew(props) {
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -35,7 +31,7 @@ export default function ReportSectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const clearForm = () => {
     setQuillText("");

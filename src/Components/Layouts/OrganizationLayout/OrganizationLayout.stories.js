@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Component from "./OrganizationLayout";
 import { CurrentUserProvider } from "../../../Contexts/currentUserContext";
 import { CurrentOrganizationProvider } from "../../../Contexts/currentOrganizationContext";
-import { useCurrentOrganizationContext } from "../../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
 import { useCurrentUser } from "../../../Contexts/currentUserContext";
 
 export default {
@@ -23,8 +23,8 @@ export const OrganizationLayout = () => (
 
 const ContextWrapper = () => {
   const { userDispatch } = useCurrentUser();
-  const { currentOrganizationDispatch, currentOrganizationStore } =
-    useCurrentOrganizationContext();
+  const { currentOrganizationDispatch, currentOrganization } =
+    useCurrentOrganization();
 
   useEffect(() => {
     userDispatch({
@@ -37,15 +37,15 @@ const ContextWrapper = () => {
     });
   }, [currentOrganizationDispatch, userDispatch]);
 
-  if (!currentOrganizationStore.currentOrganization) {
+  if (!currentOrganization) {
     return null;
   }
 
   return (
     <Component organizationId="2">
       <Switch>
-        <Route path="/organizations/:org_id/dashboard">Dashboard</Route>
-        <Route path="/organizations/:org_id/reports">Reports</Route>
+        <Route path="/organizations/:organizationId/dashboard">Dashboard</Route>
+        <Route path="/organizations/:organizationId/reports">Reports</Route>
         <Route path="/">
           <Redirect to="/organizations/2/dashboard" />
         </Route>

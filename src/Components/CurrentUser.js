@@ -3,7 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 
 export default function CurrentUser() {
   const [firstName, setFirstName] = useState("");
@@ -11,15 +11,13 @@ export default function CurrentUser() {
   const [email, setEmail] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [_organizationUsers, setOrganizationUsers] = useState([]);
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       axios
         .get(
-          `/api/organizations/${currentOrganizationStore.currentOrganization.id}/users/` +
+          `/api/organizations/${currentOrganization.id}/users/` +
             localStorage.user_id,
           { headers: { Authorization: `Bearer ${localStorage.token}` } }
         )
@@ -33,7 +31,7 @@ export default function CurrentUser() {
           console.error(error);
         });
     }
-  }, [currentOrganizationId, currentOrganizationStore.currentOrganization.id]);
+  }, [currentOrganization.id]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -42,7 +40,7 @@ export default function CurrentUser() {
   const handleSubmit = (event) => {
     axios
       .patch(
-        `/api/organizations/${currentOrganizationId}/users/` +
+        `/api/organizations/${currentOrganization.id}/users/` +
           localStorage.user_id,
         {
           first_name: firstName,

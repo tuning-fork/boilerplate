@@ -4,7 +4,7 @@ import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
@@ -18,7 +18,7 @@ export default function StoreSectionAsBoilerplate(props) {
     category_id: "",
     wordcount: "",
   });
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
   const quillEl = useRef();
 
   const handleSubmit = (event) => {

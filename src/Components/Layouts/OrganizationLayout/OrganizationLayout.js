@@ -8,23 +8,31 @@ import { useParams } from "react-router-dom";
 
 export default function OrganizationLayout(props) {
   const { user } = useCurrentUser();
-  const { selectedOrganization, fetchSelectedOrganization } =
-    useCurrentOrganization();
+  const {
+    currentOrganization,
+    isLoadingOrganization,
+    fetchCurrentOrganization,
+  } = useCurrentOrganization();
   const { organizationId } = useParams();
 
   useEffect(() => {
-    if (!selectedOrganization) {
-      fetchSelectedOrganization(organizationId);
+    if (!currentOrganization && !isLoadingOrganization) {
+      fetchCurrentOrganization(organizationId);
     }
-  }, [selectedOrganization, fetchSelectedOrganization, organizationId]);
+  }, [
+    currentOrganization,
+    isLoadingOrganization,
+    fetchCurrentOrganization,
+    organizationId,
+  ]);
 
-  if (!selectedOrganization) {
+  if (!currentOrganization) {
     return "Loading org...";
   }
 
   return (
     <main className="organization-layout">
-      <Navbar organizationName={selectedOrganization.name} user={user} />
+      <Navbar organizationName={currentOrganization.name} user={user} />
       <div className="organization-layout__content">
         <Sidebar />
         {props.children}

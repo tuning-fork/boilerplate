@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Modal from "./Elements/Modal";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import BoilerplateEditForm from "./Boilerplates/BoilerplateEditForm";
 import {
   getBoilerplate,
@@ -29,11 +29,7 @@ export default function BoilerplatesShow(props) {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_newTitle, setNewTitle] = useState("");
   const [_newQuillText, setNewQuillText] = useState("");
@@ -42,7 +38,7 @@ export default function BoilerplatesShow(props) {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const boilerplateId = props.match.params.boilerplate_id;
       getBoilerplate(organizationClient, boilerplateId)
         .then((boilerplate) => {
@@ -64,7 +60,7 @@ export default function BoilerplatesShow(props) {
         .catch((error) => console.error(error));
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.match.params.boilerplate_id,
   ]);
@@ -98,7 +94,7 @@ export default function BoilerplatesShow(props) {
     deleteBoilerplate(organizationClient, boilerplateId)
       .then((boilerplate) => {
         if (boilerplate.message) {
-          history.push(`/organizations/${currentOrganizationId}/boilerplates`);
+          history.push(`/organizations/${currentOrganization.id}/boilerplates`);
         }
       })
       .catch((error) => {
@@ -118,7 +114,7 @@ export default function BoilerplatesShow(props) {
     <Card.Header>
       <h3>{boilerplate.title}</h3>
       <Link
-        to={`/organizations/${currentOrganizationId}/boilerplates-edit/${boilerplate.id}/`}
+        to={`/organizations/${currentOrganization.id}/boilerplates-edit/${boilerplate.id}/`}
       >
         <FontAwesomeIcon
           icon={faEdit}
@@ -142,7 +138,7 @@ export default function BoilerplatesShow(props) {
 
   return (
     <div className="flex-container">
-      <Link to={`/organizations/${currentOrganizationId}/boilerplates/`}>
+      <Link to={`/organizations/${currentOrganization.id}/boilerplates/`}>
         <p>Back to Boilerplates</p>
       </Link>
       <Card>
