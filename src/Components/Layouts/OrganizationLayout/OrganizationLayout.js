@@ -1,26 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../design/Navbar/Navbar";
 import Sidebar from "../../design/Sidebar/Sidebar";
+import { useCurrentUser } from "../../../Contexts/currentUserContext";
+import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
 import "./OrganizationLayout.css";
-import { useCurrentOrganizationContext } from "../../../Contexts/currentOrganizationContext";
-import { useCurrentUserContext } from "../../../Contexts/currentUserContext";
+import { useParams } from "react-router-dom";
 
 export default function OrganizationLayout(props) {
-  const { currentUserStore } = useCurrentUserContext();
-  const { currentOrganizationStore } = useCurrentOrganizationContext();
-  const { currentOrganization } = currentOrganizationStore;
+  const { user } = useCurrentUser();
+  const { selectedOrganization, fetchSelectedOrganization } =
+    useCurrentOrganization();
+  const { organizationId } = useParams();
 
-  if (!currentUserStore.currentUser || !currentOrganization) {
-    return "Loading...";
+  useEffect(() => {
+    if (!selectedOrganization) {
+      fetchSelectedOrganization(organizationId);
+    }
+  }, [selectedOrganization, fetchSelectedOrganization, organizationId]);
+
+  if (!selectedOrganization) {
+    return "Loading org...";
   }
 
   return (
-    <main className="layout">
-      <Navbar
-        organizationName={currentOrganization.name}
-        user={currentUserStore.currentUser}
-      />
-      <div className="layout__content">
+    <main className="organization-layout">
+      <Navbar organizationName={selectedOrganization.name} user={user} />
+      <div className="organization-layout__content">
         <Sidebar />
         {props.children}
       </div>

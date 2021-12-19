@@ -4,7 +4,7 @@ import Component from "./OrganizationLayout";
 import { CurrentUserProvider } from "../../../Contexts/currentUserContext";
 import { CurrentOrganizationProvider } from "../../../Contexts/currentOrganizationContext";
 import { useCurrentOrganizationContext } from "../../../Contexts/currentOrganizationContext";
-import { useCurrentUserContext } from "../../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../../Contexts/currentUserContext";
 
 export default {
   title: "Layouts/Organization Layout",
@@ -22,12 +22,12 @@ export const OrganizationLayout = () => (
 );
 
 const ContextWrapper = () => {
-  const { currentUserDispatch } = useCurrentUserContext();
+  const { userDispatch } = useCurrentUser();
   const { currentOrganizationDispatch, currentOrganizationStore } =
     useCurrentOrganizationContext();
 
   useEffect(() => {
-    currentUserDispatch({
+    userDispatch({
       type: "SET_CURRENT_USER",
       payload: { user: { first_name: "Chidi", last_name: "Anagonye" } },
     });
@@ -35,7 +35,7 @@ const ContextWrapper = () => {
       type: "SET_CURRENT_ORGANIZATION",
       payload: { currentOrganization: { id: "2", name: "Baklava Foundation" } },
     });
-  }, [currentOrganizationDispatch, currentUserDispatch]);
+  }, [currentOrganizationDispatch, userDispatch]);
 
   if (!currentOrganizationStore.currentOrganization) {
     return null;
