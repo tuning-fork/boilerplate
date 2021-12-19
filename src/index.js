@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { NetworkErrorBoundary, CacheProvider } from "rest-hooks";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import Spinner from "./Components/Helpers/Spinner";
 import "./Components/design.css";
 
@@ -12,9 +11,7 @@ ReactDOM.render(
     <CacheProvider>
       <Suspense fallback={<Spinner />}>
         <NetworkErrorBoundary>
-          <PasteBoilerplateContentPopoutProvider>
-            <App />
-          </PasteBoilerplateContentPopoutProvider>
+          <App />
         </NetworkErrorBoundary>
       </Suspense>
     </CacheProvider>

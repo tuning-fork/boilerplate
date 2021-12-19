@@ -34,6 +34,7 @@ import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
 import Logout from "./pages/Logout";
+import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function App() {
   return (
@@ -72,7 +73,11 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/grants/:grant_id"
-                      component={GrantsShow}
+                      component={() => (
+                        <PasteBoilerplateContentPopoutProvider>
+                          <GrantsShow />
+                        </PasteBoilerplateContentPopoutProvider>
+                      )}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/grants-new"
