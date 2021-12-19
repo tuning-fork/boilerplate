@@ -117,7 +117,7 @@ Dropdown.propTypes = {
   options: PropTypes.arrayOf(optionPropType).isRequired,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
