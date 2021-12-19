@@ -62,6 +62,16 @@ export const CurrentUserProvider = ({ children }) => {
     [state.jwt]
   );
 
+  const logout = useCallback(() => {
+    CredentialsCache.clear();
+    setState({
+      status: CurrentUserStatus.LOGIN_REQUIRED,
+      error: null,
+      user: null,
+      jwt: null,
+    });
+  }, []);
+
   const login = useCallback(async (email, password) => {
     try {
       const { jwt, user } = await createSession(email, password);
@@ -78,27 +88,24 @@ export const CurrentUserProvider = ({ children }) => {
     }
   }, []);
 
-  const loginWithJwt = useCallback(async (jwt) => {
-    try {
-      const { user, jwt: newJwt } = await authWithJwt(jwt);
-      setState({
-        status: CurrentUserStatus.SUCCESS,
-        error: null,
-        user,
-        jwt: newJwt,
-      });
-    } catch (error) {
-      CredentialsCache.clear();
-      setState({
-        status: CurrentUserStatus.LOGIN_REQUIRED,
-        error: null,
-        user: null,
-        jwt: null,
-      });
-    }
-  }, []);
+  const loginWithJwt = useCallback(
+    async (jwt) => {
+      try {
+        const { user, jwt: newJwt } = await authWithJwt(jwt);
+        setState({
+          status: CurrentUserStatus.SUCCESS,
+          error: null,
+          user,
+          jwt: newJwt,
+        });
+      } catch (error) {
+        logout();
+      }
+    },
+    [logout]
+  );
 
-  const context = { ...state, login, authenticatedApiClient };
+  const context = { ...state, login, logout, authenticatedApiClient };
 
   useEffect(() => {
     const cachedJwt = CredentialsCache.load();

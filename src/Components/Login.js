@@ -24,6 +24,7 @@ export default function Login() {
 
   return (
     <Container as="section" className="login">
+      {location.state?.loggedOut && <p>Successfully logged out!</p>}
       <h1>Log In:</h1>
       {error && <p className="login__error">Error: {error.message}</p>}
       <form onSubmit={handleSubmit}>

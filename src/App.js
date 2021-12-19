@@ -33,6 +33,7 @@ import OrganizationLayout from "./Components/Layouts/OrganizationLayout/Organiza
 import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
+import Logout from "./pages/Logout";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/landing_page" component={LandingPage} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
           <CurrentOrganizationProvider>
