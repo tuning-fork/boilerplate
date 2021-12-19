@@ -6,7 +6,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import Spinner from "./Components/Helpers/Spinner";
-import "./index.css";
 import "./Components/design.css";
 
 axios.defaults.baseURL =
