@@ -1,16 +1,24 @@
 .dropdown {
+  position: relative;
   display: inline-block;
   width: 100%;
   margin-bottom: 24px;
 }
 
 .dropdown__label {
-  display: block;
   margin-bottom: 7px;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
   color: var(--contrast-70);
   line-height: normal;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown__alt-label {
+  color: var(--primary);
+  font-weight: var(--font-weight-normal);
+  text-decoration-line: underline;
 }
 
 .dropdown__input {
@@ -34,6 +42,8 @@
 }
 
 .dropdown__menu {
+  position: absolute;
+  z-index: 1;
   list-style: none;
   margin: 0;
   padding: 5px;

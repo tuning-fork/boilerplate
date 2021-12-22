@@ -1,111 +1,111 @@
-import React, { useEffect } from "react";
-import Card from "react-bootstrap/Card";
+import React, { useEffect, useMemo, useState } from "react";
+import { MdAccessTime, MdAlarm } from "react-icons/md";
 import { useCurrentUserContext } from "../Contexts/currentUserContext";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { useHistory } from "react-router-dom";
+import { getAllUsers } from "../Services/Organizations/OrganizationUsersService";
+import { getAllGrants } from "../Services/Organizations/GrantsService";
+import isRecent from "../Helpers/date/isRecent";
+import isSoon from "../Helpers/date/isSoon";
+import Button from "./design/Button/Button";
+import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
+import Spinner from "./Helpers/Spinner";
+import GrantListItem from "./Dashboard/GrantListItem";
+import UserListItem from "./Dashboard/UserListItem";
+import "./Dashboard.css";
 
 export default function Dashboard() {
-  const { currentUserStore, currentUserDispatch } = useCurrentUserContext();
-  const { currentOrganizationStore, currentOrganizationDispatch } =
-    useCurrentOrganizationContext();
-  console.log(currentUserStore);
-  console.log(currentOrganizationStore);
-  const history = useHistory();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentUserStore } = useCurrentUserContext();
+  const { organizationClient } = useCurrentOrganizationContext();
+
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  const [loadingGrants, setLoadingGrants] = useState(true);
+  const [grants, setGrants] = useState([]);
+  const recentDrafts = useMemo(
+    () => grants.filter((grant) => isRecent(grant.updatedAt)),
+    [grants]
+  );
+  const dueSoon = useMemo(
+    () => grants.filter((grant) => isSoon(grant.deadline)),
+    [grants]
+  );
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (organizationClient) {
+      getAllUsers(organizationClient)
+        .then(setUsers)
+        .finally(() => setLoadingUsers(false));
+
+      getAllGrants(organizationClient)
+        .then(setGrants)
+        .finally(() => setLoadingGrants(false));
+    }
+  }, [organizationClient]);
 
   return (
-    <div
-      className="d-flex container-fluid flex-column align-items-stretch"
-      style={{ paddingLeft: "5rem", paddingRight: "5rem" }}
-    >
-      <div className="flex-row row" style={{ paddingBottom: ".5rem" }}>
-        <div className="w-100">
-          <h1>Welcome, {currentUserStore?.currentUser?.first_name}</h1>
-        </div>
-      </div>
-      <div className="d-flex flex-row row">
-        <Card
-          className="card-component"
-          onClick={() => {
-            history.push(`organizations/${currentOrganizationId}/grants/`);
-          }}
+    <section className="dashboard">
+      <header className="dashboard__header">
+        <h1>Welcome, {currentUserStore.currentUser.first_name}!</h1>
+        <Button as={CurrentOrganizationLink} to="/grants-new">
+          Add New Grant
+        </Button>
+      </header>
+
+      <article className="dashboard__recent-drafts">
+        <h2 className="heading-4">Recent Drafts</h2>
+        <ul className="dashboard__recent-drafts-list">
+          {recentDrafts.map((recentDraftGrant) => (
+            <GrantListItem
+              key={recentDraftGrant.id}
+              grant={recentDraftGrant}
+              icon={MdAccessTime}
+            />
+          ))}
+          {loadingGrants && <Spinner />}
+          {!loadingGrants && !recentDrafts.length && (
+            <p>No recent grant drafts.</p>
+          )}
+        </ul>
+      </article>
+
+      <article className="dashboard__due-soon">
+        <h2 className="heading-4">Due Soon</h2>
+        <ul className="dashboard__due-soon-list">
+          {dueSoon.map((dueSoonGrant) => (
+            <GrantListItem
+              key={dueSoonGrant.id}
+              grant={dueSoonGrant}
+              icon={MdAlarm}
+            />
+          ))}
+          {loadingGrants && <Spinner />}
+          {!loadingGrants && !recentDrafts.length && <p>No grants due soon.</p>}
+        </ul>
+        <CurrentOrganizationLink
+          to="/grants"
+          className="dashboard__all-grants-link"
         >
-          <Card.Header>Grants &gt;</Card.Header>
-          <Card.Body>
-            Store draft grants and submitted grants in this library. Sort grants
-            by purpose, funding organization, and funding award. Start a new
-            grant.
-            <br />
-          </Card.Body>
-        </Card>
-      </div>
-      <div className="d-flex flex-row row">
-        <div
-          className="col align-items-stretch"
-          style={{ paddingRight: "3rem" }}
-        >
-          <div className="row h-50">
-            <Card
-              className="card-component"
-              onClick={() => {
-                history.push(
-                  `organizations/${currentOrganizationId}/boilerplates/`
-                );
-              }}
-            >
-              <Card.Header>Boilerplates &gt;</Card.Header>
-              <Card.Body>
-                Store materials for your organization in this library. Save
-                information about your mission, programs, metrics, client
-                communities, and activities in accessible text blocks.
-                <br />
-              </Card.Body>
-            </Card>
-          </div>
-        </div>
-        <div className="col align-items-stretch">
-          <div className="row">
-            <Card
-              className="card-component"
-              onClick={() => {
-                history.push(
-                  `organizations/${currentOrganizationId}/funding_orgs/`
-                );
-              }}
-            >
-              <Card.Header>Funding Organizations &gt;</Card.Header>
-              <Card.Body>
-                Store funding organizations that you have applied to in the
-                past, so that you can track applications, requests for
-                proposals, and funding streams over time.
-                <br />
-              </Card.Body>
-            </Card>
-          </div>
-          <div className="row">
-            <Card
-              className="card-component"
-              onClick={() => {
-                history.push(
-                  `organizations/${currentOrganizationId}/categories/`
-                );
-              }}
-            >
-              <Card.Header>Categories &gt;</Card.Header>
-              <Card.Body>
-                Store a list of categories for stored content, so that you can
-                customize your content library for your organization.
-                <br />
-              </Card.Body>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
+          <b>See all Grants</b>
+        </CurrentOrganizationLink>
+      </article>
+
+      <article className="dashboard__users">
+        <header>
+          <h2 className="heading-3">
+            <b>Users</b>
+          </h2>
+          <CurrentOrganizationLink to="/users">
+            <b>Manage Users</b>
+          </CurrentOrganizationLink>
+        </header>
+        <ul className="dashboard__users-list">
+          {users.map((user) => (
+            <UserListItem key={user.id} user={user} />
+          ))}
+          {loadingUsers && <Spinner />}
+        </ul>
+      </article>
+    </section>
   );
 }

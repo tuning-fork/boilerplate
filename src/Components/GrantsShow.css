@@ -1,63 +1,31 @@
-.GrantsShow {
-  font-size: 18px;
-}
-
-.GrantsShow__TopBar {
-  margin: 18px 0 30px 0;
-}
-
-.GrantsShow__Overview {
-  margin-bottom: 48px;
-}
-
-.GrantsShow__Header {
+.grants-show {
   display: flex;
+  width: 100%;
 }
 
-.GrantsShow__Title {
+.grants-show__content {
   flex: 1;
-  margin-bottom: 21px;
 }
 
-.GrantsShow__Actions {
-  flex: 0.25;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.GrantsShow__MakeCopy {
-  font-weight: bold;
-  color: var(--black);
-}
-
-.GrantsShow__Fields dt {
-  margin-bottom: 12px;
-  font-weight: normal;
-}
-.GrantsShow__Fields dd {
-  margin-bottom: 18px;
-  font-weight: bold;
-}
-
-.GrantsShow__Deadline {
-  display: flex;
-  margin-bottom: 13px;
-}
-
-.GrantsShow__TotalWordCount {
-  text-align: right;
-}
-.GrantsShow__TotalWordCount > span {
-  font-weight: bold;
-}
-
-.GrantsShow__SectionList {
+.grants-show__section-list {
   list-style: none;
   padding-left: 0;
-  margin-top: 30px;
+  margin: 0;
+  padding: 0;
 }
 
-.GrantsShow__AddSection {
-  margin: 10px 0 26px 0;
+.grants-show__sections-container {
+  padding-top: 3rem;
+}
+
+.grants-show__welcome-alert {
+  border-radius: 4px;
+  padding: .8rem 1.4rem;
+  background-color: var(--primary-text-10);
+  font-size: var(--font-size-large-1);
+}
+
+.grants-show__paste-boilerplate-popout {
+  width: 36%;
+  order: 1;
 }

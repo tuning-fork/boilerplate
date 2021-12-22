@@ -13,7 +13,7 @@ export default function ForgotPassword() {
       .then((response) => {
         alert(response.data.message);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const handleSubmit = (event) => {

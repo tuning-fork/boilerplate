@@ -1,0 +1,10 @@
+.paste-boilerplate-text-panel__bottom {
+  display: flex;
+  align-items: center;
+}
+
+.paste-boilerplate-text-panel__bottom > svg {
+  color: var(--primary);
+  font-size: 1.6rem;
+  margin-inline-end: .6rem;
+}

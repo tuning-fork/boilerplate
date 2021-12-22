@@ -1,25 +1,40 @@
 .SectionForm {
   padding: 35px 20px;
+  margin-bottom: 1rem;
   border: 1px solid #c4c4c4;
   border-radius: 6px;
 }
 
 .SectionForm__PasteBoilerplateContent {
-  display: block;
-  margin-bottom: 20px;
+  position: absolute;
+  left: 12px;
+  bottom: 2rem;
 }
 
-.SectionForm__ContentEditor .ql-editor {
+.SectionForm__ContentEditor {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.SectionForm__ContentEditorInput .ql-editor {
   min-height: 180px;
+  padding-bottom: 4.5rem;
+}
+
+.SectionForm__ContentEditorHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
 }
 
 .SectionForm__Actions {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
 }
-.SectionForm__Actions > a {
-  flex: 1;
-}
-.SectionForm__Actions > button {
-  margin-left: 20px;
+
+.SectionForm__FormControls {
+  display: flex;
+  gap: 1rem;
 }

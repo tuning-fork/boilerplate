@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import "./FundingOrgsTable.css";
 import formatDate from "../../Helpers/formatDate";
@@ -8,17 +8,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 
 library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function FundingOrgsTable(props) {
-  const [showFundingOrgEdit, setShowFundingOrgEdit] = useState(false);
-  const handleClose = () => {
-    setShowFundingOrgEdit(false);
-  };
-
   const columns = useMemo(
     () => [
       { Header: "Name", accessor: "name" },

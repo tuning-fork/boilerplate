@@ -65,16 +65,16 @@ export default function App() {
                   component={Dashboard}
                 />
                 <PrivateRoute
-                  path="/organizations/:org_id/grants/:grant_id"
-                  component={GrantsShow}
-                />
-                <PrivateRoute
                   path="/organizations/:org_id/grants/:grant_id/edit"
                   component={GrantEdit}
                 />
                 <PrivateRoute
                   path="/organizations/:org_id/grants/:grant_id/copy"
                   component={GrantCopy}
+                />
+                <PrivateRoute
+                  path="/organizations/:org_id/grants/:grant_id"
+                  component={GrantsShow}
                 />
                 <PrivateRoute
                   path="/organizations/:org_id/grants-new"

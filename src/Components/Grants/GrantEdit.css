@@ -1,24 +1,11 @@
-.GrantEdit {
-  padding-top: 60px;
-  height: 100%;
-}
-
-.GrantEdit__Header {
+.grant-edit {
   display: flex;
+  width: 100%;
+}
+
+.grant-edit__header {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-}
-.GrantEdit__Header > h1 {
-  flex: 1;
-}
-
-.GrantEdit__Inputs {
-  margin-bottom: 50px;
-}
-
-.GrantEdit__Actions {
-  float: right;
-}
-.GrantEdit__Actions > button {
-  margin-left: 20px;
 }

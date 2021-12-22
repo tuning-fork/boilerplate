@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import ReportSectionsNew from "./ReportSectionsNew";
 import ReportSectionsShow from "./ReportSectionsShow";
 import Card from "react-bootstrap/Card";
@@ -19,47 +18,36 @@ import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesServic
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function ReportsShow(props) {
-  console.log("reports Show component rendered");
   const [id, setId] = useState(props.match.params.report_id);
   const [grantId, setGrantId] = useState(props.match.params.grant_id);
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [submitted, setSubmitted] = useState("");
-  const [bios, setBios] = useState([]);
-  const [boilerplates, setBoilerplates] = useState([]);
+  const [_boilerplates, setBoilerplates] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [isGrantHidden, setIsGrantHidden] = useState(true);
-  const [isHiddenNewReportSection, setIsHiddenNewReportSection] =
-    useState(true);
-  const [grantTitle, setGrantTitle] = useState("");
+  const [grantTitle, _setGrantTitle] = useState("");
   const [grantSections, setGrantSections] = useState([]);
   const [reportSections, setReportSections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const history = useHistory();
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
-  const [newTitle, setNewTitle] = useState("");
-  const [newDeadline, setNewDeadline] = useState("");
-  const [newSubmitted, setNewSubmitted] = useState("");
+  const [_newTitle, setNewTitle] = useState("");
+  const [_newDeadline, setNewDeadline] = useState("");
+  const [_newSubmitted, setNewSubmitted] = useState("");
 
-  const [show, setShow] = useState(false);
+  const [_show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -80,17 +68,22 @@ export default function ReportsShow(props) {
           setNewSubmitted(report.submitted);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    id,
+    organizationClient,
+    props.match.params.grant_id,
+  ]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -98,10 +91,6 @@ export default function ReportsShow(props) {
 
   const toggleHiddenGrant = () => {
     setIsGrantHidden(!isGrantHidden);
-  };
-
-  const toggleHiddenNewReportSection = () => {
-    setIsHiddenNewReportSection(!isHiddenNewReportSection);
   };
 
   const handleSubmit = ({ newTitle, newDeadline, newSubmitted }) => {
@@ -126,11 +115,11 @@ export default function ReportsShow(props) {
         setNewSubmitted(report.submitted);
       })
       .catch((error) => {
-        console.log("report update error", error);
+        console.error("report update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     setNewTitle(title);
     setNewDeadline(deadline);
     setNewSubmitted(submitted);
@@ -141,8 +130,6 @@ export default function ReportsShow(props) {
     let newReportSections = [...reportSections, newReportSection];
     setReportSections(newReportSections);
   };
-
-  useEffect(() => {}, [reportSections]);
 
   const editReportSections = (editedReportSection) => {
     const newReportSections = reportSections.map((reportSection) => {
@@ -162,7 +149,6 @@ export default function ReportsShow(props) {
         newArr.push(newReportSection);
       }
     });
-    console.log(newArr);
     setReportSections(newArr);
   };
 
@@ -176,7 +162,7 @@ export default function ReportsShow(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

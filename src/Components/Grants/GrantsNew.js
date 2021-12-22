@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
-import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
-import { Link } from "react-router-dom";
 import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { createGrant } from "../../Services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
-import LeftArrowIcon from "@material-ui/icons/KeyboardArrowLeft";
+import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
-import TextBox from "../design/TextBox/TextBox";
-import Button from "../design/Button/Button";
-import Dropdown from "../design/Dropdown/Dropdown";
 import "./GrantsNew.css";
+import GrantForm from "./GrantForm";
+import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
-export default function GrantsNew(props) {
-  const [newGrant, setNewGrant] = useState({
-    title: "",
-    rfp_url: "",
-    deadline: "",
-    purpose: "",
-    funding_org_id: null,
-  });
+export default function GrantsNew() {
+  const [isLoading, setIsLoading] = useState(true);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
   const { currentOrganizationStore, organizationClient } =
@@ -27,37 +18,25 @@ export default function GrantsNew(props) {
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization?.id;
 
-  const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
-
   useEffect(() => {
+    if (!organizationClient) {
+      return;
+    }
+
     getAllFundingOrgs(organizationClient)
-      .then((fundingOrgs) => {
-        setFundingOrgs(fundingOrgs);
-      })
-      .catch((error) => console.log(error));
+      .then(setFundingOrgs)
+      .catch((error) => console.error(error))
+      .finally(() => setIsLoading(false));
   }, [organizationClient]);
 
   const handleCancel = () => {
     history.push(`/organizations/${currentOrganizationId}/grants`);
   };
 
-  const handleCloseFundingOrgsNew = (fundingOrgId) => {
-    setShowingFundingOrgsNew(false);
-    if (fundingOrgId) {
-      getAllFundingOrgs(organizationClient)
-        .then((fundingOrgs) => {
-          setFundingOrgs(fundingOrgs);
-        })
-        .catch((error) => console.log(error));
-      setNewGrant({ ...newGrant, funding_org_id: fundingOrgId });
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (grantFields) => {
     createGrant(organizationClient, {
-      ...newGrant,
-      organization_id: currentOrganizationStore.currentOrganization.id,
+      ...grantFields,
+      organizationId: currentOrganizationStore.currentOrganization.id,
     })
       .then((grant) => {
         history.push(
@@ -65,82 +44,31 @@ export default function GrantsNew(props) {
         );
       })
       .catch((error) => {
-        console.log("grant creation error", error);
+        console.error("grant creation error", error);
       });
   };
 
+  if (isLoading) {
+    return "Loading...";
+  }
+
   return (
-    <Container as="section" centered className="grants-new">
-      <Link
-        className="grants-new__back-button"
-        to={`/organizations/${currentOrganizationId}/grants/`}
-      >
-        <LeftArrowIcon />
-        Back to All Grants
-      </Link>
-      <h1>Add New Grant</h1>
-      <form onSubmit={handleSubmit}>
-        <Dropdown
-          labelText="Funding Organization"
-          placeholder="Select a Funding Organization"
-          value={newGrant.funding_org_id}
-          options={fundingOrgs.map((fundingOrg) => ({
-            value: fundingOrg.id,
-            label: fundingOrg.name,
-          }))}
-          onChange={(option) =>
-            setNewGrant({ ...newGrant, funding_org_id: option.value })
-          }
-        />
-        <Button
-          className="grants-new__add-funding-org"
-          variant="outlined"
-          onClick={() => setShowingFundingOrgsNew(true)}
+    <div className="grants-new">
+      <Container as="section" centered>
+        <CurrentOrganizationLink
+          className="grants-new__back-button"
+          to="/grants"
         >
-          Add Funding Organization
-        </Button>
-        <TextBox
-          labelText="Title"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, title: event.target.value })
-          }
-          required
+          <MdChevronLeft />
+          Back to All Grants
+        </CurrentOrganizationLink>
+        <h1 className="grants-new__header">Add New Grant</h1>
+        <GrantForm
+          fundingOrgs={fundingOrgs}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
         />
-        <TextBox
-          labelText="RFP URL"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, rfp_url: event.target.value })
-          }
-          type="url"
-          required
-        />
-        <TextBox
-          labelText="Deadline"
-          type="datetime-local"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, deadline: event.target.value })
-          }
-          className="grants-new__deadline"
-          required
-        />
-        <TextBox
-          labelText="Purpose"
-          onChange={(event) =>
-            setNewGrant({ ...newGrant, purpose: event.target.value })
-          }
-          required
-        />
-        <div className="grants-new__button-group">
-          <Button variant="text" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type="submit">Save</Button>
-        </div>
-      </form>
-      <FundingOrgsNew
-        show={showingFundingOrgsNew}
-        onClose={handleCloseFundingOrgsNew}
-      />
-    </Container>
+      </Container>
+    </div>
   );
 }

@@ -1,14 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
+import UserIcon from "../../Helpers/UserIcon";
 import Button from "../Button/Button";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import "./Navbar.css";
-
-const getUserInitials = (user) => {
-  return `${user?.first_name?.[0]}${user?.last_name?.[0]}`;
-};
 
 export default function Navbar(props) {
   return (
@@ -17,18 +14,23 @@ export default function Navbar(props) {
       <div className={clsx(props.className, "navbar__links")}>
         {props.organizationName && (
           <>
-            <NavLink
-              to={`/organizations/${props.organizationId}/dashboard`}
-              className="navbar__all-organizations"
-            >
+            <Link to="/organizations" className="navbar__all-organizations">
               {"<"} All Organizations
-            </NavLink>
+            </Link>
             <span className="navbar__divider"> | </span>
-            <span className="navbar__current-organization">
-              {props.organizationName}
-            </span>
+            <span>{props.organizationName}</span>
           </>
         )}
+        <Button
+          variant="none"
+          aria-label="Go to your account settings"
+          className="navbar__user-icon"
+        >
+          <UserIcon
+            firstName={props.user.first_name}
+            lastName={props.user.last_name}
+          />
+        </Button>
       </div>
     </div>
   );
@@ -39,5 +41,3 @@ Navbar.propTypes = {
   user: PropTypes.object.isRequired,
   organizationName: PropTypes.string,
 };
-
-Navbar.defaultProps = {};

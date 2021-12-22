@@ -18,7 +18,7 @@ const reducer = (state, action) => {
     case "SET_CURRENT_ORGANIZATION":
       const { currentOrganization, jwt } = action.payload;
       const organizationClient = axios.create({
-        baseURL: `/api/organizations/${currentOrganization.id}`,
+        baseURL: `${axios.defaults.baseURL}api/organizations/${currentOrganization.id}`,
         headers: { Authorization: `Bearer ${jwt}` },
       });
 
@@ -56,14 +56,12 @@ export const CurrentOrganizationProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
       })
       .then((response) => {
-        console.log(response);
         if (response.data.length > 0) {
           currentOrganizationDispatch({
             type: "SET_ALL_USER_ORGANIZATIONS",
             payload: response.data,
           });
         } else {
-          console.log("setting default data");
           currentOrganizationDispatch({
             type: "SET_ALL_USER_ORGANIZATIONS",
             payload: [
@@ -74,7 +72,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
           });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
 
     const selectedOrgId = localStorage.getItem("org_id");
     if (selectedOrgId) {

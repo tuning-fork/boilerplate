@@ -10,7 +10,6 @@ export const useCurrentUserContext = () => {
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_CURRENT_USER":
-      console.log("user info reset", [state, action]);
       return {
         ...state,
         currentUser: action.payload.user,

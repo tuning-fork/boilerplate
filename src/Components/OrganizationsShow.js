@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 import OrganizationEditForm from "./Organizations/OrganizationEditForm";
 import Modal from "./Elements/Modal";
@@ -18,12 +17,9 @@ library.add(faEdit);
 export default function OrganizationsShow(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [isHidden, setIsHidden] = useState(true);
-  const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-
-  const [newName, setNewName] = useState("");
+  const [_newName, setNewName] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -41,13 +37,9 @@ export default function OrganizationsShow(props) {
         setNewName(response.data.name);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
-  }, []);
-
-  const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
+  }, [props.match.params.org_id]);
 
   const handleSubmit = ({ newName }) => {
     axios
@@ -63,11 +55,11 @@ export default function OrganizationsShow(props) {
         setName(response.data.name);
       })
       .catch((error) => {
-        console.log("organization update error", error);
+        console.error("organization update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -80,10 +72,9 @@ export default function OrganizationsShow(props) {
         if (response.data.message) {
           history.push("/organizations");
         }
-        console.log(response);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

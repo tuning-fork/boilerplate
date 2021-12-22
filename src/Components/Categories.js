@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 import {
-  getCategory,
   updateCategory,
   deleteCategory,
 } from "../Services/Organizations/CategoriesService";
@@ -17,15 +16,12 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const NO_SELECTED_CATEGORY = "none";
-
 library.add(faTrashAlt);
 library.add(faEdit);
 
-export default function Categories(props) {
+export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [query] = useState("");
   const { currentOrganizationStore, organizationClient } =
     useCurrentOrganizationContext();
   const currentOrganizationId =
@@ -53,9 +49,9 @@ export default function Categories(props) {
           setCategories(categories);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories, newCategory];
@@ -63,21 +59,20 @@ export default function Categories(props) {
   };
 
   const handleSubmitEditCategory = ({ newName }, id) => {
-    console.log("id from form", id);
     updateCategory(organizationClient, id, {
       name: newName,
       organization_id: currentOrganizationId,
     })
-      .then((category) => {
+      .then(() => {
         setName(name);
         handleClose();
       })
       .catch((error) => {
-        console.log("category update error", error);
+        console.error("category update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -86,13 +81,9 @@ export default function Categories(props) {
       // eslint-disable-next-line no-restricted-globals
       confirm(`Are you sure you want to delete the ${category.name} category?`)
     ) {
-      deleteCategory(organizationClient, category.id)
-        .then((category) => {
-          console.log("category deleted!");
-        })
-        .catch((error) => {
-          console.log("category delete error", error);
-        });
+      deleteCategory(organizationClient, category.id).catch((error) => {
+        console.error("category delete error", error);
+      });
     }
   };
 

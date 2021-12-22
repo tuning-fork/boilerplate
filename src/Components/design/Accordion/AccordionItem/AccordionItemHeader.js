@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import RightArrowIcon from "@material-ui/icons/ChevronRight";
-import DownArrowIcon from "@material-ui/icons/ExpandMore";
+import { MdChevronRight, MdExpandMore } from "react-icons/md";
 import AccordionItemContext from "./AccordionItemContext";
 import Button from "../../Button/Button";
 
@@ -10,7 +9,7 @@ export default function AccordionItemHeader(props) {
   const { heading: Heading, className, children } = props;
   const { expanded, setExpanded, panelId, headerId } =
     useContext(AccordionItemContext);
-  const Icon = expanded ? DownArrowIcon : RightArrowIcon;
+  const Icon = expanded ? MdExpandMore : MdChevronRight;
 
   return (
     <Heading className={clsx(className, "accordion-item__header")}>

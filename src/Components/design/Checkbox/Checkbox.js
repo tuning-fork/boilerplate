@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import CheckIcon from "@material-ui/icons/Check";
+import { MdCheck } from "react-icons/md";
 import "./Checkbox.css";
 
 export default function Checkbox(props) {
@@ -15,7 +15,7 @@ export default function Checkbox(props) {
         checked={checked}
         onChange={onChange}
       />
-      <CheckIcon className="checkbox__check" />
+      <MdCheck className="checkbox__check" />
       <div className="checkbox__background"></div>
       <span className="checkbox__label">{labelText}</span>
     </label>
