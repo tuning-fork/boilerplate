@@ -6,18 +6,15 @@ import {
   copyGrant,
   getGrant,
 } from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
-import GrantForm from "./GrantForm";
-import "./GrantCopy.css";
+import SignUpForm from "./SignUpForm";
+import "./SignUp.css";
 
 export default function GrantCopy() {
   const [grant, setGrant] = useState(null);
-  const [fundingOrgs, setFundingOrgs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { organizationClient } = useCurrentOrganizationContext();
   const buildOrganizationsLink = useBuildOrganizationsLink();
-  const { grant_id: grantId } = useParams();
   const history = useHistory();
 
   const handleCancel = (event) => {
@@ -55,15 +52,10 @@ export default function GrantCopy() {
   }
 
   return (
-    <div className="grant-copy">
+    <div className="signup">
       <Container as="section" centered>
-        <h1 className="grant-copy__header">Copy Grant</h1>
-        <GrantForm
-          grant={{ ...grant, title: `${grant.title} copy` }}
-          fundingOrgs={fundingOrgs}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-        />
+        <h1 className="signup">Copy Grant</h1>
+        <SignUpForm onSubmit={handleSubmit} onCancel={handleCancel} />
       </Container>
     </div>
   );
