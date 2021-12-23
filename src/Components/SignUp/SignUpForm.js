@@ -1,58 +1,73 @@
 import { useState } from "react";
 import Button from "../design/Button/Button";
-import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
-import "./GrantForm.css";
+import "./SignUpForm.css";
 
 export default function SignUpForm(props) {
-  const [SignUpFields, setSignUpFields] = useState({});
+  const [newUserFields, setNewUserFields] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.onSubmit(SignUpFields);
+    setNewUserFields({ ...newUserFields, active: true });
+    props.onSubmit(newUserFields);
   };
 
   return (
     <>
       <form onSubmit={handleSubmit} className="signup-form">
         <TextBox
-          labelText="Title"
-          value={signUpFields.title}
+          labelText="First Name"
+          value={newUserFields.first_name}
           onChange={(event) =>
-            setSignUpFields({ ...signUpFields, title: event.target.value })
-          }
-          required
-        />
-        <TextBox
-          labelText="RFP URL"
-          value={signUpFields.rfpUrl}
-          onChange={(event) =>
-            setSignUpFields({ ...signUpFields, rfpUrl: event.target.value })
-          }
-          type="url"
-          required
-        />
-        <TextBox
-          labelText="Deadline"
-          type="datetime-local"
-          value={formatDateForInput(signUpFields.deadline)}
-          onChange={(event) =>
-            setSignUpFields({
-              ...signUpFields,
-              deadline: parseDateFromInput(event.target.value),
+            setNewUserFields({
+              ...newUserFields,
+              first_name: event.target.value,
             })
           }
           required
         />
         <TextBox
-          labelText="Purpose"
-          value={signUpFields.purpose}
+          labelText="Last Name"
+          value={newUserFields.last_name}
           onChange={(event) =>
-            setsignUpFields({ ...signUpFields, purpose: event.target.value })
+            setNewUserFields({
+              ...newUserFields,
+              last_name: event.target.value,
+            })
           }
           required
         />
-        <div className="grant-form__actions">
+        <TextBox
+          labelText="email"
+          value={newUserFields.email}
+          onChange={(event) =>
+            setNewUserFields({
+              ...newUserFields,
+              email: event.target.value,
+            })
+          }
+          required
+        />
+        <TextBox
+          labelText="password"
+          value={newUserFields.password}
+          onChange={(event) =>
+            setNewUserFields({ ...newUserFields, password: event.target.value })
+          }
+          required
+        />
+        <TextBox
+          labelText="password_confirmation"
+          value={newUserFields.password_confirmation}
+          onChange={(event) =>
+            setNewUserFields({
+              ...newUserFields,
+              password_confirmation: event.target.value,
+            })
+          }
+          required
+        />
+        <div className="signup-form__actions">
           <Button variant="text" onClick={props.onCancel}>
             Cancel
           </Button>

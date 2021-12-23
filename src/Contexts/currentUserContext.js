@@ -1,5 +1,8 @@
 import React, { useContext, createContext, useReducer, useEffect } from "react";
-import { login as createSession, authWithJwt } from "../Services/Auth/Login";
+import {
+  login as createSession,
+  authWithJwt,
+} from "../Services/Auth/LoginService";
 
 export const CurrentUserContext = createContext();
 

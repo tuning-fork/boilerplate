@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
-// import allSplashpageGraphicElements from "./allSplashpageGraphicElements.png";
 import allSplashpageGraphicElements from "./All_splashpage_graphic_elements.png";
-import getStartedButton from "./getStartedButton.png";
 import NavbarLogin from "../../design/Navbar/NavbarLogin/NavbarLogin";
 import Button from "../../design/Button/Button";
 import Modal from "../../Elements/Modal";
 import Card from "react-bootstrap/Card";
+import SignUp from "../../SignUp/SignUp";
+import Login from "../../Login/Login";
 
 export default function SplashpageLayout(props) {
   const [showNavbarLogin, setShowNavbarLogin] = useState(false);
@@ -18,10 +18,10 @@ export default function SplashpageLayout(props) {
   const handleCloseSignUpModal = (event) => setShowSignUpModal(false);
   const handleShowLoginModal = (event) => setShowLoginModal(true);
   const handleCloseLoginModal = (event) => setShowLoginModal(false);
-  const handleCancel = (event) => {
-    handleCloseSignUpModal();
-    handleCloseLoginModal();
-  };
+  // const handleCancel = (event) => {
+  //   handleCloseSignUpModal();
+  //   handleCloseLoginModal();
+  // };
 
   return (
     <main className="splashpage-layout">
@@ -60,28 +60,27 @@ export default function SplashpageLayout(props) {
           variant="none"
           onClick={handleShowLoginModal}
         ></Button>
-        {/* <Modal onClose={handleCloseSignUpModal} show={showSignUpModal}>
+        <Modal onClose={handleCloseSignUpModal} show={showSignUpModal}>
           <Card>
             <Card.Body>
               <SignUp
-                grant={grant}
                 onSubmit={handleCloseSignUpModal}
-                onCancel={handleCancelSignUp}
+                onCancel={handleCloseSignUpModal}
               />
             </Card.Body>
           </Card>
         </Modal>
         <Modal
           className="modal-popup"
-          onClose={handleCloseLoginModal}
+          onCancel={handleCloseLoginModal}
           show={showLoginModal}
         >
           <Card>
             <Card.Body>
-              <Login grant={grant} />
+              <Login />
             </Card.Body>
           </Card>
-        </Modal> */}
+        </Modal>
         {showNavbarLogin ? <NavbarLogin /> : null}
       </div>
     </main>

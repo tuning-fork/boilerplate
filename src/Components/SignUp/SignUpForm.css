@@ -1,0 +1,10 @@
+.signup-form {
+  height: 100%;
+}
+
+.signup-form__actions {
+  float: right;
+}
+.signup-form__actions > button {
+  margin-left: 20px;
+}
