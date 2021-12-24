@@ -13,7 +13,7 @@ export default function OrgSelect() {
 
   return (
     <Container as="section" className="org-select">
-      <h1>Welcome, {user.first_name}</h1>
+      <h1>Welcome, {user.firstName}</h1>
       <p>
         Please select an organization to continue to your organization
         dashboard:
