@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -7,31 +6,27 @@ import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { updateReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 import {
-  getReportSection,
-  updateReportSection,
-  deleteReportSection,
-} from "../Services/Organizations/Grants/Reports/ReportSectionsService";
+  deleteGrantSection,
+  getGrantSection,
+} from "../Services/Organizations/Grants/GrantSectionsService";
 
 export default function ReportSectionsUpdateFinal(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [wordcount, setWordcount] = useState("");
-  const [reportId, setReportId] = useState("");
-  const [sort_order, setSortOrder] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [_wordcount, setWordcount] = useState("");
+  const [_reportId, setReportId] = useState("");
+  const [_sort_order, setSortOrder] = useState("");
   const [loading, setLoading] = useState(true);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -52,9 +47,15 @@ export default function ReportSectionsUpdateFinal(props) {
           setReportId(reportSection.report_id);
           setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.grant_id,
+    props.report_id,
+    props.report_section_id,
+  ]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,7 +79,7 @@ export default function ReportSectionsUpdateFinal(props) {
         }
       })
       .catch((error) => {
-        console.log("section update error", error);
+        console.error("section update error", error);
       });
   };
 
@@ -86,13 +87,14 @@ export default function ReportSectionsUpdateFinal(props) {
     const grantId = props.match.params.grant_id;
     const reportId = props.match.params.report_id;
     const reportSectionId = props.match.params.report_section_id;
-    deleteGrantSection(organizationClient, grantId, reportId, reportSectionId)
-      .then((reportSection) => {
-        console.log(reportSection);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    deleteGrantSection(
+      organizationClient,
+      grantId,
+      reportId,
+      reportSectionId
+    ).catch((error) => {
+      console.error(error);
+    });
   };
 
   const countWords = (string) => {

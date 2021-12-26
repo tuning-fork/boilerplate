@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -11,22 +10,17 @@ import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesServic
 
 export default function ReportSectionsNew(props) {
   const [quillText, setQuillText] = useState("");
-  const [reportId, setReportId] = useState("");
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const [wordcount, setWordcount] = useState("");
+  const [_text, setText] = useState("");
+  const [_sortOrder, setSortOrder] = useState("");
+  const [_wordcount, setWordcount] = useState("");
   const [boilerplates, setBoilerplates] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true);
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
@@ -38,10 +32,10 @@ export default function ReportSectionsNew(props) {
           setBoilerplates(boilerplates);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [loading, currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   const clearForm = () => {
     setQuillText("");
@@ -74,7 +68,7 @@ export default function ReportSectionsNew(props) {
         }
       })
       .catch((error) => {
-        console.log("section creation error", error);
+        console.error("section creation error", error);
       });
   };
 
@@ -105,7 +99,6 @@ export default function ReportSectionsNew(props) {
   };
 
   const renderSuggestions = () => {
-    console.log(suggestions);
     if (suggestions.length === 0) {
       return null;
     }

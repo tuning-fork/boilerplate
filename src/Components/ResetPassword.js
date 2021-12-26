@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
 
-export default function ResetPassword(props) {
+export default function ResetPassword() {
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,12 +36,11 @@ export default function ResetPassword(props) {
     axios
       .post("api/reset_password", credentials)
       .then((response) => {
-        console.log(response);
         if (response) {
           alert(response.data.message);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   return (

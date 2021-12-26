@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
 import {
   getFundingOrg,
   updateFundingOrg,
-  deleteFundingOrg,
 } from "../Services/Organizations/FundingOrgsService";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
@@ -18,7 +14,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateGrant } from "../Services/Organizations/GrantsService";
 
 library.add(faTrashAlt);
 library.add(faEdit);
@@ -31,18 +26,14 @@ export default function FundingOrgsShow(props) {
   const [organizationName, setOrganizationName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [newName, setNewName] = useState("");
-  const [newWebsite, setNewWebsite] = useState("");
+  const [_newName, setNewName] = useState("");
+  const [_newWebsite, setNewWebsite] = useState("");
 
   const history = useHistory();
 
@@ -65,10 +56,14 @@ export default function FundingOrgsShow(props) {
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.match.params.funding_org_id,
+  ]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -88,11 +83,11 @@ export default function FundingOrgsShow(props) {
         toggleHidden();
       })
       .catch((error) => {
-        console.log("category update error", error);
+        console.error("category update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
   };
 
@@ -108,7 +103,7 @@ export default function FundingOrgsShow(props) {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
   };

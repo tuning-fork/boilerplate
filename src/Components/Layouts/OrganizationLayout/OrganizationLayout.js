@@ -10,14 +10,18 @@ export default function OrganizationLayout(props) {
   const { currentOrganizationStore } = useCurrentOrganizationContext();
   const { currentOrganization } = currentOrganizationStore;
 
+  if (!currentUserStore.currentUser || !currentOrganization) {
+    return "Loading...";
+  }
+
   return (
     <main className="layout">
       <Navbar
-        organizationName={currentOrganization?.name}
+        organizationName={currentOrganization.name}
         user={currentUserStore.currentUser}
       />
       <div className="layout__content">
-        <Sidebar organizationId={currentOrganization?.id} />
+        <Sidebar />
         {props.children}
       </div>
     </main>

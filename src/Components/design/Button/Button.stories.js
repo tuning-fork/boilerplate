@@ -1,10 +1,7 @@
 import React from "react";
-import Button from "./Button";
+import { Link, Route, HashRouter, Switch, Redirect } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
-
-// Ensures icon component doesn't show up as <[object Object] /> in story "Show
-// code" section.
-MdSearch.displayName = "SearchIcon";
+import Button from "./Button";
 
 export default {
   title: "Design/Button",
@@ -16,7 +13,11 @@ export default {
   },
 };
 
-const Container = ({ children }) => (
+export const ButtonRegular = (props) => (
+  <Button {...props}>{props.children}</Button>
+);
+
+export const ButtonWithIcon = (props) => (
   <div
     style={{
       display: "flex",
@@ -24,32 +25,39 @@ const Container = ({ children }) => (
       marginBottom: "20px",
     }}
   >
-    {children}
+    <Button {...props}>
+      <MdSearch />
+    </Button>
+    <Button {...props}>
+      <MdSearch />
+      {props.children}
+    </Button>
+    <Button {...props}>
+      {props.children}
+      <MdSearch />
+    </Button>
   </div>
 );
 
-export const ButtonRegular = (props) => (
-  <Button {...props}>{props.children}</Button>
-);
-
-export const ButtonWithIcon = (props) => (
-  <Container>
-    <Button {...props}>
-      <MdSearch />
-    </Button>
-    <Button {...props}>
-      <MdSearch />
-      {props.children}
-    </Button>
-    <Button {...props}>
-      {props.children}
-      <MdSearch />
-    </Button>
-  </Container>
-);
-
-export const ButtonUserIcon = (props) => (
-  <Button {...props} variant="usericon" color="colorwheel" text="JW">
-    {props.children}
-  </Button>
+export const ButtonLink = (props) => (
+  <HashRouter>
+    <div style={{ display: "flex", gap: "1rem" }}>
+      <Button {...props} as="a" href="https://example.com">
+        https://example.com
+      </Button>
+      <Button {...props} as={Link} to="/route-1">
+        Route 1
+      </Button>
+      <Button {...props} as={Link} to="/route-2">
+        Route 2
+      </Button>
+    </div>
+    <Switch>
+      <Route path="/route-1">Route 1</Route>
+      <Route path="/route-2">Route 2</Route>
+      <Route path="/">
+        <Redirect to="/route-1" />
+      </Route>
+    </Switch>
+  </HashRouter>
 );

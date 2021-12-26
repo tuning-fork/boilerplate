@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -8,17 +7,11 @@ import { createGrantReport } from "../Services/Organizations/Grants/GrantReports
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, _setSubmitted] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState(`Report for ${props.grant_title}`);
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganizationContext();
 
   const clearForm = () => {
     setDeadline("");
@@ -45,7 +38,7 @@ export default function ReportsNew(props) {
         }
       })
       .catch((error) => {
-        console.log("report creation error", error);
+        console.error("report creation error", error);
       });
   };
 

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSections/ReportSectionEditForm";
@@ -11,45 +8,39 @@ import countWords from "../Helpers/countWords";
 import {
   getReportSection,
   updateReportSection,
-  deleteReportSection,
+  // deleteReportSection,
 } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faTrashAlt);
 library.add(faEdit);
 
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");
-  const [id, setId] = useState("");
+  const [_id, setId] = useState("");
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [_text, setText] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const [wordcount, setWordcount] = useState("");
-  const [reportId, setReportId] = useState("");
+  const [_wordcount, setWordcount] = useState("");
+  const [_reportId, setReportId] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newQuillText, setNewQuillText] = useState("");
-  const [newTitle, setNewTitle] = useState("");
-  const [newSortOrder, setNewSortOrder] = useState("");
+  const [_newQuillText, setNewQuillText] = useState("");
+  const [_newTitle, setNewTitle] = useState("");
+  const [_newSortOrder, setNewSortOrder] = useState("");
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
     currentOrganizationStore.currentOrganization &&
     currentOrganizationStore.currentOrganization.id;
 
-  const [show, setShow] = useState(false);
+  const [_show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -71,10 +62,16 @@ export default function ReportSectionsShow(props) {
           setNewSortOrder(reportSection.sort_order);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [
+    currentOrganizationId,
+    organizationClient,
+    props.grant_id,
+    props.report_id,
+    props.report_section_id,
+  ]);
 
   const toggleHidden = () => {
     setIsHidden(!isHidden);
@@ -103,26 +100,12 @@ export default function ReportSectionsShow(props) {
         toggleHidden();
       })
       .catch((error) => {
-        console.log("report section update error", error);
+        console.error("report section update error", error);
       });
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     handleClose();
-  };
-
-  const handleReportSectionDelete = () => {
-    const grantId = props.match.params.grant_id;
-    const reportId = props.match.params.report_id;
-    const reportSectionId = props.match.params.report_section_id;
-    deleteReportSection(organizationClient, grantId, reportId, reportSectionId)
-      .then((reportSection) => {
-        toggleHidden();
-        props.deleteReportSections(reportSection);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   if (loading) {

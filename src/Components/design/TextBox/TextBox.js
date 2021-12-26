@@ -15,6 +15,7 @@ export default function TextBox(props) {
     required,
     type,
     search,
+    value,
   } = props;
 
   return (
@@ -26,6 +27,7 @@ export default function TextBox(props) {
         <input
           className="text-box__input"
           type={type}
+          value={value}
           onChange={onChange}
           required={required}
         />

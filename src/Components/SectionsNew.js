@@ -4,33 +4,28 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { countWords } from "../Services/infofunctions";
 import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
 import { createGrantSection } from "../Services/Organizations/Grants/GrantSectionsService";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
+import countWords from "../Helpers/countWords";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const [wordcount, setWordcount] = useState("");
+  const [_text, setText] = useState("");
+  const [_sortOrder, setSortOrder] = useState("");
+  const [_wordcount, setWordcount] = useState("");
   const [boilerplates, setBoilerplates] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [isHidden, setIsHidden] = useState(true);
-  const [loading, setLoading] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
 
-  const {
-    currentOrganizationStore,
-    currentOrganizationDispatch,
-    organizationClient,
-  } = useCurrentOrganizationContext();
+  const { currentOrganizationStore, organizationClient } =
+    useCurrentOrganizationContext();
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+    currentOrganizationStore.currentOrganization?.id;
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -39,10 +34,10 @@ export default function SectionsNew(props) {
           setBoilerplates(boilerplates);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
-  }, [currentOrganizationId]);
+  }, [currentOrganizationId, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -108,7 +103,7 @@ export default function SectionsNew(props) {
         }
       })
       .catch((error) => {
-        console.log("section creation error", error);
+        console.error("section creation error", error);
       });
   };
 

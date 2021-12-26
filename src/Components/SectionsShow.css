@@ -1,8 +1,15 @@
-.Section__Header {
+.section__header {
   display: flex;
+  align-items: flex-end;
 }
 
-.Section__Title {
+h2.section__title {
   flex: 1;
-  font-size: 24px;
+  margin-bottom: 0;
+}
+
+svg.section__edit-icon {
+  font-size: 1.4rem;
+  margin-inline-start: 1rem;
+  color: var(--primary);
 }

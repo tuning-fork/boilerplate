@@ -1,3 +1,11 @@
+export const mapSection = (apiSection) => ({
+  id: apiSection.id.toString(),
+  wordCount: apiSection.wordcount,
+  title: apiSection.title,
+  text: apiSection.text,
+  sortOrder: apiSection.sort_order,
+});
+
 // getGrantSection
 export const getGrantSection = (
   organizationClient,
