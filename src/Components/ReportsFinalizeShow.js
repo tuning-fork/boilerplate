@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReportSectionsShow from "./ReportSectionsShow";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import ReportFinalizeEditForm from "./Reports/ReportEditForm";
 import {
   getGrantReport,
@@ -22,17 +22,13 @@ export default function ReportsFinalizeShow(props) {
   const [_newDeadline, setNewDeadline] = useState(props.deadline);
   const [_newSubmitted, setNewSubmitted] = useState(props.submitted);
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const grantId = props.match.params.grant_id;
       const reportId = id;
       getGrantReport(organizationClient, grantId, reportId)
@@ -53,7 +49,7 @@ export default function ReportsFinalizeShow(props) {
         });
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.match.params.grant_id,
     id,

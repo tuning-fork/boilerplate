@@ -2,25 +2,21 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createCategory } from "../Services/Organizations/CategoriesService";
 
 export default function CategoriesNew(props) {
   const [name, setName] = useState("");
   const { onClose } = props;
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newCategory = {
       name: name,
-      organization_id: currentOrganizationId,
+      organization_id: currentOrganization.id,
     };
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       createCategory(organizationClient, newCategory)
         .then((category) => {
           if (category) {

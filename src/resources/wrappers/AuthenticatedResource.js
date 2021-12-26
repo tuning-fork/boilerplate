@@ -1,14 +1,18 @@
+import { useCurrentUser } from "../../Contexts/currentUserContext";
 import BaseResource from "./BaseResource";
 
-export default class AuthenticatedResource extends BaseResource {
-  static useFetchInit = (init) => {
-    const accessToken = localStorage.getItem("token");
-    return {
-      ...init,
-      headers: {
-        ...init.headers,
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+function useFetchInit(init) {
+  const { jwt } = useCurrentUser();
+
+  return {
+    ...init,
+    headers: {
+      ...init.headers,
+      Authorization: `Bearer ${jwt}`,
+    },
   };
+}
+
+export default class AuthenticatedResource extends BaseResource {
+  static useFetchInit = useFetchInit;
 }

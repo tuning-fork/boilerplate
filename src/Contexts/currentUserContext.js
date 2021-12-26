@@ -1,93 +1,120 @@
-import React, { useContext, createContext, useReducer, useEffect } from "react";
+import React, {
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { login as createSession, authWithJwt } from "../Services/Auth/Login";
+import Spinner from "../Components/Helpers/Spinner";
+import apiClient from "../config/apiClient";
+import axios from "axios";
 
 export const CurrentUserContext = createContext();
 
-export const useCurrentUserContext = () => {
-  return useContext(CurrentUserContext);
+export const CurrentUserStatus = {
+  PENDING: "PENDING",
+  ERROR: "ERROR",
+  SUCCESS: "SUCCESS",
+  LOGIN_REQUIRED: "LOGIN_REQUIRED",
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_CURRENT_USER":
-      return {
-        ...state,
-        currentUser: action.payload.user,
-        jwt: action.payload.jwt,
-        status: "successful",
-        errors: [],
-      };
-    case "SET_AUTHENTICATION_ERROR":
-      return {
-        ...state,
-        currentUser: null,
-        status: "error",
-        errors: [action.payload],
-      };
-    case "SET_AUTHENTICATION_REQUIRED":
-      return {
-        ...state,
-        currentUser: null,
-        status: "authentication required",
-        errors: [],
-      };
-    default:
-      return state;
-  }
+const CREDENTIALS_LOCAL_STORAGE_KEY = "credentials";
+const CredentialsCache = {
+  save(credentials) {
+    console.debug("Saving credentials to cache", credentials);
+    return localStorage.setItem(
+      CREDENTIALS_LOCAL_STORAGE_KEY,
+      JSON.stringify(credentials)
+    );
+  },
+  load() {
+    const credentials = JSON.parse(
+      localStorage.getItem(CREDENTIALS_LOCAL_STORAGE_KEY)
+    );
+    console.debug("Loading credentials from cache", credentials);
+    return credentials;
+  },
+  clear() {
+    console.debug("Clearing credentials from cache");
+    localStorage.removeItem(CREDENTIALS_LOCAL_STORAGE_KEY);
+  },
 };
 
 export const CurrentUserProvider = ({ children }) => {
-  const store = {
-    currentUser: null,
+  const [state, setState] = useState({
+    status: CurrentUserStatus.PENDING,
+    error: null,
+    user: null,
     jwt: null,
-    status: null,
-    errors: [],
-  };
+  });
 
-  const [currentUserStore, currentUserDispatch] = useReducer(reducer, store);
+  const authenticatedApiClient = useMemo(
+    () =>
+      axios.create({
+        ...apiClient.defaults,
+        headers: {
+          ...apiClient.headers,
+          Authorization: `Bearer ${state.jwt}`,
+        },
+      }),
+    [state.jwt]
+  );
 
-  const login = (email, password) => {
-    return createSession(email, password)
-      .then((response) => {
-        currentUserDispatch({
-          type: "SET_CURRENT_USER",
-          payload: response,
-        });
-      })
-      .catch((error) => {
-        currentUserDispatch({
-          type: "SET_AUTHENTICATION_ERROR",
-          payload: error,
-        });
-        throw error;
+  const logout = useCallback(() => {
+    CredentialsCache.clear();
+    setState({
+      status: CurrentUserStatus.LOGIN_REQUIRED,
+      error: null,
+      user: null,
+      jwt: null,
+    });
+  }, []);
+
+  const login = useCallback(async (email, password) => {
+    try {
+      const { jwt, user } = await createSession(email, password);
+
+      CredentialsCache.save(jwt);
+      setState({ status: CurrentUserStatus.SUCCESS, error: null, user, jwt });
+    } catch (error) {
+      setState({
+        status: CurrentUserStatus.ERROR,
+        error: error,
+        user: null,
+        jwt: null,
       });
-  };
-
-  useEffect(() => {
-    const savedJwt = localStorage.getItem("token");
-    if (savedJwt) {
-      authWithJwt(savedJwt)
-        .then(({ jwt, user }) => {
-          currentUserDispatch({
-            type: "SET_CURRENT_USER",
-            payload: { jwt, user },
-          });
-        })
-        .catch((error) => {
-          currentUserDispatch({
-            type: "SET_AUTHENTICATION_ERROR",
-            payload: error,
-          });
-          throw error;
-        });
     }
   }, []);
 
-  const context = {
-    currentUserStore,
-    currentUserDispatch,
-    login,
-  };
+  const loginWithJwt = useCallback(
+    async (jwt) => {
+      try {
+        const { user, jwt: newJwt } = await authWithJwt(jwt);
+        setState({
+          status: CurrentUserStatus.SUCCESS,
+          error: null,
+          user,
+          jwt: newJwt,
+        });
+      } catch (error) {
+        logout();
+      }
+    },
+    [logout]
+  );
+
+  const context = { ...state, login, logout, authenticatedApiClient };
+
+  useEffect(() => {
+    const cachedJwt = CredentialsCache.load();
+    loginWithJwt(cachedJwt);
+  }, [loginWithJwt]);
+
+  if (state.status === CurrentUserStatus.PENDING) {
+    return <Spinner />;
+  }
 
   return (
     <CurrentUserContext.Provider value={context}>
@@ -95,3 +122,5 @@ export const CurrentUserProvider = ({ children }) => {
     </CurrentUserContext.Provider>
   );
 };
+
+export const useCurrentUser = () => useContext(CurrentUserContext);

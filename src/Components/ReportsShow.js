@@ -5,7 +5,7 @@ import ReportSectionsShow from "./ReportSectionsShow";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import ReportEditForm from "./Reports/ReportEditForm";
 import {
   getGrantReport,
@@ -37,10 +37,7 @@ export default function ReportsShow(props) {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_newTitle, setNewTitle] = useState("");
   const [_newDeadline, setNewDeadline] = useState("");
@@ -50,7 +47,7 @@ export default function ReportsShow(props) {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const grantId = props.match.params.grant_id;
       const reportId = id;
       getGrantReport(organizationClient, grantId, reportId)
@@ -79,7 +76,7 @@ export default function ReportsShow(props) {
         });
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     id,
     organizationClient,
     props.match.params.grant_id,
@@ -272,7 +269,7 @@ export default function ReportsShow(props) {
       <br />
 
       <Link
-        to={`/organizations/${currentOrganizationStore.currentOrganization.id}/grants/${grantId}/reports-finalize/${id}`}
+        to={`/organizations/${currentOrganization.id}/grants/${grantId}/reports-finalize/${id}`}
       >
         <Button>Report Finalize</Button>
       </Link>

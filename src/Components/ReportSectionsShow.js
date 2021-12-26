@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSections/ReportSectionEditForm";
 import countWords from "../Helpers/countWords";
 import {
@@ -33,17 +33,13 @@ export default function ReportSectionsShow(props) {
   const [_newTitle, setNewTitle] = useState("");
   const [_newSortOrder, setNewSortOrder] = useState("");
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const grantId = props.grant_id;
       const reportId = props.report_id;
       const reportSectionId = props.report_section_id;
@@ -66,7 +62,7 @@ export default function ReportSectionsShow(props) {
         });
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.grant_id,
     props.report_id,

@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Modal from "./Elements/Modal";
 import { useHistory } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import CategoryEditForm from "./Categories/CategoryEditForm";
 import {
   getCategory,
@@ -28,10 +28,7 @@ export default function CategoriesShow(props) {
   const [_organizationName, setOrganizationName] = useState("");
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_newName, setNewName] = useState("");
 
@@ -40,7 +37,7 @@ export default function CategoriesShow(props) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       const CategoryId = props.match.params.category_id;
       getCategory(organizationClient, CategoryId)
         .then((category) => {
@@ -56,7 +53,7 @@ export default function CategoriesShow(props) {
         });
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.match.params.category_id,
   ]);
@@ -89,7 +86,7 @@ export default function CategoriesShow(props) {
     deleteCategory(organizationClient, CategoryId)
       .then((category) => {
         if (category.message) {
-          history.push(`/organizations/${currentOrganizationId}/categories`);
+          history.push(`/organizations/${currentOrganization.id}/categories`);
         }
       })
       .catch((error) => {

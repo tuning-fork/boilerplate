@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { updateReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
 import {
   deleteGrantSection,
@@ -25,14 +25,10 @@ export default function ReportSectionsUpdateFinal(props) {
     setIsHidden(!isHidden);
   };
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getGrantSection(
         organizationClient,
         props.grant_id,
@@ -50,7 +46,7 @@ export default function ReportSectionsUpdateFinal(props) {
         .catch((error) => console.error(error));
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.grant_id,
     props.report_id,

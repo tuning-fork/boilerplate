@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,
@@ -16,7 +16,7 @@ import Container from "../design/Container/Container";
 export default function GrantEdit() {
   const [grant, setGrant] = useState();
   const [fundingOrgs, setFundingOrgs] = useState([]);
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
   const history = useHistory();

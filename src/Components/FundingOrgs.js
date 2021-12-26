@@ -3,7 +3,7 @@ import FundingOrgsNew from "./FundingOrgs/FundingOrgsNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { getAllFundingOrgs } from "../Services/Organizations/FundingOrgsService";
 import {
   updateFundingOrg,
@@ -25,11 +25,8 @@ export default function FundingOrgs() {
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+
   const [showFundingOrgsNew, setShowFundingOrgsNew] = useState(false);
   const [showFundingOrgEdit, setShowFundingOrgEdit] = useState(false);
   const handleClose = () => {
@@ -43,7 +40,7 @@ export default function FundingOrgs() {
   };
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllFundingOrgs(organizationClient)
         .then((fundingOrgs) => {
           setFundingOrgs(fundingOrgs);
@@ -52,7 +49,7 @@ export default function FundingOrgs() {
         .catch((error) => console.error(error));
     }
     window.scrollTo(0, 0);
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs, newFundingOrg];
@@ -63,7 +60,7 @@ export default function FundingOrgs() {
     updateFundingOrg(organizationClient, id, {
       name: newName,
       website: newWebsite,
-      organization_id: currentOrganizationId,
+      organization_id: currentOrganization.id,
     })
       .then(() => {
         setName(name);
