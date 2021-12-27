@@ -1,8 +1,8 @@
-.layout {
-  height: 100%;
+.organization-layout {
+  min-height: 100vh;
 }
-.layout__content {
+
+.organization-layout__content {
+  min-height: calc(100vh - 3.2rem);
   display: flex;
-  flex-direction: row;
-  height: 100%;
 }

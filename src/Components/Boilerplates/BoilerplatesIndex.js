@@ -9,7 +9,7 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import { Link, useParams } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
 import countWords from "../../Helpers/countWords";
@@ -19,10 +19,8 @@ export default function BoilerplatesIndex(props) {
   const [boilerplates, setBoilerplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const currentOrganizationId = currentOrganization.id;
 
   const [searchFilters, setSearchFilters] = useState({
     title: "",

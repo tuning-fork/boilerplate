@@ -1,5 +1,6 @@
 import { Resource } from "@rest-hooks/rest";
 import { camelCase, snakeCase } from "lodash";
+import apiClient from "../../config/apiClient";
 import mapKeysDeeply from "../../Helpers/mapKeysDeeply";
 
 export default class BaseResource extends Resource {
@@ -10,6 +11,8 @@ export default class BaseResource extends Resource {
   pk() {
     return this.id?.toString();
   }
+
+  static urlRoot = apiClient.defaults.baseURL;
 
   static schema = {
     createdAt: Date,

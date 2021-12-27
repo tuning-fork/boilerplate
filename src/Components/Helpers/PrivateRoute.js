@@ -1,15 +1,15 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useCurrentUserContext } from "../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
 
 export const PrivateRoute = ({ component: Component, children, ...rest }) => {
-  const { currentUserStore } = useCurrentUserContext();
+  const { user } = useCurrentUser();
 
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (currentUserStore.currentUser) {
+        if (user) {
           if (Component) {
             return <Component {...props} />;
           }

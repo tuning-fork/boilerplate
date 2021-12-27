@@ -1,105 +1,74 @@
-import React, { useContext, createContext, useReducer, useEffect } from "react";
+import React, {
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import axios from "axios";
-import { useCurrentUserContext } from "./currentUserContext";
+import { useCurrentUser } from "./currentUserContext";
+import apiClient from "../config/apiClient";
+import {
+  getOrganization,
+  getUserOrganizations,
+} from "../Services/OrganizationService";
 
 export const CurrentOrganizationContext = createContext();
 
-export const useCurrentOrganizationContext = () => {
-  return useContext(CurrentOrganizationContext);
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_ALL_USER_ORGANIZATIONS":
-      return {
-        ...state,
-        allUserOrganizations: action.payload,
-      };
-    case "SET_CURRENT_ORGANIZATION":
-      const { currentOrganization, jwt } = action.payload;
-      const organizationClient = axios.create({
-        baseURL: `${axios.defaults.baseURL}api/organizations/${currentOrganization.id}`,
-        headers: { Authorization: `Bearer ${jwt}` },
-      });
-
-      return {
-        ...state,
-        currentOrganization,
-        organizationClient,
-      };
-    default:
-      return state;
-  }
-};
+export const useCurrentOrganization = () =>
+  useContext(CurrentOrganizationContext);
 
 export const CurrentOrganizationProvider = ({ children }) => {
-  const store = {
-    allUserOrganizations: [],
-    currentOrganization: null,
-    organizationClient: null,
+  const [organizations, setOrganizations] = useState([]);
+  const [currentOrganization, setCurrentOrganization] = useState();
+  const [organizationClient, setOrganizationClient] = useState();
+  const [isLoadingOrganization, setIsLoadingOrganization] = useState(false);
+  const { user, authenticatedApiClient } = useCurrentUser();
+
+  const fetchUserOrganizations = useCallback(async () => {
+    const organizations = await getUserOrganizations(
+      authenticatedApiClient,
+      user.id
+    );
+    setOrganizations(organizations);
+  }, [user, authenticatedApiClient]);
+
+  const fetchCurrentOrganization = async (organizationId) => {
+    try {
+      setIsLoadingOrganization(true);
+
+      const organizationClient = axios.create({
+        ...authenticatedApiClient.defaults,
+        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
+      });
+      setOrganizationClient(() => organizationClient);
+
+      const organization = await getOrganization(
+        authenticatedApiClient,
+        organizationId
+      );
+      setCurrentOrganization(organization);
+    } finally {
+      setIsLoadingOrganization(false);
+    }
   };
-  const [currentOrganizationStore, currentOrganizationDispatch] = useReducer(
-    reducer,
-    store
-  );
-  const { currentUserStore } = useCurrentUserContext();
+
+  const context = {
+    currentOrganization,
+    fetchCurrentOrganization,
+    isLoadingOrganization,
+    organizationClient,
+    organizations,
+  };
 
   useEffect(() => {
-    const userId = currentUserStore.currentUser?.id;
-
-    if (!userId) {
-      return;
+    if (user) {
+      fetchUserOrganizations();
     }
-
-    axios
-      .get(`/api/organization_users/assoc/${userId}`, {
-        headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
-      })
-      .then((response) => {
-        if (response.data.length > 0) {
-          currentOrganizationDispatch({
-            type: "SET_ALL_USER_ORGANIZATIONS",
-            payload: response.data,
-          });
-        } else {
-          currentOrganizationDispatch({
-            type: "SET_ALL_USER_ORGANIZATIONS",
-            payload: [
-              { id: 1, name: "org1" },
-              { id: 2, name: "org2" },
-              { id: 3, name: "org3" },
-            ],
-          });
-        }
-      })
-      .catch((error) => console.error(error));
-
-    const selectedOrgId = localStorage.getItem("org_id");
-    if (selectedOrgId) {
-      axios
-        .get(`/api/organizations/${selectedOrgId}`, {
-          headers: { Authorization: `Bearer ${currentUserStore?.jwt}` },
-        })
-        .then((response) => {
-          currentOrganizationDispatch({
-            type: "SET_CURRENT_ORGANIZATION",
-            payload: {
-              currentOrganization: response.data,
-              jwt: currentUserStore?.jwt,
-            },
-          });
-        });
-    }
-  }, [currentUserStore.jwt, currentUserStore.currentUser]);
+  }, [user, fetchUserOrganizations]);
 
   return (
-    <CurrentOrganizationContext.Provider
-      value={{
-        currentOrganizationStore,
-        currentOrganizationDispatch,
-        organizationClient: currentOrganizationStore.organizationClient,
-      }}
-    >
+    <CurrentOrganizationContext.Provider value={context}>
       {children}
     </CurrentOrganizationContext.Provider>
   );

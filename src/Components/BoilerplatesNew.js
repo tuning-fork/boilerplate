@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 import CategoriesNew from "./CategoriesNew";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 
@@ -18,11 +18,8 @@ export default function BoilerplatesNew(props) {
   const [categories, setCategories] = useState([]);
   const history = useHistory();
 
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+
   const [showCategoriesNew, setShowCategoriesNew] = useState(false);
   const handleClose = () => {
     setShowCategoriesNew(false);
@@ -31,14 +28,14 @@ export default function BoilerplatesNew(props) {
   const handleShowCategoriesNew = () => setShowCategoriesNew(true);
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
         })
         .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const updateCategories = (newCategory) => {
     const newCategories = [...categories];
@@ -55,16 +52,16 @@ export default function BoilerplatesNew(props) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    history.push(`/organizations/${currentOrganizationId}/boilerplates`);
+    history.push(`/organizations/${currentOrganization.id}/boilerplates`);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       createBoilerplate(organizationClient, {
         title: title,
         text: quillText,
-        organization_id: currentOrganizationId,
+        organization_id: currentOrganization.id,
         category_id: categoryId,
         wordcount: countWords(quillText),
       })
@@ -125,7 +122,7 @@ export default function BoilerplatesNew(props) {
           updateCategories={updateCategories}
         />
       </Modal>
-      <Link to={`/organizations/${currentOrganizationId}/boilerplates/`}>
+      <Link to={`/organizations/${currentOrganization.id}/boilerplates/`}>
         <p>Back to Boilerplates</p>
       </Link>
       <Card>

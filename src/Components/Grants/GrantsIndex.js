@@ -23,7 +23,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { getAllGrants } from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import countWords from "../../Helpers/countWords";
@@ -37,11 +37,11 @@ export default function GrantsIndex(props) {
   const [errors, setErrors] = useState([]);
   const [filteredGrantsByTabName, setFilteredGrantsByTabName] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
+  const { currentOrganization, organizationClient } =
+    useCurrentOrganization();
   // const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+    currentOrganization.id;
   // const { grant_id: grantId } = useParams();
   const sensors = useSensors(
     useSensor(PointerSensor)
