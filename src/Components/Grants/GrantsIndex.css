@@ -1,64 +1,41 @@
 .GrantsIndex {
-  padding-left: 20px;
-  padding-right: 20px;
   flex: 1;
-}
-.GrantsIndex__Header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 80vw;
-  align-items: center;
-}
-
-.GrantsIndex__HeaderText {
-  padding-top: 20px;
-  padding-left: 18px;
-}
-
-.GrantsIndex__Overview {
-  flex-direction: row;
+  padding: 4rem;
 }
 
 .GrantsIndex__Actions {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: 18px;
-  padding-left: 18px;
-  margin-bottom: 0px;
 }
 
 .GrantsIndex__SearchInput {
   width: 40vw;
+  margin-bottom: 0px;
 }
 
 .GrantsIndex__AddNew {
   display: block;
   margin-bottom: 1.38rem;
-  /* justify-content: right; */
 }
 
 .GrantsIndex__TableTabs {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-right: 40vw;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
   font-size: 18px;
+  color: var(--primary-text);
 }
 
 .GrantsIndex__TableTabButton {
-  border-radius: unset;
-  border-bottom: 5px solid transparent;
+  font-weight: var(--font-weight-normal);
 }
 
 .GrantsIndex__TableTabButton:hover,
 .GrantsIndex__TableTabButton:focus,
 .GrantsIndex__TableTabButton--selected {
+  border-radius: 0;
+  outline: 0;
   border-bottom: 5px solid var(--primary-shade);
-  outline: none;
 }
