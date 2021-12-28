@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import Container from "../design/Container/Container";
 // import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { createUser } from "../../Services/Auth/SignupService";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+// import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import SignUpForm from "./SignUpForm";
 import "./SignUp.css";
 
-export default function SignUp() {
-  const buildOrganizationsLink = useBuildOrganizationsLink();
+export default function SignUp(props) {
+  // const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
   const handleCancel = (event) => {
     event.preventDefault();
-    history.push(buildOrganizationsLink(`/landing_page`));
+    props.onCancel();
+    history.push(`/landing_page`);
   };
 
   const handleSubmit = (newUserFields) => {
@@ -21,6 +22,7 @@ export default function SignUp() {
       .then((createdUser) => {
         alert("user created!");
         console.log(createdUser);
+        props.onSubmit();
         history.push(`/landing_page`);
       })
       .catch((error) => {

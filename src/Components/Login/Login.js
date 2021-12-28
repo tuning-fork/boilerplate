@@ -1,59 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useCallback } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createUser } from "../../Services/Auth/SignupService";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
 import LoginForm from "./LoginForm";
 import "./Login.css";
 
-export default function Login() {
-  const [newUser, setNewUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { organizationClient } = useCurrentOrganization();
-  const buildOrganizationsLink = useBuildOrganizationsLink();
+export default function Login(props) {
   const history = useHistory();
+  const location = useLocation();
+  const { login } = useCurrentUser();
 
   const handleCancel = (event) => {
     event.preventDefault();
-    history.push(buildOrganizationsLink(`/grants/${grantId}`));
+    props.onCancel();
+    history.push(`/landing_page`);
   };
 
-  const handleSubmit = (signUpFields) => {
-    copyGrant(organizationClient, grantId, newGrantFields)
-      .then((copiedGrant) => {
-        alert("Grant copied!");
-        history.push(buildOrganizationsLink(`/grants/${copiedGrant.id}`));
-      })
-      .catch((error) => {
-        console.error(error);
-        alert(
-          "Eek! Something went wrong when copying the grant. Try again soon."
-        );
-      });
-  };
-
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    Promise.all([
-      getGrant(organizationClient, grantId).then(setGrant),
-      getAllFundingOrgs(organizationClient).then(setFundingOrgs),
-    ]).finally(() => setIsLoading(false));
-  }, [grantId, organizationClient]);
-
-  if (isLoading) {
-    return "Loading...";
-  }
+  const handleSubmit = useCallback(
+    async ({ email, password }) => {
+      // event.preventDefault();
+      await login(email, password);
+      // console.log("user info", user);
+      // alert("You're signed in!");
+      history.push(location.state?.from ?? "/org_select");
+    },
+    [history, location, login]
+  );
 
   return (
-    <div className="signup">
-      <Container as="section" centered>
-        <h1 className="signup">Copy Grant</h1>
-        <SignUpForm onSubmit={handleSubmit} onCancel={handleCancel} />
-      </Container>
-    </div>
+    <Container as="section" className="login">
+      <h1 className="login">Login</h1>
+      <LoginForm onSubmit={handleSubmit} onCancel={handleCancel} />
+    </Container>
   );
 }

@@ -1,0 +1,8 @@
+.login {
+  display: flex;
+  width: 100%;
+}
+
+.login__header {
+  margin: 3rem 0;
+}

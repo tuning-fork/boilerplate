@@ -6,7 +6,7 @@ import "./TextBox.css";
 export default function TextBox(props) {
   const {
     labelText,
-    placeholderText,
+    // placeholderText,
     onChange,
     className,
     prefix,

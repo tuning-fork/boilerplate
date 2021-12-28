@@ -14,14 +14,19 @@ export default function SplashpageLayout(props) {
 
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const handleShowSignUpModal = (event) => setShowSignUpModal(true);
-  const handleCloseSignUpModal = (event) => setShowSignUpModal(false);
-  const handleShowLoginModal = (event) => setShowLoginModal(true);
-  const handleCloseLoginModal = (event) => setShowLoginModal(false);
+  const handleShowSignUpModal = () => setShowSignUpModal(true);
+  const handleCloseSignUpModal = () => setShowSignUpModal(false);
+  const handleShowLoginModal = () => setShowLoginModal(true);
+  const handleCloseLoginModal = () => setShowLoginModal(false);
   // const handleCancel = (event) => {
   //   handleCloseSignUpModal();
   //   handleCloseLoginModal();
   // };
+
+  const handleSignup = () => {
+    setShowSignUpModal(false);
+    setShowLoginModal(true);
+  };
 
   return (
     <main className="splashpage-layout">
@@ -32,7 +37,6 @@ export default function SplashpageLayout(props) {
           src={allSplashpageGraphicElements}
           alt="Splashpage graphics"
           className="splashpage-layout__graphic-elements"
-          usemap="#mapname"
         />
         <Button
           style={{
@@ -60,11 +64,15 @@ export default function SplashpageLayout(props) {
           variant="none"
           onClick={handleShowLoginModal}
         ></Button>
-        <Modal onClose={handleCloseSignUpModal} show={showSignUpModal}>
+        <Modal
+          className="modal-popup"
+          onClose={handleCloseSignUpModal}
+          show={showSignUpModal}
+        >
           <Card>
             <Card.Body>
               <SignUp
-                onSubmit={handleCloseSignUpModal}
+                onSubmit={handleSignup}
                 onCancel={handleCloseSignUpModal}
               />
             </Card.Body>
@@ -77,7 +85,10 @@ export default function SplashpageLayout(props) {
         >
           <Card>
             <Card.Body>
-              <Login />
+              <Login
+                onSubmit={handleCloseLoginModal}
+                onCancel={handleCloseLoginModal}
+              />
             </Card.Body>
           </Card>
         </Modal>

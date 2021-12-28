@@ -1,10 +1,10 @@
-.grant-form {
+.login-form {
   height: 100%;
 }
 
-.grant-form__actions {
+.login-form__actions {
   float: right;
 }
-.grant-form__actions > button {
+.login-form__actions > button {
   margin-left: 20px;
 }
