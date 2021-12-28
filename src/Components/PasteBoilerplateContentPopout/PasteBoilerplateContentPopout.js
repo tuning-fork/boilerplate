@@ -7,7 +7,7 @@ import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentP
 import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 
 import { MdClose } from "react-icons/md";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 
@@ -17,7 +17,7 @@ export default function PasteBoilerplateContentPopout() {
     { Header: "Category", accessor: "category_name" },
     { Header: "Word Count", accessor: "wordcount" },
   ];
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
   const { setIsOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [searchFilters, setSearchFilters] = useState({

@@ -1,27 +1,22 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
-import { useCurrentUserContext } from "../Contexts/currentUserContext";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
-import { getAllUsers } from "../Services/Organizations/OrganizationUsersService";
-import { getAllGrants } from "../Services/Organizations/GrantsService";
+import { useCurrentUser } from "../Contexts/currentUserContext";
 import isRecent from "../Helpers/date/isRecent";
 import isSoon from "../Helpers/date/isSoon";
 import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
-import Spinner from "./Helpers/Spinner";
+import { Grant, OrganizationUser } from "../resources";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
+import useOrganizationResource from "../Hooks/useOrganizationResource";
 
 export default function Dashboard() {
-  const { currentUserStore } = useCurrentUserContext();
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { user } = useCurrentUser();
 
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [users, setUsers] = useState([]);
+  const users = useOrganizationResource(OrganizationUser.list());
+  const grants = useOrganizationResource(Grant.list());
 
-  const [loadingGrants, setLoadingGrants] = useState(true);
-  const [grants, setGrants] = useState([]);
   const recentDrafts = useMemo(
     () => grants.filter((grant) => isRecent(grant.updatedAt)),
     [grants]
@@ -31,22 +26,10 @@ export default function Dashboard() {
     [grants]
   );
 
-  useEffect(() => {
-    if (organizationClient) {
-      getAllUsers(organizationClient)
-        .then(setUsers)
-        .finally(() => setLoadingUsers(false));
-
-      getAllGrants(organizationClient)
-        .then(setGrants)
-        .finally(() => setLoadingGrants(false));
-    }
-  }, [organizationClient]);
-
   return (
     <section className="dashboard">
       <header className="dashboard__header">
-        <h1>Welcome, {currentUserStore.currentUser.first_name}!</h1>
+        <h1>Welcome, {user.firstName}!</h1>
         <Button as={CurrentOrganizationLink} to="/grants-new">
           Add New Grant
         </Button>
@@ -62,10 +45,7 @@ export default function Dashboard() {
               icon={MdAccessTime}
             />
           ))}
-          {loadingGrants && <Spinner />}
-          {!loadingGrants && !recentDrafts.length && (
-            <p>No recent grant drafts.</p>
-          )}
+          {!recentDrafts.length && <p>No recent grant drafts.</p>}
         </ul>
       </article>
 
@@ -79,8 +59,7 @@ export default function Dashboard() {
               icon={MdAlarm}
             />
           ))}
-          {loadingGrants && <Spinner />}
-          {!loadingGrants && !recentDrafts.length && <p>No grants due soon.</p>}
+          {!dueSoon.length && <p>No grants due soon.</p>}
         </ul>
         <CurrentOrganizationLink
           to="/grants"
@@ -103,7 +82,6 @@ export default function Dashboard() {
           {users.map((user) => (
             <UserListItem key={user.id} user={user} />
           ))}
-          {loadingUsers && <Spinner />}
         </ul>
       </article>
     </section>

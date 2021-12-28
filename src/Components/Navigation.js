@@ -4,13 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useCurrentUserContext } from "../Contexts/currentUserContext";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentUser } from "../Contexts/currentUserContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 
 function Navigation(props) {
-  const { currentUserStore } = useCurrentUserContext();
-  const { currentOrganizationStore, currentOrganizationDispatch } =
-    useCurrentOrganizationContext();
+  const { currentUserStore } = useCurrentUser();
+  const { currentOrganization, organizations, currentOrganizationDispatch } =
+    useCurrentOrganization();
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
@@ -20,10 +20,9 @@ function Navigation(props) {
   };
 
   const handleChange = (event) => {
-    const selectedOrgInfo =
-      currentOrganizationStore.allUserOrganizations.filter(
-        (userOrganization) => event.target.value === userOrganization.id
-      );
+    const selectedOrgInfo = organizations.filter(
+      (userOrganization) => event.target.value === userOrganization.id
+    );
     localStorage.setItem("org_id", selectedOrgInfo[0].id);
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
@@ -60,7 +59,7 @@ function Navigation(props) {
                   </Nav.Item>
                   <Nav.Item className="active">
                     <Nav.Link
-                      href={`/organizations/${currentOrganizationStore.currentOrganization}
+                      href={`/organizations/${currentOrganization}
                                 .id/grants`}
                     >
                       Grants
@@ -73,15 +72,15 @@ function Navigation(props) {
                   </Nav.Item>
                 </Nav>
               </div>
-              {currentOrganizationStore?.currentOrganization?.id ? (
+              {currentOrganization?.id ? (
                 <div>
                   <h3 style={{ color: "#fefefe" }}>
                     You are logged in as{" "}
                     {currentUserStore?.currentUser?.first_name} and working in{" "}
                     <Link
-                      to={`/organizations/${currentOrganizationStore.currentOrganization.id}/dashboard`}
+                      to={`/organizations/${currentOrganization.id}/dashboard`}
                     >
-                      {currentOrganizationStore.currentOrganization.name}
+                      {currentOrganization.name}
                     </Link>
                   </h3>
                   <Form className="justify-content-end">
@@ -91,9 +90,9 @@ function Navigation(props) {
                         as="select"
                         name="organizationId"
                         value={
-                          currentOrganizationStore.currentOrganization == null
+                          currentOrganization == null
                             ? "0"
-                            : currentOrganizationStore.currentOrganization.id
+                            : currentOrganization.id
                         }
                         onChange={handleChange}
                         required
@@ -101,18 +100,16 @@ function Navigation(props) {
                         <option value="0" disabled>
                           Change Organization
                         </option>
-                        {currentOrganizationStore.allUserOrganizations?.map(
-                          (userOrganization) => {
-                            return (
-                              <option
-                                key={userOrganization.id}
-                                value={userOrganization.id}
-                              >
-                                {userOrganization.name}
-                              </option>
-                            );
-                          }
-                        )}
+                        {organizations?.map((userOrganization) => {
+                          return (
+                            <option
+                              key={userOrganization.id}
+                              value={userOrganization.id}
+                            >
+                              {userOrganization.name}
+                            </option>
+                          );
+                        })}
                       </Form.Control>
                     </Form.Group>
                   </Form>

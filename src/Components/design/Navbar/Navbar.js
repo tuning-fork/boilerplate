@@ -27,8 +27,8 @@ export default function Navbar(props) {
           className="navbar__user-icon"
         >
           <UserIcon
-            firstName={props.user.first_name}
-            lastName={props.user.last_name}
+            firstName={props.user.firstName}
+            lastName={props.user.lastName}
           />
         </Button>
       </div>

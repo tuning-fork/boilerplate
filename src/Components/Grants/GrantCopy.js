@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import {
   copyGrant,
   getGrant,
@@ -15,7 +15,7 @@ export default function GrantCopy() {
   const [grant, setGrant] = useState(null);
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grant_id: grantId } = useParams();
   const history = useHistory();

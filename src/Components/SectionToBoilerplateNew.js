@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../Services/Organizations/CategoriesService";
 import countWords from "../Helpers/countWords";
@@ -11,21 +11,17 @@ import countWords from "../Helpers/countWords";
 export default function SectionToBoilerplateNew(props) {
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllCategories(organizationClient)
         .then((categories) => {
           setCategories(categories);
         })
         .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   // const updateCategories = (newCategory) => {
   //   const categoriesArray = [...categories, newCategory];

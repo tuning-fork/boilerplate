@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
 import BoilerplatesTable from "./Boilerplates/BoilerplatesTable";
 import unique from "../Helpers/unique";
@@ -15,10 +15,7 @@ export default function Boilerplates() {
   const [selectedCategory, setSelectedCategory] =
     useState(NO_SELECTED_CATEGORY);
   const [selectedMaxWordCount, setSelectedMaxWordCount] = useState("");
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const handleChangeSelectedCategory = (event) =>
     setSelectedCategory(event.target.value);
@@ -37,7 +34,7 @@ export default function Boilerplates() {
   });
 
   useEffect(() => {
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -48,7 +45,7 @@ export default function Boilerplates() {
           setLoading(false);
         });
     }
-  }, [organizationClient, currentOrganizationId]);
+  }, [organizationClient, currentOrganization.id]);
 
   if (loading) {
     return <h1 className="container">Loading....</h1>;
@@ -62,7 +59,7 @@ export default function Boilerplates() {
     <div className="container">
       <h1>Boilerplates</h1>
 
-      <Link to={`/organizations/${currentOrganizationId}/boilerplates-new/`}>
+      <Link to={`/organizations/${currentOrganization.id}/boilerplates-new/`}>
         <Button>Add Boilerplate</Button>
       </Link>
 

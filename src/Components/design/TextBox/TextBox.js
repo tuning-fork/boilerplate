@@ -15,6 +15,7 @@ export default function TextBox(props) {
     required,
     type,
     value,
+    ...rest
   } = props;
 
   return (
@@ -28,7 +29,7 @@ export default function TextBox(props) {
           value={value}
           onChange={onChange}
           required={required}
-          placeholder={placeholderText}
+          {...rest}
         />
         {suffix && <span className="text-box__suffix">{suffix}</span>}
       </span>

@@ -1,111 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-
-import { useCurrentUserContext } from "../Contexts/currentUserContext";
+import React, { useState, useCallback } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import TextBox from "./design/TextBox/TextBox";
+import Button from "./design/Button/Button";
+import Container from "./design/Container/Container";
+import { useCurrentUser } from "../Contexts/currentUserContext";
+import "./Login.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorType, setErrorType] = useState("");
-  const [errorText, setErrorText] = useState("");
   const history = useHistory();
   const location = useLocation();
-  const { currentUserStore, login } = useCurrentUserContext();
+  const { login, error } = useCurrentUser();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    if (
-      currentUserStore.status === "successful" &&
-      currentUserStore.currentUser
-    ) {
+  const handleSubmit = useCallback(
+    async (event) => {
+      event.preventDefault();
+      await login(email, password);
       history.push(location.state?.from ?? "/org_select");
-    }
-  }, [currentUserStore, history, location]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    login(email, password).catch((error) => {
-      console.error(error);
-      setErrorType(error.response.status);
-      setErrorText(error.response.statusText);
-    });
-  };
+    },
+    [email, password, history, location, login]
+  );
 
   return (
-    <div className="container">
-      <Card className="card-component">
-        <Card.Header>Log In:</Card.Header>
-        <Card.Body
-          style={{
-            backgroundColor: "#09191b",
-            color: "#23cb87",
-            fontWeight: "bold",
-            display: "inline",
-            padding: "1rem",
-          }}
-        >
-          <Form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Control
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-            </Form.Group>
-            <div>
-              <span style={{ color: "red" }}>
-                {errorType} {errorText}
-              </span>
-            </div>
-            <div style={{ flex: "auto" }}>
-              <Button
-                variant="outline-light"
-                type="submit"
-                style={{
-                  textColor: "#23cb87",
-                  fontWeight: "bold",
-                  display: "inline",
-                  margin: "1rem",
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                variant="outline-light"
-                type="submit"
-                href={`/forgot_password`}
-                style={{
-                  textColor: "#23cb87",
-                  fontWeight: "bold",
-                  display: "inline",
-                  margin: "1rem",
-                }}
-              >
-                Forgot Password?
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
+    <Container as="section" className="login">
+      {location.state?.loggedOut && <p>Successfully logged out!</p>}
+      <h1>Log In:</h1>
+      {error && <p className="login__error">Error: {error.message}</p>}
+      <form onSubmit={handleSubmit}>
+        <TextBox
+          type="email"
+          name="email"
+          labelText="Email"
+          placeholder="Your email here"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          required
+        />
+        <TextBox
+          type="password"
+          name="password"
+          labelText="Password"
+          placeholder="Your password here"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          required
+        />
+        <div className="login__actions">
+          <Button type="submit">Login</Button>
+          <Button variant="text" to="/forgot_password" as={Link}>
+            Forgot Password?
+          </Button>
+        </div>
+      </form>
+    </Container>
   );
 }

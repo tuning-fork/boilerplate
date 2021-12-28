@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createGrantReport } from "../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {
@@ -11,7 +11,7 @@ export default function ReportsNew(props) {
   const [isHidden, setIsHidden] = useState(true);
   const [title, setTitle] = useState(`Report for ${props.grant_title}`);
 
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
 
   const clearForm = () => {
     setDeadline("");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createUser } from "../../Services/Auth/SignupService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import LoginForm from "./LoginForm";
@@ -10,7 +10,7 @@ import "./Login.css";
 export default function Login() {
   const [newUser, setNewUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { organizationClient } = useCurrentOrganizationContext();
+  const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 

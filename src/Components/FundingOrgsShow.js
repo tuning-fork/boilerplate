@@ -6,7 +6,7 @@ import {
   getFundingOrg,
   updateFundingOrg,
 } from "../Services/Organizations/FundingOrgsService";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import FundingOrgEditForm from "./FundingOrgs/FundingOrgEditForm";
 
 //fontawesome
@@ -26,11 +26,7 @@ export default function FundingOrgsShow(props) {
   const [organizationName, setOrganizationName] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization &&
-    currentOrganizationStore.currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const [_newName, setNewName] = useState("");
   const [_newWebsite, setNewWebsite] = useState("");
@@ -43,7 +39,7 @@ export default function FundingOrgsShow(props) {
 
   useEffect(() => {
     const fundingOrgId = props.match.params.funding_org_id;
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getFundingOrg(organizationClient, fundingOrgId)
         .then((fundingOrg) => {
           setId(fundingOrg.id);
@@ -60,7 +56,7 @@ export default function FundingOrgsShow(props) {
         });
     }
   }, [
-    currentOrganizationId,
+    currentOrganization.id,
     organizationClient,
     props.match.params.funding_org_id,
   ]);
@@ -93,12 +89,12 @@ export default function FundingOrgsShow(props) {
 
   const handleFundingOrgDelete = () => {
     const fundingOrgId = props.match.params.funding_org_id;
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getFundingOrg(organizationClient, fundingOrgId)
         .then((fundingOrg) => {
           if (fundingOrg.message) {
             history.push(
-              `/organizations/${currentOrganizationId}/funding_orgs`
+              `/organizations/${currentOrganization.id}/funding_orgs`
             );
           }
         })

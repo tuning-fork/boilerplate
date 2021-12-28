@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Moment from "react-moment";
 import Form from "react-bootstrap/Form";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { getAllGrants } from "../Services/Organizations/GrantsService";
 
 export default function Grants() {
@@ -14,10 +14,7 @@ export default function Grants() {
   const [searchText, setSearchText] = useState("");
   const [filterParam, setFilterParam] = useState("");
   const [sortParam, setSortParam] = useState("");
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const createUnzipped = (data) => {
     return data.map((filteredGrant) => {
@@ -38,7 +35,7 @@ export default function Grants() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (currentOrganizationId) {
+    if (currentOrganization.id) {
       getAllGrants(organizationClient)
         .then((grants) => {
           setGrants(grants);
@@ -48,7 +45,7 @@ export default function Grants() {
         })
         .catch((error) => console.error(error));
     }
-  }, [currentOrganizationId, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -132,7 +129,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, true)}>+</h1>
               </Card.Header>
@@ -143,7 +140,7 @@ export default function Grants() {
                 Title:
                 <a
                   dangerouslySetInnerHTML={{ __html: results }}
-                  href={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  href={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 ></a>
                 <h1 onClick={() => toggleUnzipped(grant.id, false)}>-</h1>
               </Card.Header>
@@ -177,7 +174,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -189,7 +186,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -228,7 +225,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -240,7 +237,7 @@ export default function Grants() {
               <Card.Header>
                 Title:
                 <Link
-                  to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                  to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                 >
                   {grant.title}
                 </Link>
@@ -276,7 +273,7 @@ export default function Grants() {
                 <h3>
                   Title:
                   <Link
-                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
@@ -290,7 +287,7 @@ export default function Grants() {
                 <h3>
                   Title:{" "}
                   <Link
-                    to={`/organizations/${currentOrganizationId}/grants/${grant.id}`}
+                    to={`/organizations/${currentOrganization.id}/grants/${grant.id}`}
                   >
                     {grant.title}
                   </Link>
@@ -321,7 +318,7 @@ export default function Grants() {
   return (
     <div className="component container">
       <h1>Grants</h1>
-      <Link to={`/organizations/${currentOrganizationId}/grants-new`}>
+      <Link to={`/organizations/${currentOrganization.id}/grants-new`}>
         <Button>Add A Grant</Button>
       </Link>
       <div>

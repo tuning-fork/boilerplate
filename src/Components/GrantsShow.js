@@ -19,7 +19,7 @@ import Hero from "./design/Hero/Hero";
 // sortableKeyboardCoordinates,
 // verticalListSortingStrategy,
 // } from "@dnd-kit/sortable";
-import { useCurrentOrganizationContext } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import * as GrantsService from "../Services/Organizations/GrantsService";
 import {
   createGrantSection,
@@ -49,11 +49,9 @@ export default function GrantsShow() {
   const [errors, setErrors] = useState([]);
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
-  const { currentOrganizationStore, organizationClient } =
-    useCurrentOrganizationContext();
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
-  const currentOrganizationId =
-    currentOrganizationStore.currentOrganization?.id;
+
   const { grant_id: grantId } = useParams();
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
@@ -197,7 +195,7 @@ export default function GrantsShow() {
           purposeText={grant.purpose}
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
-          breadCrumbLink={`/organizations/${currentOrganizationId}/grants/`}
+          breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
         />
