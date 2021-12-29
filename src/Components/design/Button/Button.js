@@ -10,6 +10,7 @@ export const ButtonVariant = {
   None: "none",
   UserIcon: "usericon",
   SignIn: "signin",
+  ModalCancelButton: "modalcancelbutton",
 };
 export const ButtonColor = {
   Primary: "primary",

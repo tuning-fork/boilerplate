@@ -36,7 +36,7 @@ export default function SignUp(props) {
   return (
     <div className="signup">
       <Container as="section" centered>
-        <h1 className="signup">Sign Up</h1>
+        {/* <h1 className="signup__header">Sign Up</h1> */}
         <SignUpForm onSubmit={handleSubmit} onCancel={handleCancel} />
       </Container>
     </div>

@@ -4,7 +4,7 @@ import "./SplashpageLayout.css";
 import allSplashpageGraphicElements from "./All_splashpage_graphic_elements.png";
 import NavbarLogin from "../../design/Navbar/NavbarLogin/NavbarLogin";
 import Button from "../../design/Button/Button";
-import Modal from "../../Elements/Modal";
+import Modal from "../../design/Modal/Modal";
 import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
@@ -65,9 +65,10 @@ export default function SplashpageLayout(props) {
           onClick={handleShowLoginModal}
         ></Button>
         <Modal
-          className="modal-popup"
-          onClose={handleCloseSignUpModal}
+          // className="modal-popup"
+          // onClose={handleCloseSignUpModal}
           show={showSignUpModal}
+          heading="Welcome To Boilerplate!"
         >
           <Card>
             <Card.Body>
@@ -79,9 +80,10 @@ export default function SplashpageLayout(props) {
           </Card>
         </Modal>
         <Modal
-          className="modal-popup"
-          onCancel={handleCloseLoginModal}
+          // className="modal-popup"
+          // onCancel={handleCloseLoginModal}
           show={showLoginModal}
+          heading="Sign In"
         >
           <Card>
             <Card.Body>

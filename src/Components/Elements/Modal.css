@@ -25,10 +25,3 @@
 .modal__heading {
   font-size: var(--font-size-large-3);
 }
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  padding-left: 4.2rem;
-  padding-bottom: 2rem;
-}

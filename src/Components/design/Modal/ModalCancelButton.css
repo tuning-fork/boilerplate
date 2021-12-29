@@ -1,0 +1,7 @@
+.modal-cancel-button {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  color: var(--secondary);
+  flex-direction: row;
+}

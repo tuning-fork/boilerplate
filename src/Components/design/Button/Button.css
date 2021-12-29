@@ -121,3 +121,14 @@
 .button.button--signin {
   margin: none;
 }
+
+.button--modal-cancel-button {
+  color: var(--secondary);
+  background-color: inherit;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.button--modal-cancel-button > svg {
+  font-size: var(--font-size-icon-bigger);
+}

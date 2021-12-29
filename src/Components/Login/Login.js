@@ -29,7 +29,7 @@ export default function Login(props) {
 
   return (
     <Container as="section" className="login">
-      <h1 className="login">Login</h1>
+      {/* <h1 className="login">Login</h1> */}
       <LoginForm onSubmit={handleSubmit} onCancel={handleCancel} />
     </Container>
   );

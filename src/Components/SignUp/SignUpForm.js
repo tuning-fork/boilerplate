@@ -68,10 +68,11 @@ export default function SignUpForm(props) {
           required
         />
         <div className="signup-form__actions">
+          <p>Already have an account? Sign In</p>
           <Button variant="text" onClick={props.onCancel}>
             Cancel
           </Button>
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Create Account</Button>
         </div>
       </form>
     </>
