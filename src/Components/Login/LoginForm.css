@@ -3,7 +3,9 @@
 }
 
 .login-form__actions {
-  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .login-form__actions > button {
   margin-left: 20px;

@@ -6,14 +6,14 @@ import "./LoginForm.css";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 
 export default function LoginForm(props) {
-  const [newLoginFields, setNewLoginFields] = useState({});
+  const [loginFields, setLoginFields] = useState({});
   const location = useLocation();
   const { error } = useCurrentUser();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setNewLoginFields({ ...newLoginFields });
-    props.onSubmit(newLoginFields);
+    setLoginFields({ ...loginFields });
+    props.onSubmit(loginFields);
   };
 
   return (
@@ -26,10 +26,10 @@ export default function LoginForm(props) {
           name="email"
           labelText="Email"
           placeholder="Your email here"
-          value={newLoginFields.email}
+          value={loginFields.email}
           onChange={(event) =>
-            setNewLoginFields({
-              ...newLoginFields,
+            setLoginFields({
+              ...loginFields,
               email: event.target.value,
             })
           }
@@ -40,18 +40,17 @@ export default function LoginForm(props) {
           name="password"
           labelText="Password"
           placeholder="Your password here"
-          value={newLoginFields.password}
+          value={loginFields.password}
           onChange={(event) =>
-            setNewLoginFields({
-              ...newLoginFields,
+            setLoginFields({
+              ...loginFields,
               password: event.target.value,
             })
           }
           required
         />
-        <div className="login__actions">
+        <div className="login-form__actions">
           <Button type="submit">Login</Button>
-          <Button onClick={props.onCancel}>Cancel</Button>
           <Button variant="text" to="/forgot_password" as={Link}>
             Forgot Password?
           </Button>

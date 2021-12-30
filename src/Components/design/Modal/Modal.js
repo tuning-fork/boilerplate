@@ -18,7 +18,7 @@ export default function Modal(props) {
         open
       >
         <div className="modal-cancel-button">
-          <ModalCancelButton />
+          <ModalCancelButton hide={props.hide} />
         </div>
         <div className="modal-header">
           <h1

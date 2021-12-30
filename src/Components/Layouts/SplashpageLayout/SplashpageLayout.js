@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
 import allSplashpageGraphicElements from "./All_splashpage_graphic_elements.png";
@@ -12,21 +12,102 @@ import Login from "../../Login/Login";
 export default function SplashpageLayout(props) {
   const [showNavbarLogin, setShowNavbarLogin] = useState(false);
 
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const handleShowSignUpModal = () => setShowSignUpModal(true);
-  const handleCloseSignUpModal = () => setShowSignUpModal(false);
-  const handleShowLoginModal = () => setShowLoginModal(true);
-  const handleCloseLoginModal = () => setShowLoginModal(false);
+  // const [showSignUpModal, setShowSignUpModal] = useState(false);
+  // const [showLoginModal, setShowLoginModal] = useState(false);
+  // const handleShowSignUpModal = () => setShowSignUpModal(true);
+
+  // const handleCloseSignUpModal = () => setShowSignUpModal(false);
+  // const handleShowLoginModal = () => setShowLoginModal(true);
+  // const handleCloseLoginModal = () => setShowLoginModal(false);
   // const handleCancel = (event) => {
   //   handleCloseSignUpModal();
   //   handleCloseLoginModal();
   // };
 
+  const [showSplashPageModal, setShowSplashPageModal] = useState(false);
+  const [closeSplashPageModal, setCloseSplashPageModal] = useState(false);
+
+  const [showingSignUp, setShowingSignUp] = useState(false);
+  const [showingLogin, setShowingLogin] = useState(false);
+
+  const [modalLabel, setModalLabel] = useState("");
+  const [modalContents, setModalContents] = useState({});
+
+  // const handleShowSplashPageModal = (modalSetterString) => {
+  //   if (modalSetterString === "signup") {
+  //     setShowingLogin(false);
+  //     setShowingSignUp(true);
+  //   } else if (modalSetterString === "login") {
+  //     setShowingSignUp(false);
+  //     setShowingLogin(true);
+  //   }
+  //   setShowSplashPageModal(true);
+  // };
+
+  useEffect(() => {
+    const handleSwitchSplashPageModal = (modalLabel) => {
+      if (modalLabel === "Sign Up") {
+        setModalContents(
+          <Card>
+            <Card.Body>
+              <SignUp
+                onSubmit={handleSignup}
+                onCancel={handleCloseSplashPageModal}
+              />
+            </Card.Body>
+          </Card>
+        );
+        setShowSplashPageModal(true);
+      } else if (modalLabel === "Log In") {
+        setModalContents(
+          <Card>
+            <Card.Body>
+              <Login
+                onSubmit={handleCloseSplashPageModal}
+                onCancel={handleCloseSplashPageModal}
+              />
+            </Card.Body>
+          </Card>
+        );
+      }
+      setShowSplashPageModal(true);
+    };
+    handleSwitchSplashPageModal(modalLabel);
+  }, [modalLabel]);
+
+  const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
+
   const handleSignup = () => {
     setShowSignUpModal(false);
     setShowLoginModal(true);
   };
+
+  // const whatGoesInsideTheModal = () => {
+  //   if (showingSignUp) {
+  //     return (
+  //       <Card>
+  //         <Card.Body>
+  //           <SignUp
+  //             onSubmit={handleSignup}
+  //             onCancel={handleCloseSplashPageModal}
+  //           />
+  //         </Card.Body>
+  //       </Card>
+  //     );
+  //   }
+  //   if (showingLogin) {
+  //     return (
+  //       <Card>
+  //         <Card.Body>
+  //           <Login
+  //             onSubmit={handleCloseSplashPageModal}
+  //             onCancel={handleCloseSplashPageModal}
+  //           />
+  //         </Card.Body>
+  //       </Card>
+  //     );
+  //   }
+  // };
 
   return (
     <main className="splashpage-layout">
@@ -49,7 +130,8 @@ export default function SplashpageLayout(props) {
             height: "6%",
           }}
           variant="none"
-          onClick={handleShowSignUpModal}
+          // onClick={() => handleShowSplashPageModal("signup")}
+          onClick={() => setModalLabel("Sign Up")}
         ></Button>
         <Button
           style={{
@@ -62,11 +144,11 @@ export default function SplashpageLayout(props) {
             height: "6%",
           }}
           variant="none"
-          onClick={handleShowLoginModal}
+          // onClick={() => handleShowSplashPageModal("login")}
+          onClick={() => setModalLabel("Log In")}
         ></Button>
-        <Modal
-          // className="modal-popup"
-          // onClose={handleCloseSignUpModal}
+        {/* <Modal
+          hide={handleCloseSignUpModal}
           show={showSignUpModal}
           heading="Welcome To Boilerplate!"
         >
@@ -80,8 +162,7 @@ export default function SplashpageLayout(props) {
           </Card>
         </Modal>
         <Modal
-          // className="modal-popup"
-          // onCancel={handleCloseLoginModal}
+          hide={handleCloseLoginModal}
           show={showLoginModal}
           heading="Sign In"
         >
@@ -93,6 +174,14 @@ export default function SplashpageLayout(props) {
               />
             </Card.Body>
           </Card>
+        </Modal> */}
+        <Modal
+          hide={handleCloseSplashPageModal}
+          show={showSplashPageModal}
+          heading={modalLabel}
+          // heading="Sign In"
+        >
+          {modalContents}
         </Modal>
         {showNavbarLogin ? <NavbarLogin /> : null}
       </div>
