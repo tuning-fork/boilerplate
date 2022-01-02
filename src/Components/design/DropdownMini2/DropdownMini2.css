@@ -1,0 +1,50 @@
+.dropdown-mini2 {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdown-mini2-open {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-inline-start: -9rem;
+}
+
+.dropdown-mini2__label {
+  margin-bottom: 7px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--contrast-70);
+  line-height: normal;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-mini2__alt-label {
+  color: var(--primary);
+  font-weight: var(--font-weight-normal);
+  text-decoration-line: underline;
+}
+
+.dropdown-mini2__input {
+  display: flex;
+  margin-bottom: 4px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--contrast-10);
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown-mini2__input > span {
+  flex: 1;
+  text-align: left;
+}
+
+.dropdown-mini2__placeholder {
+  color: var(--contrast-60);
+}
