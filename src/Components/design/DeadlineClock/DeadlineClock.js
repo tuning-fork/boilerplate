@@ -3,27 +3,21 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { MdAlarm, MdAccessTime } from "react-icons/md";
 import "./DeadlineClock.css";
+import { differenceInCalendarDays } from "date-fns";
 
 export default function DeadlineClock(props) {
-  const { deadline, days } = props;
+  const { className, deadline } = props;
+  const days = differenceInCalendarDays(deadline, new Date());
 
-  return (
-    <div>
-      {deadline && days <= 7 && days >= 3 ? (
-        <MdAccessTime className="deadline-clock__urgent" />
-      ) : (
-        <div></div>
-      )}
-      {deadline && days <= 3 ? (
-        <MdAlarm className="deadline-clock__emergency" />
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
+  if (days >= 3 && days <= 7) {
+    return (
+      <MdAccessTime className={clsx(className, "deadline-clock__urgent")} />
+    );
+  }
+  return <MdAlarm className={clsx(className, "deadline-clock__emergency")} />;
 }
 
 DeadlineClock.propTypes = {
-  deadline: PropTypes.bool,
-  days: PropTypes.number,
+  className: PropTypes.string,
+  deadline: PropTypes.instanceOf(Date).isRequired,
 };
