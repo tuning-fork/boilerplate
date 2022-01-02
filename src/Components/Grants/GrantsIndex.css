@@ -39,3 +39,14 @@
   outline: 0;
   border-bottom: 5px solid var(--primary-shade);
 }
+
+.GrantsIndex__Table .table__cell {
+  position: relative;
+}
+.GrantsIndex__Table__Deadline {
+  position: absolute;
+  left: -2.6rem;
+}
+
+.GrantsIndex__Last-Modified-Cell {
+}

@@ -1,63 +1,45 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
-import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
 import Table from "../design/Table/Table";
 import { Link, useParams } from "react-router-dom";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { getAllGrants } from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import countWords from "../../Helpers/countWords";
-import SortableElement from "../Elements/SortableElement";
 import GrantCopy from "../Grants/GrantCopy";
 import "./GrantsIndex.css";
+import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
+import DropdownMini2 from "../design/DropdownMini2/DropdownMini2";
 
-export default function GrantsIndex(props) {
+export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [filteredGrantsByTabName, setFilteredGrantsByTabName] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   // const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId = currentOrganization.id;
   // const { grant_id: grantId } = useParams();
-  const sensors = useSensors(
-    useSensor(PointerSensor)
-    // This breaks forms nested under drag and drop! The space key triggers
-    // this sensor. TODO: Circle back to this!
-    // useSensor(KeyboardSensor, {
-    //   coordinateGetter: sortableKeyboardCoordinates,
-    // })
-  );
 
   const [searchFilters, setSearchFilters] = useState({
     title: "",
   });
 
   const columns = [
-    { Header: "Deadline", accessor: (grant) => formatDate(grant.deadline) },
+    {
+      Header: "Deadline",
+      accessor: (grant) => (
+        <>
+          <DeadlineClock
+            className="GrantsIndex__Table__Deadline"
+            deadline={grant.deadline}
+          />
+          {formatDate(grant.deadline)}
+        </>
+      ),
+    },
     { Header: "Title", accessor: "title" },
     { Header: "Funding Org", accessor: "fundingOrgName" },
     { Header: "Purpose", accessor: "purpose" },
@@ -67,20 +49,23 @@ export default function GrantsIndex(props) {
     },
     {
       Header: "Last Modified",
-      accessor: (grant) => formatDate(grant.updatedAt),
+      accessor: (grant) => (
+        <div className="GrantsIndex__Last-Modified-Cell">
+          {formatDate(grant.updatedAt)}
+          <DropdownMini2
+            labelText="Further Actions"
+            placeholder="Pick One"
+            options={[
+              { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
+              { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
+              { value: "MARK_AS_COPY", label: "Mark as Copy" },
+              { value: "ARCHIVE", label: "Archive" },
+            ]}
+          />
+        </div>
+      ),
     },
   ];
-
-  const dropDownProps = {
-    labelText: "Further Actions",
-    placeholder: "Pick One",
-    options: [
-      { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
-      { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
-      { value: "MARK_AS_COPY", label: "Mark as Copy" },
-      { value: "ARCHIVE", label: "Archive" },
-    ],
-  };
 
   useEffect(() => {
     if (organizationClient)
@@ -204,7 +189,6 @@ export default function GrantsIndex(props) {
           ) : (
             <p>There are no grants for this category.</p>
           )}
-          {/* dropDownProps={dropDownProps} */}
         </div>
       </div>
     </section>
