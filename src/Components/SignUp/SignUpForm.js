@@ -80,9 +80,21 @@ export default function SignUpForm(props) {
         <div className="signup-form__actions">
           <p>
             Already have an account?
-            <Button onClick="">Sign In</Button>
+            <Button
+              className="signup-form__login-toggle"
+              variant="none"
+              onClick=""
+            >
+              Log In
+            </Button>
           </p>
-          <Button type="submit">Create Account</Button>
+          <Button
+            variant="none"
+            type="submit"
+            className="signup-form__signup-submit-button"
+          >
+            Create Account
+          </Button>
         </div>
       </form>
     </>

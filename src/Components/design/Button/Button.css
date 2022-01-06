@@ -118,15 +118,12 @@
   background-color: var(--primary);
 }
 
-.button.button--signin {
-  margin: none;
-}
-
 .button--modal-cancel-button {
   color: var(--secondary);
   background-color: inherit;
   padding-left: 0;
   padding-right: 0;
+  border-radius: 4px;
 }
 
 .button--modal-cancel-button > svg {

@@ -27,11 +27,11 @@ export default function SplashpageLayout(props) {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
   const [closeSplashPageModal, setCloseSplashPageModal] = useState(false);
 
-  const [showingSignUp, setShowingSignUp] = useState(false);
-  const [showingLogin, setShowingLogin] = useState(false);
+  // const [showingSignUp, setShowingSignUp] = useState(false);
+  // const [showingLogin, setShowingLogin] = useState(false);
 
-  const [modalLabel, setModalLabel] = useState("");
-  const [modalContents, setModalContents] = useState({});
+  const [modalLabel, setModalLabel] = useState("banana");
+  const [modalContents, setModalContents] = useState(<></>);
 
   // const handleShowSplashPageModal = (modalSetterString) => {
   //   if (modalSetterString === "signup") {
@@ -44,36 +44,38 @@ export default function SplashpageLayout(props) {
   //   setShowSplashPageModal(true);
   // };
 
-  useEffect(() => {
-    const handleSwitchSplashPageModal = (modalLabel) => {
-      if (modalLabel === "Sign Up") {
-        setModalContents(
-          <Card>
-            <Card.Body>
-              <SignUp
-                onSubmit={handleSignup}
-                onCancel={handleCloseSplashPageModal}
-              />
-            </Card.Body>
-          </Card>
-        );
-        setShowSplashPageModal(true);
-      } else if (modalLabel === "Log In") {
-        setModalContents(
-          <Card>
-            <Card.Body>
-              <Login
-                onSubmit={handleCloseSplashPageModal}
-                onCancel={handleCloseSplashPageModal}
-              />
-            </Card.Body>
-          </Card>
-        );
-      }
+  // useEffect(() => {
+  //   console.log("useEffect ran");
+  const handleSwitchSplashPageModal = (modalLabelInput) => {
+    setModalLabel(modalLabelInput);
+    if (modalLabelInput === "Welcome to Boilerplate!") {
+      setModalContents(
+        <Card>
+          <Card.Body>
+            <SignUp
+              onSubmit={handleSignup}
+              onCancel={handleCloseSplashPageModal}
+            />
+          </Card.Body>
+        </Card>
+      );
       setShowSplashPageModal(true);
-    };
-    handleSwitchSplashPageModal(modalLabel);
-  }, [modalLabel]);
+    } else if (modalLabelInput === "Log In") {
+      setModalContents(
+        <Card>
+          <Card.Body>
+            <Login
+              onSubmit={handleCloseSplashPageModal}
+              onCancel={handleCloseSplashPageModal}
+            />
+          </Card.Body>
+        </Card>
+      );
+    }
+    setShowSplashPageModal(true);
+  };
+  // handleSwitchSplashPageModal();
+  // }, [modalLabel]);
 
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
 
@@ -130,8 +132,8 @@ export default function SplashpageLayout(props) {
             height: "6%",
           }}
           variant="none"
-          // onClick={() => handleShowSplashPageModal("signup")}
-          onClick={() => setModalLabel("Sign Up")}
+          onClick={() => handleSwitchSplashPageModal("Welcome to Boilerplate!")}
+          // onClick={() => setModalLabel("Sign Up")}
         ></Button>
         <Button
           style={{
@@ -144,8 +146,8 @@ export default function SplashpageLayout(props) {
             height: "6%",
           }}
           variant="none"
-          // onClick={() => handleShowSplashPageModal("login")}
-          onClick={() => setModalLabel("Log In")}
+          onClick={() => handleSwitchSplashPageModal("Log In")}
+          // onClick={() => setModalLabel("Log In")}
         ></Button>
         {/* <Modal
           hide={handleCloseSignUpModal}
@@ -179,6 +181,7 @@ export default function SplashpageLayout(props) {
           hide={handleCloseSplashPageModal}
           show={showSplashPageModal}
           heading={modalLabel}
+          splashpageForm={true}
           // heading="Sign In"
         >
           {modalContents}

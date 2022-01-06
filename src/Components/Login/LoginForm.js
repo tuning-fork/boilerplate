@@ -50,8 +50,29 @@ export default function LoginForm(props) {
           required
         />
         <div className="login-form__actions">
-          <Button type="submit">Login</Button>
-          <Button variant="text" to="/forgot_password" as={Link}>
+          <p>
+            New to Boilerplate?
+            <Button
+              className="login-form__signup-toggle"
+              variant="none"
+              onClick=""
+            >
+              Create an Account
+            </Button>
+          </p>
+          <Button
+            variant="login"
+            type="submit"
+            className="login-form__login-submit-button"
+          >
+            Log In
+          </Button>
+          <Button
+            variant="none"
+            className="login-form__forgot-password"
+            to="/forgot_password"
+            as={Link}
+          >
             Forgot Password?
           </Button>
         </div>

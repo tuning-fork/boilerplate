@@ -20,7 +20,18 @@ export default function Modal(props) {
         <div className="modal-cancel-button">
           <ModalCancelButton hide={props.hide} />
         </div>
-        <div className="modal-header">
+        <div
+          // className={clsx(
+          //   props.splashpageForm
+          //     ? "modal_header--splashpageForm"
+          //     : "modal-header"
+          // )}
+          className={
+            props.splashpageForm
+              ? "modal-header__splashpageForm"
+              : "modal-header"
+          }
+        >
           <h1
             id="modal-heading"
             className={clsx(props.headingClassName, "modal__heading")}
@@ -41,6 +52,7 @@ Modal.propTypes = {
   heading: PropTypes.string.isRequired,
   headingClassName: PropTypes.string,
   className: PropTypes.string,
+  splashpageForm: PropTypes.bool,
 };
 
 Modal.defaultProps = {
