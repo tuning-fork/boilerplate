@@ -3,15 +3,19 @@ import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { getAllGrants } from "../../Services/Organizations/GrantsService";
+import {
+  getAllGrants,
+  updateGrant,
+} from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import countWords from "../../Helpers/countWords";
 import GrantCopy from "../Grants/GrantCopy";
 import "./GrantsIndex.css";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini2 from "../design/DropdownMini2/DropdownMini2";
+import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 
 export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);
@@ -22,6 +26,8 @@ export default function GrantsIndex() {
   // const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId = currentOrganization.id;
   // const { grant_id: grantId } = useParams();
+  const buildOrganizationsLink = useBuildOrganizationsLink();
+  const history = useHistory();
 
   const [searchFilters, setSearchFilters] = useState({
     title: "",
@@ -58,9 +64,34 @@ export default function GrantsIndex() {
             options={[
               { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
               { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
-              { value: "MARK_AS_COPY", label: "Mark as Copy" },
-              { value: "ARCHIVE", label: "Archive" },
+              { value: "MARK_AS_ARCHIVED", label: "Archive" },
+              { value: "MAKE_A_COPY", label: "Make a Copy" },
             ]}
+            onChange={(option) => {
+              if (option.value === "MARK_AS_SUCCESSFUL") {
+                updateGrant(organizationClient, grant.id, {
+                  successful: true,
+                })
+                  .then((response) => console.log(response.data))
+                  .catch((error) => console.log(error));
+              } else if (option.value === "MARK_AS_SUBMITTED") {
+                updateGrant(organizationClient, grant.id, {
+                  submitted: true,
+                })
+                  .then((response) => console.log(response.data))
+                  .catch((error) => console.log(error));
+              } else if (option.value === "MARK_AS_ARCHIVED") {
+                updateGrant(organizationClient, grant.id, {
+                  archived: true,
+                })
+                  .then((response) => console.log(response.data))
+                  .catch((error) => console.log(error));
+              } else if (option.value === "MAKE_A_COPY") {
+                history.push(
+                  buildOrganizationsLink(`/grants/${grant.id}/copy`)
+                );
+              }
+            }}
           />
         </div>
       ),

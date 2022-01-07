@@ -49,4 +49,5 @@
 }
 
 .GrantsIndex__Last-Modified-Cell {
+  display: flex;
 }
