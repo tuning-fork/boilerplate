@@ -1,40 +1,59 @@
 .splashpage-layout {
   height: 100%;
-  /* background-image: url("./allSplashpageGraphicElements.png");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; */
+  background-size: cover;
+}
+
+.splashpage-layout__navbar-container {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
 }
 .splashpage-layout__content {
-  /* display: flex; */
-  /* width: 100%;
-  height: auto; */
+  display: flex;
   position: relative;
-  /* z-index: 1; */
+}
+
+.splashpage-layout__sign-up-button {
+  z-index: 1;
+  position: absolute;
+  top: 79.5%;
+  left: 16.5%;
+  width: 23%;
+  height: 6%;
+  --focused: none;
+}
+
+.splashpage-layout__sign-up-button:focus {
+  border: 0.5rem solid rgba(88, 191, 205, 0.9);
+}
+
+.splashpage-layout__login-button {
+  z-index: 1;
+  position: absolute;
+  top: 86%;
+  left: 22.5%;
+  width: 10%;
+  height: 3%;
+  --focused: none;
+}
+
+.splashpage-layout__login-button:focus {
+  border: 0.5rem solid rgba(88, 191, 205, 0.9);
+  border-radius: 0px;
 }
 
 .splashpage-layout__graphic-elements {
-  /* width: 100%;
-  height: 100%;
-  z-index: 9; */
   width: 100%;
   height: auto;
 }
 
 .splashpage-layout__bottom-buttons {
-  /* z-index: 10;
-  padding-left: 18vw;
-  padding-bottom: 85vw;
-  position: absolute; */
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
-  /* width: 100%; */
-  /* height: 100%; */
 }
 
 .splashpage-layout__bottom-buttons:before {

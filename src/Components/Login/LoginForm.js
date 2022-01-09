@@ -55,7 +55,7 @@ export default function LoginForm(props) {
             <Button
               className="login-form__signup-toggle"
               variant="none"
-              onClick=""
+              onClick={() => props.toggleModalContents("Sign Up")}
             >
               Create an Account
             </Button>

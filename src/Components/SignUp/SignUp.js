@@ -1,14 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import Container from "../design/Container/Container";
-// import { useCurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import { createUser } from "../../Services/Auth/SignupService";
-// import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import SignUpForm from "./SignUpForm";
 import "./SignUp.css";
 
 export default function SignUp(props) {
-  // const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
   const handleCancel = (event) => {
@@ -22,8 +19,7 @@ export default function SignUp(props) {
       .then((createdUser) => {
         alert("user created!");
         console.log(createdUser);
-        props.onSubmit();
-        history.push(`/landing_page`);
+        props.toggleModalContents("Log In");
       })
       .catch((error) => {
         console.error(error);
@@ -36,8 +32,11 @@ export default function SignUp(props) {
   return (
     <div className="signup">
       <Container as="section" centered>
-        {/* <h1 className="signup__header">Sign Up</h1> */}
-        <SignUpForm onSubmit={handleSubmit} onCancel={handleCancel} />
+        <SignUpForm
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          toggleModalContents={props.toggleModalContents}
+        />
       </Container>
     </div>
   );

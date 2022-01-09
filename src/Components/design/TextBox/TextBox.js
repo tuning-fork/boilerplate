@@ -6,7 +6,7 @@ import "./TextBox.css";
 export default function TextBox(props) {
   const {
     labelText,
-    // placeholderText,
+    placeholderText,
     onChange,
     className,
     prefix,
@@ -28,6 +28,7 @@ export default function TextBox(props) {
           type={type}
           value={value}
           onChange={onChange}
+          placeholder={placeholderText}
           required={required}
           {...rest}
         />

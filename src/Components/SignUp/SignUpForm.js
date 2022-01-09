@@ -83,7 +83,7 @@ export default function SignUpForm(props) {
             <Button
               className="signup-form__login-toggle"
               variant="none"
-              onClick=""
+              onClick={() => props.toggleModalContents("Log In")}
             >
               Log In
             </Button>

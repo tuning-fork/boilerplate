@@ -31,7 +31,11 @@ export default function Login(props) {
     <div className="login">
       <Container as="section" centered>
         {/* <h1 className="login">Login</h1> */}
-        <LoginForm onSubmit={handleSubmit} onCancel={handleCancel} />
+        <LoginForm
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          toggleModalContents={props.toggleModalContents}
+        />
       </Container>
     </div>
   );

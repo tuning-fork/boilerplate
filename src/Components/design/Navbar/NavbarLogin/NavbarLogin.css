@@ -3,7 +3,6 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  /* width: 7rem; */
   margin: unset;
 }
 
@@ -11,6 +10,10 @@
   margin: unset;
   display: flex;
   margin-top: 4px;
+}
+
+.navbar-login__inputs .text-box {
+  margin: unset;
 }
 
 .navbar-login__inputs {
@@ -21,8 +24,7 @@
   border: 1px solid var(--contrast-50);
   border-radius: 4px;
   background-color: var(--base-contrast-5);
-  height: 32px;
-  width: 200px;
+  height: 2rem;
 }
 
 .navbar-login__items {
