@@ -13,7 +13,7 @@ export default function Login(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     props.onCancel();
-    history.push(`/landing_page`);
+    history.push(`/splashpage`);
   };
 
   const handleSubmit = useCallback(

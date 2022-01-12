@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
-import allSplashpageGraphicElements from "./Splashpage_Background_Image.png";
-import NavbarLogin from "../../design/Navbar/NavbarLogin/NavbarLogin";
+import splashpageBackgroundImage from "./Splashpage_Background_Image.png";
 import Button from "../../design/Button/Button";
 import Modal from "../../design/Modal/Modal";
 import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 
-export default function SplashpageLayout(props) {
-  const [showNavbarLogin, setShowNavbarLogin] = useState(false);
-
+export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
-  const [closeSplashPageModal, setCloseSplashPageModal] = useState(false);
 
-  const [modalLabel, setModalLabel] = useState("banana");
+  const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
 
   const handleSwitchSplashPageModal = (modalLabelInput) => {
@@ -49,22 +45,16 @@ export default function SplashpageLayout(props) {
 
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
 
-  const handleSignup = () => {
-    setShowSignUpModal(false);
-    setShowLoginModal(true);
-  };
-
   return (
     <main className="splashpage-layout">
       <div className="splashpage-layout__navbar-container">
         <NavbarSplashpage />
       </div>
       <div className="splashpage-layout__content">
-        {props.children}
         <img
-          src={allSplashpageGraphicElements}
+          src={splashpageBackgroundImage}
           alt="Splashpage graphics"
-          className="splashpage-layout__graphic-elements"
+          className="splashpage-layout__background-image"
         />
         <Button
           className="splashpage-layout__sign-up-button"
@@ -84,7 +74,6 @@ export default function SplashpageLayout(props) {
         >
           {modalContents}
         </Modal>
-        {showNavbarLogin ? <NavbarLogin /> : null}
       </div>
     </main>
   );
