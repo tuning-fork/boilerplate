@@ -13,7 +13,7 @@ import Categories from "./Components/Categories";
 import Organizations from "./Components/Organizations";
 import Grants from "./Components/Grants";
 import FundingOrgs from "./Components/FundingOrgs";
-import BoilerplatesShow from "./Components/BoilerplatesShow";
+import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";

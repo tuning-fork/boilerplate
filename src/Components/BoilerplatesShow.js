@@ -145,7 +145,7 @@ export default function BoilerplatesShow(props) {
         {Header}
         <Card.Body>
           <p>Category</p>
-          <p>{boilerplate.category.name}</p>
+          <p>{boilerplate.category_name}</p>
           <p>Boilerplate Text</p>
           <p dangerouslySetInnerHTML={{ __html: quillText }}></p>
           <p>Word Count: {countWords(quillText)}</p>

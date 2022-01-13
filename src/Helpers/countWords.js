@@ -1,9 +1,9 @@
-const countWords = (string) => {
-  if (string.trim().length === 0) {
+const countWords = (str) => {
+  if (str.trim().length === 0) {
     return 0;
   }
-  if (string) {
-    return string.trim().split(/\s+/).length;
+  if (str) {
+    return str.trim().split(/\s+/).length;
   } else {
     return 0;
   }
