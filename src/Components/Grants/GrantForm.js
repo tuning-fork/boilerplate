@@ -22,6 +22,8 @@ export default function GrantForm(props) {
     props.onSubmit(grantFields);
   };
 
+  console.log("grantFields", grantFields);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="grant-form">
