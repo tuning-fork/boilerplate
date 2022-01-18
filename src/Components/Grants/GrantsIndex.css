@@ -47,6 +47,16 @@
   position: absolute;
   left: -2.6rem;
 }
+div.GrantsIndex__See-More {
+  position: absolute;
+  z-index: 0;
+  right: -5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.GrantsIndex__See-More * {
+  z-index: 0;
+}
 
 .GrantsIndex__Last-Modified-Cell {
   display: flex;

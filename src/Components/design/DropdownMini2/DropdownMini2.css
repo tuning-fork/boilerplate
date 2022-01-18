@@ -48,3 +48,8 @@
 .dropdown-mini2__placeholder {
   color: var(--contrast-60);
 }
+
+.dropdown-mini2__listbox {
+  display: flex;
+  align-items: center;
+}

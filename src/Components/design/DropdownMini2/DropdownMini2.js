@@ -55,6 +55,7 @@ export default function DropdownMini2(props) {
         }}
       >
         <div
+          className="dropdown-mini2__listbox"
           aria-haspopup="listbox"
           onClick={(event) => {
             event.stopPropagation();

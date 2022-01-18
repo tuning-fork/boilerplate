@@ -59,6 +59,7 @@ export default function GrantsIndex() {
         <div className="GrantsIndex__Last-Modified-Cell">
           {formatDate(grant.updatedAt)}
           <DropdownMini2
+            className="GrantsIndex__See-More"
             labelText="Further Actions"
             placeholder="Pick One"
             options={[
