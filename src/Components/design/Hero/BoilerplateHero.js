@@ -5,7 +5,6 @@ import clsx from "clsx";
 import Button from "../Button/Button";
 import "./BoilerplateHero.css";
 // import formatDate from "../../../Helpers/formatDate";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function BoilerplateHero(props) {
   return (
@@ -17,13 +16,13 @@ export default function BoilerplateHero(props) {
         <div className="hero__header">
           <h1>{props.headerText}</h1>
           <div className="hero__buttons">
-            <Button
+            {/* <Button
               variant="outlined"
               as={CurrentOrganizationLink}
               to={props.copyLink}
             >
               Copy
-            </Button>
+            </Button> */}
 
             <Button variant="outlined" onClick={() => props.setIsOpen(true)}>
               Edit

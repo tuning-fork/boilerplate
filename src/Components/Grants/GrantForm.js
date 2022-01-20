@@ -88,6 +88,8 @@ export default function GrantForm(props) {
       <FundingOrgsNew
         show={showingFundingOrgsNew}
         onClose={() => setShowingFundingOrgsNew(false)}
+        fundingOrgs={props.fundingOrgs}
+        setFundingOrgs={props.setFundingOrgs}
       />
     </>
   );

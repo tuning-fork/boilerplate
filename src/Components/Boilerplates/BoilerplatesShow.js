@@ -71,6 +71,7 @@ export default function BoilerplatesShow() {
           categoryText={boilerplate.categoryName}
           breadCrumbLink={`/organizations/${currentOrganization.id}/boilerplates/`}
           editLink={`/boilerplates/${boilerplate.id}/edit/`}
+          // copyLink={`/boilerplates/${boilerplate.id}/copy/`}
           setIsOpen={setEditingBoilerplate}
         />
         <Container className="boilerplates-show__text-container" centered>

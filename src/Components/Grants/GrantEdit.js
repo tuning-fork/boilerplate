@@ -82,6 +82,7 @@ export default function GrantEdit() {
         <GrantForm
           grant={grant}
           fundingOrgs={fundingOrgs}
+          setFundingOrgs={setFundingOrgs}
           onSubmit={handleSubmit}
           onCancel={goToGrant}
         />

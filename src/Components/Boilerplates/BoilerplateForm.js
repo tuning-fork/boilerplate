@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
@@ -8,7 +8,7 @@ import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import CategoriesNew from "../CategoriesNew";
+import CategoriesNew from "../Categories/CategoriesNew";
 
 export default function BoilerplateForm(props) {
   const { organizationClient } = useCurrentOrganization();
@@ -27,11 +27,11 @@ export default function BoilerplateForm(props) {
     return countWords(boilerplateFields.text);
   }, [boilerplateFields.text]);
 
-  const handleCancel = (event) => {
-    event.preventDefault();
-    props.onCancel();
-    setIsOpen(false);
-  };
+  // const handleCancel = (event) => {
+  //   event.preventDefault();
+  //   props.onCancel();
+  //   setIsOpen(false);
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,7 +51,7 @@ export default function BoilerplateForm(props) {
       .catch((error) => console.error(error));
   }, [organizationClient]);
 
-  console.log("boilerplateFields", boilerplateFields);
+  // console.log("boilerplateFields", boilerplateFields);
 
   return (
     <>
@@ -115,6 +115,8 @@ export default function BoilerplateForm(props) {
       <CategoriesNew
         show={showingCategoriesNew}
         onClose={() => setShowingCategoriesNew(false)}
+        currentCategories={categories}
+        setCategories={setCategories}
       />
     </>
   );

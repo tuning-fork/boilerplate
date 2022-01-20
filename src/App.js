@@ -20,7 +20,7 @@ import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
-import CategoriesNew from "./Components/CategoriesNew";
+import CategoriesNew from "./Components/Categories/CategoriesNew";
 import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgsNew";
 import OrganizationsNew from "./Components/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";

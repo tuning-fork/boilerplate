@@ -122,7 +122,6 @@ export default function BoilerplatesShow(props) {
             color: "black",
             fontSize: "1.5rem",
           }}
-          // onClick={handleShow}
         />
       </Link>
       <FontAwesomeIcon
