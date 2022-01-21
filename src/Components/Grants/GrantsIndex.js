@@ -14,7 +14,7 @@ import countWords from "../../Helpers/countWords";
 import GrantCopy from "../Grants/GrantCopy";
 import "./GrantsIndex.css";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
-import DropdownMini2 from "../design/DropdownMini2/DropdownMini2";
+import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 
 export default function GrantsIndex() {
@@ -58,7 +58,7 @@ export default function GrantsIndex() {
       accessor: (grant) => (
         <div className="GrantsIndex__Last-Modified-Cell">
           {formatDate(grant.updatedAt)}
-          <DropdownMini2
+          <DropdownMini
             className="GrantsIndex__See-More"
             labelText="Further Actions"
             placeholder="Pick One"

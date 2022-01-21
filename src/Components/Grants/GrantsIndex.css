@@ -47,17 +47,10 @@
   position: absolute;
   left: -2.6rem;
 }
-div.GrantsIndex__See-More {
+.GrantsIndex__See-More .dropdown-mini__listbox {
   position: absolute;
   z-index: 0;
-  right: -5rem;
+  right: calc(-1rem - 1vw);
   top: 50%;
   transform: translateY(-50%);
-}
-.GrantsIndex__See-More * {
-  z-index: 0;
-}
-
-.GrantsIndex__Last-Modified-Cell {
-  display: flex;
 }

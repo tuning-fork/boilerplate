@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import DropdownMiniMenu from "./DropdownMiniMenu";
-import { optionPropType } from "./DropdownMiniMenuItem";
-import DropdownMiniContext from "./DropdownMiniContext";
+import { optionPropType } from "../Dropdown/DropdownMenuItem";
+import DropdownContext from "../Dropdown/DropdownContext";
+import DropdownMenu from "../Dropdown/DropdownMenu";
 import "./DropdownMini.css";
-import { debug } from "debug";
 
 export default function DropdownMini(props) {
   const { className, onChange, options, value } = props;
@@ -41,13 +40,9 @@ export default function DropdownMini(props) {
   }, [isMenuOpen]);
 
   return (
-    <DropdownMiniContext.Provider value={context}>
+    <DropdownContext.Provider value={context}>
       <div
-        className={
-          isMenuOpen
-            ? clsx(className, "dropdown-mini-open")
-            : clsx(className, "dropdown-mini")
-        }
+        className={clsx(className, "dropdown-mini")}
         ref={dropdownEl}
         onKeyDown={(event) => {
           if (event.key === "Escape") {
@@ -56,6 +51,7 @@ export default function DropdownMini(props) {
         }}
       >
         <div
+          className="dropdown-mini__listbox"
           aria-haspopup="listbox"
           onClick={(event) => {
             event.stopPropagation();
@@ -70,13 +66,13 @@ export default function DropdownMini(props) {
         >
           <BsThreeDotsVertical />
         </div>
-        <DropdownMiniMenu
+        <DropdownMenu
           aria-expanded={isMenuOpen}
           hidden={!isMenuOpen}
           options={options}
         />
       </div>
-    </DropdownMiniContext.Provider>
+    </DropdownContext.Provider>
   );
 }
 
