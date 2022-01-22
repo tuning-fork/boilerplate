@@ -19,14 +19,13 @@ import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
-import BoilerplatesNew from "./Components/BoilerplatesNew";
+import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
 import CategoriesNew from "./Components/Categories/CategoriesNew";
 import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgsNew";
 import OrganizationsNew from "./Components/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
-import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
@@ -110,12 +109,6 @@ export default function App() {
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates/:boilerplate_id"
                       component={BoilerplatesShow}
-                    />
-                    <PrivateRoute
-                      path={
-                        "/organizations/:organizationId/boilerplates-edit/:boilerplate_id"
-                      }
-                      component={BoilerplatesEdit}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs/:funding_org_id"

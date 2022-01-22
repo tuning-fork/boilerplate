@@ -75,7 +75,7 @@ export default function BoilerplateForm(props) {
         />
         <div className="BoilerplateForm__ContentEditor">
           <div className="BoilerplateForm__ContentEditorHeader">
-            <Label htmlFor="text-editor">Boilerplate Text</Label>
+            <Label htmlFor="text-editor">Text</Label>
             <b>WORD COUNT: {wordCount}</b>
           </div>
           <RichTextEditor
