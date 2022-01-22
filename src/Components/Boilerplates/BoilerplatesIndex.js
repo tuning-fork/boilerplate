@@ -78,10 +78,10 @@ export default function BoilerplatesIndex() {
       <h1 className="BoilerplatesIndex__HeaderText">All Boilerplates</h1>
       <div className="BoilerplatesIndex__Actions">
         <TextBox
-          labelText="Search boilerplates by title"
+          labelText="Search Boilerplates by title"
           search
           onChange={(event) =>
-            setSearchFilters({ ...searchFilters, text: event.target.value })
+            setSearchFilters({ ...searchFilters, title: event.target.value })
           }
           className="BoilerplatesIndex__SearchInput"
         />

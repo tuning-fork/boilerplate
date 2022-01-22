@@ -42,7 +42,9 @@ export default function GrantsIndex() {
             className="GrantsIndex__Table__Deadline"
             deadline={grant.deadline}
           />
-          {formatDate(grant.deadline)}
+          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
+            {formatDate(grant.deadline)}
+          </a>
         </>
       ),
     },
@@ -148,7 +150,7 @@ export default function GrantsIndex() {
           labelText="Search grants by title"
           search
           onChange={(event) =>
-            setSearchFilters({ ...searchFilters, text: event.target.value })
+            setSearchFilters({ ...searchFilters, title: event.target.value })
           }
           className="GrantsIndex__SearchInput"
         />

@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTable } from "react-table";
+import { Link } from "react-router-dom";
 import "./Table.css";
 
 export default function Table(props) {
@@ -28,8 +29,8 @@ export default function Table(props) {
   };
 
   const renderRow = (row) => {
+    // console.log("row", row);
     prepareRow(row);
-
     return <tr {...row.getRowProps()}>{row.cells.map(renderCell)}</tr>;
   };
 
