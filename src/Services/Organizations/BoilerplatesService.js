@@ -34,9 +34,9 @@ export const getAllBoilerplates = (organizationClient) => {
 
 // deleteBoilerplate
 
-export const deleteBoilerplate = (organizationClient) => {
+export const deleteBoilerplate = (organizationClient, boilerplateId) => {
   return organizationClient
-    .delete(`/boilerplates/`)
+    .delete(`/boilerplates/${boilerplateId}`)
     .then((response) => response.data);
 };
 
@@ -44,7 +44,7 @@ export const deleteBoilerplate = (organizationClient) => {
 
 export const createBoilerplate = (organizationClient, newBoilerplate) => {
   return organizationClient
-    .post(`/boilerplates/`, newBoilerplate)
+    .post(`/boilerplates/`, mapBoilerplateToApiBoilerplate(newBoilerplate))
     .then((response) => response.data);
 };
 
@@ -56,6 +56,25 @@ export const updateBoilerplate = (
   fieldsToUpdate
 ) => {
   return organizationClient
-    .patch(`/boilerplates/${boilerplateId}`, fieldsToUpdate)
+    .patch(
+      `/boilerplates/${boilerplateId}`,
+      mapBoilerplateToApiBoilerplate(fieldsToUpdate)
+    )
     .then((response) => response.data);
 };
+
+// copyGrant
+// not implemented yet
+
+// export const copyBoilerplate = (
+//   organizationClient,
+//   boilerplateId,
+//   copyBoilerplateFields
+// ) => {
+//   return organizationClient
+//     .post(
+//       `/boilerplates/${boilerplateId}/copy`,
+//       mapBoilerplateToApiBoilerplate(copyBoilerplateFields)
+//     )
+//     .then((response) => response.data);
+// };

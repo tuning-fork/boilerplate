@@ -17,7 +17,6 @@ export default function BoilerplatesShow() {
   const [editingBoilerplate, setEditingBoilerplate] = useState(false);
 
   const { boilerplate_id: boilerplateId } = useParams();
-  console.log("boilerplateId", boilerplateId);
 
   const getBoilerplate = useCallback(() => {
     if (!organizationClient) {
@@ -25,7 +24,6 @@ export default function BoilerplatesShow() {
     }
     BoilerplatesService.getBoilerplate(organizationClient, boilerplateId)
       .then((boilerplate) => {
-        console.log("boilerplate", boilerplate);
         setBoilerplate(boilerplate);
         setWordcount(countWords(boilerplate.text));
       })
@@ -45,20 +43,15 @@ export default function BoilerplatesShow() {
   }
 
   const handleEditBoilerplate = (newBoilerplateFields) => {
-    BoilerplatesService.updateBoilerplate(
-      organizationClient,
-      boilerplateId,
-      newBoilerplateFields.id,
-      {
-        title: newBoilerplateFields.title,
-        text: newBoilerplateFields.html,
-        category: newBoilerplateFields.category_id,
-        wordcount: countWords(newBoilerplateFields.text),
-      }
-    ).then(() => {
+    BoilerplatesService.updateBoilerplate(organizationClient, boilerplateId, {
+      title: newBoilerplateFields.title,
+      text: newBoilerplateFields.html,
+      categoryId: newBoilerplateFields.categoryId,
+      wordcount: countWords(newBoilerplateFields.text),
+    }).then(() => {
       alert("Boilerplate edited!");
       setEditingBoilerplate(null);
-      return getBoilerplate();
+      return getBoilerplate(organizationClient, boilerplateId);
     });
   };
 

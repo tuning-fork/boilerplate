@@ -12,7 +12,6 @@ import CategoriesNew from "../Categories/CategoriesNew";
 
 export default function BoilerplateForm(props) {
   const { organizationClient } = useCurrentOrganization();
-  const { setIsOpen } = props;
   const [boilerplateFields, setBoilerplateFields] = useState({
     ...props.boilerplate,
     title: props.boilerplate?.title || "",
@@ -27,12 +26,6 @@ export default function BoilerplateForm(props) {
     return countWords(boilerplateFields.text);
   }, [boilerplateFields.text]);
 
-  // const handleCancel = (event) => {
-  //   event.preventDefault();
-  //   props.onCancel();
-  //   setIsOpen(false);
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -41,8 +34,6 @@ export default function BoilerplateForm(props) {
     });
   };
 
-  console.log("boilerplateFields", boilerplateFields);
-
   useEffect(() => {
     getAllCategories(organizationClient)
       .then((categories) => {
@@ -50,8 +41,6 @@ export default function BoilerplateForm(props) {
       })
       .catch((error) => console.error(error));
   }, [organizationClient]);
-
-  // console.log("boilerplateFields", boilerplateFields);
 
   return (
     <>
