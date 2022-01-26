@@ -1,9 +1,11 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import { useHistory } from "react-router-dom";
 import "./Table.css";
+import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import { faDirections } from "@fortawesome/free-solid-svg-icons";
 
 export default function Table(props) {
   const columns = useMemo(() => props.columns, [props.columns]);
@@ -11,7 +13,7 @@ export default function Table(props) {
   const history = useHistory();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data }, useSortBy);
 
   const renderHeaderGroup = (headerGroup) => {
     return (
@@ -23,8 +25,26 @@ export default function Table(props) {
 
   const renderHeader = (column) => {
     return (
-      <th {...column.getHeaderProps()} className="table__header">
-        {column.render("Header")}
+      <th
+        {...column.getHeaderProps(column.getSortByToggleProps())}
+        className="table__header"
+      >
+        <div
+          style={{ display: "flex", direction: "row", alignContent: "center" }}
+        >
+          {column.render("Header")}
+          <span style={{ height: "24px", width: "24px" }}>
+            {column.isSorted ? (
+              column.isSortedDesc ? (
+                <MdArrowDropDown className="table__header__icon" />
+              ) : (
+                <MdArrowDropUp className="table__header__icon" />
+              )
+            ) : (
+              ""
+            )}
+          </span>
+        </div>
       </th>
     );
   };
@@ -41,6 +61,7 @@ export default function Table(props) {
   };
 
   const renderRow = (row) => {
+    // console.log("row", row);
     prepareRow(row);
     return (
       <tr

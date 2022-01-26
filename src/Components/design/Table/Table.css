@@ -26,3 +26,8 @@ th:hover {
   color: var(--primary);
   cursor: pointer;
 }
+
+.table__header__icon {
+  margin: none;
+  font-size: var(--font-size-arrow);
+}
