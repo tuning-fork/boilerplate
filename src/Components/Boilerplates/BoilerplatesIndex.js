@@ -73,12 +73,18 @@ export default function BoilerplatesIndex() {
     return <h1>Loading....</h1>;
   }
 
+  const goToShowForRow = (rowOriginalId) => {
+    return history.push(
+      buildOrganizationsLink(`/boilerplates/${rowOriginalId}`)
+    );
+  };
+
   return (
     <section className="BoilerplatesIndex">
       <h1 className="BoilerplatesIndex__HeaderText">All Boilerplates</h1>
       <div className="BoilerplatesIndex__Actions">
         <TextBox
-          labelText="Search Boilerplates by title"
+          labelText="Search Boilerplates by Title"
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, title: event.target.value })
@@ -95,7 +101,11 @@ export default function BoilerplatesIndex() {
       <div className="BoilerplatesIndex__TableSection">
         <div className="BoilerplatesIndex__Table">
           {filteredBoilerplates.length ? (
-            <Table columns={columns} data={filteredBoilerplates} />
+            <Table
+              columns={columns}
+              data={filteredBoilerplates}
+              rowOnClick={goToShowForRow}
+            />
           ) : (
             <p>There are no boilerplates for this category.</p>
           )}

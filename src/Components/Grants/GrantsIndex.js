@@ -147,7 +147,7 @@ export default function GrantsIndex() {
       <h1 className="GrantsIndex__HeaderText">All Grants</h1>
       <div className="GrantsIndex__Actions">
         <TextBox
-          labelText="Search grants by title"
+          labelText="Search Grants by Title"
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, title: event.target.value })
