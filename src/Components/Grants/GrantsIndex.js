@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import {
   getAllGrants,
   updateGrant,
 } from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
-import countWords from "../../Helpers/countWords";
-import GrantCopy from "../Grants/GrantCopy";
-import "./GrantsIndex.css";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import "./GrantsIndex.css";
 
 export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);
@@ -23,9 +21,7 @@ export default function GrantsIndex() {
   const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  // const totalWordCount = countTotalSectionsWords(grant?.sections);
   const currentOrganizationId = currentOrganization.id;
-  // const { grant_id: grantId } = useParams();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
@@ -33,13 +29,75 @@ export default function GrantsIndex() {
     title: "",
   });
 
+  const fetchGrants = useCallback(async () => {
+    if (!organizationClient) {
+      return;
+    }
+
+    try {
+      const grants = await getAllGrants(organizationClient);
+      setGrants(grants);
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setLoading(false);
+    }
+  }, [organizationClient]);
+
+  const handleDropdownMiniAction = async ({ option, grant }) => {
+    try {
+      switch (option.value) {
+        case "REMOVE_FROM_SUBMITTED":
+          await updateGrant(organizationClient, grant.id, {
+            submitted: false,
+          });
+          break;
+        case "REMOVE_FROM_SUCCESSFUL":
+          await updateGrant(organizationClient, grant.id, {
+            successful: false,
+          });
+          break;
+        case "REMOVE_FROM_ARCHIVED":
+          await updateGrant(organizationClient, grant.id, {
+            archived: false,
+          });
+          break;
+        case "MARK_AS_SUCCESSFUL":
+          await updateGrant(organizationClient, grant.id, {
+            successful: true,
+          });
+          break;
+        case "MARK_AS_SUBMITTED":
+          await updateGrant(organizationClient, grant.id, {
+            submitted: true,
+          });
+          break;
+        case "MARK_AS_ARCHIVED":
+          await updateGrant(organizationClient, grant.id, {
+            archived: true,
+          });
+          break;
+        case "MAKE_A_COPY":
+          return history.push(
+            buildOrganizationsLink(`/grants/${grant.id}/copy`)
+          );
+        default:
+          throw new Error(`Unexpected option given ${option.value}!`);
+      }
+      await fetchGrants();
+    } catch (error) {
+      console.error(error);
+      setErrors([error]);
+    }
+  };
+
   const columns = [
     {
       Header: "Deadline",
       accessor: (grant) => (
         <>
           <DeadlineClock
-            className="GrantsIndex__Table__Deadline"
+            className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
           {formatDate(grant.deadline)}
@@ -56,43 +114,34 @@ export default function GrantsIndex() {
     {
       Header: "Last Modified",
       accessor: (grant) => (
-        <div className="GrantsIndex__Last-Modified-Cell">
+        <div className="grants-index__last-modified-cell">
           {formatDate(grant.updatedAt)}
           <DropdownMini
-            className="GrantsIndex__See-More"
+            className="grants-index__see-more"
             labelText="Further Actions"
             placeholder="Pick One"
             options={[
-              { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
-              { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
-              { value: "MARK_AS_ARCHIVED", label: "Archive" },
+              grant.submitted
+                ? {
+                    value: "REMOVE_FROM_SUBMITTED",
+                    label: "Remove from Submitted",
+                  }
+                : { value: "MARK_AS_SUBMITTED", label: "Mark as Submitted" },
+              grant.successful
+                ? {
+                    value: "REMOVE_FROM_SUCCESSFUL",
+                    label: "Remove from Successful",
+                  }
+                : { value: "MARK_AS_SUCCESSFUL", label: "Mark as Successful" },
+              grant.archived
+                ? {
+                    value: "REMOVE_FROM_ARCHIVED",
+                    label: "Remove from Archived",
+                  }
+                : { value: "MARK_AS_ARCHIVED", label: "Archive" },
               { value: "MAKE_A_COPY", label: "Make a Copy" },
             ]}
-            onChange={(option) => {
-              if (option.value === "MARK_AS_SUCCESSFUL") {
-                updateGrant(organizationClient, grant.id, {
-                  successful: true,
-                })
-                  .then((response) => console.log(response.data))
-                  .catch((error) => console.log(error));
-              } else if (option.value === "MARK_AS_SUBMITTED") {
-                updateGrant(organizationClient, grant.id, {
-                  submitted: true,
-                })
-                  .then((response) => console.log(response.data))
-                  .catch((error) => console.log(error));
-              } else if (option.value === "MARK_AS_ARCHIVED") {
-                updateGrant(organizationClient, grant.id, {
-                  archived: true,
-                })
-                  .then((response) => console.log(response.data))
-                  .catch((error) => console.log(error));
-              } else if (option.value === "MAKE_A_COPY") {
-                history.push(
-                  buildOrganizationsLink(`/grants/${grant.id}/copy`)
-                );
-              }
-            }}
+            onChange={(option) => handleDropdownMiniAction({ option, grant })}
           />
         </div>
       ),
@@ -100,14 +149,8 @@ export default function GrantsIndex() {
   ];
 
   useEffect(() => {
-    if (organizationClient)
-      getAllGrants(organizationClient)
-        .then((grants) => {
-          setGrants(grants);
-          setLoading(false);
-        })
-        .catch((error) => console.log(error));
-  }, [organizationClient]);
+    fetchGrants();
+  }, [fetchGrants]);
 
   const filteredGrants = useMemo(() => {
     return grants
@@ -141,16 +184,16 @@ export default function GrantsIndex() {
   }
 
   return (
-    <section className="GrantsIndex">
-      <h1 className="GrantsIndex__HeaderText">All Grants</h1>
-      <div className="GrantsIndex__Actions">
+    <section className="grants-index">
+      <h1 className="grants-index__header-text">All Grants</h1>
+      <div className="grants-index__actions">
         <TextBox
           labelText="Search grants by title"
           search
           onChange={(event) =>
-            setSearchFilters({ ...searchFilters, text: event.target.value })
+            setSearchFilters({ ...searchFilters, title: event.target.value })
           }
-          className="GrantsIndex__SearchInput"
+          className="grants-index__search-input"
         />
         <Button
           as={Link}
@@ -159,69 +202,67 @@ export default function GrantsIndex() {
           Add New Grant
         </Button>
       </div>
-      <div className="GrantsIndex__TableSection">
-        <div className="GrantsIndex__TableTabs">
-          <Button
-            onClick={() => setTabSelect("All")}
-            className={clsx(
-              "GrantsIndex__TableTabButton",
-              tabSelect === "All" && "GrantsIndex__TableTabButton--selected"
-            )}
-            variant="text"
-          >
-            All
-          </Button>
-          <Button
-            onClick={() => setTabSelect("Drafts")}
-            className={clsx(
-              "GrantsIndex__TableTabButton",
-              tabSelect === "Drafts" && "GrantsIndex__TableTabButton--selected"
-            )}
-            variant="text"
-          >
-            Drafts
-          </Button>
-          <Button
-            onClick={() => setTabSelect("Submitted")}
-            className={clsx(
-              "GrantsIndex__TableTabButton",
-              tabSelect === "Submitted" &&
-                "GrantsIndex__TableTabButton--selected"
-            )}
-            variant="text"
-          >
-            Submitted
-          </Button>
-          <Button
-            onClick={() => setTabSelect("Successful")}
-            className={clsx(
-              "GrantsIndex__TableTabButton",
-              tabSelect === "Successful" &&
-                "GrantsIndex__TableTabButton--selected"
-            )}
-            variant="text"
-          >
-            Successful
-          </Button>
-          <Button
-            onClick={() => setTabSelect("Archived")}
-            className={clsx(
-              "GrantsIndex__TableTabButton",
-              tabSelect === "Archived" &&
-                "GrantsIndex__TableTabButton--selected"
-            )}
-            variant="text"
-          >
-            Archived
-          </Button>
-        </div>
-        <div className="GrantsIndex__Table">
-          {filteredGrants.length ? (
-            <Table columns={columns} data={filteredGrants} />
-          ) : (
-            <p>There are no grants for this category.</p>
+      <div className="grants-index__table-tabs">
+        <Button
+          onClick={() => setTabSelect("All")}
+          className={clsx(
+            "grants-index__table-tab-button",
+            tabSelect === "All" && "grants-index__table-tab-button--selected"
           )}
-        </div>
+          variant="text"
+        >
+          All
+        </Button>
+        <Button
+          onClick={() => setTabSelect("Drafts")}
+          className={clsx(
+            "grants-index__table-tab-button",
+            tabSelect === "Drafts" && "grants-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          Drafts
+        </Button>
+        <Button
+          onClick={() => setTabSelect("Submitted")}
+          className={clsx(
+            "grants-index__table-tab-button",
+            tabSelect === "Submitted" &&
+              "grants-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          Submitted
+        </Button>
+        <Button
+          onClick={() => setTabSelect("Successful")}
+          className={clsx(
+            "grants-index__table-tab-button",
+            tabSelect === "Successful" &&
+              "grants-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          Successful
+        </Button>
+        <Button
+          onClick={() => setTabSelect("Archived")}
+          className={clsx(
+            "grants-index__table-tab-button",
+            tabSelect === "Archived" &&
+              "grants-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          Archived
+        </Button>
+      </div>
+      <div className="grants-index__table">
+        {filteredGrants.length ? (
+          <Table columns={columns} data={filteredGrants} />
+        ) : (
+          <p>There are no grants for this category.</p>
+        )}
       </div>
     </section>
   );

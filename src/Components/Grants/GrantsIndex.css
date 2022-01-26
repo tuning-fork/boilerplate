@@ -1,25 +1,25 @@
-.GrantsIndex {
+.grants-index {
   flex: 1;
   padding: 4rem;
 }
 
-.GrantsIndex__Actions {
+.grants-index__actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.GrantsIndex__SearchInput {
+.grants-index__search-input {
   width: 40vw;
   margin-bottom: 0px;
 }
 
-.GrantsIndex__AddNew {
+.grants-index__add-new {
   display: block;
   margin-bottom: 1.38rem;
 }
 
-.GrantsIndex__TableTabs {
+.grants-index__table-tabs {
   display: flex;
   gap: 3rem;
   padding-bottom: 1rem;
@@ -28,26 +28,26 @@
   color: var(--primary-text);
 }
 
-.GrantsIndex__TableTabButton {
+.grants-index__table-tab-button {
   font-weight: var(--font-weight-normal);
 }
 
-.GrantsIndex__TableTabButton:hover,
-.GrantsIndex__TableTabButton:focus,
-.GrantsIndex__TableTabButton--selected {
+.grants-index__table-tab-button:hover,
+.grants-index__table-tab-button:focus,
+.grants-index__table-tab-button--selected {
   border-radius: 0;
   outline: 0;
   border-bottom: 5px solid var(--primary-shade);
 }
 
-.GrantsIndex__Table .table__cell {
+.grants-index__table .table__cell {
   position: relative;
 }
-.GrantsIndex__Table__Deadline {
+.grants-index__table__deadline {
   position: absolute;
   left: -2.6rem;
 }
-.GrantsIndex__See-More .dropdown-mini__listbox {
+.grants-index__see-more .dropdown-mini__listbox {
   position: absolute;
   z-index: 0;
   right: calc(-1rem - 1vw);
