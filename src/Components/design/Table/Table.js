@@ -4,7 +4,10 @@ import clsx from "clsx";
 import { useTable, useSortBy } from "react-table";
 import { useHistory } from "react-router-dom";
 import "./Table.css";
-import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp,
+} from "react-icons/md";
 import { faDirections } from "@fortawesome/free-solid-svg-icons";
 
 export default function Table(props) {
@@ -36,9 +39,9 @@ export default function Table(props) {
           <span style={{ height: "24px", width: "24px" }}>
             {column.isSorted ? (
               column.isSortedDesc ? (
-                <MdArrowDropDown className="table__header__icon" />
+                <MdOutlineKeyboardArrowDown className="table__header__icon" />
               ) : (
-                <MdArrowDropUp className="table__header__icon" />
+                <MdOutlineKeyboardArrowUp className="table__header__icon" />
               )
             ) : (
               ""
