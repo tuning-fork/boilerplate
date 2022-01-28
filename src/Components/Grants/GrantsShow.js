@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Button from "./design/Button/Button";
-import Modal from "./design/Modal/Modal";
-import Container from "./design/Container/Container";
-import Hero from "./design/Hero/Hero";
+import Button from "../design/Button/Button";
+import Modal from "../design/Modal/Modal";
+import Container from "../design/Container/Container";
+import Hero from "../design/Hero/Hero";
 // import {
 // DndContext,
 // closestCenter,
@@ -19,22 +19,22 @@ import Hero from "./design/Hero/Hero";
 // sortableKeyboardCoordinates,
 // verticalListSortingStrategy,
 // } from "@dnd-kit/sortable";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import * as GrantsService from "../Services/Organizations/GrantsService";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import * as GrantsService from "../../Services/Organizations/GrantsService";
 import {
   createGrantSection,
   updateGrantSection,
   // reorderGrantSection,
-} from "../Services/Organizations/Grants/GrantSectionsService";
-import countSectionWords from "../Helpers/countSectionWords";
-import countWords from "../Helpers/countWords";
-import SectionsShow from "./SectionsShow";
-import SectionForm from "./Sections/SectionForm";
-import SortableElement from "./Elements/SortableElement";
-import StoreSectionAsBoilerplate from "./Sections/StoreSectionAsBoilerplate";
+} from "../../Services/Organizations/Grants/GrantSectionsService";
+import countSectionWords from "../../Helpers/countSectionWords";
+import countWords from "../../Helpers/countWords";
+import SectionsShow from "../SectionsShow";
+import SectionForm from "../Sections/SectionForm";
+import SortableElement from "../Elements/SortableElement";
+import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
 import "./GrantsShow.css";
-import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
-import PasteBoilerplateContentPopout from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
+import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
+import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(

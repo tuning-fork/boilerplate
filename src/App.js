@@ -17,7 +17,7 @@ import BoilerplatesShow from "./Components/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";
-import GrantsShow from "./Components/GrantsShow";
+import GrantsShow from "./Components/Grants/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
 import CategoriesNew from "./Components/CategoriesNew";
