@@ -16,8 +16,3 @@
 .table__cell {
   padding: 0 1rem;
 }
-
-.table__header--number,
-.table__cell--number {
-  text-align: right;
-}

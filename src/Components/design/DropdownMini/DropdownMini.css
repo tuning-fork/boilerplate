@@ -1,0 +1,26 @@
+.dropdown-mini {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.dropdown-mini__label {
+  margin-bottom: 7px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  color: var(--contrast-70);
+  line-height: normal;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-mini__alt-label {
+  color: var(--primary);
+  font-weight: var(--font-weight-normal);
+  text-decoration-line: underline;
+}
+
+.dropdown-mini__listbox {
+  cursor: pointer;
+  z-index: 0;
+}

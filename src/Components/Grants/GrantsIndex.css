@@ -1,0 +1,56 @@
+.grants-index {
+  flex: 1;
+  padding: 4rem;
+}
+
+.grants-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.grants-index__search-input {
+  width: 40vw;
+  margin-bottom: 0px;
+}
+
+.grants-index__add-new {
+  display: block;
+  margin-bottom: 1.38rem;
+}
+
+.grants-index__table-tabs {
+  display: flex;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 18px;
+  color: var(--primary-text);
+}
+
+.grants-index__table-tab-button {
+  font-weight: var(--font-weight-normal);
+}
+
+.grants-index__table-tab-button:hover,
+.grants-index__table-tab-button:focus,
+.grants-index__table-tab-button--selected {
+  border-radius: 0;
+  outline: 0;
+  border-bottom: 5px solid var(--primary-shade);
+}
+
+.grants-index__table .table__cell {
+  position: relative;
+}
+.grants-index__table__deadline {
+  position: absolute;
+  left: -2.6rem;
+}
+.grants-index__see-more .dropdown-mini__listbox {
+  position: absolute;
+  z-index: 0;
+  right: calc(-1rem - 1vw);
+  top: 50%;
+  transform: translateY(-50%);
+}

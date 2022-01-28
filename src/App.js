@@ -8,10 +8,10 @@ import ResetPassword from "./Components/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword";
 import OrgSelect from "./Components/OrgSelect";
 import Dashboard from "./Components/Dashboard";
-import Boilerplates from "./Components/Boilerplates";
-import Categories from "./Components/Categories";
+import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
+import CategoriesIndex from "./Components/Categories/CategoriesIndex";
 import Organizations from "./Components/Organizations";
-import Grants from "./Components/Grants";
+import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgs from "./Components/FundingOrgs";
 import BoilerplatesShow from "./Components/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
@@ -105,7 +105,7 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/grants/"
-                      component={Grants}
+                      component={GrantsIndex}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates/:boilerplate_id"
@@ -127,7 +127,7 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates"
-                      component={Boilerplates}
+                      component={BoilerplatesIndex}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/categories-new"
@@ -135,7 +135,7 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/categories"
-                      component={Categories}
+                      component={CategoriesIndex}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs-new"

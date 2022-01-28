@@ -20,13 +20,8 @@ export default function Table(props) {
   };
 
   const renderHeader = (column) => {
-    const isNumber = typeof column.accessor(data[0]) === "number";
-
     return (
-      <th
-        {...column.getHeaderProps()}
-        className={clsx("table__header", isNumber && "table__header--number")}
-      >
+      <th {...column.getHeaderProps()} className="table__header">
         {column.render("Header")}
       </th>
     );
@@ -39,13 +34,8 @@ export default function Table(props) {
   };
 
   const renderCell = (cell) => {
-    const isNumber = typeof cell.value === "number";
-
     return (
-      <td
-        {...cell.getCellProps()}
-        className={clsx("table__cell", isNumber && "table__cell--number")}
-      >
+      <td {...cell.getCellProps()} className="table__cell">
         {cell.render("Cell")}
       </td>
     );
