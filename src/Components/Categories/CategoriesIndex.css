@@ -1,42 +1,14 @@
-.CategoriesIndex {
-    padding-left: 20px;
-    padding-right: 20px;
-    flex: 1;
-  }
-  .CategoriesIndex__Header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 80vw;
-    align-items: center;
-  }
-  
-  .CategoriesIndex__HeaderText {
-    padding-top: 20px;
-    padding-left: 18px;
-  }
-  
-  .CategoriesIndex__Overview {
-    flex-direction: row;
-  }
-  
-  .CategoriesIndex__Actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 18px;
-    padding-left: 18px;
-    margin-bottom: 0px;
-  }
-  
-  .CategoriesIndex__SearchInput {
-    width: 40vw;
-  }
-  
-  .CategoriesIndex__AddNew {
-    display: block;
-    margin-bottom: 1.38rem;
-  }
-  
-  
+.categories-index {
+  flex: 1;
+  padding: 4rem;
+}
+
+.categories-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categories-index__search-input {
+  width: 40vw;
+}

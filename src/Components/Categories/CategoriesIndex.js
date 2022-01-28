@@ -1,47 +1,49 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
-import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
-import { Link, useParams } from "react-router-dom";
+import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { getAllCategories } from "../../Services/Organizations/CategoriesService";
-import formatDate from "../../Helpers/formatDate";
-import countWords from "../../Helpers/countWords";
+import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./CategoriesIndex.css";
 
-export default function CategoriesIndex(props) {
+export default function CategoriesIndex() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [editButton, setEditButton] = useState(true);
-  const [deleteButton, setDeleteButton] = useState(true);
-  const { currentOrganization, organizationClient } =
-    useCurrentOrganization();
-  const currentOrganizationId =
-    currentOrganization.id;
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const buildOrganizationsLink = useBuildOrganizationsLink();
+  const history = useHistory();
 
   const [searchFilters, setSearchFilters] = useState({
     name: "",
   });
 
+  const openCategoryShow = (row) => {
+    history.push(buildOrganizationsLink(`/categories/${row.original.id}`));
+  };
+
+  const fetchCategories = useCallback(async () => {
+    if (!organizationClient) {
+      return;
+    }
+
+    try {
+      const categories = await getAllCategories(organizationClient);
+      setCategories(categories);
+    } catch (error) {
+      setErrors([error]);
+    } finally {
+      setLoading(false);
+    }
+  }, [organizationClient]);
+
   const columns = [{ Header: "Category Name", accessor: "name" }];
 
   useEffect(() => {
-    if (organizationClient)
-      getAllCategories(organizationClient)
-        .then((categories) => {
-          setCategories(categories);
-          console.log(categories);
-          setLoading(false);
-        })
-        .catch((error) => console.log(error));
-  }, [organizationClient]);
+    fetchCategories();
+  }, [fetchCategories]);
 
   const filteredCategories = useMemo(() => {
     return categories.filter((category) => {
@@ -60,39 +62,29 @@ export default function CategoriesIndex(props) {
   }
 
   return (
-    <div className="CategoriesIndex">
-      <section className="CategoriesIndex__Overview">
-        <header className="CategoriesIndex__Header">
-          <h1 className="CategoriesIndex__HeaderText">All Categories</h1>
-        </header>
-      </section>
-      <section className="CategoriesIndex__Actions">
-        {/* <div className="CategoriesIndex__SearchBar"> */}
+    <section className="categories-index">
+      <h1>All Categories</h1>
+      <div className="categories-index__actions">
         <TextBox
+          labelText="Search Categories by Title"
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, text: event.target.value })
           }
-          className="CategoriesIndex__SearchInput"
+          className="categories-index__search-input"
         />
-        <Button>
-          <Link to={`/organizations/${currentOrganizationId}/categories-new/`}>
-            Add New Category
-          </Link>
+        <Button
+          as={Link}
+          to={`/organizations/${currentOrganization.id}/categories-new/`}
+        >
+          Add New Category
         </Button>
-        {/* </div> */}
-      </section>
-      <section className="CategoriesIndex__TableSection">
-        <div className="CategoriesIndex__Table">
-          <AccordionTable
-            columns={columns}
-            data={filteredCategories}
-            dropDownProps={false}
-            editButton={editButton}
-            deleteButton={deleteButton}
-          />
-        </div>
-      </section>
-    </div>
+      </div>
+      <Table
+        columns={columns}
+        data={filteredCategories}
+        onRowClick={openCategoryShow}
+      />
+    </section>
   );
 }

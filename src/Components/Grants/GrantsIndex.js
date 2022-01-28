@@ -91,6 +91,10 @@ export default function GrantsIndex() {
     }
   };
 
+  const openGrantShow = (row) => {
+    history.push(buildOrganizationsLink(`/grants/${row.original.id}`));
+  };
+
   const columns = [
     {
       Header: "Deadline",
@@ -100,9 +104,7 @@ export default function GrantsIndex() {
             className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
-          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
-            {formatDate(grant.deadline)}
-          </a>
+          {formatDate(grant.deadline)}
         </>
       ),
     },
@@ -187,7 +189,7 @@ export default function GrantsIndex() {
 
   return (
     <section className="grants-index">
-      <h1 className="grants-index__header-text">All Grants</h1>
+      <h1>All Grants</h1>
       <div className="grants-index__actions">
         <TextBox
           labelText="Search Grants by Title"
@@ -261,7 +263,11 @@ export default function GrantsIndex() {
       </div>
       <div className="grants-index__table">
         {filteredGrants.length ? (
-          <Table columns={columns} data={filteredGrants} />
+          <Table
+            columns={columns}
+            data={filteredGrants}
+            onRowClick={openGrantShow}
+          />
         ) : (
           <p>There are no grants for this category.</p>
         )}

@@ -1,57 +1,16 @@
-.BoilerplatesIndex {
+.boilerplates-index {
   flex: 1;
   padding: 4rem;
 }
 
-.BoilerplatesIndex__Actions {
+.boilerplates-index__actions {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 16px;
+  align-items: flex-end;
+  padding-bottom: 1rem;
 }
 
-.BoilerplatesIndex__SearchInput {
+.boilerplates-index__search-input {
   width: 40vw;
   margin-bottom: 0px;
-}
-
-.BoilerplatesIndex__AddNew {
-  display: block;
-  margin-bottom: 1.38rem;
-}
-
-.BoilerplatesIndex__TableTabs {
-  display: flex;
-  gap: 3rem;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  font-size: 18px;
-  color: var(--primary-text);
-}
-
-.BoilerplatesIndex__TableTabButton {
-  font-weight: var(--font-weight-normal);
-}
-
-.BoilerplatesIndex__TableTabButton:hover,
-.BoilerplatesIndex__TableTabButton:focus,
-.BoilerplatesIndex__TableTabButton--selected {
-  border-radius: 0;
-  outline: 0;
-  border-bottom: 5px solid var(--primary-shade);
-}
-
-.BoilerplatesIndex__Table .table__cell {
-  position: relative;
-}
-.BoilerplatesIndex__Table__Deadline {
-  position: absolute;
-  left: -2.6rem;
-}
-.BoilerplatesIndex__See-More .dropdown-mini__listbox {
-  position: absolute;
-  z-index: 0;
-  right: calc(-1rem - 1vw);
-  top: 50%;
-  transform: translateY(-50%);
 }
