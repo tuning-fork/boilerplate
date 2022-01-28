@@ -7,17 +7,9 @@ import Accordion, {
   AccordionItemPanel,
 } from "../Accordion";
 import "./AccordionTable.css";
-import formatDate from "../../../../Helpers/formatDate";
-import daysLeft from "../../../../Helpers/daysLeft";
-import DeadlineClock from "../../DeadlineClock/DeadlineClock";
+
 export default function AccordionTable(props) {
-  const { columns, data, className, dropDownProps, editButton, deleteButton } =
-    props;
-
-  // console.log("data", data);
-
-  const dateTypes = ["created_at", "updated_at", "deadline"];
-  const isMessage = true;
+  const { columns, data, className } = props;
 
   return (
     <Accordion as="ol" className={clsx(className, "accordion-table")}>
@@ -28,6 +20,7 @@ export default function AccordionTable(props) {
           </div>
           {columns.map((column, index) => {
             const isNumber = typeof data[0]?.[column.accessor] === "number";
+
             return (
               <div
                 key={index}
@@ -40,52 +33,36 @@ export default function AccordionTable(props) {
               </div>
             );
           })}
-          <div className="accordion-table__spacer">
-            <div>{/* Empty cell to align with SeeMore icon */}</div>
-          </div>
         </div>
       </li>
-      {data.map((row, index) => {
-        return (
-          <AccordionItem as="li" key={index}>
-            <AccordionItemHeader
-              heading="h6"
-              buttonClassName="accordion-table__row-header"
-              dropDownProps={dropDownProps}
-              editButton={editButton}
-              deleteButton={deleteButton}
-            >
-              {columns.map((column, index) => {
-                const cell = row[column.accessor];
-                console.log("column", column);
-                const isDate = dateTypes.includes(column.accessor);
-                const isDeadline = column.accessor === "deadline";
-                const isNumber = typeof cell === "number";
-                const days =
-                  column.accessor === "deadline" ? daysLeft(cell) : null;
-                return (
-                  <div>
-                    <div
-                      key={index}
-                      className={clsx(
-                        "accordion-table__cell",
-                        isNumber && "accordion-table__cell--number",
-                        isMessage && "accordion-table__cell--message"
-                      )}
-                    >
-                      <DeadlineClock deadline={isDeadline} days={days} />
-                      {isDate ? formatDate(cell) : cell}
-                    </div>
-                  </div>
-                );
-              })}
-            </AccordionItemHeader>
-            <AccordionItemPanel className="accordion-table__row-panel">
-              {row._expandableContent}
-            </AccordionItemPanel>
-          </AccordionItem>
-        );
-      })}
+      {data.map((row, index) => (
+        <AccordionItem as="li" key={index}>
+          <AccordionItemHeader
+            heading="h6"
+            buttonClassName="accordion-table__row-header"
+          >
+            {columns.map((column, index) => {
+              const cell = row[column.accessor];
+              const isNumber = typeof cell === "number";
+
+              return (
+                <div
+                  key={index}
+                  className={clsx(
+                    "accordion-table__cell",
+                    isNumber && "accordion-table__cell--number"
+                  )}
+                >
+                  {cell}
+                </div>
+              );
+            })}
+          </AccordionItemHeader>
+          <AccordionItemPanel className="accordion-table__row-panel">
+            {row._expandableContent}
+          </AccordionItemPanel>
+        </AccordionItem>
+      ))}
     </Accordion>
   );
 }

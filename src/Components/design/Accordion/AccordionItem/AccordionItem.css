@@ -1,31 +1,15 @@
 .accordion-item__header {
-  margin: auto;
-}
-
-.accordion-item__header__row {
-  padding: 8px 0;
-  width: 100%;
-  text-align: initial;
-  display: flex;
-  margin: 0px;
+  margin: 0;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   color: var(--contrast-70);
-  cursor: pointer;
-  color: unset;
-  font-size: unset;
-  font-weight: unset;
-  line-height: unset;
-  text-transform: none;
-  font-weight: normal;
 }
 
 .accordion-item__header-button {
-  /* moved this css to header__row and header */
-}
-
-.accordion-item__see-more {
-  grid-column: none;
+  width: 100%;
+  text-align: initial;
+  display: flex;
+  padding: 8px 0;
 }
 
 svg.accordion-item__icon {
