@@ -100,7 +100,9 @@ export default function GrantsIndex() {
             className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
-          {formatDate(grant.deadline)}
+          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
+            {formatDate(grant.deadline)}
+          </a>
         </>
       ),
     },
@@ -188,7 +190,7 @@ export default function GrantsIndex() {
       <h1 className="grants-index__header-text">All Grants</h1>
       <div className="grants-index__actions">
         <TextBox
-          labelText="Search grants by title"
+          labelText="Search Grants by Title"
           search
           onChange={(event) =>
             setSearchFilters({ ...searchFilters, title: event.target.value })

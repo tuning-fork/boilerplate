@@ -2,6 +2,7 @@
 
 :root {
   --font-size-icon: 1.2rem;
+  --font-size-arrow: 1.4rem;
   --font-size-small: 0.9rem;
   --font-size-base: 1rem;
   --font-size-large-1: 1.25rem;
@@ -108,5 +109,9 @@ dl dd {
 }
 
 .MuiSvgIcon-root {
+  font-size: var(--font-size-icon);
+}
+
+.MuiSvgIcon-root .table__header__icon {
   font-size: var(--font-size-icon);
 }

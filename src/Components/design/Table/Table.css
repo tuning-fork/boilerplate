@@ -5,14 +5,38 @@
   font-weight: var(--font-weight-bold);
 }
 
-.table__header:first-child,
+table {
+  border-spacing: 0px 10px;
+}
+
+td,
+th {
+  border-bottom: 1px solid var(--contrast-20);
+}
+
+/* .table__header:first-child,
 .table__header:last-child,
 .table__cell:first-child,
 .table__cell:last-child {
   padding: 0;
-}
+} */
 
 .table__header,
 .table__cell {
-  padding: 0 1rem;
+  padding: 0.7rem 1rem;
+}
+
+tbody tr:hover {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+th:hover {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.table__header__icon {
+  margin: none;
+  font-size: var(--font-size-arrow);
 }

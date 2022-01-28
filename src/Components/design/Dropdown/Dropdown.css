@@ -70,6 +70,7 @@
   text-align: left;
   outline: none;
 }
+
 .dropdown__menu-item > button:focus {
-  background-color: var(--primary-10);
+  outline: none;
 }
