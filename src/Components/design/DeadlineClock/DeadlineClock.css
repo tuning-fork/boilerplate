@@ -1,11 +1,12 @@
-.deadline-clock__urgent {
+.deadline-clock {
   font-size: 25px;
-  color: var(--contrast-60);
   padding-right: 13px;
 }
 
-.deadline-clock__emergency {
-  font-size: 25px;
+.deadline-clock--urgent {
+  color: var(--contrast-60);
+}
+
+.deadline-clock--emergency {
   color: var(--secondary-text);
-  padding-right: 13px;
 }

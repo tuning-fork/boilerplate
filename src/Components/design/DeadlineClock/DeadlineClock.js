@@ -11,10 +11,16 @@ export default function DeadlineClock(props) {
 
   if (days >= 3 && days <= 7) {
     return (
-      <MdAccessTime className={clsx(className, "deadline-clock__urgent")} />
+      <MdAccessTime
+        className={clsx(className, "deadline-clock", "deadline-clock--urgent")}
+      />
     );
   }
-  return <MdAlarm className={clsx(className, "deadline-clock__emergency")} />;
+  return (
+    <MdAlarm
+      className={clsx(className, "deadline-clock", "deadline-clock--emergency")}
+    />
+  );
 }
 
 DeadlineClock.propTypes = {
