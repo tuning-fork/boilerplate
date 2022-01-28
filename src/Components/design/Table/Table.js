@@ -51,8 +51,6 @@ export default function Table(props) {
 
 Table.propTypes = {
   className: PropTypes.string,
-  // TODO: data: PropTypes.arrayOf(),
-  // TODO: columns: PropTypes.arrayOf(),
 };
 
 Table.defaultProps = {};
