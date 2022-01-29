@@ -1,17 +1,17 @@
-.categories-new {
+.category-edit {
   width: 40%;
 }
 
-.categories-new__button-group {
+.category-edit__button-group {
   margin-top: 98px;
   display: flex;
   justify-content: flex-end;
 }
 
-.categories-new__button-group button:last-child {
+.category-edit__button-group button:last-child {
   margin-left: 30px;
 }
 
-.categories-new .text-box {
+.category-edit .text-box {
   margin-bottom: 45px;
 }

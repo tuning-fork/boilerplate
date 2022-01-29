@@ -3,8 +3,8 @@ import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
-import CategoriesNew from "./CategoriesNew";
-import { useHistory } from "react-router-dom";
+import CategoryNew from "./CategoryNew";
+import CategoryEdit from "./CategoryEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import {
   getAllCategories,
@@ -12,7 +12,6 @@ import {
 } from "../../Services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./CategoriesIndex.css";
 
 export default function CategoriesIndex() {
@@ -20,15 +19,19 @@ export default function CategoriesIndex() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState({});
   const [showingCategoryNew, setShowingCategoryNew] = useState(false);
-  const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.id;
-  const buildOrganizationsLink = useBuildOrganizationsLink();
-  const history = useHistory();
+  const [showingCategoryEdit, setShowingCategoryEdit] = useState(false);
+  const { organizationClient } = useCurrentOrganization();
 
   const [searchFilters, setSearchFilters] = useState({
     title: "",
   });
+
+  const openEditCategory = (category) => {
+    setShowingCategoryEdit(true);
+    setSelectedCategory(category);
+  };
 
   const fetchCategories = useCallback(async () => {
     if (!organizationClient) {
@@ -45,8 +48,6 @@ export default function CategoriesIndex() {
     }
   }, [organizationClient]);
 
-  console.log("categories", categories);
-
   const handleDropdownMiniAction = async ({ option, category }) => {
     try {
       switch (option.value) {
@@ -61,7 +62,7 @@ export default function CategoriesIndex() {
           });
           break;
         case "EDIT":
-          console.log("banana");
+          openEditCategory(category);
           break;
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
@@ -73,8 +74,9 @@ export default function CategoriesIndex() {
     }
   };
 
-  const handleCloseCategoriesNew = () => {
+  const handleCloseCategoryModal = () => {
     setShowingCategoryNew(false);
+    setShowingCategoryEdit(false);
     return fetchCategories();
   };
 
@@ -187,108 +189,15 @@ export default function CategoriesIndex() {
           <p>There are no categories for this category.</p>
         )}
       </div>
-      <CategoriesNew
+      <CategoryNew
         show={showingCategoryNew}
-        onClose={() => handleCloseCategoriesNew()}
+        onClose={() => handleCloseCategoryModal()}
+      />
+      <CategoryEdit
+        category={selectedCategory}
+        show={showingCategoryEdit}
+        onClose={() => handleCloseCategoryModal()}
       />
     </section>
   );
 }
-
-//   useState,
-//   useEffect,
-//   useCallback,
-//   useContext,
-//   useMemo,
-// } from "react";
-// import Button from "../design/Button/Button";
-// import TextBox from "../design/TextBox/TextBox";
-// import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
-// import { Link, useParams } from "react-router-dom";
-// import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-// import { getAllCategories } from "../../Services/Organizations/CategoriesService";
-// import formatDate from "../../Helpers/formatDate";
-// import countWords from "../../Helpers/countWords";
-// import "./CategoriesIndex.css";
-
-// export default function CategoriesIndex(props) {
-//   const [categories, setCategories] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [errors, setErrors] = useState([]);
-//   const [editButton, setEditButton] = useState(true);
-//   const [deleteButton, setDeleteButton] = useState(true);
-//   const { currentOrganization, organizationClient } =
-//     useCurrentOrganization();
-//   const currentOrganizationId =
-//     currentOrganization.id;
-
-//   const [searchFilters, setSearchFilters] = useState({
-//     name: "",
-//   });
-
-//   const columns = [{ Header: "Category Name", accessor: "name" }];
-
-//   useEffect(() => {
-//     if (organizationClient)
-//       getAllCategories(organizationClient)
-//         .then((categories) => {
-//           setCategories(categories);
-//           console.log(categories);
-//           setLoading(false);
-//         })
-//         .catch((error) => console.log(error));
-//   }, [organizationClient]);
-
-//   const filteredCategories = useMemo(() => {
-//     return categories.filter((category) => {
-//       const matchesName = category.name
-//         .toLowerCase()
-//         .includes(searchFilters.name.toLowerCase());
-//       return matchesName;
-//     });
-//   }, [categories, searchFilters]);
-
-//   if (errors.length) {
-//     console.error(errors);
-//     return <p>Error! {errors.map((error) => error.message)}</p>;
-//   } else if (loading) {
-//     return <h1>Loading....</h1>;
-//   }
-
-//   return (
-//     <div className="CategoriesIndex">
-//       <section className="CategoriesIndex__Overview">
-//         <header className="CategoriesIndex__Header">
-//           <h1 className="CategoriesIndex__HeaderText">All Categories</h1>
-//         </header>
-//       </section>
-//       <section className="CategoriesIndex__Actions">
-//         {/* <div className="CategoriesIndex__SearchBar"> */}
-//         <TextBox
-//           search
-//           onChange={(event) =>
-//             setSearchFilters({ ...searchFilters, text: event.target.value })
-//           }
-//           className="CategoriesIndex__SearchInput"
-//         />
-//         <Button>
-//           <Link to={`/organizations/${currentOrganizationId}/categories-new/`}>
-//             Add New Category
-//           </Link>
-//         </Button>
-//         {/* </div> */}
-//       </section>
-//       <section className="CategoriesIndex__TableSection">
-//         <div className="CategoriesIndex__Table">
-//           <AccordionTable
-//             columns={columns}
-//             data={filteredCategories}
-//             dropDownProps={false}
-//             editButton={editButton}
-//             deleteButton={deleteButton}
-//           />
-//         </div>
-//       </section>
-//     </div>
-//   );
-// }
