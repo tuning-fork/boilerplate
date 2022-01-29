@@ -3,6 +3,7 @@ const mapFundingOrg = (apiFundingOrg) => ({
   updatedAt: new Date(apiFundingOrg.updated_at),
   name: apiFundingOrg.name,
   website: apiFundingOrg.website,
+  archived: apiFundingOrg.archived,
   id: apiFundingOrg.id.toString(),
   organizationId: apiFundingOrg.organization_id.toString(),
 });

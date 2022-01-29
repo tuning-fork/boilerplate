@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
-import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
+import FundingOrgsNew from "../FundingOrgs/FundingOrgNew";
 import parseDateFromInput from "../../Helpers/parseDateFromInput";
 import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantForm.css";

@@ -84,13 +84,13 @@ export default function CategoriesIndex() {
     { Header: "Name", accessor: "name" },
     {
       Header: "Date Created",
-      accessor: (category) => formatDate(category.created_at),
+      accessor: (category) => formatDate(category.createdAt),
     },
     {
       Header: "Last Modified",
       accessor: (category) => (
         <div className="categories-index__last-modified-cell">
-          {formatDate(category.updated_at)}
+          {formatDate(category.updatedAt)}
           <DropdownMini
             className="categories-index__see-more"
             labelText="Further Actions"

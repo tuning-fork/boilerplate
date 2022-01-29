@@ -1,0 +1,66 @@
+.fundingorgs-index {
+  flex: 1;
+  padding: 4rem;
+}
+
+.fundingorgs-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fundingorgs-index__search-input {
+  width: 40vw;
+  margin-bottom: 0px;
+}
+
+.fundingorgs-index__add-new {
+  display: block;
+  margin-bottom: 1.38rem;
+}
+
+.fundingorgs-index table {
+  width: 100%;
+}
+
+.fundingorgs-index__table-tabs {
+  display: flex;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 18px;
+  color: var(--primary-text);
+}
+
+.fundingorgs-index__table-tab-button {
+  font-weight: var(--font-weight-normal);
+}
+
+.fundingorgs-index__table-tab-button:hover,
+.fundingorgs-index__table-tab-button:focus,
+.fundingorgs-index__table-tab-button--selected {
+  border-radius: 0;
+  outline: 0;
+  border-bottom: 5px solid var(--primary-shade);
+}
+
+.fundingorgs-index__table .table__cell {
+  position: relative;
+}
+.fundingorgs-index__table__deadline {
+  position: absolute;
+  left: -2.6rem;
+}
+
+.fundingorgs-index__see-more .dropdown-mini__listbox {
+  position: absolute;
+  z-index: 0;
+  right: calc(-1rem - 1vw);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fundingorgs-index__see-more .dropdown__menu {
+  right: calc(-0.4rem - 1vw);
+  transform: translateY(-28%);
+}

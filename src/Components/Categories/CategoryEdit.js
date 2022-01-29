@@ -46,7 +46,11 @@ export default function CategoryEdit(props) {
 
   return (
     <div className="category-edit">
-      <Modal show={props.show} heading="Edit" className="category-edit">
+      <Modal
+        show={props.show}
+        heading="Edit Category"
+        className="category-edit"
+      >
         <CategoryForm
           category={props.category}
           onSubmit={handleSubmit}

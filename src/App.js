@@ -12,7 +12,7 @@ import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
 import Organizations from "./Components/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
-import FundingOrgs from "./Components/FundingOrgs";
+import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
@@ -20,8 +20,7 @@ import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import BoilerplatesNew from "./Components/BoilerplatesNew";
-import CategoriesNew from "./Components/CategoriesNew";
-import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgsNew";
+import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgNew";
 import OrganizationsNew from "./Components/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
@@ -130,10 +129,6 @@ export default function App() {
                       component={BoilerplatesIndex}
                     />
                     <PrivateRoute
-                      path="/organizations/:organizationId/categories-new"
-                      component={CategoriesNew}
-                    />
-                    <PrivateRoute
                       path="/organizations/:organizationId/categories"
                       component={CategoriesIndex}
                     />
@@ -143,7 +138,7 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs"
-                      component={FundingOrgs}
+                      component={FundingOrgsIndex}
                     />
                     <Redirect to="/organizations/:organizationId/dashboard" />
                   </Switch>

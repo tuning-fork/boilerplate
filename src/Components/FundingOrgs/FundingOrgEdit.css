@@ -1,0 +1,17 @@
+.fundingorg-edit {
+  width: 40%;
+}
+
+.fundingorg-edit__button-group {
+  margin-top: 98px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fundingorg-edit__button-group button:last-child {
+  margin-left: 30px;
+}
+
+.fundingorg-edit .text-box {
+  margin-bottom: 45px;
+}
