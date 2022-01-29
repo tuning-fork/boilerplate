@@ -19,6 +19,10 @@
   margin-bottom: 1.38rem;
 }
 
+.categories-index table {
+  width: 100%;
+}
+
 .categories-index__table-tabs {
   display: flex;
   gap: 3rem;
@@ -47,10 +51,16 @@
   position: absolute;
   left: -2.6rem;
 }
+
 .categories-index__see-more .dropdown-mini__listbox {
   position: absolute;
   z-index: 0;
   right: calc(-1rem - 1vw);
   top: 50%;
   transform: translateY(-50%);
+}
+
+.categories-index__see-more .dropdown__menu {
+  right: calc(-0.4rem - 1vw);
+  transform: translateY(-28%);
 }

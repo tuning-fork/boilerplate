@@ -8,7 +8,6 @@ import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-import { faDirections } from "@fortawesome/free-solid-svg-icons";
 
 export default function Table(props) {
   const columns = useMemo(() => props.columns, [props.columns]);

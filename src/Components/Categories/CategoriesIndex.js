@@ -99,7 +99,7 @@ export default function CategoriesIndex() {
               category.archived
                 ? {
                     value: "REMOVE_FROM_ARCHIVED",
-                    label: "Remove from Archived",
+                    label: "Remove from Archive",
                   }
                 : { value: "MARK_AS_ARCHIVED", label: "Archive" },
               { value: "EDIT", label: "Edit" },
