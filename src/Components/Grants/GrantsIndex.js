@@ -100,9 +100,7 @@ export default function GrantsIndex() {
             className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
-          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
-            {formatDate(grant.deadline)}
-          </a>
+          {formatDate(grant.deadline)}
         </>
       ),
     },
@@ -185,6 +183,10 @@ export default function GrantsIndex() {
     return <h1>Loading....</h1>;
   }
 
+  const goToShowForRow = (rowOriginalId) => {
+    return history.push(buildOrganizationsLink(`/grants/${rowOriginalId}`));
+  };
+
   return (
     <section className="grants-index">
       <h1 className="grants-index__header-text">All Grants</h1>
@@ -261,7 +263,11 @@ export default function GrantsIndex() {
       </div>
       <div className="grants-index__table">
         {filteredGrants.length ? (
-          <Table columns={columns} data={filteredGrants} />
+          <Table
+            columns={columns}
+            data={filteredGrants}
+            rowOnClick={goToShowForRow}
+          />
         ) : (
           <p>There are no grants for this category.</p>
         )}
