@@ -8,6 +8,9 @@ export const ButtonVariant = {
   Outlined: "outlined",
   Text: "text",
   None: "none",
+  UserIcon: "usericon",
+  SignIn: "signin",
+  ModalCancelButton: "modalcancelbutton",
 };
 export const ButtonColor = {
   Primary: "primary",

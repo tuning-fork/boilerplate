@@ -15,19 +15,21 @@ export default function GrantForm(props) {
     deadline: props.grant?.deadline || "",
     purpose: props.grant?.purpose || "",
   });
-  const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
+  const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onSubmit(grantFields);
   };
 
+  console.log("grantFields", grantFields);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="grant-form">
         <Dropdown
           altLabel="Add Funding Organization"
-          onClickAltLabel={() => setShowingFundingOrgsNew(true)}
+          onClickAltLabel={() => setShowingFundingOrgNew(true)}
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
           value={grantFields.fundingOrgId}
@@ -83,9 +85,11 @@ export default function GrantForm(props) {
           <Button type="submit">Save</Button>
         </div>
       </form>
-      <FundingOrgsNew
-        show={showingFundingOrgsNew}
-        onClose={() => setShowingFundingOrgsNew(false)}
+      <FundingOrgNew
+        show={showingFundingOrgNew}
+        onClose={() => setShowingFundingOrgNew(false)}
+        fundingOrgs={props.fundingOrgs}
+        setFundingOrgs={props.setFundingOrgs}
       />
     </>
   );

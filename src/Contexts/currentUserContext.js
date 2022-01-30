@@ -6,7 +6,10 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { login as createSession, authWithJwt } from "../Services/Auth/Login";
+import {
+  login as createSession,
+  authWithJwt,
+} from "../Services/Auth/LoginService";
 import Spinner from "../Components/Helpers/Spinner";
 import apiClient from "../config/apiClient";
 import axios from "axios";

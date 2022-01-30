@@ -1,18 +1,17 @@
-.fundingorg-new {
+.categories-new {
   width: 40%;
 }
 
-.fundingorg-new__button-group {
+.categories-new__button-group {
   margin-top: 98px;
   display: flex;
   justify-content: flex-end;
 }
 
-
-.fundingorg-new__button-group button:last-child {
+.categories-new__button-group button:last-child {
   margin-left: 30px;
 }
 
-.fundingorg-new .text-box {
+.categories-new .text-box {
   margin-bottom: 45px;
 }

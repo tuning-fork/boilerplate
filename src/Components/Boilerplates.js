@@ -25,7 +25,7 @@ export default function Boilerplates() {
   const markedBoilerplates = boilerplates.map((boilerplate) => {
     const maxWordCount = Number.parseInt(selectedMaxWordCount);
     const markedOnCategory =
-      boilerplate.category_name.includes(selectedCategory) &&
+      boilerplate.categoryName.includes(selectedCategory) &&
       selectedCategory !== NO_SELECTED_CATEGORY;
     const markedOnMaxWordCount =
       boilerplate.wordcount <= maxWordCount && Number.isFinite(maxWordCount);
@@ -39,6 +39,7 @@ export default function Boilerplates() {
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
           setLoading(false);
+          console.log(boilerplates);
         })
         .catch((error) => {
           console.error(error);
@@ -52,7 +53,7 @@ export default function Boilerplates() {
   }
 
   const categories = unique(
-    boilerplates.map((boilerplate) => boilerplate.category_name).sort()
+    boilerplates.map((boilerplate) => boilerplate.categoryName).sort()
   );
 
   return (

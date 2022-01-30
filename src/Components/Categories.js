@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CategoriesNew from "./CategoriesNew";
+import CategoriesNew from "./Categories/CategoriesNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";

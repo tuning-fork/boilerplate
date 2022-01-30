@@ -96,3 +96,36 @@
   font-weight: unset;
   line-height: unset;
 }
+
+.button.button--usericon {
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+  height: 36px;
+  width: 36px;
+  justify-content: center;
+  cursor: pointer;
+  display: inline-flex;
+  margin-left: 28px;
+  padding: 0px 0px 0px 0px;
+}
+.button--usericon:hover:not(:active) {
+  opacity: 0.85;
+  background-color: var(--secondary);
+}
+
+.button--usericon.button--colorwheel {
+  background-color: var(--primary);
+}
+
+.button--modal-cancel-button {
+  color: var(--secondary);
+  background-color: inherit;
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 4px;
+}
+
+.button--modal-cancel-button > svg {
+  font-size: var(--font-size-icon-bigger);
+}
