@@ -4,7 +4,7 @@ import Modal from "./Elements/Modal";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
-import CategoriesNew from "./CategoriesNew";
+import CategoriesNew from "./Categories/CategoriesNew";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { createBoilerplate } from "../Services/Organizations/BoilerplatesService";

@@ -22,6 +22,8 @@ export default function GrantForm(props) {
     props.onSubmit(grantFields);
   };
 
+  console.log("grantFields", grantFields);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="grant-form">
@@ -86,6 +88,8 @@ export default function GrantForm(props) {
       <FundingOrgsNew
         show={showingFundingOrgsNew}
         onClose={() => setShowingFundingOrgsNew(false)}
+        fundingOrgs={props.fundingOrgs}
+        setFundingOrgs={props.setFundingOrgs}
       />
     </>
   );

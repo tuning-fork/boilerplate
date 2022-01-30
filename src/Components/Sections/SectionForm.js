@@ -99,7 +99,6 @@ export default function SectionForm(props) {
           <Button
             variant="outlined"
             onClick={() => {
-              console.log("Called store section button!", sectionFields);
               onStoreSectionAsBoilerplate(sectionFields);
             }}
           >

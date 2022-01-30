@@ -1,0 +1,40 @@
+.BoilerplateForm {
+  padding: 35px 20px;
+  margin-bottom: 1rem;
+  border: 1px solid #c4c4c4;
+  border-radius: 6px;
+}
+
+.BoilerplateForm__PasteBoilerplateContent {
+  position: absolute;
+  left: 12px;
+  bottom: 2rem;
+}
+
+.BoilerplateForm__ContentEditor {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.BoilerplateForm__ContentEditorInput .ql-editor {
+  min-height: 180px;
+  padding-bottom: 4.5rem;
+}
+
+.BoilerplateForm__ContentEditorHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+}
+
+.BoilerplateForm__Actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.BoilerplateForm__FormControls {
+  display: flex;
+  gap: 1rem;
+}

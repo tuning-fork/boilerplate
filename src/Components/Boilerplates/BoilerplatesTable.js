@@ -9,15 +9,15 @@ export default function BoilerplatesTable(props) {
   const columns = useMemo(
     () => [
       { Header: "Title", accessor: "title" },
-      { Header: "Category", accessor: "category_name" },
+      { Header: "Category", accessor: "categoryName" },
       { Header: "Word Count", accessor: "wordcount" },
       {
         Header: "Date Created",
-        accessor: (row) => formatDate(row.created_at),
+        accessor: (row) => formatDate(row.createdAt),
       },
       {
         Header: "Last Modified",
-        accessor: (row) => formatDate(row.updated_at),
+        accessor: (row) => formatDate(row.updatedAt),
       },
     ],
     []

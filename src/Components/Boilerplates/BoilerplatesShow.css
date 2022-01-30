@@ -1,0 +1,13 @@
+.boilerplates-show {
+  display: flex;
+  width: 100%;
+}
+
+.boilerplates-show__content {
+  flex: 1;
+}
+
+.boilerplates-show__text-container {
+  padding-top: 1rem;
+  width: 78%;
+}
