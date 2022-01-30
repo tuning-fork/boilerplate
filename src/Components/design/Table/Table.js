@@ -2,18 +2,17 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTable, useSortBy } from "react-table";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import "./Table.css";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-import { faDirections } from "@fortawesome/free-solid-svg-icons";
 
 export default function Table(props) {
   const columns = useMemo(() => props.columns, [props.columns]);
   const data = useMemo(() => props.data, [props.data]);
-  const history = useHistory();
+  // const history = useHistory();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
@@ -52,16 +51,15 @@ export default function Table(props) {
     );
   };
 
-  const addLinkToRow = (boilerplateId) => {
-    return history.push(
-      buildOrganizationsLink(`/boilerplates/${boilerplateId}`)
-    );
-  };
+  // const addLinkToRow = (boilerplateId) => {
+  //   return history.push(
+  //     buildOrganizationsLink(`/boilerplates/${boilerplateId}`)
+  //   );
+  // };
 
-  const openModalForRow = (rowOriginalId) => {
-    //will be built out for categories and funding orgs tables
-    console.log("modal is open now!");
-  };
+  // const openModalForRow = (rowOriginalId) => {
+  //   console.log("modal is open now!");
+  // };
 
   const renderRow = (row) => {
     // console.log("row", row);

@@ -1,62 +1,39 @@
-import React, { useState } from "react";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
+import React from "react";
 import Modal from "../design/Modal/Modal";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createFundingOrg } from "../../Services/Organizations/FundingOrgsService";
-import "./FundingOrgsNew.css";
+import FundingOrgForm from "./FundingOrgForm";
+import "./FundingOrgNew.css";
 
-export default function FundingOrgsNew(props) {
-  const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
+export default function FundingOrgNew(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newFundingOrg = {
-      name: name,
-      website: website,
-      organization_id: currentOrganization.id,
-    };
-    if (currentOrganization.id) {
-      createFundingOrg(organizationClient, newFundingOrg)
-        .then((fundingOrg) => {
-          const { createdAt, updatedAt, id, name, organizationId, website } =
-            fundingOrg;
-          props.setFundingOrgs([
-            ...props.fundingOrgs,
-            { createdAt, updatedAt, id, name, organizationId, website },
-          ]);
-          props.onClose(fundingOrg.id);
-        })
-        .catch((error) => {
-          console.error("funding org creation error", error);
-        });
-    }
+  const handleSubmit = (fundingOrgFields) => {
+    createFundingOrg(organizationClient, {
+      ...fundingOrgFields,
+      organizationId: currentOrganization.id,
+    })
+      .then((fundingOrg) => {
+        if (fundingOrg.id) {
+          props.onClose();
+        }
+      })
+      .catch((error) => {
+        console.error("funding org creation error", error);
+      });
+  };
+
+  const handleCancel = () => {
+    props.onClose();
   };
 
   return (
     <Modal
       show={props.show}
-      heading="Add New Funding Organization"
-      className="funding-orgs-new"
+      heading="Add New Funding Org"
+      className="fundingorg-new"
     >
-      <form onSubmit={handleSubmit}>
-        <TextBox
-          labelText="Name"
-          onChange={(event) => setName(event.target.value)}
-        />
-        <TextBox
-          labelText="Website"
-          onChange={(event) => setWebsite(event.target.value)}
-        />
-        <div className="funding-orgs-new__button-group">
-          <Button variant="outlined" onClick={props.onClose}>
-            Cancel
-          </Button>
-          <Button type="submit">Save</Button>
-        </div>
-      </form>
+      <FundingOrgForm onSubmit={handleSubmit} onCancel={handleCancel} />
     </Modal>
   );
 }

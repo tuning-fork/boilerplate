@@ -2,6 +2,7 @@ const mapCategory = (apiCategory) => ({
   createdAt: new Date(apiCategory.created_at),
   updatedAt: new Date(apiCategory.updated_at),
   name: apiCategory.name,
+  archived: apiCategory.archived,
   id: apiCategory.id.toString(),
   organizationId: apiCategory.organization_id.toString(),
 });

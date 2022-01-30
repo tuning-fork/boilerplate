@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FundingOrgsNew from "./FundingOrgs/FundingOrgsNew";
+import FundingOrgsNew from "./FundingOrgs/FundingOrgNew";
 import Modal from "./Elements/Modal";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -50,6 +50,7 @@ export default function FundingOrgs() {
     }
     window.scrollTo(0, 0);
   }, [currentOrganization.id, organizationClient]);
+  console.log("fundingOrgs", fundingOrgs);
 
   const updateFundingOrgs = (newFundingOrg) => {
     const newFundingOrgs = [...fundingOrgs, newFundingOrg];

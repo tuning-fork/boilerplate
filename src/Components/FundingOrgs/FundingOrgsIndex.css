@@ -1,29 +1,29 @@
-.categories-index {
+.fundingorgs-index {
   flex: 1;
   padding: 4rem;
 }
 
-.categories-index__actions {
+.fundingorgs-index__actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.categories-index__search-input {
+.fundingorgs-index__search-input {
   width: 40vw;
   margin-bottom: 0px;
 }
 
-.categories-index__add-new {
+.fundingorgs-index__add-new {
   display: block;
   margin-bottom: 1.38rem;
 }
 
-.categories-index table {
+.fundingorgs-index table {
   width: 100%;
 }
 
-.categories-index__table-tabs {
+.fundingorgs-index__table-tabs {
   display: flex;
   gap: 3rem;
   padding-bottom: 1rem;
@@ -32,27 +32,27 @@
   color: var(--primary-text);
 }
 
-.categories-index__table-tab-button {
+.fundingorgs-index__table-tab-button {
   font-weight: var(--font-weight-normal);
 }
 
-.categories-index__table-tab-button:hover,
-.categories-index__table-tab-button:focus,
-.categories-index__table-tab-button--selected {
+.fundingorgs-index__table-tab-button:hover,
+.fundingorgs-index__table-tab-button:focus,
+.fundingorgs-index__table-tab-button--selected {
   border-radius: 0;
   outline: 0;
   border-bottom: 5px solid var(--primary-shade);
 }
 
-.categories-index__table .table__cell {
+.fundingorgs-index__table .table__cell {
   position: relative;
 }
-.categories-index__table__deadline {
+.fundingorgs-index__table__deadline {
   position: absolute;
   left: -2.6rem;
 }
 
-.categories-index__see-more .dropdown-mini__listbox {
+.fundingorgs-index__see-more .dropdown-mini__listbox {
   position: absolute;
   z-index: 0;
   right: calc(-1rem - 1vw);
@@ -60,7 +60,7 @@
   transform: translateY(-50%);
 }
 
-.categories-index__see-more .dropdown__menu {
+.fundingorgs-index__see-more .dropdown__menu {
   right: calc(-0.4rem - 1vw);
   transform: translateY(-28%);
 }

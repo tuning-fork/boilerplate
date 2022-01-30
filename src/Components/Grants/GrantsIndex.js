@@ -100,14 +100,31 @@ export default function GrantsIndex() {
             className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
+          {formatDate(grant.deadline)}
+        </>
+      ),
+    },
+    {
+      Header: "Title",
+      accessor: (grant) => (
+        <>
           <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
-            {formatDate(grant.deadline)}
+            {grant.title}
           </a>
         </>
       ),
     },
-    { Header: "Title", accessor: "title" },
     { Header: "Funding Org", accessor: "fundingOrgName" },
+    {
+      Header: "RFP URL",
+      accessor: (grant) => (
+        <div>
+          <a href="https://cat-bounce.com/" target="_blank" rel="noreferrer">
+            {grant.rfpUrl}
+          </a>
+        </div>
+      ),
+    },
     { Header: "Purpose", accessor: "purpose" },
     {
       Header: "Date Created",
@@ -164,7 +181,7 @@ export default function GrantsIndex() {
       })
       .filter((grant) => {
         if (tabSelect === "All") {
-          return grant;
+          return grant.archived === false;
         } else if (tabSelect === "Archived") {
           return grant.archived === true;
         } else if (tabSelect === "Drafts") {
@@ -184,6 +201,10 @@ export default function GrantsIndex() {
   } else if (loading) {
     return <h1>Loading....</h1>;
   }
+
+  // const goToShowForRow = (rowOriginalId) => {
+  //   return history.push(buildOrganizationsLink(`/grants/${rowOriginalId}`));
+  // };
 
   return (
     <section className="grants-index">
@@ -261,7 +282,11 @@ export default function GrantsIndex() {
       </div>
       <div className="grants-index__table">
         {filteredGrants.length ? (
-          <Table columns={columns} data={filteredGrants} />
+          <Table
+            columns={columns}
+            data={filteredGrants}
+            // rowOnClick={goToShowForRow}
+          />
         ) : (
           <p>There are no grants for this category.</p>
         )}
