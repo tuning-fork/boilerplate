@@ -8,6 +8,7 @@ import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesSer
 import formatDate from "../../Helpers/formatDate";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";
+import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function BoilerplatesIndex() {
   const [boilerplates, setBoilerplates] = useState([]);
@@ -38,7 +39,14 @@ export default function BoilerplatesIndex() {
   }, [organizationClient]);
 
   const columns = [
-    { Header: "Title", accessor: "title" },
+    {
+      Header: "Title",
+      accessor: (boilerplate) => (
+        <CurrentOrganizationLink to={`/boilerplates/${boilerplate.id}`}>
+          {boilerplate.title}
+        </CurrentOrganizationLink>
+      ),
+    },
     { Header: "Category", accessor: "categoryName" },
     { Header: "Word Count", accessor: "wordcount" },
     {
