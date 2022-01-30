@@ -104,13 +104,24 @@ export default function GrantsIndex() {
         </>
       ),
     },
-    { Header: "Title", accessor: "title" },
+    {
+      Header: "Title",
+      accessor: (grant) => (
+        <>
+          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
+            {grant.title}
+          </a>
+        </>
+      ),
+    },
     { Header: "Funding Org", accessor: "fundingOrgName" },
     {
       Header: "RFP URL",
       accessor: (grant) => (
         <div>
-          <a href="https://cat-bounce.com/">{grant.rfpUrl}</a>
+          <a href="https://cat-bounce.com/" target="_blank" rel="noreferrer">
+            {grant.rfpUrl}
+          </a>
         </div>
       ),
     },
@@ -170,7 +181,7 @@ export default function GrantsIndex() {
       })
       .filter((grant) => {
         if (tabSelect === "All") {
-          return grant;
+          return grant.archived === false;
         } else if (tabSelect === "Archived") {
           return grant.archived === true;
         } else if (tabSelect === "Drafts") {
@@ -191,9 +202,9 @@ export default function GrantsIndex() {
     return <h1>Loading....</h1>;
   }
 
-  const goToShowForRow = (rowOriginalId) => {
-    return history.push(buildOrganizationsLink(`/grants/${rowOriginalId}`));
-  };
+  // const goToShowForRow = (rowOriginalId) => {
+  //   return history.push(buildOrganizationsLink(`/grants/${rowOriginalId}`));
+  // };
 
   return (
     <section className="grants-index">
@@ -274,7 +285,7 @@ export default function GrantsIndex() {
           <Table
             columns={columns}
             data={filteredGrants}
-            rowOnClick={goToShowForRow}
+            // rowOnClick={goToShowForRow}
           />
         ) : (
           <p>There are no grants for this category.</p>

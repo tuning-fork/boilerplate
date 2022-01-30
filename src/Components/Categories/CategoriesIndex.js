@@ -127,7 +127,7 @@ export default function CategoriesIndex() {
       })
       .filter((category) => {
         if (tabSelect === "All") {
-          return category;
+          return category.archived === false;
         } else if (tabSelect === "Archived") {
           return category.archived === true;
         }

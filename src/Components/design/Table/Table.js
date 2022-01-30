@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTable, useSortBy } from "react-table";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import "./Table.css";
 import {
   MdOutlineKeyboardArrowDown,
@@ -12,7 +12,7 @@ import {
 export default function Table(props) {
   const columns = useMemo(() => props.columns, [props.columns]);
   const data = useMemo(() => props.data, [props.data]);
-  const history = useHistory();
+  // const history = useHistory();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
@@ -51,15 +51,15 @@ export default function Table(props) {
     );
   };
 
-  const addLinkToRow = (boilerplateId) => {
-    return history.push(
-      buildOrganizationsLink(`/boilerplates/${boilerplateId}`)
-    );
-  };
+  // const addLinkToRow = (boilerplateId) => {
+  //   return history.push(
+  //     buildOrganizationsLink(`/boilerplates/${boilerplateId}`)
+  //   );
+  // };
 
-  const openModalForRow = (rowOriginalId) => {
-    console.log("modal is open now!");
-  };
+  // const openModalForRow = (rowOriginalId) => {
+  //   console.log("modal is open now!");
+  // };
 
   const renderRow = (row) => {
     // console.log("row", row);

@@ -86,7 +86,9 @@ export default function FundingOrgsIndex() {
       Header: "Website",
       accessor: (fundingOrg) => (
         <div>
-          <a href="https://cat-bounce.com/">{fundingOrg.website}</a>
+          <a href="https://cat-bounce.com/" target="_blank" rel="noreferrer">
+            {fundingOrg.website}
+          </a>
         </div>
       ),
     },
@@ -135,7 +137,7 @@ export default function FundingOrgsIndex() {
       })
       .filter((fundingOrgs) => {
         if (tabSelect === "All") {
-          return fundingOrgs;
+          return fundingOrgs.archived === false;
         } else if (tabSelect === "Archived") {
           return fundingOrgs.archived === true;
         }

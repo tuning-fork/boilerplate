@@ -32,11 +32,13 @@ export default function FundingOrgEdit(props) {
   };
 
   const handleDelete = () => {
-    // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this funding org?`)) {
-      FundingOrgsService.deleteFundingOrg(
+      FundingOrgsService.updateFundingOrg(
         organizationClient,
-        props.fundingOrg.id
+        props.fundingOrg.id,
+        {
+          archived: true,
+        }
       )
         .then(() => {
           alert("Funding org deleted!");
@@ -49,6 +51,23 @@ export default function FundingOrgEdit(props) {
           );
         });
     }
+    // eslint-disable-next-line no-restricted-globals
+    // if (confirm(`Are you sure you want to delete this funding org?`)) {
+    //   FundingOrgsService.deleteFundingOrg(
+    //     organizationClient,
+    //     props.fundingOrg.id
+    //   )
+    //     .then(() => {
+    //       alert("Funding org deleted!");
+    //       props.onClose();
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       alert(
+    //         "Eek! Something went wrong when deleting the funding org. Try again soon."
+    //       );
+    //     });
+    // }
   };
 
   return (
