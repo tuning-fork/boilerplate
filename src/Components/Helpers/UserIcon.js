@@ -19,12 +19,12 @@ export default function UserIcon(props) {
 
   return (
     <div className="user-icon" aria-hidden="true" style={{ backgroundColor }}>
-      {firstName[0] + lastName[0]}
+      {firstName[0] + (lastName?.[0] || "")}
     </div>
   );
 }
 
 UserIcon.propTypes = {
   firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
+  lastName: PropTypes.string,
 };
