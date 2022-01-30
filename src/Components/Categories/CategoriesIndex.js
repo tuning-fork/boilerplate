@@ -11,8 +11,8 @@ import {
   updateCategory,
 } from "../../Services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
-import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./CategoriesIndex.css";
+import DropdownMini from "../design/DropdownMini/DropdownMini";
 
 export default function CategoriesIndex() {
   const [categories, setCategories] = useState([]);
@@ -127,9 +127,9 @@ export default function CategoriesIndex() {
       })
       .filter((category) => {
         if (tabSelect === "All") {
-          return category.archived === false;
+          return !category.archived;
         } else if (tabSelect === "Archived") {
-          return category.archived === true;
+          return category.archived;
         }
         return category;
       });
@@ -144,7 +144,7 @@ export default function CategoriesIndex() {
 
   return (
     <section className="categories-index">
-      <h1 className="categories-index__header-text">All Categories</h1>
+      <h1>All Categories</h1>
       <div className="categories-index__actions">
         <TextBox
           labelText="Search Categories by Title"
@@ -186,17 +186,17 @@ export default function CategoriesIndex() {
         {filteredCategories.length ? (
           <Table columns={columns} data={filteredCategories} />
         ) : (
-          <p>There are no categories for this category.</p>
+          <p>There are no categories to display in this tab.</p>
         )}
       </div>
       <CategoryNew
         show={showingCategoryNew}
-        onClose={() => handleCloseCategoryModal()}
+        onClose={handleCloseCategoryModal}
       />
       <CategoryEdit
         category={selectedCategory}
         show={showingCategoryEdit}
-        onClose={() => handleCloseCategoryModal()}
+        onClose={handleCloseCategoryModal}
       />
     </section>
   );

@@ -14,12 +14,12 @@
   margin-bottom: 0px;
 }
 
-.categories-index__add-new {
+/* .categories-index__add-new {
   display: block;
   margin-bottom: 1.38rem;
-}
+} */
 
-.categories-index table {
+.categories-index .table {
   width: 100%;
 }
 
@@ -46,10 +46,6 @@
 
 .categories-index__table .table__cell {
   position: relative;
-}
-.categories-index__table__deadline {
-  position: absolute;
-  left: -2.6rem;
 }
 
 .categories-index__see-more .dropdown-mini__listbox {

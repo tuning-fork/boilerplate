@@ -2,17 +2,15 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useTable, useSortBy } from "react-table";
-// import { useHistory } from "react-router-dom";
-import "./Table.css";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
+import "./Table.css";
 
 export default function Table(props) {
   const columns = useMemo(() => props.columns, [props.columns]);
   const data = useMemo(() => props.data, [props.data]);
-  // const history = useHistory();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
@@ -31,43 +29,26 @@ export default function Table(props) {
         {...column.getHeaderProps(column.getSortByToggleProps())}
         className="table__header"
       >
-        <div
-          style={{ display: "flex", direction: "row", alignContent: "center" }}
-        >
+        <div className="table__header-container">
           {column.render("Header")}
-          <span style={{ height: "24px", width: "24px" }}>
-            {column.isSorted ? (
-              column.isSortedDesc ? (
-                <MdOutlineKeyboardArrowDown className="table__header__icon" />
-              ) : (
-                <MdOutlineKeyboardArrowUp className="table__header__icon" />
-              )
+          {column.isSorted &&
+            (column.isSortedDesc ? (
+              <MdOutlineKeyboardArrowDown />
             ) : (
-              ""
-            )}
-          </span>
+              <MdOutlineKeyboardArrowUp />
+            ))}
         </div>
       </th>
     );
   };
 
-  // const addLinkToRow = (boilerplateId) => {
-  //   return history.push(
-  //     buildOrganizationsLink(`/boilerplates/${boilerplateId}`)
-  //   );
-  // };
-
-  // const openModalForRow = (rowOriginalId) => {
-  //   console.log("modal is open now!");
-  // };
-
   const renderRow = (row) => {
-    // console.log("row", row);
     prepareRow(row);
     return (
       <tr
-        onClick={props.rowOnClick && (() => props.rowOnClick(row.original.id))}
         {...row.getRowProps()}
+        onClick={() => props.onRowClick(row)}
+        className="table__row"
       >
         {row.cells.map(renderCell)}
       </tr>
@@ -92,6 +73,9 @@ export default function Table(props) {
 
 Table.propTypes = {
   className: PropTypes.string,
+  onRowClick: PropTypes.func,
 };
 
-Table.defaultProps = {};
+Table.defaultProps = {
+  onRowClick: () => {},
+};

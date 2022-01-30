@@ -14,6 +14,7 @@ import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./GrantsIndex.css";
+import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);
@@ -107,22 +108,20 @@ export default function GrantsIndex() {
     {
       Header: "Title",
       accessor: (grant) => (
-        <>
-          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
-            {grant.title}
-          </a>
-        </>
+        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
+          {grant.title}
+        </CurrentOrganizationLink>
       ),
     },
     { Header: "Funding Org", accessor: "fundingOrgName" },
     {
       Header: "RFP URL",
       accessor: (grant) => (
-        <div>
-          <a href="https://cat-bounce.com/" target="_blank" rel="noreferrer">
-            {grant.rfpUrl}
-          </a>
-        </div>
+        <a href={grant.rfpUrl} target="_blank" rel="noreferrer">
+          {grant.rfpUrl?.length > 20
+            ? grant.rfpUrl?.slice(0, 20) + "..."
+            : grant.rfpUrl}
+        </a>
       ),
     },
     { Header: "Purpose", accessor: "purpose" },
@@ -202,13 +201,9 @@ export default function GrantsIndex() {
     return <h1>Loading....</h1>;
   }
 
-  // const goToShowForRow = (rowOriginalId) => {
-  //   return history.push(buildOrganizationsLink(`/grants/${rowOriginalId}`));
-  // };
-
   return (
     <section className="grants-index">
-      <h1 className="grants-index__header-text">All Grants</h1>
+      <h1>All Grants</h1>
       <div className="grants-index__actions">
         <TextBox
           labelText="Search Grants by Title"
@@ -282,11 +277,7 @@ export default function GrantsIndex() {
       </div>
       <div className="grants-index__table">
         {filteredGrants.length ? (
-          <Table
-            columns={columns}
-            data={filteredGrants}
-            // rowOnClick={goToShowForRow}
-          />
+          <Table columns={columns} data={filteredGrants} />
         ) : (
           <p>There are no grants for this category.</p>
         )}

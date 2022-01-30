@@ -14,11 +14,6 @@
   margin-bottom: 0px;
 }
 
-.grants-index__add-new {
-  display: block;
-  margin-bottom: 1.38rem;
-}
-
 .grants-index__table-tabs {
   display: flex;
   gap: 3rem;
