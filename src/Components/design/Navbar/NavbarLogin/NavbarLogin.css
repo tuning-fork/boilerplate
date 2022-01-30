@@ -1,0 +1,36 @@
+.navbar-login__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: unset;
+}
+
+.navbar-login__actions {
+  margin: unset;
+  display: flex;
+  margin-top: 4px;
+}
+
+.navbar-login__inputs .text-box {
+  margin: unset;
+}
+
+.navbar-login__inputs {
+  margin: 0px 0px 0px 0px;
+}
+
+.navbar-login__inputs > .text-box__container {
+  border: 1px solid var(--contrast-50);
+  border-radius: 4px;
+  background-color: var(--base-contrast-5);
+  height: 2rem;
+}
+
+.navbar-login__items {
+  padding-right: 8px;
+}
+
+.navbar-login__image {
+  width: 9rem;
+}

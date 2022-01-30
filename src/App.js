@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
-import LandingPage from "./Components/LandingPage";
+import Splashpage from "./Components/Spashpage";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
@@ -42,9 +42,9 @@ export default function App() {
       <Switch>
         <CurrentUserProvider>
           <Route exact path="/">
-            <Redirect to="/landing_page" />
+            <Redirect to="/splashpage" />
           </Route>
-          <Route path="/landing_page" component={LandingPage} />
+          <Route path="/splashpage" component={Splashpage} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />

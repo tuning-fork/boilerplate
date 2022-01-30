@@ -11,7 +11,7 @@ export default function Navbar(props) {
   return (
     <div className={clsx(props.className, "navbar")}>
       <Logo className="navbar__logo" />
-      <div className="navbar__links">
+      <div className={clsx(props.className, "navbar__links")}>
         {props.organizationName && (
           <>
             <Link to="/organizations" className="navbar__all-organizations">

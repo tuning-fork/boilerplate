@@ -16,7 +16,7 @@ function Navigation(props) {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     localStorage.removeItem("org_id");
-    props.history.push("/landing_page");
+    props.history.push("/splashpage");
   };
 
   const handleChange = (event) => {
