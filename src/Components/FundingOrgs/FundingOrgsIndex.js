@@ -85,11 +85,11 @@ export default function FundingOrgsIndex() {
     {
       Header: "Website",
       accessor: (fundingOrg) => (
-        <div>
-          <a href="https://cat-bounce.com/" target="_blank" rel="noreferrer">
-            {fundingOrg.website}
-          </a>
-        </div>
+        <a href={fundingOrg.website} target="_blank" rel="noreferrer">
+          {fundingOrg.website?.length > 30
+            ? fundingOrg.website?.slice(0, 30) + "..."
+            : fundingOrg.website}
+        </a>
       ),
     },
     {
