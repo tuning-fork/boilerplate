@@ -17,9 +17,12 @@ export default function Modal(props) {
         aria-modal
         open
       >
-        <div className="modal-cancel-button">
-          <ModalCancelButton hide={props.hide} />
-        </div>
+        {props.hide && (
+          <div className="modal-cancel-button">
+            <ModalCancelButton hide={props.hide} />
+          </div>
+        )}
+
         <div
           // className={clsx(
           //   props.splashpageForm

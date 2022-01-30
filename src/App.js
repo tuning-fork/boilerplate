@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
-import LandingPage from "./Components/LandingPage";
+import Splashpage from "./Components/Splashpage";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
@@ -13,19 +13,18 @@ import CategoriesIndex from "./Components/Categories/CategoriesIndex";
 import Organizations from "./Components/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
-import BoilerplatesShow from "./Components/BoilerplatesShow";
+import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
-import BoilerplatesNew from "./Components/BoilerplatesNew";
-import FundingOrgsNew from "./Components/FundingOrgs/FundingOrgNew";
+import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
+import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
 import OrganizationsNew from "./Components/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
-import BoilerplatesEdit from "./Components/BoilerplatesEdit";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
@@ -41,9 +40,9 @@ export default function App() {
       <Switch>
         <CurrentUserProvider>
           <Route exact path="/">
-            <Redirect to="/landing_page" />
+            <Redirect to="/splashpage" />
           </Route>
-          <Route path="/landing_page" component={LandingPage} />
+          <Route path="/splashpage" component={Splashpage} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
@@ -111,12 +110,6 @@ export default function App() {
                       component={BoilerplatesShow}
                     />
                     <PrivateRoute
-                      path={
-                        "/organizations/:organizationId/boilerplates-edit/:boilerplate_id"
-                      }
-                      component={BoilerplatesEdit}
-                    />
-                    <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs/:funding_org_id"
                       component={FundingOrgsShow}
                     />
@@ -134,7 +127,7 @@ export default function App() {
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs-new"
-                      component={FundingOrgsNew}
+                      component={FundingOrgNew}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs"
