@@ -63,7 +63,6 @@ export default function FundingOrgsIndex() {
           break;
         case "EDIT":
           openEditFundingOrg(fundingOrg);
-          console.log("so you want to edit");
           break;
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
@@ -83,7 +82,14 @@ export default function FundingOrgsIndex() {
 
   const columns = [
     { Header: "Name", accessor: "name" },
-    { Header: "Website", accessor: "website" },
+    {
+      Header: "Website",
+      accessor: (fundingOrg) => (
+        <div>
+          <a href="https://cat-bounce.com/">{fundingOrg.website}</a>
+        </div>
+      ),
+    },
     {
       Header: "Date Created",
       accessor: (fundingOrg) => formatDate(fundingOrg.createdAt),
@@ -118,8 +124,6 @@ export default function FundingOrgsIndex() {
   useEffect(() => {
     fetchFundingOrgs();
   }, [fetchFundingOrgs]);
-
-  console.log("fundingOrgs", fundingOrgs);
 
   const filteredFundingOrgs = useMemo(() => {
     return fundingOrgs

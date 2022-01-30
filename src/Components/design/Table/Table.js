@@ -58,7 +58,6 @@ export default function Table(props) {
   };
 
   const openModalForRow = (rowOriginalId) => {
-    //will be built out for categories and funding orgs tables
     console.log("modal is open now!");
   };
 

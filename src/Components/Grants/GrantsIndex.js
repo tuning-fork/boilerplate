@@ -106,6 +106,14 @@ export default function GrantsIndex() {
     },
     { Header: "Title", accessor: "title" },
     { Header: "Funding Org", accessor: "fundingOrgName" },
+    {
+      Header: "RFP URL",
+      accessor: (grant) => (
+        <div>
+          <a href="https://cat-bounce.com/">{grant.rfpUrl}</a>
+        </div>
+      ),
+    },
     { Header: "Purpose", accessor: "purpose" },
     {
       Header: "Date Created",
