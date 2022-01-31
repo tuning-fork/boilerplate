@@ -9,7 +9,11 @@ import countWords from "../../Helpers/countWords";
 import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {
-  const { onStoreSectionAsBoilerplate = () => {}, section } = props;
+  const {
+    onStoreSectionAsBoilerplate = () => {},
+    handleDeleteSection = () => {},
+    section,
+  } = props;
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
     PasteBoilerplateContentPopoutContext
   );
@@ -105,13 +109,21 @@ export default function SectionForm(props) {
             Store Section as Boilerplate
           </Button>
         </div>
-        <div className="SectionForm__FormControls">
-          <Button variant="text" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type="submit">Save</Button>
-        </div>
       </div>
+      <div className="SectionForm__FormControls">
+        <Button variant="text" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button type="submit">Save</Button>
+      </div>
+      <Button
+        color="error"
+        onClick={() => {
+          handleDeleteSection(sectionFields);
+        }}
+      >
+        Delete Section
+      </Button>
     </form>
   );
 }

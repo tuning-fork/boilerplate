@@ -119,6 +119,23 @@ export default function GrantsShow() {
     });
   };
 
+  const handleDeleteSection = (sectionFields) => {
+    if (confirm(`Are you sure you want to delete this section?`)) {
+      updateGrantSection(organizationClient, grantId, sectionFields.id, {
+        archived: true,
+      })
+        .then(() => {
+          alert("Section deleted!");
+          setEditingSectionId(null);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(
+            "Eek! Something went wrong when deleting the section. Try again soon."
+          );
+        });
+    }
+  };
   // const handleReorderSection = (event) => {
   //   const { active, over } = event;
   //   if (active.id !== over.id) {
