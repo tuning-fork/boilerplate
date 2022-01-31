@@ -15,7 +15,7 @@ export default function FundingOrgNew(props) {
     })
       .then((fundingOrg) => {
         if (fundingOrg.id) {
-          props.onClose();
+          props.onClose(fundingOrg.id);
         }
       })
       .catch((error) => {

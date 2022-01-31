@@ -14,6 +14,7 @@ export default function GrantsNew() {
   const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
   const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
 
   useEffect(() => {
     if (!organizationClient) {
@@ -49,6 +50,15 @@ export default function GrantsNew() {
     return "Loading...";
   }
 
+  const handleFundingOrg = (fundingOrgId) => {
+    if (fundingOrgId) {
+      getAllFundingOrgs(organizationClient)
+        .then(setFundingOrgs)
+        .catch((error) => console.error(error));
+    }
+    setShowingFundingOrgNew(false);
+  };
+
   return (
     <div className="grants-new">
       <Container as="section" centered>
@@ -64,6 +74,9 @@ export default function GrantsNew() {
           fundingOrgs={fundingOrgs}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+          handleFundingOrg={handleFundingOrg}
+          showingFundingOrgNew={showingFundingOrgNew}
+          setShowingFundingOrgNew={setShowingFundingOrgNew}
         />
       </Container>
     </div>
