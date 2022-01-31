@@ -8,8 +8,8 @@
 }
 
 .ql-editor a {
-  color: var(--primary-contrast) !important;
+  color: var(--primary) !important;
 }
-.ql-editor a:visited {
+/* .ql-editor a:visited {
   color: var(--primary-contrast-alt) !important;
-}
+} */
