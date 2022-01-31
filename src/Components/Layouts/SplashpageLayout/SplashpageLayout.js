@@ -35,6 +35,7 @@ export default function SplashpageLayout() {
             <Login
               onSubmit={handleCloseSplashPageModal}
               onCancel={handleCloseSplashPageModal}
+              toggleModalContents={handleSwitchSplashPageModal}
             />
           </Card.Body>
         </Card>

@@ -1,5 +1,5 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useCallback } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
 import { createUser } from "../../Services/Auth/SignupService";
 import SignUpForm from "./SignUpForm";
@@ -7,6 +7,7 @@ import "./SignUp.css";
 
 export default function SignUp(props) {
   const history = useHistory();
+  const location = useLocation();
 
   const handleCancel = (event) => {
     event.preventDefault();
