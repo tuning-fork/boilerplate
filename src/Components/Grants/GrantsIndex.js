@@ -14,6 +14,7 @@ import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./GrantsIndex.css";
+import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);
@@ -100,14 +101,29 @@ export default function GrantsIndex() {
             className="grants-index__table__deadline"
             deadline={grant.deadline}
           />
-          <a href={buildOrganizationsLink(`/grants/${grant.id}`)}>
-            {formatDate(grant.deadline)}
-          </a>
+          {formatDate(grant.deadline)}
         </>
       ),
     },
-    { Header: "Title", accessor: "title" },
+    {
+      Header: "Title",
+      accessor: (grant) => (
+        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
+          {grant.title}
+        </CurrentOrganizationLink>
+      ),
+    },
     { Header: "Funding Org", accessor: "fundingOrgName" },
+    {
+      Header: "RFP URL",
+      accessor: (grant) => (
+        <a href={grant.rfpUrl} target="_blank" rel="noreferrer">
+          {grant.rfpUrl?.length > 20
+            ? grant.rfpUrl?.slice(0, 20) + "..."
+            : grant.rfpUrl}
+        </a>
+      ),
+    },
     { Header: "Purpose", accessor: "purpose" },
     {
       Header: "Date Created",
@@ -164,7 +180,7 @@ export default function GrantsIndex() {
       })
       .filter((grant) => {
         if (tabSelect === "All") {
-          return grant;
+          return grant.archived === false;
         } else if (tabSelect === "Archived") {
           return grant.archived === true;
         } else if (tabSelect === "Drafts") {
@@ -187,7 +203,7 @@ export default function GrantsIndex() {
 
   return (
     <section className="grants-index">
-      <h1 className="grants-index__header-text">All Grants</h1>
+      <h1>All Grants</h1>
       <div className="grants-index__actions">
         <TextBox
           labelText="Search Grants by Title"

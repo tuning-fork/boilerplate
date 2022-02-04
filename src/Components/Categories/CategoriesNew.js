@@ -3,28 +3,37 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Modal from "../design/Modal/Modal";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createFundingOrg } from "../../Services/Organizations/FundingOrgsService";
-import "./FundingOrgsNew.css";
+import { createCategory } from "../../Services/Organizations/CategoriesService";
+import "./CategoriesNew.css";
 
-export default function FundingOrgsNew(props) {
+export default function CategoriesNew(props) {
   const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newFundingOrg = {
+    const newCategory = {
       name: name,
-      website: website,
       organization_id: currentOrganization.id,
     };
     if (currentOrganization.id) {
-      createFundingOrg(organizationClient, newFundingOrg)
-        .then((fundingOrg) => {
-          props.onClose(fundingOrg.id);
+      createCategory(organizationClient, newCategory)
+        .then((category) => {
+          const { createdAt, updatedAt, id, name, organizationId } = category;
+          props.setCategories([
+            ...props.currentCategories,
+            {
+              createdAt,
+              updatedAt,
+              id,
+              name,
+              organizationId,
+            },
+          ]);
+          props.onClose(category.id);
         })
         .catch((error) => {
-          console.error("funding org creation error", error);
+          console.error("category creation error", error);
         });
     }
   };
@@ -32,19 +41,15 @@ export default function FundingOrgsNew(props) {
   return (
     <Modal
       show={props.show}
-      heading="Add New Funding Organization"
-      className="funding-orgs-new"
+      heading="Add New Category"
+      className="categories-new"
     >
       <form onSubmit={handleSubmit}>
         <TextBox
           labelText="Name"
           onChange={(event) => setName(event.target.value)}
         />
-        <TextBox
-          labelText="Website"
-          onChange={(event) => setWebsite(event.target.value)}
-        />
-        <div className="funding-orgs-new__button-group">
+        <div className="categories-new__button-group">
           <Button variant="outlined" onClick={props.onClose}>
             Cancel
           </Button>

@@ -1,0 +1,10 @@
+.category-form {
+  height: 100%;
+}
+
+.category-form__actions {
+  float: right;
+}
+.category-form__actions > button {
+  margin-left: 20px;
+}

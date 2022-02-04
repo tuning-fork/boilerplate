@@ -7,6 +7,7 @@ import { MdSearch } from "react-icons/md";
 export default function TextBox(props) {
   const {
     labelText,
+    placeholderText,
     onChange,
     className,
     prefix,
@@ -30,6 +31,7 @@ export default function TextBox(props) {
           type={type}
           value={value}
           onChange={onChange}
+          placeholder={placeholderText}
           required={required}
           {...rest}
         />
@@ -42,7 +44,8 @@ export default function TextBox(props) {
 TextBox.propTypes = {
   align: PropTypes.oneOf(["left", "right"]),
   className: PropTypes.string,
-  labelText: PropTypes.string.isRequired,
+  labelText: PropTypes.string,
+  placeholderText: PropTypes.string,
   onChange: PropTypes.func,
   prefix: PropTypes.node,
   required: PropTypes.bool,

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
-import FundingOrgsNew from "../FundingOrgs/FundingOrgsNew";
+import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
 import parseDateFromInput from "../../Helpers/parseDateFromInput";
 import formatDateForInput from "../../Helpers/formatDateForInput";
 import "./GrantForm.css";
@@ -15,7 +15,6 @@ export default function GrantForm(props) {
     deadline: props.grant?.deadline || "",
     purpose: props.grant?.purpose || "",
   });
-  const [showingFundingOrgsNew, setShowingFundingOrgsNew] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,7 +26,7 @@ export default function GrantForm(props) {
       <form onSubmit={handleSubmit} className="grant-form">
         <Dropdown
           altLabel="Add Funding Organization"
-          onClickAltLabel={() => setShowingFundingOrgsNew(true)}
+          onClickAltLabel={() => props.setShowingFundingOrgNew(true)}
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
           value={grantFields.fundingOrgId}
@@ -83,9 +82,11 @@ export default function GrantForm(props) {
           <Button type="submit">Save</Button>
         </div>
       </form>
-      <FundingOrgsNew
-        show={showingFundingOrgsNew}
-        onClose={() => setShowingFundingOrgsNew(false)}
+      <FundingOrgNew
+        show={props.showingFundingOrgNew}
+        onClose={props.handleFundingOrg}
+        fundingOrgs={props.fundingOrgs}
+        setFundingOrgs={props.setFundingOrgs}
       />
     </>
   );

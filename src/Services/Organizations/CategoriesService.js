@@ -1,3 +1,12 @@
+const mapCategory = (apiCategory) => ({
+  createdAt: new Date(apiCategory.created_at),
+  updatedAt: new Date(apiCategory.updated_at),
+  name: apiCategory.name,
+  archived: apiCategory.archived,
+  id: apiCategory.id.toString(),
+  organizationId: apiCategory.organization_id.toString(),
+});
+
 // getCategory
 export const getCategory = (organizationClient, categoryId) => {
   return organizationClient
@@ -10,7 +19,7 @@ export const getCategory = (organizationClient, categoryId) => {
 export const getAllCategories = (organizationClient) => {
   return organizationClient
     .get(`/categories/`)
-    .then((response) => response.data);
+    .then((response) => response.data.map(mapCategory));
 };
 
 // deleteCategory

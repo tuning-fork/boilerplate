@@ -14,7 +14,7 @@ import { getAllCategories } from "../../Services/Organizations/CategoriesService
 export default function PasteBoilerplateContentPopout() {
   const columns = [
     { Header: "Title", accessor: "title" },
-    { Header: "Category", accessor: "category_name" },
+    { Header: "Category", accessor: "categoryName" },
     { Header: "Word Count", accessor: "wordcount" },
   ];
   const { organizationClient } = useCurrentOrganization();
@@ -33,7 +33,7 @@ export default function PasteBoilerplateContentPopout() {
         .toLowerCase()
         .includes(searchFilters.text.toLowerCase());
       const matchesCategory =
-        boilerplate.category_name.includes(searchFilters.category) ||
+        boilerplate.categoryName.includes(searchFilters.category) ||
         searchFilters.category === "";
       const matchesMaxWordCount =
         boilerplate.wordcount <= searchFilters.maxWordCount ||
