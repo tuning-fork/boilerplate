@@ -32,6 +32,7 @@ export default function FundingOrgEdit(props) {
   };
 
   const handleDelete = () => {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this funding org?`)) {
       FundingOrgsService.updateFundingOrg(
         organizationClient,
