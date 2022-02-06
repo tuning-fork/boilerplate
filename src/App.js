@@ -32,6 +32,7 @@ import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
 import Logout from "./pages/Logout";
+import StayTunedPage from "./pages/StayTuned/StayTunedPage";
 import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/logout" component={Logout} />
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
+          <Route path="/stay_tuned" component={StayTunedPage} />
           <CurrentOrganizationProvider>
             <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>
