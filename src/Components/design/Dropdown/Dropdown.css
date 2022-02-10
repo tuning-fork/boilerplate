@@ -74,3 +74,19 @@
 .dropdown__menu-item > button:focus {
   outline: none;
 }
+
+.dropdown-logout__menu {
+  right: calc(1rem - 1vw);
+  transform: translateY(10%);
+  position: absolute;
+  z-index: 1;
+  top: 4%;
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--base);
+  box-shadow: 0px 8px 24px -4px rgba(28, 50, 79, 0.38),
+    0px 2px 6px -1px rgba(28, 55, 90, 0.16);
+}

@@ -5,10 +5,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { optionPropType } from "../Dropdown/DropdownMenuItem";
 import DropdownContext from "../Dropdown/DropdownContext";
 import DropdownMenu from "../Dropdown/DropdownMenu";
+import DropdownLogoutMenu from "../Dropdown/DropdownLogoutMenu";
 import "./DropdownMini.css";
 
 export default function DropdownMini(props) {
-  const { className, onChange, options, value } = props;
+  const { className, onChange, options, value, displayIcon, navbar } = props;
   const dropdownEl = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,13 +65,21 @@ export default function DropdownMini(props) {
             }
           }}
         >
-          <BsThreeDotsVertical />
+          {displayIcon ? displayIcon : <BsThreeDotsVertical />}
         </div>
-        <DropdownMenu
-          aria-expanded={isMenuOpen}
-          hidden={!isMenuOpen}
-          options={options}
-        />
+        {navbar ? (
+          <DropdownLogoutMenu
+            aria-expanded={isMenuOpen}
+            hidden={!isMenuOpen}
+            options={options}
+          />
+        ) : (
+          <DropdownMenu
+            aria-expanded={isMenuOpen}
+            hidden={!isMenuOpen}
+            options={options}
+          />
+        )}
       </div>
     </DropdownContext.Provider>
   );
