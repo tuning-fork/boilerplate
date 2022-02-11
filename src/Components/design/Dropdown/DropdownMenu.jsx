@@ -1,13 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 import DropdownMenuItem, { optionPropType } from "./DropdownMenuItem";
 import "./Dropdown.css";
 
 export default function DropdownMenu(props) {
-  const { options, ...restProps } = props;
+  const { options, className, ...restProps } = props;
 
   return (
-    <ul {...restProps} className="dropdown__menu" role="listbox">
+    <ul
+      {...restProps}
+      className={clsx(className, "dropdown__menu")}
+      role="listbox"
+    >
       {options?.map((option, index) => (
         <DropdownMenuItem key={index} option={option} index={index} />
       ))}

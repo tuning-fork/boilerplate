@@ -37,7 +37,7 @@ export default function Signup() {
 
       .then((response) => {
         if (response.data.message === "User created successfully") {
-          history.push("/login");
+          history.push("/splashpage");
         }
       })
       .catch((error) => {

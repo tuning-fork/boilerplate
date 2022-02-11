@@ -8,7 +8,14 @@ import DropdownMenu from "../Dropdown/DropdownMenu";
 import "./DropdownMini.css";
 
 export default function DropdownMini(props) {
-  const { className, onChange, options, value } = props;
+  const {
+    className,
+    onChange,
+    options,
+    value,
+    displayIcon,
+    dropDownMenuClassName,
+  } = props;
   const dropdownEl = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,9 +71,10 @@ export default function DropdownMini(props) {
             }
           }}
         >
-          <BsThreeDotsVertical />
+          {displayIcon ? displayIcon : <BsThreeDotsVertical />}
         </div>
         <DropdownMenu
+          className={dropDownMenuClassName}
           aria-expanded={isMenuOpen}
           hidden={!isMenuOpen}
           options={options}
@@ -78,15 +86,12 @@ export default function DropdownMini(props) {
 
 DropdownMini.propTypes = {
   className: PropTypes.string,
-  multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(optionPropType).isRequired,
-  placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,
 };
 
 DropdownMini.defaultProps = {
-  multiple: false,
   required: false,
 };

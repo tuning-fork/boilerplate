@@ -131,7 +131,7 @@ function Navigation(props) {
                 Sign Up
               </Button>
               <Button
-                href="/login"
+                href="/splashpage"
                 variant="outline-light"
                 style={{
                   textColor: "#23cb87",

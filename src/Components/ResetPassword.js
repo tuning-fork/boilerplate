@@ -28,7 +28,7 @@ export default function ResetPassword() {
       setEmail("");
       setPassword("");
       setPasswordConfirmation("");
-      history.push("/login");
+      history.push("/splashpage");
     }
   };
 

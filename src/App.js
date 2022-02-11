@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
 import Signup from "./Components/Signup";
-import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword";
 import OrgSelect from "./Components/OrgSelect";
@@ -31,7 +30,6 @@ import OrganizationLayout from "./Components/Layouts/OrganizationLayout/Organiza
 import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
-import Logout from "./pages/Logout";
 import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function App() {
@@ -44,8 +42,6 @@ export default function App() {
           </Route>
           <Route path="/splashpage" component={Splashpage} />
           <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-          <Route path="/logout" component={Logout} />
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
           <CurrentOrganizationProvider>
