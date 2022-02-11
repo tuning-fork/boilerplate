@@ -5,11 +5,17 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { optionPropType } from "../Dropdown/DropdownMenuItem";
 import DropdownContext from "../Dropdown/DropdownContext";
 import DropdownMenu from "../Dropdown/DropdownMenu";
-import DropdownLogoutMenu from "../Dropdown/DropdownLogoutMenu";
 import "./DropdownMini.css";
 
 export default function DropdownMini(props) {
-  const { className, onChange, options, value, displayIcon, navbar } = props;
+  const {
+    className,
+    onChange,
+    options,
+    value,
+    displayIcon,
+    dropDownMenuClassName,
+  } = props;
   const dropdownEl = useRef(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,19 +73,12 @@ export default function DropdownMini(props) {
         >
           {displayIcon ? displayIcon : <BsThreeDotsVertical />}
         </div>
-        {navbar ? (
-          <DropdownLogoutMenu
-            aria-expanded={isMenuOpen}
-            hidden={!isMenuOpen}
-            options={options}
-          />
-        ) : (
-          <DropdownMenu
-            aria-expanded={isMenuOpen}
-            hidden={!isMenuOpen}
-            options={options}
-          />
-        )}
+        <DropdownMenu
+          className={dropDownMenuClassName}
+          aria-expanded={isMenuOpen}
+          hidden={!isMenuOpen}
+          options={options}
+        />
       </div>
     </DropdownContext.Provider>
   );
@@ -87,15 +86,12 @@ export default function DropdownMini(props) {
 
 DropdownMini.propTypes = {
   className: PropTypes.string,
-  multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(optionPropType).isRequired,
-  placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,
 };
 
 DropdownMini.defaultProps = {
-  multiple: false,
   required: false,
 };

@@ -12,21 +12,17 @@ export default function Navbar(props) {
   const history = useHistory();
   const { logout } = useCurrentUser();
 
-  const handleDropdownMiniAction = async ({ option }) => {
-    try {
-      switch (option.value) {
-        case "LOGOUT":
-          logout();
-          history.replace("/splashpage", { loggedOut: true });
-          break;
-        case "USER_MENU":
-          console.log("waffle!");
-          break;
-        default:
-          console.log("default");
-      }
-    } catch (error) {
-      console.error(error);
+  const handleDropdownMiniAction = ({ option }) => {
+    switch (option.value) {
+      case "LOGOUT":
+        logout();
+        history.replace("/splashpage", { loggedOut: true });
+        break;
+      // case "USER_MENU":
+      //   console.log("waffle!");
+      //   break;
+      default:
+        console.log("default");
     }
   };
 
@@ -45,13 +41,11 @@ export default function Navbar(props) {
         )}
         <div className="navbar__user-icon">
           <DropdownMini
-            navbar
             className="navbar__see-more"
-            labelText="Further Actions"
-            placeholder="Pick One"
+            dropDownMenuClassName="navbar__dropdown-menu"
             options={[
               { value: "LOGOUT", label: "Logout" },
-              { value: "USER_MENU", label: "User Menu" },
+              // { value: "USER_MENU", label: "User Menu" },
             ]}
             displayIcon={
               <UserIcon
