@@ -5,22 +5,21 @@ import Splashpage from "./Components/Splashpage";
 import Signup from "./Components/Signup";
 import ResetPassword from "./Components/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword";
-import OrgSelect from "./Components/OrgSelect";
+import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
-import Organizations from "./Components/Organizations";
+import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
 import FundingOrgsShow from "./Components/FundingOrgsShow";
-import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
 import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
-import OrganizationsNew from "./Components/OrganizationsNew";
+import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/SectionsNew";
 import ReportsNew from "./Components/ReportsNew";
@@ -52,10 +51,6 @@ export default function App() {
                     <Route
                       path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
-                    />
-                    <PrivateRoute
-                      path="/organizations/:organizationId/edit"
-                      component={OrganizationsShow}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/grants/:grant_id/edit"

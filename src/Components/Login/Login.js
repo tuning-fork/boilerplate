@@ -9,7 +9,7 @@ import "./Login.css";
 export default function Login(props) {
   const history = useHistory();
   const location = useLocation();
-  const { login, state } = useCurrentUser();
+  const { login } = useCurrentUser();
 
   const handleCancel = (event) => {
     event.preventDefault();
@@ -21,11 +21,10 @@ export default function Login(props) {
     async ({ email, password }) => {
       // event.preventDefault();
       await login(email, password);
-      console.log("Login user info", state);
       // alert("You're signed in!");
-      history.push(location.state?.from ?? "/org_select");
+      history.push(location.state?.from ?? "/organizations");
     },
-    [history, location, login, state]
+    [history, location, login]
   );
 
   return (
