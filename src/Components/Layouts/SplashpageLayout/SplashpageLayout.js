@@ -36,6 +36,7 @@ export default function SplashpageLayout() {
               onSubmit={handleCloseSplashPageModal}
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
+              formType="standard"
             />
           </Card.Body>
         </Card>
