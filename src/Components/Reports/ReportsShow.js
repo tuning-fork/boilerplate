@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ReportSectionsNew from "./ReportSections/ReportSectionsNew";
-import ReportSectionsShow from "./ReportSectionsShow";
+import ReportSectionsNew from "../ReportSections/ReportSectionsNew";
+import ReportSectionsShow from "../ReportSections/ReportSectionsShow";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import ReportEditForm from "./Reports/ReportEditForm";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import ReportEditForm from "../Reports/ReportEditForm";
 import {
   getGrantReport,
   updateGrantReport,
   deleteGrantReport,
-} from "../Services/Organizations/Grants/GrantReportsService";
-import { getAllBoilerplates } from "../Services/Organizations/BoilerplatesService";
+} from "../../Services/Organizations/Grants/GrantReportsService";
+import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";

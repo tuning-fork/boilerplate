@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "../Contexts/currentUserContext";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import Container from "./design/Container/Container";
-import Dropdown from "./design/Dropdown/Dropdown";
-import Button from "./design/Button/Button";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import Container from "../design/Container/Container";
+import Dropdown from "../design/Dropdown/Dropdown";
+import Button from "../design/Button/Button";
 
 export default function OrgSelect() {
   const { user } = useCurrentUser();
