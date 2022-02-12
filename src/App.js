@@ -13,7 +13,6 @@ import Organizations from "./Components/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
-import FundingOrgsShow from "./Components/FundingOrgsShow";
 import OrganizationsShow from "./Components/OrganizationsShow";
 import ReportsShow from "./Components/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
@@ -104,10 +103,6 @@ export default function App() {
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates/:boilerplate_id"
                       component={BoilerplatesShow}
-                    />
-                    <PrivateRoute
-                      path="/organizations/:organizationId/funding_orgs/:funding_org_id"
-                      component={FundingOrgsShow}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates-new"
