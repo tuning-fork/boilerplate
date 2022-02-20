@@ -41,7 +41,6 @@ export default function App() {
           <Route path="/splashpage" component={Splashpage} />
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
-          <Route path="/stay_tuned" component={StayTunedPage} />
           <CurrentOrganizationProvider>
             <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>
@@ -116,6 +115,14 @@ export default function App() {
                     <PrivateRoute
                       path="/organizations/:organizationId/funding_orgs"
                       component={FundingOrgsIndex}
+                    />
+                    <PrivateRoute
+                      path="/organizations/:organizationId/users"
+                      component={StayTunedPage}
+                    />
+                    <PrivateRoute
+                      path="/organizations/:organizationId/reports"
+                      component={StayTunedPage}
                     />
                     <Redirect to="/organizations/:organizationId/dashboard" />
                   </Switch>
