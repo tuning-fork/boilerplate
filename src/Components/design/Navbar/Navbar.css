@@ -33,5 +33,12 @@
 }
 
 .navbar__user-icon {
+  position: relative;
   margin-inline-start: 1rem;
+}
+
+.navbar__dropdown-menu {
+  right: calc(1rem - 1vw);
+  transform: translateY(10%);
+  top: 2rem;
 }

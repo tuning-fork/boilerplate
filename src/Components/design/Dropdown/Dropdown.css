@@ -65,7 +65,7 @@
 }
 
 .dropdown__menu-item > button {
-  width: 100%;
+  width: max-content;
   padding: 4px 26px;
   text-align: left;
   outline: none;

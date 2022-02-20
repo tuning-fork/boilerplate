@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { useHistory } from "react-router-dom";
-import OrganizationEditForm from "./Organizations/OrganizationEditForm";
-import Modal from "./Elements/Modal";
+import OrganizationEditForm from "./OrganizationEditForm";
+import Modal from "../Elements/Modal";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFetcher, useResource } from "rest-hooks";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Organization } from "../resources";
+import { Organization } from "../../resources";
 import OrganizationsNew from "./OrganizationsNew";
-import OrganizationEditForm from "./Organizations/OrganizationEditForm";
-import Modal from "./Elements/Modal";
+import OrganizationEditForm from "./OrganizationEditForm";
+import Modal from "../Elements/Modal";
 import "./Organizations.css";
 
 export default function Organizations() {

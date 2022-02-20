@@ -1,9 +1,0 @@
-.login__error {
-  color: var(--error);
-  font-weight: var(--font-weight-bold);
-}
-
-.login__actions {
-  display: flex;
-  gap: 1rem;
-}

@@ -112,7 +112,6 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   className: PropTypes.string,
   labelText: PropTypes.string.isRequired,
-  multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(optionPropType).isRequired,
   placeholder: PropTypes.string,
@@ -121,6 +120,5 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
-  multiple: false,
   required: false,
 };
