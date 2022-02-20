@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import ReportSectionEditForm from "./ReportSections/ReportSectionEditForm";
-import countWords from "../Helpers/countWords";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import ReportSectionEditForm from "./ReportSectionEditForm";
+import countWords from "../../Helpers/countWords";
 import {
   getReportSection,
   updateReportSection,
   // deleteReportSection,
-} from "../Services/Organizations/Grants/Reports/ReportSectionsService";
+} from "../../Services/Organizations/Grants/Reports/ReportSectionsService";
 
 //fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";

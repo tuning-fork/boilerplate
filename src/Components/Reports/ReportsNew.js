@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import { createGrantReport } from "../Services/Organizations/Grants/GrantReportsService";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { createGrantReport } from "../../Services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");

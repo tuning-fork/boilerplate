@@ -28,7 +28,7 @@ import {
 } from "../../Services/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
-import SectionsShow from "../SectionsShow";
+import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";
 import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";

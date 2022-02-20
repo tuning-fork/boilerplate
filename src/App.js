@@ -2,28 +2,25 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
-import Signup from "./Components/Signup";
-import ResetPassword from "./Components/ResetPassword";
-import ForgotPassword from "./Components/ForgotPassword";
-import OrgSelect from "./Components/OrgSelect";
+import ResetPassword from "./Components/Login/ResetPassword";
+import ForgotPassword from "./Components/Login/ForgotPassword";
+import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
-import Organizations from "./Components/Organizations";
+import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
-import FundingOrgsShow from "./Components/FundingOrgsShow";
-import OrganizationsShow from "./Components/OrganizationsShow";
-import ReportsShow from "./Components/ReportsShow";
+import OrganizationsShow from "./Components/Organizations/OrganizationsShow";
+import ReportsShow from "./Components/Reports/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
-import ReportsFinalizeShow from "./Components/ReportsFinalizeShow";
 import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
 import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
-import OrganizationsNew from "./Components/OrganizationsNew";
+import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
-import SectionsNew from "./Components/SectionsNew";
-import ReportsNew from "./Components/ReportsNew";
+import SectionsNew from "./Components/Sections/SectionsNew";
+import ReportsNew from "./Components/Reports/ReportsNew";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
@@ -41,7 +38,6 @@ export default function App() {
             <Redirect to="/splashpage" />
           </Route>
           <Route path="/splashpage" component={Splashpage} />
-          <Route path="/signup" component={Signup} />
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
           <CurrentOrganizationProvider>
@@ -88,12 +84,6 @@ export default function App() {
                       component={ReportsShow}
                     />
                     <PrivateRoute
-                      path={
-                        "/organizations/:organizationId/grants/:grant_id/reports-finalize/:report_id"
-                      }
-                      component={ReportsFinalizeShow}
-                    />
-                    <PrivateRoute
                       path="/organizations/:organizationId/grants/:grant_id/reports-new"
                       component={ReportsNew}
                     />
@@ -104,10 +94,6 @@ export default function App() {
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates/:boilerplate_id"
                       component={BoilerplatesShow}
-                    />
-                    <PrivateRoute
-                      path="/organizations/:organizationId/funding_orgs/:funding_org_id"
-                      component={FundingOrgsShow}
                     />
                     <PrivateRoute
                       path="/organizations/:organizationId/boilerplates-new"
