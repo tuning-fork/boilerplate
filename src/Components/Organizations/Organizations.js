@@ -7,7 +7,7 @@ import OrganizationsNew from "./OrganizationsNew";
 import OrganizationEditForm from "./OrganizationEditForm";
 import OrgSelect from "./OrgSelect";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
-// import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./Organizations.css";
 
 export default function Organizations() {
@@ -17,11 +17,14 @@ export default function Organizations() {
   const updateOrganization = useFetcher(Organization.update());
   const deleteOrganization = useFetcher(Organization.delete());
   const { user } = useCurrentUser();
-  // const { organizations } = useCurrentOrganization();
+  const { fetchUserOrganizations } = useCurrentOrganization();
   const [currentOrganizationId, setCurrentOrganizationId] = useState();
 
-  const handleAddNewOrganization = (fields) =>
-    createOrganization(fields, fields).then(() => console.log("banana"));
+  const handleAddNewOrganization = async (fields) => {
+    await createOrganization(fields, fields);
+    await fetchUserOrganizations();
+    alert("You have successfully added an organization.");
+  };
 
   const handleClickEditOrganization = (organizationId) => {
     setEditingOrganizationId(organizationId);

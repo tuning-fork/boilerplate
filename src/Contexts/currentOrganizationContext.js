@@ -56,6 +56,7 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const context = {
     currentOrganization,
     fetchCurrentOrganization,
+    fetchUserOrganizations,
     isLoadingOrganization,
     organizationClient,
     organizations,

@@ -6,11 +6,12 @@ import Button from "react-bootstrap/Button";
 export default function OrganizationsNew(props) {
   const [name, setName] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    props.onSubmit({
+    await props.onSubmit({
       name: name,
     });
+    setName("");
   };
 
   return (
