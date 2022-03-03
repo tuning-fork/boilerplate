@@ -50,15 +50,7 @@ export default function App() {
                       path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
                     />
-<<<<<<< HEAD
                     <PrivateRoute
-=======
-                    <Route
-                      path="/organizations/:organizationId/edit"
-                      component={OrganizationsShow}
-                    />
-                    <Route
->>>>>>> 3113721413d0d33af0d9b462aa4cc0941d64502a
                       path="/organizations/:organizationId/grants/:grant_id/edit"
                       component={GrantEdit}
                     />
