@@ -2,3 +2,66 @@
   list-style: none;
   padding-left: 0;
 }
+
+.organizations-index {
+  flex: 1;
+  padding: 4rem;
+}
+
+.organizations-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.organizations-index__search-input {
+  width: 40vw;
+  margin-bottom: 0px;
+}
+
+/* .organizations-index__add-new {
+  display: block;
+  margin-bottom: 1.38rem;
+} */
+
+.organizations-index .table {
+  width: 100%;
+}
+
+.organizations-index__table-tabs {
+  display: flex;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 18px;
+  color: var(--primary-text);
+}
+
+.organizations-index__table-tab-button {
+  font-weight: var(--font-weight-normal);
+}
+
+.organizations-index__table-tab-button:hover,
+.organizations-index__table-tab-button:focus,
+.organizations-index__table-tab-button--selected {
+  border-radius: 0;
+  outline: 0;
+  border-bottom: 5px solid var(--primary-shade);
+}
+
+.organizations-index__table .table__cell {
+  position: relative;
+}
+
+.organizations-index__see-more .dropdown-mini__listbox {
+  position: absolute;
+  z-index: 0;
+  right: calc(-1rem - 1vw);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.organizations-index__see-more .dropdown__menu {
+  right: calc(-0.4rem - 1vw);
+  transform: translateY(-28%);
+}

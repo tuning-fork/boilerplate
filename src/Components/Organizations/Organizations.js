@@ -3,12 +3,17 @@ import React, { useState } from "react";
 import { useFetcher, useResource } from "rest-hooks";
 // import { Container, Row, Col, Button } from "react-bootstrap";
 import { Organization } from "../../resources";
-import OrganizationsNew from "./OrganizationsNew";
+import OrganizationNew from "./OrganizationNew";
 import OrganizationEditForm from "./OrganizationEditForm";
 import OrgSelect from "./OrgSelect";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./Organizations.css";
+import Button from "../design/Button/Button";
+// import TextBox from "../design/TextBox/TextBox";
+import DropdownMini from "../design/DropdownMini/DropdownMini";
+import formatDate from "../../Helpers/formatDate";
+import Table from "../design/Table/Table";
 
 export default function Organizations() {
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
@@ -19,11 +24,20 @@ export default function Organizations() {
   const { user } = useCurrentUser();
   const { fetchUserOrganizations } = useCurrentOrganization();
   const [currentOrganizationId, setCurrentOrganizationId] = useState();
+  const [selectedOrganization, setSelectedOrganization] = useState({});
+  const [showingOrganizationNew, setShowingOrganizationNew] = useState(false);
+  const [showingOrganizationEdit, setShowingOrganizationEdit] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleAddNewOrganization = async (fields) => {
     await createOrganization(fields, fields);
     await fetchUserOrganizations();
     alert("You have successfully added an organization.");
+  };
+
+  const openEditOrganization = (organization) => {
+    setShowingOrganizationEdit(true);
+    setSelectedOrganization(organization);
   };
 
   const handleClickEditOrganization = (organizationId) => {
@@ -44,51 +58,98 @@ export default function Organizations() {
     }
   };
 
+  const handleDropdownMiniAction = async ({ option, organization }) => {
+    try {
+      switch (option.value) {
+        case "EDIT":
+          openEditOrganization(organization);
+          break;
+        default:
+          throw new Error(`Unexpected option given ${option.value}!`);
+      }
+      await fetchUserOrganizations();
+    } catch (error) {
+      console.error(error);
+      setErrors([error]);
+    }
+  };
+
+  const handleCloseOrganizationModal = () => {
+    setShowingOrganizationNew(false);
+    setShowingOrganizationEdit(false);
+    return fetchUserOrganizations();
+  };
+
+  const columns = [
+    { Header: "Name", accessor: "name" },
+    {
+      Header: "Date Created",
+      accessor: (organization) => formatDate(organization.createdAt),
+    },
+    {
+      Header: "Last Modified",
+      accessor: (organization) => (
+        <div className="organizations-index__last-modified-cell">
+          {formatDate(organization.updatedAt)}
+          <DropdownMini
+            className="organizations-index__see-more"
+            labelText="Further Actions"
+            placeholder="Pick One"
+            options={[{ value: "EDIT", label: "Edit" }]}
+            onChange={(option) =>
+              handleDropdownMiniAction({ option, organization })
+            }
+          />
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <OrgSelect />
-      <OrganizationsNew
-        onSubmit={handleAddNewOrganization}
-        onCancel={() => {
-          console.log("banana");
-        }}
-      />
+      <div>
+        <OrgSelect />
+        <OrganizationsNew
+          onSubmit={handleAddNewOrganization}
+          onCancel={() => {
+            console.log("banana");
+          }}
+        />
 
-      <OrganizationEditForm
-        onSubmit={handleEditOrganization}
-        onCancel={() => {
-          console.log("banana");
-        }}
-      />
+        <OrganizationEditForm
+          onSubmit={handleEditOrganization}
+          onCancel={() => {
+            console.log("banana");
+          }}
+        />
+      </div>
+      <section className="categories-index">
+        <h1>{user.firstName}'s Organizations</h1>
+        <div className="categories-index__actions">
+          <Button onClick={() => setShowingOrganizationNew(true)}>
+            Add New Organization
+          </Button>
+        </div>
+        <div className="categories-index__table">
+          {organizations.length ? (
+            <Table columns={columns} data={organizations} />
+          ) : (
+            <p>
+              You have not added any organizations yet, so there are no
+              organizations to display in this table.
+            </p>
+          )}
+        </div>
+        <OrganizationNew
+          show={showingOrganizationNew}
+          onClose={handleCloseOrganizationModal}
+        />
+        <OrganizationEditForm
+          category={selectedOrganization}
+          show={showingOrganizationEdit}
+          onClose={handleCloseOrganizationModal}
+        />
+      </section>
     </div>
-    // <Container className="Organizations">
-    //   <Row>
-    //     <Col md={8}>
-    //       <h1>Organizations</h1>
-    //       <b>Organization Name</b>
-    //       <ul className="Organizations__List">
-    //         {organizations.map((organization) => (
-    //           <li key={organization.id}>
-    //             <Link to={`/organizations/${organization.id}`}>
-    //               {organization.name}
-    //             </Link>
-    //             <Button
-    //               variant="outline-dark"
-    //               onClick={() => handleDeleteOrganization(organization.id)}
-    //             >
-    //               Delete
-    //             </Button>
-    //             <Button
-    //               variant="outline-dark"
-    //               onClick={() => handleClickEditOrganization(organization.id)}
-    //             >
-    //               Edit
-    //             </Button>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </Col>
-    //   </Row>
-    // </Container>
   );
 }

@@ -17,7 +17,7 @@ import ReportsShow from "./Components/Reports/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
 import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
-import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
+// import OrganizationsNew from "./Components/Organizations/OrganizationNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/Sections/SectionsNew";
 import ReportsNew from "./Components/Reports/ReportsNew";
@@ -50,15 +50,7 @@ export default function App() {
                       path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
                     />
-<<<<<<< HEAD
                     <PrivateRoute
-=======
-                    <Route
-                      path="/organizations/:organizationId/edit"
-                      component={OrganizationsShow}
-                    />
-                    <Route
->>>>>>> 3113721413d0d33af0d9b462aa4cc0941d64502a
                       path="/organizations/:organizationId/grants/:grant_id/edit"
                       component={GrantEdit}
                     />
@@ -139,11 +131,11 @@ export default function App() {
               path="/organizations"
               component={Organizations}
             />
-            <PrivateRoute
+            {/* <PrivateRoute
               exact
               path="/organizations-new"
               component={OrganizationsNew}
-            />
+            /> */}
           </CurrentOrganizationProvider>
         </CurrentUserProvider>
       </Switch>
