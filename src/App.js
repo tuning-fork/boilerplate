@@ -27,6 +27,7 @@ import OrganizationLayout from "./Components/Layouts/OrganizationLayout/Organiza
 import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
+import StayTunedPage from "./pages/StayTuned/StayTunedPage";
 import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function App() {
@@ -49,15 +50,23 @@ export default function App() {
                       path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
                     />
+<<<<<<< HEAD
                     <PrivateRoute
+=======
+                    <Route
+                      path="/organizations/:organizationId/edit"
+                      component={OrganizationsShow}
+                    />
+                    <Route
+>>>>>>> 3113721413d0d33af0d9b462aa4cc0941d64502a
                       path="/organizations/:organizationId/grants/:grant_id/edit"
                       component={GrantEdit}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants/:grant_id/copy"
                       component={GrantCopy}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants/:grant_id"
                       component={() => (
                         <PasteBoilerplateContentPopoutProvider>
@@ -65,51 +74,59 @@ export default function App() {
                         </PasteBoilerplateContentPopoutProvider>
                       )}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants-new"
                       component={GrantsNew}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants/:grant_id/sections-new"
                       component={SectionsNew}
                     />
-                    <PrivateRoute
+                    <Route
                       path={
                         "/organizations/:organizationId/grants/:grant_id/reports/:report_id"
                       }
                       component={ReportsShow}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants/:grant_id/reports-new"
                       component={ReportsNew}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/grants/"
                       component={GrantsIndex}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/boilerplates/:boilerplate_id"
                       component={BoilerplatesShow}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/boilerplates-new"
                       component={BoilerplatesNew}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/boilerplates"
                       component={BoilerplatesIndex}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/categories"
                       component={CategoriesIndex}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/funding_orgs-new"
                       component={FundingOrgNew}
                     />
-                    <PrivateRoute
+                    <Route
                       path="/organizations/:organizationId/funding_orgs"
                       component={FundingOrgsIndex}
+                    />
+                    <Route
+                      path="/organizations/:organizationId/users"
+                      component={StayTunedPage}
+                    />
+                    <Route
+                      path="/organizations/:organizationId/reports"
+                      component={StayTunedPage}
                     />
                     <Redirect to="/organizations/:organizationId/dashboard" />
                   </Switch>
