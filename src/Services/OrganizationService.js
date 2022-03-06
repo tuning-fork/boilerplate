@@ -5,9 +5,9 @@ const mapOrganization = (apiOrganization) => ({
   updatedAt: new Date(apiOrganization.updated_at),
 });
 
-export const getUserOrganizations = (apiClient, userId) => {
+export const getUserOrganizations = (apiClient) => {
   return apiClient
-    .get(`/organization_users/assoc/${userId}`)
+    .get(`/organizations`)
     .then((response) => response.data.map(mapOrganization));
 };
 
