@@ -14,14 +14,6 @@ import {
 } from "../../Services/Organizations/Grants/GrantReportsService";
 import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
 
-//fontawesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-
-library.add(faTrashAlt);
-library.add(faEdit);
-
 export default function ReportsShow(props) {
   const [id, setId] = useState(props.match.params.report_id);
   const [grantId, setGrantId] = useState(props.match.params.grant_id);
