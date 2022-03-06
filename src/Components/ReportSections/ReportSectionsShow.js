@@ -11,14 +11,6 @@ import {
   // deleteReportSection,
 } from "../../Services/Organizations/Grants/Reports/ReportSectionsService";
 
-//fontawesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-
-library.add(faTrashAlt);
-library.add(faEdit);
-
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");
   const [_id, setId] = useState("");

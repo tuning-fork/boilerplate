@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import OrganizationEditForm from "./OrganizationEditForm";
 import Modal from "../Elements/Modal";
-
-//fontawesome
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-library.add(faTrashAlt);
-library.add(faEdit);
 
 export default function OrganizationsShow(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  // const history = useHistory();
   const [_newName, setNewName] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
 
   useEffect(() => {
     axios
@@ -63,20 +54,20 @@ export default function OrganizationsShow(props) {
     handleClose();
   };
 
-  const handleOrganizationDelete = () => {
-    axios
-      .delete("/api/organizations/" + id, {
-        headers: { Authorization: `Bearer ${localStorage.token}` },
-      })
-      .then((response) => {
-        if (response.data.message) {
-          history.push("/organizations");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  // const handleOrganizationDelete = () => {
+  //   axios
+  //     .delete("/api/organizations/" + id, {
+  //       headers: { Authorization: `Bearer ${localStorage.token}` },
+  //     })
+  //     .then((response) => {
+  //       if (response.data.message) {
+  //         history.push("/organizations");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   if (loading) {
     return (
@@ -97,7 +88,7 @@ export default function OrganizationsShow(props) {
       >
         Name: {name}
       </h3>
-      <FontAwesomeIcon
+      {/* <FontAwesomeIcon
         icon={faEdit}
         style={{
           color: "#fefefe",
@@ -114,7 +105,7 @@ export default function OrganizationsShow(props) {
           marginLeft: "10px",
         }}
         onClick={handleOrganizationDelete}
-      />
+      /> */}
     </Card.Header>
   );
 
