@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
-import { useFetcher, useResource } from "rest-hooks";
+import { useFetcher } from "rest-hooks";
 // import { Container, Row, Col, Button } from "react-bootstrap";
 import { Organization } from "../../resources";
 import OrganizationNew from "./OrganizationNew";
-import OrganizationEditForm from "./OrganizationEditForm";
+import OrganizationEdit from "./OrganizationEdit";
 import OrgSelect from "./OrgSelect";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
@@ -17,8 +17,9 @@ import Table from "../design/Table/Table";
 
 export default function Organizations() {
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
-  const organizations = useResource(Organization.list(), {});
-  const createOrganization = useFetcher(Organization.create());
+  // const organizations = useResource(Organization.list(), {});
+  const { organizations } = useCurrentOrganization();
+
   const updateOrganization = useFetcher(Organization.update());
   const deleteOrganization = useFetcher(Organization.delete());
   const { user } = useCurrentUser();
@@ -29,11 +30,11 @@ export default function Organizations() {
   const [showingOrganizationEdit, setShowingOrganizationEdit] = useState(false);
   const [errors, setErrors] = useState([]);
 
-  const handleAddNewOrganization = async (fields) => {
-    await createOrganization(fields, fields);
-    await fetchUserOrganizations();
-    alert("You have successfully added an organization.");
-  };
+  // const handleAddNewOrganization = async (fields) => {
+  //   await createOrganization(fields, fields);
+  //   await fetchUserOrganizations();
+  //   alert("You have successfully added an organization.");
+  // };
 
   const openEditOrganization = (organization) => {
     setShowingOrganizationEdit(true);
@@ -109,19 +110,20 @@ export default function Organizations() {
     <div>
       <div>
         <OrgSelect />
-        <OrganizationsNew
-          onSubmit={handleAddNewOrganization}
+        {/* <OrganizationNew
+          // onSubmit={handleAddNewOrganization}
+          // onClose={handleCloseOrganizationModal}
           onCancel={() => {
             console.log("banana");
           }}
         />
 
-        <OrganizationEditForm
+        <OrganizationEdit
           onSubmit={handleEditOrganization}
           onCancel={() => {
             console.log("banana");
           }}
-        />
+        /> */}
       </div>
       <section className="categories-index">
         <h1>{user.firstName}'s Organizations</h1>
@@ -144,8 +146,8 @@ export default function Organizations() {
           show={showingOrganizationNew}
           onClose={handleCloseOrganizationModal}
         />
-        <OrganizationEditForm
-          category={selectedOrganization}
+        <OrganizationEdit
+          organization={selectedOrganization}
           show={showingOrganizationEdit}
           onClose={handleCloseOrganizationModal}
         />

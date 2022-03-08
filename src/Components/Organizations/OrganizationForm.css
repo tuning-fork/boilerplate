@@ -1,0 +1,10 @@
+.organization-form {
+  height: 100%;
+}
+
+.organization-form__actions {
+  float: right;
+}
+.organization-form__actions > button {
+  margin-left: 20px;
+}

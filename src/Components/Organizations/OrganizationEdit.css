@@ -1,0 +1,17 @@
+.organization-edit {
+  width: 40%;
+}
+
+.organization-edit__button-group {
+  margin-top: 98px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.organization-edit__button-group button:last-child {
+  margin-left: 30px;
+}
+
+.organization-edit .text-box {
+  margin-bottom: 45px;
+}
