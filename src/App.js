@@ -4,7 +4,6 @@ import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
 import ResetPassword from "./Components/Login/ResetPassword";
 import ForgotPassword from "./Components/Login/ForgotPassword";
-import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
@@ -12,18 +11,17 @@ import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
-// import OrganizationsShow from "./Components/Organizations/OrganizationsShow";
 import ReportsShow from "./Components/Reports/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
 import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
-// import OrganizationsNew from "./Components/Organizations/OrganizationNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
 import SectionsNew from "./Components/Sections/SectionsNew";
 import ReportsNew from "./Components/Reports/ReportsNew";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
+// import UserLayout from "./Components/Layouts/UserLayout/UserLayout";
 import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
@@ -125,17 +123,22 @@ export default function App() {
                 </Suspense>
               </OrganizationLayout>
             </PrivateRoute>
-            <PrivateRoute path="/org_select" component={OrgSelect} />
             <PrivateRoute
               exact
               path="/organizations"
               component={Organizations}
             />
-            {/* <PrivateRoute
-              exact
-              path="/organizations-new"
-              component={OrganizationsNew}
-            /> */}
+            {/* <Suspense fallback={<Spinner size="md" centered />}>
+              <Switch>
+                <UserLayout>
+                  <PrivateRoute
+                    exact
+                    path="/organizations"
+                    component={Organizations}
+                  />
+                </UserLayout>
+              </Switch>
+            </Suspense> */}
           </CurrentOrganizationProvider>
         </CurrentUserProvider>
       </Switch>

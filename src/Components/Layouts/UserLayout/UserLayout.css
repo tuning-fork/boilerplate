@@ -1,0 +1,8 @@
+.user-layout {
+  min-height: 100vh;
+}
+
+.user-layout__content {
+  min-height: calc(100vh - 3.2rem);
+  display: flex;
+}

@@ -18,9 +18,6 @@ export default function Navbar(props) {
         logout();
         history.replace("/splashpage", { loggedOut: true });
         break;
-      // case "USER_MENU":
-      //   console.log("waffle!");
-      //   break;
       default:
         console.log("default");
     }

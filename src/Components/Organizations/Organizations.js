@@ -1,62 +1,29 @@
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-import { useFetcher } from "rest-hooks";
-// import { Container, Row, Col, Button } from "react-bootstrap";
-import { Organization } from "../../resources";
+import { useHistory } from "react-router-dom";
 import OrganizationNew from "./OrganizationNew";
 import OrganizationEdit from "./OrganizationEdit";
-import OrgSelect from "./OrgSelect";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./Organizations.css";
 import Button from "../design/Button/Button";
-// import TextBox from "../design/TextBox/TextBox";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import formatDate from "../../Helpers/formatDate";
 import Table from "../design/Table/Table";
 
 export default function Organizations() {
-  const [editingOrganizationId, setEditingOrganizationId] = useState(null);
-  // const organizations = useResource(Organization.list(), {});
+  const history = useHistory();
   const { organizations } = useCurrentOrganization();
-
-  const updateOrganization = useFetcher(Organization.update());
-  const deleteOrganization = useFetcher(Organization.delete());
   const { user } = useCurrentUser();
-  const { fetchUserOrganizations } = useCurrentOrganization();
-  const [currentOrganizationId, setCurrentOrganizationId] = useState();
+  const { fetchUserOrganizations, fetchCurrentOrganization } =
+    useCurrentOrganization();
   const [selectedOrganization, setSelectedOrganization] = useState({});
   const [showingOrganizationNew, setShowingOrganizationNew] = useState(false);
   const [showingOrganizationEdit, setShowingOrganizationEdit] = useState(false);
   const [errors, setErrors] = useState([]);
 
-  // const handleAddNewOrganization = async (fields) => {
-  //   await createOrganization(fields, fields);
-  //   await fetchUserOrganizations();
-  //   alert("You have successfully added an organization.");
-  // };
-
   const openEditOrganization = (organization) => {
     setShowingOrganizationEdit(true);
     setSelectedOrganization(organization);
-  };
-
-  const handleClickEditOrganization = (organizationId) => {
-    setEditingOrganizationId(organizationId);
-  };
-
-  const handleEditOrganization = ({ newName }) =>
-    updateOrganization({ id: editingOrganizationId }, { name: newName })
-      .then(() => console.log("you did it! banana"))
-      .catch((error) => console.error(error));
-
-  const handleDeleteOrganization = (id) => {
-    /* eslint-disable-next-line no-restricted-globals */
-    if (confirm("Are you sure you want to delete this organization?")) {
-      deleteOrganization({ id })
-        .catch((error) => console.error(error))
-        .finally(() => {});
-    }
   };
 
   const handleDropdownMiniAction = async ({ option, organization }) => {
@@ -65,10 +32,13 @@ export default function Organizations() {
         case "EDIT":
           openEditOrganization(organization);
           break;
+        case "DASHBOARD":
+          await fetchCurrentOrganization(organization.id);
+          history.push(`/organizations/${organization.id}/dashboard`);
+          break;
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await fetchUserOrganizations();
     } catch (error) {
       console.error(error);
       setErrors([error]);
@@ -96,7 +66,10 @@ export default function Organizations() {
             className="organizations-index__see-more"
             labelText="Further Actions"
             placeholder="Pick One"
-            options={[{ value: "EDIT", label: "Edit" }]}
+            options={[
+              { value: "EDIT", label: "Edit" },
+              { value: "DASHBOARD", label: "Go to dashboard" },
+            ]}
             onChange={(option) =>
               handleDropdownMiniAction({ option, organization })
             }
@@ -108,23 +81,6 @@ export default function Organizations() {
 
   return (
     <div>
-      <div>
-        <OrgSelect />
-        {/* <OrganizationNew
-          // onSubmit={handleAddNewOrganization}
-          // onClose={handleCloseOrganizationModal}
-          onCancel={() => {
-            console.log("banana");
-          }}
-        />
-
-        <OrganizationEdit
-          onSubmit={handleEditOrganization}
-          onCancel={() => {
-            console.log("banana");
-          }}
-        /> */}
-      </div>
       <section className="categories-index">
         <h1>{user.firstName}'s Organizations</h1>
         <div className="categories-index__actions">
