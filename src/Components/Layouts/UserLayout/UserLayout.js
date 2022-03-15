@@ -8,6 +8,10 @@ export default function UserLayout(props) {
   const { user } = useCurrentUser();
   const { currentOrganization } = useCurrentOrganization();
 
+  if (!user) {
+    return "Loading user...";
+  }
+
   return (
     <main className="user-layout">
       <Navbar

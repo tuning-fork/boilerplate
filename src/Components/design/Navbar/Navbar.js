@@ -11,6 +11,7 @@ import { useCurrentUser } from "../../../Contexts/currentUserContext";
 export default function Navbar(props) {
   const history = useHistory();
   const { logout } = useCurrentUser();
+  let currentLocation = history.location.pathname;
 
   const handleDropdownMiniAction = ({ option }) => {
     switch (option.value) {
@@ -27,7 +28,7 @@ export default function Navbar(props) {
     <div className={clsx(props.className, "navbar")}>
       <Logo className="navbar__logo" />
       <div className={clsx(props.className, "navbar__links")}>
-        {props.organizationName && (
+        {currentLocation !== "/organizations" && props.organizationName && (
           <>
             <Link to="/organizations" className="navbar__all-organizations">
               {"<"} All Organizations

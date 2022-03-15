@@ -16,7 +16,7 @@ export default function NavbarSplashpage(props) {
 
 NavbarSplashpage.propTypes = {
   className: PropTypes.string,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   organizationName: PropTypes.string,
 };
 

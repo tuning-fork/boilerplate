@@ -9,6 +9,7 @@ import Button from "../design/Button/Button";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import formatDate from "../../Helpers/formatDate";
 import Table from "../design/Table/Table";
+import UserLayout from "../Layouts/UserLayout/UserLayout";
 
 export default function Organizations() {
   const history = useHistory();
@@ -80,34 +81,38 @@ export default function Organizations() {
   ];
 
   return (
-    <div>
-      <section className="categories-index">
-        <h1>{user.firstName}'s Organizations</h1>
-        <div className="categories-index__actions">
-          <Button onClick={() => setShowingOrganizationNew(true)}>
-            Add New Organization
-          </Button>
+    <>
+      <UserLayout>
+        <div>
+          <section className="categories-index">
+            <h1>{user.firstName}'s Organizations</h1>
+            <div className="categories-index__actions">
+              <Button onClick={() => setShowingOrganizationNew(true)}>
+                Add New Organization
+              </Button>
+            </div>
+            <div className="categories-index__table">
+              {organizations.length ? (
+                <Table columns={columns} data={organizations} />
+              ) : (
+                <p>
+                  You have not added any organizations yet, so there are no
+                  organizations to display in this table.
+                </p>
+              )}
+            </div>
+            <OrganizationNew
+              show={showingOrganizationNew}
+              onClose={handleCloseOrganizationModal}
+            />
+            <OrganizationEdit
+              organization={selectedOrganization}
+              show={showingOrganizationEdit}
+              onClose={handleCloseOrganizationModal}
+            />
+          </section>
         </div>
-        <div className="categories-index__table">
-          {organizations.length ? (
-            <Table columns={columns} data={organizations} />
-          ) : (
-            <p>
-              You have not added any organizations yet, so there are no
-              organizations to display in this table.
-            </p>
-          )}
-        </div>
-        <OrganizationNew
-          show={showingOrganizationNew}
-          onClose={handleCloseOrganizationModal}
-        />
-        <OrganizationEdit
-          organization={selectedOrganization}
-          show={showingOrganizationEdit}
-          onClose={handleCloseOrganizationModal}
-        />
-      </section>
-    </div>
+      </UserLayout>
+    </>
   );
 }

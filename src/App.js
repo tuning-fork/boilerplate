@@ -21,7 +21,6 @@ import ReportsNew from "./Components/Reports/ReportsNew";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
 import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
-// import UserLayout from "./Components/Layouts/UserLayout/UserLayout";
 import Spinner from "./Components/Helpers/Spinner";
 import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
@@ -40,6 +39,11 @@ export default function App() {
           <Route path="/reset_password" component={ResetPassword} />
           <Route path="/forgot_password" component={ForgotPassword} />
           <CurrentOrganizationProvider>
+            <PrivateRoute
+              exact
+              path="/organizations"
+              component={Organizations}
+            />
             <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>
                 <Suspense fallback={<Spinner size="md" centered />}>
@@ -123,22 +127,6 @@ export default function App() {
                 </Suspense>
               </OrganizationLayout>
             </PrivateRoute>
-            <PrivateRoute
-              exact
-              path="/organizations"
-              component={Organizations}
-            />
-            {/* <Suspense fallback={<Spinner size="md" centered />}>
-              <Switch>
-                <UserLayout>
-                  <PrivateRoute
-                    exact
-                    path="/organizations"
-                    component={Organizations}
-                  />
-                </UserLayout>
-              </Switch>
-            </Suspense> */}
           </CurrentOrganizationProvider>
         </CurrentUserProvider>
       </Switch>
