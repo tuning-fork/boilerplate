@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../../config/apiClient";
 
 const mapUserToApiUser = (apiUser) => ({
   first_name: apiUser.first_name,
@@ -10,7 +10,7 @@ const mapUserToApiUser = (apiUser) => ({
 });
 
 export const createUser = (newUser) => {
-  return axios
-    .post(`api/users`, mapUserToApiUser(newUser))
+  return apiClient
+    .post("/users", mapUserToApiUser(newUser))
     .then((response) => response.data);
 };

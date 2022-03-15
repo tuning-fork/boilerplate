@@ -15,13 +15,8 @@ export async function login(email, password) {
     email,
     password,
   });
-  const { jwt, user_id } = createSessionResponse.data;
-  const getUserResponse = await apiClient.get(`/users/${user_id}`, {
-    headers: { Authorization: `Bearer ${jwt}` },
-  });
-  const user = mapUser(getUserResponse.data);
-
-  return { user, jwt };
+  const { jwt } = createSessionResponse.data;
+  return authWithJwt(jwt);
 }
 
 export async function authWithJwt(jwt) {
@@ -30,5 +25,5 @@ export async function authWithJwt(jwt) {
   });
   const user = mapUser(response.data.user);
 
-  return { user, jwt: response.data.jwt };
+  return { user, jwt };
 }
