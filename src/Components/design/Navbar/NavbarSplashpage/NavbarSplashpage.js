@@ -9,7 +9,7 @@ export default function NavbarSplashpage(props) {
   return (
     <div className={clsx(props.className, "navbar-splashpage")}>
       <Logo className="navbar-splashpage__logo" />
-      <Login formType="navbar" />
+      <Login formType="navbar" handleModal={props.handleModal} />
     </div>
   );
 }

@@ -9,7 +9,12 @@
 .navbar-login__actions {
   margin: unset;
   display: flex;
-  margin-top: 4px;
+}
+
+.navbar-login__captions {
+  font-size: small;
+  font-weight: bold;
+  color: var(--primary);
 }
 
 .navbar-login__inputs .text-box {

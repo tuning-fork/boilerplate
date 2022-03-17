@@ -50,7 +50,7 @@ export default function SplashpageLayout() {
   return (
     <main className="splashpage-layout">
       <div className="splashpage-layout__navbar-container">
-        <NavbarSplashpage />
+        <NavbarSplashpage handleModal={handleSwitchSplashPageModal} />
       </div>
       <div className="splashpage-layout__content">
         <img
