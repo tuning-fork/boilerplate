@@ -1,5 +1,6 @@
 import { Resource } from "@rest-hooks/rest";
-import { camelCase, snakeCase } from "lodash";
+import camelCase from "lodash.camelcase";
+import snakeCase from "lodash.snakecase";
 import apiClient from "../../config/apiClient";
 import mapKeysDeeply from "../../Helpers/mapKeysDeeply";
 
