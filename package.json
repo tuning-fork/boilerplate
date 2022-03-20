@@ -32,7 +32,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public/storybook"
+    "build-storybook": "build-storybook -o public/storybook"
   },
   "browserslist": {
     "production": [
