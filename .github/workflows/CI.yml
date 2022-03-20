@@ -7,24 +7,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
+      - uses: actions/checkout@v1
 
-      - name: Checkout branch
-        uses: actions/checkout@v1
-
-      - name: Cache node_modules
-        uses: actions/cache@v2
+      - uses: actions/setup-node@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: "16"
+          cache: "npm"
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run linter
