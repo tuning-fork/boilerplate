@@ -44,7 +44,7 @@ export default function NavbarLoginForm(props) {
             variant="none"
             onClick={() => props.handleModal("Sign Up")}
           >
-            Create an Account
+            Sign Up
           </Button>
         </div>
         <div>
