@@ -26,9 +26,7 @@ export default function ForgotPassword() {
     <div className="container">
       <Card className="basic">
         <Card.Header>
-          <p>
-            Enter the email address associated with your Boilerplate account
-          </p>
+          <p>Enter the email address associated with your user account</p>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
