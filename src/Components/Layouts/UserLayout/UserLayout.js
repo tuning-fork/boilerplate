@@ -20,7 +20,7 @@ export default function UserLayout(props) {
         }
         user={user}
       />
-      <div className="user-layout__content">{props.children}</div>
+      <div>{props.children}</div>
     </main>
   );
 }

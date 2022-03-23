@@ -84,14 +84,14 @@ export default function Organizations() {
     <>
       <UserLayout>
         <div>
-          <section className="categories-index">
+          <section className="organizations-index">
             <h1>{user.firstName}'s Organizations</h1>
-            <div className="categories-index__actions">
+            <div className="organizations-index__actions">
               <Button onClick={() => setShowingOrganizationNew(true)}>
                 Add New Organization
               </Button>
             </div>
-            <div className="categories-index__table">
+            <div className="organizations-index__table">
               {organizations.length ? (
                 <Table columns={columns} data={organizations} />
               ) : (

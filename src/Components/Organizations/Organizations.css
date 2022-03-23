@@ -14,16 +14,6 @@
   align-items: center;
 }
 
-.organizations-index__search-input {
-  width: 40vw;
-  margin-bottom: 0px;
-}
-
-/* .organizations-index__add-new {
-  display: block;
-  margin-bottom: 1.38rem;
-} */
-
 .organizations-index .table {
   width: 100%;
 }
