@@ -61,7 +61,8 @@ export default function NavbarLoginForm(props) {
           <Button
             variant="none"
             className="navbar-login__inputs navbar-login__items navbar-login__captions"
-            onClick={() => handleNavigate()}
+            // onClick={() => handleNavigate()}
+            onClick={() => props.handleModal("Forgot Password")}
           >
             Forgot Password?
           </Button>

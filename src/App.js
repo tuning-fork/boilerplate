@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
 import ResetPassword from "./Components/Login/ResetPassword";
-import ForgotPassword from "./Components/Login/ForgotPassword";
+import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
 import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";

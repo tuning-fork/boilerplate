@@ -7,6 +7,7 @@ import Modal from "../../design/Modal/Modal";
 import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
+import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -37,6 +38,19 @@ export default function SplashpageLayout() {
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
               formType="standard"
+            />
+          </Card.Body>
+        </Card>
+      );
+    } else if (modalLabelInput === "Forgot Password") {
+      setModalContents(
+        <Card>
+          <Card.Body>
+            <ForgotPassword
+            // onSubmit={handleCloseSplashPageModal}
+            // onCancel={handleCloseSplashPageModal}
+            // toggleModalContents={handleSwitchSplashPageModal}
+            // formType="standard"
             />
           </Card.Body>
         </Card>
