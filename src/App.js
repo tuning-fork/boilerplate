@@ -63,6 +63,7 @@ export default function App() {
                       component={GrantCopy}
                     />
                     <Route
+                      exact
                       path="/organizations/:organizationId/grants/:grant_id"
                       component={() => (
                         <PasteBoilerplateContentPopoutProvider>
