@@ -11,6 +11,27 @@ import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
 import useOrganizationResource from "../Hooks/useOrganizationResource";
 
+/**
+ * const organization = useOrganization()
+ * const organizations = useOrganizations()
+ * const { updateOrganization, createOrganization, deleteOrganization } = useMutateOrganization()
+ *
+ * const grantSections = useGrantSections()
+ * const grantSection = useGrantSection()
+ * const {
+ *   updateGrantSection,
+ *   createGrantSection,
+ *   deleteGrantSection,
+ *   reorderGrantSection, # new
+ * } = useMutateGrantSection()
+ *
+ * hooks/resources/grantHooks.js
+ *
+ * function useResource(params) {
+ *   GET '/api/organizations/{context.currentOrganizationId}/{params.resource}/${params.id}'
+ * }
+ */
+
 export default function Dashboard() {
   const { user } = useCurrentUser();
 
