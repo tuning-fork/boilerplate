@@ -6,11 +6,11 @@ import Modal from "../design/Modal/Modal";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantReportsService from "../../Services/Organizations/GrantReportsService";
+import * as GrantReportsService from "../../Services/Organizations/Grants/GrantReportsService";
 import {
   createReportSection,
   updateReportSection,
-} from "../../Services/Organizations/Reports/ReportSectionsService";
+} from "../../Services/Organizations/Grants/Reports/ReportSectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";
@@ -37,13 +37,14 @@ export default function ReportsShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = countTotalSectionsWords(report?.report_sections);
 
+  const { grant_id: grantId } = useParams();
   const { report_id: reportId } = useParams();
   const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
-  const getReport = useCallback(() => {
+  const getGrantReport = useCallback(() => {
     if (!organizationClient) {
       return;
     }
@@ -57,12 +58,14 @@ export default function ReportsShow() {
     newReportSectionFields,
     precedingReportSection,
   }) => {
-    createReportSection(organizationClient, reportId {
+    createReportSection(organizationClient, grantId, reportId, {
       title: newReportSectionFields.title,
       text: newReportSectionFields.html,
       grant_id: grantId,
       report_id: reportId,
-      sort_order: precedingReportSection ? precedingReportSection.sortOrder + 1 : 0,
+      sort_order: precedingReportSection
+        ? precedingReportSection.sortOrder + 1
+        : 0,
       wordcount: countWords(newReportSectionFields.text),
     }).then(() => {
       alert("Report Section created!");
@@ -72,11 +75,16 @@ export default function ReportsShow() {
   };
 
   const handleEditGrantReportSection = (newReportSectionFields) => {
-    updateReportSection(organizationClient, grantId, newReportSectionFields.id, {
-      title: newReportSectionFields.title,
-      text: newReportSectionFields.html,
-      wordcount: countWords(newReportSectionFields.text),
-    }).then(() => {
+    updateReportSection(
+      organizationClient,
+      grantId,
+      newReportSectionFields.id,
+      {
+        title: newReportSectionFields.title,
+        text: newReportSectionFields.html,
+        wordcount: countWords(newReportSectionFields.text),
+      }
+    ).then(() => {
       alert("Report Section edited!");
       setEditingReportSectionId(null);
       return getGrantReport();

@@ -121,10 +121,10 @@ export default function App() {
                       path="/organizations/:organizationId/users"
                       component={StayTunedPage}
                     />
-                    <Route
+                    {/* <Route
                       path="/organizations/:organizationId/reports"
                       component={StayTunedPage}
-                    />
+                    /> */}
                     <Redirect to="/organizations/:organizationId/dashboard" />
                   </Switch>
                 </Suspense>
