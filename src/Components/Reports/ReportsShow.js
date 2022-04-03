@@ -39,7 +39,7 @@ export default function ReportsShow() {
 
   const { grant_id: grantId } = useParams();
   const { report_id: reportId } = useParams();
-  const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
+  // const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
@@ -54,7 +54,7 @@ export default function ReportsShow() {
       .finally(() => setLoading(false));
   }, [organizationClient, grantId, reportId]);
 
-  const handleCreateGrantReportSection = ({
+  const handleCreateReportSection = ({
     newReportSectionFields,
     precedingReportSection,
   }) => {
@@ -74,7 +74,7 @@ export default function ReportsShow() {
     });
   };
 
-  const handleEditGrantReportSection = (newReportSectionFields) => {
+  const handleEditReportSection = (newReportSectionFields) => {
     updateReportSection(
       organizationClient,
       grantId,
@@ -116,7 +116,7 @@ export default function ReportsShow() {
         Welcome to your grant! Get started by clicking the Add Section Button
         below.
       </p>
-      <Button onClick={() => setNewSectionId(1)} variant="text">
+      <Button onClick={() => setNewReportSectionId(1)} variant="text">
         <MdAddCircle />
         Add Section
       </Button>
@@ -125,17 +125,20 @@ export default function ReportsShow() {
 
   return (
     <div className="reports-show">
-      {isOpen && (
+      {/* {isOpen && (
         <div className="reports-show__paste-boilerplate-popout">
           <PasteBoilerplateContentPopout />
         </div>
-      )}
+      )} */}
       <div className="reports-show__content">
         <Hero
           headerText={report.title}
-          fundingOrgText={report.grant.fundingOrgName}
-          rfpWebsiteText={report.grant.rfpUrl}
-          purposeText={report.grant.purpose}
+          // fundingOrgText={report.fundingOrgName}
+          // rfpWebsiteText={report.rfpUrl}
+          // purposeText={report.purpose}
+          fundingOrgText={"funding org name"}
+          rfpWebsiteText={"rfp url"}
+          purposeText={"purpose"}
           deadline={report.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganization.id}/reports/`}
@@ -147,26 +150,26 @@ export default function ReportsShow() {
           as="section"
           centered
         >
-          {report.report_sections.length ? (
+          {report.reportSections.length ? (
             <ol className="reports-show__section-list">
-              {report.report_sections.map((report_section) => (
-                <SortableElement key={report_section.id} id={report_section.id}>
-                  {editingReportSectionId === report_section.id ? (
+              {report.reportSections.map((reportSection) => (
+                <SortableElement key={reportSection.id} id={reportSection.id}>
+                  {editingReportSectionId === reportSection.id ? (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
                       }
                       onSubmit={handleEditReportSection}
                       onCancel={() => setEditingReportSectionId(null)}
-                      section={report_section}
+                      section={reportSection}
                     />
                   ) : (
                     <SectionsShow
-                      section={report_section}
-                      onClickEdit={setEditingReport_SectionId}
+                      section={reportSection}
+                      onClickEdit={setEditingReportSectionId}
                     />
                   )}
-                  {newReportSectionId === report_section.id && (
+                  {newReportSectionId === reportSection.id && (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
@@ -174,14 +177,14 @@ export default function ReportsShow() {
                       onSubmit={(newReportSectionFields) =>
                         handleCreateReportSection({
                           newReportSectionFields,
-                          precedingReportSection: report_section,
+                          precedingReportSection: reportSection,
                         })
                       }
                       onCancel={() => setNewReportSectionId(null)}
                     />
                   )}
                   <Button
-                    onClick={() => setNewReportSectionId(section.id)}
+                    onClick={() => setNewReportSectionId(reportSection.id)}
                     variant="text"
                   >
                     <MdAddCircle />

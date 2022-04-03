@@ -1,13 +1,15 @@
+import { mapReportSection } from "./Reports/ReportSectionsService";
+
 const mapGrantReport = (apiGrantReport) => ({
   archived: apiGrantReport.archived,
   createdAt: new Date(apiGrantReport.created_at),
   deadline: new Date(apiGrantReport.deadline),
-  fundingOrgId: apiGrantReport.grant.funding_org_id.toString(),
-  fundingOrgName: apiGrantReport.grant.funding_org_name,
+  // fundingOrgId: apiGrantReport.grant.funding_org_id.toString(),
+  // fundingOrgName: apiGrantReport.grant.funding_org_name,
   id: apiGrantReport.id.toString(),
-  organizationId: apiGrantReport.organization_id.toString(),
-  purpose: apiGrantReport.grant.purpose,
-  rfpUrl: apiGrantReport.grant.rfp_url,
+  // organizationId: apiGrantReport.grant.organization_id.toString(),
+  // purpose: apiGrantReport.grant.purpose,
+  // rfpUrl: apiGrantReport.grant.rfp_url,
   title: apiGrantReport.title,
   updatedAt: new Date(apiGrantReport.updated_at),
   reportSections: apiGrantReport.report_sections
@@ -17,9 +19,9 @@ const mapGrantReport = (apiGrantReport) => ({
 
 const mapGrantReportToApiGrantReport = (grantReport) => ({
   ...grantReport,
-  rfp_url: grantReport.rfpUrl,
-  funding_org_id: grantReport.fundingOrgId,
-  organization_id: grantReport.organizationId,
+  // rfp_url: grantReport.grant.rfpUrl,
+  // funding_org_id: grantReport.grant.fundingOrgId,
+  // organization_id: grantReport.grant.organizationId,
 });
 
 // getGrantReport
