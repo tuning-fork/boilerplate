@@ -11,7 +11,7 @@ const mapGrantReport = (apiGrantReport) => ({
   title: apiGrantReport.title,
   updatedAt: new Date(apiGrantReport.updated_at),
   reportSections: apiGrantReport.report_sections
-    ? apiGrantReport.report_sections.map(mapSection)
+    ? apiGrantReport.report_sections.map(mapReportSection)
     : [],
 });
 
