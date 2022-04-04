@@ -1,20 +1,23 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { NetworkErrorBoundary, CacheProvider } from "rest-hooks";
+import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import Spinner from "./Components/Helpers/Spinner";
 import "./Components/design.css";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <CacheProvider>
-      <Suspense fallback={<Spinner />}>
-        <NetworkErrorBoundary>
-          <App />
-        </NetworkErrorBoundary>
-      </Suspense>
-    </CacheProvider>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

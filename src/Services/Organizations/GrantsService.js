@@ -33,7 +33,7 @@ export const getGrant = (organizationClient, grantId) => {
 
 // listGrants
 
-export const getAllGrants = (organizationClient) => {
+export const getAllGrants = async (organizationClient) => {
   return organizationClient
     .get(`/grants`)
     .then((response) => response.data.map(mapGrant));
