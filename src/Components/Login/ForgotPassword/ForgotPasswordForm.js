@@ -4,12 +4,12 @@ import TextBox from "../../design/TextBox/TextBox";
 import "./ForgotPasswordForm.css";
 
 export default function ForgotPasswordForm(props) {
-  const [forgotPasswordFields, setForgotPasswordFields] = useState({});
+  const [forgotPasswordFields, setForgotPasswordFields] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setForgotPasswordFields({ ...forgotPasswordFields });
     props.onSubmit(forgotPasswordFields);
+    setForgotPasswordFields("");
   };
 
   return (
@@ -26,12 +26,7 @@ export default function ForgotPasswordForm(props) {
               labelText="Email"
               placeholder="Your email here"
               value={forgotPasswordFields.email}
-              onChange={(event) =>
-                setForgotPasswordFields({
-                  ...forgotPasswordFields,
-                  email: event.target.value,
-                })
-              }
+              onChange={(event) => setForgotPasswordFields(event.target.value)}
               required
             />
             <div className="forgot-password-form__actions">

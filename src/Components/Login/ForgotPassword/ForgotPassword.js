@@ -15,32 +15,20 @@ export default function ForgotPassword(props) {
   //   history.push(`/splashpage`);
   // };
 
-  // const forgotPassword = (email) => {
-  //   axios
-  //     .post("/api/forgot_password", { email: email })
-  //     .then((response) => {
-  //       alert(response.data.message);
-  //       setDisplayResetMessage(true);
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
-
-  const handleSubmit = () => {
-    // event.preventDefault();
-    console.log("You submitted a forgot password request");
-    // forgotPassword(email);
-    // setEmail("");
+  const forgotPassword = (email) => {
+    axios
+      .post("/api/forgot_password", { email: email })
+      .then((response) => {
+        alert(response.data.message);
+        setDisplayResetMessage(true);
+      })
+      .catch((error) => console.error(error));
   };
 
-  // const handleSubmit = useCallback(
-  //   async ({ email, password }) => {
-  //     // event.preventDefault();
-  //     await login(email, password);
-  //     // alert("You're signed in!");
-  //     history.push(location.state?.from ?? "/organizations");
-  //   },
-  //   [history, location, login]
-  // );
+  const handleSubmit = (email) => {
+    console.log("You submitted a forgot password request");
+    forgotPassword(email);
+  };
 
   return (
     <>
