@@ -11,11 +11,11 @@ export default function Login(props) {
   const location = useLocation();
   const { login } = useCurrentUser();
 
-  const handleCancel = (event) => {
-    event.preventDefault();
-    props.onCancel();
-    history.push(`/splashpage`);
-  };
+  // const handleCancel = (event) => {
+  //   event.preventDefault();
+  //   props.onCancel();
+  //   history.push(`/splashpage`);
+  // };
 
   const handleSubmit = useCallback(
     async ({ email, password }) => {
@@ -35,7 +35,7 @@ export default function Login(props) {
           <Container as="section" centered>
             <LoginForm
               onSubmit={handleSubmit}
-              onCancel={handleCancel}
+              // onCancel={handleCancel}
               toggleModalContents={props.toggleModalContents}
             />
           </Container>
@@ -43,7 +43,8 @@ export default function Login(props) {
       ) : (
         <NavbarLoginForm
           onSubmit={handleSubmit}
-          handleModal={props.handleModal}
+          // onCancel={handleCancel}
+          // handleModal={props.handleModal}
           toggleModalContents={props.toggleModalContents}
         />
       )}

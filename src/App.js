@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
 import ResetPassword from "./Components/Login/ResetPassword";
-import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
+// import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
 import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
@@ -40,7 +40,7 @@ export default function App() {
           </Route>
           <Route path="/splashpage" component={Splashpage} />
           <Route path="/reset_password" component={ResetPassword} />
-          <Route path="/forgot_password" component={ForgotPassword} />
+          {/* <Route path="/forgot_password" component={ForgotPassword} /> */}
           <CurrentOrganizationProvider>
             <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>

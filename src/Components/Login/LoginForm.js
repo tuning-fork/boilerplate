@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import "./LoginForm.css";
@@ -70,8 +70,7 @@ export default function LoginForm(props) {
           <Button
             variant="none"
             className="login-form__forgot-password"
-            to="/forgot_password"
-            as={Link}
+            onClick={() => props.toggleModalContents("Forgot Password")}
           >
             Forgot Password?
           </Button>
