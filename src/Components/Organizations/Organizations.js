@@ -33,7 +33,7 @@ export default function Organizations() {
 
   const handleEditOrganization = ({ newName }) =>
     updateOrganization({ id: editingOrganizationId }, { name: newName })
-      .then(() => console.log("you did it! banana"))
+      .then(() => console.log("you did it!"))
       .catch((error) => console.error(error));
 
   const handleDeleteOrganization = (id) => {
