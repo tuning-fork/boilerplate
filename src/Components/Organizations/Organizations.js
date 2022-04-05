@@ -12,6 +12,7 @@ import "./Organizations.css";
 
 export default function Organizations() {
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
+  //change organizations useResource to React-query when react-query ticket is merged in
   const organizations = useResource(Organization.list(), {});
   const createOrganization = useFetcher(Organization.create());
   const updateOrganization = useFetcher(Organization.update());
