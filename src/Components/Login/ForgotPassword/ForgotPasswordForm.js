@@ -41,9 +41,9 @@ export default function ForgotPasswordForm(props) {
           </form>
         </div>
       ) : (
-        <h2>
-          If this email exists, we have sent a link to reset your password.
-        </h2>
+        <p className="forgot-password-form__header-text">
+          {props.displayResetMessage}
+        </p>
       )}
     </>
   );
