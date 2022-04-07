@@ -11,7 +11,6 @@ export default function ForgotPassword(props) {
     axios
       .post("/api/forgot_password", { email: email })
       .then((response) => {
-        alert(response.data.message);
         setDisplayResetMessage(response.data.message);
       })
       .catch((error) => console.error(error));
