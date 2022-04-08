@@ -1,3 +1,11 @@
+export const mapReportSection = (apiReportSection) => ({
+  id: apiReportSection.id.toString(),
+  wordCount: apiReportSection.wordcount,
+  title: apiReportSection.title,
+  text: apiReportSection.text,
+  sortOrder: apiReportSection.sort_order,
+});
+
 // getReportSection
 export const getReportSection = (
   organizationClient,
