@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
+import { useQuery } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -66,15 +67,22 @@ export default function GrantsShow() {
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
-  const getGrant = useCallback(() => {
-    if (!organizationClient) {
-      return;
-    }
+  // const getGrant = useCallback(() => {
+  //   if (!organizationClient) {
+  //     return;
+  //   }
+  //   GrantsService.getGrant(organizationClient, grantId)
+  //     .then((grant) => setGrant(grant))
+  //     .catch((error) => setErrors([error]))
+  //     .finally(() => setLoading(false));
+  // }, [organizationClient, grantId]);
+
+  const getGrant = useQuery("getGrant", () =>
     GrantsService.getGrant(organizationClient, grantId)
-      .then((grant) => setGrant(grant))
+      .then((data) => setGrant(data))
       .catch((error) => setErrors([error]))
-      .finally(() => setLoading(false));
-  }, [organizationClient, grantId]);
+      .finally(() => setLoading(false))
+  );
 
   // const updateSections = (updatedSection) => {
   //   if (updatedSection.message) {
@@ -168,9 +176,9 @@ export default function GrantsShow() {
   //   }
   // };
 
-  useEffect(() => {
-    getGrant();
-  }, [getGrant]);
+  // useEffect(() => {
+  //   getGrant();
+  // }, [getGrant]);
 
   if (errors.length) {
     console.error(errors);

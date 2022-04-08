@@ -34,7 +34,6 @@ export default function GrantsIndex() {
     if (!organizationClient) {
       return;
     }
-
     try {
       const grants = await getAllGrants(organizationClient);
       setGrants(grants);
