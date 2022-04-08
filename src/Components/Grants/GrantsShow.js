@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { useQuery } from "react-query";
+import { useQuery, queryClient } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -45,15 +45,24 @@ function countTotalSectionsWords(sections = []) {
 }
 
 export default function GrantsShow() {
-  const [grant, setGrant] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  // const [grant, setGrant] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [isError, setIsError] = useState(true);
+  // const [error, setError] = useState([]);
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const { grant_id: grantId } = useParams();
+  const {
+    data: grant,
+    isError,
+    isLoading,
+    error,
+  } = useQuery("getGrant", () =>
+    GrantsService.getGrant(organizationClient, grantId)
+  );
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
-  const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
-  const { grant_id: grantId } = useParams();
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
   //   // This breaks forms nested under drag and drop! The space key triggers
@@ -71,18 +80,70 @@ export default function GrantsShow() {
   //   if (!organizationClient) {
   //     return;
   //   }
+  //   const { isLoading, isError, data, error } = useQuery("getGrant", () =>
   //   GrantsService.getGrant(organizationClient, grantId)
-  //     .then((grant) => setGrant(grant))
+  //     .then((data) => setGrant(data))
   //     .catch((error) => setErrors([error]))
-  //     .finally(() => setLoading(false));
+  //     .finally(() => setLoading(false))
   // }, [organizationClient, grantId]);
 
-  const getGrant = useQuery("getGrant", () =>
-    GrantsService.getGrant(organizationClient, grantId)
-      .then((data) => setGrant(data))
-      .catch((error) => setErrors([error]))
-      .finally(() => setLoading(false))
-  );
+  // const grantQuery = () => {
+  //   const { isLoading, isError, data, error } = useQuery("getGrant", () =>
+  //     GrantsService.getGrant(organizationClient, grantId)
+  //   );
+  // };
+
+  // const grantQuery = useQuery("getGrant", () =>
+  //   GrantsService.getGrant(organizationClient, grantId)
+  //     .then((data) => setGrant(data))
+  //     .catch((isError) => setIsError([isError]))
+  //     .finally((isLoading) => setIsLoading(isLoading))
+  // );
+
+  // const getGrant = useCallback(() => {
+  //   if (!organizationClient) {
+  //     return;
+  //   }
+  //   grantQuery()
+  //     .then((data) => setGrant(data))
+  //     .catch((isError) => setIsError([isError]))
+  //     .finally((isLoading) => setIsLoading(isLoading));
+  // }, [grantQuery, organizationClient]);
+
+  // useEffect(() => {
+  //   grantQuery;
+  // }, [grantQuery]);
+
+  // const getGrant = () => {
+  //   const { isLoading, isError, data, error } = useQuery("getGrant", () =>
+  //     GrantsService.getGrant(organizationClient, grantId)
+  //       .then((grant) => setGrant(grant))
+  //       .catch((error) => setErrors([error]))
+  //       .finally(() => setLoading(isLoading))
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   getGrant();
+  // }, [getGrant]);
+
+  // const getGrant = useQuery("getGrant", () =>
+  //   GrantsService.getGrant(organizationClient, grantId)
+  //     .then((data) => setGrant(data))
+  //     .catch((error) => setErrors([error]))
+  //     .finally(() => setLoading(false))
+  // );
+
+  // const logGrant = useQuery("getGrant", () =>
+  //   GrantsService.getGrant(organizationClient, grantId)
+  // );
+
+  // useEffect(() => {
+  //   let counter = 1;
+  //   console.log("logGrant", logGrant);
+  //   counter += 1;
+  //   console.log(counter);
+  // }, [logGrant]);
 
   // const updateSections = (updatedSection) => {
   //   if (updatedSection.message) {
@@ -101,7 +162,7 @@ export default function GrantsShow() {
   //   }
   // };
 
-  const handleCreateSection = ({ newSectionFields, precedingSection }) => {
+  function handleCreateSection({ newSectionFields, precedingSection }) {
     createGrantSection(organizationClient, grantId, {
       title: newSectionFields.title,
       text: newSectionFields.html,
@@ -111,9 +172,10 @@ export default function GrantsShow() {
     }).then(() => {
       alert("Section created!");
       setNewSectionId(null);
-      return getGrant();
+      // return getGrant();
+      return queryClient.invalidateQueries("getGrant");
     });
-  };
+  }
 
   const handleEditSection = (newSectionFields) => {
     updateGrantSection(organizationClient, grantId, newSectionFields.id, {
@@ -123,7 +185,8 @@ export default function GrantsShow() {
     }).then(() => {
       alert("Section edited!");
       setEditingSectionId(null);
-      return getGrant();
+      // return getGrant();
+      return queryClient.invalidateQueries("getGrant");
     });
   };
 
@@ -180,11 +243,26 @@ export default function GrantsShow() {
   //   getGrant();
   // }, [getGrant]);
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  // if (errors.length) {
+  //   console.error(errors);
+  //   return <p>Error! {errors.map((error) => error.message)}</p>;
+  // } else if (loading) {
+  //   return <h1>Loading....</h1>;
+  // }
+
+  // if (isError) {
+  //   console.error(error);
+  //   return <p>Error! {error.message}</p>;
+  // } else if (isLoading) {
+  //   return <h1>Loading....</h1>;
+  // }
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   const noSectionsContent = newSectionId ? (
