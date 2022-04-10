@@ -19,7 +19,6 @@ import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
 import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
 import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
 import GrantsNew from "./Components/Grants/GrantsNew";
-import SectionsNew from "./Components/Sections/SectionsNew";
 import ReportsNew from "./Components/Reports/ReportsNew";
 import GrantEdit from "./Components/Grants/GrantEdit";
 import GrantCopy from "./Components/Grants/GrantCopy";
@@ -74,10 +73,6 @@ export default function App() {
                     <Route
                       path="/organizations/:organizationId/grants-new"
                       component={GrantsNew}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/grants/:grant_id/sections-new"
-                      component={SectionsNew}
                     />
                     <Route
                       exact
