@@ -114,7 +114,7 @@ export default function GrantsShow() {
       ),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("getGrant");
+        // queryClient.invalidateQueries("getGrant");
         alert("Section edited!");
         setEditingSectionId(null);
       },
