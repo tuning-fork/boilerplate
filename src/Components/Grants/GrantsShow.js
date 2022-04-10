@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useQuery, queryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -22,7 +22,7 @@ import Hero from "../design/Hero/Hero";
 // } from "@dnd-kit/sortable";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
-import * as SectionService from "../../Services/Organizations/SectionService";
+import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
 // import {
 //   createGrantSection,
 //   updateGrantSection,
@@ -51,6 +51,7 @@ export default function GrantsShow() {
   // const [isError, setIsError] = useState(true);
   // const [error, setError] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const queryClient = useQueryClient();
   const { grant_id: grantId } = useParams();
   const {
     data: grant,
@@ -77,31 +78,65 @@ export default function GrantsShow() {
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
+  const {
+    mutate: createSection,
+    // isError,
+    // isLoading,
+    // error,
+  } = useMutation(
+    (newSectionFields) =>
+      SectionsService.createSection(
+        organizationClient,
+        grantId,
+        newSectionFields
+      ),
+    {
+      onSuccess: () => {
+        // queryClient.invalidateQueries("getGrant");
+        alert("Section created!");
+        setNewSectionId(null);
+      },
+    }
+  );
+
+  const {
+    mutate: updateSection,
+    // isError,
+    // isLoading,
+    // error,
+  } = useMutation(
+    (newSectionFields) =>
+      SectionsService.updateSection(
+        organizationClient,
+        grantId,
+        newSectionFields.id,
+        newSectionFields
+      ),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("getGrant");
+        alert("Section edited!");
+        setEditingSectionId(null);
+      },
+    }
+  );
+
   function handleCreateSection({ newSectionFields, precedingSection }) {
-    createGrantSection(organizationClient, grantId, {
+    createSection({
       title: newSectionFields.title,
       text: newSectionFields.html,
       grant_id: grantId,
       sort_order: precedingSection ? precedingSection.sortOrder + 1 : 0,
       wordcount: countWords(newSectionFields.text),
-    }).then(() => {
-      alert("Section created!");
-      setNewSectionId(null);
-      return queryClient.invalidateQueries("getGrant");
     });
   }
 
-  const 
-
   const handleEditSection = (newSectionFields) => {
-    updateGrantSection(organizationClient, grantId, newSectionFields.id, {
+    updateSection({
+      ...newSectionFields,
       title: newSectionFields.title,
       text: newSectionFields.html,
       wordcount: countWords(newSectionFields.text),
-    }).then(() => {
-      alert("Section edited!");
-      setEditingSectionId(null);
-      return queryClient.invalidateQueries("getGrant");
     });
   };
 
