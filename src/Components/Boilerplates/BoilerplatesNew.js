@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery, useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
+import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
@@ -11,45 +12,56 @@ import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 import countWords from "../../Helpers/countWords";
 
 export default function BoilerplatesNew() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
   const history = useHistory();
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    getAllCategories(organizationClient)
-      .then(setCategories)
-      .catch((error) => console.error(error))
-      .finally(() => setIsLoading(false));
-  }, [organizationClient]);
+  const {
+    data: categories,
+    isError,
+    isLoading,
+    error,
+  } = useQuery("getCategories", () =>
+    CategoriesService.getAllCategories(organizationClient)
+  );
 
   const handleCancel = () => {
-    history.push(`/organizations/${currentOrganization.id}/grants`);
+    history.push(`/organizations/${currentOrganization.id}/boilerplates`);
   };
 
-  const handleSubmit = (boilerplateFields) => {
-    console.log("boilerplateFields", boilerplateFields);
-    createBoilerplate(organizationClient, {
-      ...boilerplateFields,
-      organizationId: currentOrganization.id,
-      wordcount: countWords(boilerplateFields.text),
-    })
-      .then((boilerplate) => {
-        history.push(
-          `/organizations/${currentOrganization.id}/boilerplates/${boilerplate.id}`
-        );
-      })
-      .catch((error) => {
-        console.error("boilerplate creation error", error);
-      });
-  };
+  const { mutate: createBoilerplate } = useMutation(
+    (boilerplateFields) =>
+      BoilerplatesService.createBoilerplate(
+        organizationClient,
+        boilerplateFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Boilerplate created!");
+      },
+    }
+  );
+
+  function handleCreateBoilerplate({ newBoilerplateFields }) {
+    createBoilerplate({
+      title: newBoilerplateFields.title,
+      text: newBoilerplateFields.html,
+      categoryId: newBoilerplateFields.categoryId,
+      wordcount: countWords(newBoilerplateFields.text),
+    });
+  }
+
+  // if (isError) {
+  //   console.error(error);
+  //   return <p>Error! {error.message}</p>;
+  // } else if (isLoading) {
+  //   return <h1>Loading....</h1>;
+  // }
 
   if (isLoading) {
-    return "Loading...";
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   return (
@@ -65,7 +77,9 @@ export default function BoilerplatesNew() {
         <h1 className="boilerplates-new__header">Add New Boilerplate</h1>
         <BoilerplateForm
           categories={categories}
-          onSubmit={handleSubmit}
+          onSubmit={(newBoilerplateFields) =>
+            handleCreateBoilerplate({ newBoilerplateFields })
+          }
           onCancel={handleCancel}
         />
       </Container>

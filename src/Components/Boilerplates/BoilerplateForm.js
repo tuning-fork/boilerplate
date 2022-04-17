@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, { useRef, useState, useMemo } from "react";
+import { useQuery, useMutation } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
@@ -6,20 +7,29 @@ import Label from "../design/Label/Label";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import CategoriesNew from "../Categories/CategoriesNew";
 
 export default function BoilerplateForm(props) {
+  const [setCategories] = useState([]);
   const { organizationClient } = useCurrentOrganization();
   const [boilerplateFields, setBoilerplateFields] = useState({
     ...props.boilerplate,
     title: props.boilerplate?.title || "",
     text: props.boilerplate?.text || "",
     html: props.boilerplate?.text || "",
+    categoryId: props.boilerplate?.category_id || "",
   });
   const quillEl = useRef(null);
-  const [categories, setCategories] = useState([]);
+  const {
+    data: categories,
+    // isError,
+    // isLoading,
+    // error,
+  } = useQuery("getCategories", () =>
+    CategoriesService.getAllCategories(organizationClient)
+  );
   const [showingCategoriesNew, setShowingCategoriesNew] = useState(false);
 
   const wordCount = useMemo(() => {
@@ -34,13 +44,13 @@ export default function BoilerplateForm(props) {
     });
   };
 
-  useEffect(() => {
-    getAllCategories(organizationClient)
-      .then((categories) => {
-        setCategories(categories);
-      })
-      .catch((error) => console.error(error));
-  }, [organizationClient]);
+  // useEffect(() => {
+  //   getAllCategories(organizationClient)
+  //     .then((categories) => {
+  //       setCategories(categories);
+  //     })
+  //     .catch((error) => console.error(error));
+  // }, [organizationClient]);
 
   return (
     <>

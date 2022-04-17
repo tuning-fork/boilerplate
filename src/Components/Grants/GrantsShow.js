@@ -51,7 +51,7 @@ export default function GrantsShow() {
   // const [isError, setIsError] = useState(true);
   // const [error, setError] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { grant_id: grantId } = useParams();
   const {
     data: grant,
