@@ -1,15 +1,16 @@
-import React, { useCallback } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+// import React, { useCallback } from "react";
+import React from "react";
+// import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
+// import { useCurrentUser } from "../../Contexts/currentUserContext";
 import LoginForm from "./LoginForm";
 import NavbarLoginForm from "./NavbarLoginForm";
 import "./Login.css";
 
 export default function Login(props) {
-  const history = useHistory();
-  const location = useLocation();
-  const { login } = useCurrentUser();
+  // const history = useHistory();
+  // const location = useLocation();
+  // const { login } = useCurrentUser();
 
   // const handleCancel = (event) => {
   //   event.preventDefault();
@@ -17,15 +18,15 @@ export default function Login(props) {
   //   history.push(`/splashpage`);
   // };
 
-  const handleSubmit = useCallback(
-    async ({ email, password }) => {
-      // event.preventDefault();
-      await login(email, password);
-      // alert("You're signed in!");
-      history.push(location.state?.from ?? "/organizations");
-    },
-    [history, location, login]
-  );
+  // const handleSubmit = useCallback(
+  //   async ({ email, password }) => {
+  //     // event.preventDefault();
+  //     await login(email, password);
+  //     // alert("You're signed in!");
+  //     history.push(location.state?.from ?? "/organizations");
+  //   },
+  //   [history, location, login]
+  // );
 
   return (
     <>
@@ -34,7 +35,7 @@ export default function Login(props) {
         <div className="login">
           <Container as="section" centered>
             <LoginForm
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               // onCancel={handleCancel}
               toggleModalContents={props.toggleModalContents}
             />
@@ -42,7 +43,7 @@ export default function Login(props) {
         </div>
       ) : (
         <NavbarLoginForm
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           // onCancel={handleCancel}
           // handleModal={props.handleModal}
           toggleModalContents={props.toggleModalContents}

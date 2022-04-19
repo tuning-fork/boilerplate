@@ -8,6 +8,7 @@ export default function ForgotPassword(props) {
   const [displayResetMessage, setDisplayResetMessage] = useState("");
 
   const forgotPassword = (email) => {
+    console.log(email, "forgotpassword function");
     axios
       .post("/api/forgot_password", { email: email })
       .then((response) => {
@@ -17,6 +18,7 @@ export default function ForgotPassword(props) {
   };
 
   const handleSubmit = (email) => {
+    console.log(email, "handlesubmit function");
     console.log("You submitted a forgot password request");
     forgotPassword(email);
   };

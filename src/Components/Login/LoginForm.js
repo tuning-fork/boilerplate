@@ -10,17 +10,18 @@ export default function LoginForm(props) {
   const location = useLocation();
   const { error } = useCurrentUser();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoginFields({ ...loginFields });
-    props.onSubmit(loginFields);
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   setLoginFields({ ...loginFields });
+  //   props.onSubmit(loginFields);
+  // };
 
   return (
     <>
       {location.state?.loggedOut && <p>Successfully logged out!</p>}
       {error && <p className="login__error">Error: {error.message}</p>}
-      <form onSubmit={handleSubmit} className="login-form">
+      {/* <form onSubmit={handleSubmit} className="login-form"> */}
+      <form className="login-form">
         <TextBox
           type="email"
           name="email"
