@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
@@ -6,18 +7,19 @@ import Table from "../design/Table/Table";
 import FundingOrgNew from "./FundingOrgNew";
 import FundingOrgEdit from "./FundingOrgEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import {
-  getAllFundingOrgs,
-  updateFundingOrg,
-} from "../../Services/Organizations/FundingOrgsService";
+// import {
+//   getAllFundingOrgs,
+//   updateFundingOrg,
+// } from "../../Services/Organizations/FundingOrgsService";
+import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import formatDate from "../../Helpers/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./FundingOrgsIndex.css";
 
 export default function FundingOrgsIndex() {
-  const [fundingOrgs, setFundingOrgs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  // const [fundingOrgs, setFundingOrgs] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
   const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
@@ -33,20 +35,70 @@ export default function FundingOrgsIndex() {
     setSelectedFundingOrg(fundingOrg);
   };
 
-  const fetchFundingOrgs = useCallback(async () => {
-    if (!organizationClient) {
-      return;
-    }
+  // const fetchFundingOrgs = useCallback(async () => {
+  //   if (!organizationClient) {
+  //     return;
+  //   }
 
-    try {
-      const fundingOrgs = await getAllFundingOrgs(organizationClient);
-      setFundingOrgs(fundingOrgs);
-    } catch (error) {
-      setErrors([error]);
-    } finally {
-      setLoading(false);
+  //   try {
+  //     const fundingOrgs = await getAllFundingOrgs(organizationClient);
+  //     setFundingOrgs(fundingOrgs);
+  //   } catch (error) {
+  //     setErrors([error]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [organizationClient]);
+
+  const {
+    data: fundingOrgs,
+    isError,
+    isLoading,
+    error,
+  } = useQuery("getFundingOrgs", () =>
+    FundingOrgsService.getAllFundingOrgs(organizationClient)
+  );
+
+  const {
+    mutate: updateFundingOrg,
+    // isError,
+    // isLoading,
+    // error,
+  } = useMutation(
+    (newFundingOrgFields) =>
+      FundingOrgsService.updateFundingOrg(
+        organizationClient,
+        newFundingOrgFields.id,
+        newFundingOrgFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Funding Organization edited!");
+      },
     }
-  }, [organizationClient]);
+  );
+
+  function handleCreateFundingOrg({
+    newFundingOrgFields,
+    precedingFundingOrg,
+  }) {
+    createFundingOrg({
+      title: newFundingOrgFields.title,
+      text: newFundingOrgFields.html,
+      grant_id: grantId,
+      sort_order: precedingFundingOrg ? precedingFundingOrg.sortOrder + 1 : 0,
+      wordcount: countWords(newFundingOrgFields.text),
+    });
+  }
+
+  const handleEditFundingOrg = (newFundingOrgFields) => {
+    updateFundingOrg({
+      ...newFundingOrgFields,
+      title: newFundingOrgFields.title,
+      text: newFundingOrgFields.html,
+      wordcount: countWords(newFundingOrgFields.text),
+    });
+  };
 
   const handleDropdownMiniAction = async ({ option, fundingOrg }) => {
     try {
@@ -77,7 +129,7 @@ export default function FundingOrgsIndex() {
   const handleCloseFundingOrgModal = () => {
     setShowingFundingOrgNew(false);
     setShowingFundingOrgEdit(false);
-    return fetchFundingOrgs();
+    return fundingOrgs;
   };
 
   const columns = [
@@ -123,9 +175,9 @@ export default function FundingOrgsIndex() {
     },
   ];
 
-  useEffect(() => {
-    fetchFundingOrgs();
-  }, [fetchFundingOrgs]);
+  // useEffect(() => {
+  //   fetchFundingOrgs();
+  // }, [fetchFundingOrgs]);
 
   const filteredFundingOrgs = useMemo(() => {
     return fundingOrgs
@@ -145,11 +197,19 @@ export default function FundingOrgsIndex() {
       });
   }, [fundingOrgs, searchFilters, tabSelect]);
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  // if (errors.length) {
+  //   console.error(errors);
+  //   return <p>Error! {errors.map((error) => error.message)}</p>;
+  // } else if (loading) {
+  //   return <h1>Loading....</h1>;
+  // }
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   return (
