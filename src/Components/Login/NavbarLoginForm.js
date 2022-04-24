@@ -12,17 +12,9 @@ export default function NavbarLoginForm(props) {
   });
   const { error } = useCurrentUser();
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setLoginFields({ ...loginFields });
-  //   props.onSubmit(loginFields);
-  // };
-
   return (
     <>
-      {/* {location.state?.loggedOut && <p>Successfully logged out!</p>} */}
       {error && <p className="login__error">Error: {error.message}</p>}
-      {/* <form onSubmit={handleSubmit} className="navbar-login__form"> */}
       <form className="navbar-login__form">
         <div>
           <TextBox
