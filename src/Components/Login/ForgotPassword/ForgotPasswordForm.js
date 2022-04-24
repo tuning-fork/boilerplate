@@ -5,13 +5,9 @@ import "./ForgotPasswordForm.css";
 
 export default function ForgotPasswordForm(props) {
   const [forgotPasswordFields, setForgotPasswordFields] = useState("");
-  console.log(forgotPasswordFields);
   const handleSubmitForgotPassword = (event) => {
     event.preventDefault();
     props.onSubmit(forgotPasswordFields);
-    //if forgot password works
-    //else
-    //error or something and alert
   };
 
   return (
