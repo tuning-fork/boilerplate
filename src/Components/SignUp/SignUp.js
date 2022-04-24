@@ -22,7 +22,6 @@ export default function SignUp(props) {
         props.toggleModalContents("Log In");
       })
       .catch((error) => {
-        console.log(error.response.data);
         alert(
           error.response.data.errors[0] ||
             "Something went wrong while creating this user. Please try again later."
