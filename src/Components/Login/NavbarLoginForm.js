@@ -12,10 +12,16 @@ export default function NavbarLoginForm(props) {
   });
   const { error } = useCurrentUser();
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoginFields({ ...loginFields });
+    props.onSubmit(loginFields);
+  };
+
   return (
     <>
       {error && <p className="login__error">Error: {error.message}</p>}
-      <form className="navbar-login__form">
+      <form className="navbar-login__form" onSubmit={handleSubmit}>
         <div>
           <TextBox
             className="navbar-login__inputs navbar-login__items"
