@@ -19,14 +19,15 @@ export default function ResetPasswordForm(props) {
   return (
     <div>
       <p className="reset-password-form__header-text">
-        Please enter your email below. We'll send a recovery link.
+        Please enter the token that was emailed to you in the form below. This
+        reset form is case sensitive.
       </p>
       <form onSubmit={handleSubmit} className="forgot-password-form">
         <TextBox
           type="token"
           name="token"
           labelText="Token"
-          placeholder="Your token here"
+          placeholder="Token"
           value={resetPasswordFields.token}
           onChange={(event) =>
             setResetPasswordFields({
@@ -36,12 +37,11 @@ export default function ResetPasswordForm(props) {
           }
           required
         />
-        <p>The code that was emailed to you. This is case-sensitive.</p>
         <TextBox
           type="email"
           name="email"
           labelText="Email"
-          placeholder="Your email here"
+          placeholder="Email"
           value={resetPasswordFields.email}
           onChange={(event) =>
             setResetPasswordFields({
