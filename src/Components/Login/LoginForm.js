@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import "./LoginForm.css";
@@ -20,7 +20,7 @@ export default function LoginForm(props) {
     <>
       {location.state?.loggedOut && <p>Successfully logged out!</p>}
       {error && <p className="login__error">Error: {error.message}</p>}
-      <form onSubmit={handleSubmit} className="login-form">
+      <form className="login-form" onSubmit={handleSubmit}>
         <TextBox
           type="email"
           name="email"
@@ -70,8 +70,7 @@ export default function LoginForm(props) {
           <Button
             variant="none"
             className="login-form__forgot-password"
-            to="/forgot_password"
-            as={Link}
+            onClick={() => props.toggleModalContents("Forgot Password")}
           >
             Forgot Password?
           </Button>

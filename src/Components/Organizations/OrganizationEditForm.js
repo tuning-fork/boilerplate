@@ -21,6 +21,7 @@ export default function OrganizationEditForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
+        <div>Edit Organization</div>
         <Form.Label>Organization Name</Form.Label>
         <Form.Control
           type="text"

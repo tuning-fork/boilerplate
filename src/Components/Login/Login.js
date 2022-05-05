@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
 import LoginForm from "./LoginForm";
+import NavbarLoginForm from "./NavbarLoginForm";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
 import "./Login.css";
 
 export default function Login(props) {
@@ -20,23 +21,31 @@ export default function Login(props) {
     async ({ email, password }) => {
       // event.preventDefault();
       await login(email, password);
-      // console.log("user info", user);
-      // alert("You're signed in!");
+      alert("You're signed in!");
       history.push(location.state?.from ?? "/org_select");
     },
     [history, location, login]
   );
 
   return (
-    <div className="login">
-      <Container as="section" centered>
-        {/* <h1 className="login">Login</h1> */}
-        <LoginForm
+    <>
+      {props.formType === "standard" ? (
+        <div className="login">
+          <Container as="section" centered>
+            <LoginForm
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+              toggleModalContents={props.toggleModalContents}
+            />
+          </Container>
+        </div>
+      ) : (
+        <NavbarLoginForm
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           toggleModalContents={props.toggleModalContents}
         />
-      </Container>
-    </div>
+      )}
+    </>
   );
 }

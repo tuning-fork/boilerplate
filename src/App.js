@@ -2,8 +2,8 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
-import ResetPassword from "./Components/Login/ResetPassword";
-import ForgotPassword from "./Components/Login/ForgotPassword";
+import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
+// import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
 import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
@@ -12,7 +12,7 @@ import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
-import OrganizationsShow from "./Components/Organizations/OrganizationsShow";
+// import OrganizationsShow from "./Components/Organizations/OrganizationsShow";
 import ReportsShow from "./Components/Reports/ReportsShow";
 import GrantsShow from "./Components/Grants/GrantsShow";
 import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
@@ -40,7 +40,7 @@ export default function App() {
           </Route>
           <Route path="/splashpage" component={Splashpage} />
           <Route path="/reset_password" component={ResetPassword} />
-          <Route path="/forgot_password" component={ForgotPassword} />
+          {/* <Route path="/forgot_password" component={ForgotPassword} /> */}
           <CurrentOrganizationProvider>
             <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>
@@ -50,11 +50,7 @@ export default function App() {
                       path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
                     />
-                    <Route
-                      path="/organizations/:organizationId/edit"
-                      component={OrganizationsShow}
-                    />
-                    <Route
+                    <PrivateRoute
                       path="/organizations/:organizationId/grants/:grant_id/edit"
                       component={GrantEdit}
                     />

@@ -35,7 +35,7 @@ export default function OrgSelect() {
             as={Link}
             to={`/organizations/${currentOrganizationId}/dashboard`}
           >
-            Go to organization
+            Go to Dashboard
           </Button>
         )}
       </form>

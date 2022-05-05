@@ -7,6 +7,7 @@ import Modal from "../../design/Modal/Modal";
 import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
+import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -14,7 +15,10 @@ export default function SplashpageLayout() {
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
 
+  const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
+
   const handleSwitchSplashPageModal = (modalLabelInput) => {
+    console.log("handleSwitchSplashPageModal", modalLabelInput);
     setModalLabel(modalLabelInput);
     if (modalLabelInput === "Sign Up") {
       setModalContents(
@@ -36,6 +40,19 @@ export default function SplashpageLayout() {
               onSubmit={handleCloseSplashPageModal}
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
+              formType="standard"
+            />
+          </Card.Body>
+        </Card>
+      );
+    } else if (modalLabelInput === "Forgot Password") {
+      setModalContents(
+        <Card>
+          <Card.Body>
+            <ForgotPassword
+              onSubmit={handleCloseSplashPageModal}
+              onCancel={handleCloseSplashPageModal}
+              toggleModalContents={handleSwitchSplashPageModal}
             />
           </Card.Body>
         </Card>
@@ -44,12 +61,10 @@ export default function SplashpageLayout() {
     setShowSplashPageModal(true);
   };
 
-  const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
-
   return (
     <main className="splashpage-layout">
       <div className="splashpage-layout__navbar-container">
-        <NavbarSplashpage />
+        <NavbarSplashpage toggleModalContents={handleSwitchSplashPageModal} />
       </div>
       <div className="splashpage-layout__content">
         <img

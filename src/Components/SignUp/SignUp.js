@@ -22,9 +22,9 @@ export default function SignUp(props) {
         props.toggleModalContents("Log In");
       })
       .catch((error) => {
-        console.error(error);
         alert(
-          "Eek! Something went wrong when creating the user. Try again soon."
+          error.response.data.errors[0] ||
+            "Something went wrong while creating this user. Please try again later."
         );
       });
   };
