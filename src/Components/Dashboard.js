@@ -1,21 +1,27 @@
 import React, { useMemo } from "react";
+import { useQuery } from "react-query";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
 import { useCurrentUser } from "../Contexts/currentUserContext";
 import isRecent from "../Helpers/date/isRecent";
 import isSoon from "../Helpers/date/isSoon";
 import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
-import { Grant, OrganizationUser } from "../resources";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
-import useOrganizationResource from "../Hooks/useOrganizationResource";
+import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
+import { getAllGrants } from "../Services/Organizations/GrantsService";
+import { getAllOrganizationUsers } from "../Services/OrganizationService";
 
 export default function Dashboard() {
   const { user } = useCurrentUser();
-
-  const users = useOrganizationResource(OrganizationUser.list());
-  const grants = useOrganizationResource(Grant.list());
+  const { organizationClient } = useCurrentOrganization();
+  const { data: grants } = useQuery("getAllGrants", () =>
+    getAllGrants(organizationClient)
+  );
+  const { data: users } = useQuery("getAllOrganizationUsers", () =>
+    getAllOrganizationUsers(organizationClient)
+  );
 
   const recentDrafts = useMemo(
     () => grants.filter((grant) => isRecent(grant.updatedAt)),

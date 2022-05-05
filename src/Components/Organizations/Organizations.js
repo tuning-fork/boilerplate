@@ -9,14 +9,19 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import "./Organizations.css";
 
 export default function Organizations() {
+  // eslint-disable-next-line no-unused-vars
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
   //change organizations useResource to React-query when react-query ticket is merged in
+  // eslint-disable-next-line no-unused-vars
   const organizations = useResource(Organization.list(), {});
   const createOrganization = useFetcher(Organization.create());
   const updateOrganization = useFetcher(Organization.update());
+  // eslint-disable-next-line no-unused-vars
   const deleteOrganization = useFetcher(Organization.delete());
+  // eslint-disable-next-line no-unused-vars
   const { user } = useCurrentUser();
   const { fetchUserOrganizations } = useCurrentOrganization();
+  // eslint-disable-next-line no-unused-vars
   const [currentOrganizationId, setCurrentOrganizationId] = useState();
 
   const handleAddNewOrganization = async (fields) => {
@@ -25,23 +30,23 @@ export default function Organizations() {
     alert("You have successfully added an organization.");
   };
 
-  const handleClickEditOrganization = (organizationId) => {
-    setEditingOrganizationId(organizationId);
-  };
+  // const handleClickEditOrganization = (organizationId) => {
+  //   setEditingOrganizationId(organizationId);
+  // };
 
   const handleEditOrganization = ({ newName }) =>
     updateOrganization({ id: editingOrganizationId }, { name: newName })
       .then(() => console.log("you did it!"))
       .catch((error) => console.error(error));
 
-  const handleDeleteOrganization = (id) => {
-    /* eslint-disable-next-line no-restricted-globals */
-    if (confirm("Are you sure you want to delete this organization?")) {
-      deleteOrganization({ id })
-        .catch((error) => console.error(error))
-        .finally(() => {});
-    }
-  };
+  // const handleDeleteOrganization = (id) => {
+  //   /* eslint-disable-next-line no-restricted-globals */
+  //   if (confirm("Are you sure you want to delete this organization?")) {
+  //     deleteOrganization({ id })
+  //       .catch((error) => console.error(error))
+  //       .finally(() => {});
+  //   }
+  // };
 
   return (
     <div>
