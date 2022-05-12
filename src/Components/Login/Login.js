@@ -40,11 +40,7 @@ export default function Login(props) {
           </Container>
         </div>
       ) : (
-        <NavbarLoginForm
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          toggleModalContents={props.toggleModalContents}
-        />
+        <NavbarLoginForm toggleModalContents={props.toggleModalContents} />
       )}
     </>
   );

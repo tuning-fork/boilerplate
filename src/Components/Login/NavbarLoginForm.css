@@ -1,17 +1,17 @@
-.navbar-login__form {
+/* .navbar-login__form {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   margin: unset;
-}
+} */
 
-.navbar-login__actions {
+/* .navbar-login__actions {
   margin: unset;
   display: flex;
-}
+} */
 
-.navbar-login__captions {
+/* .navbar-login__captions {
   font-size: small;
   font-weight: bold;
   color: var(--primary);
@@ -30,12 +30,17 @@
   border-radius: 4px;
   background-color: var(--base-contrast-5);
   height: 2rem;
+} */
+
+.navbar__items {
+  padding-right: 1rem;
+  margin-top: auto;
 }
 
-.navbar-login__items {
-  padding-right: 8px;
+.navbar__button {
+  padding-right: 1rem;
 }
 
-.navbar-login__image {
+.navbar__image {
   width: 9rem;
 }
