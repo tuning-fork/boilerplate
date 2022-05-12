@@ -11,6 +11,27 @@ export default function NavbarLoginForm(props) {
         <Button
           variant="none"
           onClick={() => props.toggleModalContents("Log In")}
+          className="navbar__tab"
+        >
+          Our Team
+        </Button>
+        <Button
+          variant="none"
+          onClick={() => props.toggleModalContents("Log In")}
+          className="navbar__tab"
+        >
+          Learn More
+        </Button>
+        <Button
+          variant="none"
+          onClick={() => props.toggleModalContents("Log In")}
+          className="navbar__tab"
+        >
+          Say Hi!
+        </Button>
+        <Button
+          variant="none"
+          onClick={() => props.toggleModalContents("Log In")}
           className="navbar__button"
         >
           <img

@@ -37,6 +37,10 @@
   margin-top: auto;
 }
 
+.navbar__tab {
+  padding-right: 1rem;
+}
+
 .navbar__button {
   padding-right: 1rem;
 }
