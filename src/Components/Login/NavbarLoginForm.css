@@ -32,6 +32,10 @@
   height: 2rem;
 } */
 
+/* center tabs so that they're in line with other elements
+add onHover to give them background colors from our palette
+typography to make the font look better */
+
 .navbar__items {
   padding-right: 1rem;
   margin-top: auto;
@@ -41,10 +45,41 @@
   padding-right: 1rem;
 }
 
+.navbar__tab__container {
+  position: relative;
+  text-align: center;
+  display: inline-flex;
+  padding-right: 2.2rem;
+}
+
+.navbar__tab__text {
+    position: absolute;
+    top: 60%;
+    left: 20%;
+    transform: translate(-28%, -50%);
+    color: #2C92A8;
+    /* font-size: var(--;font-size-small);
+    font-weight: var(--font-weight-bold); */
+    font-size: var(--font-size-large-1);
+    font-weight: var(--font-weight-extra-bold);
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+}
+
 .navbar__button {
-  padding-right: 1rem;
+  padding-right: 1.5rem;
 }
 
 .navbar__image {
+  width: 8rem;
+}
+
+.navbar__tab__image {
   width: 9rem;
+  opacity: 0;
+}
+
+.navbar__tab__container:hover .navbar__tab__image {
+  width: 8rem;
+  opacity: 1;
 }
