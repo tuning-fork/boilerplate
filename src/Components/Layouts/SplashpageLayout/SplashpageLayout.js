@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
-import splashpageBackgroundImage from "./Splashpage_Background_Image.png";
+import splashpageBackgroundImage from "./splashpage_background_image6.png";
 import Button from "../../design/Button/Button";
 import Modal from "../../design/Modal/Modal";
 import Card from "react-bootstrap/Card";
