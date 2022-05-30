@@ -18,6 +18,11 @@
   padding-top: 3rem;
 }
 
+.grants-show__content-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .grants-show__welcome-alert {
   border-radius: 4px;
   padding: .8rem 1.4rem;
@@ -28,4 +33,11 @@
 .grants-show__paste-boilerplate-popout {
   width: 36%;
   order: 1;
+}
+
+.grant-show__reviewer-panel {
+  /* padding-top: 3rem;
+  padding-right: 3rem;
+  justify-content: center; */
+  margin: 3rem auto;
 }
