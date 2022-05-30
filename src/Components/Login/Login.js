@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
 import LoginForm from "./LoginForm";
-import NavbarLoginForm from "./NavbarLoginForm";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import "./Login.css";
 
@@ -29,19 +28,15 @@ export default function Login(props) {
 
   return (
     <>
-      {props.formType === "standard" ? (
-        <div className="login">
-          <Container as="section" centered>
-            <LoginForm
-              onSubmit={handleSubmit}
-              onCancel={handleCancel}
-              toggleModalContents={props.toggleModalContents}
-            />
-          </Container>
-        </div>
-      ) : (
-        <NavbarLoginForm toggleModalContents={props.toggleModalContents} />
-      )}
+      <div className="login">
+        <Container as="section" centered>
+          <LoginForm
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            toggleModalContents={props.toggleModalContents}
+          />
+        </Container>
+      </div>
     </>
   );
 }
