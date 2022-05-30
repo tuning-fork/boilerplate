@@ -1,0 +1,7 @@
+.panel-cancel-button {
+    display: flex;
+    justify-content: right;
+    color: var(--secondary);
+    flex-direction: row;
+  }
+  
