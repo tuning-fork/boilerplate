@@ -4,6 +4,7 @@ import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./splashpage_background_image6.png";
 import Button from "../../design/Button/Button";
 import Modal from "../../design/Modal/Modal";
+import Panel from "../../design/Panel/Panel";
 import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
@@ -61,10 +62,55 @@ export default function SplashpageLayout() {
     setShowSplashPageModal(true);
   };
 
+  //panel state hooks and panel close/show handler
+  const [showSplashPagePanel, setShowSplashPagePanel] = useState(false);
+
+  const [panelLabel, setPanelLabel] = useState("Loading");
+  const [panelContents, setPanelContents] = useState(<></>);
+
+  const handleCloseSplashPagePanel = () => setShowSplashPagePanel(false);
+
+  const handleSwitchSplashPagePanel = (panelLabelInput) => {
+    console.log("handleSwitchSplashPagePanel", panelLabelInput);
+    setModalLabel(panelLabelInput);
+    if (panelLabelInput === "Our Team") {
+      setPanelContents(
+        <Card>
+          <Card.Body>
+            <SignUp
+              onCancel={handleCloseSplashPagePanel}
+              togglePanelContents={handleSwitchSplashPagePanel}
+            />
+          </Card.Body>
+        </Card>
+      );
+      setShowSplashPagePanel(true);
+    } else if (panelLabelInput === "Try It Out") {
+      setPanelContents(
+        <Card>
+          <Card.Body>
+            <Login
+              onSubmit={handleCloseSplashPagePanel}
+              onCancel={handleCloseSplashPagePanel}
+              togglePanelContents={handleSwitchSplashPagePanel}
+              formType="standard"
+            />
+          </Card.Body>
+        </Card>
+      );
+    } else if (panelLabelInput === "Contact") {
+      setPanelContents(<div>Contact Us</div>);
+    }
+    setShowSplashPagePanel(true);
+  };
+
   return (
     <main className="splashpage-layout">
       <div className="splashpage-layout__navbar-container">
-        <NavbarSplashpage toggleModalContents={handleSwitchSplashPageModal} />
+        <NavbarSplashpage
+          toggleModalContents={handleSwitchSplashPageModal}
+          togglePanelContents={handleSwitchSplashPagePanel}
+        />
       </div>
       <div className="splashpage-layout__content">
         <img
@@ -72,16 +118,6 @@ export default function SplashpageLayout() {
           alt="Splashpage graphics"
           className="splashpage-layout__background-image"
         />
-        <Button
-          className="splashpage-layout__sign-up-button"
-          variant="none"
-          onClick={() => handleSwitchSplashPageModal("Sign Up")}
-        ></Button>
-        <Button
-          className="splashpage-layout__login-button"
-          variant="none"
-          onClick={() => handleSwitchSplashPageModal("Log In")}
-        ></Button>
         <Modal
           hide={handleCloseSplashPageModal}
           show={showSplashPageModal}
@@ -90,6 +126,14 @@ export default function SplashpageLayout() {
         >
           {modalContents}
         </Modal>
+        <Panel
+          hide={handleCloseSplashPagePanel}
+          show={showSplashPagePanel}
+          heading={panelLabel}
+          splashpageForm={true}
+        >
+          {panelContents}
+        </Panel>
       </div>
     </main>
   );
