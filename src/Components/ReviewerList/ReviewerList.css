@@ -1,0 +1,29 @@
+.reviewer-list-popout {
+    padding: 36px 24px;
+    border: 1px solid rgba(26, 56, 96, 0.1);
+    height: 100%
+  }
+  
+  .reviewer-list-popout__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .reviewer-list-popout__secondary-search {
+    display: flex;
+    gap: 18px;
+  }
+  
+  .reviewer-list-popout__category-search {
+    width: 70%;
+  }
+  
+  .reviewer-list-popout__max-word-count {
+    width: 30%; 
+  }
+
+  .reviewer-list__reviewers-index {
+    list-style: none;
+    padding: 0;
+  }
+  
