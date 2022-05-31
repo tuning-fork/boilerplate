@@ -43,6 +43,7 @@
     display: block;
     width: 100vw;
     height: 100vh;
+    top: 4.5rem;
     /* top: -100vh; */
     left: 0;
     overflow-y: auto;
@@ -53,7 +54,7 @@
     -webkit-transition-property: top,opacity,background-color;
     transition-property: top,opacity,background-color;
     will-change: top,opacity,background-color; */
-    background-color: yellow;
+    background-color: #FCE353;
 }
 
 .panel__heading {

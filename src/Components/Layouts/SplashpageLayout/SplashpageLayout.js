@@ -74,30 +74,10 @@ export default function SplashpageLayout() {
     console.log("handleSwitchSplashPagePanel", panelLabelInput);
     setModalLabel(panelLabelInput);
     if (panelLabelInput === "Our Team") {
-      setPanelContents(
-        <Card>
-          <Card.Body>
-            <SignUp
-              onCancel={handleCloseSplashPagePanel}
-              togglePanelContents={handleSwitchSplashPagePanel}
-            />
-          </Card.Body>
-        </Card>
-      );
+      setPanelContents(<div>Our Team</div>);
       setShowSplashPagePanel(true);
     } else if (panelLabelInput === "Try It Out") {
-      setPanelContents(
-        <Card>
-          <Card.Body>
-            <Login
-              onSubmit={handleCloseSplashPagePanel}
-              onCancel={handleCloseSplashPagePanel}
-              togglePanelContents={handleSwitchSplashPagePanel}
-              formType="standard"
-            />
-          </Card.Body>
-        </Card>
-      );
+      setPanelContents(<div>Try It Out</div>);
     } else if (panelLabelInput === "Contact") {
       setPanelContents(<div>Contact Us</div>);
     }
@@ -126,12 +106,7 @@ export default function SplashpageLayout() {
         >
           {modalContents}
         </Modal>
-        <Panel
-          hide={handleCloseSplashPagePanel}
-          show={showSplashPagePanel}
-          heading={panelLabel}
-          splashpageForm={true}
-        >
+        <Panel hide={handleCloseSplashPagePanel} show={showSplashPagePanel}>
           {panelContents}
         </Panel>
       </div>

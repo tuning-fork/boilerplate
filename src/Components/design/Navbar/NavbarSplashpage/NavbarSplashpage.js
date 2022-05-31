@@ -26,7 +26,7 @@ export default function NavbarSplashpage(props) {
           />
           <Button
             variant="none"
-            onClick={() => props.toggleModalContents("Log In")}
+            onClick={() => props.togglePanelContents("Our Team")}
             className="navbar__tab"
           >
             <dt className={clsx("navbar__tab-text", "tab-yellow")}>Our Team</dt>
@@ -40,7 +40,7 @@ export default function NavbarSplashpage(props) {
           />
           <Button
             variant="none"
-            onClick={() => props.toggleModalContents("Log In")}
+            onClick={() => props.togglePanelContents("Try It Out")}
             className="navbar__tab"
           >
             <div className={clsx("navbar__tab-text", "tab-blue")}>
@@ -56,7 +56,7 @@ export default function NavbarSplashpage(props) {
           />
           <Button
             variant="none"
-            onClick={() => props.toggleModalContents("Log In")}
+            onClick={() => props.togglePanelContents("Contact")}
             className="navbar__tab"
           >
             <div className={clsx("navbar__tab-text", "tab-pink")}>Contact</div>
@@ -92,7 +92,7 @@ export default function NavbarSplashpage(props) {
             </div>
           </Button>
         </div>
-        <div className="navbar__tab-container">
+        {/* <div className="navbar__tab-container">
           <img
             src={customSignUpButton}
             alt="Custom button"
@@ -109,7 +109,7 @@ export default function NavbarSplashpage(props) {
               Test Slice
             </div>
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
