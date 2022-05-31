@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useQuery } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
@@ -19,7 +19,7 @@ export default function BoilerplateForm(props) {
     title: props.boilerplate?.title || "",
     text: props.boilerplate?.text || "",
     html: props.boilerplate?.text || "",
-    categoryId: props.boilerplate?.category_id || "",
+    categoryId: props.boilerplate?.categoryId || "",
   });
   const quillEl = useRef(null);
   const {
@@ -43,14 +43,6 @@ export default function BoilerplateForm(props) {
       ...boilerplateFields,
     });
   };
-
-  // useEffect(() => {
-  //   getAllCategories(organizationClient)
-  //     .then((categories) => {
-  //       setCategories(categories);
-  //     })
-  //     .catch((error) => console.error(error));
-  // }, [organizationClient]);
 
   return (
     <>

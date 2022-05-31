@@ -40,19 +40,10 @@ export default function BoilerplatesShow() {
   const handleEditBoilerplate = (newBoilerplateFields) => {
     updateBoilerplate({
       ...newBoilerplateFields,
-      title: newBoilerplateFields.title,
       text: newBoilerplateFields.html,
       wordcount: countWords(newBoilerplateFields.text),
-      categoryId: boilerplate.categoryId,
     });
   };
-
-  // if (errors.length) {
-  //   console.error(errors);
-  //   return <p>Error! {errors.map((error) => error.message)}</p>;
-  // } else if (loading) {
-  //   return <h1>Loading....</h1>;
-  // }
 
   if (isLoading) {
     return <span>Loading...</span>;

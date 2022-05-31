@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -46,12 +46,7 @@ function countTotalSectionsWords(sections = []) {
 }
 
 export default function GrantsShow() {
-  // const [grant, setGrant] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [isError, setIsError] = useState(true);
-  // const [error, setError] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  // const queryClient = useQueryClient();
   const { grant_id: grantId } = useParams();
   const {
     data: grant,
@@ -78,12 +73,7 @@ export default function GrantsShow() {
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
-  const {
-    mutate: createSection,
-    // isError,
-    // isLoading,
-    // error,
-  } = useMutation(
+  const { mutate: createSection } = useMutation(
     (newSectionFields) =>
       SectionsService.createSection(
         organizationClient,
@@ -92,19 +82,13 @@ export default function GrantsShow() {
       ),
     {
       onSuccess: () => {
-        // queryClient.invalidateQueries("getGrant");
         alert("Section created!");
         setNewSectionId(null);
       },
     }
   );
 
-  const {
-    mutate: updateSection,
-    // isError,
-    // isLoading,
-    // error,
-  } = useMutation(
+  const { mutate: updateSection } = useMutation(
     (newSectionFields) =>
       SectionsService.updateSection(
         organizationClient,
@@ -114,7 +98,6 @@ export default function GrantsShow() {
       ),
     {
       onSuccess: () => {
-        // queryClient.invalidateQueries("getGrant");
         alert("Section edited!");
         setEditingSectionId(null);
       },
@@ -188,20 +171,6 @@ export default function GrantsShow() {
   //       });
   //   }
   // };
-
-  // if (errors.length) {
-  //   console.error(errors);
-  //   return <p>Error! {errors.map((error) => error.message)}</p>;
-  // } else if (loading) {
-  //   return <h1>Loading....</h1>;
-  // }
-
-  // if (isError) {
-  //   console.error(error);
-  //   return <p>Error! {error.message}</p>;
-  // } else if (isLoading) {
-  //   return <h1>Loading....</h1>;
-  // }
 
   if (isLoading) {
     return <span>Loading...</span>;

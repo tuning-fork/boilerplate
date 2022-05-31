@@ -11,30 +11,12 @@ import GrantForm from "./GrantForm";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function GrantsNew() {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
-  const {
-    data: fundingOrgs,
-    isError,
-    isLoading,
-    error,
-  } = useQuery("getFundingOrgs", () =>
+  const { data: fundingOrgs, isLoading } = useQuery("getFundingOrgs", () =>
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
-
-  // useEffect(() => {
-  //   if (!organizationClient) {
-  //     return;
-  //   }
-
-  //   getAllFundingOrgs(organizationClient)
-  //     .then(setFundingOrgs)
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setIsLoading(false));
-  // }, [organizationClient]);
 
   const handleCancel = () => {
     history.push(`/organizations/${currentOrganization.id}/grants`);
@@ -43,16 +25,19 @@ export default function GrantsNew() {
   const { mutate: createGrant } = useMutation(
     (grantFields) => GrantsService.createGrant(organizationClient, grantFields),
     {
-      onSuccess: () => {
+      onSuccess: (newGrant) => {
         alert("Grant created!");
+        history.push(
+          `/organizations/${currentOrganization.id}/grants/${newGrant.id}`
+        );
       },
     }
   );
 
-  function handleCreateGrant({ newGrantFields }) {
+  function handleCreateGrant(newGrantFields) {
     createGrant({
       title: newGrantFields.title,
-      fundingOrgName: newGrantFields.fundingOrgName,
+      fundingOrgId: newGrantFields.fundingOrgId,
       rfpUrl: newGrantFields.rfpUrl,
       purpose: newGrantFields.purpose,
       deadline: newGrantFields.deadline,
@@ -96,7 +81,7 @@ export default function GrantsNew() {
         <h1 className="grants-new__header">Add New Grant</h1>
         <GrantForm
           fundingOrgs={fundingOrgs}
-          onSubmit={(newGrantFields) => handleCreateGrant({ newGrantFields })}
+          onSubmit={handleCreateGrant}
           onCancel={handleCancel}
           handleFundingOrg={handleFundingOrg}
           showingFundingOrgNew={showingFundingOrgNew}
