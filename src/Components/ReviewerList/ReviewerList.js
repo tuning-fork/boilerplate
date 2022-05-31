@@ -32,6 +32,11 @@ export default function ReviewerList() {
     setOpenEditReviewers(false);
   };
 
+  const handleSaveRequestedReviewers = (event) => {
+    //send update request to the backend
+    setOpenEditReviewers(!openEditReviewers);
+  };
+
   return (
     <aside className="reviewer-list">
       <header className="reviewer-list__header">
@@ -72,7 +77,7 @@ export default function ReviewerList() {
             <Button variant="text" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button>Save</Button>
+            <Button onClick={handleSaveRequestedReviewers}>Save</Button>
           </div>
         </div>
       ) : null}
