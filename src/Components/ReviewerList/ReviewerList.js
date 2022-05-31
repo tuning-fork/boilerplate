@@ -17,7 +17,11 @@ export default function ReviewerList() {
   });
   const filteredReviewers = useMemo(() => {
     return reviewers.filter((reviewer) => {
-      console.log(reviewer);
+      const matchesName = reviewer.firstName
+        .concat(reviewer.lastName || "")
+        .toLowerCase()
+        .includes(searchFilters.name.toLowerCase());
+      return matchesName;
     });
   }, [reviewers, searchFilters]);
 
@@ -30,7 +34,7 @@ export default function ReviewerList() {
       <TextBox
         labelText="Search"
         onChange={(event) =>
-          setSearchFilters({ ...searchFilters, text: event.target.value })
+          setSearchFilters({ ...searchFilters, name: event.target.value })
         }
       />
       <ul className="reviewer-list__reviewers-index">
