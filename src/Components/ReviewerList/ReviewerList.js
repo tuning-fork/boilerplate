@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useQuery } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
+import Button from "../design/Button/Button";
 import "./ReviewerList.css";
 import ReviewerListItem from "./ReviewerListItem";
 import { getAllOrganizationUsers } from "../../Services/OrganizationService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { MdAddComment } from "react-icons/md";
 
 export default function ReviewerList() {
   const { organizationClient } = useCurrentOrganization();
@@ -15,6 +17,7 @@ export default function ReviewerList() {
   const [searchFilters, setSearchFilters] = useState({
     name: "",
   });
+  const [openEditReviewers, setOpenEditReviewers] = useState(false);
   const filteredReviewers = useMemo(() => {
     return reviewers.filter((reviewer) => {
       const matchesName = reviewer.firstName
@@ -25,23 +28,54 @@ export default function ReviewerList() {
     });
   }, [reviewers, searchFilters]);
 
+  const handleCancel = (event) => {
+    setOpenEditReviewers(false);
+  };
+
   return (
     <aside className="reviewer-list">
       <header className="reviewer-list__header">
-        <h2 className="heading-4">Select Reviewer</h2>
+        <h4>Reviewers</h4>
+        <Button variant="none" onClick={() => setOpenEditReviewers(true)}>
+          <MdAddComment className="reviewer-list__edit-icon" />
+        </Button>
       </header>
-
-      <TextBox
-        labelText="Search"
-        onChange={(event) =>
-          setSearchFilters({ ...searchFilters, name: event.target.value })
-        }
-      />
-      <ul className="reviewer-list__reviewers-index">
-        {filteredReviewers.map((reviewer) => (
-          <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
-        ))}
-      </ul>
+      {requestedReviewers.length ? (
+        <ul className="reviewer-list__reviewers-index">
+          {requestedReviewers.map((reviewer) => (
+            <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+          ))}
+        </ul>
+      ) : (
+        <div className="reviewer-list__suggestions-text">
+          No reviewers selected yet.
+        </div>
+      )}
+      {openEditReviewers ? (
+        <div>
+          <header className="reviewer-list__header">
+            <h4>Request Review</h4>
+          </header>
+          <TextBox
+            labelText="Search for Reviewers"
+            onChange={(event) =>
+              setSearchFilters({ ...searchFilters, name: event.target.value })
+            }
+          />
+          <div className="reviewer-list__suggestions-text">Suggestions</div>
+          <ul className="reviewer-list__reviewers-index">
+            {filteredReviewers.map((reviewer) => (
+              <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+            ))}
+          </ul>
+          <div className="reviewer-list__save-button">
+            <Button variant="text" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button>Save</Button>
+          </div>
+        </div>
+      ) : null}
     </aside>
   );
 }
