@@ -76,3 +76,20 @@
   padding-bottom: 1rem;
   justify-content: space-between;
 } */
+
+.yellowPanel {
+  background-color: #FCE353;
+  color: #237E74;
+} 
+.bluePanel {
+  background-color: #5cdacd;
+  color: #e02780;
+}
+.pinkPanel {
+  background-color: var(--secondary-text);
+  color: #E3ED55;
+}
+.tealPanel {
+  background-color: var(--primary);
+  color: #4B1E75;
+}

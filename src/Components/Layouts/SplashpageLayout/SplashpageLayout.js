@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./splashpage_background_image6.png";
-import Button from "../../design/Button/Button";
 import Modal from "../../design/Modal/Modal";
 import Panel from "../../design/Panel/Panel";
 import Card from "react-bootstrap/Card";
@@ -64,9 +63,8 @@ export default function SplashpageLayout() {
 
   //panel state hooks and panel close/show handler
   const [showSplashPagePanel, setShowSplashPagePanel] = useState(false);
-
-  const [panelLabel, setPanelLabel] = useState("Loading");
   const [panelContents, setPanelContents] = useState(<></>);
+  const [panelColors, setPanelColors] = useState("yellowPanel");
 
   const handleCloseSplashPagePanel = () => setShowSplashPagePanel(false);
 
@@ -75,11 +73,13 @@ export default function SplashpageLayout() {
     setModalLabel(panelLabelInput);
     if (panelLabelInput === "Our Team") {
       setPanelContents(<div>Our Team</div>);
-      setShowSplashPagePanel(true);
+      setPanelColors("bluePanel");
     } else if (panelLabelInput === "Try It Out") {
       setPanelContents(<div>Try It Out</div>);
+      setPanelColors("pinkPanel");
     } else if (panelLabelInput === "Contact") {
       setPanelContents(<div>Contact Us</div>);
+      setPanelColors("tealPanel");
     }
     setShowSplashPagePanel(true);
   };
@@ -106,7 +106,11 @@ export default function SplashpageLayout() {
         >
           {modalContents}
         </Modal>
-        <Panel hide={handleCloseSplashPagePanel} show={showSplashPagePanel}>
+        <Panel
+          hide={handleCloseSplashPagePanel}
+          show={showSplashPagePanel}
+          panelPalette={panelColors}
+        >
           {panelContents}
         </Panel>
       </div>
