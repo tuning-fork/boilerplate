@@ -34,14 +34,17 @@ export default function ReviewerList() {
 
   const handleSaveRequestedReviewers = (event) => {
     //send update request to the backend
-    setOpenEditReviewers(!openEditReviewers);
+    setOpenEditReviewers(!false);
   };
 
   return (
     <aside className="reviewer-list">
       <header className="reviewer-list__header">
         <h4>Reviewers</h4>
-        <Button variant="none" onClick={() => setOpenEditReviewers(true)}>
+        <Button
+          variant="none"
+          onClick={() => setOpenEditReviewers(!openEditReviewers)}
+        >
           <MdAddComment className="reviewer-list__edit-icon" />
         </Button>
       </header>
