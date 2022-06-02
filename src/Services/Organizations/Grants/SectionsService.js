@@ -6,52 +6,31 @@ export const mapSection = (apiSection) => ({
   sortOrder: apiSection.sort_order,
 });
 
-// getGrantSection
-export const getGrantSection = (
-  organizationClient,
-  grantId,
-  grantSectionId
-) => {
+export const getSection = (organizationClient, grantId, grantSectionId) => {
   return organizationClient
     .get(`/grants/${grantId}/sections/${grantSectionId}`)
     .then((response) => response.data);
 };
 
-// listGrantSections
-
-export const getAllGrantSections = (organizationClient, grantId) => {
+export const getAllSections = (organizationClient, grantId) => {
   return organizationClient
     .get(`/grants/${grantId}/sections/`)
     .then((response) => response.data);
 };
 
-// deleteGrantSection
-
-export const deleteGrantSection = (
-  organizationClient,
-  grantId,
-  grantSectionId
-) => {
+export const deleteSection = (organizationClient, grantId, grantSectionId) => {
   return organizationClient
     .delete(`/grants/${grantId}/sections/${grantSectionId}`)
     .then((response) => response.data);
 };
 
-// createGrantSection
-
-export const createGrantSection = (
-  organizationClient,
-  grantId,
-  newGrantSection
-) => {
+export const createSection = (organizationClient, grantId, newGrantSection) => {
   return organizationClient
     .post(`/grants/${grantId}/sections/`, newGrantSection)
     .then((response) => response.data);
 };
 
-// updateGrantSection
-
-export const updateGrantSection = (
+export const updateSection = (
   organizationClient,
   grantId,
   grantSectionId,
@@ -62,7 +41,7 @@ export const updateGrantSection = (
     .then((response) => response.data);
 };
 
-export const reorderGrantSection = (
+export const reorderSection = (
   organizationClient,
   grantId,
   grantSectionId,
