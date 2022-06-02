@@ -45,21 +45,6 @@ export default function GrantsNew() {
     });
   }
 
-  // const handleSubmit = (grantFields) => {
-  //   createGrant(organizationClient, {
-  //     ...grantFields,
-  //     organizationId: currentOrganization.id,
-  //   })
-  //     .then((grant) => {
-  //       history.push(
-  //         `/organizations/${currentOrganization.id}/grants/${grant.id}`
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.error("grant creation error", error);
-  //     });
-  // };
-
   if (isLoading) {
     return "Loading...";
   }

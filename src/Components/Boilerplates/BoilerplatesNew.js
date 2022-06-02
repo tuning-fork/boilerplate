@@ -40,7 +40,7 @@ export default function BoilerplatesNew() {
     }
   );
 
-  function handleCreateBoilerplate({ newBoilerplateFields }) {
+  function handleCreateBoilerplate(newBoilerplateFields) {
     createBoilerplate({
       title: newBoilerplateFields.title,
       text: newBoilerplateFields.html,
@@ -48,13 +48,6 @@ export default function BoilerplatesNew() {
       wordcount: countWords(newBoilerplateFields.text),
     });
   }
-
-  // if (isError) {
-  //   console.error(error);
-  //   return <p>Error! {error.message}</p>;
-  // } else if (isLoading) {
-  //   return <h1>Loading....</h1>;
-  // }
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -77,9 +70,7 @@ export default function BoilerplatesNew() {
         <h1 className="boilerplates-new__header">Add New Boilerplate</h1>
         <BoilerplateForm
           categories={categories}
-          onSubmit={(newBoilerplateFields) =>
-            handleCreateBoilerplate({ newBoilerplateFields })
-          }
+          onSubmit={handleCreateBoilerplate}
           onCancel={handleCancel}
         />
       </Container>

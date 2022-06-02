@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
@@ -7,19 +7,12 @@ import Table from "../design/Table/Table";
 import FundingOrgNew from "./FundingOrgNew";
 import FundingOrgEdit from "./FundingOrgEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-// import {
-//   getAllFundingOrgs,
-//   updateFundingOrg,
-// } from "../../Services/Organizations/FundingOrgsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import formatDate from "../../Helpers/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./FundingOrgsIndex.css";
 
 export default function FundingOrgsIndex() {
-  // const [fundingOrgs, setFundingOrgs] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
   const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
@@ -59,12 +52,7 @@ export default function FundingOrgsIndex() {
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
 
-  const {
-    mutate: updateFundingOrg,
-    // isError,
-    // isLoading,
-    // error,
-  } = useMutation(
+  const { mutate: updateFundingOrg } = useMutation(
     (newFundingOrgFields) =>
       FundingOrgsService.updateFundingOrg(
         organizationClient,
@@ -78,27 +66,27 @@ export default function FundingOrgsIndex() {
     }
   );
 
-  function handleCreateFundingOrg({
-    newFundingOrgFields,
-    precedingFundingOrg,
-  }) {
-    createFundingOrg({
-      title: newFundingOrgFields.title,
-      text: newFundingOrgFields.html,
-      grant_id: grantId,
-      sort_order: precedingFundingOrg ? precedingFundingOrg.sortOrder + 1 : 0,
-      wordcount: countWords(newFundingOrgFields.text),
-    });
-  }
+  // function handleCreateFundingOrg({
+  //   newFundingOrgFields,
+  //   precedingFundingOrg,
+  // }) {
+  //   createFundingOrg({
+  //     title: newFundingOrgFields.title,
+  //     text: newFundingOrgFields.html,
+  //     grant_id: grantId,
+  //     sort_order: precedingFundingOrg ? precedingFundingOrg.sortOrder + 1 : 0,
+  //     wordcount: countWords(newFundingOrgFields.text),
+  //   });
+  // }
 
-  const handleEditFundingOrg = (newFundingOrgFields) => {
-    updateFundingOrg({
-      ...newFundingOrgFields,
-      title: newFundingOrgFields.title,
-      text: newFundingOrgFields.html,
-      wordcount: countWords(newFundingOrgFields.text),
-    });
-  };
+  // const handleEditFundingOrg = (newFundingOrgFields) => {
+  //   updateFundingOrg({
+  //     ...newFundingOrgFields,
+  //     title: newFundingOrgFields.title,
+  //     text: newFundingOrgFields.html,
+  //     wordcount: countWords(newFundingOrgFields.text),
+  //   });
+  // };
 
   const handleDropdownMiniAction = async ({ option, fundingOrg }) => {
     try {
@@ -119,10 +107,10 @@ export default function FundingOrgsIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await fetchFundingOrgs();
+      // await fetchFundingOrgs();
     } catch (error) {
       console.error(error);
-      setErrors([error]);
+      // setErrors([error]);
     }
   };
 
@@ -196,13 +184,6 @@ export default function FundingOrgsIndex() {
         return fundingOrgs;
       });
   }, [fundingOrgs, searchFilters, tabSelect]);
-
-  // if (errors.length) {
-  //   console.error(errors);
-  //   return <p>Error! {errors.map((error) => error.message)}</p>;
-  // } else if (loading) {
-  //   return <h1>Loading....</h1>;
-  // }
 
   if (isLoading) {
     return <span>Loading...</span>;

@@ -22,12 +22,7 @@ export default function BoilerplateForm(props) {
     categoryId: props.boilerplate?.categoryId || "",
   });
   const quillEl = useRef(null);
-  const {
-    data: categories,
-    // isError,
-    // isLoading,
-    // error,
-  } = useQuery("getCategories", () =>
+  const { data: categories } = useQuery("getCategories", () =>
     CategoriesService.getAllCategories(organizationClient)
   );
   const [showingCategoriesNew, setShowingCategoriesNew] = useState(false);
