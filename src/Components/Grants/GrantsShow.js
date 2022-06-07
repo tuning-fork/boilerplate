@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -22,11 +23,12 @@ import ReviewerList from "../ReviewerList/ReviewerList";
 // } from "@dnd-kit/sortable";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
-import {
-  createGrantSection,
-  updateGrantSection,
-  // reorderGrantSection,
-} from "../../Services/Organizations/Grants/GrantSectionsService";
+import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
+// import {
+//   createGrantSection,
+//   updateGrantSection,
+//   // reorderGrantSection,
+// } from "../../Services/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";
@@ -45,15 +47,20 @@ function countTotalSectionsWords(sections = []) {
 }
 
 export default function GrantsShow() {
-  const [grant, setGrant] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const { grant_id: grantId } = useParams();
+  const {
+    data: grant,
+    isError,
+    isLoading,
+    error,
+  } = useQuery("getGrant", () =>
+    GrantsService.getGrant(organizationClient, grantId)
+  );
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
-  const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
-  const { grant_id: grantId } = useParams();
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
   //   // This breaks forms nested under drag and drop! The space key triggers
@@ -67,56 +74,53 @@ export default function GrantsShow() {
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
     useState(null);
 
-  const getGrant = useCallback(() => {
-    if (!organizationClient) {
-      return;
+  const { mutate: createSection } = useMutation(
+    (newSectionFields) =>
+      SectionsService.createSection(
+        organizationClient,
+        grantId,
+        newSectionFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Section created!");
+        setNewSectionId(null);
+      },
     }
-    GrantsService.getGrant(organizationClient, grantId)
-      .then((grant) => setGrant(grant))
-      .catch((error) => setErrors([error]))
-      .finally(() => setLoading(false));
-  }, [organizationClient, grantId]);
+  );
 
-  // const updateSections = (updatedSection) => {
-  //   if (updatedSection.message) {
-  //     const sections = sections.filter(
-  //       (section) => section.id !== updatedSection.id
-  //     );
-  //     setSections(sections);
-  //   } else {
-  //     const sections = sections.map((section) => {
-  //       if (section.id === updatedSection.id) {
-  //         section = updatedSection;
-  //       }
-  //       return section;
-  //     });
-  //     setSections(sections);
-  //   }
-  // };
+  const { mutate: updateSection } = useMutation(
+    (newSectionFields) =>
+      SectionsService.updateSection(
+        organizationClient,
+        grantId,
+        newSectionFields.id,
+        newSectionFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Section edited!");
+        setEditingSectionId(null);
+      },
+    }
+  );
 
-  const handleCreateSection = ({ newSectionFields, precedingSection }) => {
-    createGrantSection(organizationClient, grantId, {
+  function handleCreateSection({ newSectionFields, precedingSection }) {
+    createSection({
       title: newSectionFields.title,
       text: newSectionFields.html,
       grant_id: grantId,
       sort_order: precedingSection ? precedingSection.sortOrder + 1 : 0,
       wordcount: countWords(newSectionFields.text),
-    }).then(() => {
-      alert("Section created!");
-      setNewSectionId(null);
-      return getGrant();
     });
-  };
+  }
 
   const handleEditSection = (newSectionFields) => {
-    updateGrantSection(organizationClient, grantId, newSectionFields.id, {
+    updateSection({
+      ...newSectionFields,
       title: newSectionFields.title,
       text: newSectionFields.html,
       wordcount: countWords(newSectionFields.text),
-    }).then(() => {
-      alert("Section edited!");
-      setEditingSectionId(null);
-      return getGrant();
     });
   };
 
@@ -169,15 +173,12 @@ export default function GrantsShow() {
   //   }
   // };
 
-  useEffect(() => {
-    getGrant();
-  }, [getGrant]);
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   const noSectionsContent = newSectionId ? (

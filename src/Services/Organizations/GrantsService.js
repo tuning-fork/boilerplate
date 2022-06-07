@@ -1,4 +1,4 @@
-import { mapSection } from "./Grants/GrantSectionsService";
+import { mapSection } from "./Grants/SectionsService";
 
 const mapGrant = (apiGrant) => ({
   archived: apiGrant.archived,

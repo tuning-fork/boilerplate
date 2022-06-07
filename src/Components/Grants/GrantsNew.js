@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useQuery, useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createGrant } from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
+import * as GrantsService from "../../Services/Organizations/GrantsService";
+import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
@@ -10,52 +11,45 @@ import GrantForm from "./GrantForm";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function GrantsNew() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [fundingOrgs, setFundingOrgs] = useState([]);
   const history = useHistory();
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const [showingFundingOrgNew, setShowingFundingOrgNew] = useState(false);
-
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    getAllFundingOrgs(organizationClient)
-      .then(setFundingOrgs)
-      .catch((error) => console.error(error))
-      .finally(() => setIsLoading(false));
-  }, [organizationClient]);
+  const { data: fundingOrgs, isLoading } = useQuery("getFundingOrgs", () =>
+    FundingOrgsService.getAllFundingOrgs(organizationClient)
+  );
 
   const handleCancel = () => {
     history.push(`/organizations/${currentOrganization.id}/grants`);
   };
 
-  const handleSubmit = (grantFields) => {
-    createGrant(organizationClient, {
-      ...grantFields,
-      organizationId: currentOrganization.id,
-    })
-      .then((grant) => {
+  const { mutate: createGrant } = useMutation(
+    (grantFields) => GrantsService.createGrant(organizationClient, grantFields),
+    {
+      onSuccess: (newGrant) => {
+        alert("Grant created!");
         history.push(
-          `/organizations/${currentOrganization.id}/grants/${grant.id}`
+          `/organizations/${currentOrganization.id}/grants/${newGrant.id}`
         );
-      })
-      .catch((error) => {
-        console.error("grant creation error", error);
-      });
-  };
+      },
+    }
+  );
+
+  function handleCreateGrant(newGrantFields) {
+    createGrant({
+      title: newGrantFields.title,
+      fundingOrgId: newGrantFields.fundingOrgId,
+      rfpUrl: newGrantFields.rfpUrl,
+      purpose: newGrantFields.purpose,
+      deadline: newGrantFields.deadline,
+      totalWordCount: newGrantFields.totalWordCount,
+    });
+  }
 
   if (isLoading) {
     return "Loading...";
   }
 
-  const handleFundingOrg = (fundingOrgId) => {
-    if (fundingOrgId) {
-      getAllFundingOrgs(organizationClient)
-        .then(setFundingOrgs)
-        .catch((error) => console.error(error));
-    }
+  const handleFundingOrg = () => {
     setShowingFundingOrgNew(false);
   };
 
@@ -72,7 +66,7 @@ export default function GrantsNew() {
         <h1 className="grants-new__header">Add New Grant</h1>
         <GrantForm
           fundingOrgs={fundingOrgs}
-          onSubmit={handleSubmit}
+          onSubmit={handleCreateGrant}
           onCancel={handleCancel}
           handleFundingOrg={handleFundingOrg}
           showingFundingOrgNew={showingFundingOrgNew}
