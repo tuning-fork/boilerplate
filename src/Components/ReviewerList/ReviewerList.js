@@ -5,22 +5,66 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
 import "./ReviewerList.css";
 import ReviewerListItem from "./ReviewerListItem";
 import { getAllOrganizationUsers } from "../../Services/OrganizationService";
+import {
+  getAllGrantReviewers,
+  createGrantReviewer,
+} from "../../Services/Organizations/Grants/GrantReviewersService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { MdAddComment } from "react-icons/md";
 import { check } from "prettier";
 
-export default function ReviewerList() {
-  const { organizationClient } = useCurrentOrganization();
-  const { data: reviewers } = useQuery("getAllOrganizationUsers", () =>
+export default function ReviewerList({ grantId }) {
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const { data: potentialReviewers } = useQuery("getAllOrganizationUsers", () =>
     getAllOrganizationUsers(organizationClient)
   );
+  const { data: currentReviewers } = useQuery("getAllReviewers", () => {
+    getAllGrantReviewers(organizationClient);
+  });
   const [requestedReviewers, setRequestedReviewers] = useState([]);
+
+  const { mutate: createReviewer } = useMutation(
+    (newReviewerFields) =>
+      createGrantReviewer(organizationClient, grantId, newReviewerFields),
+    {
+      onSuccess: () => {
+        alert("Reviewer created!");
+      },
+    }
+  );
+
+  const handleCreateReviewer = (newReviewer) => {
+    createReviewer({
+      grantId: grantId,
+      reviewerId: newReviewer.id,
+    });
+  };
+
+  // const { mutate: deleteReviewer } = useMutation(
+  //   (reviewerFields) =>
+  //     GrantReviewerService.deleteReviewer(
+  //       organizationClient,
+  //       reviewerFields.id,
+  //       reviewerFields
+  //     ),
+  //   {
+  //     onSuccess: () => {
+  //       alert("Reviewer deleted!");
+  //     },
+  //   }
+  // );
+
+  // const handleDeleteReviewer = (reviewerFields) => {
+  //   deleteReviewer({
+  //     reviewerFields,
+  //   });
+  // };
 
   const reviewerCheck = useCallback(
     (reviewer) => {
@@ -66,40 +110,46 @@ export default function ReviewerList() {
     [setRequestedReviewers, requestedReviewers]
   );
 
-  // const saveRequestedReviewers = useCallback(
-  //   (boilerplate) => {
-  //     requestedReviewers.forEach((requestedReviewer) =>
-  //       requestedReviewer(boilerplate)
-  //     );
-  //   },
-  //   [requestedReviewers]
-  // );
-
-  // const clearRequestedReviewers = useCallback(() => {
-  //   setRequestedReviewers([]);
-  // }, [setRequestedReviewers]);
+  const saveRequestedReviewers = () => {
+    requestedReviewers.filter((requestedReviewer) => {
+      if (currentReviewers && currentReviewers.length > 0) {
+        const currentReviewersIds = currentReviewers.filter(
+          (currentReviewer) => {
+            return currentReviewer.id;
+          }
+        );
+        if (currentReviewersIds.includes(requestedReviewer.id)) {
+          return;
+        } else {
+          handleCreateReviewer(requestedReviewer);
+        }
+      } else {
+        handleCreateReviewer(requestedReviewer);
+      }
+    });
+  };
 
   const [searchFilters, setSearchFilters] = useState({
     name: "",
   });
   const [openEditReviewers, setOpenEditReviewers] = useState(false);
   const filteredReviewers = useMemo(() => {
-    return reviewers.filter((reviewer) => {
-      const matchesName = reviewer.firstName
-        .concat(reviewer.lastName || "")
+    return potentialReviewers.filter((potentialReviewer) => {
+      const matchesName = potentialReviewer.firstName
+        .concat(potentialReviewer.lastName || "")
         .toLowerCase()
         .includes(searchFilters.name.toLowerCase());
       return matchesName;
     });
-  }, [reviewers, searchFilters]);
+  }, [potentialReviewers, searchFilters]);
 
-  const handleCancel = (event) => {
-    setOpenEditReviewers(false);
+  const handleCancel = () => {
+    setOpenEditReviewers(!openEditReviewers);
   };
 
   // const handleSaveRequestedReviewers = (event) => {
   //   //send update request to the backend
-  //   setOpenEditReviewers(!false);
+  //   setOpenEditReviewers(!openEditReviewers);
   // };
 
   return (
@@ -150,7 +200,7 @@ export default function ReviewerList() {
             <Button variant="text" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button onClick={"handleSave"}>Save</Button>
+            <Button onClick={saveRequestedReviewers}>Save</Button>
           </div>
         </div>
       ) : null}
