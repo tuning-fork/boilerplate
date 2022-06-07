@@ -1,11 +1,18 @@
-import { React, useState } from "react";
+import { React } from "react";
 import ReviewerIcon from "../Helpers/ReviewerIcon";
-import "./ReviewerListItem.css";
 import Checkbox from "../design/Checkbox/Checkbox";
+import "./ReviewerListItem.css";
 
 export default function ReviewerListItem(props) {
-  const { reviewer } = props;
-  const [checked, setChecked] = useState(false);
+  const { reviewer, onChecked, onUnchecked } = props;
+
+  const handleChecked = (checked) => {
+    if (checked) {
+      onChecked(reviewer);
+    } else {
+      onUnchecked(reviewer);
+    }
+  };
 
   return (
     <li className="reviewer-list-item">
@@ -15,10 +22,7 @@ export default function ReviewerListItem(props) {
       />
       {reviewer.firstName} {reviewer.lastName}
       <div className="reviewer-list-checkbox">
-        <Checkbox
-          checked={checked}
-          onChange={(event) => setChecked(event.target.checked)}
-        />
+        <Checkbox onChange={(event) => handleChecked(event.target.checked)} />
       </div>
     </li>
   );

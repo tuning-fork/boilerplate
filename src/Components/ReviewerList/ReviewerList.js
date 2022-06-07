@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { useQuery } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
@@ -7,6 +13,7 @@ import ReviewerListItem from "./ReviewerListItem";
 import { getAllOrganizationUsers } from "../../Services/OrganizationService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { MdAddComment } from "react-icons/md";
+import { check } from "prettier";
 
 export default function ReviewerList() {
   const { organizationClient } = useCurrentOrganization();
@@ -14,6 +21,64 @@ export default function ReviewerList() {
     getAllOrganizationUsers(organizationClient)
   );
   const [requestedReviewers, setRequestedReviewers] = useState([]);
+
+  const reviewerCheck = useCallback(
+    (reviewer) => {
+      check = requestedReviewers.reduce((requestedReviewer) => {
+        return requestedReviewer.id === reviewer.id;
+      });
+      if (check.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [requestedReviewers]
+  );
+
+  const addRequestedReviewer = useCallback(
+    (newRequestedReviewer) => {
+      if (reviewerCheck === false) {
+        return;
+      } else {
+        setRequestedReviewers((requestedReviewers) => [
+          ...requestedReviewers,
+          newRequestedReviewer,
+        ]);
+      }
+    },
+    [setRequestedReviewers, reviewerCheck]
+  );
+
+  const removeRequestedReviewer = useCallback(
+    (removedReviewer) => {
+      setRequestedReviewers(
+        requestedReviewers.filter((requestedReviewer) => {
+          if (requestedReviewer.id !== removedReviewer.id) {
+            return requestedReviewer;
+          }
+          // eslint-disable-next-line array-callback-return
+          return;
+        })
+      );
+      return requestedReviewers;
+    },
+    [setRequestedReviewers, requestedReviewers]
+  );
+
+  // const saveRequestedReviewers = useCallback(
+  //   (boilerplate) => {
+  //     requestedReviewers.forEach((requestedReviewer) =>
+  //       requestedReviewer(boilerplate)
+  //     );
+  //   },
+  //   [requestedReviewers]
+  // );
+
+  // const clearRequestedReviewers = useCallback(() => {
+  //   setRequestedReviewers([]);
+  // }, [setRequestedReviewers]);
+
   const [searchFilters, setSearchFilters] = useState({
     name: "",
   });
@@ -32,10 +97,10 @@ export default function ReviewerList() {
     setOpenEditReviewers(false);
   };
 
-  const handleSaveRequestedReviewers = (event) => {
-    //send update request to the backend
-    setOpenEditReviewers(!false);
-  };
+  // const handleSaveRequestedReviewers = (event) => {
+  //   //send update request to the backend
+  //   setOpenEditReviewers(!false);
+  // };
 
   return (
     <aside className="reviewer-list">
@@ -73,14 +138,19 @@ export default function ReviewerList() {
           <div className="reviewer-list__suggestions-text">Suggestions</div>
           <ul className="reviewer-list__reviewers-index">
             {filteredReviewers.map((reviewer) => (
-              <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+              <ReviewerListItem
+                key={reviewer.id}
+                reviewer={reviewer}
+                onChecked={addRequestedReviewer}
+                onUnchecked={removeRequestedReviewer}
+              />
             ))}
           </ul>
           <div className="reviewer-list__save-button">
             <Button variant="text" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button onClick={handleSaveRequestedReviewers}>Save</Button>
+            <Button onClick={"handleSave"}>Save</Button>
           </div>
         </div>
       ) : null}
