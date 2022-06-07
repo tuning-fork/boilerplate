@@ -283,7 +283,7 @@ export default function GrantsShow() {
           </DndContext> */}
           </Container>
           <div className="grant-show__reviewer-panel">
-            <ReviewerList />
+            <ReviewerList grantId={grant.id} />
           </div>
         </div>
       </div>
