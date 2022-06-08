@@ -39,12 +39,13 @@ export default function ReviewerList({ grantId }) {
     }
   );
 
-  const handleCreateReviewer = (newReviewer) => {
-    createReviewer({
-      grantId: grantId,
-      reviewerId: newReviewer.id,
-    });
-  };
+  // const handleCreateReviewer = (newReviewer) => {
+  //   const newReviewerFields = {
+  //     grantsId: grantId,
+  //     usersId: newReviewer.id,
+  //   };
+  //   createReviewer(newReviewerFields);
+  // };
 
   // const { mutate: deleteReviewer } = useMutation(
   //   (reviewerFields) =>
@@ -121,10 +122,18 @@ export default function ReviewerList({ grantId }) {
         if (currentReviewersIds.includes(requestedReviewer.id)) {
           return;
         } else {
-          handleCreateReviewer(requestedReviewer);
+          const newReviewerFields = {
+            grants_id: grantId,
+            users_id: requestedReviewer.id,
+          };
+          createReviewer(newReviewerFields);
         }
       } else {
-        handleCreateReviewer(requestedReviewer);
+        const newReviewerFields = {
+          grants_id: grantId,
+          users_id: requestedReviewer.id,
+        };
+        createReviewer(newReviewerFields);
       }
     });
   };
