@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
+import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -78,7 +79,15 @@ export default function SplashpageLayout() {
       setPanelContents(<div>Try It Out</div>);
       setPanelColors("pinkPanel");
     } else if (panelLabelInput === "Contact") {
-      setPanelContents(<div>Contact Us</div>);
+      setPanelContents(
+        <Card>
+          <Card.Body>
+            <SplashpageContactForm
+              setShowSplashPagePanel={setShowSplashPagePanel}
+            />
+          </Card.Body>
+        </Card>
+      );
       setPanelColors("tealPanel");
     }
     setShowSplashPagePanel(true);
