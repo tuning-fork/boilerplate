@@ -1,0 +1,32 @@
+.grant-form {
+    height: 100%;
+  }
+  
+  .grant-form__actions {
+    float: right;
+  }
+  .grant-form__actions > button {
+    margin-left: 20px;
+  }
+  
+  /* .BoilerplateForm__PasteBoilerplateContent {
+    position: absolute;
+    left: 12px;
+    bottom: 2rem;
+  }
+  
+  .BoilerplateForm__ContentEditor {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .BoilerplateForm__ContentEditorInput .ql-editor {
+    min-height: 180px;
+    padding-bottom: 4.5rem;
+  }
+  
+  .BoilerplateForm__ContentEditorHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-small);
+  } */
