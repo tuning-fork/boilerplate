@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import Container from "../design/Container/Container";
+import Container from "../../../components/design/Container/Container";
 import LoginForm from "./LoginForm";
 import NavbarLoginForm from "./NavbarLoginForm";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
 import "./Login.css";
 
 export default function Login(props) {
@@ -14,7 +14,7 @@ export default function Login(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     props.onCancel();
-    history.push(`/splashpage`);
+    history.push(`/SplashPage`);
   };
 
   const handleSubmit = useCallback(

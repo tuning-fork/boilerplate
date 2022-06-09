@@ -11,9 +11,9 @@ import apiClient from "../config/apiClient";
 import {
   getOrganization,
   getUserOrganizations,
-} from "../services/OrganizationService";
+} from "../services/p0/OrganizationService";
 
-export const CurrentOrganizationContext = createContext();
+export const CurrentOrganizationContext = createContext({});
 
 export const useCurrentOrganization = () =>
   useContext(CurrentOrganizationContext);

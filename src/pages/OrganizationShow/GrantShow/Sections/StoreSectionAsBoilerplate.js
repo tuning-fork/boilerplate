@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import Label from "../design/Label/Label";
-import TextBox from "../design/TextBox/TextBox";
-import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
-import Button from "../design/Button/Button";
-import Dropdown from "../design/Dropdown/Dropdown";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../../services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../services/Organizations/CategoriesService";
+import Label from "../../../components/design/Label/Label";
+import TextBox from "../../../components/design/TextBox/TextBox";
+import RichTextEditor from "../../../components/design/RichTextEditor/RichTextEditor";
+import Button from "../../../components/design/Button/Button";
+import Dropdown from "../../../components/design/Dropdown/Dropdown";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import { createBoilerplate } from "../../../services/p0/Organizations/BoilerplatesService";
+import { getAllCategories } from "../../../services/p0/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
-import countWords from "../../lib/countWords";
+import countWords from "../../../lib/countWords";
 
 export default function StoreSectionAsBoilerplate(props) {
   const [categories, setCategories] = useState([]);

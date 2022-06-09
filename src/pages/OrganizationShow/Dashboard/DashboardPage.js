@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
 import { useQuery } from "react-query";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
-import { useCurrentUser } from "../Contexts/currentUserContext";
-import isRecent from "../lib/date/isRecent";
-import isSoon from "../lib/date/isSoon";
-import Button from "./design/Button/Button";
-import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
-import GrantListItem from "./Dashboard/GrantListItem";
-import UserListItem from "./Dashboard/UserListItem";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import { getAllGrants } from "../services/Organizations/GrantsService";
-import { getAllOrganizationUsers } from "../services/OrganizationService";
+import isRecent from "../../../lib/date/isRecent";
+import isSoon from "../../../lib/date/isSoon";
+import { getAllGrants } from "../../../services/p0/Organizations/GrantsService";
+import { getAllOrganizationUsers } from "../../../services/p0/OrganizationService";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import Button from "../../../components/design/Button/Button";
+import CurrentOrganizationLink from "../../../components/CurrentOrganizationLink";
+import GrantListItem from "./GrantListItem";
+import UserListItem from "./UserListItem";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {

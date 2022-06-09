@@ -25,13 +25,13 @@ export default function Modal(props) {
 
         <div
           // className={clsx(
-          //   props.splashpageForm
-          //     ? "modal_header--splashpageForm"
+          //   props.SplashPageForm
+          //     ? "modal_header--SplashPageForm"
           //     : "modal-header"
           // )}
           className={
-            props.splashpageForm
-              ? "modal-header__splashpageForm"
+            props.SplashPageForm
+              ? "modal-header__SplashPageForm"
               : "modal-header"
           }
         >
@@ -55,7 +55,7 @@ Modal.propTypes = {
   heading: PropTypes.string.isRequired,
   headingClassName: PropTypes.string,
   className: PropTypes.string,
-  splashpageForm: PropTypes.bool,
+  SplashPageForm: PropTypes.bool,
 };
 
 Modal.defaultProps = {

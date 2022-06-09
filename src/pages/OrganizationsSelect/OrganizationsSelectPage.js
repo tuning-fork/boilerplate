@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentUser } from "../../contexts/currentUserContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import Container from "../../components/design/Container/Container";
 import Dropdown from "../../components/design/Dropdown/Dropdown";
 import Button from "../../components/design/Button/Button";

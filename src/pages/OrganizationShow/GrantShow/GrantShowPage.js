@@ -2,10 +2,10 @@ import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Button from "../design/Button/Button";
-import Modal from "../design/Modal/Modal";
-import Container from "../design/Container/Container";
-import Hero from "../design/Hero/Hero";
+import Button from "../../../components/design/Button/Button";
+import Modal from "../../../components/design/Modal/Modal";
+import Container from "../../../components/design/Container/Container";
+import Hero from "../../../components/design/Hero/Hero";
 // import {
 // DndContext,
 // closestCenter,
@@ -20,16 +20,16 @@ import Hero from "../design/Hero/Hero";
 // sortableKeyboardCoordinates,
 // verticalListSortingStrategy,
 // } from "@dnd-kit/sortable";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantsService from "../../services/Organizations/GrantsService";
-import * as SectionsService from "../../services/Organizations/Grants/SectionsService";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import * as GrantsService from "../../../services/p0/Organizations/GrantsService";
+import * as SectionsService from "../../../services/p0/Organizations/Grants/SectionsService";
 // import {
 //   createGrantSection,
 //   updateGrantSection,
 //   // reorderGrantSection,
-// } from "../../Services/Organizations/Grants/GrantSectionsService";
-import countSectionWords from "../../lib/countSectionWords";
-import countWords from "../../lib/countWords";
+// } from "../../../services/p0/Organizations/Grants/GrantSectionsService";
+import countSectionWords from "../../../lib/countSectionWords";
+import countWords from "../../../lib/countWords";
 import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";

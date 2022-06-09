@@ -1,8 +1,8 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
-import TextBox from "../../design/TextBox/TextBox";
-import RichTextEditor from "../../design/RichTextEditor/RichTextEditor";
-import Button from "../../design/Button/Button";
-import Label from "../../design/Label/Label";
+import TextBox from "../../../components/design/TextBox/TextBox";
+import RichTextEditor from "../../../components/design/RichTextEditor/RichTextEditor";
+import Button from "../../../components/design/Button/Button";
+import Label from "../../../components/design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import countWords from "../../../lib/countWords";

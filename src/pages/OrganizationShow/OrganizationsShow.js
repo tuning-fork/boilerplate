@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 // import { useHistory } from "react-router-dom";
-import OrganizationEditForm from "../../components/Organizations/OrganizationEditForm";
-// import Modal from "../../components/Elements/Modal";
+import OrganizationEditForm from "../../../components/Organizations/OrganizationEditForm";
+// import Modal from "../../../components/Elements/Modal";
 
 export default function OrganizationsShow(props) {
   const [id, setId] = useState("");
@@ -113,15 +113,15 @@ export default function OrganizationsShow(props) {
     <div className="container">
       <Card>{Header}</Card>
       {/* <Modal show={show} onClose={handleClose}> */}
-        <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
-          <Card.Body>
-            <OrganizationEditForm
-              name={name}
-              onSubmit={handleSubmit}
-              onCancel={handleCancel}
-            />
-          </Card.Body>
-        </Card>
+      <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+        <Card.Body>
+          <OrganizationEditForm
+            name={name}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+          />
+        </Card.Body>
+      </Card>
       {/* </Modal> */}
     </div>
   );

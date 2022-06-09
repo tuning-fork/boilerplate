@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import Container from "../../../../components/design/Container/Container";
-import { createUser } from "../../../../services/Auth/SignupService";
+import { createUser } from "../../../../services/p0/Auth/SignupService";
 import SignUpForm from "./SignUpForm";
 import "./SignUp.css";
 
@@ -11,7 +11,7 @@ export default function SignUp(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     props.onCancel();
-    history.push(`/splashpage`);
+    history.push(`/SplashPage`);
   };
 
   const handleSubmit = (newUserFields) => {

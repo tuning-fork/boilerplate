@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery, useMutation } from "react-query";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
-import * as CategoriesService from "../../services/Organizations/CategoriesService";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import * as BoilerplatesService from "../../../services/p0/Organizations/BoilerplatesService";
+import * as CategoriesService from "../../../services/p0/Organizations/CategoriesService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
-import Container from "../design/Container/Container";
+import Container from "../../../components/design/Container/Container";
 import BoilerplateForm from "./BoilerplateForm";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import countWords from "../../lib/countWords";
+import CurrentOrganizationLink from "../components/CurrentOrganizationLink";
+import countWords from "../../../lib/countWords";
 import "./BoilerplatesNewPage.css";
 
 export default function BoilerplatesNewPage() {

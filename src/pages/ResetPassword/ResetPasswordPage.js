@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import axios from "axios";
-import Container from "../../design/Container/Container";
+import Container from "../../components/design/Container/Container";
 import ResetPasswordForm from "./ResetPasswordForm";
 import "./ResetPasswordPage.css";
 
@@ -11,7 +11,7 @@ export default function ResetPasswordPage() {
   const history = useHistory();
   const handleSubmit = (resetPasswordFields) => {
     resetPassword(resetPasswordFields);
-    history.push("/splashpage");
+    history.push("/SplashPage");
   };
 
   const resetPassword = (credentials) => {
@@ -29,9 +29,9 @@ export default function ResetPasswordPage() {
     <>
       <div className="reset-password">
         <Container as="section" centered>
-          <Link className="reset-password__back-button" to="/splashpage">
+          <Link className="reset-password__back-button" to="/SplashPage">
             <MdChevronLeft />
-            Back to Splashpage
+            Back to SplashPage
           </Link>
           <h1 className="reset-password__header">Reset Password</h1>
           <ResetPasswordForm onSubmit={handleSubmit} />

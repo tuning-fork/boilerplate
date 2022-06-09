@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../../../Contexts/currentOrganizationContext";
-import { createReportSection } from "../../../../Services/Organizations/Grants/Reports/ReportSectionsService";
-import { getAllBoilerplates } from "../../../../Services/Organizations/BoilerplatesService";
+import { createReportSection } from "../../../../services/p0/Organizations/Grants/Reports/ReportSectionsService";
+import { getAllBoilerplates } from "../../../../services/p0/Organizations/BoilerplatesService";
 
 export default function ReportSectionsNew(props) {
   const [quillText, setQuillText] = useState("");

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import NavbarSplashpage from "../../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
-import "./SplashPageLayout.css";
-import splashpageBackgroundImage from "./Splashpage_Background_Image.png";
-import Button from "../../../Components/design/Button/Button";
-import Modal from "../../../Components/design/Modal/Modal";
 import Card from "react-bootstrap/Card";
+import NavbarSplashPage from "../../../components/design/Navbar/NavbarSplashPage/NavbarSplashPage";
+import SplashPageBackgroundImage from "./SplashPage_Background_Image.png";
+import Button from "../../../components/design/Button/Button";
+import Modal from "../../../components/design/Modal/Modal";
 import SignUp from "./SignUp/SignUp";
-import Login from "../../../Components/Login/Login";
+import Login from "../../../components/Login/Login";
 import ForgotPassword from "../../../components/ForgotPassword/ForgotPassword";
+import "./SplashPageLayout.css";
 
 export default function SplashPageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -62,23 +62,23 @@ export default function SplashPageLayout() {
   };
 
   return (
-    <main className="splashpage-layout">
-      <div className="splashpage-layout__navbar-container">
-        <NavbarSplashpage toggleModalContents={handleSwitchSplashPageModal} />
+    <main className="SplashPage-layout">
+      <div className="SplashPage-layout__navbar-container">
+        <NavbarSplashPage toggleModalContents={handleSwitchSplashPageModal} />
       </div>
-      <div className="splashpage-layout__content">
+      <div className="SplashPage-layout__content">
         <img
-          src={splashpageBackgroundImage}
-          alt="Splashpage graphics"
-          className="splashpage-layout__background-image"
+          src={SplashPageBackgroundImage}
+          alt="SplashPage graphics"
+          className="SplashPage-layout__background-image"
         />
         <Button
-          className="splashpage-layout__sign-up-button"
+          className="SplashPage-layout__sign-up-button"
           variant="none"
           onClick={() => handleSwitchSplashPageModal("Sign Up")}
         ></Button>
         <Button
-          className="splashpage-layout__login-button"
+          className="SplashPage-layout__login-button"
           variant="none"
           onClick={() => handleSwitchSplashPageModal("Log In")}
         ></Button>
@@ -86,7 +86,7 @@ export default function SplashPageLayout() {
           hide={handleCloseSplashPageModal}
           show={showSplashPageModal}
           heading={modalLabel}
-          splashpageForm={true}
+          SplashPageForm={true}
         >
           {modalContents}
         </Modal>

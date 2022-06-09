@@ -8,8 +8,8 @@ import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 
 import { MdClose } from "react-icons/md";
 import { useCurrentOrganization } from "../../../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../../../services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../../../services/Organizations/CategoriesService";
+import { getAllBoilerplates } from "../../../../services/p0/Organizations/BoilerplatesService";
+import { getAllCategories } from "../../../../services/p0/Organizations/CategoriesService";
 
 export default function PasteBoilerplateContentPopout() {
   const columns = [

@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
+import { useCurrentUser } from "../contexts/currentUserContext";
 
 export const PrivateRoute = ({ component: Component, children, ...rest }) => {
   const { user } = useCurrentUser();
@@ -18,7 +18,7 @@ export const PrivateRoute = ({ component: Component, children, ...rest }) => {
         return (
           <Redirect
             to={{
-              pathname: "/splashpage",
+              pathname: "/SplashPage",
               state: { from: props.location },
             }}
           />

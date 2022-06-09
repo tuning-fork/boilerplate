@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import clsx from "clsx";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
-import Table from "../design/Table/Table";
+import Button from "../../../components/design/Button/Button";
+import TextBox from "../../../components/design/TextBox/TextBox";
+import Table from "../../../components/design/Table/Table";
 import CategoryNew from "./CategoryNew";
 import CategoryEdit from "./CategoryEdit";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
 import {
   getAllCategories,
   updateCategory,
-} from "../../services/Organizations/CategoriesService";
-import formatDate from "../../lib/formatDate";
-import DropdownMini from "../design/DropdownMini/DropdownMini";
+} from "../../../services/p0/Organizations/CategoriesService";
+import formatDate from "../../../lib/formatDate";
+import DropdownMini from "../../../components/design/DropdownMini/DropdownMini";
 import "./CategoriesIndexPage.css";
 
 export default function CategoriesIndexPage() {

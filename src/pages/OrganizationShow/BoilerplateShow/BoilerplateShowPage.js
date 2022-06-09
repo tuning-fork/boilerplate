@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
-import Container from "../design/Container/Container";
-import BoilerplateHero from "../design/Hero/BoilerplateHero";
-import BoilerplateForm from "./BoilerplateForm";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
-import countWords from "../../lib/countWords";
+import Container from "components/design/Container/Container";
+import BoilerplateHero from "components/design/Hero/BoilerplateHero";
+import BoilerplateForm from "components/forms/BoilerplateForm/BoilerplateForm";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import * as BoilerplatesService from "services/p0/Organizations/BoilerplatesService";
+import countWords from "lib/countWords";
 import "./BoilerplateShowPage.css";
 
 export default function BoilerplateShowPage() {

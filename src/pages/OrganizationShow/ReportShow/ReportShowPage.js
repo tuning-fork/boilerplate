@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Button from "../design/Button/Button";
-import Modal from "../design/Modal/Modal";
-import Container from "../design/Container/Container";
-import Hero from "../design/Hero/Hero";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantReportsService from "../../services/Organizations/Grants/GrantReportsService";
+import Button from "../../../components/design/Button/Button";
+import Modal from "../../../components/design/Modal/Modal";
+import Container from "../../../components/design/Container/Container";
+import Hero from "../../../components/design/Hero/Hero";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import * as GrantReportsService from "../../../services/p0/Organizations/Grants/GrantReportsService";
 import {
   createReportSection,
   updateReportSection,
-} from "../../services/Organizations/Grants/Reports/ReportSectionsService";
-import countSectionWords from "../../lib/countSectionWords";
-import countWords from "../../lib/countWords";
+} from "../../../services/p0/Organizations/Grants/Reports/ReportSectionsService";
+import countSectionWords from "../../../lib/countSectionWords";
+import countWords from "../../../lib/countWords";
 import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";

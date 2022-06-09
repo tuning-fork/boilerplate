@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
-import Table from "../design/Table/Table";
-import FundingOrgNew from "./FundingOrgNew";
+import Button from "../../../components/design/Button/Button";
+import TextBox from "../../../components/design/TextBox/TextBox";
+import Table from "../../../components/design/Table/Table";
+import FundingOrgNew from "../FundingOrgsNew/FundingOrgNewPage";
 import FundingOrgEdit from "./FundingOrgEdit";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
-import formatDate from "../../lib/formatDate";
-import DropdownMini from "../design/DropdownMini/DropdownMini";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import * as FundingOrgsService from "../../../services/p0/Organizations/FundingOrgsService";
+import formatDate from "../../../lib/formatDate";
+import DropdownMini from "../../../components/design/DropdownMini/DropdownMini";
 import "./FundingOrgsIndex.css";
-Page
+
 export default function FundingOrgsIndexPage() {
   const [tabSelect, setTabSelect] = useState("All");
   const [selectedFundingOrg, setSelectedFundingOrg] = useState({});
@@ -256,15 +256,15 @@ export default function FundingOrgsIndexPage() {
 // import React, { useState, useMemo } from "react";
 // import { useQuery, useMutation } from "react-query";
 // import clsx from "clsx";
-// import Button from "../design/Button/Button";
-// import TextBox from "../design/TextBox/TextBox";
-// import Table from "../design/Table/Table";
+// import Button from "../../../components/design/Button/Button";
+// import TextBox from "../../../components/design/TextBox/TextBox";
+// import Table from "../../../components/design/Table/Table";
 // import FundingOrgNew from "./FundingOrgNew";
 // import FundingOrgEdit from "./FundingOrgEdit";
-// import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-// import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
-// import formatDate from "../../Helpers/formatDate";
-// import DropdownMini from "../design/DropdownMini/DropdownMini";
+// import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+// import * as FundingOrgsService from "../../../services/p0/Organizations/FundingOrgsService";
+// import formatDate from "../../components/formatDate";
+// import DropdownMini from "../../../components/design/DropdownMini/DropdownMini";
 // import "./FundingOrgsIndexPage.css";
 
 // export default function FundingOrgsIndexPage() {

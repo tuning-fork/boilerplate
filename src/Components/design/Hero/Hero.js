@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../Button/Button";
+import formatDate from "lib/formatDate";
+import CurrentOrganizationLink from "components/CurrentOrganizationLink";
 import "./Hero.css";
-import formatDate from "../../../lib/formatDate";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadline);

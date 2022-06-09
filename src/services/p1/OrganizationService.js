@@ -4,8 +4,8 @@ import Organization from "./dtos/Organization";
 
 export default class OrganizationService {
   constructor(client, organizationId) {
-    this.client = client
-    this.baseUrl = `/organizations/${organizationId}`
+    this.client = client;
+    this.baseUrl = `/organizations/${organizationId}`;
   }
 
   /**
@@ -13,10 +13,10 @@ export default class OrganizationService {
    * @returns {Promise<Organization>}
    */
   async get() {
-    const response = await this.client.get(this.baseUrl)
+    const response = await this.client.get(this.baseUrl);
     const organization = Organization.deserialize(response.data);
 
-    return organization
+    return organization;
   }
 
   /**
@@ -24,10 +24,10 @@ export default class OrganizationService {
    * @returns {Promise<User[]>}
    */
   async listUsers() {
-    const response = await this.client.get(`${this.baseUrl}/users`)
-    const users = response.data.map(User.deserialize)
+    const response = await this.client.get(`${this.baseUrl}/users`);
+    const users = response.data.map(User.deserialize);
 
-    return users
+    return users;
   }
 
   /**
@@ -35,22 +35,21 @@ export default class OrganizationService {
    * @returns {Promise<Grant[]>}
    */
   async listGrants() {
-    const response = await this.client.get(`${this.baseUrl}/grants`)
-    const grants = response.data.map(Grant.deserialize)
+    const response = await this.client.get(`${this.baseUrl}/grants`);
+    const grants = response.data.map(Grant.deserialize);
 
-    return grants
+    return grants;
   }
 
   /**
    * Fetches all the boilerplates in the organization
-   * @param {string} boilerplateId
    * @returns {Promise<Boilerplate[]>}
    */
   async listBoilerplates() {
-    const response = await this.client.get(`${this.baseUrl}/boilerplates`)
+    const response = await this.client.get(`${this.baseUrl}/boilerplates`);
     const boilerplates = response.data.map(Boilerplate.deserialize);
 
-    return boilerplates
+    return boilerplates;
   }
 
   /**
@@ -59,11 +58,14 @@ export default class OrganizationService {
    * @returns {Promise<Boilerplate>}
    */
   async createBoilerplate(fields) {
-    const params = new Boilerplate(fields)
-    const response = await this.client.post(`${this.baseUrl}/boilerplates`, params.serialize())
+    const params = new Boilerplate(fields);
+    const response = await this.client.post(
+      `${this.baseUrl}/boilerplates`,
+      params.serialize()
+    );
     const boilerplate = Boilerplate.deserialize(response.data);
 
-    return boilerplate
+    return boilerplate;
   }
 
   /**
@@ -72,10 +74,12 @@ export default class OrganizationService {
    * @returns {Promise<Boilerplate>}
    */
   async getBoilerplate(boilerplateId) {
-    const response = await this.client.get(`${this.baseUrl}/boilerplates/${boilerplateId}`)
+    const response = await this.client.get(
+      `${this.baseUrl}/boilerplates/${boilerplateId}`
+    );
     const boilerplate = Boilerplate.deserialize(mapBoilerplate(response.data));
 
-    return boilerplate
+    return boilerplate;
   }
 
   /**
@@ -84,10 +88,12 @@ export default class OrganizationService {
    * @returns {Promise<Boilerplate>}
    */
   async deleteBoilerplate(boilerplateId) {
-    const response = await this.client.delete(`${this.baseUrl}/boilerplates/${boilerplateId}`)
+    const response = await this.client.delete(
+      `${this.baseUrl}/boilerplates/${boilerplateId}`
+    );
     const boilerplate = Boilerplate.deserialize(response.data);
 
-    return boilerplate
+    return boilerplate;
   }
 
   /**
@@ -97,11 +103,14 @@ export default class OrganizationService {
    * @returns {Promise<Boilerplate>}
    */
   async updateBoilerplate(boilerplateId, fields) {
-    const params = new Boilerplate(fields)
-    const response = await this.client.patch(`${this.baseUrl}/boilerplates/${boilerplateId}`, params.serialize())
+    const params = new Boilerplate(fields);
+    const response = await this.client.patch(
+      `${this.baseUrl}/boilerplates/${boilerplateId}`,
+      params.serialize()
+    );
     const boilerplate = Boilerplate.deserialize(response.data);
 
-    return boilerplate
+    return boilerplate;
   }
 
   /**
@@ -110,10 +119,10 @@ export default class OrganizationService {
    * @returns {Promise<FundingOrg[]>}
    */
   async listFundingOrgs() {
-    const response = await this.client.get(`${this.baseUrl}/funding_orgs`)
+    const response = await this.client.get(`${this.baseUrl}/funding_orgs`);
     const fundingOrgs = response.data.map(FundingOrg.deserialize);
 
-    return fundingOrgs
+    return fundingOrgs;
   }
 
   /**
@@ -122,11 +131,14 @@ export default class OrganizationService {
    * @returns {Promise<FundingOrg>}
    */
   async createFundingOrg(fields) {
-    const params = new FundingOrg(fields)
-    const response = await this.client.post(`${this.baseUrl}/funding_orgs`, params.serialize())
+    const params = new FundingOrg(fields);
+    const response = await this.client.post(
+      `${this.baseUrl}/funding_orgs`,
+      params.serialize()
+    );
     const fundingOrg = FundingOrg.deserialize(response.data);
 
-    return fundingOrg
+    return fundingOrg;
   }
 
   /**
@@ -135,10 +147,12 @@ export default class OrganizationService {
    * @returns {Promise<FundingOrg>}
    */
   async getFundingOrg(fundingOrgId) {
-    const response = await this.client.get(`${this.baseUrl}/funding_orgs/${fundingOrgId}`)
+    const response = await this.client.get(
+      `${this.baseUrl}/funding_orgs/${fundingOrgId}`
+    );
     const fundingOrg = FundingOrg.deserialize(mapFundingOrg(response.data));
 
-    return fundingOrg
+    return fundingOrg;
   }
 
   /**
@@ -147,10 +161,12 @@ export default class OrganizationService {
    * @returns {Promise<FundingOrg>}
    */
   async deleteFundingOrg(fundingOrgId) {
-    const response = await this.client.delete(`${this.baseUrl}/funding_orgs/${fundingOrgId}`)
+    const response = await this.client.delete(
+      `${this.baseUrl}/funding_orgs/${fundingOrgId}`
+    );
     const fundingOrg = FundingOrg.deserialize(response.data);
 
-    return fundingOrg
+    return fundingOrg;
   }
 
   /**
@@ -160,11 +176,14 @@ export default class OrganizationService {
    * @returns {Promise<FundingOrg>}
    */
   async updateFundingOrg(fundingOrgId, fields) {
-    const params = new FundingOrg(fields)
-    const response = await this.client.patch(`${this.baseUrl}/funding_orgs/${fundingOrgId}`, params.serialize())
+    const params = new FundingOrg(fields);
+    const response = await this.client.patch(
+      `${this.baseUrl}/funding_orgs/${fundingOrgId}`,
+      params.serialize()
+    );
     const fundingOrg = FundingOrg.deserialize(response.data);
 
-    return fundingOrg
+    return fundingOrg;
   }
 
   /**
@@ -173,10 +192,10 @@ export default class OrganizationService {
    * @returns {Promise<Category[]>}
    */
   async listCategories() {
-    const response = await this.client.get(`${this.baseUrl}/categories`)
+    const response = await this.client.get(`${this.baseUrl}/categories`);
     const categories = response.data.map(Category.deserialize);
 
-    return categories
+    return categories;
   }
 
   /**
@@ -185,11 +204,14 @@ export default class OrganizationService {
    * @returns {Promise<Category>}
    */
   async createCategory(fields) {
-    const params = new Category(fields)
-    const response = await this.client.post(`${this.baseUrl}/categories`, params.serialize())
+    const params = new Category(fields);
+    const response = await this.client.post(
+      `${this.baseUrl}/categories`,
+      params.serialize()
+    );
     const category = Category.deserialize(response.data);
 
-    return category
+    return category;
   }
 
   /**
@@ -198,10 +220,12 @@ export default class OrganizationService {
    * @returns {Promise<Category>}
    */
   async getCategory(categoryId) {
-    const response = await this.client.get(`${this.baseUrl}/categories/${categoryId}`)
+    const response = await this.client.get(
+      `${this.baseUrl}/categories/${categoryId}`
+    );
     const category = Category.deserialize(mapCategory(response.data));
 
-    return category
+    return category;
   }
 
   /**
@@ -210,10 +234,12 @@ export default class OrganizationService {
    * @returns {Promise<Category>}
    */
   async deleteCategory(categoryId) {
-    const response = await this.client.delete(`${this.baseUrl}/categories/${categoryId}`)
+    const response = await this.client.delete(
+      `${this.baseUrl}/categories/${categoryId}`
+    );
     const category = Category.deserialize(response.data);
 
-    return category
+    return category;
   }
 
   /**
@@ -223,10 +249,13 @@ export default class OrganizationService {
    * @returns {Promise<Category>}
    */
   async updateCategory(categoryId, fields) {
-    const params = new Category(fields)
-    const response = await this.client.patch(`${this.baseUrl}/categories/${categoryId}`, params.serialize())
+    const params = new Category(fields);
+    const response = await this.client.patch(
+      `${this.baseUrl}/categories/${categoryId}`,
+      params.serialize()
+    );
     const category = Category.deserialize(response.data);
 
-    return category
+    return category;
   }
 }

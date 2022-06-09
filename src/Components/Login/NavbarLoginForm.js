@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
+import { useCurrentUser } from "contexts/currentUserContext";
 import customLogInButton from "./Log_In_Button_Image.png";
 import "./NavbarLoginForm.css";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
 
 export default function NavbarLoginForm(props) {
   const [loginFields, setLoginFields] = useState({

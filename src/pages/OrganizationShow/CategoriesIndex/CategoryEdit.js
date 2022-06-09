@@ -1,9 +1,9 @@
 import React from "react";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
 import "./CategoryEdit.css";
-import * as CategoriesService from "../../services/Organizations/CategoriesService";
+import * as CategoriesService from "../../../services/p0/Organizations/CategoriesService";
 import CategoryForm from "./CategoryForm";
-import Modal from "../design/Modal/Modal";
+import Modal from "../../../components/design/Modal/Modal";
 
 export default function CategoryEdit(props) {
   const { organizationClient } = useCurrentOrganization();

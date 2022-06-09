@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
-import { createGrantReport } from "../../../services/Organizations/Grants/GrantReportsService";
+import { createGrantReport } from "../../../services/p0/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNewPage(props) {
   const [deadline, setDeadline] = useState("");

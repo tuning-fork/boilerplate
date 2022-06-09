@@ -1,17 +1,17 @@
-.navbar-splashpage {
+.navbar-SplashPage {
   width: 100%;
   display: flex;
   justify-content: space-between;
   border-right: 1px solid var(--contrast-10);
 }
 
-.navbar-splashpage__logo {
+.navbar-SplashPage__logo {
   margin: auto 0;
   padding: 13px;
   max-width: 30%;
 }
 
-.navbar-splashpage__login {
+.navbar-SplashPage__login {
   align-items: right;
   justify-content: space-around;
 }

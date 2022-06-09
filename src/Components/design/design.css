@@ -1,5 +1,5 @@
-@import "./design/theme.css";
-@import "./design/typography.css";
+@import "./theme.css";
+@import "./typography.css";
 
 body,
 #root {

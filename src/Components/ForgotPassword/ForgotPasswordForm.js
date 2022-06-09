@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
 import "./ForgotPasswordForm.css";
 
 export default function ForgotPasswordForm(props) {

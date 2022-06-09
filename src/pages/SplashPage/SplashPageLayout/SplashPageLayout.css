@@ -1,19 +1,19 @@
-.splashpage-layout {
+.SplashPage-layout {
   height: 100%;
   background-size: cover;
 }
 
-.splashpage-layout__navbar-container {
+.SplashPage-layout__navbar-container {
   position: absolute;
   width: 100%;
   z-index: 1;
 }
-.splashpage-layout__content {
+.SplashPage-layout__content {
   display: flex;
   position: relative;
 }
 
-.splashpage-layout__sign-up-button {
+.SplashPage-layout__sign-up-button {
   z-index: 1;
   position: absolute;
   top: 79.5%;
@@ -23,11 +23,11 @@
   --focused: none;
 }
 
-.splashpage-layout__sign-up-button:focus {
+.SplashPage-layout__sign-up-button:focus {
   border: 0.5rem solid rgba(88, 191, 205, 0.9);
 }
 
-.splashpage-layout__login-button {
+.SplashPage-layout__login-button {
   z-index: 1;
   position: absolute;
   top: 86%;
@@ -37,17 +37,17 @@
   --focused: none;
 }
 
-.splashpage-layout__login-button:focus {
+.SplashPage-layout__login-button:focus {
   border: 0.5rem solid rgba(88, 191, 205, 0.9);
   border-radius: 0px;
 }
 
-.splashpage-layout__background-image {
+.SplashPage-layout__background-image {
   width: 100%;
   height: auto;
 }
 
-.splashpage-layout__bottom-buttons {
+.SplashPage-layout__bottom-buttons {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -56,14 +56,14 @@
   text-align: center;
 }
 
-.splashpage-layout__bottom-buttons:before {
+.SplashPage-layout__bottom-buttons:before {
   content: " ";
   display: block;
   /* adjust 'height' to position overlay content vertically */
   height: 50%;
 }
 
-.splashpage-layout__fancy-button {
+.SplashPage-layout__fancy-button {
   display: flex;
   height: auto;
 }

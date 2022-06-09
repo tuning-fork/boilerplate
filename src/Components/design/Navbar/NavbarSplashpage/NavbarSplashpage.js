@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { ReactComponent as Logo } from "../BOILERPLATE.svg";
-import "./NavbarSplashpage.css";
+import "./NavbarSplashPage.css";
 import Login from "../../../Login/Login";
 
-export default function NavbarSplashpage(props) {
+export default function NavbarSplashPage(props) {
   return (
-    <div className={clsx(props.className, "navbar-splashpage")}>
-      <Logo className="navbar-splashpage__logo" />
+    <div className={clsx(props.className, "navbar-SplashPage")}>
+      <Logo className="navbar-SplashPage__logo" />
       <Login
         formType="navbar"
         toggleModalContents={props.toggleModalContents}
@@ -17,10 +17,10 @@ export default function NavbarSplashpage(props) {
   );
 }
 
-NavbarSplashpage.propTypes = {
+NavbarSplashPage.propTypes = {
   className: PropTypes.string,
   // user: PropTypes.object.isRequired,
   // organizationName: PropTypes.string,
 };
 
-NavbarSplashpage.defaultProps = {};
+NavbarSplashPage.defaultProps = {};

@@ -9,9 +9,9 @@ import React, {
 import {
   login as createSession,
   authWithJwt,
-} from "../services/auth/loginService";
-import Spinner from "../Components/Helpers/Spinner";
-import apiClient from "../config/apiClient";
+} from "services/p0/Auth/loginService";
+import Spinner from "components/Spinner/Spinner";
+import apiClient from "config/apiClient";
 import axios from "axios";
 
 export const CurrentUserContext = createContext();

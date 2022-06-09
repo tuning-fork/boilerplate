@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
-import Table from "../design/Table/Table";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
-import formatDate from "../../lib/formatDate";
-import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import Button from "../../../components/design/Button/Button";
+import TextBox from "../../../components/design/TextBox/TextBox";
+import Table from "../../../components/design/Table/Table";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import { getAllBoilerplates } from "../../../services/p0/Organizations/BoilerplatesService";
+import formatDate from "../../../lib/formatDate";
+import useBuildOrganizationsLink from "../../../hooks/useBuildOrganizationsLink";
+import CurrentOrganizationLink from "../../../components/CurrentOrganizationLink";
 import "./BoilerplatesIndexPage.css";
 
 export default function BoilerplatesIndexPage() {

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
+import { useCurrentUser } from "contexts/currentUserContext";
 import "./LoginForm.css";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
 
 export default function LoginForm(props) {
   const [loginFields, setLoginFields] = useState({});
