@@ -1,141 +1,85 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
-import Splashpage from "./Components/Splashpage";
-import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
-// import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
-import OrgSelect from "./Components/Organizations/OrgSelect";
-import Dashboard from "./Components/Dashboard";
-import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
-import CategoriesIndex from "./Components/Categories/CategoriesIndex";
-import Organizations from "./Components/Organizations/Organizations";
-import GrantsIndex from "./Components/Grants/GrantsIndex";
-import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
-import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
-// import OrganizationsShow from "./Components/Organizations/OrganizationsShow";
-import ReportsShow from "./Components/Reports/ReportsShow";
-import GrantsShow from "./Components/Grants/GrantsShow";
-import FundingOrgNew from "./Components/FundingOrgs/FundingOrgNew";
-import BoilerplatesNew from "./Components/Boilerplates/BoilerplatesNew";
-import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
-import GrantsNew from "./Components/Grants/GrantsNew";
-import ReportsNew from "./Components/Reports/ReportsNew";
-import GrantEdit from "./Components/Grants/GrantEdit";
-import GrantCopy from "./Components/Grants/GrantCopy";
-import OrganizationLayout from "./Components/Layouts/OrganizationLayout/OrganizationLayout";
-import Spinner from "./Components/Helpers/Spinner";
-import { CurrentOrganizationProvider } from "./Contexts/currentOrganizationContext";
-import { CurrentUserProvider } from "./Contexts/currentUserContext";
+import { QueryClientProvider } from "react-query";
+
+import reactQueryClient from "./config/reacyQueryClient";
+import { CurrentOrganizationProvider } from "./contexts/currentOrganizationContext";
+import { CurrentUserProvider } from "./contexts/currentUserContext";
+import { PrivateRoute } from "./components/PrivateRoute"
+
+import BoilerplateShowPage from "./pages/OrganizationShow/BoilerplateShow/BoilerplateShowPage";
+import BoilerplatesIndexPage from "./pages/OrganizationShow/BoilerplatesIndex/BoilerplatesIndexPage";
+import BoilerplatesNewPage from "./pages/OrganizationShow/BoilerplatesNew/BoilerplatesNewPage";
+import CategoriesIndexPage from "./pages/OrganizationShow/CategoriesIndex/CategoriesIndexPage";
+import DashboardPage from "./pages/OrganizationShow/Dashboard/DashboardPage";
+import FundingOrgNewPage from "./pages/OrganizationShow/FundingOrgsNew/FundingOrgNewPage";
+import FundingOrgsIndexPage from "./pages/OrganizationShow/FundingOrgsIndex/FundingOrgsIndexPage";
+import GrantCopyPage from "./pages/OrganizationShow/GrantCopy/GrantCopyPage";
+import GrantEditPage from "./pages/OrganizationShow/GrantEdit/GrantEditPage";
+import GrantShowPage from "./pages/OrganizationShow/GrantShow/GrantShowPage";
+import GrantsIndexPage from "./pages/OrganizationShow/GrantsIndex/GrantsIndexPage";
+import GrantsNewPage from "./pages/OrganizationShow/GrantsNew/GrantsNewPage";
+import OrganizationsIndexPage from "./pages/OrganizationsIndex/OrganizationsIndexPage";
+import OrganizationsNewPage from "./pages/OrganizationsNew/OrganizationsNewPage";
+import OrganizationsSelectPage from "./pages/OrganizationsSelect/OrganizationsSelectPage";
+import ReportShowPage from "./pages/OrganizationShow/ReportShow/ReportShowPage";
+import ReportsNewPage from "./pages/OrganizationShow/ReportsNew/ReportsNewPage";
+import ResetPasswordPage from "./pages/ResetPassword/ResetPasswordPage";
+import SplashPage from "./pages/SplashPage/Splashpage";
 import StayTunedPage from "./pages/StayTuned/StayTunedPage";
-import { PasteBoilerplateContentPopoutProvider } from "./Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <CurrentUserProvider>
-          <Route exact path="/">
-            <Redirect to="/splashpage" />
-          </Route>
-          <Route path="/splashpage" component={Splashpage} />
-          <Route path="/reset_password" component={ResetPassword} />
-          {/* <Route path="/forgot_password" component={ForgotPassword} /> */}
-          <CurrentOrganizationProvider>
-            <PrivateRoute path="/organizations/:organizationId/">
-              <OrganizationLayout>
-                <Suspense fallback={<Spinner size="md" centered />}>
-                  <Switch>
-                    <Route
-                      path="/organizations/:organizationId/dashboard"
-                      component={Dashboard}
-                    />
-                    <PrivateRoute
-                      path="/organizations/:organizationId/grants/:grant_id/edit"
-                      component={GrantEdit}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/grants/:grant_id/copy"
-                      component={GrantCopy}
-                    />
-                    <Route
-                      exact
-                      path="/organizations/:organizationId/grants/:grant_id"
-                      component={() => (
+    <QueryClientProvider client={reactQueryClient}>
+      <BrowserRouter>
+        <Switch>
+          <CurrentUserProvider>
+            <Route exact path="/">
+              <Redirect to="/splashpage" />
+            </Route>
+            <Route path="/splashpage" component={SplashPage} />
+            <Route path="/reset_password" component={ResetPasswordPage} />
+            <CurrentOrganizationProvider>
+              <PrivateRoute path="/org_select" component={OrganizationsSelectPage} />
+              <PrivateRoute exact path="/organizations" component={OrganizationsIndexPage} />
+              <PrivateRoute exact path="/organizations-new" component={OrganizationsNewPage} />
+              <PrivateRoute path="/organizations/:organizationId/">
+                <OrganizationLayout>
+                  {/* TODO: Consider moving suspense into organization layout */}
+                  <Suspense fallback={<Spinner size="md" centered />}>
+                    <Switch>
+                      <Route path="/organizations/:organizationId/dashboard" component={DashboardPage} />
+                      {/* TODO: Rename grant_id -> grantId (also report & boilerplate id) */}
+                      <Route path="/organizations/:organizationId/grants/:grant_id/reports/:report_id" component={ReportShowPage} />
+                      {/* TODO: Consider having new be at the end -> /grant_id/reports/new */}
+                      <Route path="/organizations/:organizationId/grants/:grant_id/reports-new" component={ReportsNewPage} />
+                      <Route path="/organizations/:organizationId/grants/:grant_id/edit" component={GrantEditPage} />
+                      <Route path="/organizations/:organizationId/grants/:grant_id/copy" component={GrantCopyPage} />
+                      {/* TODO: See if paste boilerplate popout can be moved out of here */}
+                      <Route path="/organizations/:organizationId/grants/:grant_id" component={() => (
                         <PasteBoilerplateContentPopoutProvider>
-                          <GrantsShow />
+                          <GrantShowPage />
                         </PasteBoilerplateContentPopoutProvider>
-                      )}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/grants-new"
-                      component={GrantsNew}
-                    />
-                    <Route
-                      exact
-                      path={
-                        "/organizations/:organizationId/grants/:grant_id/reports/:report_id"
-                      }
-                      component={ReportsShow}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/grants/:grant_id/reports-new"
-                      component={ReportsNew}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/grants/"
-                      component={GrantsIndex}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/boilerplates/:boilerplate_id"
-                      component={BoilerplatesShow}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/boilerplates-new"
-                      component={BoilerplatesNew}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/boilerplates"
-                      component={BoilerplatesIndex}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/categories"
-                      component={CategoriesIndex}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/funding_orgs-new"
-                      component={FundingOrgNew}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/funding_orgs"
-                      component={FundingOrgsIndex}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/users"
-                      component={StayTunedPage}
-                    />
-                    <Route
-                      path="/organizations/:organizationId/reports"
-                      component={StayTunedPage}
-                    />
-                    <Redirect to="/organizations/:organizationId/dashboard" />
-                  </Switch>
-                </Suspense>
-              </OrganizationLayout>
-            </PrivateRoute>
-            <PrivateRoute path="/org_select" component={OrgSelect} />
-            <PrivateRoute
-              exact
-              path="/organizations"
-              component={Organizations}
-            />
-            <PrivateRoute
-              exact
-              path="/organizations-new"
-              component={OrganizationsNew}
-            />
-          </CurrentOrganizationProvider>
-        </CurrentUserProvider>
-      </Switch>
-    </BrowserRouter>
+                      )} />
+                      <Route path="/organizations/:organizationId/grants-new" component={GrantsNewPage} />
+                      <Route path="/organizations/:organizationId/grants/" component={GrantsIndexPage} />
+                      <Route path="/organizations/:organizationId/boilerplates/:boilerplate_id" component={BoilerplateShowPage} />
+                      <Route path="/organizations/:organizationId/boilerplates-new" component={BoilerplatesNewPage} />
+                      <Route path="/organizations/:organizationId/boilerplates" component={BoilerplatesIndexPage} />
+                      <Route path="/organizations/:organizationId/categories" component={CategoriesIndexPage} />
+                      <Route path="/organizations/:organizationId/funding_orgs-new" component={FundingOrgNewPage} />
+                      <Route path="/organizations/:organizationId/funding_orgs" component={FundingOrgsIndexPage} />
+                      <Route path="/organizations/:organizationId/users" component={StayTunedPage} />
+                      <Route path="/organizations/:organizationId/reports" component={StayTunedPage} />
+                      <Redirect to="/organizations/:organizationId/dashboard" />
+                    </Switch>
+                  </Suspense>
+                </OrganizationLayout>
+              </PrivateRoute>
+            </CurrentOrganizationProvider>
+          </CurrentUserProvider>
+        </Switch>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }

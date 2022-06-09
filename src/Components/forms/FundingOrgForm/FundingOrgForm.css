@@ -1,0 +1,10 @@
+.fundingorg-form {
+  height: 100%;
+}
+
+.fundingorg-form__actions {
+  float: right;
+}
+.fundingorg-form__actions > button {
+  margin-left: 20px;
+}

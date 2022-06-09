@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../Button/Button";
 import "./Hero.css";
-import formatDate from "../../../Helpers/formatDate";
+import formatDate from "../../../lib/formatDate";
 import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {

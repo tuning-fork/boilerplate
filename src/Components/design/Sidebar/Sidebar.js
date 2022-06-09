@@ -12,7 +12,7 @@ import {
   MdPerson,
 } from "react-icons/md";
 import "./Sidebar.css";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../../CurrentOrganizationLink";
 
 export default function Sidebar(props) {
   return (
