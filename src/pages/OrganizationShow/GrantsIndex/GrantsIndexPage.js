@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import clsx from "clsx";
-import Button from "../../../components/design/Button/Button";
-import TextBox from "../../../components/design/TextBox/TextBox";
-import Table from "../../../components/design/Table/Table";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
+import Table from "components/design/Table/Table";
 import { Link, useHistory } from "react-router-dom";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 import {
   getAllGrants,
   updateGrant,
-} from "../../../services/p0/Organizations/GrantsService";
-import formatDate from "../../../lib/formatDate";
-import DeadlineClock from "../../../components/design/DeadlineClock/DeadlineClock";
-import DropdownMini from "../../../components/design/DropdownMini/DropdownMini";
-import useBuildOrganizationsLink from "../../../hooks/useBuildOrganizationsLink";
-import CurrentOrganizationLink from "../../../components/CurrentOrganizationLink";
+} from "services/p0/Organizations/GrantsService";
+import formatDate from "lib/formatDate";
+import DeadlineClock from "components/design/DeadlineClock/DeadlineClock";
+import DropdownMini from "components/design/DropdownMini/DropdownMini";
+import useBuildOrganizationsLink from "hooks/useBuildOrganizationsLink";
+import CurrentOrganizationLink from "components/CurrentOrganizationLink";
 import "./GrantsIndexPage.css";
 
 export default function GrantsIndexPage() {

@@ -1,7 +1,7 @@
 import React from "react";
-import Modal from "../../../components/design/Modal/Modal";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import { createFundingOrg } from "../../../services/p0/Organizations/FundingOrgsService";
+import Modal from "components/design/Modal/Modal";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import { createFundingOrg } from "services/p0/Organizations/FundingOrgsService";
 import FundingOrgForm from "./FundingOrgForm";
 import "./FundingOrgNewPage.css";
 

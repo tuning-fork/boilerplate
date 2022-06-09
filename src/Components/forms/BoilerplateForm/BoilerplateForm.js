@@ -1,15 +1,15 @@
 import React, { useRef, useState, useMemo } from "react";
 import { useQuery } from "react-query";
-import TextBox from "../../../components/design/TextBox/TextBox";
-import RichTextEditor from "../../../components/design/RichTextEditor/RichTextEditor";
-import Button from "../../../components/design/Button/Button";
-import Label from "../../../components/design/Label/Label";
-import Dropdown from "../../../components/design/Dropdown/Dropdown";
+import TextBox from "components/design/TextBox/TextBox";
+import RichTextEditor from "components/design/RichTextEditor/RichTextEditor";
+import Button from "components/design/Button/Button";
+import Label from "components/design/Label/Label";
+import Dropdown from "components/design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
-import countWords from "../../../lib/countWords";
-import * as CategoriesService from "../../../services/p0/Organizations/CategoriesService";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import CategoriesNew from "../Categories/CategoriesNew";
+import countWords from "lib/countWords";
+import * as CategoriesService from "services/p0/Organizations/CategoriesService";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import CategoriesNew from "./CategoriesNew";
 
 export default function BoilerplateForm(props) {
   const [setCategories] = useState([]);

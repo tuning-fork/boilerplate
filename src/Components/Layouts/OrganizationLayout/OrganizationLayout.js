@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Navbar from "../../../components/design/Navbar/Navbar";
-import Sidebar from "../../../components/design/Sidebar/Sidebar";
+import Navbar from "components/design/Navbar/Navbar";
+import Sidebar from "components/design/Sidebar/Sidebar";
 import { useCurrentUser } from "../../../Contexts/currentUserContext";
 import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
 import "./OrganizationLayout.css";

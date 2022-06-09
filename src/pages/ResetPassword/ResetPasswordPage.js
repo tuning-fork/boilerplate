@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import axios from "axios";
-import Container from "../../components/design/Container/Container";
+import Container from "components/design/Container/Container";
 import ResetPasswordForm from "./ResetPasswordForm";
 import "./ResetPasswordPage.css";
 

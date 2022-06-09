@@ -4,8 +4,8 @@
 // import OrganizationsNew from "./OrganizationsNew";
 // import OrganizationEditForm from "./OrganizationEditForm";
 // import OrgSelect from "./OrgSelect";
-// import { useCurrentUser } from "../../../contexts/currentUserContext";
-// import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+// import { useCurrentUser } from "contexts/currentUserContext";
+// import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 // import "./OrganizationsIndexPage.css";
 
 export default function OrganizationsIndexPage() {

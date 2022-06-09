@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Button from "../../../../components/design/Button/Button";
+import Button from "components/design/Button/Button";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
 import { MdCheckCircle } from "react-icons/md";
 import "./PasteBoilerplateTextPanel.css";

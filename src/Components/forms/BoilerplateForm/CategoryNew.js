@@ -1,7 +1,7 @@
 import React from "react";
-import Modal from "../../../components/design/Modal/Modal";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import { createCategory } from "../../../services/p0/Organizations/CategoriesService";
+import Modal from "components/design/Modal/Modal";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import { createCategory } from "services/p0/Organizations/CategoriesService";
 import CategoryForm from "../CategoryForm/CategoryForm";
 import "./CategoryNew.css";
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Button from "../../../components/design/Button/Button";
-import TextBox from "../../../components/design/TextBox/TextBox";
-import Modal from "../../../components/design/Modal/Modal";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import { createCategory } from "../../../services/p0/Organizations/CategoriesService";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
+import Modal from "components/design/Modal/Modal";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import { createCategory } from "services/p0/Organizations/CategoriesService";
 import "./CategoriesNew.css";
 
 export default function CategoriesNew(props) {

@@ -6,11 +6,11 @@ import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import { updateReportSection } from "../services/p0/Organizations/Grants/Reports/ReportSectionsService";
+import { updateReportSection } from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 import {
   deleteGrantSection,
   getGrantSection,
-} from "../services/p0/Organizations/Grants/GrantSectionsService";
+} from "services/p0/Organizations/Grants/GrantSectionsService";
 
 export default function ReportSectionsUpdateFinal(props) {
   const [quillText, setQuillText] = useState("");

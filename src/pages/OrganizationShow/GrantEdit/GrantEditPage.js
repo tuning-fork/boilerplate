@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import useBuildOrganizationsLink from "../../../hooks/useBuildOrganizationsLink";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import useBuildOrganizationsLink from "hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,
   getGrant,
-} from "../../../services/p0/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../../services/p0/Organizations/FundingOrgsService";
-import * as GrantsService from "../../../services/p0/Organizations/GrantsService";
-import GrantForm from "../../../components/forms/GrantForm/GrantForm";
-import Button from "../../../components/design/Button/Button";
-import Container from "../../../components/design/Container/Container";
+} from "services/p0/Organizations/GrantsService";
+import { getAllFundingOrgs } from "services/p0/Organizations/FundingOrgsService";
+import * as GrantsService from "services/p0/Organizations/GrantsService";
+import GrantForm from "components/forms/GrantForm/GrantForm";
+import Button from "components/design/Button/Button";
+import Container from "components/design/Container/Container";
 import "./GrantEditPage.css";
 
 export default function GrantEditPage() {

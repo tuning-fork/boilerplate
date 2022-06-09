@@ -7,11 +7,11 @@ import React, {
 } from "react";
 import axios from "axios";
 import { useCurrentUser } from "./currentUserContext";
-import apiClient from "../config/apiClient";
+import apiClient from "config/apiClient";
 import {
   getOrganization,
   getUserOrganizations,
-} from "../services/p0/OrganizationService";
+} from "services/p0/OrganizationService";
 
 export const CurrentOrganizationContext = createContext({});
 

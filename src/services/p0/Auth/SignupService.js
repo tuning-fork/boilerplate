@@ -1,4 +1,4 @@
-import apiClient from "../../config/apiClient";
+import apiClient from "config/apiClient";
 
 const mapUserToApiUser = (apiUser) => ({
   first_name: apiUser.first_name,

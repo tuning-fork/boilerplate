@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
-import * as GrantsService from "../../../services/p0/Organizations/GrantsService";
-import * as FundingOrgsService from "../../../services/p0/Organizations/FundingOrgsService";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
+import * as GrantsService from "services/p0/Organizations/GrantsService";
+import * as FundingOrgsService from "services/p0/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
-import Container from "../../../components/design/Container/Container";
-import GrantForm from "../../../components/forms/GrantForm/GrantForm";
-import CurrentOrganizationLink from "../../../components/CurrentOrganizationLink";
+import Container from "components/design/Container/Container";
+import GrantForm from "components/forms/GrantForm/GrantForm";
+import CurrentOrganizationLink from "components/CurrentOrganizationLink";
 import "./GrantsNewPage.css";
 
 export default function GrantsNewPage() {

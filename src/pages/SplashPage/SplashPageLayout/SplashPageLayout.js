@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
-import NavbarSplashPage from "../../../components/design/Navbar/NavbarSplashPage/NavbarSplashPage";
+import NavbarSplashPage from "components/design/Navbar/NavbarSplashPage/NavbarSplashPage";
 import SplashPageBackgroundImage from "./SplashPage_Background_Image.png";
-import Button from "../../../components/design/Button/Button";
-import Modal from "../../../components/design/Modal/Modal";
+import Button from "components/design/Button/Button";
+import Modal from "components/design/Modal/Modal";
 import SignUp from "./SignUp/SignUp";
-import Login from "../../../components/Login/Login";
-import ForgotPassword from "../../../components/ForgotPassword/ForgotPassword";
+import Login from "components/Login/Login";
+import ForgotPassword from "components/ForgotPassword/ForgotPassword";
 import "./SplashPageLayout.css";
 
 export default function SplashPageLayout() {

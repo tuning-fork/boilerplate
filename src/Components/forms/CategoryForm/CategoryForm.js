@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Button from "../../../components/design/Button/Button";
-import TextBox from "../../../components/design/TextBox/TextBox";
+import Button from "components/design/Button/Button";
+import TextBox from "components/design/TextBox/TextBox";
 import "./CategoryForm.css";
 
 export default function CategoryForm(props) {

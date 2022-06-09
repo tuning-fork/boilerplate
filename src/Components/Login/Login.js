@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import Container from "../../../components/design/Container/Container";
+import Container from "components/design/Container/Container";
 import LoginForm from "./LoginForm";
 import NavbarLoginForm from "./NavbarLoginForm";
-import { useCurrentUser } from "../../../contexts/currentUserContext";
+import { useCurrentUser } from "contexts/currentUserContext";
 import "./Login.css";
 
 export default function Login(props) {

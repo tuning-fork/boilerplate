@@ -1,4 +1,4 @@
-import apiClient from "../../config/apiClient";
+import apiClient from "config/apiClient";
 
 export const mapUser = (apiUser) => ({
   active: apiUser.active,

@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import TextBox from "../../../../components/design/TextBox/TextBox";
-import Dropdown from "../../../../components/design/Dropdown/Dropdown";
-import AccordionTable from "../../../../components/design/Accordion/AccordionTable/AccordionTable";
+import TextBox from "components/design/TextBox/TextBox";
+import Dropdown from "components/design/Dropdown/Dropdown";
+import AccordionTable from "components/design/Accordion/AccordionTable/AccordionTable";
 import "./PasteBoilerplateContentPopout.css";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 
 import { MdClose } from "react-icons/md";
 import { useCurrentOrganization } from "../../../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../../../services/p0/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../../../services/p0/Organizations/CategoriesService";
+import { getAllBoilerplates } from "services/p0/Organizations/BoilerplatesService";
+import { getAllCategories } from "services/p0/Organizations/CategoriesService";
 
 export default function PasteBoilerplateContentPopout() {
   const columns = [

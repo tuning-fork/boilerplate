@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import Container from "../../../../components/design/Container/Container";
-import { createUser } from "../../../../services/p0/Auth/SignupService";
+import Container from "components/design/Container/Container";
+import { createUser } from "services/p0/Auth/SignupService";
 import SignUpForm from "./SignUpForm";
 import "./SignUp.css";
 

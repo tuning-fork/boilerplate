@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "paths": {
       "components/*": ["src/components/*"],
       "config/*": ["src/config/*"],
@@ -8,8 +8,9 @@
       "hooks/*": ["src/hooks/*"],
       "lib/*": ["src/lib/*"],
       "pages/*": ["src/pages/*"],
-      "services/*": ["src/services/*"],
-    },
+      "services/*": ["src/services/*"]
+    }
   },
-  "exclude": ["node_modules"],
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

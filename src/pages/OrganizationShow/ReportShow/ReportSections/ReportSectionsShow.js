@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSectionEditForm";
-import countWords from "../../components/countWords";
+import countWords from "components/countWords";
 import {
   getReportSection,
   updateReportSection,
   // deleteReportSection,
-} from "../../../services/p0/Organizations/Grants/Reports/ReportSectionsService";
+} from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");

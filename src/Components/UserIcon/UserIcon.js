@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import randomElement from "../../lib/array/randomElement";
+import randomElement from "lib/array/randomElement";
 import "./UserIcon.css";
 
 const BACKGROUND_COLORS = ["#DF0B92", "#097FAA", "#AD6200", "#084391"];
