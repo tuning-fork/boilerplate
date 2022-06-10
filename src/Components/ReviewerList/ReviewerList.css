@@ -37,6 +37,13 @@
     padding: 0;
     margin-top: 0;
   }
+
+  .reviewer-list__current-reviewers-index {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+    background-color: yellow;
+  }
   
   .reviewer-list__save-button {
     display: flex;

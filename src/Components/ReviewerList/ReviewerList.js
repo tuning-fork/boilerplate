@@ -14,6 +14,7 @@ import { getAllOrganizationUsers } from "../../Services/OrganizationService";
 import {
   getAllGrantReviewers,
   createGrantReviewer,
+  deleteGrantReviewer,
 } from "../../Services/Organizations/Grants/GrantReviewersService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { MdAddComment } from "react-icons/md";
@@ -24,48 +25,10 @@ export default function ReviewerList({ grantId }) {
   const { data: potentialReviewers } = useQuery("getAllOrganizationUsers", () =>
     getAllOrganizationUsers(organizationClient)
   );
-  const { data: currentReviewers } = useQuery("getAllReviewers", () => {
-    getAllGrantReviewers(organizationClient);
-  });
-  const [requestedReviewers, setRequestedReviewers] = useState([]);
-
-  const { mutate: createReviewer } = useMutation(
-    (newReviewerFields) =>
-      createGrantReviewer(organizationClient, grantId, newReviewerFields),
-    {
-      onSuccess: () => {
-        alert("Reviewer created!");
-      },
-    }
+  const { data: currentReviewers } = useQuery("getAllGrantReviewers", () =>
+    getAllGrantReviewers(organizationClient, grantId)
   );
-
-  // const handleCreateReviewer = (newReviewer) => {
-  //   const newReviewerFields = {
-  //     grantsId: grantId,
-  //     usersId: newReviewer.id,
-  //   };
-  //   createReviewer(newReviewerFields);
-  // };
-
-  // const { mutate: deleteReviewer } = useMutation(
-  //   (reviewerFields) =>
-  //     GrantReviewerService.deleteReviewer(
-  //       organizationClient,
-  //       reviewerFields.id,
-  //       reviewerFields
-  //     ),
-  //   {
-  //     onSuccess: () => {
-  //       alert("Reviewer deleted!");
-  //     },
-  //   }
-  // );
-
-  // const handleDeleteReviewer = (reviewerFields) => {
-  //   deleteReviewer({
-  //     reviewerFields,
-  //   });
-  // };
+  const [requestedReviewers, setRequestedReviewers] = useState([]);
 
   const reviewerCheck = useCallback(
     (reviewer) => {
@@ -111,6 +74,26 @@ export default function ReviewerList({ grantId }) {
     [setRequestedReviewers, requestedReviewers]
   );
 
+  const { mutate: createReviewer } = useMutation(
+    (newReviewerFields) =>
+      createGrantReviewer(organizationClient, grantId, newReviewerFields),
+    {
+      onSuccess: () => {
+        alert("Reviewer created!");
+      },
+    }
+  );
+
+  const { mutate: deleteReviewer } = useMutation(
+    (reviewerFields) =>
+      deleteGrantReviewer(organizationClient, grantId, reviewerFields.id),
+    {
+      onSuccess: () => {
+        alert("Reviewer deleted!");
+      },
+    }
+  );
+
   const saveRequestedReviewers = () => {
     requestedReviewers.filter((requestedReviewer) => {
       if (currentReviewers && currentReviewers.length > 0) {
@@ -123,17 +106,17 @@ export default function ReviewerList({ grantId }) {
           return;
         } else {
           const newReviewerFields = {
-            grants_id: grantId,
-            users_id: requestedReviewer.id,
+            grant_id: grantId,
+            user_id: requestedReviewer.id,
           };
-          createReviewer(newReviewerFields);
+          createReviewer({ ...newReviewerFields });
         }
       } else {
         const newReviewerFields = {
-          grants_id: grantId,
-          users_id: requestedReviewer.id,
+          grant_id: grantId,
+          user_id: requestedReviewer.id,
         };
-        createReviewer(newReviewerFields);
+        createReviewer({ ...newReviewerFields });
       }
     });
   };
@@ -156,11 +139,6 @@ export default function ReviewerList({ grantId }) {
     setOpenEditReviewers(!openEditReviewers);
   };
 
-  // const handleSaveRequestedReviewers = (event) => {
-  //   //send update request to the backend
-  //   setOpenEditReviewers(!openEditReviewers);
-  // };
-
   return (
     <aside className="reviewer-list">
       <header className="reviewer-list__header">
@@ -181,6 +159,17 @@ export default function ReviewerList({ grantId }) {
       ) : (
         <div className="reviewer-list__suggestions-text">
           No reviewers selected yet.
+        </div>
+      )}
+      {currentReviewers && currentReviewers.length ? (
+        <ul className="reviewer-list__current-reviewers-index">
+          {currentReviewers.map((reviewer) => (
+            <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+          ))}
+        </ul>
+      ) : (
+        <div className="reviewer-list__suggestions-text">
+          No reviewers saved.
         </div>
       )}
       {openEditReviewers ? (
