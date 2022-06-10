@@ -15,7 +15,7 @@ import BoilerplatesIndexPage from "./pages/OrganizationShow/BoilerplatesIndex/Bo
 import BoilerplatesNewPage from "./pages/OrganizationShow/BoilerplatesNew/BoilerplatesNewPage";
 import CategoriesIndexPage from "./pages/OrganizationShow/CategoriesIndex/CategoriesIndexPage";
 import DashboardPage from "./pages/OrganizationShow/Dashboard/DashboardPage";
-import FundingOrgNewPage from "./pages/OrganizationShow/FundingOrgsNew/FundingOrgNewPage";
+import FundingOrgNewPage from "./pages/OrganizationShow/FundingOrgsNew/FundingOrgsNewPage";
 import FundingOrgsIndexPage from "./pages/OrganizationShow/FundingOrgsIndex/FundingOrgsIndexPage";
 import GrantCopyPage from "./pages/OrganizationShow/GrantCopy/GrantCopyPage";
 import GrantEditPage from "./pages/OrganizationShow/GrantEdit/GrantEditPage";
@@ -38,9 +38,9 @@ export default function App() {
         <Switch>
           <CurrentUserProvider>
             <Route exact path="/">
-              <Redirect to="/SplashPage" />
+              <Redirect to="/splashpage" />
             </Route>
-            <Route path="/SplashPage" component={SplashPage} />
+            <Route path="/splashpage" component={SplashPage} />
             <Route path="/reset_password" component={ResetPasswordPage} />
             <CurrentOrganizationProvider>
               <PrivateRoute

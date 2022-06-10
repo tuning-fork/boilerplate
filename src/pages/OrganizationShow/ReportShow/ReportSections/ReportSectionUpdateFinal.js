@@ -5,14 +5,14 @@ import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../contexts/currentOrganizationContext";
 import { updateReportSection } from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 import {
   deleteGrantSection,
   getGrantSection,
 } from "services/p0/Organizations/Grants/GrantSectionsService";
 
-export default function ReportSectionsUpdateFinal(props) {
+export default function ReportSectionUpdateFinal(props) {
   const [quillText, setQuillText] = useState("");
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(true);

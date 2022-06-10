@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Button from "components/design/Button/Button";
 import TextBox from "components/design/TextBox/TextBox";
 import Table from "components/design/Table/Table";
-import CategoryNew from "./CategoryNew";
+import CategoryNew from "./CategoriesNew";
 import CategoryEdit from "./CategoryEdit";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 import {

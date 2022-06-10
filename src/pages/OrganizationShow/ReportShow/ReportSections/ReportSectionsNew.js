@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../../../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../../contexts/currentOrganizationContext";
 import { createReportSection } from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 import { getAllBoilerplates } from "services/p0/Organizations/BoilerplatesService";
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
-import "./FundingOrgEdit.css";
 import * as FundingOrgsService from "services/p0/Organizations/FundingOrgsService";
-import FundingOrgForm from "./FundingOrgForm";
+import FundingOrgForm from "components/forms/FundingOrgForm/FundingOrgForm";
 import Modal from "components/design/Modal/Modal";
+import "./FundingOrgEdit.css";
 
 export default function FundingOrgEdit(props) {
   const { organizationClient } = useCurrentOrganization();

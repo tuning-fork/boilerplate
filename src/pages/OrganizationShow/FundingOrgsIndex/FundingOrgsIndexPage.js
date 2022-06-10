@@ -4,13 +4,13 @@ import clsx from "clsx";
 import Button from "components/design/Button/Button";
 import TextBox from "components/design/TextBox/TextBox";
 import Table from "components/design/Table/Table";
-import FundingOrgNew from "../FundingOrgsNew/FundingOrgNewPage";
+import FundingOrgNew from "../FundingOrgsNew/FundingOrgsNewPage";
 import FundingOrgEdit from "./FundingOrgEdit";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 import * as FundingOrgsService from "services/p0/Organizations/FundingOrgsService";
 import formatDate from "lib/formatDate";
 import DropdownMini from "components/design/DropdownMini/DropdownMini";
-import "./FundingOrgsIndex.css";
+import "./FundingOrgsIndexPage.css";
 
 export default function FundingOrgsIndexPage() {
   const [tabSelect, setTabSelect] = useState("All");

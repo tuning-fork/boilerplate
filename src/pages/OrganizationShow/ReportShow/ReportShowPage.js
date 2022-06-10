@@ -13,10 +13,10 @@ import {
 } from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 import countSectionWords from "lib/countSectionWords";
 import countWords from "lib/countWords";
-import SectionsShow from "../Sections/SectionsShow";
-import SectionForm from "../Sections/SectionForm";
+import SectionShow from "../GrantShow/Sections/SectionShow";
+import StoreSectionAsBoilerplate from "../GrantShow/Sections/StoreSectionAsBoilerplate";
+import SectionForm from "components/forms/SectionForm/SectionForm";
 import SortableElement from "components/SortableElement";
-import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
 import "./ReportShowPage.css";
 // import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 // import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
@@ -164,7 +164,7 @@ export default function ReportShowPage() {
                       section={reportSection}
                     />
                   ) : (
-                    <SectionsShow
+                    <SectionShow
                       section={reportSection}
                       onClickEdit={setEditingReportSectionId}
                     />

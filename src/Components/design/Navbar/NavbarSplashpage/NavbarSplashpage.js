@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { ReactComponent as Logo } from "../BOILERPLATE.svg";
-import "./NavbarSplashPage.css";
 import Login from "../../../Login/Login";
+import "./NavbarSplashPage.css";
 
 export default function NavbarSplashPage(props) {
   return (

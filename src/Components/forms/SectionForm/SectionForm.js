@@ -1,12 +1,12 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
+import { MdContentPaste } from "react-icons/md";
 import TextBox from "components/design/TextBox/TextBox";
 import RichTextEditor from "components/design/RichTextEditor/RichTextEditor";
 import Button from "components/design/Button/Button";
 import Label from "components/design/Label/Label";
-import "./SectionForm.css";
-import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
+import { PasteBoilerplateContentPopoutContext } from "pages/OrganizationShow/GrantShow/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import countWords from "lib/countWords";
-import { MdContentPaste } from "react-icons/md";
+import "./SectionForm.css";
 
 export default function SectionForm(props) {
   const {

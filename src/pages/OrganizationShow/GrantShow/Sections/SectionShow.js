@@ -2,9 +2,9 @@ import React from "react";
 import { MdEditNote } from "react-icons/md";
 import Button from "components/design/Button/Button";
 import countSectionWords from "lib/countSectionWords";
-import "./SectionsShow.css";
+import "./SectionShow.css";
 
-export default function SectionsShow(props) {
+export default function SectionShow(props) {
   const { section, onClickEdit } = props;
 
   return (

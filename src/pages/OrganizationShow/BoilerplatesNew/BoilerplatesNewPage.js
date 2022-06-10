@@ -6,7 +6,7 @@ import * as CategoriesService from "services/p0/Organizations/CategoriesService"
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import Container from "components/design/Container/Container";
-import BoilerplateForm from "./BoilerplateForm";
+import BoilerplateForm from "components/forms/BoilerplateForm/BoilerplateForm";
 import CurrentOrganizationLink from "components/CurrentOrganizationLink";
 import countWords from "lib/countWords";
 import "./BoilerplatesNewPage.css";

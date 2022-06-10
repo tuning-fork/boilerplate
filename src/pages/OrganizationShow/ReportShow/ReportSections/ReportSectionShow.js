@@ -11,7 +11,7 @@ import {
   // deleteReportSection,
 } from "services/p0/Organizations/Grants/Reports/ReportSectionsService";
 
-export default function ReportSectionsShow(props) {
+export default function ReportSectionShow(props) {
   const [quillText, setQuillText] = useState("");
   const [_id, setId] = useState("");
   const [title, setTitle] = useState("");

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "components/design/Container/Container";
+import GrantForm from "components/forms/GrantForm/GrantForm";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
-import {
-  copyGrant,
-  getGrant,
-} from "services/p0/Organizations/GrantsService";
+import { copyGrant, getGrant } from "services/p0/Organizations/GrantsService";
 import { getAllFundingOrgs } from "services/p0/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "hooks/useBuildOrganizationsLink";
-import GrantForm from "./GrantForm";
 import "./GrantCopyPage.css";
 
 export default function GrantCopyPage() {

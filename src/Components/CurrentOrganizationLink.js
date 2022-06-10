@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../contexts/currentOrganizationContext";
 
 export default function CurrentOrganizationLink(props) {
   const { as: Component, to, ...restProps } = props;

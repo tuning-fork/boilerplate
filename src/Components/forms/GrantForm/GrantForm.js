@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "components/design/Button/Button";
 import Dropdown from "components/design/Dropdown/Dropdown";
 import TextBox from "components/design/TextBox/TextBox";
-import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
+import FundingOrgNewPage from "pages/OrganizationShow/FundingOrgsNew/FundingOrgsNewPage";
 import parseDateFromInput from "lib/parseDateFromInput";
 import formatDateForInput from "lib/formatDateForInput";
 import "./GrantForm.css";
@@ -82,7 +82,7 @@ export default function GrantForm(props) {
           <Button type="submit">Save</Button>
         </div>
       </form>
-      <FundingOrgNew
+      <FundingOrgNewPage
         show={props.showingFundingOrgNew}
         onClose={props.handleFundingOrg}
         fundingOrgs={props.fundingOrgs}

@@ -8,4 +8,4 @@ const reactQueryClient = new QueryClient({
   },
 });
 
-export default reactQueryClient
+export default reactQueryClient;

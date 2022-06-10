@@ -5,11 +5,11 @@ import RichTextEditor from "components/design/RichTextEditor/RichTextEditor";
 import Button from "components/design/Button/Button";
 import Label from "components/design/Label/Label";
 import Dropdown from "components/design/Dropdown/Dropdown";
-import "./BoilerplateForm.css";
 import countWords from "lib/countWords";
 import * as CategoriesService from "services/p0/Organizations/CategoriesService";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
-import CategoriesNew from "./CategoriesNew";
+import CategoriesNew from "pages/OrganizationShow/CategoriesIndex/CategoriesNew";
+import "./BoilerplateForm.css";
 
 export default function BoilerplateForm(props) {
   const [setCategories] = useState([]);

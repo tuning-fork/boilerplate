@@ -30,13 +30,13 @@ import * as SectionsService from "services/p0/Organizations/Grants/SectionsServi
 // } from "services/p0/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "lib/countSectionWords";
 import countWords from "lib/countWords";
-import SectionsShow from "../Sections/SectionsShow";
-import SectionForm from "../Sections/SectionForm";
 import SortableElement from "components/SortableElement";
-import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
-import "./GrantsShow.css";
-import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
-import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
+import SectionShow from "./Sections/SectionShow";
+import SectionForm from "components/forms/SectionForm/SectionForm";
+import StoreSectionAsBoilerplate from "./Sections/StoreSectionAsBoilerplate";
+import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
+import PasteBoilerplateContentPopout from "./PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
+import "./GrantShowPage.css";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -246,7 +246,7 @@ export default function GrantShowPage() {
                       section={section}
                     />
                   ) : (
-                    <SectionsShow
+                    <SectionShow
                       section={section}
                       onClickEdit={setEditingSectionId}
                     />

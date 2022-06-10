@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
 import { createGrantReport } from "services/p0/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNewPage(props) {

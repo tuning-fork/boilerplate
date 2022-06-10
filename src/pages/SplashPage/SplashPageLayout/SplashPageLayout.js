@@ -4,9 +4,9 @@ import NavbarSplashPage from "components/design/Navbar/NavbarSplashPage/NavbarSp
 import SplashPageBackgroundImage from "./SplashPage_Background_Image.png";
 import Button from "components/design/Button/Button";
 import Modal from "components/design/Modal/Modal";
-import SignUp from "./SignUp/SignUp";
 import Login from "components/Login/Login";
 import ForgotPassword from "components/ForgotPassword/ForgotPassword";
+import SignUp from "./SignUp/SignUp";
 import "./SplashPageLayout.css";
 
 export default function SplashPageLayout() {

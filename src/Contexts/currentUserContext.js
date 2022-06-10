@@ -9,7 +9,7 @@ import React, {
 import {
   login as createSession,
   authWithJwt,
-} from "services/p0/Auth/loginService";
+} from "services/p0/Auth/LoginService";
 import Spinner from "components/Spinner/Spinner";
 import apiClient from "config/apiClient";
 import axios from "axios";

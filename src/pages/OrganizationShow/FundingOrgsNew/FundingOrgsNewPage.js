@@ -2,10 +2,10 @@ import React from "react";
 import Modal from "components/design/Modal/Modal";
 import { useCurrentOrganization } from "contexts/currentOrganizationContext";
 import { createFundingOrg } from "services/p0/Organizations/FundingOrgsService";
-import FundingOrgForm from "./FundingOrgForm";
-import "./FundingOrgNewPage.css";
+import FundingOrgForm from "components/forms/FundingOrgForm/FundingOrgForm";
+import "./FundingOrgsNewPage.css";
 
-export default function FundingOrgNewPage(props) {
+export default function FundingOrgsNewPage(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   const handleSubmit = (fundingOrgFields) => {
