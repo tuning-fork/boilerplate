@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import axios from "axios";
 import Button from "../../../design/Button/Button";
 import Label from "../../../design/Label/Label";
 import Container from "../../../design/Container/Container";
@@ -24,12 +25,26 @@ export default function SplashpageContactForm(props) {
     html: "",
   });
   const quillEl = useRef(null);
+  const [displayContactSubmittedMessage, setDisplayContactSubmittedMessage] =
+    useState("");
+
+  const sendContactSubmission = (splashpageContactFields) => {
+    console.log(splashpageContactFields);
+    axios
+      .post("/api/contact_us", { ...splashpageContactFields })
+      .then((response) => {
+        setDisplayContactSubmittedMessage(response.data.message);
+      })
+      .catch((error) => console.error(error));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.onSubmit(splashpageContactFields);
+    console.log(splashpageContactFields);
+    sendContactSubmission(splashpageContactFields);
   };
 
+  console.log(splashpageContactFields);
   return (
     <>
       <Container
@@ -37,11 +52,6 @@ export default function SplashpageContactForm(props) {
         centered
         className="splashpage-contact-form__container"
       >
-        {/* <div className="splashpage-contact-form__header__container"> */}
-        {/* <h1 id="modal-heading" className="splashpage-contact-form__header">
-          Contact Us
-        </h1> */}
-        {/* </div> */}
         <form onSubmit={handleSubmit} className="splashpage-contact-form">
           <h1 id="modal-heading" className="splashpage-contact-form__header">
             Contact Us
@@ -99,6 +109,7 @@ export default function SplashpageContactForm(props) {
               value={splashpageContactFields.html}
               onChange={(html) => {
                 setSplashpageContactFields(() => ({
+                  ...splashpageContactFields,
                   message: quillEl.current.getEditor().getText(),
                   html,
                 }));
