@@ -1,7 +1,9 @@
 export const mapReviewer = (apiReviewer) => ({
   id: apiReviewer.id.toString(),
-  grantsId: apiReviewer.grants_id.toString(),
-  usersId: apiReviewer.users_id.toString(),
+  grantId: apiReviewer.grant_id.toString(),
+  userId: apiReviewer.user_id.toString(),
+  firstName: apiReviewer.user_first_name,
+  lastName: apiReviewer.user_last_name,
 });
 
 // getGrantReviewer
@@ -16,7 +18,7 @@ export const getGrantReviewer = (organizationClient, grantId, reviewerId) => {
 export const getAllGrantReviewers = (organizationClient, grantId) => {
   return organizationClient
     .get(`/grants/${grantId}/reviewers/`)
-    .then((response) => response.data);
+    .then((response) => response.data.map(mapReviewer));
 };
 
 // createGrantReviewer
