@@ -9,7 +9,8 @@ import { useQuery, useMutation } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import Button from "../design/Button/Button";
 import "./ReviewerList.css";
-import ReviewerListItem from "./ReviewerListItem";
+import RequestedReviewerListItem from "./RequestedReviewerListItem";
+import CurrentReviewerListItem from "./CurrentReviewerListItem";
 import { getAllOrganizationUsers } from "../../Services/OrganizationService";
 import {
   getAllGrantReviewers,
@@ -22,13 +23,35 @@ import { check } from "prettier";
 
 export default function ReviewerList({ grantId }) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const [requestedReviewers, setRequestedReviewers] = useState([]);
+  const [currentReviewers, setCurrentReviewers] = useState([]);
   const { data: potentialReviewers } = useQuery("getAllOrganizationUsers", () =>
     getAllOrganizationUsers(organizationClient)
   );
-  const { data: currentReviewers } = useQuery("getAllGrantReviewers", () =>
-    getAllGrantReviewers(organizationClient, grantId)
+  const { data } = useQuery(
+    "getAllGrantReviewers",
+    () => getAllGrantReviewers(organizationClient, grantId),
+    {
+      onSuccess: (data) => {
+        setCurrentReviewers(data);
+      },
+    }
   );
-  const [requestedReviewers, setRequestedReviewers] = useState([]);
+
+  const noDupesReviewers = () => {
+    if (currentReviewers.length === 0) {
+      setRequestedReviewers(requestedReviewers);
+    } else if (currentReviewers.length > 0) {
+      const currentReviewerIds = currentReviewers.filter(
+        (currentReviewer) => currentReviewer.id
+      );
+      setRequestedReviewers(() => {
+        requestedReviewers.filter((requestedReviewer) =>
+          currentReviewerIds.includes(requestedReviewer)
+        );
+      });
+    }
+  };
 
   const reviewerCheck = useCallback(
     (reviewer) => {
@@ -53,9 +76,14 @@ export default function ReviewerList({ grantId }) {
           ...requestedReviewers,
           newRequestedReviewer,
         ]);
+        setCurrentReviewers(
+          currentReviewers.filter(
+            (currentReviewer) => currentReviewer.id !== newRequestedReviewer.id
+          )
+        );
       }
     },
-    [setRequestedReviewers, reviewerCheck]
+    [setRequestedReviewers, reviewerCheck, currentReviewers]
   );
 
   const removeRequestedReviewer = useCallback(
@@ -69,9 +97,10 @@ export default function ReviewerList({ grantId }) {
           return;
         })
       );
+      setCurrentReviewers(...currentReviewers, removedReviewer);
       return requestedReviewers;
     },
-    [setRequestedReviewers, requestedReviewers]
+    [setRequestedReviewers, requestedReviewers, currentReviewers]
   );
 
   const { mutate: createReviewer } = useMutation(
@@ -85,8 +114,8 @@ export default function ReviewerList({ grantId }) {
   );
 
   const { mutate: deleteReviewer } = useMutation(
-    (reviewerFields) =>
-      deleteGrantReviewer(organizationClient, grantId, reviewerFields.id),
+    (reviewerId) =>
+      deleteGrantReviewer(organizationClient, grantId, reviewerId),
     {
       onSuccess: () => {
         alert("Reviewer deleted!");
@@ -94,31 +123,81 @@ export default function ReviewerList({ grantId }) {
     }
   );
 
-  const saveRequestedReviewers = () => {
-    requestedReviewers.filter((requestedReviewer) => {
-      if (currentReviewers && currentReviewers.length > 0) {
-        const currentReviewersIds = currentReviewers.filter(
-          (currentReviewer) => {
-            return currentReviewer.id;
-          }
-        );
-        if (currentReviewersIds.includes(requestedReviewer.id)) {
-          return;
-        } else {
-          const newReviewerFields = {
-            grant_id: grantId,
-            user_id: requestedReviewer.id,
-          };
-          createReviewer({ ...newReviewerFields });
-        }
-      } else {
+  // const saveRequestedReviewers = (current, requested) => {
+  //   if (requestedReviewers && requestedReviewers.length > 0) {
+  //     saveReviewerSelections(current, requested);
+  //     deleteUncheckedReviewers(current, requested);
+  //   } else {
+  //     handleCancel();
+  //   }
+  //   handleCancel();
+  //   setRequestedReviewers([]);
+  // };
+
+  // const addCheckedReviewers = (current, requested) => {
+  //   requested.filter((requested) => {
+  //     if (current && current.length > 0) {
+  //       const currentIds = current.filter((current) => {
+  //         return current.id;
+  //       });
+  //       if (currentIds.includes(requested.id)) {
+  //         return;
+  //       } else {
+  //         const newReviewerFields = {
+  //           grant_id: grantId,
+  //           user_id: requested.id,
+  //         };
+  //         createReviewer({ ...newReviewerFields });
+  //       }
+  //     } else {
+  //       const newReviewerFields = {
+  //         grant_id: grantId,
+  //         user_id: requested.id,
+  //       };
+  //       createReviewer({ ...newReviewerFields });
+  //     }
+  //   });
+  // };
+
+  // const deleteUncheckedReviewers = (current, requested) => {
+  //   current.filter((current) => {
+  //     if (current && current.length > 0) {
+  //       const requestedIds = requested.filter((requested) => {
+  //         return requested.id;
+  //       });
+  //       if (requestedIds.includes(current.id)) {
+  //         return;
+  //       } else {
+  //         deleteReviewer(current.id);
+  //       }
+  //     } else {
+  //       deleteReviewer(current.id);
+  //     }
+  //   });
+  // };
+
+  const saveReviewerSelections = (current, requested) => {
+    const currentIds = current?.filter((current) => current.id);
+    requested.filter((requested) => {
+      if (!currentIds.includes(requested.id)) {
         const newReviewerFields = {
           grant_id: grantId,
-          user_id: requestedReviewer.id,
+          user_id: requested.id,
         };
         createReviewer({ ...newReviewerFields });
       }
     });
+    setOpenEditReviewers(false);
+    setRequestedReviewers([]);
+  };
+
+  const onClickRemove = (removedReviewer) => {
+    setCurrentReviewers(() =>
+      currentReviewers.filter(
+        (currentReviewer) => currentReviewer.id !== removedReviewer.id
+      )
+    );
+    deleteReviewer(removedReviewer.id);
   };
 
   const [searchFilters, setSearchFilters] = useState({
@@ -126,6 +205,14 @@ export default function ReviewerList({ grantId }) {
   });
   const [openEditReviewers, setOpenEditReviewers] = useState(false);
   const filteredReviewers = useMemo(() => {
+    if (currentReviewers.length > 0) {
+      const currentReviewerIds = currentReviewers.filter(
+        (currentReviewer) => currentReviewer.id
+      );
+      return potentialReviewers.filter((potentialReviewer) =>
+        currentReviewerIds.includes(potentialReviewer)
+      );
+    }
     return potentialReviewers.filter((potentialReviewer) => {
       const matchesName = potentialReviewer.firstName
         .concat(potentialReviewer.lastName || "")
@@ -133,10 +220,11 @@ export default function ReviewerList({ grantId }) {
         .includes(searchFilters.name.toLowerCase());
       return matchesName;
     });
-  }, [potentialReviewers, searchFilters]);
+  }, [potentialReviewers, searchFilters, currentReviewers]);
 
   const handleCancel = () => {
     setOpenEditReviewers(!openEditReviewers);
+    setRequestedReviewers([]);
   };
 
   return (
@@ -153,7 +241,7 @@ export default function ReviewerList({ grantId }) {
       {requestedReviewers.length ? (
         <ul className="reviewer-list__reviewers-index">
           {requestedReviewers.map((reviewer) => (
-            <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+            <RequestedReviewerListItem key={reviewer.id} reviewer={reviewer} />
           ))}
         </ul>
       ) : (
@@ -164,7 +252,11 @@ export default function ReviewerList({ grantId }) {
       {currentReviewers && currentReviewers.length ? (
         <ul className="reviewer-list__current-reviewers-index">
           {currentReviewers.map((reviewer) => (
-            <ReviewerListItem key={reviewer.id} reviewer={reviewer} />
+            <CurrentReviewerListItem
+              key={reviewer.id}
+              reviewer={reviewer}
+              onClickRemove={onClickRemove}
+            />
           ))}
         </ul>
       ) : (
@@ -186,7 +278,7 @@ export default function ReviewerList({ grantId }) {
           <div className="reviewer-list__suggestions-text">Suggestions</div>
           <ul className="reviewer-list__reviewers-index">
             {filteredReviewers.map((reviewer) => (
-              <ReviewerListItem
+              <RequestedReviewerListItem
                 key={reviewer.id}
                 reviewer={reviewer}
                 onChecked={addRequestedReviewer}
@@ -198,7 +290,13 @@ export default function ReviewerList({ grantId }) {
             <Button variant="text" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button onClick={saveRequestedReviewers}>Save</Button>
+            <Button
+              onClick={() =>
+                saveReviewerSelections(currentReviewers, requestedReviewers)
+              }
+            >
+              Save
+            </Button>
           </div>
         </div>
       ) : null}
