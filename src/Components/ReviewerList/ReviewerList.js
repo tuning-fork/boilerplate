@@ -59,7 +59,7 @@ export default function ReviewerList({ grantId }) {
   //hook for array of current/created reviewers to display:
   // const [currentReviewers, setCurrentReviewers] = useState([]);
   //hook for array of checked reviewers to select/deselect:
-  const [requestedReviewers, setRequestedReviewers] = useState([]);
+  const [requestedReviewers, setRequestedReviewers] = useState(new Set());
   //hook for array of potential reviewers to select/deselect:
   //hook for search filters to filter by reviewer name:
   const [searchFilters, setSearchFilters] = useState({
@@ -78,17 +78,13 @@ export default function ReviewerList({ grantId }) {
     () => getAllGrantReviewers(organizationClient, grantId),
     {
       onSuccess(currentReviewers) {
-        setRequestedReviewers(currentReviewers);
+        // CAVEAT: We may have to use a useeffect instead of onsuccess
+        setRequestedReviewers(new Set(currentReviewers));
       },
     }
   );
   const potentialReviewers = useMemo(() => {
-    return organizationUsers.filter((user) => {
-      const userIsRequested = requestedReviewers.any(
-        (requestedReviewer) => requestedReviewer.id === user.id
-      );
-      return !userIsRequested;
-    });
+    return organizationUsers.filter((user) => !requestedReviewers.has(user));
   }, [organizationUsers, requestedReviewers]);
 
   //quick reduce function to make sure that onChecked selected requestedReviewer is not already in the array:
@@ -108,22 +104,12 @@ export default function ReviewerList({ grantId }) {
   // //on checked function to add potential reviewer to requested reviewer array:
   const addRequestedReviewer = useCallback(
     (newRequestedReviewer) => {
-      if (reviewerCheck === false) {
-        return;
-      } else {
-        setRequestedReviewers((requestedReviewers) => [
-          ...requestedReviewers,
-          newRequestedReviewer,
-        ]);
-        // maybe this is an API call?
-        // setCurrentReviewers(
-        //   currentReviewers.filter(
-        //     (currentReviewer) => currentReviewer.id !== newRequestedReviewer.id
-        //   )
-        // );
-      }
+      setRequestedReviewers(
+        (requestedReviewers) =>
+          new Set([...requestedReviewers, newRequestedReviewer])
+      );
     },
-    [setRequestedReviewers, reviewerCheck, currentReviewers]
+    [setRequestedReviewers]
   );
   // //on unchecked function to remove potential reviewer from requested reviewer array:
   // const removeRequestedReviewer = useCallback(
