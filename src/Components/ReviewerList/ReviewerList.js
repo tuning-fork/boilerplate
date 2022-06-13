@@ -23,12 +23,30 @@ import { check } from "prettier";
 
 export default function ReviewerList({ grantId }) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const [requestedReviewers, setRequestedReviewers] = useState([]);
+  //hook for array of current/created reviewers to display:
   const [currentReviewers, setCurrentReviewers] = useState([]);
-  const { data: potentialReviewers } = useQuery("getAllOrganizationUsers", () =>
-    getAllOrganizationUsers(organizationClient)
+  //hook for array of checked reviewers to select/deselect:
+  const [requestedReviewers, setRequestedReviewers] = useState([]);
+  //hook for array of potential reviewers to select/deselect:
+  const [potentialReviewers, setPotentialReviewers] = useState([]);
+  //hook for search filters to filter by reviewer name:
+  const [searchFilters, setSearchFilters] = useState({
+    name: "",
+  });
+  //hook for boolean to toggle open edit reviewer panel:
+  const [openEditReviewers, setOpenEditReviewers] = useState(false);
+  //react-query query to get all organization.users/potential reviewers:
+  const organizationUsersIndex = useQuery(
+    "getAllOrganizationUsers",
+    () => getAllOrganizationUsers(organizationClient),
+    {
+      onSuccess: (data) => {
+        setPotentialReviewers(data);
+      },
+    }
   );
-  const { data } = useQuery(
+  //react-query query to get all grant.reviewers/current reviewers and save in current reviewers state hook:
+  const currentReviewersIndex = useQuery(
     "getAllGrantReviewers",
     () => getAllGrantReviewers(organizationClient, grantId),
     {
@@ -37,22 +55,7 @@ export default function ReviewerList({ grantId }) {
       },
     }
   );
-
-  const noDupesReviewers = () => {
-    if (currentReviewers.length === 0) {
-      setRequestedReviewers(requestedReviewers);
-    } else if (currentReviewers.length > 0) {
-      const currentReviewerIds = currentReviewers.filter(
-        (currentReviewer) => currentReviewer.id
-      );
-      setRequestedReviewers(() => {
-        requestedReviewers.filter((requestedReviewer) =>
-          currentReviewerIds.includes(requestedReviewer)
-        );
-      });
-    }
-  };
-
+  //quick reduce function to make sure that onChecked selected requestedReviewer is not already in the array:
   const reviewerCheck = useCallback(
     (reviewer) => {
       check = requestedReviewers.reduce((requestedReviewer) => {
@@ -66,7 +69,7 @@ export default function ReviewerList({ grantId }) {
     },
     [requestedReviewers]
   );
-
+  //on checked function to add potential reviewer to requested reviewer array:
   const addRequestedReviewer = useCallback(
     (newRequestedReviewer) => {
       if (reviewerCheck === false) {
@@ -85,7 +88,7 @@ export default function ReviewerList({ grantId }) {
     },
     [setRequestedReviewers, reviewerCheck, currentReviewers]
   );
-
+  //on unchecked function to remove potential reviewer from requested reviewer array:
   const removeRequestedReviewer = useCallback(
     (removedReviewer) => {
       setRequestedReviewers(
@@ -102,7 +105,7 @@ export default function ReviewerList({ grantId }) {
     },
     [setRequestedReviewers, requestedReviewers, currentReviewers]
   );
-
+  //react-query mutation to create new reviewer (grant_user join table) in database:
   const { mutate: createReviewer } = useMutation(
     (newReviewerFields) =>
       createGrantReviewer(organizationClient, grantId, newReviewerFields),
@@ -112,7 +115,7 @@ export default function ReviewerList({ grantId }) {
       },
     }
   );
-
+  //react-query mutation to delete current reviewer (grant_user join table) in database
   const { mutate: deleteReviewer } = useMutation(
     (reviewerId) =>
       deleteGrantReviewer(organizationClient, grantId, reviewerId),
@@ -122,60 +125,8 @@ export default function ReviewerList({ grantId }) {
       },
     }
   );
-
-  // const saveRequestedReviewers = (current, requested) => {
-  //   if (requestedReviewers && requestedReviewers.length > 0) {
-  //     saveReviewerSelections(current, requested);
-  //     deleteUncheckedReviewers(current, requested);
-  //   } else {
-  //     handleCancel();
-  //   }
-  //   handleCancel();
-  //   setRequestedReviewers([]);
-  // };
-
-  // const addCheckedReviewers = (current, requested) => {
-  //   requested.filter((requested) => {
-  //     if (current && current.length > 0) {
-  //       const currentIds = current.filter((current) => {
-  //         return current.id;
-  //       });
-  //       if (currentIds.includes(requested.id)) {
-  //         return;
-  //       } else {
-  //         const newReviewerFields = {
-  //           grant_id: grantId,
-  //           user_id: requested.id,
-  //         };
-  //         createReviewer({ ...newReviewerFields });
-  //       }
-  //     } else {
-  //       const newReviewerFields = {
-  //         grant_id: grantId,
-  //         user_id: requested.id,
-  //       };
-  //       createReviewer({ ...newReviewerFields });
-  //     }
-  //   });
-  // };
-
-  // const deleteUncheckedReviewers = (current, requested) => {
-  //   current.filter((current) => {
-  //     if (current && current.length > 0) {
-  //       const requestedIds = requested.filter((requested) => {
-  //         return requested.id;
-  //       });
-  //       if (requestedIds.includes(current.id)) {
-  //         return;
-  //       } else {
-  //         deleteReviewer(current.id);
-  //       }
-  //     } else {
-  //       deleteReviewer(current.id);
-  //     }
-  //   });
-  // };
-
+  //on save function to save new reviewer selections -
+  //runs create reviewer on any checked users in requested reviewers array
   const saveReviewerSelections = (current, requested) => {
     const currentIds = current?.filter((current) => current.id);
     requested.filter((requested) => {
@@ -190,7 +141,8 @@ export default function ReviewerList({ grantId }) {
     setOpenEditReviewers(false);
     setRequestedReviewers([]);
   };
-
+  //on click function to delete un-selected current reviewers -
+  //runs delete reviewer on a current reviewer when the user clicks x
   const onClickRemove = (removedReviewer) => {
     setCurrentReviewers(() =>
       currentReviewers.filter(
@@ -199,18 +151,18 @@ export default function ReviewerList({ grantId }) {
     );
     deleteReviewer(removedReviewer.id);
   };
-
-  const [searchFilters, setSearchFilters] = useState({
-    name: "",
-  });
-  const [openEditReviewers, setOpenEditReviewers] = useState(false);
+  //filter function that filters potential reviewers
+  //to de-dupe current reviewers
+  //and then based on search filter input
   const filteredReviewers = useMemo(() => {
     if (currentReviewers.length > 0) {
       const currentReviewerIds = currentReviewers.filter(
         (currentReviewer) => currentReviewer.id
       );
-      return potentialReviewers.filter((potentialReviewer) =>
-        currentReviewerIds.includes(potentialReviewer)
+      setPotentialReviewers(
+        potentialReviewers.filter((potentialReviewer) =>
+          currentReviewerIds.includes(potentialReviewer)
+        )
       );
     }
     return potentialReviewers.filter((potentialReviewer) => {
@@ -221,11 +173,26 @@ export default function ReviewerList({ grantId }) {
       return matchesName;
     });
   }, [potentialReviewers, searchFilters, currentReviewers]);
-
+  //handle cancel function that sets edit panel toggle to not-open and clears requested reviewers array
   const handleCancel = () => {
     setOpenEditReviewers(!openEditReviewers);
     setRequestedReviewers([]);
   };
+
+  // const deDupeReviewerArrays = () => {
+  //   if (currentReviewers.length === 0) {
+  //     setRequestedReviewers(requestedReviewers);
+  //   } else if (currentReviewers.length > 0) {
+  //     const currentReviewerIds = currentReviewers.filter(
+  //       (currentReviewer) => currentReviewer.id
+  //     );
+  //     setRequestedReviewers(() => {
+  //       requestedReviewers.filter((requestedReviewer) =>
+  //         currentReviewerIds.includes(requestedReviewer)
+  //       );
+  //     });
+  //   }
+  // };
 
   return (
     <aside className="reviewer-list">
