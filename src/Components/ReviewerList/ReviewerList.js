@@ -73,16 +73,21 @@ export default function ReviewerList({ grantId }) {
     getAllOrganizationUsers(organizationClient)
   );
   //react-query query to get all grant.reviewers/current reviewers and save in current reviewers state hook:
-  const { data: currentReviewers } = useQuery(
-    "getAllGrantReviewers",
-    () => getAllGrantReviewers(organizationClient, grantId),
-    {
-      onSuccess(currentReviewers) {
-        // CAVEAT: We may have to use a useeffect instead of onsuccess
-        setRequestedReviewers(new Set(currentReviewers));
-      },
-    }
+  const { data: currentReviewers } = useQuery("getAllGrantReviewers", () =>
+    getAllGrantReviewers(organizationClient, grantId)
   );
+
+  useEffect(() => {
+    const reviewers = [...currentReviewers];
+    const currentReviewerUsers = reviewers.map((reviewer) => {
+      const user = organizationUsers.find(
+        (user) => user.id === reviewer.userId
+      );
+      return user;
+    });
+    setRequestedReviewers(new Set(currentReviewerUsers));
+  }, [currentReviewers, organizationUsers]);
+
   const potentialReviewers = useMemo(() => {
     return organizationUsers.filter((user) => !requestedReviewers.has(user));
   }, [organizationUsers, requestedReviewers]);
@@ -224,9 +229,10 @@ export default function ReviewerList({ grantId }) {
           <MdAddComment className="reviewer-list__edit-icon" />
         </Button>
       </header>
-      {requestedReviewers.length ? (
+      {console.log("requestedReviewers.size", requestedReviewers.size)}
+      {requestedReviewers.size ? (
         <ul className="reviewer-list__reviewers-index">
-          {requestedReviewers.map((reviewer) => (
+          {[...requestedReviewers].map((reviewer) => (
             <RequestedReviewerListItem key={reviewer.id} reviewer={reviewer} />
           ))}
         </ul>
@@ -263,14 +269,14 @@ export default function ReviewerList({ grantId }) {
           />
           <div className="reviewer-list__suggestions-text">Suggestions</div>
           <ul className="reviewer-list__reviewers-index">
-            {/* {filteredReviewers.map((reviewer) => (
+            {potentialReviewers.map((reviewer) => (
               <RequestedReviewerListItem
                 key={reviewer.id}
                 reviewer={reviewer}
-                // onChecked={addRequestedReviewer}
+                onChecked={addRequestedReviewer}
                 // onUnchecked={removeRequestedReviewer}
               />
-            ))} */}
+            ))}
           </ul>
           <div className="reviewer-list__save-button">
             <Button

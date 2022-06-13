@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Suspense } from "react";
 import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -284,7 +284,9 @@ export default function GrantsShow() {
           </DndContext> */}
           </Container>
           <div className="grant-show__reviewer-panel">
-            <ReviewerList grantId={grant.id} />
+            <Suspense fallback={"THIS IS REVIEWER LIST FALLBACK"}>
+              <ReviewerList grantId={grant.id} />
+            </Suspense>
           </div>
         </div>
       </div>
