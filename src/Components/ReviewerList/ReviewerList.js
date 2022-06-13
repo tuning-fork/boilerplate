@@ -14,6 +14,46 @@ import {
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { MdAddComment } from "react-icons/md";
 
+//Reviewers:
+//reviewers that have been added in the DB <--can delete
+//Suggestions:
+//all potential reviewers, i.e. orgUsers <--can add to requestedReviewers array or remove from requestedReviewers array
+//Save: filters through requestedReviewers to add any new to DB
+
+// starting state
+// fetchAllOrgUsers
+// fetchCurrentReviewers
+// -> inital render
+
+// working state
+// 'requestedReviewers' = [...currentReviewers]
+//   -> onAdd()
+//   -> onRemove()
+// 'potentialReviewers' = [...orgUsers] -- [...requestedReviews]
+// -> hit "Save" handleSave(differenceBetween(currentReviews, requestedReviewers))
+
+// differenceBetween(current, requested) {
+//   const toAdd = [...requested]
+//   const toRemove = []
+
+//   for (const reviewer of current) {
+//     if reviewer not in requested {
+//       // toRemove
+//     }
+//   }
+// }
+
+// end state
+// handleSave(reviewers) {
+//   apicalls.put('/reviewers', arrayyOfreview)
+// }
+
+// apoi
+// def controller
+//   grant.reviewers.delete_all/
+//   grant.reviewers.create(params[:reviewers])
+// end
+
 export default function ReviewerList({ grantId }) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   //hook for array of current/created reviewers to display:
@@ -21,7 +61,6 @@ export default function ReviewerList({ grantId }) {
   //hook for array of checked reviewers to select/deselect:
   const [requestedReviewers, setRequestedReviewers] = useState([]);
   //hook for array of potential reviewers to select/deselect:
-  const [potentialReviewers, setPotentialReviewers] = useState([]);
   //hook for search filters to filter by reviewer name:
   const [searchFilters, setSearchFilters] = useState({
     name: "",
@@ -30,19 +69,27 @@ export default function ReviewerList({ grantId }) {
   const [openEditReviewers, setOpenEditReviewers] = useState(false);
   //react-query query to get all organization.users/potential reviewers:
 
-  useQuery(
-    "getAllOrganizationUsers",
-    () => getAllOrganizationUsers(organizationClient),
+  const { data: organizationUsers } = useQuery("getAllOrganizationUsers", () =>
+    getAllOrganizationUsers(organizationClient)
+  );
+  //react-query query to get all grant.reviewers/current reviewers and save in current reviewers state hook:
+  const { data: currentReviewers } = useQuery(
+    "getAllGrantReviewers",
+    () => getAllGrantReviewers(organizationClient, grantId),
     {
-      onSuccess(populatesPotentialReviewers) {
-        setPotentialReviewers(populatesPotentialReviewers);
+      onSuccess(currentReviewers) {
+        setRequestedReviewers(currentReviewers);
       },
     }
   );
-  //react-query query to get all grant.reviewers/current reviewers and save in current reviewers state hook:
-  const { data: currentReviewers } = useQuery("getAllGrantReviewers", () =>
-    getAllGrantReviewers(organizationClient, grantId)
-  );
+  const potentialReviewers = useMemo(() => {
+    return organizationUsers.filter((user) => {
+      const userIsRequested = requestedReviewers.any(
+        (requestedReviewer) => requestedReviewer.id === user.id
+      );
+      return !userIsRequested;
+    });
+  }, [organizationUsers, requestedReviewers]);
 
   //quick reduce function to make sure that onChecked selected requestedReviewer is not already in the array:
   // const reviewerCheck = useCallback(
