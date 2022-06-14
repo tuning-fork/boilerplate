@@ -12,6 +12,7 @@ import {
   deleteGrantReviewer,
 } from "../../Services/Organizations/Grants/GrantReviewersService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
 import { MdAddComment } from "react-icons/md";
 
 //Reviewers:
@@ -56,11 +57,9 @@ import { MdAddComment } from "react-icons/md";
 
 export default function ReviewerList({ grantId }) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  //hook for array of current/created reviewers to display:
-  // const [currentReviewers, setCurrentReviewers] = useState([]);
+  const { user } = useCurrentUser();
   //hook for array of checked reviewers to select/deselect:
   const [requestedReviewers, setRequestedReviewers] = useState(new Set());
-  //hook for array of potential reviewers to select/deselect:
   //hook for search filters to filter by reviewer name:
   const [searchFilters, setSearchFilters] = useState({
     name: "",
@@ -92,20 +91,6 @@ export default function ReviewerList({ grantId }) {
     return organizationUsers.filter((user) => !requestedReviewers.has(user));
   }, [organizationUsers, requestedReviewers]);
 
-  //quick reduce function to make sure that onChecked selected requestedReviewer is not already in the array:
-  // const reviewerCheck = useCallback(
-  //   (reviewer) => {
-  //     check = requestedReviewers.reduce((requestedReviewer) => {
-  //       return requestedReviewer.id === reviewer.id;
-  //     });
-  //     if (check.length > 0) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  //   [requestedReviewers]
-  // );
   // //on checked function to add potential reviewer to requested reviewer array:
   const addRequestedReviewer = useCallback(
     (newRequestedReviewer) => {
@@ -116,23 +101,20 @@ export default function ReviewerList({ grantId }) {
     },
     [setRequestedReviewers]
   );
-  // //on unchecked function to remove potential reviewer from requested reviewer array:
-  // const removeRequestedReviewer = useCallback(
-  //   (removedReviewer) => {
-  //     setRequestedReviewers(
-  //       requestedReviewers.filter((requestedReviewer) => {
-  //         if (requestedReviewer.id !== removedReviewer.id) {
-  //           return requestedReviewer;
-  //         }
-  //         // eslint-disable-next-line array-callback-return
-  //         return;
-  //       })
-  //     );
-  //     setCurrentReviewers(...currentReviewers, removedReviewer);
-  //     return requestedReviewers;
-  //   },
-  //   [setRequestedReviewers, requestedReviewers, currentReviewers]
-  // );
+  //on unchecked function to remove potential reviewer from requested reviewer array:
+  const removeRequestedReviewer = useCallback(
+    (removedReviewer) => {
+      console.log(removedReviewer);
+      console.log(requestedReviewers);
+      setRequestedReviewers((requestedReviewers) => {
+        return new Set([
+          ...requestedReviewers,
+          requestedReviewers.delete(removedReviewer),
+        ]);
+      });
+    },
+    [setRequestedReviewers, requestedReviewers]
+  );
   // //react-query mutation to create new reviewer (grant_user join table) in database:
   // const { mutate: createReviewer } = useMutation(
   //   (newReviewerFields) =>
@@ -209,15 +191,6 @@ export default function ReviewerList({ grantId }) {
   //   setRequestedReviewers([]);
   // };
 
-  // if (populatesPotentialReviewers.isLoading) {
-  //   return "Loading...";
-  // }
-
-  // if (populatesCurrentReviewers.isLoading) {
-  //   return "Loading...";
-  // }
-
-  // if (populatesCurrentReviewers.data && populatesPotentialReviewers.data) {
   return (
     <aside className="reviewer-list">
       <header className="reviewer-list__header">
@@ -233,7 +206,12 @@ export default function ReviewerList({ grantId }) {
       {requestedReviewers.size ? (
         <ul className="reviewer-list__reviewers-index">
           {[...requestedReviewers].map((reviewer) => (
-            <RequestedReviewerListItem key={reviewer.id} reviewer={reviewer} />
+            <RequestedReviewerListItem
+              key={reviewer.id}
+              reviewer={reviewer}
+              onChecked={addRequestedReviewer}
+              onUnchecked={removeRequestedReviewer}
+            />
           ))}
         </ul>
       ) : (
@@ -241,21 +219,6 @@ export default function ReviewerList({ grantId }) {
           No reviewers selected yet.
         </div>
       )}
-      {/* {currentReviewers && currentReviewers.length ? (
-        <ul className="reviewer-list__current-reviewers-index">
-          {currentReviewers.map((reviewer) => (
-            <CurrentReviewerListItem
-              key={reviewer.id}
-              reviewer={reviewer}
-              onClickRemove={onClickRemove}
-            />
-          ))}
-        </ul>
-      ) : (
-        <div className="reviewer-list__suggestions-text">
-          No reviewers saved.
-        </div>
-      )} */}
       {openEditReviewers ? (
         <div>
           <header className="reviewer-list__header">
@@ -274,7 +237,7 @@ export default function ReviewerList({ grantId }) {
                 key={reviewer.id}
                 reviewer={reviewer}
                 onChecked={addRequestedReviewer}
-                // onUnchecked={removeRequestedReviewer}
+                onUnchecked={removeRequestedReviewer}
               />
             ))}
           </ul>
@@ -300,5 +263,4 @@ export default function ReviewerList({ grantId }) {
       ) : null}
     </aside>
   );
-  // }
 }

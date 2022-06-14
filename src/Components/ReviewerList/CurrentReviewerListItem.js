@@ -5,7 +5,7 @@ import { MdCancel } from "react-icons/md";
 import "./RequestedReviewerListItem.css";
 
 export default function RequestedReviewerListItem(props) {
-  const { reviewer, onClickRemove } = props;
+  const { reviewer, removeRequestedReviewer } = props;
 
   return (
     <li className="reviewer-list-item">
@@ -14,11 +14,11 @@ export default function RequestedReviewerListItem(props) {
         lastName={reviewer.lastName}
       />
       {reviewer.firstName} {reviewer.lastName}
-      {/* <div className="reviewer-list-checkbox">
-        <Checkbox onChange={(event) => handleChecked(event.target.checked)} />
-      </div> */}
       <div className="reviewer-list-checkbox">
-        <Button variant="none" onClick={() => onClickRemove(reviewer)}>
+        <Button
+          variant="none"
+          onClick={() => removeRequestedReviewer(reviewer)}
+        >
           <MdCancel />
         </Button>
       </div>
