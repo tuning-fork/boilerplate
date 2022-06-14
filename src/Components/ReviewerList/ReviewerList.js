@@ -88,7 +88,9 @@ export default function ReviewerList({ grantId }) {
   }, [currentReviewers, organizationUsers]);
 
   const potentialReviewers = useMemo(() => {
-    return organizationUsers.filter((user) => !requestedReviewers.has(user));
+    return organizationUsers.filter(
+      (organizationUser) => organizationUser.id !== user.id
+    );
   }, [organizationUsers, requestedReviewers]);
 
   // //on checked function to add potential reviewer to requested reviewer array:
@@ -206,11 +208,10 @@ export default function ReviewerList({ grantId }) {
       {requestedReviewers.size ? (
         <ul className="reviewer-list__reviewers-index">
           {[...requestedReviewers].map((reviewer) => (
-            <RequestedReviewerListItem
+            <CurrentReviewerListItem
               key={reviewer.id}
               reviewer={reviewer}
-              onChecked={addRequestedReviewer}
-              onUnchecked={removeRequestedReviewer}
+              removeRequestedReviewer={removeRequestedReviewer}
             />
           ))}
         </ul>
