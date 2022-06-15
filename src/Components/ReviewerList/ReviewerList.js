@@ -8,8 +8,9 @@ import CurrentReviewerListItem from "./CurrentReviewerListItem";
 import { getAllOrganizationUsers } from "../../Services/OrganizationService";
 import {
   getAllGrantReviewers,
-  createGrantReviewer,
-  deleteGrantReviewer,
+  // createGrantReviewer,
+  // deleteGrantReviewer,
+  saveSelectedReviewers,
 } from "../../Services/Organizations/Grants/GrantReviewersService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
@@ -89,7 +90,9 @@ export default function ReviewerList({ grantId }) {
 
   const potentialReviewers = useMemo(() => {
     return organizationUsers.filter(
-      (organizationUser) => organizationUser.id !== user.id
+      (organizationUser) =>
+        organizationUser.id !== user.id &&
+        !requestedReviewers.has(organizationUser)
     );
   }, [organizationUsers, requestedReviewers]);
 
@@ -137,6 +140,17 @@ export default function ReviewerList({ grantId }) {
   //     },
   //   }
   // );
+
+  //react-query mutation to bulk delete and create reviewers based on new reviewer selections
+  const { mutate: saveSelectedReviewers } = useMutation(
+    (requestedReviewers) =>
+      saveSelectedReviewers(organizationClient, grantId, requestedReviewers),
+    {
+      onSuccess: () => {
+        alert("All new reviewer selections saved!");
+      },
+    }
+  );
   // //on save function to save new reviewer selections -
   // //runs create reviewer on any checked users in requested reviewers array
   // const saveReviewerSelections = (current, requested) => {
@@ -204,7 +218,27 @@ export default function ReviewerList({ grantId }) {
           <MdAddComment className="reviewer-list__edit-icon" />
         </Button>
       </header>
-      {console.log("requestedReviewers.size", requestedReviewers.size)}
+      {/* {currentReviewers.length ? (
+        <ul className="reviewer-list__reviewers-index">
+          {currentReviewers.map((reviewer) => (
+            <CurrentReviewerListItem
+              key={reviewer.id}
+              reviewer={reviewer}
+              removeRequestedReviewer={removeRequestedReviewer}
+            />
+          ))}
+        </ul>
+      ) : (
+        <div className="reviewer-list__suggestions-text">
+          No reviewers selected yet.
+        </div>
+      )} */}
+      <TextBox
+        labelText="Search for Reviewers"
+        onChange={(event) =>
+          setSearchFilters({ ...searchFilters, name: event.target.value })
+        }
+      />
       {requestedReviewers.size ? (
         <ul className="reviewer-list__reviewers-index">
           {[...requestedReviewers].map((reviewer) => (
@@ -220,48 +254,38 @@ export default function ReviewerList({ grantId }) {
           No reviewers selected yet.
         </div>
       )}
-      {openEditReviewers ? (
-        <div>
-          <header className="reviewer-list__header">
-            <h4>Request Review</h4>
-          </header>
-          <TextBox
-            labelText="Search for Reviewers"
-            onChange={(event) =>
-              setSearchFilters({ ...searchFilters, name: event.target.value })
-            }
-          />
-          <div className="reviewer-list__suggestions-text">Suggestions</div>
-          <ul className="reviewer-list__reviewers-index">
-            {potentialReviewers.map((reviewer) => (
-              <RequestedReviewerListItem
-                key={reviewer.id}
-                reviewer={reviewer}
-                onChecked={addRequestedReviewer}
-                onUnchecked={removeRequestedReviewer}
-              />
-            ))}
-          </ul>
-          <div className="reviewer-list__save-button">
-            <Button
-              variant="text"
-              // onClick={handleCancel}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={
-                () => console.log("hi")
-                /*
+      {/* {openEditReviewers ? ( */}
+      <div>
+        <ul className="reviewer-list__reviewers-index">
+          {potentialReviewers.map((reviewer) => (
+            <RequestedReviewerListItem
+              key={reviewer.id}
+              reviewer={reviewer}
+              onChecked={addRequestedReviewer}
+              onUnchecked={removeRequestedReviewer}
+            />
+          ))}
+        </ul>
+        <div className="reviewer-list__save-button">
+          <Button
+            variant="text"
+            // onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={
+              () => console.log("hi")
+              /*
                 saveReviewerSelections(currentReviewers, requestedReviewers)
                 */
-              }
-            >
-              Save
-            </Button>
-          </div>
+            }
+          >
+            Save
+          </Button>
         </div>
-      ) : null}
+      </div>
+      {/* ) : null} */}
     </aside>
   );
 }
