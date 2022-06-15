@@ -35,16 +35,16 @@ export const createGrantReviewer = (
 
 // updateGrantReviewer
 // for later - stub awaiting more reviewer functionality
-export const updateGrantReviewer = (
-  organizationClient,
-  grantId,
-  reviewerId,
-  fieldsToUpdate
-) => {
-  return organizationClient
-    .patch(`/grants/${grantId}/reviewers/${reviewerId}`, fieldsToUpdate)
-    .then((response) => response.data);
-};
+// export const updateGrantReviewer = (
+//   organizationClient,
+//   grantId,
+//   reviewerId,
+//   fieldsToUpdate
+// ) => {
+//   return organizationClient
+//     .patch(`/grants/${grantId}/reviewers/${reviewerId}`, fieldsToUpdate)
+//     .then((response) => response.data);
+// };
 
 // deleteGrantReviewer
 
@@ -55,5 +55,20 @@ export const deleteGrantReviewer = (
 ) => {
   return organizationClient
     .delete(`/grants/${grantId}/reviewers/${reviewerId}`)
+    .then((response) => response.data);
+};
+
+//bulk create and delete function to overwrite previously saved selected_reviewers
+//and replace with new selected_reviewers
+export const saveSelectedReviewers = (
+  organizationClient,
+  grantId,
+  selectedReviewers
+) => {
+  return organizationClient
+    .post(
+      `/grants/${grantId}/reviewers/save_selected_reviewers`,
+      selectedReviewers
+    )
     .then((response) => response.data);
 };
