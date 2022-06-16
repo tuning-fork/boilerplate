@@ -30,7 +30,7 @@ export default function SplashpageContactForm(props) {
 
   const sendContactSubmission = (splashpageContactFields) => {
     axios
-      .post("/api/contact_us", { ...splashpageContactFields, name: 12345 })
+      .post("/api/contact_us", { ...splashpageContactFields })
       .then((response) => {
         if (response.status === 201) {
           setDisplayContactSubmittedMessage(response.data.message);

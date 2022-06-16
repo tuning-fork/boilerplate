@@ -3,5 +3,6 @@
     justify-content: right;
     color: var(--secondary);
     flex-direction: row;
+    padding: 1rem;
   }
   
