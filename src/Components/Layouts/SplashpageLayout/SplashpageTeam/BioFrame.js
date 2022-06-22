@@ -1,5 +1,6 @@
 //needs to contain:
 //frame element - background pixelly image
+
 //probably on bio table:
 //bio first_name
 //bio last_name
