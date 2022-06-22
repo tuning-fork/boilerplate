@@ -86,10 +86,11 @@
   color: #e02780;
 }
 .pinkPanel {
-  background-color: var(--secondary-text);
-  color: #E3ED55;
+  /* background-color: #FCE353; */
+  background-color: var(--secondary-tint);  
+  color: var(--secondary-text);
 }
 .tealPanel {
-  background-color: var(--primary);
+  background-color: var(--primary-tint);
   color: #4B1E75;
 }
