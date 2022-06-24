@@ -86,7 +86,7 @@ export default function Dashboard() {
         </header>
         <ul className="dashboard__users-list">
           {users.map((user) => (
-            <UserListItem key={user.id} user={user} />
+            <UserListItem key={user.uuid} user={user} />
           ))}
         </ul>
       </article>

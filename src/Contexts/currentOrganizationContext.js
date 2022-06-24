@@ -26,12 +26,9 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const { user, authenticatedApiClient } = useCurrentUser();
 
   const fetchUserOrganizations = useCallback(async () => {
-    const organizations = await getUserOrganizations(
-      authenticatedApiClient,
-      user.id
-    );
+    const organizations = await getUserOrganizations(authenticatedApiClient);
     setOrganizations(organizations);
-  }, [user, authenticatedApiClient]);
+  }, [authenticatedApiClient]);
 
   const fetchCurrentOrganization = async (organizationId) => {
     try {

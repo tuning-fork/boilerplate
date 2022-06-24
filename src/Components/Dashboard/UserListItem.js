@@ -8,7 +8,7 @@ export default function UserListItem(props) {
 
   return (
     <li className="user-list-item">
-      <CurrentOrganizationLink to={`/users/${user.id}`}>
+      <CurrentOrganizationLink to={`/users/${user.uuid}`}>
         <UserIcon firstName={user.firstName} lastName={user.lastName} />
         {user.firstName} {user.lastName}
       </CurrentOrganizationLink>
