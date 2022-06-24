@@ -39,7 +39,7 @@ export default function Panel(props) {
 
 Panel.propTypes = {
   show: PropTypes.bool,
-  heading: PropTypes.string.isRequired,
+  heading: PropTypes.string,
   headingClassName: PropTypes.string,
   className: PropTypes.string,
   panelPalette: PropTypes.string,

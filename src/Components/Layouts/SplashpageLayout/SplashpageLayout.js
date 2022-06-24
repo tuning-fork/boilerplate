@@ -9,6 +9,7 @@ import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
+import TeamPage from "./SplashpageTeam/TeamPage.js";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -73,7 +74,7 @@ export default function SplashpageLayout() {
     console.log("handleSwitchSplashPagePanel", panelLabelInput);
     setModalLabel(panelLabelInput);
     if (panelLabelInput === "Our Team") {
-      setPanelContents(<div>Our Team</div>);
+      setPanelContents(<TeamPage />);
       setPanelColors("bluePanel");
     } else if (panelLabelInput === "Try It Out") {
       setPanelContents(<div>Try It Out</div>);
