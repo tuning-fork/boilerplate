@@ -25,7 +25,7 @@ export default function SectionsNew(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -34,7 +34,7 @@ export default function SectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganization.id, organizationClient]);
+  }, [currentOrganization.uuid, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);

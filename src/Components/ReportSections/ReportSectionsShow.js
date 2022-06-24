@@ -31,7 +31,7 @@ export default function ReportSectionsShow(props) {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       const grantId = props.grant_id;
       const reportId = props.report_id;
       const reportSectionId = props.report_section_id;
@@ -54,7 +54,7 @@ export default function ReportSectionsShow(props) {
         });
     }
   }, [
-    currentOrganization.id,
+    currentOrganization.uuid,
     organizationClient,
     props.grant_id,
     props.report_id,

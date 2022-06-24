@@ -24,7 +24,7 @@ export default function BoilerplatesNew() {
   );
 
   const handleCancel = () => {
-    history.push(`/organizations/${currentOrganization.id}/boilerplates`);
+    history.push(`/organizations/${currentOrganization.uuid}/boilerplates`);
   };
 
   const { mutate: createBoilerplate } = useMutation(

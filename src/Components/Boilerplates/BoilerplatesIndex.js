@@ -15,7 +15,7 @@ export default function BoilerplatesIndex() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.id;
+  const currentOrganizationId = currentOrganization.uuid;
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 

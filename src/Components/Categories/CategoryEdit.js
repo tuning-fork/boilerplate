@@ -11,7 +11,7 @@ export default function CategoryEdit(props) {
   const handleSubmit = (categoryFields) => {
     CategoriesService.updateCategory(organizationClient, props.category.id, {
       ...categoryFields,
-      organizationId: organizationClient,
+      organizationUuid: organizationClient,
     })
       .then((category) => {
         if (category.id) {

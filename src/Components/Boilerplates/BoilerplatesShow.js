@@ -60,7 +60,7 @@ export default function BoilerplatesShow() {
           headerText={boilerplate.title}
           wordcount={boilerplate.wordcount}
           categoryText={boilerplate.categoryName}
-          breadCrumbLink={`/organizations/${currentOrganization.id}/boilerplates/`}
+          breadCrumbLink={`/organizations/${currentOrganization.uuid}/boilerplates/`}
           editLink={`/boilerplates/${boilerplate.id}/edit/`}
           // copyLink={`/boilerplates/${boilerplate.id}/copy/`}
           setIsOpen={setEditingBoilerplate}

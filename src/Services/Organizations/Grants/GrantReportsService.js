@@ -7,7 +7,7 @@ const mapGrantReport = (apiGrantReport) => ({
   // fundingOrgId: apiGrantReport.grant.funding_org_id.toString(),
   // fundingOrgName: apiGrantReport.grant.funding_org_name,
   id: apiGrantReport.id.toString(),
-  // organizationId: apiGrantReport.grant.organization_id.toString(),
+  // organizationUuid: apiGrantReport.grant.organization_id.toString(),
   // purpose: apiGrantReport.grant.purpose,
   // rfpUrl: apiGrantReport.grant.rfp_url,
   title: apiGrantReport.title,
@@ -21,7 +21,7 @@ const mapGrantReportToApiGrantReport = (grantReport) => ({
   ...grantReport,
   // rfp_url: grantReport.grant.rfpUrl,
   // funding_org_id: grantReport.grant.fundingOrgId,
-  // organization_id: grantReport.grant.organizationId,
+  // organization_id: grantReport.grant.organizationUuid,
 });
 
 // getGrantReport

@@ -1,17 +1,17 @@
 import AuthenticatedResource from "./AuthenticatedResource";
 
 export default class OrganizationResource extends AuthenticatedResource {
-  static url({ organizationId }) {
+  static url({ organizationUuid }) {
     return (
       AuthenticatedResource.urlRoot +
-      `/organizations/${organizationId}${this.urlRoot}/${this.pk()}`
+      `/organizations/${organizationUuid}${this.urlRoot}/${this.pk()}`
     );
   }
 
-  static listUrl({ organizationId }) {
+  static listUrl({ organizationUuid }) {
     return (
       AuthenticatedResource.urlRoot +
-      `/organizations/${organizationId}${this.urlRoot}`
+      `/organizations/${organizationUuid}${this.urlRoot}`
     );
   }
 }

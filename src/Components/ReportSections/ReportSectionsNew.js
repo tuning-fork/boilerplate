@@ -22,7 +22,7 @@ export default function ReportSectionsNew(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -31,7 +31,7 @@ export default function ReportSectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganization.id, organizationClient]);
+  }, [currentOrganization.uuid, organizationClient]);
 
   const clearForm = () => {
     setQuillText("");

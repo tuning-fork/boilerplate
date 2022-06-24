@@ -7,7 +7,7 @@ const mapGrant = (apiGrant) => ({
   fundingOrgId: apiGrant.funding_org_id.toString(),
   fundingOrgName: apiGrant.funding_org_name,
   id: apiGrant.id.toString(),
-  organizationId: apiGrant.organization_id.toString(),
+  organizationUuid: apiGrant.organization_uuid,
   purpose: apiGrant.purpose,
   rfpUrl: apiGrant.rfp_url,
   submitted: apiGrant.submitted,
@@ -21,7 +21,7 @@ const mapGrantToApiGrant = (grant) => ({
   ...grant,
   rfp_url: grant.rfpUrl,
   funding_org_id: grant.fundingOrgId,
-  organization_id: grant.organizationId,
+  organization_id: grant.organizationUuid,
 });
 
 // getGrant

@@ -14,12 +14,12 @@ export default function CategoriesNew(props) {
     event.preventDefault();
     const newCategory = {
       name: name,
-      organization_id: currentOrganization.id,
+      organizationUuid: currentOrganization.uuid,
     };
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       createCategory(organizationClient, newCategory)
         .then((category) => {
-          const { createdAt, updatedAt, id, name, organizationId } = category;
+          const { createdAt, updatedAt, id, name, organizationUuid } = category;
           props.setCategories([
             ...props.currentCategories,
             {
@@ -27,7 +27,7 @@ export default function CategoriesNew(props) {
               updatedAt,
               id,
               name,
-              organizationId,
+              organizationUuid,
             },
           ]);
           props.onClose(category.id);

@@ -11,7 +11,7 @@ export default function FundingOrgNew(props) {
   const handleSubmit = (fundingOrgFields) => {
     createFundingOrg(organizationClient, {
       ...fundingOrgFields,
-      organizationId: currentOrganization.id,
+      organizationUuid: currentOrganization.uuid,
     })
       .then((fundingOrg) => {
         if (fundingOrg.id) {

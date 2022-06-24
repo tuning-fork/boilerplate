@@ -14,7 +14,7 @@ export default function FundingOrgEdit(props) {
       props.fundingOrg.id,
       {
         ...fundingOrgFields,
-        organizationId: organizationClient,
+        organizationUuid: organizationClient,
       }
     )
       .then((fundingOrg) => {

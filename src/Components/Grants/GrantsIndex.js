@@ -22,7 +22,7 @@ export default function GrantsIndex() {
   const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.id;
+  const currentOrganizationId = currentOrganization.uuid;
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 

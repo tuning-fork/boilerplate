@@ -5,7 +5,12 @@ const mapFundingOrg = (apiFundingOrg) => ({
   website: apiFundingOrg.website,
   archived: apiFundingOrg.archived,
   id: apiFundingOrg.id.toString(),
-  organizationId: apiFundingOrg.organization_id.toString(),
+  organizationUuid: apiFundingOrg.organization_uuid,
+});
+
+const mapFundingOrgToApiFundingOrg = (fundingOrg) => ({
+  ...fundingOrg,
+  organization_id: fundingOrg.organizationUuid,
 });
 
 // getFundingOrg
@@ -35,7 +40,7 @@ export const deleteFundingOrg = (organizationClient, fundingOrgId) => {
 
 export const createFundingOrg = (organizationClient, newFundingOrg) => {
   return organizationClient
-    .post(`/funding_orgs/`, newFundingOrg)
+    .post(`/funding_orgs/`, mapFundingOrgToApiFundingOrg(newFundingOrg))
     .then((response) => response.data);
 };
 
@@ -47,6 +52,9 @@ export const updateFundingOrg = (
   fieldsToUpdate
 ) => {
   return organizationClient
-    .patch(`/funding_orgs/${fundingOrgId}`, fieldsToUpdate)
+    .patch(
+      `/funding_orgs/${fundingOrgId}`,
+      mapFundingOrgToApiFundingOrg(fieldsToUpdate)
+    )
     .then((response) => response.data);
 };

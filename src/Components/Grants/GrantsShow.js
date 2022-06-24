@@ -214,7 +214,7 @@ export default function GrantsShow() {
           purposeText={grant.purpose}
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
-          breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
+          breadCrumbLink={`/organizations/${currentOrganization.uuid}/grants/`}
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
         />

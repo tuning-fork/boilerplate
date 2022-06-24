@@ -141,7 +141,7 @@ export default function ReportsShow() {
           purposeText={"purpose"}
           deadline={report.deadline}
           totalWordCount={totalWordCount}
-          breadCrumbLink={`/organizations/${currentOrganization.id}/reports/`}
+          breadCrumbLink={`/organizations/${currentOrganization.uuid}/reports/`}
           copyLink={`/reports/${report.id}/copy/`}
           editLink={`/reports/${report.id}/edit/`}
         />

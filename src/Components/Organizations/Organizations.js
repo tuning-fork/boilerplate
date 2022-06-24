@@ -30,8 +30,8 @@ export default function Organizations() {
     alert("You have successfully added an organization.");
   };
 
-  // const handleClickEditOrganization = (organizationId) => {
-  //   setEditingOrganizationId(organizationId);
+  // const handleClickEditOrganization = (organizationUuid) => {
+  //   setEditingOrganizationId(organizationUuid);
   // };
 
   const handleEditOrganization = ({ newName }) =>
@@ -72,19 +72,19 @@ export default function Organizations() {
     //       <b>Organization Name</b>
     //       <ul className="Organizations__List">
     //         {organizations.map((organization) => (
-    //           <li key={organization.id}>
-    //             <Link to={`/organizations/${organization.id}`}>
+    //           <li key={organization.uuid}>
+    //             <Link to={`/organizations/${organization.uuid}`}>
     //               {organization.name}
     //             </Link>
     //             <Button
     //               variant="outline-dark"
-    //               onClick={() => handleDeleteOrganization(organization.id)}
+    //               onClick={() => handleDeleteOrganization(organization.uuid)}
     //             >
     //               Delete
     //             </Button>
     //             <Button
     //               variant="outline-dark"
-    //               onClick={() => handleClickEditOrganization(organization.id)}
+    //               onClick={() => handleClickEditOrganization(organization.uuid)}
     //             >
     //               Edit
     //             </Button>

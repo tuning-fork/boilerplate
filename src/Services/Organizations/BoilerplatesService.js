@@ -4,7 +4,7 @@ const mapBoilerplate = (apiBoilerplate) => ({
   categoryId: apiBoilerplate.category_id.toString(),
   categoryName: apiBoilerplate.category_name,
   id: apiBoilerplate.id.toString(),
-  organizationId: apiBoilerplate.organization_id.toString(),
+  organizationUuid: apiBoilerplate.organization_uuid,
   title: apiBoilerplate.title,
   text: apiBoilerplate.text,
   wordcount: apiBoilerplate.wordcount,
@@ -14,7 +14,7 @@ const mapBoilerplate = (apiBoilerplate) => ({
 const mapBoilerplateToApiBoilerplate = (boilerplate) => ({
   ...boilerplate,
   category_id: boilerplate.categoryId,
-  organization_id: boilerplate.organizationId,
+  organization_id: boilerplate.organizationUuid,
 });
 
 // getBoilerplate

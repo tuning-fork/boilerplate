@@ -23,6 +23,6 @@ export default {
 
 export const Navbar = (props) => (
   <HashRouter>
-    <Component {...props} organizationId="2" />
+    <Component {...props} />
   </HashRouter>
 );

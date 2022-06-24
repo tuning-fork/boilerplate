@@ -28,7 +28,7 @@ export default function ReportSectionsUpdateFinal(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       getGrantSection(
         organizationClient,
         props.grant_id,
@@ -46,7 +46,7 @@ export default function ReportSectionsUpdateFinal(props) {
         .catch((error) => console.error(error));
     }
   }, [
-    currentOrganization.id,
+    currentOrganization.uuid,
     organizationClient,
     props.grant_id,
     props.report_id,

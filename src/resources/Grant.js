@@ -4,7 +4,7 @@ export default class Grant extends OrganizationResource {
   archived = false;
   deadline = null;
   fundingOrgId = undefined;
-  organizationId = undefined;
+  organizationUuid = undefined;
   purpose = "";
   rfpUrl = "";
   submitted = false;
@@ -14,7 +14,7 @@ export default class Grant extends OrganizationResource {
   static schema = {
     ...OrganizationResource.schema,
     deadline: Date,
-    organizationId: String,
+    organizationUuid: String,
     fundingOrgId: String,
   };
 

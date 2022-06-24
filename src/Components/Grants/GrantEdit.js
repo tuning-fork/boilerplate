@@ -45,7 +45,7 @@ export default function GrantEdit() {
   const handleSubmit = (grantFields) => {
     GrantsService.updateGrant(organizationClient, grantId, {
       ...grantFields,
-      organizationId: grant.organizationId,
+      organizationUuid: grant.organizationUuid,
       fundingOrgId: grant.fundingOrgId,
     })
       .then(setGrant)
