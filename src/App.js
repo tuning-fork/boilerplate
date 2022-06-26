@@ -50,16 +50,16 @@ export default function App() {
                       component={Dashboard}
                     />
                     <PrivateRoute
-                      path="/organizations/:organizationUuid/grants/:grant_id/edit"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/edit"
                       component={GrantEdit}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants/:grant_id/copy"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/copy"
                       component={GrantCopy}
                     />
                     <Route
                       exact
-                      path="/organizations/:organizationUuid/grants/:grant_id"
+                      path="/organizations/:organizationUuid/grants/:grantUuid"
                       component={() => (
                         <PasteBoilerplateContentPopoutProvider>
                           <GrantsShow />
@@ -73,12 +73,12 @@ export default function App() {
                     <Route
                       exact
                       path={
-                        "/organizations/:organizationUuid/grants/:grant_id/reports/:report_id"
+                        "/organizations/:organizationUuid/grants/:grantUuid/reports/:report_id"
                       }
                       component={ReportsShow}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants/:grant_id/reports-new"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/reports-new"
                       component={ReportsNew}
                     />
                     <Route
