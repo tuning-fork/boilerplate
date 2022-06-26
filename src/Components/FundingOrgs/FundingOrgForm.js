@@ -5,6 +5,8 @@ import "./FundingOrgForm.css";
 
 export default function FundingOrgForm(props) {
   const [fundingOrgFields, setFundingOrgFields] = useState({
+    name: "",
+    website: "",
     ...props.fundingOrg,
   });
 

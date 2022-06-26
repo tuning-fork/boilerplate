@@ -4,7 +4,7 @@ const mapFundingOrg = (apiFundingOrg) => ({
   name: apiFundingOrg.name,
   website: apiFundingOrg.website,
   archived: apiFundingOrg.archived,
-  id: apiFundingOrg.id.toString(),
+  uuid: apiFundingOrg.uuid,
   organizationUuid: apiFundingOrg.organization_uuid,
 });
 
@@ -14,9 +14,9 @@ const mapFundingOrgToApiFundingOrg = (fundingOrg) => ({
 });
 
 // getFundingOrg
-export const getFundingOrg = (organizationClient, fundingOrgId) => {
+export const getFundingOrg = (organizationClient, fundingOrgUuid) => {
   return organizationClient
-    .get(`/funding_orgs/${fundingOrgId}`)
+    .get(`/funding_orgs/${fundingOrgUuid}`)
     .then((response) => response.data);
 };
 
@@ -30,9 +30,9 @@ export const getAllFundingOrgs = (organizationClient) => {
 
 // deleteFundingOrg
 
-export const deleteFundingOrg = (organizationClient, fundingOrgId) => {
+export const deleteFundingOrg = (organizationClient, fundingOrgUuid) => {
   return organizationClient
-    .delete(`/funding_orgs/${fundingOrgId}`)
+    .delete(`/funding_orgs/${fundingOrgUuid}`)
     .then((response) => response.data);
 };
 
@@ -48,12 +48,12 @@ export const createFundingOrg = (organizationClient, newFundingOrg) => {
 
 export const updateFundingOrg = (
   organizationClient,
-  fundingOrgId,
+  fundingOrgUuid,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/funding_orgs/${fundingOrgId}`,
+      `/funding_orgs/${fundingOrgUuid}`,
       mapFundingOrgToApiFundingOrg(fieldsToUpdate)
     )
     .then((response) => response.data);

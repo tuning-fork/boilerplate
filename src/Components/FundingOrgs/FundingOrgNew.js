@@ -14,8 +14,8 @@ export default function FundingOrgNew(props) {
       organizationUuid: currentOrganization.uuid,
     })
       .then((fundingOrg) => {
-        if (fundingOrg.id) {
-          props.onClose(fundingOrg.id);
+        if (fundingOrg.uuid) {
+          props.onClose(fundingOrg.uuid);
         }
       })
       .catch((error) => {
