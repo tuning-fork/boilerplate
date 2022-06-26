@@ -47,17 +47,17 @@ function countTotalSectionsWords(sections = []) {
 
 export default function GrantsShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const { grant_id: grantId } = useParams();
+  const { grantUuid } = useParams();
   const {
     data: grant,
     isError,
     isLoading,
     error,
   } = useQuery("getGrant", () =>
-    GrantsService.getGrant(organizationClient, grantId)
+    GrantsService.getGrant(organizationClient, grantUuid)
   );
-  const [newSectionId, setNewSectionId] = useState(null);
-  const [editingSectionId, setEditingSectionId] = useState(null);
+  const [newSectionUuid, setNewSectionUuid] = useState(null);
+  const [editingSectionUuid, setEditingSectionUuid] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
   // const sensors = useSensors(
@@ -77,13 +77,13 @@ export default function GrantsShow() {
     (newSectionFields) =>
       SectionsService.createSection(
         organizationClient,
-        grantId,
+        grantUuid,
         newSectionFields
       ),
     {
       onSuccess: () => {
         alert("Section created!");
-        setNewSectionId(null);
+        setNewSectionUuid(null);
       },
     }
   );
@@ -92,14 +92,14 @@ export default function GrantsShow() {
     (newSectionFields) =>
       SectionsService.updateSection(
         organizationClient,
-        grantId,
-        newSectionFields.id,
+        grantUuid,
+        newSectionFields.uuid,
         newSectionFields
       ),
     {
       onSuccess: () => {
         alert("Section edited!");
-        setEditingSectionId(null);
+        setEditingSectionUuid(null);
       },
     }
   );
@@ -108,7 +108,7 @@ export default function GrantsShow() {
     createSection({
       title: newSectionFields.title,
       text: newSectionFields.html,
-      grant_id: grantId,
+      grantUuid: grantUuid,
       sort_order: precedingSection ? precedingSection.sortOrder + 1 : 0,
       wordcount: countWords(newSectionFields.text),
     });
@@ -126,12 +126,12 @@ export default function GrantsShow() {
   // const handleDeleteSection = (sectionFields) => {
   //   // eslint-disable-next-line no-restricted-globals
   //   if (confirm(`Are you sure you want to delete this section?`)) {
-  //     updateGrantSection(organizationClient, grantId, sectionFields.id, {
+  //     updateGrantSection(organizationClient, grantUuid, sectionFields.uuid, {
   //       archived: true,
   //     })
   //       .then(() => {
   //         alert("Section deleted!");
-  //         setEditingSectionId(null);
+  //         setEditingSectionUuid(null);
   //       })
   //       .catch((error) => {
   //         console.error(error);
@@ -146,23 +146,23 @@ export default function GrantsShow() {
   //   if (active.id !== over.id) {
   //     setGrant((grant) => {
   //       const oldIndex = grant.sections.findIndex(
-  //         (section) => section.id === active.id
+  //         (section) => section.uuid === active.uuid
   //       );
   //       const newIndex = grant.sections.findIndex(
-  //         (section) => section.id === over.id
+  //         (section) => section.uuid === over.uuid
   //       );
   //       const reorderedSections = arrayMove(grant.sections, oldIndex, newIndex);
 
   //       return { ...grant, sections: reorderedSections };
   //     });
 
-  //     const sectionId = active.id;
+  //     const sectionUuid = active.id;
   //     const sortOrder = active.data.current.sortable.index;
 
-  //     reorderGrantSection(organizationClient, grant.id, sectionId, sortOrder)
+  //     reorderGrantSection(organizationClient, grant.uuid, sectionUuid, sortOrder)
   //       .then((response) => {
   //         console.log(
-  //           `Succesfully sorted section ${sectionId} to index ${sortOrder}!`,
+  //           `Succesfully sorted section ${sectionUuid} to index ${sortOrder}!`,
   //           response
   //         );
   //       })
@@ -180,11 +180,11 @@ export default function GrantsShow() {
     return <span>Error: {error.message}</span>;
   }
 
-  const noSectionsContent = newSectionId ? (
+  const noSectionsContent = newSectionUuid ? (
     <SectionForm
       onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
       onSubmit={(newSectionFields) => handleCreateSection({ newSectionFields })}
-      onCancel={() => setNewSectionId(null)}
+      onCancel={() => setNewSectionUuid(null)}
     />
   ) : (
     <>
@@ -192,7 +192,7 @@ export default function GrantsShow() {
         Welcome to your grant! Get started by clicking the Add Section Button
         below.
       </p>
-      <Button onClick={() => setNewSectionId(1)} variant="text">
+      <Button onClick={() => setNewSectionUuid(1)} variant="text">
         <MdAddCircle />
         Add Section
       </Button>
@@ -215,8 +215,8 @@ export default function GrantsShow() {
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganization.uuid}/grants/`}
-          copyLink={`/grants/${grant.id}/copy/`}
-          editLink={`/grants/${grant.id}/edit/`}
+          copyLink={`/grants/${grant.uuid}/copy/`}
+          editLink={`/grants/${grant.uuid}/edit/`}
         />
         <Container
           className="grants-show__sections-container"
@@ -235,23 +235,23 @@ export default function GrantsShow() {
           {grant.sections.length ? (
             <ol className="grants-show__section-list">
               {grant.sections.map((section) => (
-                <SortableElement key={section.id} id={section.id}>
-                  {editingSectionId === section.id ? (
+                <SortableElement key={section.uuid} id={section.uuid}>
+                  {editingSectionUuid === section.uuid ? (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
                       }
                       onSubmit={handleEditSection}
-                      onCancel={() => setEditingSectionId(null)}
+                      onCancel={() => setEditingSectionUuid(null)}
                       section={section}
                     />
                   ) : (
                     <SectionsShow
                       section={section}
-                      onClickEdit={setEditingSectionId}
+                      onClickEdit={setEditingSectionUuid}
                     />
                   )}
-                  {newSectionId === section.id && (
+                  {newSectionUuid === section.uuid && (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
@@ -262,11 +262,11 @@ export default function GrantsShow() {
                           precedingSection: section,
                         })
                       }
-                      onCancel={() => setNewSectionId(null)}
+                      onCancel={() => setNewSectionUuid(null)}
                     />
                   )}
                   <Button
-                    onClick={() => setNewSectionId(section.id)}
+                    onClick={() => setNewSectionUuid(section.uuid)}
                     variant="text"
                   >
                     <MdAddCircle />

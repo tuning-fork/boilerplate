@@ -28,7 +28,7 @@ export default function GrantsNew() {
       onSuccess: (newGrant) => {
         alert("Grant created!");
         history.push(
-          `/organizations/${currentOrganization.uuid}/grants/${newGrant.id}`
+          `/organizations/${currentOrganization.uuid}/grants/${newGrant.uuid}`
         );
       },
     }

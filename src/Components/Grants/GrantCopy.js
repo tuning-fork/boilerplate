@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
@@ -17,19 +17,19 @@ export default function GrantCopy() {
   const [isLoading, setIsLoading] = useState(true);
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
-  const { grant_id: grantId } = useParams();
+  const { grantUuid } = useParams();
   const history = useHistory();
 
   const handleCancel = (event) => {
     event.preventDefault();
-    history.push(buildOrganizationsLink(`/grants/${grantId}`));
+    history.push(buildOrganizationsLink(`/grants/${grantUuid}`));
   };
 
   const handleSubmit = (newGrantFields) => {
-    copyGrant(organizationClient, grantId, newGrantFields)
+    copyGrant(organizationClient, grantUuid, newGrantFields)
       .then((copiedGrant) => {
         alert("Grant copied!");
-        history.push(buildOrganizationsLink(`/grants/${copiedGrant.id}`));
+        history.push(buildOrganizationsLink(`/grants/${copiedGrant.uuid}`));
       })
       .catch((error) => {
         console.error(error);
@@ -39,16 +39,20 @@ export default function GrantCopy() {
       });
   };
 
+  const loadFundingOrgs = useCallback(() => {
+    return getAllFundingOrgs(organizationClient).then(setFundingOrgs);
+  }, [organizationClient, setFundingOrgs]);
+
   useEffect(() => {
     if (!organizationClient) {
       return;
     }
 
     Promise.all([
-      getGrant(organizationClient, grantId).then(setGrant),
-      getAllFundingOrgs(organizationClient).then(setFundingOrgs),
+      getGrant(organizationClient, grantUuid).then(setGrant),
+      loadFundingOrgs(),
     ]).finally(() => setIsLoading(false));
-  }, [grantId, organizationClient]);
+  }, [grantUuid, organizationClient, loadFundingOrgs]);
 
   if (isLoading) {
     return "Loading...";
@@ -60,6 +64,7 @@ export default function GrantCopy() {
         <h1 className="grant-copy__header">Copy Grant</h1>
         <GrantForm
           grant={{ ...grant, title: `${grant.title} copy` }}
+          loadFundingOrgs={loadFundingOrgs}
           fundingOrgs={fundingOrgs}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
