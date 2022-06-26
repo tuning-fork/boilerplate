@@ -32,10 +32,10 @@ export default function ReportSectionsShow(props) {
 
   useEffect(() => {
     if (currentOrganization.uuid) {
-      const grantId = props.grant_id;
+      const grantUuid = props.grantUuid;
       const reportId = props.report_id;
       const reportSectionId = props.report_section_id;
-      getReportSection(organizationClient, grantId, reportId, reportSectionId)
+      getReportSection(organizationClient, grantUuid, reportId, reportSectionId)
         .then((reportSection) => {
           setId(reportSection.id);
           setTitle(reportSection.title);
@@ -56,7 +56,7 @@ export default function ReportSectionsShow(props) {
   }, [
     currentOrganization.uuid,
     organizationClient,
-    props.grant_id,
+    props.grantUuid,
     props.report_id,
     props.report_section_id,
   ]);
@@ -66,12 +66,12 @@ export default function ReportSectionsShow(props) {
   };
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
-    const grantId = props.grant_id;
+    const grantUuid = props.grantUuid;
     const reportId = props.report_id;
     const reportSectionId = props.report_section_id;
     updateReportSection(
       organizationClient,
-      grantId,
+      grantUuid,
       reportId,
       reportSectionId,
       {

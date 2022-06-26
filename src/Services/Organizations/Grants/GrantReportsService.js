@@ -25,25 +25,25 @@ const mapGrantReportToApiGrantReport = (grantReport) => ({
 });
 
 // getGrantReport
-export const getGrantReport = (organizationClient, grantId, reportId) => {
+export const getGrantReport = (organizationClient, grantUuid, reportId) => {
   return organizationClient
-    .get(`/grants/${grantId}/reports/${reportId}`)
+    .get(`/grants/${grantUuid}/reports/${reportId}`)
     .then((response) => mapGrantReport(response.data));
 };
 
 // listGrantReports
 
-export const getAllGrantReports = (organizationClient, grantId) => {
+export const getAllGrantReports = (organizationClient, grantUuid) => {
   return organizationClient
-    .get(`/grants/${grantId}/reports/`)
+    .get(`/grants/${grantUuid}/reports/`)
     .then((response) => response.data.map(mapGrantReport));
 };
 
 // deleteGrantReport
 
-export const deleteGrantReport = (organizationClient, grantId, reportId) => {
+export const deleteGrantReport = (organizationClient, grantUuid, reportId) => {
   return organizationClient
-    .delete(`/grants/${grantId}/reports/${reportId}`)
+    .delete(`/grants/${grantUuid}/reports/${reportId}`)
     .then((response) => response.data);
 };
 
@@ -51,12 +51,12 @@ export const deleteGrantReport = (organizationClient, grantId, reportId) => {
 
 export const createGrantReport = (
   organizationClient,
-  grantId,
+  grantUuid,
   newGrantReport
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantId}/reports/`,
+      `/grants/${grantUuid}/reports/`,
       mapGrantReportToApiGrantReport(newGrantReport)
     )
     .then((response) => response.data);
@@ -66,13 +66,13 @@ export const createGrantReport = (
 
 export const updateGrantReport = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/grants/${grantId}/reports/${reportId}`,
+      `/grants/${grantUuid}/reports/${reportId}`,
       mapGrantReportToApiGrantReport(fieldsToUpdate)
     )
     .then((response) => response.data);
@@ -82,13 +82,13 @@ export const updateGrantReport = (
 
 export const copyGrantReport = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   copyGrantReportFields
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantId}/reports/${reportId}/copy`,
+      `/grants/${grantUuid}/reports/${reportId}/copy`,
       mapGrantReportToApiGrantReport(copyGrantReportFields)
     )
     .then((response) => response.data);

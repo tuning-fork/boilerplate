@@ -37,7 +37,7 @@ export default function ReportsShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = countTotalSectionsWords(report?.report_sections);
 
-  const { grant_id: grantId } = useParams();
+  const { grantUuid } = useParams();
   const { report_id: reportId } = useParams();
   // const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
@@ -48,20 +48,20 @@ export default function ReportsShow() {
     if (!organizationClient) {
       return;
     }
-    GrantReportsService.getGrantReport(organizationClient, grantId, reportId)
+    GrantReportsService.getGrantReport(organizationClient, grantUuid, reportId)
       .then((report) => setReport(report))
       .catch((error) => setErrors([error]))
       .finally(() => setLoading(false));
-  }, [organizationClient, grantId, reportId]);
+  }, [organizationClient, grantUuid, reportId]);
 
   const handleCreateReportSection = ({
     newReportSectionFields,
     precedingReportSection,
   }) => {
-    createReportSection(organizationClient, grantId, reportId, {
+    createReportSection(organizationClient, grantUuid, reportId, {
       title: newReportSectionFields.title,
       text: newReportSectionFields.html,
-      grant_id: grantId,
+      grantUuid: grantUuid,
       report_id: reportId,
       sort_order: precedingReportSection
         ? precedingReportSection.sortOrder + 1
@@ -77,7 +77,7 @@ export default function ReportsShow() {
   const handleEditReportSection = (newReportSectionFields) => {
     updateReportSection(
       organizationClient,
-      grantId,
+      grantUuid,
       newReportSectionFields.id,
       {
         title: newReportSectionFields.title,

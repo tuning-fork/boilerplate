@@ -9,22 +9,26 @@ export const mapReportSection = (apiReportSection) => ({
 // getReportSection
 export const getReportSection = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   reportSectionId
 ) => {
   return organizationClient
     .get(
-      `/grants/${grantId}/reports/${reportId}/report_sections/${reportSectionId}`
+      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}`
     )
     .then((response) => response.data);
 };
 
 // listReportSections
 
-export const getAllReportSections = (organizationClient, grantId, reportId) => {
+export const getAllReportSections = (
+  organizationClient,
+  grantUuid,
+  reportId
+) => {
   return organizationClient
-    .get(`/grants/${grantId}/reports/${reportId}/report_sections/`)
+    .get(`/grants/${grantUuid}/reports/${reportId}/report_sections/`)
     .then((response) => response.data);
 };
 
@@ -32,13 +36,13 @@ export const getAllReportSections = (organizationClient, grantId, reportId) => {
 
 export const deleteReportSection = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   reportSectionId
 ) => {
   return organizationClient
     .delete(
-      `/grants/${grantId}/reports/${reportId}/report_sections/${reportSectionId}`
+      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}`
     )
     .then((response) => response.data);
 };
@@ -47,13 +51,13 @@ export const deleteReportSection = (
 
 export const createReportSection = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   newReportSection
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantId}/reports/${reportId}/report_sections`,
+      `/grants/${grantUuid}/reports/${reportId}/report_sections`,
       newReportSection
     )
     .then((response) => response.data);
@@ -63,14 +67,14 @@ export const createReportSection = (
 
 export const updateReportSection = (
   organizationClient,
-  grantId,
+  grantUuid,
   reportId,
   reportSectionId,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/grants/${grantId}/reports/${reportId}/report_sections/${reportSectionId}/`,
+      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}/`,
       fieldsToUpdate
     )
     .then((response) => response.data);

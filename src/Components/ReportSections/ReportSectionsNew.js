@@ -53,7 +53,7 @@ export default function ReportSectionsNew(props) {
     };
     createReportSection(
       organizationClient,
-      props.grant_id,
+      props.grantUuid,
       props.report_id,
       newReportSection
     )

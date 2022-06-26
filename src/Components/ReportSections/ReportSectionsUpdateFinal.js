@@ -31,7 +31,7 @@ export default function ReportSectionsUpdateFinal(props) {
     if (currentOrganization.uuid) {
       getGrantSection(
         organizationClient,
-        props.grant_id,
+        props.grantUuid,
         props.report_id,
         props.report_section_id
       )
@@ -48,7 +48,7 @@ export default function ReportSectionsUpdateFinal(props) {
   }, [
     currentOrganization.uuid,
     organizationClient,
-    props.grant_id,
+    props.grantUuid,
     props.report_id,
     props.report_section_id,
   ]);
@@ -57,7 +57,7 @@ export default function ReportSectionsUpdateFinal(props) {
     event.preventDefault();
     updateReportSection(
       organizationClient,
-      props.grant_id,
+      props.grantUuid,
       props.report_id,
       props.report_section_id,
       {
@@ -80,12 +80,12 @@ export default function ReportSectionsUpdateFinal(props) {
   };
 
   const handleReportSectionDelete = () => {
-    const grantId = props.match.params.grant_id;
+    const grantUuid = props.match.params.grantUuid;
     const reportId = props.match.params.report_id;
     const reportSectionId = props.match.params.report_section_id;
     deleteGrantSection(
       organizationClient,
-      grantId,
+      grantUuid,
       reportId,
       reportSectionId
     ).catch((error) => {
