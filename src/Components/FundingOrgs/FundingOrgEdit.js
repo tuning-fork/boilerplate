@@ -1,4 +1,5 @@
 import React from "react";
+import { useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./FundingOrgEdit.css";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
@@ -8,23 +9,46 @@ import Modal from "../design/Modal/Modal";
 export default function FundingOrgEdit(props) {
   const { organizationClient } = useCurrentOrganization();
 
-  const handleSubmit = (fundingOrgFields) => {
-    FundingOrgsService.updateFundingOrg(
-      organizationClient,
-      props.fundingOrg.id,
-      {
-        ...fundingOrgFields,
-        organizationId: organizationClient,
-      }
-    )
-      .then((fundingOrg) => {
-        if (fundingOrg.id) {
-          props.onClose();
-        }
-      })
-      .catch((error) => {
-        console.error("funding org update error", error);
-      });
+  // const handleSubmit = (fundingOrgFields) => {
+  //   FundingOrgsService.updateFundingOrg(
+  //     organizationClient,
+  //     props.fundingOrg.id,
+  //     {
+  //       ...fundingOrgFields,
+  //       organizationId: organizationClient,
+  //     }
+  //   )
+  //     .then((fundingOrg) => {
+  //       if (fundingOrg.id) {
+  //         props.onClose();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("funding org update error", error);
+  //     });
+  // };
+
+  const { mutate: updateFundingOrg } = useMutation(
+    (newFundingOrgFields) =>
+      FundingOrgsService.updateFundingOrg(
+        organizationClient,
+        newFundingOrgFields.id,
+        newFundingOrgFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Funding Org edited!");
+        props.onClose();
+      },
+    }
+  );
+
+  const handleEditFundingOrg = (newFundingOrgFields) => {
+    updateFundingOrg({
+      ...newFundingOrgFields,
+      name: newFundingOrgFields.name,
+      website: newFundingOrgFields.website,
+    });
   };
 
   const handleCancel = () => {
@@ -80,7 +104,7 @@ export default function FundingOrgEdit(props) {
       >
         <FundingOrgForm
           fundingOrg={props.fundingOrg}
-          onSubmit={handleSubmit}
+          onSubmit={handleEditFundingOrg}
           onCancel={handleCancel}
           onDelete={handleDelete}
         />
