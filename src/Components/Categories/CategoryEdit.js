@@ -1,4 +1,5 @@
 import React from "react";
+import { useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./CategoryEdit.css";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
@@ -8,19 +9,41 @@ import Modal from "../design/Modal/Modal";
 export default function CategoryEdit(props) {
   const { organizationClient } = useCurrentOrganization();
 
-  const handleSubmit = (categoryFields) => {
-    CategoriesService.updateCategory(organizationClient, props.category.id, {
-      ...categoryFields,
-      organizationId: organizationClient,
-    })
-      .then((category) => {
-        if (category.id) {
-          props.onClose();
-        }
-      })
-      .catch((error) => {
-        console.error("category update error", error);
-      });
+  // const handleSubmit = (categoryFields) => {
+  //   CategoriesService.updateCategory(organizationClient, props.category.id, {
+  //     ...categoryFields,
+  //     organizationId: organizationClient,
+  //   })
+  //     .then((category) => {
+  //       if (category.id) {
+  //         props.onClose();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("category update error", error);
+  //     });
+  // };
+
+  const { mutate: updateCategory } = useMutation(
+    (newCategoryFields) =>
+      CategoriesService.updateCategory(
+        organizationClient,
+        newCategoryFields.id,
+        newCategoryFields
+      ),
+    {
+      onSuccess: () => {
+        alert("Category edited!");
+        props.onClose();
+      },
+    }
+  );
+
+  const handleEditCategory = (newCategoryFields) => {
+    updateCategory({
+      ...newCategoryFields,
+      name: newCategoryFields.name,
+    });
   };
 
   const handleCancel = () => {
@@ -69,7 +92,7 @@ export default function CategoryEdit(props) {
       >
         <CategoryForm
           category={props.category}
-          onSubmit={handleSubmit}
+          onSubmit={handleEditCategory}
           onCancel={handleCancel}
           onDelete={handleDelete}
         />
