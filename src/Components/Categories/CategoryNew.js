@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import Modal from "../design/Modal/Modal";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
