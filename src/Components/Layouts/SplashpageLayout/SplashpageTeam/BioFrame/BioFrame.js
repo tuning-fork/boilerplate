@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TEAM_BIOS } from "./TeamBios";
+import { TEAM_BIOS } from "../TeamBios";
 import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiProfileLine, RiGithubFill } from "react-icons/ri";

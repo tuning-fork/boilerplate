@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BioFrame from "./BioFrame.js";
+import BioFrame from "./BioFrame/BioFrame.js";
 
 export default function TeamPage() {
   return <BioFrame />;
