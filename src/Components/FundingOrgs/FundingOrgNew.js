@@ -9,21 +9,6 @@ import "./FundingOrgNew.css";
 export default function FundingOrgNew(props) {
   const { organizationClient } = useCurrentOrganization();
 
-  // const handleSubmit = (fundingOrgFields) => {
-  //   createFundingOrg(organizationClient, {
-  //     ...fundingOrgFields,
-  //     organizationId: currentOrganization.id,
-  //   })
-  //     .then((fundingOrg) => {
-  //       if (fundingOrg.id) {
-  //         props.onClose(fundingOrg.id);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("funding org creation error", error);
-  //     });
-  // };
-
   const { mutate: createFundingOrg } = useMutation(
     (fundingOrgFields) =>
       FundingOrgsService.createFundingOrg(organizationClient, fundingOrgFields),
