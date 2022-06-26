@@ -85,13 +85,13 @@ export default function SectionsNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newSection = {
-      grant_id: props.grant_id,
+      grantUuid: props.grantUuid,
       title: title,
       text: quillText,
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    createGrantSection(organizationClient, props.grant_id, newSection)
+    createGrantSection(organizationClient, props.grantUuid, newSection)
       .then((section) => {
         if (section) {
           props.addNewSections(section);

@@ -12,7 +12,7 @@ export default function SectionsShow(props) {
       <div className="section__header">
         <h2 className="section__title heading-4">
           {section.title}{" "}
-          <Button variant="none" onClick={() => onClickEdit(section.id)}>
+          <Button variant="none" onClick={() => onClickEdit(section.uuid)}>
             <MdEditNote className="section__edit-icon" />
           </Button>
         </h2>
