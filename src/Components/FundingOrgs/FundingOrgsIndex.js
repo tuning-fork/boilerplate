@@ -48,6 +48,7 @@ export default function FundingOrgsIndex() {
     isError,
     isLoading,
     error,
+    refetch,
   } = useQuery("getFundingOrgs", () =>
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
@@ -88,16 +89,16 @@ export default function FundingOrgsIndex() {
   //   });
   // };
 
-  const handleDropdownMiniAction = async ({ option, fundingOrg }) => {
+  const handleDropdownMiniAction = ({ option, fundingOrg }) => {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.id, {
+          updateFundingOrg(organizationClient, fundingOrg.id, {
             archived: false,
           });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.id, {
+          updateFundingOrg(organizationClient, fundingOrg.id, {
             archived: true,
           });
           break;
@@ -107,11 +108,11 @@ export default function FundingOrgsIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      // await fetchFundingOrgs();
     } catch (error) {
       console.error(error);
       // setErrors([error]);
     }
+    refetch();
   };
 
   const handleCloseFundingOrgModal = () => {
