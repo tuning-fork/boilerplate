@@ -15,6 +15,7 @@ export default function CategoryNew(props) {
     {
       onSuccess: () => {
         alert("Category created!");
+        props.onClose();
       },
     }
   );
