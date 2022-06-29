@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
+import { useQuery } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
@@ -6,18 +7,14 @@ import Table from "../design/Table/Table";
 import CategoryNew from "./CategoryNew";
 import CategoryEdit from "./CategoryEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import {
-  getAllCategories,
-  updateCategory,
-} from "../../Services/Organizations/CategoriesService";
+import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
 import "./CategoriesIndex.css";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 
 export default function CategoriesIndex() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState({});
   const [showingCategoryNew, setShowingCategoryNew] = useState(false);
@@ -33,33 +30,51 @@ export default function CategoriesIndex() {
     setSelectedCategory(category);
   };
 
-  const fetchCategories = useCallback(async () => {
-    if (!organizationClient) {
-      return;
-    }
+  // const fetchCategories = useCallback(async () => {
+  //   if (!organizationClient) {
+  //     return;
+  //   }
 
-    try {
-      const categories = await getAllCategories(organizationClient);
-      setCategories(categories);
-    } catch (error) {
-      setErrors([error]);
-    } finally {
-      setLoading(false);
-    }
-  }, [organizationClient]);
+  //   try {
+  //     const categories = await getAllCategories(organizationClient);
+  //     setCategories(categories);
+  //   } catch (error) {
+  //     setErrors([error]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [organizationClient]);
+
+  const {
+    data: categories,
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery("getCategories", () =>
+    CategoriesService.getAllCategories(organizationClient)
+  );
 
   const handleDropdownMiniAction = async ({ option, category }) => {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateCategory(organizationClient, category.id, {
-            archived: false,
-          });
+          await CategoriesService.updateCategory(
+            organizationClient,
+            category.id,
+            {
+              archived: false,
+            }
+          );
           break;
         case "MARK_AS_ARCHIVED":
-          await updateCategory(organizationClient, category.id, {
-            archived: true,
-          });
+          await CategoriesService.updateCategory(
+            organizationClient,
+            category.id,
+            {
+              archived: true,
+            }
+          );
           break;
         case "EDIT":
           openEditCategory(category);
@@ -67,17 +82,17 @@ export default function CategoriesIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await fetchCategories();
     } catch (error) {
       console.error(error);
-      setErrors([error]);
+      // setErrors([error]);
     }
+    refetch();
   };
 
   const handleCloseCategoryModal = () => {
     setShowingCategoryNew(false);
     setShowingCategoryEdit(false);
-    return fetchCategories();
+    return categories;
   };
 
   const columns = [
@@ -113,9 +128,9 @@ export default function CategoriesIndex() {
     },
   ];
 
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+  // useEffect(() => {
+  //   fetchCategories();
+  // }, [fetchCategories]);
 
   const filteredCategories = useMemo(() => {
     return categories
@@ -135,11 +150,19 @@ export default function CategoriesIndex() {
       });
   }, [categories, searchFilters, tabSelect]);
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  // if (errors.length) {
+  //   console.error(errors);
+  //   return <p>Error! {errors.map((error) => error.message)}</p>;
+  // } else if (loading) {
+  //   return <h1>Loading....</h1>;
+  // }
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   return (
