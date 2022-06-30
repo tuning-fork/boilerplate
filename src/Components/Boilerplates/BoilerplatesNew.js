@@ -44,9 +44,10 @@ export default function BoilerplatesNew() {
     createBoilerplate({
       title: newBoilerplateFields.title,
       text: newBoilerplateFields.html,
-      categoryId: newBoilerplateFields.categoryId,
+      categoryUuid: newBoilerplateFields.categoryUuid,
       wordcount: countWords(newBoilerplateFields.text),
     });
+    // TODO: Redirect to the newly created boilerplate please!
   }
 
   if (isLoading) {

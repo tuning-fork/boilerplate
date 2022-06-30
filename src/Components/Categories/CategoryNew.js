@@ -14,7 +14,8 @@ export default function CategoryNew(props) {
       organizationUuid: currentOrganization.uuid,
     })
       .then((category) => {
-        if (category.id) {
+        debugger;
+        if (category.uuid) {
           props.onClose();
         }
       })

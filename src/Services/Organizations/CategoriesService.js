@@ -3,7 +3,7 @@ const mapCategory = (apiCategory) => ({
   updatedAt: new Date(apiCategory.updated_at),
   name: apiCategory.name,
   archived: apiCategory.archived,
-  id: apiCategory.id.toString(),
+  uuid: apiCategory.uuid,
   organizationUuid: apiCategory.organization_uuid,
 });
 
@@ -13,9 +13,9 @@ const mapCategoryToApiCategory = (category) => ({
 });
 
 // getCategory
-export const getCategory = (organizationClient, categoryId) => {
+export const getCategory = (organizationClient, categoryUuid) => {
   return organizationClient
-    .get(`/categories/${categoryId}`)
+    .get(`/categories/${categoryUuid}`)
     .then((response) => response.data);
 };
 
@@ -29,9 +29,9 @@ export const getAllCategories = (organizationClient) => {
 
 // deleteCategory
 
-export const deleteCategory = (organizationClient, categoryId) => {
+export const deleteCategory = (organizationClient, categoryUuid) => {
   return organizationClient
-    .delete(`/categories/${categoryId}`)
+    .delete(`/categories/${categoryUuid}`)
     .then((response) => response.data);
 };
 
@@ -47,12 +47,12 @@ export const createCategory = (organizationClient, newCategory) => {
 
 export const updateCategory = (
   organizationClient,
-  categoryId,
+  categoryUuid,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/categories/${categoryId}`,
+      `/categories/${categoryUuid}`,
       mapCategoryToApiCategory(fieldsToUpdate)
     )
     .then((response) => response.data);

@@ -15,7 +15,6 @@ export default function BoilerplatesIndex() {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.uuid;
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
@@ -84,7 +83,7 @@ export default function BoilerplatesIndex() {
   }
 
   const openBoilerplateShow = (row) => {
-    history.push(buildOrganizationsLink(`/boilerplates/${row.original.id}`));
+    history.push(buildOrganizationsLink(`/boilerplates/${row.original.uuid}`));
   };
 
   return (
@@ -101,7 +100,7 @@ export default function BoilerplatesIndex() {
         />
         <Button
           as={Link}
-          to={`/organizations/${currentOrganizationId}/boilerplates-new/`}
+          to={`/organizations/${currentOrganization.uuid}/boilerplates-new/`}
         >
           Add New Boilerplates
         </Button>

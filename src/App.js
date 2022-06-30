@@ -86,7 +86,7 @@ export default function App() {
                       component={GrantsIndex}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/boilerplates/:boilerplate_id"
+                      path="/organizations/:organizationUuid/boilerplates/:boilerplateUuid"
                       component={BoilerplatesShow}
                     />
                     <Route
