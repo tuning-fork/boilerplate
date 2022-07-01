@@ -13,8 +13,6 @@ import "./CategoriesIndex.css";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 
 export default function CategoriesIndex() {
-  // const [loading, setLoading] = useState(true);
-  // const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState({});
   const [showingCategoryNew, setShowingCategoryNew] = useState(false);
@@ -29,21 +27,6 @@ export default function CategoriesIndex() {
     setShowingCategoryEdit(true);
     setSelectedCategory(category);
   };
-
-  // const fetchCategories = useCallback(async () => {
-  //   if (!organizationClient) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const categories = await getAllCategories(organizationClient);
-  //     setCategories(categories);
-  //   } catch (error) {
-  //     setErrors([error]);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [organizationClient]);
 
   const {
     data: categories,
@@ -84,7 +67,6 @@ export default function CategoriesIndex() {
       }
     } catch (error) {
       console.error(error);
-      // setErrors([error]);
     }
     refetch();
   };
@@ -128,10 +110,6 @@ export default function CategoriesIndex() {
     },
   ];
 
-  // useEffect(() => {
-  //   fetchCategories();
-  // }, [fetchCategories]);
-
   const filteredCategories = useMemo(() => {
     return categories
       .filter((category) => {
@@ -149,13 +127,6 @@ export default function CategoriesIndex() {
         return category;
       });
   }, [categories, searchFilters, tabSelect]);
-
-  // if (errors.length) {
-  //   console.error(errors);
-  //   return <p>Error! {errors.map((error) => error.message)}</p>;
-  // } else if (loading) {
-  //   return <h1>Loading....</h1>;
-  // }
 
   if (isLoading) {
     return <span>Loading...</span>;
