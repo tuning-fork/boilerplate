@@ -48,6 +48,7 @@ export default function FundingOrgsIndex() {
     {
       onSuccess: () => {
         alert("Funding Organization edited!");
+        refetch();
       },
     }
   );
@@ -64,6 +65,9 @@ export default function FundingOrgsIndex() {
           updateFundingOrg(organizationClient, fundingOrg.id, {
             archived: true,
           });
+          console.log(fundingOrg);
+          console.log(fundingOrg.id);
+          console.log("banana!");
           break;
         case "EDIT":
           openEditFundingOrg(fundingOrg);
