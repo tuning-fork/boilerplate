@@ -33,7 +33,12 @@ const ContextWrapper = () => {
     });
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
-      payload: { currentOrganization: { id: "2", name: "Baklava Foundation" } },
+      payload: {
+        currentOrganization: {
+          uuid: "06a7796b-f5f7-4261-9830-3892fb604f24",
+          name: "Baklava Foundation",
+        },
+      },
     });
   }, [currentOrganizationDispatch, userDispatch]);
 
@@ -42,10 +47,12 @@ const ContextWrapper = () => {
   }
 
   return (
-    <Component organizationId="2">
+    <Component>
       <Switch>
-        <Route path="/organizations/:organizationId/dashboard">Dashboard</Route>
-        <Route path="/organizations/:organizationId/reports">Reports</Route>
+        <Route path="/organizations/:organizationUuid/dashboard">
+          Dashboard
+        </Route>
+        <Route path="/organizations/:organizationUuid/reports">Reports</Route>
         <Route path="/">
           <Redirect to="/organizations/2/dashboard" />
         </Route>
