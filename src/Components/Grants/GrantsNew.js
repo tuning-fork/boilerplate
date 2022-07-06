@@ -37,7 +37,7 @@ export default function GrantsNew() {
   function handleCreateGrant(newGrantFields) {
     createGrant({
       title: newGrantFields.title,
-      fundingOrgId: newGrantFields.fundingOrgId,
+      fundingOrgUuid: newGrantFields.fundingOrgUuid,
       rfpUrl: newGrantFields.rfpUrl,
       purpose: newGrantFields.purpose,
       deadline: newGrantFields.deadline,

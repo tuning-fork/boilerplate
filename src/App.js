@@ -8,7 +8,6 @@ import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
-import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
@@ -73,7 +72,7 @@ export default function App() {
                     <Route
                       exact
                       path={
-                        "/organizations/:organizationUuid/grants/:grantUuid/reports/:report_id"
+                        "/organizations/:organizationUuid/grants/:grantUuid/reports/:reportUuid"
                       }
                       component={ReportsShow}
                     />
@@ -123,11 +122,6 @@ export default function App() {
               </OrganizationLayout>
             </PrivateRoute>
             <PrivateRoute path="/org_select" component={OrgSelect} />
-            <PrivateRoute
-              exact
-              path="/organizations"
-              component={Organizations}
-            />
             <PrivateRoute
               exact
               path="/organizations-new"

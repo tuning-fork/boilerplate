@@ -41,7 +41,7 @@ export default function BoilerplatesIndex() {
     {
       Header: "Title",
       accessor: (boilerplate) => (
-        <CurrentOrganizationLink to={`/boilerplates/${boilerplate.id}`}>
+        <CurrentOrganizationLink to={`/boilerplates/${boilerplate.uuid}`}>
           {boilerplate.title}
         </CurrentOrganizationLink>
       ),

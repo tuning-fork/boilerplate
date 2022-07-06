@@ -28,27 +28,22 @@ export default function BoilerplatesNew() {
   };
 
   const { mutate: createBoilerplate } = useMutation(
-    (boilerplateFields) =>
-      BoilerplatesService.createBoilerplate(
-        organizationClient,
-        boilerplateFields
-      ),
+    (newBoilerplateFields) =>
+      BoilerplatesService.createBoilerplate(organizationClient, {
+        title: newBoilerplateFields.title,
+        text: newBoilerplateFields.html,
+        categoryUuid: newBoilerplateFields.categoryUuid,
+        wordcount: countWords(newBoilerplateFields.text),
+      }),
     {
-      onSuccess: () => {
+      onSuccess: (createdBoilerplate) => {
         alert("Boilerplate created!");
+        history.push(
+          `/organizations/${currentOrganization.uuid}/boilerplates/${createdBoilerplate.uuid}`
+        );
       },
     }
   );
-
-  function handleCreateBoilerplate(newBoilerplateFields) {
-    createBoilerplate({
-      title: newBoilerplateFields.title,
-      text: newBoilerplateFields.html,
-      categoryUuid: newBoilerplateFields.categoryUuid,
-      wordcount: countWords(newBoilerplateFields.text),
-    });
-    // TODO: Redirect to the newly created boilerplate please!
-  }
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -71,7 +66,7 @@ export default function BoilerplatesNew() {
         <h1 className="boilerplates-new__header">Add New Boilerplate</h1>
         <BoilerplateForm
           categories={categories}
-          onSubmit={handleCreateBoilerplate}
+          onSubmit={createBoilerplate}
           onCancel={handleCancel}
         />
       </Container>

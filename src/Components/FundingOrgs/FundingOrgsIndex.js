@@ -56,7 +56,7 @@ export default function FundingOrgsIndex() {
     (newFundingOrgFields) =>
       FundingOrgsService.updateFundingOrg(
         organizationClient,
-        newFundingOrgFields.id,
+        newFundingOrgFields.uuid,
         newFundingOrgFields
       ),
     {
@@ -296,7 +296,7 @@ export default function FundingOrgsIndex() {
 //     (newFundingOrgFields) =>
 //       FundingOrgsService.updateFundingOrg(
 //         organizationClient,
-//         newFundingOrgFields.id,
+//         newFundingOrgFields.uuid,
 //         newFundingOrgFields
 //       ),
 //     {

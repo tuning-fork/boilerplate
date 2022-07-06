@@ -68,12 +68,12 @@ export const updateBoilerplate = (
 
 // export const copyBoilerplate = (
 //   organizationClient,
-//   boilerplateId,
+//   boilerplateUuid,
 //   copyBoilerplateFields
 // ) => {
 //   return organizationClient
 //     .post(
-//       `/boilerplates/${boilerplateId}/copy`,
+//       `/boilerplates/${boilerplateUuid}/copy`,
 //       mapBoilerplateToApiBoilerplate(copyBoilerplateFields)
 //     )
 //     .then((response) => response.data);

@@ -18,7 +18,7 @@ export default function ReportSectionsShow(props) {
   const [_text, setText] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [_wordcount, setWordcount] = useState("");
-  const [_reportId, setReportId] = useState("");
+  const [_reportUuid, setReportUuid] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [loading, setLoading] = useState(true);
   const [_newQuillText, setNewQuillText] = useState("");
@@ -33,17 +33,22 @@ export default function ReportSectionsShow(props) {
   useEffect(() => {
     if (currentOrganization.uuid) {
       const grantUuid = props.grantUuid;
-      const reportId = props.report_id;
-      const reportSectionId = props.report_section_id;
-      getReportSection(organizationClient, grantUuid, reportId, reportSectionId)
+      const reportUuid = props.reportUuid;
+      const reportSectionUuid = props.reportSectionUuid;
+      getReportSection(
+        organizationClient,
+        grantUuid,
+        reportUuid,
+        reportSectionUuid
+      )
         .then((reportSection) => {
-          setId(reportSection.id);
+          setId(reportSection.uuid);
           setTitle(reportSection.title);
           setText(reportSection.text);
           setQuillText(reportSection.text);
           setSortOrder(reportSection.sort_order);
           setWordcount(reportSection.wordcount);
-          setReportId(reportSection.report_id);
+          setReportUuid(reportSection.reportUuid);
           setLoading(false);
           setNewTitle(reportSection.title);
           setNewQuillText(reportSection.text);
@@ -57,8 +62,8 @@ export default function ReportSectionsShow(props) {
     currentOrganization.uuid,
     organizationClient,
     props.grantUuid,
-    props.report_id,
-    props.report_section_id,
+    props.reportUuid,
+    props.reportSectionUuid,
   ]);
 
   const toggleHidden = () => {
@@ -67,19 +72,19 @@ export default function ReportSectionsShow(props) {
 
   const handleSubmit = ({ newTitle, newQuillText, newSortOrder }) => {
     const grantUuid = props.grantUuid;
-    const reportId = props.report_id;
-    const reportSectionId = props.report_section_id;
+    const reportUuid = props.reportUuid;
+    const reportSectionUuid = props.reportSectionUuid;
     updateReportSection(
       organizationClient,
       grantUuid,
-      reportId,
-      reportSectionId,
+      reportUuid,
+      reportSectionUuid,
       {
         title: newTitle,
         text: newQuillText,
         sort_order: newSortOrder,
         wordcount: countWords(newQuillText),
-        report_id: reportId,
+        reportUuid: reportUuid,
       },
       { headers: { Authorization: `Bearer ${localStorage.token}` } }
     )

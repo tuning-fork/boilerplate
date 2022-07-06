@@ -120,7 +120,7 @@ export default function SectionsNew(props) {
       <div>
         {suggestions.map((boilerplate) => (
           <li
-            key={boilerplate.id}
+            key={boilerplate.uuid}
             onClick={() => suggestionSelected(boilerplate)}
           >
             {boilerplate.title}, {boilerplate.wordcount} words
@@ -210,7 +210,7 @@ export default function SectionsNew(props) {
                   {boilerplates.map((boilerplate) => {
                     return (
                       <option
-                        key={boilerplate.id}
+                        key={boilerplate.uuid}
                         value={boilerplate.text}
                         onChange={(event) =>
                           setCurrentBoilerplate(event.target.value)

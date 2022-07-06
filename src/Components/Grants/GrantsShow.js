@@ -143,7 +143,7 @@ export default function GrantsShow() {
   // };
   // const handleReorderSection = (event) => {
   //   const { active, over } = event;
-  //   if (active.id !== over.id) {
+  //   if (active.uuid !== over.uuid) {
   //     setGrant((grant) => {
   //       const oldIndex = grant.sections.findIndex(
   //         (section) => section.uuid === active.uuid
@@ -156,7 +156,7 @@ export default function GrantsShow() {
   //       return { ...grant, sections: reorderedSections };
   //     });
 
-  //     const sectionUuid = active.id;
+  //     const sectionUuid = active.uuid;
   //     const sortOrder = active.data.current.sortable.index;
 
   //     reorderGrantSection(organizationClient, grant.uuid, sectionUuid, sortOrder)

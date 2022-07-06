@@ -22,7 +22,6 @@ export default function GrantsIndex() {
   const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.uuid;
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
@@ -214,7 +213,7 @@ export default function GrantsIndex() {
         />
         <Button
           as={Link}
-          to={`/organizations/${currentOrganizationId}/grants-new/`}
+          to={`/organizations/${currentOrganization.uuid}/grants-new/`}
         >
           Add New Grant
         </Button>

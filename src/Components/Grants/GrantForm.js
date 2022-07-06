@@ -22,7 +22,6 @@ export default function GrantForm(props) {
     setShowingAddFundingOrgModal(false);
     if (fundingOrgUuid) {
       setGrantFields({ ...grantFields, fundingOrgUuid });
-      props.loadFundingOrgs();
     }
   };
 

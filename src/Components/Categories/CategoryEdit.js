@@ -13,10 +13,8 @@ export default function CategoryEdit(props) {
       ...categoryFields,
       organizationUuid: organizationClient,
     })
-      .then((category) => {
-        if (category.uuiid) {
-          props.onClose();
-        }
+      .then(() => {
+        props.onClose();
       })
       .catch((error) => {
         console.error("category update error", error);

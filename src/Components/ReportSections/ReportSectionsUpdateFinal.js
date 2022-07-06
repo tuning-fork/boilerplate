@@ -17,7 +17,7 @@ export default function ReportSectionsUpdateFinal(props) {
   const [title, setTitle] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [_wordcount, setWordcount] = useState("");
-  const [_reportId, setReportId] = useState("");
+  const [_reportUuid, setReportUuid] = useState("");
   const [_sort_order, setSortOrder] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -32,15 +32,15 @@ export default function ReportSectionsUpdateFinal(props) {
       getGrantSection(
         organizationClient,
         props.grantUuid,
-        props.report_id,
-        props.report_section_id
+        props.reportUuid,
+        props.reportSectionUuid
       )
         .then((reportSection) => {
           setTitle(reportSection.title);
           setQuillText(reportSection.text);
           setWordcount(reportSection.wordcount);
           setSortOrder(reportSection.sort_order);
-          setReportId(reportSection.report_id);
+          setReportUuid(reportSection.reportUuid);
           setLoading(false);
         })
         .catch((error) => console.error(error));
@@ -49,8 +49,8 @@ export default function ReportSectionsUpdateFinal(props) {
     currentOrganization.uuid,
     organizationClient,
     props.grantUuid,
-    props.report_id,
-    props.report_section_id,
+    props.reportUuid,
+    props.reportSectionUuid,
   ]);
 
   const handleSubmit = (event) => {
@@ -58,8 +58,8 @@ export default function ReportSectionsUpdateFinal(props) {
     updateReportSection(
       organizationClient,
       props.grantUuid,
-      props.report_id,
-      props.report_section_id,
+      props.reportUuid,
+      props.reportSectionUuid,
       {
         title: title,
         text: quillText,
@@ -81,13 +81,13 @@ export default function ReportSectionsUpdateFinal(props) {
 
   const handleReportSectionDelete = () => {
     const grantUuid = props.match.params.grantUuid;
-    const reportId = props.match.params.report_id;
-    const reportSectionId = props.match.params.report_section_id;
+    const reportUuid = props.match.params.reportUuid;
+    const reportSectionUuid = props.match.params.reportSectionUuid;
     deleteGrantSection(
       organizationClient,
       grantUuid,
-      reportId,
-      reportSectionId
+      reportUuid,
+      reportSectionUuid
     ).catch((error) => {
       console.error(error);
     });

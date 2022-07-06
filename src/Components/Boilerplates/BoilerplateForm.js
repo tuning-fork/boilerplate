@@ -9,7 +9,7 @@ import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import CategoriesNew from "../Categories/CategoriesNew";
+import CategoryNew from "../Categories/CategoryNew";
 
 export default function BoilerplateForm(props) {
   const { organizationClient } = useCurrentOrganization();
@@ -36,6 +36,17 @@ export default function BoilerplateForm(props) {
     props.onSubmit({
       ...boilerplateFields,
     });
+  };
+
+  const handleCloseCategoryNew = (createdCategory) => {
+    setShowingCategoriesNew(false);
+
+    if (createdCategory) {
+      setBoilerplateFields({
+        ...boilerplateFields,
+        categoryUuid: createdCategory.uuid,
+      });
+    }
   };
 
   return (
@@ -97,10 +108,9 @@ export default function BoilerplateForm(props) {
           </div>
         </div>
       </form>
-      <CategoriesNew
+      <CategoryNew
         show={showingCategoriesNew}
-        onClose={() => setShowingCategoriesNew(false)}
-        currentCategories={categories}
+        onClose={handleCloseCategoryNew}
       />
     </>
   );

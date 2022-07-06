@@ -33,7 +33,12 @@ const ContextWrapper = () => {
     });
     currentOrganizationDispatch({
       type: "SET_CURRENT_ORGANIZATION",
-      payload: { currentOrganization: { id: "2", name: "Baklava Foundation" } },
+      payload: {
+        currentOrganization: {
+          uuid: "06a7796b-f5f7-4261-9830-3892fb604f24",
+          name: "Baklava Foundation",
+        },
+      },
     });
   }, [currentOrganizationDispatch, userDispatch]);
 

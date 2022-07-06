@@ -45,7 +45,7 @@ export default function ReportSectionsNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newReportSection = {
-      report_id: props.report_id,
+      reportUuid: props.reportUuid,
       title: title,
       text: quillText,
       sort_order: props.sort_number + 1,
@@ -54,7 +54,7 @@ export default function ReportSectionsNew(props) {
     createReportSection(
       organizationClient,
       props.grantUuid,
-      props.report_id,
+      props.reportUuid,
       newReportSection
     )
       .then((reportSection) => {
@@ -102,7 +102,7 @@ export default function ReportSectionsNew(props) {
       <div>
         {suggestions.map((boilerplate) => (
           <li
-            key={boilerplate.id}
+            key={boilerplate.uuid}
             onClick={() => suggestionSelected(boilerplate)}
           >
             {boilerplate.title}, {boilerplate.wordcount} words
@@ -156,7 +156,7 @@ export default function ReportSectionsNew(props) {
               {boilerplates.map((boilerplate) => {
                 return (
                   <option
-                    key={boilerplate.id}
+                    key={boilerplate.uuid}
                     value={boilerplate.text}
                     onChange={(event) =>
                       setCurrentBoilerplate(event.target.value)

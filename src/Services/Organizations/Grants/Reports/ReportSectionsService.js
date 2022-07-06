@@ -1,21 +1,25 @@
 export const mapReportSection = (apiReportSection) => ({
-  id: apiReportSection.id.toString(),
+  uuid: apiReportSection.uuid,
   wordCount: apiReportSection.wordcount,
   title: apiReportSection.title,
   text: apiReportSection.text,
   sortOrder: apiReportSection.sort_order,
 });
 
+const mapReportSectionToApiReportSection = (reportSection) => ({
+  ...reportSection,
+});
+
 // getReportSection
 export const getReportSection = (
   organizationClient,
   grantUuid,
-  reportId,
-  reportSectionId
+  reportUuid,
+  reportSectionUuid
 ) => {
   return organizationClient
     .get(
-      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}`
+      `/grants/${grantUuid}/reports/${reportUuid}/report_sections/${reportSectionUuid}`
     )
     .then((response) => response.data);
 };
@@ -25,10 +29,10 @@ export const getReportSection = (
 export const getAllReportSections = (
   organizationClient,
   grantUuid,
-  reportId
+  reportUuid
 ) => {
   return organizationClient
-    .get(`/grants/${grantUuid}/reports/${reportId}/report_sections/`)
+    .get(`/grants/${grantUuid}/reports/${reportUuid}/report_sections/`)
     .then((response) => response.data);
 };
 
@@ -37,12 +41,12 @@ export const getAllReportSections = (
 export const deleteReportSection = (
   organizationClient,
   grantUuid,
-  reportId,
-  reportSectionId
+  reportUuid,
+  reportSectionUuid
 ) => {
   return organizationClient
     .delete(
-      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}`
+      `/grants/${grantUuid}/reports/${reportUuid}/report_sections/${reportSectionUuid}`
     )
     .then((response) => response.data);
 };
@@ -52,13 +56,13 @@ export const deleteReportSection = (
 export const createReportSection = (
   organizationClient,
   grantUuid,
-  reportId,
+  reportUuid,
   newReportSection
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantUuid}/reports/${reportId}/report_sections`,
-      newReportSection
+      `/grants/${grantUuid}/reports/${reportUuid}/report_sections`,
+      mapReportSectionToApiReportSection(newReportSection)
     )
     .then((response) => response.data);
 };
@@ -68,14 +72,14 @@ export const createReportSection = (
 export const updateReportSection = (
   organizationClient,
   grantUuid,
-  reportId,
-  reportSectionId,
+  reportUuid,
+  reportSectionUuid,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/grants/${grantUuid}/reports/${reportId}/report_sections/${reportSectionId}/`,
-      fieldsToUpdate
+      `/grants/${grantUuid}/reports/${reportUuid}/report_sections/${reportSectionUuid}/`,
+      mapReportSectionToApiReportSection(fieldsToUpdate)
     )
     .then((response) => response.data);
 };
