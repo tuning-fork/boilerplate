@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useFetcher, useResource } from "rest-hooks";
 import { Organization } from "../../resources";
 import OrganizationsNew from "./OrganizationsNew";
 import OrganizationEditForm from "./OrganizationEditForm";
@@ -11,13 +10,6 @@ import "./Organizations.css";
 export default function Organizations() {
   // eslint-disable-next-line no-unused-vars
   const [editingOrganizationId, setEditingOrganizationId] = useState(null);
-  //change organizations useResource to React-query when react-query ticket is merged in
-  // eslint-disable-next-line no-unused-vars
-  const organizations = useResource(Organization.list(), {});
-  const createOrganization = useFetcher(Organization.create());
-  const updateOrganization = useFetcher(Organization.update());
-  // eslint-disable-next-line no-unused-vars
-  const deleteOrganization = useFetcher(Organization.delete());
   // eslint-disable-next-line no-unused-vars
   const { user } = useCurrentUser();
   const { fetchUserOrganizations } = useCurrentOrganization();
@@ -30,8 +22,8 @@ export default function Organizations() {
     alert("You have successfully added an organization.");
   };
 
-  // const handleClickEditOrganization = (organizationId) => {
-  //   setEditingOrganizationId(organizationId);
+  // const handleClickEditOrganization = (organizationUuid) => {
+  //   setEditingOrganizationId(organizationUuid);
   // };
 
   const handleEditOrganization = ({ newName }) =>
@@ -72,19 +64,19 @@ export default function Organizations() {
     //       <b>Organization Name</b>
     //       <ul className="Organizations__List">
     //         {organizations.map((organization) => (
-    //           <li key={organization.id}>
-    //             <Link to={`/organizations/${organization.id}`}>
+    //           <li key={organization.uuid}>
+    //             <Link to={`/organizations/${organization.uuid}`}>
     //               {organization.name}
     //             </Link>
     //             <Button
     //               variant="outline-dark"
-    //               onClick={() => handleDeleteOrganization(organization.id)}
+    //               onClick={() => handleDeleteOrganization(organization.uuid)}
     //             >
     //               Delete
     //             </Button>
     //             <Button
     //               variant="outline-dark"
-    //               onClick={() => handleClickEditOrganization(organization.id)}
+    //               onClick={() => handleClickEditOrganization(organization.uuid)}
     //             >
     //               Edit
     //             </Button>
