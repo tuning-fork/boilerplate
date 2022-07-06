@@ -3,34 +3,15 @@ import { TEAM_BIOS } from "../TeamBios";
 import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiProfileLine, RiGithubFill } from "react-icons/ri";
+import BioCard from "../BioCard/BioCard";
+// import { ReactComponent as Background } from "./flame_background1.svg";
+import "./BioFrame.css";
 
 export default function BioFrame() {
   return (
-    <div>
-      {TEAM_BIOS.map((team_bio) => {
-        return (
-          <>
-            <div>{team_bio.first_name}</div>
-            <div>{team_bio.last_name}</div>
-            <div>{team_bio.title}</div>
-            <div>{team_bio.bio_text}</div>
-            <div>
-              <a href="google.com">
-                <RiProfileLine />
-              </a>
-              <a href="google.com">
-                <MdCode />
-              </a>
-              <a href="linkedin.com">
-                <BsLinkedin />
-              </a>
-              <a href="github.com">
-                <RiGithubFill />
-              </a>
-            </div>
-          </>
-        );
-      })}
+    <div className="bio-frame__container">
+      {/* <Background /> */}
+      <BioCard />
     </div>
   );
 }

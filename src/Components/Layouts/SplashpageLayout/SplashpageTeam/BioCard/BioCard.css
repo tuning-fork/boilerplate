@@ -1,0 +1,36 @@
+.bio-card__container {
+    background-color: var(--primary)
+}
+
+.bio-card__bio-name {
+
+}
+
+.bio-card__bio-title {
+
+}
+
+.bio-card__bio-text {
+
+}
+
+.bio-card__bio-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bio-card__text-frame {
+    background-color: black;
+    opacity: .2;
+    border: 2px solid #FFFFFF;
+}
+
+.bio-card__headshot-frame {
+
+}
+
+.bio-card__icon-links {
+
+}

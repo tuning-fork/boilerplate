@@ -1,8 +1,9 @@
 .panel-cancel-button {
-    display: flex;
-    justify-content: right;
+    /* display: flex; */
+    /* justify-content: right; */
+    float: right;
     color: var(--secondary);
-    flex-direction: row;
+    /* flex-direction: row; */
     padding: 1rem;
   }
   
