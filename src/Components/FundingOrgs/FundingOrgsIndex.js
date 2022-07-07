@@ -92,14 +92,10 @@ export default function FundingOrgsIndex() {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.uuid, {
-            archived: false,
-          });
+          await updateFundingOrg({ uuid: fundingOrg.uuid, archived: false });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.uuid, {
-            archived: true,
-          });
+          await updateFundingOrg({ uuid: fundingOrg.uuid, archived: true });
           break;
         case "EDIT":
           openEditFundingOrg(fundingOrg);
