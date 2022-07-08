@@ -13,77 +13,36 @@ import {
 import "./Sidebar.css";
 import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
+const LINKS = [
+  { icon: <MdHome />, title: "Dashboard", path: "/dashboard" },
+  { icon: <MdLocalAtm />, title: "Grants", path: "/grants" },
+  { icon: <MdExtension />, title: "Boilerplates", path: "/boilerplates" },
+  {
+    icon: <MdAccountBalance />,
+    title: "Funding Organizations",
+    path: "/funding_orgs",
+  },
+  { icon: <MdFormatListBulleted />, title: "Categories", path: "/categories" },
+  { icon: <MdPerson />, title: "Users", path: "/users" },
+];
+
 export default function Sidebar(props) {
   return (
     <nav className={clsx(props.className, "sidebar")}>
       <ul className="sidebar__list">
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/dashboard"
-          >
-            <MdHome />
-            Dashboard
-          </CurrentOrganizationLink>
-        </li>
-
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/grants"
-          >
-            <MdLocalAtm />
-            Grants
-          </CurrentOrganizationLink>
-        </li>
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/boilerplates"
-          >
-            <MdExtension />
-            Boilerplates
-          </CurrentOrganizationLink>
-        </li>
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/funding_orgs"
-          >
-            <MdAccountBalance />
-            Funding Organizations
-          </CurrentOrganizationLink>
-        </li>
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/categories"
-          >
-            <MdFormatListBulleted />
-            Categories
-          </CurrentOrganizationLink>
-        </li>
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/users"
-          >
-            <MdPerson />
-            Users
-          </CurrentOrganizationLink>
-        </li>
+        {LINKS.map(({ icon, title, path }) => (
+          <li key={title}>
+            <CurrentOrganizationLink
+              as={NavLink}
+              className="sidebar__navitem"
+              activeClassName="sidebar__navitem--selected"
+              to={path}
+            >
+              {icon}
+              {title}
+            </CurrentOrganizationLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );
