@@ -22,7 +22,6 @@ export default function GrantsIndex() {
   const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const currentOrganizationId = currentOrganization.id;
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
 
@@ -48,38 +47,38 @@ export default function GrantsIndex() {
     try {
       switch (option.value) {
         case "REMOVE_FROM_SUBMITTED":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             submitted: false,
           });
           break;
         case "REMOVE_FROM_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             successful: false,
           });
           break;
         case "REMOVE_FROM_ARCHIVED":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             archived: false,
           });
           break;
         case "MARK_AS_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             successful: true,
           });
           break;
         case "MARK_AS_SUBMITTED":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             submitted: true,
           });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateGrant(organizationClient, grant.id, {
+          await updateGrant(organizationClient, grant.uuid, {
             archived: true,
           });
           break;
         case "MAKE_A_COPY":
           return history.push(
-            buildOrganizationsLink(`/grants/${grant.id}/copy`)
+            buildOrganizationsLink(`/grants/${grant.uuid}/copy`)
           );
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
@@ -107,7 +106,7 @@ export default function GrantsIndex() {
     {
       Header: "Title",
       accessor: (grant) => (
-        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
+        <CurrentOrganizationLink to={`/grants/${grant.uuid}`}>
           {grant.title}
         </CurrentOrganizationLink>
       ),
@@ -214,7 +213,7 @@ export default function GrantsIndex() {
         />
         <Button
           as={Link}
-          to={`/organizations/${currentOrganizationId}/grants-new/`}
+          to={`/organizations/${currentOrganization.uuid}/grants-new/`}
         >
           Add New Grant
         </Button>

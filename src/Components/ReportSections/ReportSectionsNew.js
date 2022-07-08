@@ -22,7 +22,7 @@ export default function ReportSectionsNew(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganization.id) {
+    if (currentOrganization.uuid) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -31,7 +31,7 @@ export default function ReportSectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganization.id, organizationClient]);
+  }, [currentOrganization.uuid, organizationClient]);
 
   const clearForm = () => {
     setQuillText("");
@@ -45,7 +45,7 @@ export default function ReportSectionsNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newReportSection = {
-      report_id: props.report_id,
+      reportUuid: props.reportUuid,
       title: title,
       text: quillText,
       sort_order: props.sort_number + 1,
@@ -53,8 +53,8 @@ export default function ReportSectionsNew(props) {
     };
     createReportSection(
       organizationClient,
-      props.grant_id,
-      props.report_id,
+      props.grantUuid,
+      props.reportUuid,
       newReportSection
     )
       .then((reportSection) => {
@@ -102,7 +102,7 @@ export default function ReportSectionsNew(props) {
       <div>
         {suggestions.map((boilerplate) => (
           <li
-            key={boilerplate.id}
+            key={boilerplate.uuid}
             onClick={() => suggestionSelected(boilerplate)}
           >
             {boilerplate.title}, {boilerplate.wordcount} words
@@ -156,7 +156,7 @@ export default function ReportSectionsNew(props) {
               {boilerplates.map((boilerplate) => {
                 return (
                   <option
-                    key={boilerplate.id}
+                    key={boilerplate.uuid}
                     value={boilerplate.text}
                     onChange={(event) =>
                       setCurrentBoilerplate(event.target.value)

@@ -1,10 +1,10 @@
 const mapBoilerplate = (apiBoilerplate) => ({
   archived: apiBoilerplate.archived,
   createdAt: new Date(apiBoilerplate.created_at),
-  categoryId: apiBoilerplate.category_id.toString(),
+  categoryUuid: apiBoilerplate.category_uuid,
   categoryName: apiBoilerplate.category_name,
-  id: apiBoilerplate.id.toString(),
-  organizationId: apiBoilerplate.organization_id.toString(),
+  uuid: apiBoilerplate.uuid,
+  organizationUuid: apiBoilerplate.organization_uuid,
   title: apiBoilerplate.title,
   text: apiBoilerplate.text,
   wordcount: apiBoilerplate.wordcount,
@@ -13,14 +13,14 @@ const mapBoilerplate = (apiBoilerplate) => ({
 
 const mapBoilerplateToApiBoilerplate = (boilerplate) => ({
   ...boilerplate,
-  category_id: boilerplate.categoryId,
-  organization_id: boilerplate.organizationId,
+  category_id: boilerplate.categoryUuid,
+  organization_id: boilerplate.organizationUuid,
 });
 
 // getBoilerplate
-export const getBoilerplate = (organizationClient, boilerplateId) => {
+export const getBoilerplate = (organizationClient, boilerplateUuid) => {
   return organizationClient
-    .get(`/boilerplates/${boilerplateId}`)
+    .get(`/boilerplates/${boilerplateUuid}`)
     .then((response) => mapBoilerplate(response.data));
 };
 
@@ -34,9 +34,9 @@ export const getAllBoilerplates = (organizationClient) => {
 
 // deleteBoilerplate
 
-export const deleteBoilerplate = (organizationClient, boilerplateId) => {
+export const deleteBoilerplate = (organizationClient, boilerplateUuid) => {
   return organizationClient
-    .delete(`/boilerplates/${boilerplateId}`)
+    .delete(`/boilerplates/${boilerplateUuid}`)
     .then((response) => response.data);
 };
 
@@ -52,28 +52,28 @@ export const createBoilerplate = (organizationClient, newBoilerplate) => {
 
 export const updateBoilerplate = (
   organizationClient,
-  boilerplateId,
+  boilerplateUuid,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/boilerplates/${boilerplateId}`,
+      `/boilerplates/${boilerplateUuid}`,
       mapBoilerplateToApiBoilerplate(fieldsToUpdate)
     )
     .then((response) => response.data);
 };
 
-// copyGrant
+// copyBoilerplate
 // not implemented yet
 
 // export const copyBoilerplate = (
 //   organizationClient,
-//   boilerplateId,
+//   boilerplateUuid,
 //   copyBoilerplateFields
 // ) => {
 //   return organizationClient
 //     .post(
-//       `/boilerplates/${boilerplateId}/copy`,
+//       `/boilerplates/${boilerplateUuid}/copy`,
 //       mapBoilerplateToApiBoilerplate(copyBoilerplateFields)
 //     )
 //     .then((response) => response.data);

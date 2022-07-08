@@ -15,6 +15,15 @@ export default function GrantForm(props) {
     deadline: props.grant?.deadline || "",
     purpose: props.grant?.purpose || "",
   });
+  const [showingAddFundingOrgModal, setShowingAddFundingOrgModal] =
+    useState(false);
+
+  const handleCloseFundingOrgModal = (fundingOrgUuid) => {
+    setShowingAddFundingOrgModal(false);
+    if (fundingOrgUuid) {
+      setGrantFields({ ...grantFields, fundingOrgUuid });
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,16 +35,16 @@ export default function GrantForm(props) {
       <form onSubmit={handleSubmit} className="grant-form">
         <Dropdown
           altLabel="Add Funding Organization"
-          onClickAltLabel={() => props.setShowingFundingOrgNew(true)}
+          onClickAltLabel={() => setShowingAddFundingOrgModal(true)}
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
-          value={grantFields.fundingOrgId}
+          value={grantFields.fundingOrgUuid}
           options={props.fundingOrgs.map((fundingOrg) => ({
-            value: fundingOrg.id,
+            value: fundingOrg.uuid,
             label: fundingOrg.name,
           }))}
           onChange={(option) =>
-            setGrantFields({ ...grantFields, fundingOrgId: option.value })
+            setGrantFields({ ...grantFields, fundingOrgUuid: option.value })
           }
         />
         <TextBox
@@ -83,10 +92,8 @@ export default function GrantForm(props) {
         </div>
       </form>
       <FundingOrgNew
-        show={props.showingFundingOrgNew}
-        onClose={props.handleFundingOrg}
-        fundingOrgs={props.fundingOrgs}
-        setFundingOrgs={props.setFundingOrgs}
+        show={showingAddFundingOrgModal}
+        onClose={handleCloseFundingOrgModal}
       />
     </>
   );

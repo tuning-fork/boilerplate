@@ -56,7 +56,7 @@ export default function FundingOrgsIndex() {
     (newFundingOrgFields) =>
       FundingOrgsService.updateFundingOrg(
         organizationClient,
-        newFundingOrgFields.id,
+        newFundingOrgFields.uuid,
         newFundingOrgFields
       ),
     {
@@ -73,7 +73,7 @@ export default function FundingOrgsIndex() {
   //   createFundingOrg({
   //     title: newFundingOrgFields.title,
   //     text: newFundingOrgFields.html,
-  //     grant_id: grantId,
+  //     grantUuid: grantUuid,
   //     sort_order: precedingFundingOrg ? precedingFundingOrg.sortOrder + 1 : 0,
   //     wordcount: countWords(newFundingOrgFields.text),
   //   });
@@ -92,14 +92,10 @@ export default function FundingOrgsIndex() {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.id, {
-            archived: false,
-          });
+          await updateFundingOrg({ uuid: fundingOrg.uuid, archived: false });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateFundingOrg(organizationClient, fundingOrg.id, {
-            archived: true,
-          });
+          await updateFundingOrg({ uuid: fundingOrg.uuid, archived: true });
           break;
         case "EDIT":
           openEditFundingOrg(fundingOrg);
@@ -296,7 +292,7 @@ export default function FundingOrgsIndex() {
 //     (newFundingOrgFields) =>
 //       FundingOrgsService.updateFundingOrg(
 //         organizationClient,
-//         newFundingOrgFields.id,
+//         newFundingOrgFields.uuid,
 //         newFundingOrgFields
 //       ),
 //     {
@@ -310,12 +306,12 @@ export default function FundingOrgsIndex() {
 //     try {
 //       switch (option.value) {
 //         case "REMOVE_FROM_ARCHIVED":
-//           await updateFundingOrg(organizationClient, fundingOrg.id, {
+//           await updateFundingOrg(organizationClient, fundingOrg.uuid, {
 //             archived: false,
 //           });
 //           break;
 //         case "MARK_AS_ARCHIVED":
-//           await updateFundingOrg(organizationClient, fundingOrg.id, {
+//           await updateFundingOrg(organizationClient, fundingOrg.uuid, {
 //             archived: true,
 //           });
 //           break;

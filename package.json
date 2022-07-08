@@ -10,7 +10,6 @@
     "@dnd-kit/core": "^3.0.3",
     "@dnd-kit/sortable": "^3.0.1",
     "@mars/heroku-js-runtime-env": "^3.0.2",
-    "@rest-hooks/rest": "^2.1.4",
     "axios": "^0.21.4",
     "bootstrap": "^4.5.3",
     "clsx": "^1.1.1",

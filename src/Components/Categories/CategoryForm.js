@@ -15,30 +15,28 @@ export default function CategoryForm(props) {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="category-form">
-        <TextBox
-          labelText="Name"
-          value={categoryFields.name}
-          onChange={(event) =>
-            setCategoryFields({ ...categoryFields, name: event.target.value })
-          }
-          required
-        />
-        <div className="category-form__actions">
-          <Button variant="text" onClick={props.onCancel}>
-            Cancel
+    <form onSubmit={handleSubmit} className="category-form">
+      <TextBox
+        labelText="Name"
+        value={categoryFields.name}
+        onChange={(event) =>
+          setCategoryFields({ ...categoryFields, name: event.target.value })
+        }
+        required
+      />
+      <div className="category-form__actions">
+        <Button variant="text" onClick={props.onCancel}>
+          Cancel
+        </Button>
+        <Button type="submit">Save</Button>
+      </div>
+      {props.category ? (
+        <div>
+          <Button color="error" onClick={props.onDelete}>
+            Delete Category
           </Button>
-          <Button type="submit">Save</Button>
         </div>
-        {props.category ? (
-          <div>
-            <Button color="error" onClick={props.onDelete}>
-              Delete Category
-            </Button>
-          </div>
-        ) : null}
-      </form>
-    </>
+      ) : null}
+    </form>
   );
 }

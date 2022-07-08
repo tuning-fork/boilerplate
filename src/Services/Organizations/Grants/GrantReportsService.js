@@ -4,12 +4,8 @@ const mapGrantReport = (apiGrantReport) => ({
   archived: apiGrantReport.archived,
   createdAt: new Date(apiGrantReport.created_at),
   deadline: new Date(apiGrantReport.deadline),
-  // fundingOrgId: apiGrantReport.grant.funding_org_id.toString(),
-  // fundingOrgName: apiGrantReport.grant.funding_org_name,
-  id: apiGrantReport.id.toString(),
-  // organizationId: apiGrantReport.grant.organization_id.toString(),
-  // purpose: apiGrantReport.grant.purpose,
-  // rfpUrl: apiGrantReport.grant.rfp_url,
+  grantUuid: apiGrantReport.grant_id,
+  uuid: apiGrantReport.uuid,
   title: apiGrantReport.title,
   updatedAt: new Date(apiGrantReport.updated_at),
   reportSections: apiGrantReport.report_sections
@@ -19,31 +15,33 @@ const mapGrantReport = (apiGrantReport) => ({
 
 const mapGrantReportToApiGrantReport = (grantReport) => ({
   ...grantReport,
-  // rfp_url: grantReport.grant.rfpUrl,
-  // funding_org_id: grantReport.grant.fundingOrgId,
-  // organization_id: grantReport.grant.organizationId,
+  grant_id: grantReport.grantUuid,
 });
 
 // getGrantReport
-export const getGrantReport = (organizationClient, grantId, reportId) => {
+export const getGrantReport = (organizationClient, grantUuid, reportUuid) => {
   return organizationClient
-    .get(`/grants/${grantId}/reports/${reportId}`)
+    .get(`/grants/${grantUuid}/reports/${reportUuid}`)
     .then((response) => mapGrantReport(response.data));
 };
 
 // listGrantReports
 
-export const getAllGrantReports = (organizationClient, grantId) => {
+export const getAllGrantReports = (organizationClient, grantUuid) => {
   return organizationClient
-    .get(`/grants/${grantId}/reports/`)
+    .get(`/grants/${grantUuid}/reports/`)
     .then((response) => response.data.map(mapGrantReport));
 };
 
 // deleteGrantReport
 
-export const deleteGrantReport = (organizationClient, grantId, reportId) => {
+export const deleteGrantReport = (
+  organizationClient,
+  grantUuid,
+  reportUuid
+) => {
   return organizationClient
-    .delete(`/grants/${grantId}/reports/${reportId}`)
+    .delete(`/grants/${grantUuid}/reports/${reportUuid}`)
     .then((response) => response.data);
 };
 
@@ -51,12 +49,12 @@ export const deleteGrantReport = (organizationClient, grantId, reportId) => {
 
 export const createGrantReport = (
   organizationClient,
-  grantId,
+  grantUuid,
   newGrantReport
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantId}/reports/`,
+      `/grants/${grantUuid}/reports/`,
       mapGrantReportToApiGrantReport(newGrantReport)
     )
     .then((response) => response.data);
@@ -66,13 +64,13 @@ export const createGrantReport = (
 
 export const updateGrantReport = (
   organizationClient,
-  grantId,
-  reportId,
+  grantUuid,
+  reportUuid,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/grants/${grantId}/reports/${reportId}`,
+      `/grants/${grantUuid}/reports/${reportUuid}`,
       mapGrantReportToApiGrantReport(fieldsToUpdate)
     )
     .then((response) => response.data);
@@ -82,13 +80,13 @@ export const updateGrantReport = (
 
 export const copyGrantReport = (
   organizationClient,
-  grantId,
-  reportId,
+  grantUuid,
+  reportUuid,
   copyGrantReportFields
 ) => {
   return organizationClient
     .post(
-      `/grants/${grantId}/reports/${reportId}/copy`,
+      `/grants/${grantUuid}/reports/${reportUuid}/copy`,
       mapGrantReportToApiGrantReport(copyGrantReportFields)
     )
     .then((response) => response.data);

@@ -8,7 +8,6 @@ import OrgSelect from "./Components/Organizations/OrgSelect";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
-import Organizations from "./Components/Organizations/Organizations";
 import GrantsIndex from "./Components/Grants/GrantsIndex";
 import FundingOrgsIndex from "./Components/FundingOrgs/FundingOrgsIndex";
 import BoilerplatesShow from "./Components/Boilerplates/BoilerplatesShow";
@@ -41,25 +40,25 @@ export default function App() {
           <Route path="/reset_password" component={ResetPassword} />
           {/* <Route path="/forgot_password" component={ForgotPassword} /> */}
           <CurrentOrganizationProvider>
-            <PrivateRoute path="/organizations/:organizationId/">
+            <PrivateRoute path="/organizations/:organizationUuid/">
               <OrganizationLayout>
                 <Suspense fallback={<Spinner size="md" centered />}>
                   <Switch>
                     <Route
-                      path="/organizations/:organizationId/dashboard"
+                      path="/organizations/:organizationUuid/dashboard"
                       component={Dashboard}
                     />
                     <PrivateRoute
-                      path="/organizations/:organizationId/grants/:grant_id/edit"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/edit"
                       component={GrantEdit}
                     />
                     <Route
-                      path="/organizations/:organizationId/grants/:grant_id/copy"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/copy"
                       component={GrantCopy}
                     />
                     <Route
                       exact
-                      path="/organizations/:organizationId/grants/:grant_id"
+                      path="/organizations/:organizationUuid/grants/:grantUuid"
                       component={() => (
                         <PasteBoilerplateContentPopoutProvider>
                           <GrantsShow />
@@ -67,67 +66,62 @@ export default function App() {
                       )}
                     />
                     <Route
-                      path="/organizations/:organizationId/grants-new"
+                      path="/organizations/:organizationUuid/grants-new"
                       component={GrantsNew}
                     />
                     <Route
                       exact
                       path={
-                        "/organizations/:organizationId/grants/:grant_id/reports/:report_id"
+                        "/organizations/:organizationUuid/grants/:grantUuid/reports/:reportUuid"
                       }
                       component={ReportsShow}
                     />
                     <Route
-                      path="/organizations/:organizationId/grants/:grant_id/reports-new"
+                      path="/organizations/:organizationUuid/grants/:grantUuid/reports-new"
                       component={ReportsNew}
                     />
                     <Route
-                      path="/organizations/:organizationId/grants/"
+                      path="/organizations/:organizationUuid/grants/"
                       component={GrantsIndex}
                     />
                     <Route
-                      path="/organizations/:organizationId/boilerplates/:boilerplate_id"
+                      path="/organizations/:organizationUuid/boilerplates/:boilerplateUuid"
                       component={BoilerplatesShow}
                     />
                     <Route
-                      path="/organizations/:organizationId/boilerplates-new"
+                      path="/organizations/:organizationUuid/boilerplates-new"
                       component={BoilerplatesNew}
                     />
                     <Route
-                      path="/organizations/:organizationId/boilerplates"
+                      path="/organizations/:organizationUuid/boilerplates"
                       component={BoilerplatesIndex}
                     />
                     <Route
-                      path="/organizations/:organizationId/categories"
+                      path="/organizations/:organizationUuid/categories"
                       component={CategoriesIndex}
                     />
                     <Route
-                      path="/organizations/:organizationId/funding_orgs-new"
+                      path="/organizations/:organizationUuid/funding_orgs-new"
                       component={FundingOrgNew}
                     />
                     <Route
-                      path="/organizations/:organizationId/funding_orgs"
+                      path="/organizations/:organizationUuid/funding_orgs"
                       component={FundingOrgsIndex}
                     />
                     <Route
-                      path="/organizations/:organizationId/users"
+                      path="/organizations/:organizationUuid/users"
                       component={StayTunedPage}
                     />
                     <Route
-                      path="/organizations/:organizationId/reports"
+                      path="/organizations/:organizationUuid/reports"
                       component={StayTunedPage}
                     />
-                    <Redirect to="/organizations/:organizationId/dashboard" />
+                    <Redirect to="/organizations/:organizationUuid/dashboard" />
                   </Switch>
                 </Suspense>
               </OrganizationLayout>
             </PrivateRoute>
             <PrivateRoute path="/org_select" component={OrgSelect} />
-            <PrivateRoute
-              exact
-              path="/organizations"
-              component={Organizations}
-            />
             <PrivateRoute
               exact
               path="/organizations-new"

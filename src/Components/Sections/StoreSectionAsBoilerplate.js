@@ -15,7 +15,7 @@ export default function StoreSectionAsBoilerplate(props) {
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({
     title: props.section.title,
     text: props.section.text,
-    categoryId: "",
+    categoryUuid: "",
     wordcount: "",
   });
   const { organizationClient } = useCurrentOrganization();
@@ -66,15 +66,15 @@ export default function StoreSectionAsBoilerplate(props) {
       <Dropdown
         labelText="Category"
         placeholder="Select Category"
-        value={newBoilerplateFields.categoryId}
+        value={newBoilerplateFields.categoryUuid}
         onChange={(option) => {
           setNewBoilerplateFields({
             ...newBoilerplateFields,
-            categoryId: option.value,
+            categoryUuid: option.value,
           });
         }}
         options={categories.map((category) => ({
-          value: category.id?.toString(),
+          value: category.uuid,
           label: category.name,
         }))}
       />

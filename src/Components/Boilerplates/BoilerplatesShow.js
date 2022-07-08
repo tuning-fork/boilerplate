@@ -11,14 +11,14 @@ import "./BoilerplatesShow.css";
 
 export default function BoilerplatesShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const { boilerplate_id: boilerplateId } = useParams();
+  const { boilerplateUuid } = useParams();
   const {
     data: boilerplate,
     isError,
     isLoading,
     error,
   } = useQuery("getBoilerplate", () =>
-    BoilerplatesService.getBoilerplate(organizationClient, boilerplateId)
+    BoilerplatesService.getBoilerplate(organizationClient, boilerplateUuid)
   );
   const [editingBoilerplate, setEditingBoilerplate] = useState(false);
 
@@ -26,7 +26,7 @@ export default function BoilerplatesShow() {
     (newBoilerplateFields) =>
       BoilerplatesService.updateBoilerplate(
         organizationClient,
-        newBoilerplateFields.id,
+        newBoilerplateFields.uuid,
         newBoilerplateFields
       ),
     {
@@ -60,9 +60,9 @@ export default function BoilerplatesShow() {
           headerText={boilerplate.title}
           wordcount={boilerplate.wordcount}
           categoryText={boilerplate.categoryName}
-          breadCrumbLink={`/organizations/${currentOrganization.id}/boilerplates/`}
-          editLink={`/boilerplates/${boilerplate.id}/edit/`}
-          // copyLink={`/boilerplates/${boilerplate.id}/copy/`}
+          breadCrumbLink={`/organizations/${currentOrganization.uuid}/boilerplates/`}
+          editLink={`/boilerplates/${boilerplate.uuid}/edit/`}
+          // copyLink={`/boilerplates/${boilerplate.uuid}/copy/`}
           setIsOpen={setEditingBoilerplate}
         />
         <Container className="boilerplates-show__text-container" centered>

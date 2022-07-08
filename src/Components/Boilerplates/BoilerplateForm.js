@@ -9,17 +9,16 @@ import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import CategoriesNew from "../Categories/CategoriesNew";
+import CategoryNew from "../Categories/CategoryNew";
 
 export default function BoilerplateForm(props) {
-  const [setCategories] = useState([]);
   const { organizationClient } = useCurrentOrganization();
   const [boilerplateFields, setBoilerplateFields] = useState({
     ...props.boilerplate,
     title: props.boilerplate?.title || "",
     text: props.boilerplate?.text || "",
     html: props.boilerplate?.text || "",
-    categoryId: props.boilerplate?.categoryId || "",
+    categoryUuid: props.boilerplate?.categoryUuid || "",
   });
   const quillEl = useRef(null);
   const { data: categories } = useQuery("getCategories", () =>
@@ -39,6 +38,17 @@ export default function BoilerplateForm(props) {
     });
   };
 
+  const handleCloseCategoryNew = (createdCategory) => {
+    setShowingCategoriesNew(false);
+
+    if (createdCategory) {
+      setBoilerplateFields({
+        ...boilerplateFields,
+        categoryUuid: createdCategory.uuid,
+      });
+    }
+  };
+
   return (
     <>
       <form className="BoilerplateForm" onSubmit={handleSubmit}>
@@ -47,15 +57,15 @@ export default function BoilerplateForm(props) {
           onClickAltLabel={() => setShowingCategoriesNew(true)}
           labelText="Category"
           placeholder="Select a Category"
-          value={boilerplateFields.categoryId}
+          value={boilerplateFields.categoryUuid}
           options={categories.map((category) => ({
-            value: category.id,
+            value: category.uuid,
             label: category.name,
           }))}
           onChange={(option) =>
             setBoilerplateFields({
               ...boilerplateFields,
-              categoryId: option.value,
+              categoryUuid: option.value,
             })
           }
         />
@@ -98,11 +108,9 @@ export default function BoilerplateForm(props) {
           </div>
         </div>
       </form>
-      <CategoriesNew
+      <CategoryNew
         show={showingCategoriesNew}
-        onClose={() => setShowingCategoriesNew(false)}
-        currentCategories={categories}
-        setCategories={setCategories}
+        onClose={handleCloseCategoryNew}
       />
     </>
   );

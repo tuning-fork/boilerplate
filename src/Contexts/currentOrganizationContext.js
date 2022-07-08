@@ -26,26 +26,23 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const { user, authenticatedApiClient } = useCurrentUser();
 
   const fetchUserOrganizations = useCallback(async () => {
-    const organizations = await getUserOrganizations(
-      authenticatedApiClient,
-      user.id
-    );
+    const organizations = await getUserOrganizations(authenticatedApiClient);
     setOrganizations(organizations);
-  }, [user, authenticatedApiClient]);
+  }, [authenticatedApiClient]);
 
-  const fetchCurrentOrganization = async (organizationId) => {
+  const fetchCurrentOrganization = async (organizationUuid) => {
     try {
       setIsLoadingOrganization(true);
 
       const organizationClient = axios.create({
         ...authenticatedApiClient.defaults,
-        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
+        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationUuid}`,
       });
       setOrganizationClient(() => organizationClient);
 
       const organization = await getOrganization(
         authenticatedApiClient,
-        organizationId
+        organizationUuid
       );
       setCurrentOrganization(organization);
     } finally {
