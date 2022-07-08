@@ -112,10 +112,6 @@ export default function App() {
                       path="/organizations/:organizationUuid/users"
                       component={StayTunedPage}
                     />
-                    <Route
-                      path="/organizations/:organizationUuid/reports"
-                      component={StayTunedPage}
-                    />
                     <Redirect to="/organizations/:organizationUuid/dashboard" />
                   </Switch>
                 </Suspense>

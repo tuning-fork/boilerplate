@@ -6,7 +6,6 @@ import {
   MdHome,
   MdLocalAtm,
   MdExtension,
-  MdBarChart,
   MdAccountBalance,
   MdFormatListBulleted,
   MdPerson,
@@ -50,17 +49,6 @@ export default function Sidebar(props) {
           >
             <MdExtension />
             Boilerplates
-          </CurrentOrganizationLink>
-        </li>
-        <li>
-          <CurrentOrganizationLink
-            as={NavLink}
-            className="sidebar__navitem"
-            activeClassName="sidebar__navitem--selected"
-            to="/reports"
-          >
-            <MdBarChart />
-            Reports
           </CurrentOrganizationLink>
         </li>
         <li>
