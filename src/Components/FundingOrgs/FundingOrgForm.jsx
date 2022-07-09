@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import "./FundingOrgForm.css";
