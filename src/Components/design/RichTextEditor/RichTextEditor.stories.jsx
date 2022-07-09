@@ -4,10 +4,8 @@ import Component from "./RichTextEditor";
 export default {
   title: "Design/Rich Text Editor",
   component: Component,
-  argTypes: {
-    value: {
-      defaultValue: "<h2>Hi</h2>",
-    },
+  args: {
+    value: "<h2>Hi</h2>"
   },
 };
 
