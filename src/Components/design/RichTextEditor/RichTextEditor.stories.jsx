@@ -5,7 +5,7 @@ export default {
   title: "Design/Rich Text Editor",
   component: Component,
   args: {
-    value: "<h2>Hi</h2>"
+    value: "<h2>Hi</h2>",
   },
 };
 

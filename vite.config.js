@@ -1,13 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgrPlugin from "vite-plugin-svgr";
+import eslint from "vite-plugin-eslint";
 
 export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 3001,
   },
-  plugins: [react(), svgrPlugin()],
+  plugins: [react(), svgrPlugin(), eslint({ failOnError: false })],
   test: {
     globals: true,
     environment: "jsdom",
