@@ -9,7 +9,7 @@ export default function CurrentOrganizationLink(props) {
   return (
     <Component
       {...restProps}
-      to={`/organizations/${currentOrganization.uuid}${to}`}
+      to={`/organizations/${currentOrganization.id}${to}`}
     />
   );
 }

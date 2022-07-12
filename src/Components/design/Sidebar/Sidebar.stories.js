@@ -13,21 +13,21 @@ export const Sidebar = (props) => (
       <Component {...props} />
       <div style={{ backgroundColor: "#f5f7f9", padding: "20px", flex: "1" }}>
         <Switch>
-          <Route path="/organizations/:organizationUuid/dashboard">
+          <Route path="/organizations/:organizationId/dashboard">
             Dashboard
           </Route>
-          <Route path="/organizations/:organizationUuid/reports">Reports</Route>
-          <Route path="/organizations/:organizationUuid/grants">Grants</Route>
-          <Route path="/organizations/:organizationUuid/boilerplates">
+          <Route path="/organizations/:organizationId/reports">Reports</Route>
+          <Route path="/organizations/:organizationId/grants">Grants</Route>
+          <Route path="/organizations/:organizationId/boilerplates">
             Boilerplates
           </Route>
-          <Route path="/organizations/:organizationUuid/funding_orgs">
+          <Route path="/organizations/:organizationId/funding_orgs">
             Funding Organizations
           </Route>
-          <Route path="/organizations/:organizationUuid/categories">
+          <Route path="/organizations/:organizationId/categories">
             Categories
           </Route>
-          <Route path="/organizations/:organizationUuid/users">Users</Route>
+          <Route path="/organizations/:organizationId/users">Users</Route>
           <Route path="/">
             <Redirect to="/organizations/77c48824-3904-449a-9966-e0d8af2f9f64/dashboard" />
           </Route>

@@ -13,17 +13,17 @@ export default function OrganizationLayout(props) {
     isLoadingOrganization,
     fetchCurrentOrganization,
   } = useCurrentOrganization();
-  const { organizationUuid } = useParams();
+  const { organizationId } = useParams();
 
   useEffect(() => {
     if (!currentOrganization && !isLoadingOrganization) {
-      fetchCurrentOrganization(organizationUuid);
+      fetchCurrentOrganization(organizationId);
     }
   }, [
     currentOrganization,
     isLoadingOrganization,
     fetchCurrentOrganization,
-    organizationUuid,
+    organizationId,
   ]);
 
   if (!currentOrganization) {

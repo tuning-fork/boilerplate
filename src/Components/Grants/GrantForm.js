@@ -18,10 +18,10 @@ export default function GrantForm(props) {
   const [showingAddFundingOrgModal, setShowingAddFundingOrgModal] =
     useState(false);
 
-  const handleCloseFundingOrgModal = (fundingOrgUuid) => {
+  const handleCloseFundingOrgModal = (fundingOrgId) => {
     setShowingAddFundingOrgModal(false);
-    if (fundingOrgUuid) {
-      setGrantFields({ ...grantFields, fundingOrgUuid });
+    if (fundingOrgId) {
+      setGrantFields({ ...grantFields, fundingOrgId });
     }
   };
 
@@ -38,13 +38,13 @@ export default function GrantForm(props) {
           onClickAltLabel={() => setShowingAddFundingOrgModal(true)}
           labelText="Funding Organization"
           placeholder="Select a Funding Organization"
-          value={grantFields.fundingOrgUuid}
+          value={grantFields.fundingOrgId}
           options={props.fundingOrgs.map((fundingOrg) => ({
-            value: fundingOrg.uuid,
+            value: fundingOrg.id,
             label: fundingOrg.name,
           }))}
           onChange={(option) =>
-            setGrantFields({ ...grantFields, fundingOrgUuid: option.value })
+            setGrantFields({ ...grantFields, fundingOrgId: option.value })
           }
         />
         <TextBox

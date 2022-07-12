@@ -2,7 +2,7 @@ import { mapUser } from "./Auth/LoginService";
 
 const mapOrganization = (apiOrganization) => ({
   createdAt: new Date(apiOrganization.created_at),
-  uuid: apiOrganization.uuid,
+  id: apiOrganization.id,
   name: apiOrganization.name,
   updatedAt: new Date(apiOrganization.updated_at),
 });
@@ -13,9 +13,9 @@ export const getUserOrganizations = (apiClient) => {
     .then((response) => response.data.map(mapOrganization));
 };
 
-export const getOrganization = (apiClient, organizationUuid) => {
+export const getOrganization = (apiClient, organizationId) => {
   return apiClient
-    .get(`/organizations/${organizationUuid}`)
+    .get(`/organizations/${organizationId}`)
     .then((response) => mapOrganization(response.data));
 };
 

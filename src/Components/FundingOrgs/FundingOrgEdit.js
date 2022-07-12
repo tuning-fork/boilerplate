@@ -11,14 +11,14 @@ export default function FundingOrgEdit(props) {
   const handleSubmit = (fundingOrgFields) => {
     FundingOrgsService.updateFundingOrg(
       organizationClient,
-      props.fundingOrg.uuid,
+      props.fundingOrg.id,
       {
         ...fundingOrgFields,
-        organizationUuid: organizationClient,
+        organizationId: organizationClient,
       }
     )
       .then((fundingOrg) => {
-        if (fundingOrg.uuid) {
+        if (fundingOrg.id) {
           props.onClose();
         }
       })
@@ -36,7 +36,7 @@ export default function FundingOrgEdit(props) {
     if (confirm(`Are you sure you want to delete this funding org?`)) {
       FundingOrgsService.updateFundingOrg(
         organizationClient,
-        props.fundingOrg.uuid,
+        props.fundingOrg.id,
         {
           archived: true,
         }
@@ -56,7 +56,7 @@ export default function FundingOrgEdit(props) {
     // if (confirm(`Are you sure you want to delete this funding org?`)) {
     //   FundingOrgsService.deleteFundingOrg(
     //     organizationClient,
-    //     props.fundingOrg.uuid
+    //     props.fundingOrg.id
     //   )
     //     .then(() => {
     //       alert("Funding org deleted!");

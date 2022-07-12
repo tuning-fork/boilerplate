@@ -24,7 +24,7 @@ export default function BoilerplatesNew() {
   );
 
   const handleCancel = () => {
-    history.push(`/organizations/${currentOrganization.uuid}/boilerplates`);
+    history.push(`/organizations/${currentOrganization.id}/boilerplates`);
   };
 
   const { mutate: createBoilerplate } = useMutation(
@@ -32,14 +32,14 @@ export default function BoilerplatesNew() {
       BoilerplatesService.createBoilerplate(organizationClient, {
         title: newBoilerplateFields.title,
         text: newBoilerplateFields.html,
-        categoryUuid: newBoilerplateFields.categoryUuid,
+        categoryId: newBoilerplateFields.categoryId,
         wordcount: countWords(newBoilerplateFields.text),
       }),
     {
       onSuccess: (createdBoilerplate) => {
         alert("Boilerplate created!");
         history.push(
-          `/organizations/${currentOrganization.uuid}/boilerplates/${createdBoilerplate.uuid}`
+          `/organizations/${currentOrganization.id}/boilerplates/${createdBoilerplate.id}`
         );
       },
     }

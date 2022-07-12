@@ -1,58 +1,54 @@
 export const mapSection = (apiSection) => ({
-  uuid: apiSection.uuid,
+  id: apiSection.id,
   wordCount: apiSection.wordcount,
   title: apiSection.title,
   text: apiSection.text,
   sortOrder: apiSection.sort_order,
 });
 
-export const getSection = (organizationClient, grantUuid, sectionUuid) => {
+export const getSection = (organizationClient, grantId, sectionId) => {
   return organizationClient
-    .get(`/grants/${grantUuid}/sections/${sectionUuid}`)
+    .get(`/grants/${grantId}/sections/${sectionId}`)
     .then((response) => response.data);
 };
 
-export const getAllSections = (organizationClient, grantUuid) => {
+export const getAllSections = (organizationClient, grantId) => {
   return organizationClient
-    .get(`/grants/${grantUuid}/sections/`)
+    .get(`/grants/${grantId}/sections/`)
     .then((response) => response.data);
 };
 
-export const deleteSection = (organizationClient, grantUuid, sectionUuid) => {
+export const deleteSection = (organizationClient, grantId, sectionId) => {
   return organizationClient
-    .delete(`/grants/${grantUuid}/sections/${sectionUuid}`)
+    .delete(`/grants/${grantId}/sections/${sectionId}`)
     .then((response) => response.data);
 };
 
-export const createSection = (
-  organizationClient,
-  grantUuid,
-  newGrantSection
-) => {
+export const createSection = (organizationClient, grantId, newGrantSection) => {
   return organizationClient
-    .post(`/grants/${grantUuid}/sections/`, newGrantSection)
+    .post(`/grants/${grantId}/sections/`, newGrantSection)
     .then((response) => response.data);
 };
 
 export const updateSection = (
   organizationClient,
-  grantUuid,
-  sectionUuid,
+  grantId,
+  sectionId,
   fieldsToUpdate
 ) => {
   return organizationClient
-    .patch(`/grants/${grantUuid}/sections/${sectionUuid}`, fieldsToUpdate)
+    .patch(`/grants/${grantId}/sections/${sectionId}`, fieldsToUpdate)
     .then((response) => response.data);
 };
 
 export const reorderSection = (
   organizationClient,
-  grantUuid,
-  sectionUuid,
+  grantId,
+  sectionId,
   sortOrder
 ) => {
   return organizationClient
-    .patch(`/grants/${grantUuid}/actions/reorder_section/${sectionUuid}`, {
+    .patch(`/grants/${grantId}/actions/reorder_section/${sectionId}`, {
       sort_order: sortOrder,
     })
     .then((response) => response.data);

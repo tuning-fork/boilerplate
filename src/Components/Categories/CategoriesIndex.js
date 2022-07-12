@@ -52,12 +52,12 @@ export default function CategoriesIndex() {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateCategory(organizationClient, category.uuid, {
+          await updateCategory(organizationClient, category.id, {
             archived: false,
           });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateCategory(organizationClient, category.uuid, {
+          await updateCategory(organizationClient, category.id, {
             archived: true,
           });
           break;

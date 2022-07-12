@@ -18,7 +18,7 @@ export default function BoilerplateForm(props) {
     title: props.boilerplate?.title || "",
     text: props.boilerplate?.text || "",
     html: props.boilerplate?.text || "",
-    categoryUuid: props.boilerplate?.categoryUuid || "",
+    categoryId: props.boilerplate?.categoryId || "",
   });
   const quillEl = useRef(null);
   const { data: categories } = useQuery("getCategories", () =>
@@ -44,7 +44,7 @@ export default function BoilerplateForm(props) {
     if (createdCategory) {
       setBoilerplateFields({
         ...boilerplateFields,
-        categoryUuid: createdCategory.uuid,
+        categoryId: createdCategory.id,
       });
     }
   };
@@ -57,15 +57,15 @@ export default function BoilerplateForm(props) {
           onClickAltLabel={() => setShowingCategoriesNew(true)}
           labelText="Category"
           placeholder="Select a Category"
-          value={boilerplateFields.categoryUuid}
+          value={boilerplateFields.categoryId}
           options={categories.map((category) => ({
-            value: category.uuid,
+            value: category.id,
             label: category.name,
           }))}
           onChange={(option) =>
             setBoilerplateFields({
               ...boilerplateFields,
-              categoryUuid: option.value,
+              categoryId: option.value,
             })
           }
         />

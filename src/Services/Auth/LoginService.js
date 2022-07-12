@@ -5,7 +5,7 @@ export const mapUser = (apiUser) => ({
   createdAt: new Date(apiUser.created_at),
   email: apiUser.email,
   firstName: apiUser.first_name,
-  uuid: apiUser.uuid,
+  id: apiUser.id,
   lastName: apiUser.last_name,
   updatedAt: new Date(apiUser.updated_at),
 });

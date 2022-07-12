@@ -46,7 +46,7 @@ export default function Dashboard() {
         <ul className="dashboard__recent-drafts-list">
           {recentDrafts.map((recentDraftGrant) => (
             <GrantListItem
-              key={recentDraftGrant.uuid}
+              key={recentDraftGrant.id}
               grant={recentDraftGrant}
               icon={MdAccessTime}
             />
@@ -60,7 +60,7 @@ export default function Dashboard() {
         <ul className="dashboard__due-soon-list">
           {dueSoon.map((dueSoonGrant) => (
             <GrantListItem
-              key={dueSoonGrant.uuid}
+              key={dueSoonGrant.id}
               grant={dueSoonGrant}
               icon={MdAlarm}
             />
@@ -86,7 +86,7 @@ export default function Dashboard() {
         </header>
         <ul className="dashboard__users-list">
           {users.map((user) => (
-            <UserListItem key={user.uuid} user={user} />
+            <UserListItem key={user.id} user={user} />
           ))}
         </ul>
       </article>

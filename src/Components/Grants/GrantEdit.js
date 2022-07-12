@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
+import { useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
@@ -14,18 +15,15 @@ import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
 export default function GrantEdit() {
-  const [grant, setGrant] = useState();
-  const [fundingOrgs, setFundingOrgs] = useState([]);
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
-  const { grantUuid } = useParams();
+  const { grantId } = useParams();
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleDelete = () => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this grant?`)) {
-      deleteGrant(organizationClient, grantUuid)
+      deleteGrant(organizationClient, grantId)
         .then(() => {
           alert("Grant deleted!");
           history.push(buildOrganizationsLink("/grants"));
@@ -39,40 +37,27 @@ export default function GrantEdit() {
     }
   };
 
+  const { data: grant } = useQuery("grant", () =>
+    getGrant(organizationClient, grantId)
+  );
+  const { data: fundingOrgs } = useQuery("fundingOrgs", () =>
+    getAllFundingOrgs(organizationClient)
+  );
+
   const goToGrant = () =>
-    history.push(buildOrganizationsLink(`/grants/${grantUuid}`));
+    history.push(buildOrganizationsLink(`/grants/${grantId}`));
 
   const handleSubmit = (grantFields) => {
-    GrantsService.updateGrant(organizationClient, grantUuid, {
+    GrantsService.updateGrant(organizationClient, grantId, {
       ...grantFields,
-      organizationUuid: grant.organizationUuid,
-      fundingOrgUuid: grant.fundingOrgUuid,
+      organizationId: grant.organizationId,
+      fundingOrgId: grant.fundingOrgId,
     })
-      .then(setGrant)
       .then(goToGrant)
       .catch((error) => {
         console.error("grant update error", error);
       });
   };
-
-  const loadFundingOrgs = useCallback(() => {
-    return getAllFundingOrgs(organizationClient).then(setFundingOrgs);
-  }, [organizationClient, setFundingOrgs]);
-
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    Promise.all([
-      getGrant(organizationClient, grantUuid).then(setGrant),
-      loadFundingOrgs(),
-    ]).finally(() => setIsLoading(false));
-  }, [grantUuid, organizationClient, loadFundingOrgs]);
-
-  if (isLoading) {
-    return "Loading...";
-  }
 
   return (
     <div className="grant-edit">
@@ -86,7 +71,6 @@ export default function GrantEdit() {
         <GrantForm
           grant={grant}
           fundingOrgs={fundingOrgs}
-          loadFundingOrgs={loadFundingOrgs}
           onSubmit={handleSubmit}
           onCancel={goToGrant}
         />

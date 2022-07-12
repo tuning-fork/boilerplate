@@ -25,9 +25,8 @@ export default function ReportsShow() {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState([]);
-  const [newReportSectionUuid, setNewReportSectionUuid] = useState(null);
-  const [editingReportSectionUuid, setEditingReportSectionUuid] =
-    useState(null);
+  const [newReportSectionId, setNewReportSectionId] = useState(null);
+  const [editingReportSectionId, setEditingReportSectionId] = useState(null);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const totalWordCount = useMemo(
     () =>
@@ -38,7 +37,7 @@ export default function ReportsShow() {
     [report.reportSections]
   );
 
-  const { grantUuid, reportUuid } = useParams();
+  const { grantId, reportId } = useParams();
   // const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
@@ -48,32 +47,28 @@ export default function ReportsShow() {
     if (!organizationClient) {
       return;
     }
-    GrantReportsService.getGrantReport(
-      organizationClient,
-      grantUuid,
-      reportUuid
-    )
+    GrantReportsService.getGrantReport(organizationClient, grantId, reportId)
       .then((report) => setReport(report))
       .catch((error) => setErrors([error]))
       .finally(() => setLoading(false));
-  }, [organizationClient, grantUuid, reportUuid]);
+  }, [organizationClient, grantId, reportId]);
 
   const handleCreateReportSection = ({
     newReportSectionFields,
     precedingReportSection,
   }) => {
-    createReportSection(organizationClient, grantUuid, reportUuid, {
+    createReportSection(organizationClient, grantId, reportId, {
       title: newReportSectionFields.title,
       text: newReportSectionFields.html,
-      grantUuid,
-      reportUuid,
+      grantId,
+      reportId,
       sort_order: precedingReportSection
         ? precedingReportSection.sortOrder + 1
         : 0,
       wordcount: countWords(newReportSectionFields.text),
     }).then(() => {
       alert("Report Section created!");
-      setNewReportSectionUuid(null);
+      setNewReportSectionId(null);
       return getGrantReport();
     });
   };
@@ -81,8 +76,8 @@ export default function ReportsShow() {
   const handleEditReportSection = (newReportSectionFields) => {
     updateReportSection(
       organizationClient,
-      grantUuid,
-      newReportSectionFields.uuid,
+      grantId,
+      newReportSectionFields.id,
       {
         title: newReportSectionFields.title,
         text: newReportSectionFields.html,
@@ -90,7 +85,7 @@ export default function ReportsShow() {
       }
     ).then(() => {
       alert("Report Section edited!");
-      setEditingReportSectionUuid(null);
+      setEditingReportSectionId(null);
       return getGrantReport();
     });
   };
@@ -106,13 +101,13 @@ export default function ReportsShow() {
     return <h1>Loading....</h1>;
   }
 
-  const noReportSectionsContent = newReportSectionUuid ? (
+  const noReportSectionsContent = newReportSectionId ? (
     <SectionForm
       onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
       onSubmit={(newReportSectionFields) =>
         handleCreateReportSection({ newReportSectionFields })
       }
-      onCancel={() => setNewReportSectionUuid(null)}
+      onCancel={() => setNewReportSectionId(null)}
     />
   ) : (
     <>
@@ -120,7 +115,7 @@ export default function ReportsShow() {
         Welcome to your grant! Get started by clicking the Add Section Button
         below.
       </p>
-      <Button onClick={() => setNewReportSectionUuid(1)} variant="text">
+      <Button onClick={() => setNewReportSectionId(1)} variant="text">
         <MdAddCircle />
         Add Section
       </Button>
@@ -145,9 +140,9 @@ export default function ReportsShow() {
           purposeText={"purpose"}
           deadline={report.deadline}
           totalWordCount={totalWordCount}
-          breadCrumbLink={`/organizations/${currentOrganization.uuid}/reports/`}
-          copyLink={`/reports/${report.uuid}/copy/`}
-          editLink={`/reports/${report.uuid}/edit/`}
+          breadCrumbLink={`/organizations/${currentOrganization.id}/reports/`}
+          copyLink={`/reports/${report.id}/copy/`}
+          editLink={`/reports/${report.id}/edit/`}
         />
         <Container
           className="reports-show__sections-container"
@@ -157,26 +152,23 @@ export default function ReportsShow() {
           {report.reportSections.length ? (
             <ol className="reports-show__section-list">
               {report.reportSections.map((reportSection) => (
-                <SortableElement
-                  key={reportSection.uuid}
-                  id={reportSection.uuid}
-                >
-                  {editingReportSectionUuid === reportSection.uuid ? (
+                <SortableElement key={reportSection.id} id={reportSection.id}>
+                  {editingReportSectionId === reportSection.id ? (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
                       }
                       onSubmit={handleEditReportSection}
-                      onCancel={() => setEditingReportSectionUuid(null)}
+                      onCancel={() => setEditingReportSectionId(null)}
                       section={reportSection}
                     />
                   ) : (
                     <SectionsShow
                       section={reportSection}
-                      onClickEdit={setEditingReportSectionUuid}
+                      onClickEdit={setEditingReportSectionId}
                     />
                   )}
-                  {newReportSectionUuid === reportSection.uuid && (
+                  {newReportSectionId === reportSection.id && (
                     <SectionForm
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
@@ -187,11 +179,11 @@ export default function ReportsShow() {
                           precedingReportSection: reportSection,
                         })
                       }
-                      onCancel={() => setNewReportSectionUuid(null)}
+                      onCancel={() => setNewReportSectionId(null)}
                     />
                   )}
                   <Button
-                    onClick={() => setNewReportSectionUuid(reportSection.uuid)}
+                    onClick={() => setNewReportSectionId(reportSection.id)}
                     variant="text"
                   >
                     <MdAddCircle />
