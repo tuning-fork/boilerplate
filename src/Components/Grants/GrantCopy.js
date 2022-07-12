@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
@@ -13,8 +13,6 @@ import GrantForm from "./GrantForm";
 import "./GrantCopy.css";
 
 export default function GrantCopy() {
-  const [grant, setGrant] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grantId } = useParams();
@@ -39,23 +37,12 @@ export default function GrantCopy() {
       });
   };
 
+  const { data: grant } = useQuery("grant", () =>
+    getGrant(organizationClient, grantId)
+  );
   const { data: fundingOrgs } = useQuery("fundingOrgs", () =>
     getAllFundingOrgs(organizationClient)
   );
-
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    getGrant(organizationClient, grantId)
-      .then(setGrant)
-      .then(() => setIsLoading(false));
-  }, [grantId, organizationClient]);
-
-  if (isLoading) {
-    return "Loading...";
-  }
 
   return (
     <div className="grant-copy">
