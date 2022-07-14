@@ -24,12 +24,12 @@ export default function ReportsNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newReport = {
-      grantUuid: props.grantUuid,
+      grantId: props.grantId,
       title: title,
       deadline: deadline,
       submitted: submitted,
     };
-    createGrantReport(organizationClient, props.grantUuid, newReport)
+    createGrantReport(organizationClient, props.grantId, newReport)
       .then((report) => {
         if (report) {
           toggleHidden();

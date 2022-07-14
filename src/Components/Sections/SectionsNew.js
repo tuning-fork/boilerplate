@@ -25,7 +25,7 @@ export default function SectionsNew(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
   useEffect(() => {
-    if (currentOrganization.uuid) {
+    if (currentOrganization.id) {
       getAllBoilerplates(organizationClient)
         .then((boilerplates) => {
           setBoilerplates(boilerplates);
@@ -34,7 +34,7 @@ export default function SectionsNew(props) {
           console.error(error);
         });
     }
-  }, [currentOrganization.uuid, organizationClient]);
+  }, [currentOrganization.id, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -85,13 +85,13 @@ export default function SectionsNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newSection = {
-      grantUuid: props.grantUuid,
+      grantId: props.grantId,
       title: title,
       text: quillText,
       sort_order: props.sort_number + 1,
       wordcount: countWords(quillText),
     };
-    createGrantSection(organizationClient, props.grantUuid, newSection)
+    createGrantSection(organizationClient, props.grantId, newSection)
       .then((section) => {
         if (section) {
           props.addNewSections(section);
@@ -120,7 +120,7 @@ export default function SectionsNew(props) {
       <div>
         {suggestions.map((boilerplate) => (
           <li
-            key={boilerplate.uuid}
+            key={boilerplate.id}
             onClick={() => suggestionSelected(boilerplate)}
           >
             {boilerplate.title}, {boilerplate.wordcount} words
@@ -210,7 +210,7 @@ export default function SectionsNew(props) {
                   {boilerplates.map((boilerplate) => {
                     return (
                       <option
-                        key={boilerplate.uuid}
+                        key={boilerplate.id}
                         value={boilerplate.text}
                         onChange={(event) =>
                           setCurrentBoilerplate(event.target.value)

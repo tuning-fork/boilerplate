@@ -30,19 +30,19 @@ export const CurrentOrganizationProvider = ({ children }) => {
     setOrganizations(organizations);
   }, [authenticatedApiClient]);
 
-  const fetchCurrentOrganization = async (organizationUuid) => {
+  const fetchCurrentOrganization = async (organizationId) => {
     try {
       setIsLoadingOrganization(true);
 
       const organizationClient = axios.create({
         ...authenticatedApiClient.defaults,
-        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationUuid}`,
+        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
       });
       setOrganizationClient(() => organizationClient);
 
       const organization = await getOrganization(
         authenticatedApiClient,
-        organizationUuid
+        organizationId
       );
       setCurrentOrganization(organization);
     } finally {

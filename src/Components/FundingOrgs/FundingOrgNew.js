@@ -12,12 +12,12 @@ export default function FundingOrgNew(props) {
     (newFundingOrgFields) =>
       FundingOrgsService.createFundingOrg(organizationClient, {
         ...newFundingOrgFields,
-        organizationUuid: currentOrganization.uuid,
+        organizationId: currentOrganization.id,
       }),
     {
       onSuccess: (fundingOrg) => {
         alert("Funding org created!");
-        props.onClose(fundingOrg.uuid);
+        props.onClose(fundingOrg.id);
       },
     }
   );

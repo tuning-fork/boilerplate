@@ -40,25 +40,25 @@ export default function App() {
           <Route path="/reset_password" component={ResetPassword} />
           {/* <Route path="/forgot_password" component={ForgotPassword} /> */}
           <CurrentOrganizationProvider>
-            <PrivateRoute path="/organizations/:organizationUuid/">
+            <PrivateRoute path="/organizations/:organizationId/">
               <OrganizationLayout>
                 <Suspense fallback={<Spinner size="md" centered />}>
                   <Switch>
                     <Route
-                      path="/organizations/:organizationUuid/dashboard"
+                      path="/organizations/:organizationId/dashboard"
                       component={Dashboard}
                     />
                     <PrivateRoute
-                      path="/organizations/:organizationUuid/grants/:grantUuid/edit"
+                      path="/organizations/:organizationId/grants/:grantId/edit"
                       component={GrantEdit}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants/:grantUuid/copy"
+                      path="/organizations/:organizationId/grants/:grantId/copy"
                       component={GrantCopy}
                     />
                     <Route
                       exact
-                      path="/organizations/:organizationUuid/grants/:grantUuid"
+                      path="/organizations/:organizationId/grants/:grantId"
                       component={() => (
                         <PasteBoilerplateContentPopoutProvider>
                           <GrantsShow />
@@ -66,53 +66,53 @@ export default function App() {
                       )}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants-new"
+                      path="/organizations/:organizationId/grants-new"
                       component={GrantsNew}
                     />
                     <Route
                       exact
                       path={
-                        "/organizations/:organizationUuid/grants/:grantUuid/reports/:reportUuid"
+                        "/organizations/:organizationId/grants/:grantId/reports/:reportId"
                       }
                       component={ReportsShow}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants/:grantUuid/reports-new"
+                      path="/organizations/:organizationId/grants/:grantId/reports-new"
                       component={ReportsNew}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/grants/"
+                      path="/organizations/:organizationId/grants/"
                       component={GrantsIndex}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/boilerplates/:boilerplateUuid"
+                      path="/organizations/:organizationId/boilerplates/:boilerplateId"
                       component={BoilerplatesShow}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/boilerplates-new"
+                      path="/organizations/:organizationId/boilerplates-new"
                       component={BoilerplatesNew}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/boilerplates"
+                      path="/organizations/:organizationId/boilerplates"
                       component={BoilerplatesIndex}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/categories"
+                      path="/organizations/:organizationId/categories"
                       component={CategoriesIndex}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/funding_orgs-new"
+                      path="/organizations/:organizationId/funding_orgs-new"
                       component={FundingOrgNew}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/funding_orgs"
+                      path="/organizations/:organizationId/funding_orgs"
                       component={FundingOrgsIndex}
                     />
                     <Route
-                      path="/organizations/:organizationUuid/users"
+                      path="/organizations/:organizationId/users"
                       component={StayTunedPage}
                     />
-                    <Redirect to="/organizations/:organizationUuid/dashboard" />
+                    <Redirect to="/organizations/:organizationId/dashboard" />
                   </Switch>
                 </Suspense>
               </OrganizationLayout>

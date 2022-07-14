@@ -9,7 +9,7 @@ import Button from "../design/Button/Button";
 export default function OrgSelect() {
   const { user } = useCurrentUser();
   const { organizations } = useCurrentOrganization();
-  const [currentOrganizationUuid, setCurrentOrganizationUuid] = useState();
+  const [currentOrganizationId, setCurrentOrganizationId] = useState();
 
   return (
     <Container as="section" className="org-select">
@@ -20,20 +20,20 @@ export default function OrgSelect() {
       </p>
       <form>
         <Dropdown
-          onChange={(option) => setCurrentOrganizationUuid(option.value)}
+          onChange={(option) => setCurrentOrganizationId(option.value)}
           labelText="Organization"
           placeholder="Select Organization"
-          value={currentOrganizationUuid}
+          value={currentOrganizationId}
           options={organizations.map((organization) => ({
-            value: organization.uuid,
+            value: organization.id,
             label: organization.name,
           }))}
           required
         />
-        {currentOrganizationUuid && (
+        {currentOrganizationId && (
           <Button
             as={Link}
-            to={`/organizations/${currentOrganizationUuid}/dashboard`}
+            to={`/organizations/${currentOrganizationId}/dashboard`}
           >
             Go to Dashboard
           </Button>

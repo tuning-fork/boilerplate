@@ -1,10 +1,10 @@
 const mapBoilerplate = (apiBoilerplate) => ({
   archived: apiBoilerplate.archived,
   createdAt: new Date(apiBoilerplate.created_at),
-  categoryUuid: apiBoilerplate.category_uuid,
+  categoryId: apiBoilerplate.category_id,
   categoryName: apiBoilerplate.category_name,
-  uuid: apiBoilerplate.uuid,
-  organizationUuid: apiBoilerplate.organization_uuid,
+  id: apiBoilerplate.id,
+  organizationId: apiBoilerplate.organization_id,
   title: apiBoilerplate.title,
   text: apiBoilerplate.text,
   wordcount: apiBoilerplate.wordcount,
@@ -13,14 +13,14 @@ const mapBoilerplate = (apiBoilerplate) => ({
 
 const mapBoilerplateToApiBoilerplate = (boilerplate) => ({
   ...boilerplate,
-  category_id: boilerplate.categoryUuid,
-  organization_id: boilerplate.organizationUuid,
+  category_id: boilerplate.categoryId,
+  organization_id: boilerplate.organizationId,
 });
 
 // getBoilerplate
-export const getBoilerplate = (organizationClient, boilerplateUuid) => {
+export const getBoilerplate = (organizationClient, boilerplateId) => {
   return organizationClient
-    .get(`/boilerplates/${boilerplateUuid}`)
+    .get(`/boilerplates/${boilerplateId}`)
     .then((response) => mapBoilerplate(response.data));
 };
 
@@ -34,9 +34,9 @@ export const getAllBoilerplates = (organizationClient) => {
 
 // deleteBoilerplate
 
-export const deleteBoilerplate = (organizationClient, boilerplateUuid) => {
+export const deleteBoilerplate = (organizationClient, boilerplateId) => {
   return organizationClient
-    .delete(`/boilerplates/${boilerplateUuid}`)
+    .delete(`/boilerplates/${boilerplateId}`)
     .then((response) => response.data);
 };
 
@@ -52,12 +52,12 @@ export const createBoilerplate = (organizationClient, newBoilerplate) => {
 
 export const updateBoilerplate = (
   organizationClient,
-  boilerplateUuid,
+  boilerplateId,
   fieldsToUpdate
 ) => {
   return organizationClient
     .patch(
-      `/boilerplates/${boilerplateUuid}`,
+      `/boilerplates/${boilerplateId}`,
       mapBoilerplateToApiBoilerplate(fieldsToUpdate)
     )
     .then((response) => response.data);
@@ -68,12 +68,12 @@ export const updateBoilerplate = (
 
 // export const copyBoilerplate = (
 //   organizationClient,
-//   boilerplateUuid,
+//   boilerplateId,
 //   copyBoilerplateFields
 // ) => {
 //   return organizationClient
 //     .post(
-//       `/boilerplates/${boilerplateUuid}/copy`,
+//       `/boilerplates/${boilerplateId}/copy`,
 //       mapBoilerplateToApiBoilerplate(copyBoilerplateFields)
 //     )
 //     .then((response) => response.data);

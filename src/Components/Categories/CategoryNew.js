@@ -23,7 +23,7 @@ export default function CategoryNew(props) {
   const handleSubmit = (categoryFields) => {
     createCategory({
       ...categoryFields,
-      organizationUuid: currentOrganization.uuid,
+      organizationId: currentOrganization.id,
     });
   };
 

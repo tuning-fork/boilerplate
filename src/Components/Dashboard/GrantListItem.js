@@ -8,7 +8,7 @@ export default function GrantListItem(props) {
 
   return (
     <li className="grant-list-item">
-      <CurrentOrganizationLink to={`/grants/${grant.uuid}`}>
+      <CurrentOrganizationLink to={`/grants/${grant.id}`}>
         <article className="grant">
           <p className="grant__title">{grant.title}</p>
           <div className="grant__deadline">

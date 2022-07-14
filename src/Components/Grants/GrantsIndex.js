@@ -47,38 +47,38 @@ export default function GrantsIndex() {
     try {
       switch (option.value) {
         case "REMOVE_FROM_SUBMITTED":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             submitted: false,
           });
           break;
         case "REMOVE_FROM_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             successful: false,
           });
           break;
         case "REMOVE_FROM_ARCHIVED":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             archived: false,
           });
           break;
         case "MARK_AS_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             successful: true,
           });
           break;
         case "MARK_AS_SUBMITTED":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             submitted: true,
           });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateGrant(organizationClient, grant.uuid, {
+          await updateGrant(organizationClient, grant.id, {
             archived: true,
           });
           break;
         case "MAKE_A_COPY":
           return history.push(
-            buildOrganizationsLink(`/grants/${grant.uuid}/copy`)
+            buildOrganizationsLink(`/grants/${grant.id}/copy`)
           );
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
@@ -106,7 +106,7 @@ export default function GrantsIndex() {
     {
       Header: "Title",
       accessor: (grant) => (
-        <CurrentOrganizationLink to={`/grants/${grant.uuid}`}>
+        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
           {grant.title}
         </CurrentOrganizationLink>
       ),
@@ -213,7 +213,7 @@ export default function GrantsIndex() {
         />
         <Button
           as={Link}
-          to={`/organizations/${currentOrganization.uuid}/grants-new/`}
+          to={`/organizations/${currentOrganization.id}/grants-new/`}
         >
           Add New Grant
         </Button>

@@ -19,7 +19,7 @@ export default function GrantsNew() {
   );
 
   const handleCancel = () => {
-    history.push(`/organizations/${currentOrganization.uuid}/grants`);
+    history.push(`/organizations/${currentOrganization.id}/grants`);
   };
 
   const { mutate: createGrant } = useMutation(
@@ -28,7 +28,7 @@ export default function GrantsNew() {
       onSuccess: (newGrant) => {
         alert("Grant created!");
         history.push(
-          `/organizations/${currentOrganization.uuid}/grants/${newGrant.uuid}`
+          `/organizations/${currentOrganization.id}/grants/${newGrant.id}`
         );
       },
     }
@@ -37,7 +37,7 @@ export default function GrantsNew() {
   function handleCreateGrant(newGrantFields) {
     createGrant({
       title: newGrantFields.title,
-      fundingOrgUuid: newGrantFields.fundingOrgUuid,
+      fundingOrgId: newGrantFields.fundingOrgId,
       rfpUrl: newGrantFields.rfpUrl,
       purpose: newGrantFields.purpose,
       deadline: newGrantFields.deadline,

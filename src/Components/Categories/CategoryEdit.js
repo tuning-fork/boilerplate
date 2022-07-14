@@ -9,9 +9,9 @@ export default function CategoryEdit(props) {
   const { organizationClient } = useCurrentOrganization();
 
   const handleSubmit = (categoryFields) => {
-    CategoriesService.updateCategory(organizationClient, props.category.uuid, {
+    CategoriesService.updateCategory(organizationClient, props.category.id, {
       ...categoryFields,
-      organizationUuid: organizationClient,
+      organizationId: organizationClient,
     })
       .then(() => {
         props.onClose();
@@ -28,7 +28,7 @@ export default function CategoryEdit(props) {
   const handleDelete = () => {
     // console.log("you deleted this category!");
     // if (confirm(`Are you sure you want to delete this category?`)) {
-    //   CategoriesService.deleteCategory(organizationClient, props.category.uuid)
+    //   CategoriesService.deleteCategory(organizationClient, props.category.id)
     //     .then(() => {
     //       alert("Category deleted!");
     //       props.onClose();
@@ -42,13 +42,9 @@ export default function CategoryEdit(props) {
     // }
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this category?`)) {
-      CategoriesService.updateCategory(
-        organizationClient,
-        props.category.uuid,
-        {
-          archived: true,
-        }
-      )
+      CategoriesService.updateCategory(organizationClient, props.category.id, {
+        archived: true,
+      })
         .then(() => {
           alert("Category deleted!");
           props.onClose();
