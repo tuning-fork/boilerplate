@@ -10,6 +10,7 @@ import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
 import TeamPage from "./SplashpageTeam/TeamPage.js";
+import clsx from "clsx";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
@@ -95,7 +96,12 @@ export default function SplashpageLayout() {
   };
 
   return (
-    <main className="splashpage-layout">
+    <main
+      className={clsx(
+        "splashpage-layout",
+        showSplashPagePanel && "splashpage-layout__noscroll"
+      )}
+    >
       <div className="splashpage-layout__navbar-container">
         <NavbarSplashpage
           toggleModalContents={handleSwitchSplashPageModal}

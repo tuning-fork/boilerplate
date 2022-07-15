@@ -5,7 +5,6 @@
 }
 
 .bio-card__container {
-    /* padding-top: 6rem; */
     padding-left: 6rem;
     padding-right: 6rem;
 }
@@ -33,15 +32,18 @@
     border: 2px solid #FFFFFF;
     border-radius: 5px;
     width: 60%;
+    min-width: 50%;
     padding: 4rem;
     margin-right: 6rem;
     min-height: 40rem;
     height: 100%;
     color: #FFFFFF;
+    overflow: scroll;
 }
 
 .bio-card__text {
     padding-bottom: 2rem;
+    min-width: 0;
 }
 
 .bio-card__headshot-frame {
@@ -50,13 +52,16 @@
     border-radius: 5px;
     width: 30%;
     padding: 4rem;
-    min-height: 40rem;
     height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .bio-card__headshot-image {
-    width: 100%;
     padding-top: 2.5rem;
+    max-height: 30rem;
+    max-width: 30rem;
+    
 }
 
 .bio-card__icon-links {

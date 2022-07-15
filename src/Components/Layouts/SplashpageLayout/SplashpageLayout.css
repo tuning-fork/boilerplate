@@ -17,3 +17,8 @@
   width: 100%;
   height: auto;
 }
+
+.splashpage-layout__noscroll { 
+  overflow: hidden;
+  position: fixed;
+}

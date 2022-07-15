@@ -1,5 +1,5 @@
 .bio-frame__container {
-  position: absolute;
+  /* position: absolute; */
   background-image: url('flame_background1.svg');
   background-repeat:  no-repeat;
   background-size: contain;

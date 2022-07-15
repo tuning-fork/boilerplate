@@ -23,15 +23,6 @@ export default function Panel(props) {
           <PanelCancelButton hide={props.hide} />
         </div>
       )}
-
-      {/* <div className="panel-header">
-        <h1
-          id="panel-heading"
-          className={clsx(props.headingClassName, "panel__heading")}
-        >
-          {props.heading}
-        </h1>
-      </div> */}
       <div className="panel-content">{props.children}</div>
     </div>
   );
