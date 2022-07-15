@@ -4,7 +4,6 @@ import Component from "./Table";
 export default {
   title: "Design/Table",
   component: Component,
-  argTypes: {},
 };
 
 export const Table = (props) => (

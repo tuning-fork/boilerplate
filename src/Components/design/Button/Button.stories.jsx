@@ -6,10 +6,8 @@ import Button from "./Button";
 export default {
   title: "Design/Button",
   component: Button,
-  argTypes: {
-    children: {
-      defaultValue: "Button",
-    },
+  args: {
+    children: "Button",
   },
 };
 
