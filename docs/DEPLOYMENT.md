@@ -32,6 +32,10 @@ There are two versions of the application: staging and production.
   production environment through [Heroku's pipeline
   feature](https://devcenter.heroku.com/articles/pipelines#deployment-with-pipelines)
 
+#### Promoting to production
+
+TODO
+
 ## Initial Setup
 
 To deploy Boilerplate on Heroku, follow these steps:
@@ -75,8 +79,5 @@ To deploy Boilerplate on Heroku, follow these steps:
 
 ## Migrations
 
-As new migrations are added, you'll need to manually run them on your deployed
-database:
-```sh
-$ heroku run -a <api-app-name> rails db:migrate
-```
+Migrations are automatically run before backend changes are released for both
+staging and production so you don't need to worry about manually running them!
