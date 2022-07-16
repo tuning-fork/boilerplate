@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 
 export default function FundingOrgsEditForm(props) {
   const { onSubmit, onCancel } = props;
@@ -24,32 +23,35 @@ export default function FundingOrgsEditForm(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          value={newName}
-          name="newName"
-          placeholder={newName}
-          onChange={(event) => setNewName(event.target.value)}
-          required
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Website</Form.Label>
-        <Form.Control
-          type="text"
-          value={newWebsite}
-          name="newWebsite"
-          placeholder={newWebsite}
-          onChange={(event) => setNewWebsite(event.target.value)}
-          required
-        />
-      </Form.Group>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>
+          Name
+          <input
+            type="text"
+            value={newName}
+            name="newName"
+            placeholder={newName}
+            onChange={(event) => setNewName(event.target.value)}
+            required
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Website
+          <input
+            type="text"
+            value={newWebsite}
+            name="newWebsite"
+            placeholder={newWebsite}
+            onChange={(event) => setNewWebsite(event.target.value)}
+            required
+          />
+        </label>
+      </div>
       <div>
         <Button
-          variant="outline-success"
           type="submit"
           style={{
             maxWidth: "50%",
@@ -63,7 +65,6 @@ export default function FundingOrgsEditForm(props) {
           Save Changes
         </Button>
         <Button
-          variant="outline-success"
           style={{
             maxWidth: "50%",
             align: "center",
@@ -76,6 +77,6 @@ export default function FundingOrgsEditForm(props) {
           Cancel
         </Button>
       </div>
-    </Form>
+    </form>
   );
 }

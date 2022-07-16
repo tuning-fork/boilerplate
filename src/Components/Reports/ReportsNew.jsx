@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import { createGrantReport } from "../../Services/Organizations/Grants/GrantReportsService";
 
@@ -52,35 +50,35 @@ export default function ReportsNew(props) {
       <br />
       <br />
       {!isHidden ? (
-        <Card>
-          <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
+        <div>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Title</label>
+                <input
                   type="text"
                   name="title"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Deadline</Form.Label>
-                <Form.Control
+              </div>
+              <div>
+                <label>Deadline</label>
+                <input
                   type="datetime-local"
                   name="deadline"
                   value={deadline}
                   onChange={(event) => setDeadline(event.target.value)}
                   required
                 />
-              </Form.Group>
+              </div>
               <div className="text-center">
                 <Button type="submit">Submit New Report</Button>
               </div>
-            </Form>
-          </Card.Body>
-        </Card>
+            </form>
+          </div>
+        </div>
       ) : null}
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 
 export default function OrganizationEditForm(props) {
   const { onSubmit, onCancel } = props;
@@ -19,11 +18,11 @@ export default function OrganizationEditForm(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
+    <form onSubmit={handleSubmit}>
+      <div>
         <div>Edit Organization</div>
-        <Form.Label>Organization Name</Form.Label>
-        <Form.Control
+        <label>Organization Name</label>
+        <input
           type="text"
           value={newName}
           name="newName"
@@ -31,9 +30,8 @@ export default function OrganizationEditForm(props) {
           onChange={(event) => setNewName(event.target.value)}
           required
         />
-      </Form.Group>
+      </div>
       <Button
-        variant="outline-dark"
         style={{
           fontWeight: "bolder",
         }}
@@ -42,7 +40,6 @@ export default function OrganizationEditForm(props) {
         Cancel
       </Button>
       <Button
-        variant="dark"
         type="submit"
         style={{
           fontWeight: "bolder",
@@ -51,6 +48,6 @@ export default function OrganizationEditForm(props) {
       >
         Save Changes
       </Button>
-    </Form>
+    </form>
   );
 }

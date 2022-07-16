@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 
 export default function ReportEditForm(props) {
   const { onSubmit, onCancel } = props;
@@ -23,40 +22,39 @@ export default function ReportEditForm(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Title</Form.Label>
-        <Form.Control
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Title</label>
+        <input
           type="text"
           value={newTitle}
           name="newTitle"
           onChange={(event) => setNewTitle(event.target.value)}
           required
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Deadline</Form.Label>
-        <Form.Control
+      </div>
+      <div>
+        <label>Deadline</label>
+        <input
           type="datetime"
           value={newDeadline}
           name="newDeadline"
           onChange={(event) => setNewDeadline(event.target.value)}
           required
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Submitted</Form.Label>
-        <Form.Check
+      </div>
+      <div>
+        <label>Submitted</label>
+        <input
           type="checkbox"
           name="newSubmitted"
           checked={newSubmitted}
           onChange={(event) => setNewSubmitted(event.target.checked)}
         />
-      </Form.Group>
+      </div>
       <div className="text-center">
         <div>
           <Button
-            variant="outline-success"
             type="submit"
             style={{
               maxWidth: "50%",
@@ -70,7 +68,6 @@ export default function ReportEditForm(props) {
             Save Changes
           </Button>
           <Button
-            variant="outline-success"
             style={{
               maxWidth: "50%",
               align: "center",
@@ -84,6 +81,6 @@ export default function ReportEditForm(props) {
           </Button>
         </div>
       </div>
-    </Form>
+    </form>
   );
 }
