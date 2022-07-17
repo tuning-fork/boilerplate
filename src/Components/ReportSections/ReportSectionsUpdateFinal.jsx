@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
-import Container from "react-bootstrap/Container";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
 import { updateReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
@@ -107,46 +104,46 @@ export default function ReportSectionsUpdateFinal(props) {
 
   return (
     <div className="container">
-      <Container className="whatever" onClick={toggleHidden}>
+      <div className="whatever" onClick={toggleHidden}>
         <h5>{props.report_section_title}</h5>
         <h5
           dangerouslySetInnerHTML={{ __html: props.report_section_text }}
         ></h5>
-      </Container>
+      </div>
 
       <div className="container">
         <br />
         <br />
         {!isHidden ? (
-          <Card>
-            <Card.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
+          <div>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label>Title</label>
+                  <input
                     type="text"
                     value={title}
                     name="title"
                     onChange={(event) => setTitle(event.target.value)}
                     required
                   />
-                </Form.Group>
+                </div>
                 <ReactQuill
                   value={quillText}
                   onChange={(value) => setQuillText(value)}
                 />
-                <Form.Group>
-                  <Form.Label>Word Count</Form.Label>
+                <div>
+                  <label>Word Count</label>
                   <p>{countWords(quillText)}</p>
-                </Form.Group>
+                </div>
                 <div className="text-center">
                   <Button type="submit">Submit</Button>
                   <Button onClick={toggleHidden}>Close</Button>
                   <Button onClick={handleReportSectionDelete}>Delete</Button>
                 </div>
-              </Form>
-            </Card.Body>
-          </Card>
+              </form>
+            </div>
+          </div>
         ) : null}
       </div>
     </div>

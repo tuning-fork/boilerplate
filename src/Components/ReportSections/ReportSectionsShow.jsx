@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSectionEditForm";
@@ -101,14 +100,14 @@ export default function ReportSectionsShow(props) {
   }
   return (
     <div className="container">
-      <Card>
-        <Card.Body>
+      <div>
+        <div>
           <h5>{title}</h5>
           <p dangerouslySetInnerHTML={{ __html: quillText }}></p>
           <p>wordcount: {countWords(quillText)}</p>
           <p>sort order: {sortOrder}</p>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
       <br />
       <div>
         <div className="container">
@@ -120,8 +119,8 @@ export default function ReportSectionsShow(props) {
           <br />
           <br />
           {!isHidden ? (
-            <Card>
-              <Card.Body>
+            <div>
+              <div>
                 <ReportSectionEditForm
                   title={title}
                   quillText={quillText}
@@ -129,8 +128,8 @@ export default function ReportSectionsShow(props) {
                   onSubmit={handleSubmit}
                   onCancel={handleCancel}
                 />
-              </Card.Body>
-            </Card>
+              </div>
+            </div>
           ) : null}
         </div>
       </div>

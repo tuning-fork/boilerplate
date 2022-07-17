@@ -4,7 +4,6 @@ import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./Splashpage_Background_Image.png";
 import Button from "../../design/Button/Button";
 import Modal from "../../design/Modal/Modal";
-import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
@@ -22,40 +21,40 @@ export default function SplashpageLayout() {
     setModalLabel(modalLabelInput);
     if (modalLabelInput === "Sign Up") {
       setModalContents(
-        <Card>
-          <Card.Body>
+        <div>
+          <div>
             <SignUp
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
             />
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       );
       setShowSplashPageModal(true);
     } else if (modalLabelInput === "Log In") {
       setModalContents(
-        <Card>
-          <Card.Body>
+        <div>
+          <div>
             <Login
               onSubmit={handleCloseSplashPageModal}
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
               formType="standard"
             />
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       );
     } else if (modalLabelInput === "Forgot Password") {
       setModalContents(
-        <Card>
-          <Card.Body>
+        <div>
+          <div>
             <ForgotPassword
               onSubmit={handleCloseSplashPageModal}
               onCancel={handleCloseSplashPageModal}
               toggleModalContents={handleSwitchSplashPageModal}
             />
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       );
     }
     setShowSplashPageModal(true);
