@@ -7,12 +7,14 @@ This contains instructions on deploying and maintaining Boilerplate on Heroku.
 ```mermaid
 flowchart LR
   subgraph backend ["Backend (Heroku)"]
-    nginx([NGINX Server]) --> bundle[[React Bundle]]
+    bundle[[React Bundle]]
     api([Rails API]) --> db[(PostgreSQL)]
+    nginx([NGINX Server])
+    nginx --> bundle
+    nginx --> api
   end
   browser[Browser]
   browser --> nginx
-  browser --> api
 ```
 
 When deployed, the application consists of three servers:
@@ -20,7 +22,8 @@ When deployed, the application consists of three servers:
    buildpack](https://github.com/heroku/heroku-buildpack-ruby))
 2. A PostgreSQL database server (through [Heroku Postgres
    Addon](https://www.heroku.com/postgres))
-1. An NGINX static web server to serve the built react bundle (through [NGINX
+3. An NGINX static web server to serve the built react bundle and also act as a
+   reverse proxy for API requests (through [NGINX
    buildpack](https://github.com/heroku/heroku-buildpack-nginx))
 
 ### Staging/Production Pipeline
