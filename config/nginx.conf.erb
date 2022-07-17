@@ -48,5 +48,9 @@ http {
     location / {
       try_files $uri $uri/ /index.html;
     }
+
+    location /api {
+      proxy_pass <%= ENV.fetch('API_URL') %>;
+    }
   }
 }
