@@ -9,7 +9,7 @@ import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
-import TeamPage from "./SplashpageTeam/TeamPage.js";
+import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.js";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {

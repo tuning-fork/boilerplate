@@ -1,14 +1,26 @@
 import React, { useState } from "react";
-import { TEAM_BIOS } from "../TeamBios";
+import { TEAM_BIOS } from "../TeamPage/TeamBios";
 import BioCard from "../BioCard/BioCard";
-// import { ReactComponent as Background } from "./flame_background1.svg";
 import "./BioFrame.css";
+import Frame from "../../../../design/Frame/Frame";
 
 export default function BioFrame() {
   return (
     <div className="bio-frame__container">
-      {/* <Background /> */}
-      <BioCard />
+      {TEAM_BIOS.map((bio) => {
+        return (
+          <>
+            <div className="bio-frame__card">
+              <div>
+                {bio.first_name} {bio.last_name}
+              </div>
+            </div>
+            ;
+          </>
+        );
+      })}
+
+      {/* <BioCard /> */}
     </div>
   );
 }
@@ -46,3 +58,6 @@ export default function BioFrame() {
 //card2
 //card3
 //card4
+
+//splashpage -> teamframe -> bioframe -> biocard
+//splashpage -> teamframe -> backdrop design element thingie -> biocard

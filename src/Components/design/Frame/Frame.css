@@ -1,0 +1,24 @@
+.frame {
+    background-color: var(--primary-30);
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    width: 60%;
+    min-width: 50%;
+    padding: 4rem;
+    margin-right: 6rem;
+    min-height: 40rem;
+    height: 100%;
+    color: #FFFFFF;
+    overflow: scroll;
+}
+
+/* .bio-card__headshot-frame {
+    background-color: var(--primary-30);
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    width: 30%;
+    padding: 4rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+} */

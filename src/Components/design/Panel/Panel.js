@@ -18,12 +18,14 @@ export default function Panel(props) {
       aria-modal
       open
     >
-      {props.hide && (
-        <div className="panel-cancel-button">
-          <PanelCancelButton hide={props.hide} />
-        </div>
-      )}
-      <div className="panel-content">{props.children}</div>
+      <div className="panel__background-image">
+        {props.hide && (
+          <div className="panel-cancel-button">
+            <PanelCancelButton hide={props.hide} />
+          </div>
+        )}
+        <div className="panel-content">{props.children}</div>
+      </div>
     </div>
   );
 }
