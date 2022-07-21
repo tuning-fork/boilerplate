@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
@@ -146,22 +144,22 @@ export default function SectionsNew(props) {
       <br />
       <br />
       {!isHidden ? (
-        <Card>
-          <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
+        <div>
+          <div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Title</label>
+                <input
                   type="text"
                   name="title"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Add Boilerplate to text field below</Form.Label>
-                {/* <Form.Group> */}
+              </div>
+              <div>
+                <label>Add Boilerplate to text field below</label>
+                {/* <div> */}
                 {/* <div>
                   <label>Search Boilerplate by title </label>
                   <input
@@ -171,9 +169,9 @@ export default function SectionsNew(props) {
                   />
                   {renderSuggestions()}
                 </div> */}
-                <Form.Group>
-                  <Form.Label>Search Parameter</Form.Label>
-                  <Form.Control
+                <div>
+                  <label>Search Parameter</label>
+                  <input
                     as="select"
                     name="filterParam"
                     value={filterParam}
@@ -185,20 +183,20 @@ export default function SectionsNew(props) {
                     </option>
                     <option value="filterTitle">Title</option>
                     <option value="filterCategory">Category</option>
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label></Form.Label>
-                  <Form.Control
+                  </input>
+                </div>
+                <div>
+                  <label></label>
+                  <input
                     type="text"
                     placeholder="Search text..."
                     value={searchText}
                     onChange={onTextChanged}
                   />
-                </Form.Group>
+                </div>
                 {renderSuggestions()}
-                {/* </Form.Group> */}
-                <Form.Control
+                {/* </div> */}
+                <input
                   as="select"
                   name="currentBoilerplate"
                   value={currentBoilerplate}
@@ -220,23 +218,23 @@ export default function SectionsNew(props) {
                       </option>
                     );
                   })}
-                </Form.Control>
-              </Form.Group>
-              <Form.Label>Grant Section Text</Form.Label>
+                </input>
+              </div>
+              <label>Grant Section Text</label>
               <ReactQuill
                 value={quillText}
                 onChange={(value) => setQuillText(value)}
               />
-              <Form.Group>
-                <Form.Label>Word Count</Form.Label>
+              <div>
+                <label>Word Count</label>
                 <p>{countWords(quillText)}</p>
-              </Form.Group>
+              </div>
               <div className="text-center">
                 <Button type="submit">Submit New Section</Button>
               </div>
-            </Form>
-          </Card.Body>
-        </Card>
+            </form>
+          </div>
+        </div>
       ) : null}
     </div>
   );

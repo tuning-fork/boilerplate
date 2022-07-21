@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
 // import { useHistory } from "react-router-dom";
 import OrganizationEditForm from "./OrganizationEditForm";
 import Modal from "../Elements/Modal";
@@ -78,7 +77,7 @@ export default function OrganizationsShow(props) {
   }
 
   const Header = (
-    <Card.Header style={{ backgroundColor: "#09191b" }}>
+    <header style={{ backgroundColor: "#09191b" }}>
       <h3
         style={{
           color: "#23cb87",
@@ -106,22 +105,22 @@ export default function OrganizationsShow(props) {
         }}
         onClick={handleOrganizationDelete}
       /> */}
-    </Card.Header>
+    </header>
   );
 
   return (
     <div className="container">
-      <Card>{Header}</Card>
+      <div>{Header}</div>
       <Modal show={show} onClose={handleClose}>
-        <Card style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
-          <Card.Body>
+        <div style={{ backgroundColor: "#09191b", color: "#fefefe" }}>
+          <div>
             <OrganizationEditForm
               name={name}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
             />
-          </Card.Body>
-        </Card>
+          </div>
+        </div>
       </Modal>
     </div>
   );

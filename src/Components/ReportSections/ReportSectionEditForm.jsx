@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -58,17 +57,17 @@ export default function ReportSectionEditForm(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Title</Form.Label>
-        <Form.Control
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Title</label>
+        <input
           type="text"
           value={newTitle}
           name="newTitle"
           onChange={(event) => setNewTitle(event.target.value)}
           required
         />
-      </Form.Group>
+      </div>
       <ReactQuill
         name="newQuillText"
         modules={modules}
@@ -77,13 +76,12 @@ export default function ReportSectionEditForm(props) {
         onChange={(value) => setNewQuillText(value)}
         style={{ backgroundColor: "#fefefe", color: "black" }}
       />
-      <Form.Group>
-        <Form.Label>Word Count</Form.Label>
+      <div>
+        <label>Word Count</label>
         <p>{countWords(newQuillText)}</p>
-      </Form.Group>
+      </div>
       <div>
         <Button
-          variant="outline-success"
           type="submit"
           style={{
             maxWidth: "50%",
@@ -97,7 +95,6 @@ export default function ReportSectionEditForm(props) {
           Save Changes
         </Button>
         <Button
-          variant="outline-success"
           style={{
             maxWidth: "50%",
             align: "center",
@@ -110,6 +107,6 @@ export default function ReportSectionEditForm(props) {
           Cancel
         </Button>
       </div>
-    </Form>
+    </form>
   );
 }

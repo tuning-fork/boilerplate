@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
@@ -121,30 +119,30 @@ export default function ReportSectionsNew(props) {
   };
 
   return (
-    <Card>
-      <Card.Header>
+    <div>
+      <header>
         <h3>New Report Section:</h3>
-      </Card.Header>
-      <Card.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group>
-            <Form.Label>Title</Form.Label>
-            <Form.Control
+      </header>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Title</label>
+            <input
               type="text"
               name="title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               required
             />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Add Boilerplate to Text Area</Form.Label>
+          </div>
+          <div>
+            <label>Add Boilerplate to Text Area</label>
             <div>
               <label>Search Boilerplate by title </label>
               <input type="text" value={searchText} onChange={onTextChanged} />
               {renderSuggestions()}
             </div>
-            <Form.Control
+            <input
               as="select"
               name="currentBoilerplate"
               value={currentBoilerplate}
@@ -166,22 +164,22 @@ export default function ReportSectionsNew(props) {
                   </option>
                 );
               })}
-            </Form.Control>
-          </Form.Group>
-          <Form.Label>Report Section Text</Form.Label>
+            </input>
+          </div>
+          <label>Report Section Text</label>
           <ReactQuill
             value={quillText}
             onChange={(value) => setQuillText(value)}
           />
-          <Form.Group>
-            <Form.Label>Word Count</Form.Label>
+          <div>
+            <label>Word Count</label>
             <p>{countWords(quillText)}</p>
-          </Form.Group>
+          </div>
           <div className="text-center">
             <Button type="submit">Add New Report Section</Button>
           </div>
-        </Form>
-      </Card.Body>
-    </Card>
+        </form>
+      </div>
+    </div>
   );
 }
