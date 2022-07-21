@@ -1,24 +1,38 @@
 .bio-frame__container {
-  /* position: absolute; */
-  background-image: url('flame_background1.svg');
-  background-repeat:  no-repeat;
-  background-size: contain;
-  background-position: center;
   width: 100%;
   height: 100%;
+  display: flex;
+  row-gap: 4rem;
+  flex-flow: row wrap;
+  justify-content: center;
 }
 
 .bio-frame__card {
-  display: flex;
-  flex-direction: row;
   background-color: var(--primary-30);
   border: 2px solid #FFFFFF;
   border-radius: 5px;
   width: 20%;
   padding: 4rem;
-  margin-right: 6rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
   height: 25%;
   color: #FFFFFF;
   overflow: scroll;
-  margin: 4rem;
+  min-width: 20rem;
+}
+
+.bio-frame__headshot-image {
+  padding-top: 2.5rem;
+  max-height: 20rem;
+  max-width: 20rem;
+}
+
+.bio-frame__icon-links {
+  padding-top: 1rem;
+}
+
+.bio-frame__icon-links a {
+  color: #FFFFFF;
+  padding-right: 2rem;
+  font-size:x-large;
 }

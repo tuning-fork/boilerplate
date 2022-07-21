@@ -15,6 +15,12 @@
     transition-property: top,opacity,background-color;
     will-change: top,opacity,background-color; */
     background-color: #FCE353;
+    overflow: scroll;
+}
+
+.panel-cancel-button {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .panel__heading {
