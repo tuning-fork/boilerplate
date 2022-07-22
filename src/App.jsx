@@ -4,7 +4,7 @@ import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Splashpage from "./Components/Splashpage";
 import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
 // import ForgotPassword from "./Components/Login/ForgotPassword/ForgotPassword";
-import OrgSelect from "./Components/Organizations/OrgSelect";
+import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
 import Dashboard from "./Components/Dashboard";
 import BoilerplatesIndex from "./Components/Boilerplates/BoilerplatesIndex";
 import CategoriesIndex from "./Components/Categories/CategoriesIndex";
@@ -117,7 +117,7 @@ export default function App() {
                 </Suspense>
               </OrganizationLayout>
             </PrivateRoute>
-            <PrivateRoute path="/org_select" component={OrgSelect} />
+            <PrivateRoute path="/organizations" component={OrganizationIndex} />
             <PrivateRoute
               exact
               path="/organizations-new"

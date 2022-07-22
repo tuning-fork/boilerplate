@@ -6,13 +6,13 @@ import Container from "../design/Container/Container";
 import Dropdown from "../design/Dropdown/Dropdown";
 import Button from "../design/Button/Button";
 
-export default function OrgSelect() {
+export default function OrganizationIndex() {
   const { user } = useCurrentUser();
   const { organizations } = useCurrentOrganization();
   const [currentOrganizationId, setCurrentOrganizationId] = useState();
 
   return (
-    <Container as="section" className="org-select">
+    <Container as="section" className="organization-index">
       <h1>Welcome, {user.firstName}</h1>
       <p>
         Please select an organization to continue to your organization
