@@ -88,6 +88,7 @@ export const CurrentUserProvider = ({ children }) => {
         user: null,
         jwt: null,
       });
+      throw error;
     }
   }, []);
 
