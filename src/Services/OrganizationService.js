@@ -5,6 +5,7 @@ const mapOrganization = (apiOrganization) => ({
   id: apiOrganization.id,
   name: apiOrganization.name,
   updatedAt: new Date(apiOrganization.updated_at),
+  users: apiOrganization.users.map(mapUser),
 });
 
 export const getUserOrganizations = (apiClient) => {
