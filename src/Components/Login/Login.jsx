@@ -19,7 +19,6 @@ export default function Login(props) {
 
   const handleSubmit = useCallback(
     async ({ email, password }) => {
-      // event.preventDefault();
       await login(email, password);
       alert("You're signed in!");
       history.push(location.state?.from ?? "/org_select");
