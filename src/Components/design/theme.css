@@ -59,7 +59,7 @@ a:visited {
   color: var(--primary-contrast-alt);
 }
 
-button:focus {
-  outline: var(--focused);
-  outline-offset: 2px;
+a, button:focus {
+  outline-color: var(--primary);
+  outline-offset: 4px;
 }
