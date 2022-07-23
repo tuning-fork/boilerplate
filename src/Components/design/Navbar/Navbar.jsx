@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link, useHistory } from "react-router-dom";
-import UserIcon from "../../design/UserIcon/UserIcon";
+import Avatar from "../../design/Avatar/Avatar";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import DropdownMini from "../DropdownMini/DropdownMini";
 import "./Navbar.css";
@@ -48,10 +48,9 @@ export default function Navbar(props) {
               // { value: "USER_MENU", label: "User Menu" },
             ]}
             displayIcon={
-              <UserIcon
-                firstName={props.user.firstName}
-                lastName={props.user.lastName}
-              />
+              <Avatar>
+                {props.user.firstName} {props.user.lastName}
+              </Avatar>
             }
             onChange={(option) => handleDropdownMiniAction({ option })}
           />
