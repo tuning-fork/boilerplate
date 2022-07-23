@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link, useHistory } from "react-router-dom";
-import UserIcon from "../../Helpers/UserIcon";
+import UserIcon from "../../design/UserIcon/UserIcon";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import DropdownMini from "../DropdownMini/DropdownMini";
 import "./Navbar.css";

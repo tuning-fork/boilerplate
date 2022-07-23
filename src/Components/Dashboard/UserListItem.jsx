@@ -1,6 +1,6 @@
 import React from "react";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import UserIcon from "../Helpers/UserIcon";
+import UserIcon from "../design/UserIcon/UserIcon";
 import "./UserListItem.css";
 
 export default function UserListItem(props) {
