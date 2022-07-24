@@ -1,38 +1,13 @@
-import React, { useState } from "react";
-import Button from "../design/Button/Button";
+import React from "react";
+import OrganizationForm from "./OrganizationForm";
 
-export default function OrganizationsNew(props) {
-  const [name, setName] = useState("");
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await props.onSubmit({
-      name: name,
-    });
-    setName("");
-  };
+export default function OrganizationsNew() {
+  const handleSubmit = async (organization) => {};
 
   return (
-    <div>
-      <header>
-        <h3>Add Organization</h3>
-      </header>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Organization Name</label>
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              required
-            />
-          </div>
-          <Button onClick={props.onCancel}>Cancel</Button>
-          <Button type="submit">Add New Organization</Button>
-        </form>
-      </div>
-    </div>
+    <section>
+      <h1>Add Organization</h1>
+      <OrganizationForm onSubmit={handleSubmit} onCancel={() => {}} />
+    </section>
   );
 }
