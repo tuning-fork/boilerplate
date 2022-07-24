@@ -24,11 +24,6 @@ export default function Modal(props) {
         )}
 
         <div
-          // className={clsx(
-          //   props.splashpageForm
-          //     ? "modal_header--splashpageForm"
-          //     : "modal-header"
-          // )}
           className={
             props.splashpageForm
               ? "modal-header__splashpageForm"
