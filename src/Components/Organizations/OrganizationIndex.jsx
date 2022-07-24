@@ -1,19 +1,40 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useMutation } from "react-query";
+import { Link, useHistory } from "react-router-dom";
+import * as OrganizationService from "../../Services/OrganizationService";
+import { useCurrentUser } from "../../Contexts/currentUserContext";
+import OrganizationCard from "./OrganizationIndex/OrganizationCard";
+import OrganizationForm from "./OrganizationForm";
 import Container from "../design/Container/Container";
 import Button from "../design/Button/Button";
-import OrganizationCard from "./OrganizationIndex/OrganizationCard";
+import Modal from "../design/Modal/Modal";
 import "./OrganizationIndex.css";
 
 export default function OrganizationIndex() {
-  const { organizations } = useCurrentOrganization();
+  const history = useHistory();
+  const { authenticatedApiClient, organizations } = useCurrentUser();
+  const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
+    useState(false);
+
+  const { mutate: createOrganization } = useMutation(
+    (fields) =>
+      OrganizationService.createOrganization(authenticatedApiClient, fields),
+    {
+      onSuccess(organization) {
+        setIsNewOrganizationModalOpen(false);
+        history.push(`/organizations/${organization.id}`);
+      },
+    }
+  );
 
   return (
     <Container as="section" className="organization-index">
       <header className="organization-index__header">
         <h1>Organizations</h1>
-        <Button className="organization-index__new-button">
+        <Button
+          className="organization-index__new-button"
+          onClick={() => setIsNewOrganizationModalOpen(true)}
+        >
           Add New Organization
         </Button>
       </header>
@@ -26,6 +47,12 @@ export default function OrganizationIndex() {
           </li>
         ))}
       </ul>
+      <Modal show={isNewOrganizationModalOpen} heading="Add Organization">
+        <OrganizationForm
+          onSubmit={createOrganization}
+          onCancel={() => setIsNewOrganizationModalOpen(false)}
+        />
+      </Modal>
     </Container>
   );
 }
