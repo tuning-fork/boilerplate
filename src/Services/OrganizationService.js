@@ -8,6 +8,10 @@ const mapOrganization = (apiOrganization) => ({
   users: apiOrganization.users.map(mapUser),
 });
 
+const mapOrganizationToApiOrganization = (organization) => ({
+  ...organization,
+});
+
 export const getUserOrganizations = (apiClient) => {
   return apiClient
     .get(`/organizations`)
@@ -24,4 +28,10 @@ export const getAllOrganizationUsers = async (organizationClient) => {
   return organizationClient
     .get(`/users`)
     .then((response) => response.data.map(mapUser));
+};
+
+export const createOrganization = async (authenticatedApiClient, fields) => {
+  return authenticatedApiClient
+    .post("/organizations", mapOrganizationToApiOrganization(fields))
+    .then((response) => response.data);
 };
