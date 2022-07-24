@@ -1,17 +1,8 @@
-import React, {
-  useContext,
-  createContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import React, { useContext, createContext, useState } from "react";
 import axios from "axios";
 import { useCurrentUser } from "./currentUserContext";
 import apiClient from "../config/apiClient";
-import {
-  getOrganization,
-  getUserOrganizations,
-} from "../Services/OrganizationService";
+import { getOrganization } from "../Services/OrganizationService";
 
 export const CurrentOrganizationContext = createContext();
 
@@ -19,16 +10,10 @@ export const useCurrentOrganization = () =>
   useContext(CurrentOrganizationContext);
 
 export const CurrentOrganizationProvider = ({ children }) => {
-  const [organizations, setOrganizations] = useState([]);
   const [currentOrganization, setCurrentOrganization] = useState();
   const [organizationClient, setOrganizationClient] = useState();
   const [isLoadingOrganization, setIsLoadingOrganization] = useState(false);
-  const { user, authenticatedApiClient } = useCurrentUser();
-
-  const fetchUserOrganizations = useCallback(async () => {
-    const organizations = await getUserOrganizations(authenticatedApiClient);
-    setOrganizations(organizations);
-  }, [authenticatedApiClient]);
+  const { authenticatedApiClient } = useCurrentUser();
 
   const fetchCurrentOrganization = async (organizationId) => {
     try {
@@ -53,17 +38,9 @@ export const CurrentOrganizationProvider = ({ children }) => {
   const context = {
     currentOrganization,
     fetchCurrentOrganization,
-    fetchUserOrganizations,
     isLoadingOrganization,
     organizationClient,
-    organizations,
   };
-
-  useEffect(() => {
-    if (user) {
-      fetchUserOrganizations();
-    }
-  }, [user, fetchUserOrganizations]);
 
   return (
     <CurrentOrganizationContext.Provider value={context}>
