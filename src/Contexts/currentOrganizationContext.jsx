@@ -1,8 +1,9 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useMemo } from "react";
 import axios from "axios";
 import { useCurrentUser } from "./currentUserContext";
-import apiClient from "../config/apiClient";
 import { getOrganization } from "../Services/OrganizationService";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 export const CurrentOrganizationContext = createContext();
 
@@ -10,35 +11,25 @@ export const useCurrentOrganization = () =>
   useContext(CurrentOrganizationContext);
 
 export const CurrentOrganizationProvider = ({ children }) => {
-  const [currentOrganization, setCurrentOrganization] = useState();
-  const [organizationClient, setOrganizationClient] = useState();
-  const [isLoadingOrganization, setIsLoadingOrganization] = useState(false);
+  const { organizationId } = useParams();
   const { authenticatedApiClient } = useCurrentUser();
 
-  const fetchCurrentOrganization = async (organizationId) => {
-    try {
-      setIsLoadingOrganization(true);
-
-      const organizationClient = axios.create({
+  const organizationClient = useMemo(
+    () =>
+      axios.create({
         ...authenticatedApiClient.defaults,
-        baseURL: `${apiClient.defaults.baseURL}/organizations/${organizationId}`,
-      });
-      setOrganizationClient(() => organizationClient);
+        baseURL: `${authenticatedApiClient.defaults.baseURL}/organizations/${organizationId}`,
+      }),
+    [authenticatedApiClient, organizationId]
+  );
 
-      const organization = await getOrganization(
-        authenticatedApiClient,
-        organizationId
-      );
-      setCurrentOrganization(organization);
-    } finally {
-      setIsLoadingOrganization(false);
-    }
-  };
+  const { data: currentOrganization } = useQuery(
+    ["currentOrganization", authenticatedApiClient, organizationId],
+    () => getOrganization(authenticatedApiClient, organizationId)
+  );
 
   const context = {
     currentOrganization,
-    fetchCurrentOrganization,
-    isLoadingOrganization,
     organizationClient,
   };
 
