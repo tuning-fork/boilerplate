@@ -43,12 +43,7 @@ export default function FundingOrgsIndex() {
   //   }
   // }, [organizationClient]);
 
-  const {
-    data: fundingOrgs,
-    isError,
-    isLoading,
-    error,
-  } = useQuery("getFundingOrgs", () =>
+  const { data: fundingOrgs } = useQuery("getFundingOrgs", () =>
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
 
@@ -180,14 +175,6 @@ export default function FundingOrgsIndex() {
         return fundingOrgs;
       });
   }, [fundingOrgs, searchFilters, tabSelect]);
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
 
   return (
     <section className="fundingorgs-index">
