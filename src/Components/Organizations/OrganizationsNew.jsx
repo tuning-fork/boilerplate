@@ -1,7 +1,8 @@
 import React from "react";
+import { withNavbarLayout } from "../Layouts/NavbarLayout/NavbarLayout";
 import OrganizationForm from "./OrganizationForm";
 
-export default function OrganizationsNew() {
+function OrganizationsNew() {
   const handleSubmit = async (organization) => {};
 
   return (
@@ -11,3 +12,5 @@ export default function OrganizationsNew() {
     </section>
   );
 }
+
+export default withNavbarLayout(OrganizationsNew);

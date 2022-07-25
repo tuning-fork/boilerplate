@@ -8,9 +8,10 @@ import OrganizationForm from "./OrganizationForm";
 import Container from "../design/Container/Container";
 import Button from "../design/Button/Button";
 import Modal from "../design/Modal/Modal";
+import { withNavbarLayout } from "../Layouts/NavbarLayout/NavbarLayout";
 import "./OrganizationIndex.css";
 
-export default function OrganizationIndex() {
+function OrganizationIndex() {
   const history = useHistory();
   const { authenticatedApiClient, organizations } = useCurrentUser();
   const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
@@ -56,3 +57,5 @@ export default function OrganizationIndex() {
     </Container>
   );
 }
+
+export default withNavbarLayout(OrganizationIndex);

@@ -1,3 +1,7 @@
+.organization-index {
+  padding: 4rem;
+}
+
 .organization-index__header {
   display: flex;
   justify-content: space-between;
