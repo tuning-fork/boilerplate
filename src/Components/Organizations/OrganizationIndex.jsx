@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import * as OrganizationService from "../../Services/OrganizationService";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
@@ -13,6 +13,7 @@ import "./OrganizationIndex.css";
 
 function OrganizationIndex() {
   const history = useHistory();
+  const queryClient = useQueryClient();
   const { authenticatedApiClient, organizations } = useCurrentUser();
   const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
     useState(false);
@@ -24,6 +25,8 @@ function OrganizationIndex() {
       onSuccess(organization) {
         setIsNewOrganizationModalOpen(false);
         history.push(`/organizations/${organization.id}`);
+        // Refetch user's organizations in current user context
+        queryClient.invalidateQueries("organizations");
       },
     }
   );
