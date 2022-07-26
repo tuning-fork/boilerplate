@@ -19,12 +19,17 @@
   color: #FFFFFF;
   overflow: scroll;
   min-width: 20rem;
+  cursor: pointer;
 }
 
 .bio-frame__headshot-image {
   padding-top: 2.5rem;
   max-height: 20rem;
   max-width: 20rem;
+}
+
+.bio-frame__header-text {
+  color: #FFFFFF;
 }
 
 .bio-frame__icon-links {

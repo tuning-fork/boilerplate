@@ -21,7 +21,13 @@ export default function Panel(props) {
       <div className="panel__background-image">
         {props.hide && (
           <div className="panel-cancel-button">
-            <PanelCancelButton hide={props.hide} />
+            <PanelCancelButton
+              hide={
+                props.currentBio && Object.values(props.currentBio).length
+                  ? props.setCurrentBio({})
+                  : props.hide
+              }
+            />
           </div>
         )}
         <div className="panel-content">{props.children}</div>

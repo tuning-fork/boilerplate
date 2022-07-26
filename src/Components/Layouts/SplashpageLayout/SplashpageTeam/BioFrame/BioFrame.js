@@ -8,13 +8,16 @@ import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiProfileLine, RiGithubFill } from "react-icons/ri";
 
-export default function BioFrame() {
+export default function BioFrame(props) {
   return (
     <div className="bio-frame__container">
       {TEAM_BIOS.map((bio) => {
         return (
           <>
-            <div className="bio-frame__card">
+            <div
+              className="bio-frame__card"
+              onClick={() => props.setCurrentBio(bio)}
+            >
               <div className={"bio-frame__headshot"}>
                 <img
                   src={mikeHeadshot}
@@ -22,10 +25,10 @@ export default function BioFrame() {
                   className="bio-frame__headshot-image"
                 />
               </div>
-              <h3>
+              <h3 className="bio-frame__header-text">
                 {bio.first_name} {bio.last_name}
               </h3>
-              <h5>{bio.title}</h5>
+              <h5 className="bio-frame__header-text">{bio.title}</h5>
               <div className={"bio-frame__icon-links"}>
                 <a
                   href="https://michael-mcfaddin.github.io/"

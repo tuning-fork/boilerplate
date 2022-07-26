@@ -14,6 +14,7 @@ import clsx from "clsx";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
+  const [currentBio, setCurrentBio] = useState({});
 
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
@@ -75,7 +76,9 @@ export default function SplashpageLayout() {
     console.log("handleSwitchSplashPagePanel", panelLabelInput);
     setModalLabel(panelLabelInput);
     if (panelLabelInput === "Our Team") {
-      setPanelContents(<TeamPage />);
+      setPanelContents(
+        <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
+      );
       setPanelColors("bluePanel");
     } else if (panelLabelInput === "Try It Out") {
       setPanelContents(<div>Try It Out</div>);
@@ -126,6 +129,8 @@ export default function SplashpageLayout() {
           hide={handleCloseSplashPagePanel}
           show={showSplashPagePanel}
           panelPalette={panelColors}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
         >
           {panelContents}
         </Panel>

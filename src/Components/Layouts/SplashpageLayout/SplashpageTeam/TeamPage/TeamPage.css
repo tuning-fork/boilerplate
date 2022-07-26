@@ -3,3 +3,12 @@
     margin-bottom: 4rem;
     color: #FFFFFF;
 }
+
+.team-page__intro-text {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-right: 2rem;
+  margin-left: 2rem;
+}
