@@ -1,14 +1,14 @@
 export const mapSection = (apiSection) => ({
-  id: apiSection.id.toString(),
+  id: apiSection.id,
   wordCount: apiSection.wordcount,
   title: apiSection.title,
   text: apiSection.text,
   sortOrder: apiSection.sort_order,
 });
 
-export const getSection = (organizationClient, grantId, grantSectionId) => {
+export const getSection = (organizationClient, grantId, sectionId) => {
   return organizationClient
-    .get(`/grants/${grantId}/sections/${grantSectionId}`)
+    .get(`/grants/${grantId}/sections/${sectionId}`)
     .then((response) => response.data);
 };
 
@@ -18,9 +18,9 @@ export const getAllSections = (organizationClient, grantId) => {
     .then((response) => response.data);
 };
 
-export const deleteSection = (organizationClient, grantId, grantSectionId) => {
+export const deleteSection = (organizationClient, grantId, sectionId) => {
   return organizationClient
-    .delete(`/grants/${grantId}/sections/${grantSectionId}`)
+    .delete(`/grants/${grantId}/sections/${sectionId}`)
     .then((response) => response.data);
 };
 
@@ -33,22 +33,22 @@ export const createSection = (organizationClient, grantId, newGrantSection) => {
 export const updateSection = (
   organizationClient,
   grantId,
-  grantSectionId,
+  sectionId,
   fieldsToUpdate
 ) => {
   return organizationClient
-    .patch(`/grants/${grantId}/sections/${grantSectionId}`, fieldsToUpdate)
+    .patch(`/grants/${grantId}/sections/${sectionId}`, fieldsToUpdate)
     .then((response) => response.data);
 };
 
 export const reorderSection = (
   organizationClient,
   grantId,
-  grantSectionId,
+  sectionId,
   sortOrder
 ) => {
   return organizationClient
-    .patch(`/grants/${grantId}/actions/reorder_section/${grantSectionId}`, {
+    .patch(`/grants/${grantId}/actions/reorder_section/${sectionId}`, {
       sort_order: sortOrder,
     })
     .then((response) => response.data);

@@ -1,10 +1,10 @@
 const mapBoilerplate = (apiBoilerplate) => ({
   archived: apiBoilerplate.archived,
   createdAt: new Date(apiBoilerplate.created_at),
-  categoryId: apiBoilerplate.category_id.toString(),
+  categoryId: apiBoilerplate.category_id,
   categoryName: apiBoilerplate.category_name,
-  id: apiBoilerplate.id.toString(),
-  organizationId: apiBoilerplate.organization_id.toString(),
+  id: apiBoilerplate.id,
+  organizationId: apiBoilerplate.organization_id,
   title: apiBoilerplate.title,
   text: apiBoilerplate.text,
   wordcount: apiBoilerplate.wordcount,
@@ -63,7 +63,7 @@ export const updateBoilerplate = (
     .then((response) => response.data);
 };
 
-// copyGrant
+// copyBoilerplate
 // not implemented yet
 
 // export const copyBoilerplate = (

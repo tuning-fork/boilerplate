@@ -2,7 +2,7 @@ import { mapUser } from "./Auth/LoginService";
 
 const mapOrganization = (apiOrganization) => ({
   createdAt: new Date(apiOrganization.created_at),
-  id: apiOrganization.id.toString(),
+  id: apiOrganization.id,
   name: apiOrganization.name,
   updatedAt: new Date(apiOrganization.updated_at),
 });
