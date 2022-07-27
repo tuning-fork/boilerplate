@@ -1,19 +1,17 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
+import { useQuery } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function BoilerplatesIndex() {
-  const [boilerplates, setBoilerplates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const history = useHistory();
@@ -22,20 +20,15 @@ export default function BoilerplatesIndex() {
     title: "",
   });
 
-  const fetchBoilerplates = useCallback(async () => {
-    if (!organizationClient) {
-      return;
-    }
-
-    try {
-      const boilerplates = await getAllBoilerplates(organizationClient);
-      setBoilerplates(boilerplates);
-    } catch (error) {
-      setErrors([error]);
-    } finally {
-      setLoading(false);
-    }
-  }, [organizationClient]);
+  const {
+    data: boilerplates,
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery("getBoilerplates", () =>
+    BoilerplatesService.getAllBoilerplates(organizationClient)
+  );
 
   const columns = [
     {
@@ -62,10 +55,6 @@ export default function BoilerplatesIndex() {
     },
   ];
 
-  useEffect(() => {
-    fetchBoilerplates();
-  }, [fetchBoilerplates]);
-
   const filteredBoilerplates = useMemo(() => {
     return boilerplates.filter((boilerplate) => {
       const matchesTitle = boilerplate.title
@@ -75,11 +64,12 @@ export default function BoilerplatesIndex() {
     });
   }, [boilerplates, searchFilters]);
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   const openBoilerplateShow = (row) => {
