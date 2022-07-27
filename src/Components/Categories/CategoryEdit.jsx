@@ -67,9 +67,10 @@ export default function CategoryEdit(props) {
     // }
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this category?`)) {
-      CategoriesService.updateCategory(organizationClient, props.category.id, {
-        archived: true,
-      })
+      // CategoriesService.updateCategory(organizationClient, props.category.id, {
+      //   archived: true,
+      // })
+      handleEditCategory({ archived: true })
         .then(() => {
           alert("Category deleted!");
           props.onClose();
