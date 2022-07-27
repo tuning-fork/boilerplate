@@ -9,7 +9,7 @@ export default function NavbarLayout(props) {
   return (
     <main className="navbar-layout">
       <Navbar user={user} />
-      {props.children}
+      <div className="navbar-layout__content">{props.children}</div>
     </main>
   );
 }
