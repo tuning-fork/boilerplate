@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "react-query";
 import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createGrantSection } from "../../Services/Organizations/Grants/GrantSectionsService";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import * as GrantSectionsService from "../../Services/Organizations/Grants/GrantSectionsService";
+import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
 import countWords from "../../Helpers/countWords";
 
 export default function SectionsNew(props) {
@@ -13,7 +14,6 @@ export default function SectionsNew(props) {
   const [_text, setText] = useState("");
   const [_sortOrder, setSortOrder] = useState("");
   const [_wordcount, setWordcount] = useState("");
-  const [boilerplates, setBoilerplates] = useState([]);
   const [currentBoilerplate, setCurrentBoilerplate] = useState("");
   const [isHidden, setIsHidden] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
@@ -22,17 +22,26 @@ export default function SectionsNew(props) {
 
   const { currentOrganization, organizationClient } = useCurrentOrganization();
 
-  useEffect(() => {
-    if (currentOrganization.id) {
-      getAllBoilerplates(organizationClient)
-        .then((boilerplates) => {
-          setBoilerplates(boilerplates);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [currentOrganization.id, organizationClient]);
+  const {
+    data: boilerplates,
+    isError,
+    isLoading,
+    error,
+  } = useQuery("getBoilerplates", () =>
+    BoilerplatesService.getAllBoilerplates(organizationClient)
+  );
+
+  // useEffect(() => {
+  //   if (currentOrganization.id) {
+  //     getAllBoilerplates(organizationClient)
+  //       .then((boilerplates) => {
+  //         setBoilerplates(boilerplates);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [currentOrganization.id, organizationClient]);
 
   const handleSearchParamSelect = (event) => {
     setFilterParam(event.target.value);
@@ -50,23 +59,6 @@ export default function SectionsNew(props) {
     setSearchText(searchValue);
   };
 
-  // const onTextChanged = (event) => {
-  //   const searchValue = event.target.value.toLowerCase();
-  //   let combinedBoilerplates = boilerplates.map((boilerplate) => {
-  //     (...boilerplate, combined: `${boilerplate.title} ${boilerplatetext})`;
-  //   });
-  //   let suggestions = [];
-  //   if (searchValue.length <= 0) {
-  //     suggestions = combinedBoilerplates.filter((combinedBoilerplate) => {
-  //       return (
-  //         combinedBoilerplate.combined.toLowerCase().indexOf(searchValue) !== -1
-  //       );
-  //     });
-  //   }
-  //   setSuggestions(suggestions);
-  //   setSearchText(searchValue);
-  // };
-
   const clearForm = () => {
     setQuillText("");
     setTitle("");
@@ -79,6 +71,24 @@ export default function SectionsNew(props) {
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
+
+  const { mutate: createBoilerplate } = useMutation(
+    (newBoilerplateFields) =>
+      BoilerplatesService.createBoilerplate(organizationClient, {
+        title: newBoilerplateFields.title,
+        text: newBoilerplateFields.html,
+        categoryId: newBoilerplateFields.categoryId,
+        wordcount: countWords(newBoilerplateFields.text),
+      }),
+    {
+      onSuccess: (createdBoilerplate) => {
+        alert("Boilerplate created!");
+        history.push(
+          `/organizations/${currentOrganization.id}/boilerplates/${createdBoilerplate.id}`
+        );
+      },
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
