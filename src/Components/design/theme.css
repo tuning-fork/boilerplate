@@ -15,6 +15,7 @@
   --success: #15c15d;
   --success-text: hsl(145, 100%, 32%);
   --base: #ffffff;
+  --base-hover: #f1f1f1;
   --base-contrast-5: linear-gradient(
       0deg,
       rgba(25, 59, 103, 0.05),

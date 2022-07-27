@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  background-color: var(--base);
   border: 1px solid var(--contrast-20);
   border-radius: 3px;
   padding: 1.4rem;
@@ -10,7 +11,7 @@
 }
 
 .organization-card:hover {
-  background-color: var(--contrast-5);
+  background-color: var(--base-hover);
 }
 
 .organization-card > h2 {
