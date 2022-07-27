@@ -7,7 +7,7 @@ import Spinner from "./Components/Helpers/Spinner";
 import Splashpage from "./Components/Splashpage";
 import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
 import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
-import OrganizationsNew from "./Components/Organizations/OrganizationsNew";
+import OrganizationNew from "./Components/Organizations/OrganizationNew";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 
 export default function App() {
@@ -29,7 +29,7 @@ export default function App() {
             <PrivateRoute
               exact
               path="/organizations/new"
-              component={OrganizationsNew}
+              component={OrganizationNew}
             />
             <PrivateRoute path="/organizations/:organizationId">
               <OrganizationRoutes />
