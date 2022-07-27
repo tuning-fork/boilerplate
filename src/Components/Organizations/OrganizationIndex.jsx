@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { Link, useHistory } from "react-router-dom";
-import * as OrganizationService from "../../Services/OrganizationService";
+import { Link } from "react-router-dom";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
+import useCreateOrganization from "../../Hooks/useCreateOrganization";
 import OrganizationCard from "./OrganizationIndex/OrganizationCard";
 import OrganizationForm from "./OrganizationForm";
 import Container from "../design/Container/Container";
@@ -13,24 +12,13 @@ import { withNavbarLayout } from "../Layouts/NavbarLayout/NavbarLayout";
 import "./OrganizationIndex.css";
 
 function OrganizationIndex() {
-  const history = useHistory();
-  const queryClient = useQueryClient();
-  const { authenticatedApiClient, organizations } = useCurrentUser();
+  const { organizations } = useCurrentUser();
   const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
     useState(false);
 
-  const { mutate: createOrganization } = useMutation(
-    (fields) =>
-      OrganizationService.createOrganization(authenticatedApiClient, fields),
-    {
-      onSuccess(organization) {
-        setIsNewOrganizationModalOpen(false);
-        history.push(`/organizations/${organization.id}`);
-        // Refetch user's organizations in current user context
-        queryClient.invalidateQueries("organizations");
-      },
-    }
-  );
+  const createOrganization = useCreateOrganization({
+    onSuccess: () => setIsNewOrganizationModalOpen(false),
+  });
 
   return (
     <Background>
