@@ -1,6 +1,6 @@
 import React from "react";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import UserIcon from "../Helpers/UserIcon";
+import Avatar from "../design/Avatar/Avatar";
 import "./UserListItem.css";
 
 export default function UserListItem(props) {
@@ -9,7 +9,9 @@ export default function UserListItem(props) {
   return (
     <li className="user-list-item">
       <CurrentOrganizationLink to={`/users/${user.id}`}>
-        <UserIcon firstName={user.firstName} lastName={user.lastName} />
+        <Avatar>
+          {user.firstName} {user.lastName}
+        </Avatar>
         {user.firstName} {user.lastName}
       </CurrentOrganizationLink>
     </li>
