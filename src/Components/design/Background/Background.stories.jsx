@@ -6,7 +6,7 @@ export default {
 };
 
 export const Background = (props) => (
-  <Component {...props}>
+  <Component {...props} style={{ height: "100vh" }}>
     <p>This is the background component!</p>
   </Component>
 );
