@@ -1,4 +1,4 @@
-const { randomColor } = require("./Avatar.helpers");
+import { randomColor } from "./Avatar.helpers";
 
 describe("Avatar Helpers", () => {
   describe("randomColor", () => {
