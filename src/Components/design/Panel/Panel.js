@@ -22,11 +22,16 @@ export default function Panel(props) {
         {props.hide && (
           <div className="panel-cancel-button">
             <PanelCancelButton
-              hide={
-                props.currentBio && Object.values(props.currentBio).length
-                  ? props.setCurrentBio({})
-                  : props.hide
-              }
+              hide={() => {
+                if (
+                  props.currentBio &&
+                  Object.values(props.currentBio).length > 0
+                ) {
+                  props.setCurrentBio({});
+                } else {
+                  props.hide();
+                }
+              }}
             />
           </div>
         )}

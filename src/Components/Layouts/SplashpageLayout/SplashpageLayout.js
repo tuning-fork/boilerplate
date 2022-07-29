@@ -18,9 +18,9 @@ export default function SplashpageLayout() {
 
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
+  const [panelView, setPanelView] = useState("");
 
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
-
   const handleSwitchSplashPageModal = (modalLabelInput) => {
     console.log("handleSwitchSplashPageModal", modalLabelInput);
     setModalLabel(modalLabelInput);
@@ -65,50 +65,60 @@ export default function SplashpageLayout() {
     setShowSplashPageModal(true);
   };
 
-  //panel state hooks and panel close/show handler
-  const [showSplashPagePanel, setShowSplashPagePanel] = useState(false);
-  const [panelContents, setPanelContents] = useState(<></>);
-  const [panelColors, setPanelColors] = useState("yellowPanel");
-
-  const handleCloseSplashPagePanel = () => setShowSplashPagePanel(false);
-
-  const handleSwitchSplashPagePanel = (panelLabelInput) => {
-    console.log("handleSwitchSplashPagePanel", panelLabelInput);
-    setModalLabel(panelLabelInput);
-    if (panelLabelInput === "Our Team") {
-      setPanelContents(
-        <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
+  const handleSwitchSplashPagePanel = () => {
+    if (panelView === "Our Team") {
+      return (
+        <Panel
+          hide={() => setPanelView("")}
+          show={true}
+          panelPalette={"bluePanel"}
+          currentBio={currentBio}
+          setCurrentBio={setCurrentBio}
+        >
+          <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
+        </Panel>
       );
-      setPanelColors("bluePanel");
-    } else if (panelLabelInput === "Try It Out") {
-      setPanelContents(<div>Try It Out</div>);
-      setPanelColors("pinkPanel");
-    } else if (panelLabelInput === "Contact") {
-      setPanelContents(
-        <Card>
-          <Card.Body>
-            <SplashpageContactForm
-              setShowSplashPagePanel={setShowSplashPagePanel}
-            />
-          </Card.Body>
-        </Card>
+    } else if (panelView === "Try It Out") {
+      return (
+        <Panel
+          hide={() => {
+            setCurrentBio({});
+            setPanelView("");
+          }}
+          show={true}
+          panelPalette={"pinkPanel"}
+        >
+          <div>Try It Out</div>
+        </Panel>
       );
-      setPanelColors("tealPanel");
+    } else if (panelView === "Contact") {
+      return (
+        <Panel
+          hide={() => setPanelView("")}
+          show={true}
+          panelPalette={"tealPanel"}
+        >
+          <Card>
+            <Card.Body>
+              <SplashpageContactForm setPanelView={setPanelView} />
+            </Card.Body>
+          </Card>
+        </Panel>
+      );
     }
-    setShowSplashPagePanel(true);
   };
 
   return (
     <main
       className={clsx(
         "splashpage-layout",
-        showSplashPagePanel && "splashpage-layout__noscroll"
+        panelView && "splashpage-layout__noscroll"
       )}
     >
       <div className="splashpage-layout__navbar-container">
         <NavbarSplashpage
           toggleModalContents={handleSwitchSplashPageModal}
-          togglePanelContents={handleSwitchSplashPagePanel}
+          togglePanelContents={setPanelView}
         />
       </div>
       <div className="splashpage-layout__content">
@@ -125,15 +135,7 @@ export default function SplashpageLayout() {
         >
           {modalContents}
         </Modal>
-        <Panel
-          hide={handleCloseSplashPagePanel}
-          show={showSplashPagePanel}
-          panelPalette={panelColors}
-          currentBio={currentBio}
-          setCurrentBio={setCurrentBio}
-        >
-          {panelContents}
-        </Panel>
+        {handleSwitchSplashPagePanel()}
       </div>
     </main>
   );

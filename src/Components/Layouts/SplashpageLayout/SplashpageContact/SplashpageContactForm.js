@@ -124,10 +124,7 @@ export default function SplashpageContactForm(props) {
               />
             </div>
             <div className="splashpage-contact-form__actions">
-              <Button
-                variant="text"
-                onClick={() => props.setShowSplashPagePanel(false)}
-              >
+              <Button variant="text" onClick={() => props.setPanelView("")}>
                 Cancel
               </Button>
               <Button type="submit">Save</Button>

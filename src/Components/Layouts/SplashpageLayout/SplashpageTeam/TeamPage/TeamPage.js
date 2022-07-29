@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import BioFrame from "../BioFrame/BioFrame.js";
 import BioCard from "../BioCard/BioCard.js";
 import "./TeamPage.css";
 
 export default function TeamPage(props) {
+  // const [currentBio, setCurrentBio] = useState({});
   return (
     <div>
-      {Object.values(props.currentBio).length ? (
+      {Object.values(props.currentBio).length > 0 ? (
         <>
           <BioCard currentBio={props.currentBio} />
         </>
