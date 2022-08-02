@@ -48,13 +48,18 @@
   font-size: var(--font-size-large-1);
 }
 
-.splashpage-contact-form__content-editor .ql-toolbar {
-  background-color: #FFFFFF;
-}
+/* .splashpage-contact-form__content-editor .ql-picker-label {
+  color: #FFFFFF;
+} */
+
+/* .splashpage-contact-form__content-editor .ql-toolbar .ql-formats {
+  color: #FFFFFF;
+} */
 
 .splashpage-contact-form__content-editor-header .label{
   display: flex;
   justify-content: space-between;
   font-size: var(--font-size-large-1);
   color: #FFFFFF;
+
 }
