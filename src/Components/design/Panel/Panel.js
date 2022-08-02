@@ -1,5 +1,4 @@
 import React from "react";
-// import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./Panel.css";
@@ -35,7 +34,7 @@ export default function Panel(props) {
             />
           </div>
         )}
-        <div className="panel-content">{props.children}</div>
+        <div>{props.children}</div>
       </div>
     </div>
   );

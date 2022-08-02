@@ -4,26 +4,20 @@
   display: flex;
   row-gap: 4rem;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .bio-frame__card {
   background-color: var(--primary-30);
   border: 2px solid #FFFFFF;
   border-radius: 5px;
-  width: 20%;
   padding: 4rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  height: 25%;
+  margin-right: 4rem;
   color: #FFFFFF;
-  overflow: scroll;
-  min-width: 20rem;
   cursor: pointer;
 }
 
 .bio-frame__headshot-image {
-  padding-top: 2.5rem;
   max-height: 20rem;
   max-width: 20rem;
 }
@@ -32,12 +26,8 @@
   color: #FFFFFF;
 }
 
-.bio-frame__icon-links {
-  padding-top: 1rem;
-}
-
 .bio-frame__icon-links a {
   color: #FFFFFF;
   padding-right: 2rem;
-  font-size:x-large;
+  font-size: x-large;
 }

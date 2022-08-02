@@ -1,6 +1,10 @@
+.team-page__text {
+  padding-bottom: 4rem;
+  max-width: 90%;
+}
+
 .team-page__header {
-    margin-left: 4rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     color: #FFFFFF;
 }
 
@@ -9,6 +13,9 @@
   flex-flow: row wrap;
   justify-content: center;
   color: #FFFFFF;
-  margin-right: 2rem;
-  margin-left: 2rem;
+}
+
+.team-page__content {
+  padding-left: 7%;
+  padding-right: 7%;
 }

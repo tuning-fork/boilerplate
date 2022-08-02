@@ -4,16 +4,9 @@
     width: 100vw;
     height: 100vh;
     top: 5.5rem;
-    /* top: -100vh; */
     left: 0;
     overflow-y: auto;
-    /* opacity: 0; */
     z-index: 100;
-    /* -webkit-transition: .3s ease-out;
-    transition: .3s ease-out;
-    -webkit-transition-property: top,opacity,background-color;
-    transition-property: top,opacity,background-color;
-    will-change: top,opacity,background-color; */
     background-color: #FCE353;
     overflow: scroll;
 }
@@ -27,22 +20,6 @@
   font-size: var(--font-size-large-3);
 }
 
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  /* padding-left: 4.2rem; */
-  padding-bottom: 2rem;
-}
-
-/* .panel-header__splashpageForm {
-  padding: none;
-  display: flex;
-  justify-content: left;
-  padding-left: 10%;
-  padding-bottom: 1rem;
-  justify-content: space-between;
-} */
-
 .yellowPanel {
   background-color: #FCE353;
   color: #237E74;
@@ -52,7 +29,6 @@
   color: #e02780;
 }
 .pinkPanel {
-  /* background-color: #FCE353; */
   background-color: var(--secondary-tint);  
   color: var(--secondary-text);
 }
