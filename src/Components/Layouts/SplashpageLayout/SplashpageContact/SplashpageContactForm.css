@@ -1,6 +1,8 @@
 .splashpage-contact-form__container {
-background-color: var(--primary-tint);
-padding: 3rem;
+  padding: 3rem;
+  background-color: var(--primary-30);
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
 }
 
 .splashpage-contact-form__header__container {
@@ -10,50 +12,49 @@ padding: 3rem;
 }
 
 .splashpage-contact-form__header {
-  font-size: var(--font-size-large-3);
   padding-bottom: 1rem;
+  color: #FFFFFF;
 }
 
 
 .splashpage-contact-form {
-    background-color: var(--primary-tint);
     padding: 3rem;
+    color: #FFFFFF;
+    height: 100%;
 }
 
-.splashpage-contact-form {
-    height: 100%;
-  }
-  
-  .splashpage-contact-form__actions {
-    float: right;
-  }
-  .splashpage-contact-form__actions > button {
-    margin-left: 20px;
-  }
-  
-   /* .BoilerplateForm__PasteBoilerplateContent {
-    position: absolute;
-    left: 12px;
-    bottom: 2rem;
-  } */
-  
-  .splashpage-contact-form__content-editor {
-    position: relative;
-    /* margin-bottom: 2rem; */
-  }
-  
-  /* .splashpage-contact-form__content-editor-input .ql-editor {
-    min-height: 180px;
-    padding-bottom: 4.5rem;
-  } */
+.splashpage-contact-form .text-box__label {
+  color: #FFFFFF;
+  font-size: var(--font-size-large-1);
+}
 
-  .splashpage-contact-form__content-editor-input {
-    min-height: 180px;
-    padding-bottom: 4.5rem;
-  }
+
   
-  .splashpage-contact-form__content-editor-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: var(--font-size-small);
-  }
+.splashpage-contact-form__actions {
+  float: right;
+}
+.splashpage-contact-form__actions > button {
+  margin-left: 20px;
+}
+
+.splashpage-contact-form__content-editor {
+  position: relative;
+}
+
+.splashpage-contact-form__content-editor-input {
+  min-height: 180px;
+  padding-bottom: 4.5rem;
+  color: #FFFFFF;
+  font-size: var(--font-size-large-1);
+}
+
+.splashpage-contact-form__content-editor .ql-toolbar {
+  background-color: #FFFFFF;
+}
+
+.splashpage-contact-form__content-editor-header .label{
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-large-1);
+  color: #FFFFFF;
+}

@@ -64,6 +64,7 @@ export default function SplashpageContactForm(props) {
               Contact Us
             </h1>
             <TextBox
+              className="splashpage-contact-form__text-box"
               labelText="Name"
               value={splashpageContactFields.name}
               onChange={(event) =>
@@ -105,6 +106,16 @@ export default function SplashpageContactForm(props) {
                 })
               }
             />
+            {/* <TextBox
+              labelText="Message"
+              value={splashpageContactFields.organization_name}
+              onChange={(event) =>
+                setSplashpageContactFields({
+                  ...splashpageContactFields,
+                  message: event.target.value,
+                })
+              }
+            /> */}
             <div className="splashpage-contact-form__content-editor">
               <div className="splashpage-contact-form__content-editor-header">
                 <Label htmlFor="text-editor">Message</Label>
