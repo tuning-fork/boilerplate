@@ -1,6 +1,6 @@
 .splashpage-contact-form__container {
   padding: 3rem;
-  background-color: var(--primary-30);
+  background-color: var(--contrast-30);
   border: 2px solid #FFFFFF;
   border-radius: 5px;
 }
@@ -16,7 +16,6 @@
   color: #FFFFFF;
 }
 
-
 .splashpage-contact-form {
     padding: 3rem;
     color: #FFFFFF;
@@ -28,38 +27,19 @@
   font-size: var(--font-size-large-1);
 }
 
+.splashpage-contact-form .text-box__input {
+  color: #FFFFFF;
+  background: transparent;
+}
 
+.splashpage-contact-form .text-box__container {
+  background: transparent;
+  background: var(--contrast-40);
+}
   
 .splashpage-contact-form__actions {
   float: right;
 }
 .splashpage-contact-form__actions > button {
   margin-left: 20px;
-}
-
-.splashpage-contact-form__content-editor {
-  position: relative;
-}
-
-.splashpage-contact-form__content-editor-input {
-  min-height: 180px;
-  padding-bottom: 4.5rem;
-  color: #FFFFFF;
-  font-size: var(--font-size-large-1);
-}
-
-/* .splashpage-contact-form__content-editor .ql-picker-label {
-  color: #FFFFFF;
-} */
-
-/* .splashpage-contact-form__content-editor .ql-toolbar .ql-formats {
-  color: #FFFFFF;
-} */
-
-.splashpage-contact-form__content-editor-header .label{
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--font-size-large-1);
-  color: #FFFFFF;
-
 }

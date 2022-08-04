@@ -1,19 +1,9 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 import Button from "../../../design/Button/Button";
-import Label from "../../../design/Label/Label";
 import Container from "../../../design/Container/Container";
 import TextBox from "../../../design/TextBox/TextBox";
-import RichTextEditor from "../../../design/RichTextEditor/RichTextEditor";
 import "./SplashpageContactForm.css";
-
-//your name
-//your title (if applicable)
-//your email
-//your organization name (if applicable)
-//your message
-//submit button
-//cancel button
 
 export default function SplashpageContactForm(props) {
   const [splashpageContactFields, setSplashpageContactFields] = useState({
@@ -22,9 +12,7 @@ export default function SplashpageContactForm(props) {
     email: "",
     organization_name: "",
     message: "",
-    html: "",
   });
-  const quillEl = useRef(null);
   const [displayContactSubmittedMessage, setDisplayContactSubmittedMessage] =
     useState("");
 
@@ -64,7 +52,7 @@ export default function SplashpageContactForm(props) {
               Contact Us
             </h1>
             <TextBox
-              className="splashpage-contact-form__text-box"
+              type="text"
               labelText="Name"
               value={splashpageContactFields.name}
               onChange={(event) =>
@@ -76,6 +64,7 @@ export default function SplashpageContactForm(props) {
               required
             />
             <TextBox
+              type="text"
               labelText="Title"
               value={splashpageContactFields.title}
               onChange={(event) =>
@@ -86,6 +75,7 @@ export default function SplashpageContactForm(props) {
               }
             />
             <TextBox
+              type="text"
               labelText="Email"
               value={splashpageContactFields.email}
               onChange={(event) =>
@@ -97,6 +87,7 @@ export default function SplashpageContactForm(props) {
               required
             />
             <TextBox
+              type="text"
               labelText="Organization"
               value={splashpageContactFields.organization_name}
               onChange={(event) =>
@@ -106,34 +97,18 @@ export default function SplashpageContactForm(props) {
                 })
               }
             />
-            {/* <TextBox
+            <TextBox
+              type="text"
+              inputType="textarea"
               labelText="Message"
-              value={splashpageContactFields.organization_name}
+              value={splashpageContactFields.message}
               onChange={(event) =>
                 setSplashpageContactFields({
                   ...splashpageContactFields,
                   message: event.target.value,
                 })
               }
-            /> */}
-            <div className="splashpage-contact-form__content-editor">
-              <div className="splashpage-contact-form__content-editor-header">
-                <Label htmlFor="text-editor">Message</Label>
-              </div>
-              <RichTextEditor
-                id="text-editor"
-                className="splashpage-contact-form__content-editor-input"
-                ref={quillEl}
-                value={splashpageContactFields.html}
-                onChange={(html) => {
-                  setSplashpageContactFields(() => ({
-                    ...splashpageContactFields,
-                    message: quillEl.current.getEditor().getText(),
-                    html,
-                  }));
-                }}
-              />
-            </div>
+            />
             <div className="splashpage-contact-form__actions">
               <Button variant="text" onClick={() => props.setPanelView("")}>
                 Cancel
