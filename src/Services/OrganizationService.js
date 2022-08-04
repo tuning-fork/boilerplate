@@ -2,9 +2,14 @@ import { mapUser } from "./Auth/LoginService";
 
 const mapOrganization = (apiOrganization) => ({
   createdAt: new Date(apiOrganization.created_at),
-  id: apiOrganization.id.toString(),
+  id: apiOrganization.id,
   name: apiOrganization.name,
   updatedAt: new Date(apiOrganization.updated_at),
+  users: apiOrganization.users.map(mapUser),
+});
+
+const mapOrganizationToApiOrganization = (organization) => ({
+  ...organization,
 });
 
 export const getUserOrganizations = (apiClient) => {
@@ -23,4 +28,10 @@ export const getAllOrganizationUsers = async (organizationClient) => {
   return organizationClient
     .get(`/users`)
     .then((response) => response.data.map(mapUser));
+};
+
+export const createOrganization = async (authenticatedApiClient, fields) => {
+  return authenticatedApiClient
+    .post("/organizations", mapOrganizationToApiOrganization(fields))
+    .then((response) => response.data);
 };

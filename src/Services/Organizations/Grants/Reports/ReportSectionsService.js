@@ -1,9 +1,13 @@
 export const mapReportSection = (apiReportSection) => ({
-  id: apiReportSection.id.toString(),
+  id: apiReportSection.id,
   wordCount: apiReportSection.wordcount,
   title: apiReportSection.title,
   text: apiReportSection.text,
   sortOrder: apiReportSection.sort_order,
+});
+
+const mapReportSectionToApiReportSection = (reportSection) => ({
+  ...reportSection,
 });
 
 // getReportSection
@@ -54,7 +58,7 @@ export const createReportSection = (
   return organizationClient
     .post(
       `/grants/${grantId}/reports/${reportId}/report_sections`,
-      newReportSection
+      mapReportSectionToApiReportSection(newReportSection)
     )
     .then((response) => response.data);
 };
@@ -71,7 +75,7 @@ export const updateReportSection = (
   return organizationClient
     .patch(
       `/grants/${grantId}/reports/${reportId}/report_sections/${reportSectionId}/`,
-      fieldsToUpdate
+      mapReportSectionToApiReportSection(fieldsToUpdate)
     )
     .then((response) => response.data);
 };
