@@ -41,11 +41,11 @@ export default function SplashpageContactForm(props) {
         className="splashpage-contact-form__container"
       >
         {displayContactSubmittedMessage ? (
-          <>
+          <div className="splashpage-contact-form__confirmation-message">
             <p>Thanks for contacting us! We will be in touch soon.</p>
-            <p>Your message:</p>
+            <p>This is the text of the message you sent us:</p>
             <div>{displayContactSubmittedMessage}</div>
-          </>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="splashpage-contact-form">
             <h1 id="modal-heading" className="splashpage-contact-form__header">

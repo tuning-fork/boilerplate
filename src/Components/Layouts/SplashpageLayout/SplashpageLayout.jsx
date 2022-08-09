@@ -4,12 +4,11 @@ import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./splashpage_background_image6.png";
 import Modal from "../../design/Modal/Modal";
 import Panel from "../../design/Panel/Panel";
-import Card from "react-bootstrap/Card";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
-import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.js";
+import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.jsx";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {
@@ -98,11 +97,7 @@ export default function SplashpageLayout() {
           show={true}
           panelPalette={"tealPanel"}
         >
-          <Card>
-            <Card.Body>
-              <SplashpageContactForm setPanelView={setPanelView} />
-            </Card.Body>
-          </Card>
+          <SplashpageContactForm setPanelView={setPanelView} />
         </Panel>
       );
     }

@@ -5,6 +5,11 @@
   border-radius: 5px;
 }
 
+.splashpage-contact-form__confirmation-message {
+  color: #FFFFFF;
+  font-size: var(--font-size-large-1);
+}
+
 .splashpage-contact-form__header__container {
   display: flex;
   justify-content: left;

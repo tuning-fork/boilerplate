@@ -1,6 +1,6 @@
 import React from "react";
-import BioFrame from "../BioFrame/BioFrame.js";
-import BioCard from "../BioCard/BioCard.js";
+import BioFrame from "../BioFrame/BioFrame.jsx";
+import BioCard from "../BioCard/BioCard.jsx";
 import "./TeamPage.css";
 
 export default function TeamPage(props) {
