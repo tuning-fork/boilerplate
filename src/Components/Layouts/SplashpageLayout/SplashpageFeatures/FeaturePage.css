@@ -1,0 +1,25 @@
+.feature-page__text {
+    padding-bottom: 4rem;
+    max-width: 90%;
+  }
+  
+  .feature-page__header {
+      margin-bottom: 2rem;
+      color: #FFFFFF;
+  }
+  
+  .feature-page__intro-text {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    color: #FFFFFF;
+  }
+  
+  .feature-page__content {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+
+  .feature-page__screenshot-image {
+    max-width: 30rem;
+  }

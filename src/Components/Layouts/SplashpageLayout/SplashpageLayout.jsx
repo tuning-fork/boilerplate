@@ -9,6 +9,7 @@ import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
 import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.jsx";
+import FeaturePage from "./SplashpageFeatures/FeaturePage";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {
@@ -77,17 +78,16 @@ export default function SplashpageLayout() {
           <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
         </Panel>
       );
-    } else if (panelView === "Try It Out") {
+    } else if (panelView === "Features") {
       return (
         <Panel
           hide={() => {
-            setCurrentBio({});
             setPanelView("");
           }}
           show={true}
           panelPalette={"pinkPanel"}
         >
-          <div>Try It Out</div>
+          <FeaturePage />
         </Panel>
       );
     } else if (panelView === "Contact") {
