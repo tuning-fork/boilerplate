@@ -40,12 +40,10 @@ export default function NavbarSplashpage(props) {
           />
           <Button
             variant="none"
-            onClick={() => props.togglePanelContents("Try It Out")}
+            onClick={() => props.togglePanelContents("Features")}
             className="navbar__tab"
           >
-            <div className={clsx("navbar__tab-text", "tab-blue")}>
-              Try It Out
-            </div>
+            <div className={clsx("navbar__tab-text", "tab-blue")}>Features</div>
           </Button>
         </div>
         <div className="navbar__tab-container">
