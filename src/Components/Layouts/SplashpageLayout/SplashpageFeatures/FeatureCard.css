@@ -39,6 +39,5 @@
 .feature-card__screenshot-image {
     width: 50rem;
     height: auto;
-    border: 2px solid #FFFFFF;
     border-radius: 5px;
 }
