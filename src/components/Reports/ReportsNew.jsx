@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../design/Button/Button";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { createGrantReport } from "../../services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {

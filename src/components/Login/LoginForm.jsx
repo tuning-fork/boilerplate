@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import "./LoginForm.css";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../contexts/currentUserContext";
 
 export default function LoginForm(props) {
   const [loginFields, setLoginFields] = useState({});

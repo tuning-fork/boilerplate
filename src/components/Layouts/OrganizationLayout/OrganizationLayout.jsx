@@ -1,7 +1,7 @@
 import Navbar from "../../design/Navbar/Navbar";
 import Sidebar from "../../design/Sidebar/Sidebar";
-import { useCurrentUser } from "../../../Contexts/currentUserContext";
-import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
 import "./OrganizationLayout.css";
 
 export default function OrganizationLayout(props) {

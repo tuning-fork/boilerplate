@@ -6,7 +6,7 @@ import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import FundingOrgNew from "./FundingOrgNew";
 import FundingOrgEdit from "./FundingOrgEdit";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 import formatDate from "../../Helpers/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
@@ -244,7 +244,7 @@ export default function FundingOrgsIndex() {
 // import Table from "../design/Table/Table";
 // import FundingOrgNew from "./FundingOrgNew";
 // import FundingOrgEdit from "./FundingOrgEdit";
-// import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+// import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 // import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 // import formatDate from "../../Helpers/formatDate";
 // import DropdownMini from "../design/DropdownMini/DropdownMini";

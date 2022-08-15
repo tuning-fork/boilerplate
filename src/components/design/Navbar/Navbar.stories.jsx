@@ -3,7 +3,7 @@ import { HashRouter } from "react-router-dom";
 import {
   CurrentUserContext,
   CurrentUserStatus,
-} from "../../../Contexts/currentUserContext";
+} from "../../../contexts/currentUserContext";
 import Component from "./Navbar";
 
 const MockCurrentUserProvider = (Story) => (

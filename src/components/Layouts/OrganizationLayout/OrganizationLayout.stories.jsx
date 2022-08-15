@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Component from "./OrganizationLayout";
-import { CurrentUserProvider } from "../../../Contexts/currentUserContext";
-import { CurrentOrganizationProvider } from "../../../Contexts/currentOrganizationContext";
-import { useCurrentOrganization } from "../../../Contexts/currentOrganizationContext";
-import { useCurrentUser } from "../../../Contexts/currentUserContext";
+import { CurrentUserProvider } from "../../../contexts/currentUserContext";
+import { CurrentOrganizationProvider } from "../../../contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../../contexts/currentOrganizationContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
 
 export default {
   title: "Layouts/Organization Layout",

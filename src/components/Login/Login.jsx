@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import Container from "../design/Container/Container";
 import LoginForm from "./LoginForm";
 import NavbarLoginForm from "./NavbarLoginForm";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../contexts/currentUserContext";
 import "./Login.css";
 
 export default function Login(props) {

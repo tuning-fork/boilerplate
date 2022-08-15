@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useHistory } from "react-router-dom";
-import { useCurrentUser } from "../Contexts/currentUserContext";
+import { useCurrentUser } from "../contexts/currentUserContext";
 import * as OrganizationService from "../services/OrganizationService";
 
 /**

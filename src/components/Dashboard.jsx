@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useQuery } from "react-query";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
-import { useCurrentUser } from "../Contexts/currentUserContext";
+import { useCurrentUser } from "../contexts/currentUserContext";
 import isRecent from "../Helpers/date/isRecent";
 import isSoon from "../Helpers/date/isSoon";
 import Button from "./design/Button/Button";
@@ -9,7 +9,7 @@ import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../contexts/currentOrganizationContext";
 import { getAllGrants } from "../services/Organizations/GrantsService";
 import { getAllOrganizationUsers } from "../services/OrganizationService";
 

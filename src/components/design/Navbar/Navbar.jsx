@@ -6,7 +6,7 @@ import Avatar from "../../design/Avatar/Avatar";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import DropdownMini from "../DropdownMini/DropdownMini";
 import "./Navbar.css";
-import { useCurrentUser } from "../../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
 
 export default function Navbar(props) {
   const history = useHistory();

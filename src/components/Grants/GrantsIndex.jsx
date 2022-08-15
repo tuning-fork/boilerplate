@@ -4,7 +4,7 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { Link, useHistory } from "react-router-dom";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import {
   getAllGrants,
   updateGrant,

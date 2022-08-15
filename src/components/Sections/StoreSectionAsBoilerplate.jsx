@@ -4,7 +4,7 @@ import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { createBoilerplate } from "../../services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";

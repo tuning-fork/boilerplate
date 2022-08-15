@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Modal from "../design/Modal/Modal";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { createCategory } from "../../services/Organizations/CategoriesService";
 import "./CategoriesNew.css";
 

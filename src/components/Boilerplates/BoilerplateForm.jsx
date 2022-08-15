@@ -8,7 +8,7 @@ import Dropdown from "../design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
 import * as CategoriesService from "../../services/Organizations/CategoriesService";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import CategoryNew from "../Categories/CategoryNew";
 
 export default function BoilerplateForm(props) {

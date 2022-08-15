@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import {
   copyGrant,
   getGrant,

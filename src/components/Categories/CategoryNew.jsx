@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "react-query";
 import Modal from "../design/Modal/Modal";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import CategoryForm from "./CategoryForm";
 import "./CategoryNew.css";

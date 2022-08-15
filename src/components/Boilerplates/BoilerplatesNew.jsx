@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, useMutation } from "react-query";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
 import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import { useHistory } from "react-router-dom";

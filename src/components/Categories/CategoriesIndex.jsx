@@ -5,7 +5,7 @@ import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import CategoryNew from "./CategoryNew";
 import CategoryEdit from "./CategoryEdit";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import {
   getAllCategories,
   updateCategory,

@@ -1,4 +1,4 @@
-import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../contexts/currentOrganizationContext";
 
 export default function useBuildOrganizationsLink() {
   const { currentOrganization } = useCurrentOrganization();

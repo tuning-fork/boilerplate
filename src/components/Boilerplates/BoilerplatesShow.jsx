@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "react-query";
 import Container from "../design/Container/Container";
 import BoilerplateHero from "../design/Hero/BoilerplateHero";
 import BoilerplateForm from "./BoilerplateForm";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
 import countWords from "../../Helpers/countWords";
 import "./BoilerplatesShow.css";

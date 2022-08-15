@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "../design/Button/Button";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSectionEditForm";
 import countWords from "../../Helpers/countWords";
 import {

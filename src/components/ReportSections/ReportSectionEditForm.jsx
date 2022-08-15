@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
-// import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+// import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import countWords from "../../Helpers/countWords";
 
 const modules = {

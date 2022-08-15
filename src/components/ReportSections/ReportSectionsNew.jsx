@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { createReportSection } from "../../services/Organizations/Grants/Reports/ReportSectionsService";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
 

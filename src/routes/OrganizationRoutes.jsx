@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
-import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
+import { CurrentOrganizationProvider } from "../contexts/currentOrganizationContext";
 import { PasteBoilerplateContentPopoutProvider } from "../components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import OrganizationLayout from "../components/Layouts/OrganizationLayout/OrganizationLayout";
 import OrganizationLayoutFallback from "../components/Layouts/OrganizationLayout/OrganizationLayoutFallback";

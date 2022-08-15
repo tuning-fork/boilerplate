@@ -5,7 +5,7 @@ import Button from "../design/Button/Button";
 import Modal from "../design/Modal/Modal";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as GrantReportsService from "../../services/Organizations/Grants/GrantReportsService";
 import {
   createReportSection,

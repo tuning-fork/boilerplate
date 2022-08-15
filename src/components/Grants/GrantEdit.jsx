@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,

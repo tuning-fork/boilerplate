@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { CurrentUserProvider } from "./Contexts/currentUserContext";
+import { CurrentUserProvider } from "./contexts/currentUserContext";
 import OrganizationRoutes from "./routes/OrganizationRoutes";
 import { PrivateRoute } from "./components/Helpers/PrivateRoute";
 import Spinner from "./components/Helpers/Spinner";

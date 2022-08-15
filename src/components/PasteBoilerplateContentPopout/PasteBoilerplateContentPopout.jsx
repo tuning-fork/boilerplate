@@ -7,7 +7,7 @@ import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentP
 import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 
 import { MdClose } from "react-icons/md";
-import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
+import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../services/Organizations/CategoriesService";
 

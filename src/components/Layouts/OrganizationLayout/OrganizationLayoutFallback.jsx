@@ -1,6 +1,6 @@
 import Navbar from "../../design/Navbar/Navbar";
 import Spinner from "../../Helpers/Spinner";
-import { useCurrentUser } from "../../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
 
 export default function OrganizationLayoutFallback() {
   const { user } = useCurrentUser();

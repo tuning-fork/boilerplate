@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../../design/Navbar/Navbar";
-import { useCurrentUser } from "../../../Contexts/currentUserContext";
+import { useCurrentUser } from "../../../contexts/currentUserContext";
 import "./NavbarLayout.css";
 
 export default function NavbarLayout(props) {
