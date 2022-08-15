@@ -2,12 +2,12 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { CurrentUserProvider } from "./Contexts/currentUserContext";
 import OrganizationRoutes from "./routes/OrganizationRoutes";
-import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
-import Spinner from "./Components/Helpers/Spinner";
-import Splashpage from "./Components/Splashpage";
-import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
-import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
-import OrganizationNew from "./Components/Organizations/OrganizationNew";
+import { PrivateRoute } from "./components/Helpers/PrivateRoute";
+import Spinner from "./components/Helpers/Spinner";
+import Splashpage from "./components/Splashpage";
+import ResetPassword from "./components/Login/ResetPassword/ResetPassword";
+import OrganizationIndex from "./components/Organizations/OrganizationIndex";
+import OrganizationNew from "./components/Organizations/OrganizationNew";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 
 export default function App() {

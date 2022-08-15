@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import "./Components/design.css";
+import "./components/design.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
