@@ -9,7 +9,7 @@ import Container from "../design/Container/Container";
 import "./BoilerplatesNew.css";
 import BoilerplateForm from "./BoilerplateForm";
 import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
-import countWords from "../../helpers/countWords";
+import countWords from "../../utils/countWords";
 
 export default function BoilerplatesNew() {
   const history = useHistory();

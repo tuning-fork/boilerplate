@@ -9,7 +9,7 @@ import {
   getAllGrants,
   updateGrant,
 } from "../../services/Organizations/GrantsService";
-import formatDate from "../../helpers/formatDate";
+import formatDate from "../../utils/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";

@@ -5,7 +5,7 @@ import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
-import formatDate from "../../helpers/formatDate";
+import formatDate from "../../utils/formatDate";
 import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";
 import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";

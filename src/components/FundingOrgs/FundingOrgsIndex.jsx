@@ -8,7 +8,7 @@ import FundingOrgNew from "./FundingOrgNew";
 import FundingOrgEdit from "./FundingOrgEdit";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
-import formatDate from "../../helpers/formatDate";
+import formatDate from "../../utils/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./FundingOrgsIndex.css";
 
@@ -246,7 +246,7 @@ export default function FundingOrgsIndex() {
 // import FundingOrgEdit from "./FundingOrgEdit";
 // import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 // import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
-// import formatDate from "../../helpers/formatDate";
+// import formatDate from "../../utils/formatDate";
 // import DropdownMini from "../design/DropdownMini/DropdownMini";
 // import "./FundingOrgsIndex.css";
 

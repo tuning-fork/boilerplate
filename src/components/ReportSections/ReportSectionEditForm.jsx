@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 // import axios from "axios";
 // import { useHistory } from "react-router-dom";
 // import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
-import countWords from "../../helpers/countWords";
+import countWords from "../../utils/countWords";
 
 const modules = {
   toolbar: [

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../Button/Button";
 import "./BoilerplateHero.css";
-// import formatDate from "../../../helpers/formatDate";
+// import formatDate from "../../../utils/formatDate";
 
 export default function BoilerplateHero(props) {
   return (

@@ -6,7 +6,7 @@ import BoilerplateHero from "../design/Hero/BoilerplateHero";
 import BoilerplateForm from "./BoilerplateForm";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
-import countWords from "../../helpers/countWords";
+import countWords from "../../utils/countWords";
 import "./BoilerplatesShow.css";
 
 export default function BoilerplatesShow() {

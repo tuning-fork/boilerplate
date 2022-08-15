@@ -1,5 +1,5 @@
 import React from "react";
-import formatDate from "../../helpers/formatDate";
+import formatDate from "../../utils/formatDate";
 import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 import "./GrantListItem.css";
 

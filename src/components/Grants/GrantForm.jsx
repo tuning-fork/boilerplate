@@ -3,8 +3,8 @@ import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
 import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
-import parseDateFromInput from "../../helpers/parseDateFromInput";
-import formatDateForInput from "../../helpers/formatDateForInput";
+import parseDateFromInput from "../../utils/parseDateFromInput";
+import formatDateForInput from "../../utils/formatDateForInput";
 import "./GrantForm.css";
 
 export default function GrantForm(props) {

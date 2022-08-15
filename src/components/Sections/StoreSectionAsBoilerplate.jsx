@@ -8,7 +8,7 @@ import { useCurrentOrganization } from "../../contexts/currentOrganizationContex
 import { createBoilerplate } from "../../services/Organizations/BoilerplatesService";
 import { getAllCategories } from "../../services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
-import countWords from "../../helpers/countWords";
+import countWords from "../../utils/countWords";
 
 export default function StoreSectionAsBoilerplate(props) {
   const [categories, setCategories] = useState([]);
