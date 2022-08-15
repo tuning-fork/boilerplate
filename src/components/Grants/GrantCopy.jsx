@@ -8,7 +8,7 @@ import {
   getGrant,
 } from "../../services/Organizations/GrantsService";
 import { getAllFundingOrgs } from "../../services/Organizations/FundingOrgsService";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
 import "./GrantCopy.css";
 

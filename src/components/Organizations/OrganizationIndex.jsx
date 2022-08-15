@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/currentUserContext";
-import useCreateOrganization from "../../Hooks/useCreateOrganization";
+import useCreateOrganization from "../../hooks/useCreateOrganization";
 import OrganizationCard from "./OrganizationIndex/OrganizationCard";
 import OrganizationForm from "./OrganizationForm";
 import Container from "../design/Container/Container";

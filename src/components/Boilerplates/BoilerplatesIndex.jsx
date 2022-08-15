@@ -6,7 +6,7 @@ import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 

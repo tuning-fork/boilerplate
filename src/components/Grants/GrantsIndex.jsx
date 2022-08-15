@@ -12,7 +12,7 @@ import {
 import formatDate from "../../Helpers/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import "./GrantsIndex.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 

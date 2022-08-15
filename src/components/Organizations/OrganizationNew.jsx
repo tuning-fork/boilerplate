@@ -1,6 +1,6 @@
 import React from "react";
 import { withNavbarLayout } from "../Layouts/NavbarLayout/NavbarLayout";
-import useCreateOrganization from "../../Hooks/useCreateOrganization";
+import useCreateOrganization from "../../hooks/useCreateOrganization";
 import Container from "../design/Container/Container";
 import OrganizationForm from "./OrganizationForm";
 import "./OrganizationNew.css";
