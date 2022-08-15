@@ -3,8 +3,8 @@ import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createGrantSection } from "../../Services/Organizations/Grants/GrantSectionsService";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import { createGrantSection } from "../../services/Organizations/Grants/GrantSectionsService";
+import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
 import countWords from "../../Helpers/countWords";
 
 export default function SectionsNew(props) {

@@ -3,7 +3,7 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Modal from "../design/Modal/Modal";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createCategory } from "../../Services/Organizations/CategoriesService";
+import { createCategory } from "../../services/Organizations/CategoriesService";
 import "./CategoriesNew.css";
 
 export default function CategoriesNew(props) {

@@ -21,13 +21,13 @@ import Hero from "../design/Hero/Hero";
 // verticalListSortingStrategy,
 // } from "@dnd-kit/sortable";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantsService from "../../Services/Organizations/GrantsService";
-import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
+import * as GrantsService from "../../services/Organizations/GrantsService";
+import * as SectionsService from "../../services/Organizations/Grants/SectionsService";
 // import {
 //   createGrantSection,
 //   updateGrantSection,
 //   // reorderGrantSection,
-// } from "../../Services/Organizations/Grants/GrantSectionsService";
+// } from "../../services/Organizations/Grants/GrantSectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";

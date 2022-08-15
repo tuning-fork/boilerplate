@@ -7,7 +7,7 @@ import Table from "../design/Table/Table";
 import FundingOrgNew from "./FundingOrgNew";
 import FundingOrgEdit from "./FundingOrgEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
+import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 import formatDate from "../../Helpers/formatDate";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./FundingOrgsIndex.css";
@@ -245,7 +245,7 @@ export default function FundingOrgsIndex() {
 // import FundingOrgNew from "./FundingOrgNew";
 // import FundingOrgEdit from "./FundingOrgEdit";
 // import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-// import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
+// import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 // import formatDate from "../../Helpers/formatDate";
 // import DropdownMini from "../design/DropdownMini/DropdownMini";
 // import "./FundingOrgsIndex.css";

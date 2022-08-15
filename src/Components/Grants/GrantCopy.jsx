@@ -6,8 +6,8 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import {
   copyGrant,
   getGrant,
-} from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
+} from "../../services/Organizations/GrantsService";
+import { getAllFundingOrgs } from "../../services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
 import "./GrantCopy.css";

@@ -7,7 +7,7 @@ import Label from "../design/Label/Label";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
 import countWords from "../../Helpers/countWords";
-import * as CategoriesService from "../../Services/Organizations/CategoriesService";
+import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import CategoryNew from "../Categories/CategoryNew";
 

@@ -4,7 +4,7 @@ import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
+import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";

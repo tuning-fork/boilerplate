@@ -6,11 +6,11 @@ import Modal from "../design/Modal/Modal";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantReportsService from "../../Services/Organizations/Grants/GrantReportsService";
+import * as GrantReportsService from "../../services/Organizations/Grants/GrantReportsService";
 import {
   createReportSection,
   updateReportSection,
-} from "../../Services/Organizations/Grants/Reports/ReportSectionsService";
+} from "../../services/Organizations/Grants/Reports/ReportSectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";

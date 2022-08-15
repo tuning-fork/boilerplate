@@ -5,8 +5,8 @@ import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import { createBoilerplate } from "../../services/Organizations/BoilerplatesService";
+import { getAllCategories } from "../../services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
 import countWords from "../../Helpers/countWords";
 

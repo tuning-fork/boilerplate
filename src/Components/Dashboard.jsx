@@ -10,8 +10,8 @@ import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
 import "./Dashboard.css";
 import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import { getAllGrants } from "../Services/Organizations/GrantsService";
-import { getAllOrganizationUsers } from "../Services/OrganizationService";
+import { getAllGrants } from "../services/Organizations/GrantsService";
+import { getAllOrganizationUsers } from "../services/OrganizationService";
 
 export default function Dashboard() {
   const { user } = useCurrentUser();

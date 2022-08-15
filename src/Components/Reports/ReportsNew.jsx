@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../design/Button/Button";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createGrantReport } from "../../Services/Organizations/Grants/GrantReportsService";
+import { createGrantReport } from "../../services/Organizations/Grants/GrantReportsService";
 
 export default function ReportsNew(props) {
   const [deadline, setDeadline] = useState("");

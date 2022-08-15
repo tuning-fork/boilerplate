@@ -1,8 +1,8 @@
 import React from "react";
 import { useQuery, useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
-import * as CategoriesService from "../../Services/Organizations/CategoriesService";
+import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
+import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";

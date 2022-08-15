@@ -6,10 +6,10 @@ import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import {
   deleteGrant,
   getGrant,
-} from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
+} from "../../services/Organizations/GrantsService";
+import { getAllFundingOrgs } from "../../services/Organizations/FundingOrgsService";
 import "./GrantEdit.css";
-import * as GrantsService from "../../Services/Organizations/GrantsService";
+import * as GrantsService from "../../services/Organizations/GrantsService";
 import GrantForm from "./GrantForm";
 import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";

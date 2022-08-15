@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantsService from "../../Services/Organizations/GrantsService";
-import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
+import * as GrantsService from "../../services/Organizations/GrantsService";
+import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 import { useHistory } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";

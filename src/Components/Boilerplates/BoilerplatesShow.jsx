@@ -5,7 +5,7 @@ import Container from "../design/Container/Container";
 import BoilerplateHero from "../design/Hero/BoilerplateHero";
 import BoilerplateForm from "./BoilerplateForm";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
+import * as BoilerplatesService from "../../services/Organizations/BoilerplatesService";
 import countWords from "../../Helpers/countWords";
 import "./BoilerplatesShow.css";
 

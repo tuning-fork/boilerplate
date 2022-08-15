@@ -1,7 +1,7 @@
 import React from "react";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import "./CategoryEdit.css";
-import * as CategoriesService from "../../Services/Organizations/CategoriesService";
+import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import CategoryForm from "./CategoryForm";
 import Modal from "../design/Modal/Modal";
 

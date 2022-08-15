@@ -8,7 +8,7 @@ import {
   getReportSection,
   updateReportSection,
   // deleteReportSection,
-} from "../../Services/Organizations/Grants/Reports/ReportSectionsService";
+} from "../../services/Organizations/Grants/Reports/ReportSectionsService";
 
 export default function ReportSectionsShow(props) {
   const [quillText, setQuillText] = useState("");

@@ -8,7 +8,7 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import {
   getAllGrants,
   updateGrant,
-} from "../../Services/Organizations/GrantsService";
+} from "../../services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";

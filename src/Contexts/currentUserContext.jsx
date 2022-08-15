@@ -8,8 +8,8 @@ import React, {
 import {
   login as createSession,
   authWithJwt,
-} from "../Services/Auth/LoginService";
-import { getUserOrganizations } from "../Services/OrganizationService";
+} from "../services/Auth/LoginService";
+import { getUserOrganizations } from "../services/OrganizationService";
 import Spinner from "../Components/Helpers/Spinner";
 import apiClient from "../config/apiClient";
 import axios from "axios";

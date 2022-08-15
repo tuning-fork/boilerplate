@@ -3,11 +3,11 @@ import Button from "../design/Button/Button";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../Contexts/currentOrganizationContext";
-import { updateReportSection } from "../Services/Organizations/Grants/Reports/ReportSectionsService";
+import { updateReportSection } from "../services/Organizations/Grants/Reports/ReportSectionsService";
 import {
   deleteGrantSection,
   getGrantSection,
-} from "../Services/Organizations/Grants/GrantSectionsService";
+} from "../services/Organizations/Grants/GrantSectionsService";
 
 export default function ReportSectionsUpdateFinal(props) {
   const [quillText, setQuillText] = useState("");

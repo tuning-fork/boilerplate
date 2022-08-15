@@ -5,7 +5,7 @@ import { MdChevronLeft } from "react-icons/md";
 import Container from "../../design/Container/Container";
 import useQuery from "../../../Hooks/useQuery";
 import ResetPasswordForm from "./ResetPasswordForm";
-import * as PasswordService from "../../../Services/Auth/PasswordService";
+import * as PasswordService from "../../../services/Auth/PasswordService";
 import "./ResetPassword.css";
 
 export default function ResetPassword() {

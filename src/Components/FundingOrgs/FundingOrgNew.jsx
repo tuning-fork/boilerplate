@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "react-query";
 import Modal from "../design/Modal/Modal";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
+import * as FundingOrgsService from "../../services/Organizations/FundingOrgsService";
 import FundingOrgForm from "./FundingOrgForm";
 import "./FundingOrgNew.css";
 

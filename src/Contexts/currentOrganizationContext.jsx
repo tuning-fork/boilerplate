@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useMemo } from "react";
 import axios from "axios";
 import { useCurrentUser } from "./currentUserContext";
-import { getOrganization } from "../Services/OrganizationService";
+import { getOrganization } from "../services/OrganizationService";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 

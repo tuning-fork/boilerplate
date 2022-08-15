@@ -9,7 +9,7 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import {
   getAllCategories,
   updateCategory,
-} from "../../Services/Organizations/CategoriesService";
+} from "../../services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
 import "./CategoriesIndex.css";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
