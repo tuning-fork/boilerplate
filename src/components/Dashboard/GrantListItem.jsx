@@ -1,6 +1,6 @@
 import React from "react";
-import formatDate from "../../Helpers/formatDate";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import formatDate from "../../helpers/formatDate";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 import "./GrantListItem.css";
 
 export default function GrantListItem(props) {

@@ -8,8 +8,8 @@ import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
 import "./BoilerplatesNew.css";
 import BoilerplateForm from "./BoilerplateForm";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import countWords from "../../Helpers/countWords";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
+import countWords from "../../helpers/countWords";
 
 export default function BoilerplatesNew() {
   const history = useHistory();

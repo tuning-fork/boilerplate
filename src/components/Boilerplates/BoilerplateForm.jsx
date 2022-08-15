@@ -6,7 +6,7 @@ import Button from "../design/Button/Button";
 import Label from "../design/Label/Label";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
-import countWords from "../../Helpers/countWords";
+import countWords from "../../helpers/countWords";
 import * as CategoriesService from "../../services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import CategoryNew from "../Categories/CategoryNew";

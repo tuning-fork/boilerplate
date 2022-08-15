@@ -11,8 +11,8 @@ import {
   createReportSection,
   updateReportSection,
 } from "../../services/Organizations/Grants/Reports/ReportSectionsService";
-import countSectionWords from "../../Helpers/countSectionWords";
-import countWords from "../../Helpers/countWords";
+import countSectionWords from "../../helpers/countSectionWords";
+import countWords from "../../helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";

@@ -28,8 +28,8 @@ import * as SectionsService from "../../services/Organizations/Grants/SectionsSe
 //   updateGrantSection,
 //   // reorderGrantSection,
 // } from "../../services/Organizations/Grants/GrantSectionsService";
-import countSectionWords from "../../Helpers/countSectionWords";
-import countWords from "../../Helpers/countWords";
+import countSectionWords from "../../helpers/countSectionWords";
+import countWords from "../../helpers/countWords";
 import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";

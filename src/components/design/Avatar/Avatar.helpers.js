@@ -1,4 +1,4 @@
-import randomElement from "../../../Helpers/array/randomElement";
+import randomElement from "../../../helpers/array/randomElement";
 
 const AVATAR_BACKGROUND_COLORS = ["#DF0B92", "#097FAA", "#AD6200", "#084391"];
 

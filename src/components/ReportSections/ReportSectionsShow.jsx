@@ -3,7 +3,7 @@ import Button from "../design/Button/Button";
 import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import ReportSectionEditForm from "./ReportSectionEditForm";
-import countWords from "../../Helpers/countWords";
+import countWords from "../../helpers/countWords";
 import {
   getReportSection,
   updateReportSection,

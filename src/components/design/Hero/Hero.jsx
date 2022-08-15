@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../Button/Button";
 import "./Hero.css";
-import formatDate from "../../../Helpers/formatDate";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
+import formatDate from "../../../helpers/formatDate";
+import CurrentOrganizationLink from "../../helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadline);

@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { createGrantSection } from "../../services/Organizations/Grants/GrantSectionsService";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
-import countWords from "../../Helpers/countWords";
+import countWords from "../../helpers/countWords";
 
 export default function SectionsNew(props) {
   const [quillText, setQuillText] = useState("");

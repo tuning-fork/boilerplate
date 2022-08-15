@@ -5,10 +5,10 @@ import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../contexts/currentOrganizationContext";
 import { getAllBoilerplates } from "../../services/Organizations/BoilerplatesService";
-import formatDate from "../../Helpers/formatDate";
+import formatDate from "../../helpers/formatDate";
 import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import "./BoilerplatesIndex.css";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 
 export default function BoilerplatesIndex() {
   const [boilerplates, setBoilerplates] = useState([]);

@@ -1,5 +1,5 @@
 import React from "react";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 import Avatar from "../design/Avatar/Avatar";
 import "./UserListItem.css";
 

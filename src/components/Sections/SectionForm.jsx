@@ -5,7 +5,7 @@ import Button from "../design/Button/Button";
 import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
-import countWords from "../../Helpers/countWords";
+import countWords from "../../helpers/countWords";
 import { MdContentPaste } from "react-icons/md";
 
 export default function SectionForm(props) {

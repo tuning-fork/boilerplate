@@ -8,7 +8,7 @@ import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
 import "./GrantsNew.css";
 import GrantForm from "./GrantForm";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 
 export default function GrantsNew() {
   const history = useHistory();

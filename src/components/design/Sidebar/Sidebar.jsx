@@ -11,7 +11,7 @@ import {
   MdPerson,
 } from "react-icons/md";
 import "./Sidebar.css";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../../helpers/CurrentOrganizationLink";
 
 const LINKS = [
   { icon: <MdHome />, title: "Dashboard", path: "/dashboard" },

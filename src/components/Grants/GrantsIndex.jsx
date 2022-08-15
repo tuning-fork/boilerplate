@@ -9,12 +9,12 @@ import {
   getAllGrants,
   updateGrant,
 } from "../../services/Organizations/GrantsService";
-import formatDate from "../../Helpers/formatDate";
+import formatDate from "../../helpers/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 import useBuildOrganizationsLink from "../../hooks/useBuildOrganizationsLink";
 import "./GrantsIndex.css";
-import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import CurrentOrganizationLink from "../helpers/CurrentOrganizationLink";
 
 export default function GrantsIndex() {
   const [grants, setGrants] = useState([]);

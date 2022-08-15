@@ -10,7 +10,7 @@ import {
   authWithJwt,
 } from "../services/Auth/LoginService";
 import { getUserOrganizations } from "../services/OrganizationService";
-import Spinner from "../components/Helpers/Spinner";
+import Spinner from "../components/helpers/Spinner";
 import apiClient from "../config/apiClient";
 import axios from "axios";
 import { useQuery } from "react-query";

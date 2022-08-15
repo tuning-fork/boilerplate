@@ -18,7 +18,7 @@ import GrantsIndex from "../components/Grants/GrantsIndex";
 import GrantsNew from "../components/Grants/GrantsNew";
 import ReportsNew from "../components/Reports/ReportsNew";
 import ReportsShow from "../components/Reports/ReportsShow";
-import RedirectToDashboard from "../components/Helpers/RedirectToDashboard";
+import RedirectToDashboard from "../components/helpers/RedirectToDashboard";
 import StayTunedPage from "../pages/StayTuned/StayTunedPage";
 
 export default function OrganizationRoutes() {

@@ -10,7 +10,7 @@ import {
   getAllCategories,
   updateCategory,
 } from "../../services/Organizations/CategoriesService";
-import formatDate from "../../Helpers/formatDate";
+import formatDate from "../../helpers/formatDate";
 import "./CategoriesIndex.css";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
 
