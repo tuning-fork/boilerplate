@@ -1,4 +1,3 @@
-import React from "react";
 import "./FeaturePage.css";
 import { FEATURE_CONTENT } from "./FeaturesContent";
 import FeatureCard from "./FeatureCard";

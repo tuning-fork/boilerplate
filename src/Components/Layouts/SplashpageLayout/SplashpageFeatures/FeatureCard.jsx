@@ -1,8 +1,13 @@
 import React from "react";
 import "./FeatureCard.css";
-import Sample_screenshot from "./Sample_screenshot.png";
+import organizations_screenshot from "./organizations_screenshot.png";
 
 export default function FeatureCard({ feature }) {
+  let imageToUse;
+  if (feature.image === "Organizations Screenshot") {
+    imageToUse = organizations_screenshot;
+  }
+
   return (
     <>
       <div className={"feature-card__container"}>
@@ -10,8 +15,8 @@ export default function FeatureCard({ feature }) {
           <h2 className="feature-card__name">{feature.name}</h2>
           <div>
             <img
-              src={Sample_screenshot}
-              alt="Feature Screenshot Image"
+              src={imageToUse}
+              alt={feature.image}
               className="feature-card__screenshot-image"
             />
           </div>

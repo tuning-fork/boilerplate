@@ -85,7 +85,7 @@ export default function SplashpageLayout() {
             setPanelView("");
           }}
           show={true}
-          panelPalette={"pinkPanel"}
+          panelPalette={"purplePanel"}
         >
           <FeaturePage />
         </Panel>
