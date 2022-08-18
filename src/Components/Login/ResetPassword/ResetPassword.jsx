@@ -30,15 +30,25 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="reset-password">
-      <Container as="section" centered>
-        <Link className="reset-password__back-button" to="/splashpage">
-          <MdChevronLeft />
-          Back to Splashpage
-        </Link>
-        <h1 className="reset-password__header">Reset Password</h1>
-        <ResetPasswordForm onSubmit={handleSubmit} />
-      </Container>
-    </div>
+    <Container as="section" centered className="reset-password">
+      {token ? (
+        <>
+          <Link className="reset-password__back-button" to="/splashpage">
+            <MdChevronLeft />
+            Back to Splashpage
+          </Link>
+          <h1 className="reset-password__header">Reset Password</h1>
+          <ResetPasswordForm onSubmit={handleSubmit} />
+        </>
+      ) : (
+        <>
+          <h1 className="reset-password__header">Something went wrong</h1>
+          <p>
+            Please try resetting your password again{" "}
+            <Link to="/splashpage">from the splashpage.</Link>
+          </p>
+        </>
+      )}
+    </Container>
   );
 }
