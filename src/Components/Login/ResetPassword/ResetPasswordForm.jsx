@@ -19,20 +19,6 @@ export default function ResetPasswordForm(props) {
   return (
     <form onSubmit={handleSubmit} className="forgot-password-form">
       <TextBox
-        type="email"
-        name="email"
-        labelText="Email"
-        placeholder="Email"
-        value={resetPasswordFields.email}
-        onChange={(event) =>
-          setResetPasswordFields({
-            ...resetPasswordFields,
-            email: event.target.value,
-          })
-        }
-        required
-      />
-      <TextBox
         type="password"
         name="password"
         labelText="New Password"
