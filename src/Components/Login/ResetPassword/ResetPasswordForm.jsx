@@ -4,15 +4,15 @@ import TextBox from "../../design/TextBox/TextBox";
 import "./ResetPasswordForm.css";
 
 export default function ResetPasswordForm(props) {
-  const [resetPasswordFields, setResetPasswordFields] = useState({});
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (
-      resetPasswordFields.password !== resetPasswordFields.passwordConfirmation
-    ) {
+    if (newPassword !== newPasswordConfirmation) {
       alert("Passwords don't match");
     } else {
-      props.onSubmit(resetPasswordFields);
+      props.onSubmit({ password: newPassword });
     }
   };
 
@@ -23,13 +23,8 @@ export default function ResetPasswordForm(props) {
         name="password"
         labelText="New Password"
         placeholder="New Password"
-        value={resetPasswordFields.password}
-        onChange={(event) =>
-          setResetPasswordFields({
-            ...resetPasswordFields,
-            password: event.target.value,
-          })
-        }
+        value={newPassword}
+        onChange={(event) => setNewPassword(event.target.value)}
         required
       />
       <TextBox
@@ -37,13 +32,8 @@ export default function ResetPasswordForm(props) {
         name="passwordConfirmation"
         labelText="Password Confirmation"
         placeholder="Password Confirmation"
-        value={resetPasswordFields.passwordConfirmation}
-        onChange={(event) =>
-          setResetPasswordFields({
-            ...resetPasswordFields,
-            passwordConfirmation: event.target.value,
-          })
-        }
+        value={newPasswordConfirmation}
+        onChange={(event) => setNewPasswordConfirmation(event.target.value)}
         required
       />
       <div className="reset-password-form__actions">

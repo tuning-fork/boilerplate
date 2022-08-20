@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
-import { useHistory } from "react-router-dom";
-import Container from "../../design/Container/Container";
-import ResetPasswordForm from "./ResetPasswordForm";
-import "./ResetPassword.css";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useHistory, Link } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
+import Container from "../../design/Container/Container";
 import useQuery from "../../../Hooks/useQuery";
+import ResetPasswordForm from "./ResetPasswordForm";
+import * as PasswordService from "../../../Services/Auth/PasswordService";
+import "./ResetPassword.css";
 
 export default function ResetPassword() {
   const history = useHistory();
@@ -16,19 +16,30 @@ export default function ResetPassword() {
 
   const handleSubmit = (resetPasswordFields) => {
     resetPassword(resetPasswordFields);
-    history.push("/splashpage");
   };
 
-  const resetPassword = (credentials) => {
-    axios
-      .post("api/reset_password", { ...credentials, token, email })
-      .then((response) => {
-        if (response) {
-          alert(response.data.message);
-        }
-      })
-      .catch((error) => console.error(error));
-  };
+  const { mutate: resetPassword } = useMutation(
+    (credentials) =>
+      PasswordService.resetPassword({
+        ...credentials,
+        token,
+        email,
+      }),
+    {
+      onSuccess: (response) => {
+        alert(response.data.message);
+      },
+      onError(error) {
+        console.error(error);
+        alert(
+          "Invalid login information given. Please try resetting your password again."
+        );
+      },
+      onSettled() {
+        history.push("/splashpage");
+      },
+    }
+  );
 
   return (
     <Container as="section" centered className="reset-password">
