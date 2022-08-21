@@ -7,25 +7,24 @@ import CategoryForm from "./CategoryForm";
 import "./CategoryNew.css";
 
 export default function CategoryNew(props) {
-  const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const { organizationClient } = useCurrentOrganization();
 
   const { mutate: createCategory } = useMutation(
-    (newCategoryFields) =>
-      CategoriesService.createCategory(organizationClient, newCategoryFields),
+    (categoryFields) =>
+      CategoriesService.createCategory(organizationClient, categoryFields),
     {
-      onSuccess: (category) => {
+      onSuccess: () => {
         alert("Category created!");
-        props.onClose(category);
+        props.onClose();
       },
     }
   );
 
-  const handleSubmit = (categoryFields) => {
+  function handleCreateCategory(newCategoryFields) {
     createCategory({
-      ...categoryFields,
-      organizationId: currentOrganization.id,
+      name: newCategoryFields.name,
     });
-  };
+  }
 
   const handleCancel = () => {
     props.onClose();
@@ -37,7 +36,7 @@ export default function CategoryNew(props) {
       heading="Add New Category"
       className="category-new"
     >
-      <CategoryForm onSubmit={handleSubmit} onCancel={handleCancel} />
+      <CategoryForm onSubmit={handleCreateCategory} onCancel={handleCancel} />
     </Modal>
   );
 }

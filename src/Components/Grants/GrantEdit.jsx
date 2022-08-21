@@ -1,32 +1,47 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
-import {
-  deleteGrant,
-  getGrant,
-} from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
 import "./GrantEdit.css";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
+import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import GrantForm from "./GrantForm";
 import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
-export default function GrantEdit() {
+export default function GrantEdit(props) {
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grantId } = useParams();
   const history = useHistory();
+  const { data: grant } = useQuery("getGrant", () =>
+    GrantsService.getGrant(organizationClient, grantId)
+  );
+  const { data: fundingOrgs } = useQuery("getFundingOrgs", () =>
+    FundingOrgsService.getAllFundingOrgs(organizationClient)
+  );
 
   const handleDelete = () => {
+    // if (confirm(`Are you sure you want to delete this grant?`)) {
+    //   GrantsService.deleteGrant(organizationClient, props.grant.id)
+    //     .then(() => {
+    //       alert("Grant deleted!");
+    //       props.onClose();
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       alert(
+    //         "Eek! Something went wrong when deleting the grant. Try again soon."
+    //       );
+    //     });
+    // }
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this grant?`)) {
-      deleteGrant(organizationClient, grantId)
+      handleEditGrant({ archived: true })
         .then(() => {
           alert("Grant deleted!");
-          history.push(buildOrganizationsLink("/grants"));
+          props.onClose();
         })
         .catch((error) => {
           console.error(error);
@@ -37,27 +52,26 @@ export default function GrantEdit() {
     }
   };
 
-  const { data: grant } = useQuery("grant", () =>
-    getGrant(organizationClient, grantId)
+  const { mutate: updateGrant } = useMutation(
+    (newGrantFields) =>
+      GrantsService.updateGrant(organizationClient, grant.id, newGrantFields),
+    {
+      onSuccess: () => {
+        alert("Grant edited!");
+        props.onClose();
+      },
+    }
   );
-  const { data: fundingOrgs } = useQuery("fundingOrgs", () =>
-    getAllFundingOrgs(organizationClient)
-  );
+
+  const handleEditGrant = (newGrantFields) => {
+    updateGrant({
+      ...newGrantFields,
+      name: newGrantFields.name,
+    });
+  };
 
   const goToGrant = () =>
     history.push(buildOrganizationsLink(`/grants/${grantId}`));
-
-  const handleSubmit = (grantFields) => {
-    GrantsService.updateGrant(organizationClient, grantId, {
-      ...grantFields,
-      organizationId: grant.organizationId,
-      fundingOrgId: grant.fundingOrgId,
-    })
-      .then(goToGrant)
-      .catch((error) => {
-        console.error("grant update error", error);
-      });
-  };
 
   return (
     <div className="grant-edit">
@@ -71,7 +85,7 @@ export default function GrantEdit() {
         <GrantForm
           grant={grant}
           fundingOrgs={fundingOrgs}
-          onSubmit={handleSubmit}
+          onSubmit={handleEditGrant}
           onCancel={goToGrant}
         />
       </Container>
