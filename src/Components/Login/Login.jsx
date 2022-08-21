@@ -21,7 +21,7 @@ export default function Login(props) {
     async ({ email, password }) => {
       await login(email, password);
       alert("You're signed in!");
-      history.push(location.state?.from ?? "/org_select");
+      history.push(location.state?.from ?? "/organizations");
     },
     [history, location, login]
   );

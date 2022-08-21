@@ -4,15 +4,16 @@ import React, {
   useEffect,
   useState,
   useCallback,
-  useMemo,
 } from "react";
 import {
   login as createSession,
   authWithJwt,
 } from "../Services/Auth/LoginService";
+import { getUserOrganizations } from "../Services/OrganizationService";
 import Spinner from "../Components/Helpers/Spinner";
 import apiClient from "../config/apiClient";
 import axios from "axios";
+import { useQuery } from "react-query";
 
 export const CurrentUserContext = createContext();
 
@@ -53,17 +54,13 @@ export const CurrentUserProvider = ({ children }) => {
     jwt: null,
   });
 
-  const authenticatedApiClient = useMemo(
-    () =>
-      axios.create({
-        ...apiClient.defaults,
-        headers: {
-          ...apiClient.headers,
-          Authorization: `Bearer ${state.jwt}`,
-        },
-      }),
-    [state.jwt]
-  );
+  const authenticatedApiClient = axios.create({
+    ...apiClient.defaults,
+    headers: {
+      ...apiClient.headers,
+      Authorization: `Bearer ${state.jwt}`,
+    },
+  });
 
   const logout = useCallback(() => {
     CredentialsCache.clear();
@@ -92,6 +89,12 @@ export const CurrentUserProvider = ({ children }) => {
     }
   }, []);
 
+  const { data: organizations } = useQuery(
+    ["organizations", state, authenticatedApiClient],
+    () => getUserOrganizations(authenticatedApiClient),
+    { enabled: state.status === CurrentUserStatus.SUCCESS }
+  );
+
   const loginWithJwt = useCallback(
     async (jwt) => {
       try {
@@ -109,7 +112,13 @@ export const CurrentUserProvider = ({ children }) => {
     [logout]
   );
 
-  const context = { ...state, login, logout, authenticatedApiClient };
+  const context = {
+    ...state,
+    login,
+    logout,
+    authenticatedApiClient,
+    organizations,
+  };
 
   useEffect(() => {
     const cachedJwt = CredentialsCache.load();

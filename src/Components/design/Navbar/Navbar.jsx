@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link, useHistory } from "react-router-dom";
-import UserIcon from "../../Helpers/UserIcon";
+import Avatar from "../../design/Avatar/Avatar";
 import { ReactComponent as Logo } from "./BOILERPLATE.svg";
 import DropdownMini from "../DropdownMini/DropdownMini";
 import "./Navbar.css";
@@ -18,11 +18,8 @@ export default function Navbar(props) {
         logout();
         history.replace("/splashpage", { loggedOut: true });
         break;
-      // case "USER_MENU":
-      //   console.log("waffle!");
-      //   break;
       default:
-        console.log("default");
+        throw new TypeError("Unexpected option given to dropdown");
     }
   };
 
@@ -43,15 +40,11 @@ export default function Navbar(props) {
           <DropdownMini
             className="navbar__see-more"
             dropDownMenuClassName="navbar__dropdown-menu"
-            options={[
-              { value: "LOGOUT", label: "Logout" },
-              // { value: "USER_MENU", label: "User Menu" },
-            ]}
+            options={[{ value: "LOGOUT", label: "Logout" }]}
             displayIcon={
-              <UserIcon
-                firstName={props.user.firstName}
-                lastName={props.user.lastName}
-              />
+              <Avatar>
+                {props.user.firstName} {props.user.lastName}
+              </Avatar>
             }
             onChange={(option) => handleDropdownMiniAction({ option })}
           />
@@ -63,6 +56,9 @@ export default function Navbar(props) {
 
 Navbar.propTypes = {
   className: PropTypes.string,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string,
+  }).isRequired,
   organizationName: PropTypes.string,
 };

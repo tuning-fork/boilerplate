@@ -1,0 +1,32 @@
+.organization-index {
+  padding: 4rem;
+}
+
+.organization-index__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.organization-index__header > h1 {
+  margin: 0;
+}
+
+.organization-index__header > button {
+  height: min-content;
+}
+
+.organization-index__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 40ch);
+  grid-auto-rows: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.4rem;
+}
+
+.organization-index__list-item > a {
+  text-decoration: none;
+}
