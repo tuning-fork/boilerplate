@@ -49,10 +49,8 @@ const ContextWrapper = () => {
   return (
     <Component>
       <Switch>
-        <Route path="/organizations/:organizationUuid/dashboard">
-          Dashboard
-        </Route>
-        <Route path="/organizations/:organizationUuid/reports">Reports</Route>
+        <Route path="/organizations/:organizationId/dashboard">Dashboard</Route>
+        <Route path="/organizations/:organizationId/reports">Reports</Route>
         <Route path="/">
           <Redirect to="/organizations/2/dashboard" />
         </Route>
