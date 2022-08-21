@@ -6,7 +6,10 @@ import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { Link, useHistory } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import * as GrantsService from "../../Services/Organizations/GrantsService";
+import {
+  getAllGrants,
+  updateGrant,
+} from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
@@ -30,9 +33,7 @@ export default function GrantsIndex() {
     isLoading,
     error,
     refetch,
-  } = useQuery("getGrants", () =>
-    GrantsService.getAllGrants(organizationClient)
-  );
+  } = useQuery("getGrants", () => getAllGrants(organizationClient));
 
   const handleDropdownMiniAction = async ({ option, grant }) => {
     try {
@@ -74,7 +75,7 @@ export default function GrantsIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await fetchGrants();
+      await refetch();
     } catch (error) {
       console.error(error);
     }

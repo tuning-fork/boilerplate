@@ -25,7 +25,7 @@ export default function BoilerplatesIndex() {
     isError,
     isLoading,
     error,
-    refetch,
+    _refetch,
   } = useQuery("getBoilerplates", () =>
     BoilerplatesService.getAllBoilerplates(organizationClient)
   );

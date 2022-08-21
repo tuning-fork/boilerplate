@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
@@ -10,17 +10,12 @@ import GrantForm from "./GrantForm";
 import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
-export default function GrantEdit() {
+export default function GrantEdit(props) {
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grantId } = useParams();
   const history = useHistory();
-  const {
-    data: grant,
-    isError,
-    isLoading,
-    error,
-  } = useQuery("getGrant", () =>
+  const { data: grant } = useQuery("getGrant", () =>
     GrantsService.getGrant(organizationClient, grantId)
   );
   const { data: fundingOrgs } = useQuery("getFundingOrgs", () =>
@@ -28,7 +23,6 @@ export default function GrantEdit() {
   );
 
   const handleDelete = () => {
-    // console.log("you deleted this grant!");
     // if (confirm(`Are you sure you want to delete this grant?`)) {
     //   GrantsService.deleteGrant(organizationClient, props.grant.id)
     //     .then(() => {
@@ -44,9 +38,6 @@ export default function GrantEdit() {
     // }
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this grant?`)) {
-      // GrantsService.updateGrant(organizationClient, props.grant.id, {
-      //   archived: true,
-      // })
       handleEditGrant({ archived: true })
         .then(() => {
           alert("Grant deleted!");
@@ -63,11 +54,7 @@ export default function GrantEdit() {
 
   const { mutate: updateGrant } = useMutation(
     (newGrantFields) =>
-      GrantsService.updateGrant(
-        organizationClient,
-        newGrantFields.id,
-        newGrantFields
-      ),
+      GrantsService.updateGrant(organizationClient, grant.id, newGrantFields),
     {
       onSuccess: () => {
         alert("Grant edited!");
@@ -86,14 +73,6 @@ export default function GrantEdit() {
   const goToGrant = () =>
     history.push(buildOrganizationsLink(`/grants/${grantId}`));
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
   return (
     <div className="grant-edit">
       <Container as="section" centered>
@@ -106,7 +85,7 @@ export default function GrantEdit() {
         <GrantForm
           grant={grant}
           fundingOrgs={fundingOrgs}
-          onSubmit={handleSubmit}
+          onSubmit={handleEditGrant}
           onCancel={goToGrant}
         />
       </Container>
