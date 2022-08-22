@@ -1,20 +1,20 @@
 import React, { useState, useMemo } from "react";
-import { useQuery } from "react-query";
-import { Link, useHistory } from "react-router-dom";
+import { useQuery, useMutation } from "react-query";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
+import DropdownMini from "../design/DropdownMini/DropdownMini";
 import "./BoilerplatesIndex.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function BoilerplatesIndex() {
+  const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
-  const buildOrganizationsLink = useBuildOrganizationsLink();
-  const history = useHistory();
 
   const [searchFilters, setSearchFilters] = useState({
     title: "",
@@ -25,10 +25,41 @@ export default function BoilerplatesIndex() {
     isError,
     isLoading,
     error,
-    _refetch,
+    refetch: refetchBoilerplates,
   } = useQuery("getBoilerplates", () =>
     BoilerplatesService.getAllBoilerplates(organizationClient)
   );
+
+  const { mutate: updateBoilerplate } = useMutation(
+    (boilerplateFields) =>
+      BoilerplatesService.updateBoilerplate(
+        organizationClient,
+        boilerplateFields.id,
+        boilerplateFields
+      ),
+    {
+      onSuccess() {
+        refetchBoilerplates();
+      },
+    }
+  );
+
+  const handleDropdownMiniAction = async ({ option, boilerplate }) => {
+    try {
+      switch (option.value) {
+        case "REMOVE_FROM_ARCHIVED":
+          updateBoilerplate({ id: boilerplate.id, archived: false });
+          break;
+        case "MARK_AS_ARCHIVED":
+          updateBoilerplate({ id: boilerplate.id, archived: true });
+          break;
+        default:
+          throw new Error(`Unexpected option given ${option.value}!`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const columns = [
     {
@@ -50,19 +81,44 @@ export default function BoilerplatesIndex() {
       accessor: (boilerplate) => (
         <div className="boilerplates-index__Last-Modified-Cell">
           {formatDate(boilerplate.updatedAt)}
+          <DropdownMini
+            className="grants-index__see-more"
+            labelText="Further Actions"
+            placeholder="Pick One"
+            options={[
+              boilerplate.archived
+                ? {
+                    value: "REMOVE_FROM_ARCHIVED",
+                    label: "Remove from Archived",
+                  }
+                : { value: "MARK_AS_ARCHIVED", label: "Archive" },
+            ]}
+            onChange={(option) =>
+              handleDropdownMiniAction({ option, boilerplate })
+            }
+          />
         </div>
       ),
     },
   ];
 
   const filteredBoilerplates = useMemo(() => {
-    return boilerplates.filter((boilerplate) => {
-      const matchesTitle = boilerplate.title
-        .toLowerCase()
-        .includes(searchFilters.title.toLowerCase());
-      return matchesTitle;
-    });
-  }, [boilerplates, searchFilters]);
+    return boilerplates
+      .filter((boilerplate) => {
+        const matchesTitle = boilerplate.title
+          .toLowerCase()
+          .includes(searchFilters.title.toLowerCase());
+        return matchesTitle;
+      })
+      .filter((boilerplate) => {
+        if (tabSelect === "All") {
+          return boilerplate.archived === false;
+        } else if (tabSelect === "Archived") {
+          return boilerplate.archived === true;
+        }
+        return boilerplate;
+      });
+  }, [boilerplates, searchFilters, tabSelect]);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -71,10 +127,6 @@ export default function BoilerplatesIndex() {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-
-  const openBoilerplateShow = (row) => {
-    history.push(buildOrganizationsLink(`/boilerplates/${row.original.id}`));
-  };
 
   return (
     <section className="boilerplates-index">
@@ -92,17 +144,37 @@ export default function BoilerplatesIndex() {
           as={Link}
           to={`/organizations/${currentOrganization.id}/boilerplates-new/`}
         >
-          Add New Boilerplates
+          Add New Boilerplate
+        </Button>
+      </div>
+      <div className="boilerplates-index__table-tabs">
+        <Button
+          onClick={() => setTabSelect("All")}
+          className={clsx(
+            "boilerplates-index__table-tab-button",
+            tabSelect === "All" &&
+              "boilerplates-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          All
+        </Button>
+        <Button
+          onClick={() => setTabSelect("Archived")}
+          className={clsx(
+            "boilerplates-index__table-tab-button",
+            tabSelect === "Archived" &&
+              "boilerplates-index__table-tab-button--selected"
+          )}
+          variant="text"
+        >
+          Archived
         </Button>
       </div>
       {filteredBoilerplates.length ? (
-        <Table
-          columns={columns}
-          data={filteredBoilerplates}
-          onRowClick={openBoilerplateShow}
-        />
+        <Table columns={columns} data={filteredBoilerplates} />
       ) : (
-        <p>No boilerplates found.</p>
+        <p>There are no boilerplates to display in this tab.</p>
       )}
     </section>
   );

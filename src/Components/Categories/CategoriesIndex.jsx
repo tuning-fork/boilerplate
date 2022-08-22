@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
@@ -33,31 +33,33 @@ export default function CategoriesIndex() {
     isError,
     isLoading,
     error,
-    refetch,
+    refetch: refetchCategories,
   } = useQuery("getCategories", () =>
     CategoriesService.getAllCategories(organizationClient)
+  );
+
+  const { mutate: updateCategory } = useMutation(
+    (categoryFields) =>
+      CategoriesService.updateCategory(
+        organizationClient,
+        categoryFields.id,
+        categoryFields
+      ),
+    {
+      onSuccess() {
+        refetchCategories();
+      },
+    }
   );
 
   const handleDropdownMiniAction = async ({ option, category }) => {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await CategoriesService.updateCategory(
-            organizationClient,
-            category.id,
-            {
-              archived: false,
-            }
-          );
+          updateCategory({ id: category.id, archived: false });
           break;
         case "MARK_AS_ARCHIVED":
-          await CategoriesService.updateCategory(
-            organizationClient,
-            category.id,
-            {
-              archived: true,
-            }
-          );
+          updateCategory({ id: category.id, archived: true });
           break;
         case "EDIT":
           openEditCategory(category);
@@ -68,7 +70,6 @@ export default function CategoriesIndex() {
     } catch (error) {
       console.error(error);
     }
-    refetch();
   };
 
   const handleCloseCategoryModal = () => {
