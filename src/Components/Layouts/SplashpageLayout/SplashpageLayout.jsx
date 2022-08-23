@@ -71,7 +71,7 @@ export default function SplashpageLayout() {
         <Panel
           hide={() => setPanelView("")}
           show={true}
-          panelPalette={"bluePanel"}
+          panelPalette={"tealPanel"}
           currentBio={currentBio}
           setCurrentBio={setCurrentBio}
         >
@@ -95,7 +95,7 @@ export default function SplashpageLayout() {
         <Panel
           hide={() => setPanelView("")}
           show={true}
-          panelPalette={"tealPanel"}
+          panelPalette={"bluePanel"}
         >
           <SplashpageContactForm setPanelView={setPanelView} />
         </Panel>
