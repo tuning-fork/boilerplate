@@ -15,7 +15,7 @@ function OrganizationNew() {
 
   return (
     <Container as="section" className="organization-new">
-      <h1>Add Organization</h1>
+      <h1>Create Organization</h1>
       <OrganizationForm onSubmit={createOrganization} onCancel={handleCancel} />
     </Container>
   );
