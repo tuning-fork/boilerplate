@@ -53,25 +53,3 @@ export default function FeaturePage() {
     </div>
   );
 }
-
-//basic format:
-// two outline cards
-// text
-// screenshot
-// same layout as team page
-
-// Intro to Boilerplate (basic summary)
-// List of major features to blurb:
-// Organizations
-// Organization hub
-// user profiles
-// User dashboard
-// Boilerplates
-// create boilerplate
-// boilerplate library
-// Grants
-// create grant
-// store grants
-// Categories
-// Funding Orgs
-// coming soon section

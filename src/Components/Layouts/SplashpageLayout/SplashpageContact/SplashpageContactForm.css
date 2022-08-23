@@ -1,12 +1,12 @@
 .splashpage-contact-form__container {
   padding: 3rem;
   background-color: var(--contrast-30);
-  border: 2px solid #FFFFFF;
+  border: 2px solid #ffffff;
   border-radius: 5px;
 }
 
 .splashpage-contact-form__confirmation-message {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: var(--font-size-large-1);
 }
 
@@ -18,22 +18,22 @@
 
 .splashpage-contact-form__header {
   padding-bottom: 1rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .splashpage-contact-form {
-    padding: 3rem;
-    color: #FFFFFF;
-    height: 100%;
+  padding: 3rem;
+  color: #ffffff;
+  height: 100%;
 }
 
 .splashpage-contact-form .text-box__label {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: var(--font-size-large-1);
 }
 
 .splashpage-contact-form .text-box__input {
-  color: #FFFFFF;
+  color: #ffffff;
   background: transparent;
 }
 
@@ -41,7 +41,7 @@
   background: transparent;
   background: var(--contrast-40);
 }
-  
+
 .splashpage-contact-form__actions {
   float: right;
 }

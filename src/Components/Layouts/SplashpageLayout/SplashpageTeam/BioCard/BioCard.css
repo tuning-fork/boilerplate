@@ -1,75 +1,75 @@
 .bio-card__bio-frame {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .bio-card__container {
-    padding-left: 6rem;
-    padding-right: 6rem;
+  padding-left: 6rem;
+  padding-right: 6rem;
 }
 
 .bio-card__bio-name {
-    padding-top: 4rem;
-    color: #FFFFFF;
+  padding-top: 4rem;
+  color: #ffffff;
 }
 
 .bio-card__bio-title {
-    color: #FFFFFF;
-    padding-bottom: 5rem;
+  color: #ffffff;
+  padding-bottom: 5rem;
 }
 
 .bio-card__bio-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font: var(--font-size-base);
-    height: 40rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: var(--font-size-base);
+  height: 40rem;
 }
 
 .bio-card__text-frame {
-    background-color: var(--primary-30);
-    border: 2px solid #FFFFFF;
-    border-radius: 5px;
-    width: 60%;
-    min-width: 50%;
-    padding: 4rem;
-    margin-right: 6rem;
-    min-height: 40rem;
-    height: 100%;
-    color: #FFFFFF;
-    overflow: scroll;
+  background-color: var(--primary-30);
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  width: 60%;
+  min-width: 50%;
+  padding: 4rem;
+  margin-right: 6rem;
+  min-height: 40rem;
+  height: 100%;
+  color: #ffffff;
+  overflow-y: scroll;
 }
 
 .bio-card__text {
-    padding-bottom: 2rem;
-    min-width: 0;
+  padding-bottom: 2rem;
+  min-width: 0;
 }
 
 .bio-card__headshot-frame {
-    background-color: var(--primary-30);
-    border: 2px solid #FFFFFF;
-    border-radius: 5px;
-    width: 30%;
-    padding: 4rem;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+  background-color: var(--primary-30);
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  width: 30%;
+  padding: 4rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .bio-card__headshot-image {
-    padding-top: 2.5rem;
-    max-height: 30rem;
-    max-width: 30rem;
-    
+  padding-top: 2.5rem;
+  max-height: 30rem;
+  max-width: 30rem;
 }
 
 .bio-card__icon-links {
-    padding-top: 1rem;
+  padding-top: 1rem;
 }
 
 .bio-card__icon-links a {
-    color: #FFFFFF;
-    padding-right: 2rem;
-    font-size:x-large;
+  color: #ffffff;
+  padding-right: 2rem;
+  font-size: x-large;
 }

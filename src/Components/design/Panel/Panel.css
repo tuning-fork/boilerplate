@@ -24,7 +24,7 @@
   background-color: #fce353;
   color: #237e74;
 }
-.bluePanel {
+.tealPanel {
   background-color: #5cdacd;
   color: #e02780;
 }
@@ -33,16 +33,15 @@
   background-color: #33006e;
   color: var(--secondary-text);
 }
-.tealPanel {
+.bluePanel {
   background-color: #3255a4;
   color: #4b1e75;
 }
 
 .panel__background-image {
-  background-image: url("flame_background1.svg");
+  background-image: url("flame_background2.svg");
+}
+
+.bluePanel .panel__background-image {
   height: 100%;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
 }
