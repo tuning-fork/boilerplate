@@ -23,20 +23,6 @@ export default function GrantEdit(props) {
   );
 
   const handleDelete = () => {
-    // if (confirm(`Are you sure you want to delete this grant?`)) {
-    //   GrantsService.deleteGrant(organizationClient, props.grant.id)
-    //     .then(() => {
-    //       alert("Grant deleted!");
-    //       props.onClose();
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       alert(
-    //         "Eek! Something went wrong when deleting the grant. Try again soon."
-    //       );
-    //     });
-    // }
-    // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this grant?`)) {
       handleEditGrant({ archived: true })
         .then(() => {
