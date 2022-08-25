@@ -1,12 +1,12 @@
 import React from "react";
 import { TEAM_BIOS } from "../TeamPage/TeamBios";
-import "./BioFrame.css";
+import "./BioPortrait.css";
 import mikeHeadshot from "../BioCard/mikephoto1.jpg";
 import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiGithubFill } from "react-icons/ri";
 
-export default function BioFrame(props) {
+export default function BioPortrait(props) {
   return (
     <div className="bio-frame__container">
       {TEAM_BIOS.map((bio) => {

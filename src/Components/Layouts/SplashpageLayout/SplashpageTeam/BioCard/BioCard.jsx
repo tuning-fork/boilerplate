@@ -3,7 +3,6 @@ import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiGithubFill } from "react-icons/ri";
 import "./BioCard.css";
-import { BIO_TEXT } from "./BioCardText";
 import mikeHeadshot from "./mikephoto1.jpg";
 
 export default function BioCard(props) {
@@ -18,7 +17,7 @@ export default function BioCard(props) {
         </div>
         <div className={"bio-card__bio-content"}>
           <div className={"bio-card__text-frame"}>
-            <div className={"bio-card__text"}>{BIO_TEXT}</div>
+            <div className={"bio-card__text"}>{props.currentBio.bio_text}</div>
             <div className={"bio-card__icon-links"}>
               {props.currentBio.personal_site && (
                 <a

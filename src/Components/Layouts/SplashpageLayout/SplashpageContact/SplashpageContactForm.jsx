@@ -5,7 +5,7 @@ import Container from "../../../design/Container/Container";
 import TextBox from "../../../design/TextBox/TextBox";
 import "./SplashpageContactForm.css";
 
-export default function SplashpageContactForm(props) {
+export default function SplashpageContactForm() {
   const [splashpageContactFields, setSplashpageContactFields] = useState({
     name: "",
     title: "",
@@ -115,9 +115,6 @@ export default function SplashpageContactForm(props) {
               }
             />
             <div className="splashpage-contact-form__actions">
-              <Button variant="text" onClick={() => props.setPanelView("")}>
-                Cancel
-              </Button>
               <Button type="submit">Save</Button>
             </div>
           </form>
