@@ -54,6 +54,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Name"
+              placeholderText="Enter your name"
               value={splashpageContactFields.name}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -66,6 +67,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Title"
+              placeholderText="Enter your job title"
               value={splashpageContactFields.title}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -77,6 +79,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Email"
+              placeholderText="Enter your email address"
               value={splashpageContactFields.email}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -89,6 +92,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Organization"
+              placeholderText="Enter your organization or business"
               value={splashpageContactFields.organization_name}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -101,6 +105,7 @@ export default function SplashpageContactForm(props) {
               type="text"
               inputType="textarea"
               labelText="Message"
+              placeholderText="Questions? Comments? Let us know what you think!"
               value={splashpageContactFields.message}
               onChange={(event) =>
                 setSplashpageContactFields({
