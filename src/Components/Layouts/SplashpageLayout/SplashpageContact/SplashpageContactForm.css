@@ -37,6 +37,11 @@
   background: transparent;
 }
 
+.splashpage-contact-form ::placeholder {
+  color: #ffffff;
+  opacity: 0.5;
+}
+
 .splashpage-contact-form .text-box__container {
   background: transparent;
   background: var(--contrast-40);
