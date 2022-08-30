@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 import Button from "../../../design/Button/Button";
 import Container from "../../../design/Container/Container";
 import TextBox from "../../../design/TextBox/TextBox";
 import "./SplashpageContactForm.css";
+import * as ContactService from "../../../../Services/ContactService";
+import { useMutation } from "react-query";
 
 export default function SplashpageContactForm() {
   const [splashpageContactFields, setSplashpageContactFields] = useState({
@@ -16,17 +17,16 @@ export default function SplashpageContactForm() {
   const [displayContactSubmittedMessage, setDisplayContactSubmittedMessage] =
     useState("");
 
-  const sendContactSubmission = (splashpageContactFields) => {
-    axios
-      .post("/api/contact_us", { ...splashpageContactFields })
-      .then((response) => {
-        if (response.status === 201) {
-          setDisplayContactSubmittedMessage(response.data.message);
-          setSplashpageContactFields({});
-        }
-      })
-      .catch((error) => console.error(error.message));
-  };
+  const { mutate: sendContactSubmission } = useMutation(
+    (newContactFields) =>
+      ContactService.sendContactSubmission(newContactFields),
+    {
+      onSuccess: (newContactSubmission) => {
+        setDisplayContactSubmittedMessage(newContactSubmission.message);
+        setSplashpageContactFields({});
+      },
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
