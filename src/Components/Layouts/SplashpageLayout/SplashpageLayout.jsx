@@ -22,7 +22,6 @@ export default function SplashpageLayout() {
 
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
   const handleSwitchSplashPageModal = (modalLabelInput) => {
-    console.log("handleSwitchSplashPageModal", modalLabelInput);
     setModalLabel(modalLabelInput);
     if (modalLabelInput === "Sign Up") {
       setModalContents(
