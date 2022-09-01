@@ -108,7 +108,12 @@ export default function SplashpageLayout() {
         panelView && "splashpage-layout__noscroll"
       )}
     >
-      <div className="splashpage-layout__navbar-container">
+      <div
+        className={clsx(
+          "splashpage-layout__navbar-container",
+          panelView || "splashpage-layout__scroll-padding"
+        )}
+      >
         <NavbarSplashpage
           toggleModalContents={handleSwitchSplashPageModal}
           togglePanelContents={setPanelView}

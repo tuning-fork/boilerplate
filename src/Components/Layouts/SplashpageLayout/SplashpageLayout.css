@@ -3,6 +3,10 @@
   background-size: cover;
 }
 
+.splashpage-layout__scroll-padding {
+  padding-right: calc(100vw - 100%);
+}
+
 .splashpage-layout__navbar-container {
   position: absolute;
   width: 100%;
@@ -18,7 +22,7 @@
   height: auto;
 }
 
-.splashpage-layout__noscroll { 
+.splashpage-layout__noscroll {
   overflow: hidden;
   position: fixed;
 }
