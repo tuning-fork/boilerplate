@@ -15,7 +15,9 @@ export default function UserIndexPage() {
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       const userFullName = `${user.firstName} ${user.lastName}`;
-      return userFullName.toLowerCase().includes(searchString.toLowerCase());
+      return userFullName
+        .toLowerCase()
+        .includes(searchString.toLowerCase().trim());
     });
   }, [users, searchString]);
 
