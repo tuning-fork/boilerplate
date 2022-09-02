@@ -1,0 +1,13 @@
+.user-index {
+  flex: 1;
+  padding: 4rem;
+}
+
+.user-index__search-input {
+  width: 40vw;
+  margin-bottom: 0px;
+}
+
+.user-index__table {
+  width: 100%;
+}
