@@ -52,6 +52,7 @@ TextBox.propTypes = {
   suffix: PropTypes.node,
   type: PropTypes.string,
   value: PropTypes.string,
+  search: PropTypes.bool,
 };
 
 TextBox.defaultProps = {
