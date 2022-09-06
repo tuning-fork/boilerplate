@@ -102,16 +102,11 @@ export default function SplashpageLayout() {
   };
 
   return (
-    <main
-      className={clsx(
-        "splashpage-layout",
-        panelView && "splashpage-layout__noscroll"
-      )}
-    >
+    <div>
       <div
         className={clsx(
           "splashpage-layout__navbar-container",
-          panelView || "splashpage-layout__scroll-padding"
+          panelView || "splashpage-layout__navbar-container-open-panel"
         )}
       >
         <NavbarSplashpage
@@ -119,23 +114,30 @@ export default function SplashpageLayout() {
           togglePanelContents={setPanelView}
         />
       </div>
-      <div className="splashpage-layout__content">
-        <img
-          src={splashpageBackgroundImage}
-          alt="Splashpage graphics"
-          className="splashpage-layout__background-image"
-        />
-        <Modal
-          hide={handleCloseSplashPageModal}
-          show={showSplashPageModal}
-          heading={modalLabel}
-          splashpageForm={true}
-        >
-          {modalContents}
-        </Modal>
-        {handleSwitchSplashPagePanel()}
-      </div>
-      <Footer footerText={textForCopyright()} />
-    </main>
+      <main
+        className={clsx(
+          "splashpage-layout",
+          panelView && "splashpage-layout__noscroll"
+        )}
+      >
+        <div className="splashpage-layout__content">
+          <img
+            src={splashpageBackgroundImage}
+            alt="Splashpage graphics"
+            className="splashpage-layout__background-image"
+          />
+          <Modal
+            hide={handleCloseSplashPageModal}
+            show={showSplashPageModal}
+            heading={modalLabel}
+            splashpageForm={true}
+          >
+            {modalContents}
+          </Modal>
+          {handleSwitchSplashPagePanel()}
+        </div>
+        <Footer footerText={textForCopyright()} />
+      </main>
+    </div>
   );
 }
