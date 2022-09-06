@@ -3,15 +3,24 @@
   background-size: cover;
 }
 
-.splashpage-layout__scroll-padding {
+/* .splashpage-layout__scroll-padding {
   padding-right: calc(100vw - 100%);
-}
+} */
 
 .splashpage-layout__navbar-container {
   position: absolute;
   width: 100%;
   z-index: 1;
+  /* padding-left: calc(100vw - 100%); */
+  /* position: fixed; */
+  /* overflow: hidden;
+  position: fixed; */
 }
+
+.splashpage-layout__navbar-container-open-panel {
+  padding-left: calc(100vw - 100%);
+}
+
 .splashpage-layout__content {
   display: flex;
   position: relative;
