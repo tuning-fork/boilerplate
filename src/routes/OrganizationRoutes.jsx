@@ -19,7 +19,7 @@ import GrantsNew from "../Components/Grants/GrantsNew";
 import ReportsNew from "../Components/Reports/ReportsNew";
 import ReportsShow from "../Components/Reports/ReportsShow";
 import RedirectToDashboard from "../Components/Helpers/RedirectToDashboard";
-import StayTunedPage from "../pages/StayTuned/StayTunedPage";
+import UserIndexPage from "../pages/UserIndex/UserIndexPage";
 
 export default function OrganizationRoutes() {
   return (
@@ -94,7 +94,7 @@ export default function OrganizationRoutes() {
             />
             <Route
               path="/organizations/:organizationId/users"
-              component={StayTunedPage}
+              component={UserIndexPage}
             />
             <Route path="*">
               <RedirectToDashboard />
