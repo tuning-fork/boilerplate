@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./splashpage_background_image7.png";
@@ -20,6 +20,17 @@ export default function SplashpageLayout() {
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
   const [panelView, setPanelView] = useState("");
+  const [scrollbarWidth, setScrollbarWidth] = useState(15);
+
+  useEffect(() => {
+    const currentWidth = calculateScrollbarWidth();
+    if (!panelView && currentWidth > 0) {
+      setScrollbarWidth(calculateScrollbarWidth());
+    }
+  }, [panelView]);
+
+  const calculateScrollbarWidth = () =>
+    window.innerWidth - document.documentElement.offsetWidth;
 
   const textForCopyright = () => {
     return `Copyright Jess White and Michael McFaddin 2020 - ${new Date().getFullYear()}`;
@@ -106,7 +117,8 @@ export default function SplashpageLayout() {
       <div
         className={clsx(
           "splashpage-layout__navbar-container",
-          panelView || "splashpage-layout__navbar-container-open-panel"
+          panelView &&
+            `splashpage-layout__scrollbar_padding_${scrollbarWidth.toString()}`
         )}
       >
         <NavbarSplashpage

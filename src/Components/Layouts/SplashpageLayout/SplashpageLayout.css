@@ -3,22 +3,22 @@
   background-size: cover;
 }
 
-/* .splashpage-layout__scroll-padding {
-  padding-right: calc(100vw - 100%);
-} */
-
 .splashpage-layout__navbar-container {
   position: absolute;
   width: 100%;
   z-index: 1;
-  /* padding-left: calc(100vw - 100%); */
-  /* position: fixed; */
-  /* overflow: hidden;
-  position: fixed; */
 }
 
-.splashpage-layout__navbar-container-open-panel {
-  padding-left: calc(100vw - 100%);
+/* These conditional classes are designed to account for scrollbar widths from across multiple browsers - 
+the scrollBarWidth function calculates the scrollbar width and passes it into this class name */
+.splashpage-layout__scrollbar_padding_12 {
+  padding-right: 12px;
+}
+.splashpage-layout__scrollbar_padding_15 {
+  padding-right: 15px;
+}
+.splashpage-layout__scrollbar_padding_17 {
+  padding-right: 17px;
 }
 
 .splashpage-layout__content {
