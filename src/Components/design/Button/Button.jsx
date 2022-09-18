@@ -17,6 +17,7 @@ export const ButtonColor = {
   Success: "success",
   Error: "error",
   Contrast: "contrast",
+  Secondary: "secondary",
 };
 
 const Button = React.forwardRef((props, ref) => {

@@ -83,6 +83,13 @@
   color: var(--contrast-100);
 }
 
+.button--outlined.button--secondary,
+.button--outlined.button--secondary:visited,
+.button--text.button--secondary,
+.button--text.button--secondary:visited {
+  color: var(--secondary);
+}
+
 .button.button--disabled {
   opacity: 0.5;
 }
