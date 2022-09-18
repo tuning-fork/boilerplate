@@ -4,19 +4,19 @@
 }
 
 .team-page__header {
-    margin-bottom: 2rem;
-    color: #FFFFFF;
+  margin-bottom: 2rem;
+  color: var(--primary-text);
 }
 
 .team-page__intro-text {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  color: #FFFFFF;
+  color: var(--primary-text);
 }
 
 .team-page__content {
   padding-left: 7%;
   padding-right: 7%;
-  padding-bottom: 7%;
+  padding-bottom: 20%;
 }

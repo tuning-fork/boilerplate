@@ -1,6 +1,10 @@
+.splashpage-contact-form__div {
+  padding-bottom: 15%;
+}
+
 .splashpage-contact-form__container {
   padding: 3rem;
-  background-color: var(--contrast-30);
+  background-color: var(--primary-30);
   border: 2px solid #ffffff;
   border-radius: 5px;
 }
@@ -39,12 +43,11 @@
 
 .splashpage-contact-form ::placeholder {
   color: #ffffff;
-  opacity: 0.5;
 }
 
 .splashpage-contact-form .text-box__container {
   background: transparent;
-  background: var(--contrast-40);
+  background: var(--contrast-20);
 }
 
 .splashpage-contact-form__actions {

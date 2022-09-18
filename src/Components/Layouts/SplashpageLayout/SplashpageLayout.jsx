@@ -70,7 +70,6 @@ export default function SplashpageLayout() {
         <Panel
           hide={() => setPanelView("")}
           show={true}
-          panelPalette={"tealPanel"}
           currentBio={currentBio}
           setCurrentBio={setCurrentBio}
         >
@@ -84,18 +83,13 @@ export default function SplashpageLayout() {
             setPanelView("");
           }}
           show={true}
-          panelPalette={"purplePanel"}
         >
           <FeaturePage />
         </Panel>
       );
     } else if (panelView === "Contact") {
       return (
-        <Panel
-          hide={() => setPanelView("")}
-          show={true}
-          panelPalette={"bluePanel"}
-        >
+        <Panel hide={() => setPanelView("")} show={true}>
           <SplashpageContactForm setPanelView={setPanelView} />
         </Panel>
       );

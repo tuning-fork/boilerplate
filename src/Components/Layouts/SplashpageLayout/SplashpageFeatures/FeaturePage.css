@@ -1,26 +1,26 @@
 .feature-page__text {
-    padding-bottom: 4rem;
-    max-width: 90%;
-  }
-  
-  .feature-page__header h1 {
-      margin-bottom: 2rem;
-      color: #FFFFFF;
-  }
-  
-  .feature-page__intro-text {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    color: #FFFFFF;
-  }
-  
-  .feature-page__content {
-    padding-left: 7%;
-    padding-right: 7%;
-    padding-bottom: 10%;
-  }
+  padding-bottom: 4rem;
+  max-width: 90%;
+}
 
-  .feature-page__screenshot-image {
-    max-width: 30rem;
-  }
+.feature-page__header h1 {
+  margin-bottom: 2rem;
+  color: var(--primary-text);
+}
+
+.feature-page__intro-text {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  color: var(--primary-text);
+}
+
+.feature-page__content {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-bottom: 10%;
+}
+
+.feature-page__screenshot-image {
+  max-width: 30rem;
+}

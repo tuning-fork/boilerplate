@@ -34,7 +34,7 @@ export default function SplashpageContactForm() {
   };
 
   return (
-    <>
+    <div className="splashpage-contact-form__div">
       <Container
         as="section"
         centered
@@ -120,6 +120,6 @@ export default function SplashpageContactForm() {
           </form>
         )}
       </Container>
-    </>
+    </div>
   );
 }

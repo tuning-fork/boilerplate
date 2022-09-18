@@ -7,8 +7,9 @@
   left: 0;
   overflow-y: auto;
   z-index: 100;
-  background-color: #fce353;
   overflow: scroll;
+  background-color: var(--primary-tint);
+  color: #e02780;
 }
 
 .panel-cancel-button {
@@ -20,28 +21,6 @@
   font-size: var(--font-size-large-3);
 }
 
-.yellowPanel {
-  background-color: #fce353;
-  color: #237e74;
-}
-.tealPanel {
-  background-color: #5cdacd;
-  color: #e02780;
-}
-.purplePanel {
-  /* background-color: var(--secondary-tint); */
-  background-color: #33006e;
-  color: var(--secondary-text);
-}
-.bluePanel {
-  background-color: #3255a4;
-  color: #4b1e75;
-}
-
 .panel__background-image {
   background-image: url("flame_background2.svg");
-}
-
-.bluePanel .panel__background-image {
-  height: 100%;
 }
