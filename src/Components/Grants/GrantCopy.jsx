@@ -21,12 +21,13 @@ export default function GrantCopy() {
   };
 
   const { mutate: copyGrant } = useMutation(
-    (grantFields) => GrantsService.copyGrant(organizationClient, grantFields),
+    (grantFields) =>
+      GrantsService.copyGrant(organizationClient, grantId, grantFields),
     {
-      onSuccess: (copyGrant) => {
+      onSuccess: (copyRes) => {
         alert("Grant created!");
         history.push(
-          `/organizations/${currentOrganization.id}/grants/${copyGrant.id}`
+          `/organizations/${currentOrganization.id}/grants/${copyRes.id}`
         );
       },
     }
@@ -34,6 +35,7 @@ export default function GrantCopy() {
 
   function handleCopyGrant(copyGrantFields) {
     copyGrant({
+      ...copyGrantFields,
       title: copyGrantFields.title,
       fundingOrgId: copyGrantFields.fundingOrgId,
       rfpUrl: copyGrantFields.rfpUrl,
