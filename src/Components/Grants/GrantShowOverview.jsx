@@ -22,7 +22,7 @@ import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
-import SectionShowOverview from "../Sections/SectionShowOverview";
+import SectionListItem from "../Sections/SectionListItem";
 // import {
 //   updateGrantSection,
 //   // reorderGrantSection,
@@ -147,7 +147,7 @@ export default function GrantShowOverview() {
             {grant.sections.length > 0 &&
               grant.sections.map((section) => (
                 <SortableElement key={section.id} id={section.id}>
-                  <SectionShowOverview section={section} />
+                  <SectionListItem section={section} />
                 </SortableElement>
               ))}
           </ol>
