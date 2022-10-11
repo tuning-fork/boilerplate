@@ -137,6 +137,8 @@ export default function GrantShowOverview() {
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
+          contentLink={`/grants/${grant.id}/`}
+          overviewToggle={true}
         />
         <Container
           className="grants-show-overview__sections-container"

@@ -59,6 +59,7 @@ export default function GrantsShow() {
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
+  const [overviewToggle, setOverviewToggle] = useState(false);
 
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
@@ -215,8 +216,10 @@ export default function GrantsShow() {
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
+          overviewLink={`/grants/${grant.id}/overview/`}
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
+          overviewToggle={overviewToggle}
         />
         <Container
           className="grants-show__sections-container"
