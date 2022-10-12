@@ -73,6 +73,7 @@ TextBox.propTypes = {
   inputType: PropTypes.string,
   value: PropTypes.string,
   maxLength: PropTypes.string,
+  search: PropTypes.bool,
 };
 
 TextBox.defaultProps = {

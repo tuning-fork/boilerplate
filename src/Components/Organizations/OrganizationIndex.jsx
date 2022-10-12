@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import useCreateOrganization from "../../Hooks/useCreateOrganization";
 import OrganizationCard from "./OrganizationIndex/OrganizationCard";
@@ -13,12 +13,19 @@ import "./OrganizationIndex.css";
 
 function OrganizationIndex() {
   const { organizations } = useCurrentUser();
+  const history = useHistory();
   const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
     useState(false);
 
   const createOrganization = useCreateOrganization({
     onSuccess: () => setIsNewOrganizationModalOpen(false),
   });
+
+  useEffect(() => {
+    if (organizations.length === 0) {
+      history.push("/organizations/new");
+    }
+  }, [history, organizations]);
 
   return (
     <Background>

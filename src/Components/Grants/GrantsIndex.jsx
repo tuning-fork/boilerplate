@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
+import { useQuery } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
@@ -17,9 +18,6 @@ import "./GrantsIndex.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 export default function GrantsIndex() {
-  const [grants, setGrants] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
   const [tabSelect, setTabSelect] = useState("All");
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
@@ -29,19 +27,13 @@ export default function GrantsIndex() {
     title: "",
   });
 
-  const fetchGrants = useCallback(async () => {
-    if (!organizationClient) {
-      return;
-    }
-    try {
-      const grants = await getAllGrants(organizationClient);
-      setGrants(grants);
-    } catch (error) {
-      setErrors([error]);
-    } finally {
-      setLoading(false);
-    }
-  }, [organizationClient]);
+  const {
+    data: grants,
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery("getGrants", () => getAllGrants(organizationClient));
 
   const handleDropdownMiniAction = async ({ option, grant }) => {
     try {
@@ -83,11 +75,11 @@ export default function GrantsIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await fetchGrants();
+      await refetch();
     } catch (error) {
       console.error(error);
-      setErrors([error]);
     }
+    refetch();
   };
 
   const columns = [
@@ -164,10 +156,6 @@ export default function GrantsIndex() {
     },
   ];
 
-  useEffect(() => {
-    fetchGrants();
-  }, [fetchGrants]);
-
   const filteredGrants = useMemo(() => {
     return grants
       .filter((grant) => {
@@ -192,11 +180,12 @@ export default function GrantsIndex() {
       });
   }, [grants, searchFilters, tabSelect]);
 
-  if (errors.length) {
-    console.error(errors);
-    return <p>Error! {errors.map((error) => error.message)}</p>;
-  } else if (loading) {
-    return <h1>Loading....</h1>;
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
   }
 
   return (
