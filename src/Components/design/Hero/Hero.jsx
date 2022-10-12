@@ -9,15 +9,15 @@ import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadline);
-  const [viewData, setViewData] = useState({});
+  // const [viewData, setViewData] = useState({});
 
-  const handleView = (view) => {
-    if (view === "overview") {
-      setViewData();
-    } else {
-      setViewData();
-    }
-  };
+  // const handleView = (view) => {
+  //   if (view === "overview") {
+  //     setViewData();
+  //   } else {
+  //     setViewData();
+  //   }
+  // };
 
   return (
     <div className={clsx(props.className, "hero")}>
@@ -42,13 +42,13 @@ export default function Hero(props) {
             >
               Edit
             </Button>
-            <Button
+            {/* <Button
               variant="outlined"
               as={CurrentOrganizationLink}
               to={viewLink}
             >
               {viewName}
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="hero__details">
