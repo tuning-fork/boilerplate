@@ -21,6 +21,7 @@ import ReportsNew from "../Components/Reports/ReportsNew";
 import ReportsShow from "../Components/Reports/ReportsShow";
 import RedirectToDashboard from "../Components/Helpers/RedirectToDashboard";
 import UserIndexPage from "../pages/UserIndex/UserIndexPage";
+import { DndContext } from "@dnd-kit/core";
 
 export default function OrganizationRoutes() {
   return (
@@ -43,7 +44,11 @@ export default function OrganizationRoutes() {
             />
             <Route
               path="/organizations/:organizationId/grants/:grantId/overview"
-              component={GrantShowOverview}
+              render={() => (
+                <DndContext>
+                  <GrantShowOverview />
+                </DndContext>
+              )}
             />
             <Route
               exact

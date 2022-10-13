@@ -30,8 +30,10 @@ import SectionListItem from "../Sections/SectionListItem";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
-import "./GrantShowOverview.css";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import { DndContext } from "@dnd-kit/core";
+import { Draggable } from "./Draggable";
+import { Droppable } from "./Droppable";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -75,6 +77,7 @@ export default function GrantShowOverview() {
   );
 
   return (
+    // <DndContext>
     <div className="grants-show-overview">
       <div className="grants-show-overview__content">
         <Hero
@@ -106,5 +109,6 @@ export default function GrantShowOverview() {
         </Container>
       </div>
     </div>
+    // </DndContext>
   );
 }
