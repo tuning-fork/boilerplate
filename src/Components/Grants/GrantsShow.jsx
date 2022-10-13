@@ -60,7 +60,7 @@ export default function GrantsShow() {
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
-  const [overView, setOverView] = useState(false);
+  const [overview, setOverview] = useState(false);
 
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
@@ -219,10 +219,10 @@ export default function GrantsShow() {
           breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
-          setOverView={setOverView}
-          overView={overView}
+          setOverview={setOverview}
+          overView={overview}
         />
-        {overView ? (
+        {overview ? (
           <GrantShowOverview grant={grant} />
         ) : (
           <Container
