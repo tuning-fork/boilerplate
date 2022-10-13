@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -38,6 +38,7 @@ import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
 import GrantShowOverview from "./GrantShowOverview";
+import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -70,6 +71,38 @@ export default function GrantsShow() {
   //   //   coordinateGetter: sortableKeyboardCoordinates,
   //   // })
   // );
+
+  const heroButtons = useCallback(() => {
+    if (overview) {
+      return (
+        <Button variant="outlined" onClick={() => setOverview(!overview)}>
+          Content View
+        </Button>
+      );
+    } else
+      return (
+        <>
+          <Button
+            variant="outlined"
+            as={CurrentOrganizationLink}
+            to={`/grants/${grant.id}/copy/`}
+          >
+            Copy
+          </Button>
+          <Button
+            variant="outlined"
+            as={CurrentOrganizationLink}
+            to={`/grants/${grant.id}/edit/`}
+          >
+            Edit
+          </Button>
+          <Button variant="outlined" onClick={() => setOverview(!overview)}>
+            Overview
+          </Button>
+        </>
+      );
+  }, [overview, grant.id]);
+
   const { isOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
   const [sectionToStoreAsBoilerplate, setSectionToStoreAsBoilerplate] =
@@ -221,6 +254,7 @@ export default function GrantsShow() {
           editLink={`/grants/${grant.id}/edit/`}
           setOverview={setOverview}
           overView={overview}
+          heroButtons={heroButtons()}
         />
         {overview ? (
           <GrantShowOverview grant={grant} />

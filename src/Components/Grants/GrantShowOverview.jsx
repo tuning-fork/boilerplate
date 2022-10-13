@@ -2,11 +2,8 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 import SectionListItem from "../Sections/SectionListItem";
-import countSectionWords from "../../Helpers/countSectionWords";
-import countWords from "../../Helpers/countWords";
 import "./GrantShowOverview.css";
 import SortableElement from "../Elements/SortableElement";
 

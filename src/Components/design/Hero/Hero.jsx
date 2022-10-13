@@ -2,10 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Button from "../Button/Button";
+// import Button from "../Button/Button";
 import "./Hero.css";
 import formatDate from "../../../Helpers/formatDate";
-import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadline);
@@ -18,32 +17,7 @@ export default function Hero(props) {
         </div>
         <div className="hero__header">
           <h1>{props.headerText}</h1>
-          <div className="hero__buttons">
-            {!props.overView && (
-              <>
-                <Button
-                  variant="outlined"
-                  as={CurrentOrganizationLink}
-                  to={props.copyLink}
-                >
-                  Copy
-                </Button>
-                <Button
-                  variant="outlined"
-                  as={CurrentOrganizationLink}
-                  to={props.editLink}
-                >
-                  Edit
-                </Button>
-              </>
-            )}
-            <Button
-              variant="outlined"
-              onClick={() => props.setOverView(!props.overView)}
-            >
-              {props.overView ? "Content" : "Overview"}
-            </Button>
-          </div>
+          <div className="hero__buttons">{props.heroButtons}</div>
         </div>
         <div className="hero__details">
           <dl>
