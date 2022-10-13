@@ -37,6 +37,7 @@ import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
 import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
+import GrantShowOverview from "./GrantShowOverview";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -59,7 +60,7 @@ export default function GrantsShow() {
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
-  const [overviewToggle, setOverviewToggle] = useState(false);
+  const [overView, setOverView] = useState(false);
 
   // const sensors = useSensors(
   //   useSensor(PointerSensor)
@@ -216,17 +217,20 @@ export default function GrantsShow() {
           deadline={grant.deadline}
           totalWordCount={totalWordCount}
           breadCrumbLink={`/organizations/${currentOrganization.id}/grants/`}
-          overviewLink={`/grants/${grant.id}/overview/`}
           copyLink={`/grants/${grant.id}/copy/`}
           editLink={`/grants/${grant.id}/edit/`}
-          overviewToggle={overviewToggle}
+          setOverView={setOverView}
+          overView={overView}
         />
-        <Container
-          className="grants-show__sections-container"
-          as="section"
-          centered
-        >
-          {/* <DndContext
+        {overView ? (
+          <GrantShowOverview grant={grant} />
+        ) : (
+          <Container
+            className="grants-show__sections-container"
+            as="section"
+            centered
+          >
+            {/* <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleReorderSection}
@@ -235,55 +239,56 @@ export default function GrantsShow() {
               items={grant.sections}
               strategy={verticalListSortingStrategy}
             > */}
-          {grant.sections.length ? (
-            <ol className="grants-show__section-list">
-              {grant.sections.map((section) => (
-                <SortableElement key={section.id} id={section.id}>
-                  {editingSectionId === section.id ? (
-                    <SectionForm
-                      onStoreSectionAsBoilerplate={
-                        setSectionToStoreAsBoilerplate
-                      }
-                      onSubmit={handleEditSection}
-                      onCancel={() => setEditingSectionId(null)}
-                      section={section}
-                    />
-                  ) : (
-                    <SectionsShow
-                      section={section}
-                      onClickEdit={setEditingSectionId}
-                    />
-                  )}
-                  {newSectionId === section.id && (
-                    <SectionForm
-                      onStoreSectionAsBoilerplate={
-                        setSectionToStoreAsBoilerplate
-                      }
-                      onSubmit={(newSectionFields) =>
-                        handleCreateSection({
-                          newSectionFields,
-                          precedingSection: section,
-                        })
-                      }
-                      onCancel={() => setNewSectionId(null)}
-                    />
-                  )}
-                  <Button
-                    onClick={() => setNewSectionId(section.id)}
-                    variant="text"
-                  >
-                    <MdAddCircle />
-                    Add Section
-                  </Button>
-                </SortableElement>
-              ))}
-            </ol>
-          ) : (
-            noSectionsContent
-          )}
-          {/* </SortableContext>
+            {grant.sections.length ? (
+              <ol className="grants-show__section-list">
+                {grant.sections.map((section) => (
+                  <SortableElement key={section.id} id={section.id}>
+                    {editingSectionId === section.id ? (
+                      <SectionForm
+                        onStoreSectionAsBoilerplate={
+                          setSectionToStoreAsBoilerplate
+                        }
+                        onSubmit={handleEditSection}
+                        onCancel={() => setEditingSectionId(null)}
+                        section={section}
+                      />
+                    ) : (
+                      <SectionsShow
+                        section={section}
+                        onClickEdit={setEditingSectionId}
+                      />
+                    )}
+                    {newSectionId === section.id && (
+                      <SectionForm
+                        onStoreSectionAsBoilerplate={
+                          setSectionToStoreAsBoilerplate
+                        }
+                        onSubmit={(newSectionFields) =>
+                          handleCreateSection({
+                            newSectionFields,
+                            precedingSection: section,
+                          })
+                        }
+                        onCancel={() => setNewSectionId(null)}
+                      />
+                    )}
+                    <Button
+                      onClick={() => setNewSectionId(section.id)}
+                      variant="text"
+                    >
+                      <MdAddCircle />
+                      Add Section
+                    </Button>
+                  </SortableElement>
+                ))}
+              </ol>
+            ) : (
+              noSectionsContent
+            )}
+            {/* </SortableContext>
           </DndContext> */}
-        </Container>
+          </Container>
+        )}
       </div>
       <Modal
         show={!!sectionToStoreAsBoilerplate}

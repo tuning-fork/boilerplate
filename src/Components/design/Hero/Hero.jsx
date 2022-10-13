@@ -9,15 +9,6 @@ import CurrentOrganizationLink from "../../Helpers/CurrentOrganizationLink";
 
 export default function Hero(props) {
   const formattedDeadline = formatDate(props.deadline);
-  // const [viewData, setViewData] = useState({});
-
-  // const handleView = (view) => {
-  //   if (view === "overview") {
-  //     setViewData();
-  //   } else {
-  //     setViewData();
-  //   }
-  // };
 
   return (
     <div className={clsx(props.className, "hero")}>
@@ -28,27 +19,30 @@ export default function Hero(props) {
         <div className="hero__header">
           <h1>{props.headerText}</h1>
           <div className="hero__buttons">
+            {!props.overView && (
+              <>
+                <Button
+                  variant="outlined"
+                  as={CurrentOrganizationLink}
+                  to={props.copyLink}
+                >
+                  Copy
+                </Button>
+                <Button
+                  variant="outlined"
+                  as={CurrentOrganizationLink}
+                  to={props.editLink}
+                >
+                  Edit
+                </Button>
+              </>
+            )}
             <Button
               variant="outlined"
-              as={CurrentOrganizationLink}
-              to={props.copyLink}
+              onClick={() => props.setOverView(!props.overView)}
             >
-              Copy
+              {props.overView ? "Content" : "Overview"}
             </Button>
-            <Button
-              variant="outlined"
-              as={CurrentOrganizationLink}
-              to={props.editLink}
-            >
-              Edit
-            </Button>
-            {/* <Button
-              variant="outlined"
-              as={CurrentOrganizationLink}
-              to={viewLink}
-            >
-              {viewName}
-            </Button> */}
           </div>
         </div>
         <div className="hero__details">

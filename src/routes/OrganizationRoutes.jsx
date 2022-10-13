@@ -14,7 +14,6 @@ import FundingOrgsIndex from "../Components/FundingOrgs/FundingOrgsIndex";
 import GrantCopy from "../Components/Grants/GrantCopy";
 import GrantEdit from "../Components/Grants/GrantEdit";
 import GrantShow from "../Components/Grants/GrantsShow";
-import GrantShowOverview from "../Components/Grants/GrantShowOverview";
 import GrantsIndex from "../Components/Grants/GrantsIndex";
 import GrantsNew from "../Components/Grants/GrantsNew";
 import ReportsNew from "../Components/Reports/ReportsNew";
@@ -40,10 +39,6 @@ export default function OrganizationRoutes() {
             <Route
               path="/organizations/:organizationId/grants/:grantId/copy"
               component={GrantCopy}
-            />
-            <Route
-              path="/organizations/:organizationId/grants/:grantId/overview"
-              component={GrantShowOverview}
             />
             <Route
               exact
