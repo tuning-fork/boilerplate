@@ -44,20 +44,16 @@ export default function BoilerplatesIndex() {
     }
   );
 
-  const handleDropdownMiniAction = async ({ option, boilerplate }) => {
-    try {
-      switch (option.value) {
-        case "REMOVE_FROM_ARCHIVED":
-          updateBoilerplate({ id: boilerplate.id, archived: false });
-          break;
-        case "MARK_AS_ARCHIVED":
-          updateBoilerplate({ id: boilerplate.id, archived: true });
-          break;
-        default:
-          throw new Error(`Unexpected option given ${option.value}!`);
-      }
-    } catch (error) {
-      console.error(error);
+  const handleDropdownMiniAction = ({ option, boilerplate }) => {
+    switch (option.value) {
+      case "REMOVE_FROM_ARCHIVED":
+        updateBoilerplate({ id: boilerplate.id, archived: false });
+        break;
+      case "MARK_AS_ARCHIVED":
+        updateBoilerplate({ id: boilerplate.id, archived: true });
+        break;
+      default:
+        console.error(`Unexpected option given ${option.value}!`);
     }
   };
 

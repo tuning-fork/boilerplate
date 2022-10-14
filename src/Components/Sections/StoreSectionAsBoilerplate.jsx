@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef } from "react";
 import { useQuery, useMutation } from "react-query";
 import Label from "../design/Label/Label";
 import TextBox from "../design/TextBox/TextBox";
@@ -13,9 +13,7 @@ import countWords from "../../Helpers/countWords";
 
 export default function StoreSectionAsBoilerplate(props) {
   const { organizationClient } = useCurrentOrganization();
-  const {
-    data: categories,
-  } = useQuery("getCategories", () =>
+  const { data: categories } = useQuery("getCategories", () =>
     CategoriesService.getAllCategories(organizationClient)
   );
 
@@ -26,17 +24,13 @@ export default function StoreSectionAsBoilerplate(props) {
     wordcount: "",
   });
 
-  const wordCount = useMemo(() => {
-    return countWords(newBoilerplateFields.text);
-  }, [newBoilerplateFields.text]);
-
   const { mutate: saveBoilerplate } = useMutation(
     (newBoilerplateFields) =>
       BoilerplatesService.createBoilerplate(organizationClient, {
         title: newBoilerplateFields.title,
         text: newBoilerplateFields.text,
         categoryId: newBoilerplateFields.categoryId,
-        wordcount: wordCount,
+        wordcount: countWords(newBoilerplateFields.text),
       }),
     {
       onSuccess: () => {
@@ -54,14 +48,6 @@ export default function StoreSectionAsBoilerplate(props) {
   };
 
   const quillEl = useRef();
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
 
   return (
     <form className="store-section-as-boilerplate" onSubmit={handleSubmit}>

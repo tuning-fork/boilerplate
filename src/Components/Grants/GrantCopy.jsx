@@ -34,15 +34,7 @@ export default function GrantCopy() {
   );
 
   function handleCopyGrant(copyGrantFields) {
-    copyGrant({
-      ...copyGrantFields,
-      title: copyGrantFields.title,
-      fundingOrgId: copyGrantFields.fundingOrgId,
-      rfpUrl: copyGrantFields.rfpUrl,
-      purpose: copyGrantFields.purpose,
-      deadline: copyGrantFields.deadline,
-      totalWordCount: copyGrantFields.totalWordCount,
-    });
+    copyGrant(copyGrantFields);
   }
 
   const { data: grant } = useQuery("grant", () =>

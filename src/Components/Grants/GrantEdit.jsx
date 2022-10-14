@@ -43,6 +43,7 @@ export default function GrantEdit() {
   };
 
   const handleDelete = () => {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this grant?`)) {
       handleEditGrant({ archived: true });
     }
