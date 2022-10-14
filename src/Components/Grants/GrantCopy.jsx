@@ -4,7 +4,6 @@ import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
-import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
