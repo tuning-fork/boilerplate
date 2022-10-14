@@ -15,9 +15,6 @@ export default function StoreSectionAsBoilerplate(props) {
   const { organizationClient } = useCurrentOrganization();
   const {
     data: categories,
-    isError,
-    isLoading,
-    error,
   } = useQuery("getCategories", () =>
     CategoriesService.getAllCategories(organizationClient)
   );
