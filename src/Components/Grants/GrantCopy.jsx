@@ -4,6 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
+import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
@@ -33,16 +34,19 @@ export default function GrantCopy() {
     }
   );
 
-  function handleCopyGrant(copyGrantFields) {
-    copyGrant(copyGrantFields);
-  }
-
   const { data: grant } = useQuery("grant", () =>
     GrantsService.getGrant(organizationClient, grantId)
   );
   const { data: fundingOrgs } = useQuery("fundingOrgs", () =>
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
+
+  function handleCopyGrant(copyGrantFields) {
+    copyGrant({
+      ...copyGrantFields,
+      sections: grant.sections,
+    });
+  }
 
   return (
     <div className="grant-copy">
