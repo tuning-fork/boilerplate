@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
-import splashpageBackgroundImage from "./splashpage_background_image6.png";
+import splashpageBackgroundImage from "./splashpage_background_image7.png";
 import Modal from "../../design/Modal/Modal";
 import Panel from "../../design/Panel/Panel";
 import SignUp from "../../SignUp/SignUp";
@@ -10,6 +10,7 @@ import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
 import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.jsx";
 import FeaturePage from "./SplashpageFeatures/FeaturePage";
+import Footer from "../../design/Footer/Footer";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {
@@ -125,6 +126,7 @@ export default function SplashpageLayout() {
         </Modal>
         {handleSwitchSplashPagePanel()}
       </div>
+      <Footer />
     </main>
   );
 }
