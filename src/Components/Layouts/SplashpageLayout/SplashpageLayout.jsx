@@ -21,10 +21,6 @@ export default function SplashpageLayout() {
   const [modalContents, setModalContents] = useState(<></>);
   const [panelView, setPanelView] = useState("");
 
-  const textForCopyright = () => {
-    return `Copyright Jess White and Michael McFaddin 2020 - ${new Date().getFullYear()}`;
-  };
-
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
   const handleSwitchSplashPageModal = (modalLabelInput) => {
     setModalLabel(modalLabelInput);
@@ -130,7 +126,7 @@ export default function SplashpageLayout() {
         </Modal>
         {handleSwitchSplashPagePanel()}
       </div>
-      <Footer footerText={textForCopyright()} />
+      <Footer />
     </main>
   );
 }

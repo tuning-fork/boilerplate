@@ -1,16 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./Footer.css";
 
-export default function Footer(props) {
+const textForCopyright = `Copyright Jess White and Michael McFaddin 2020 - ${new Date().getFullYear()}`;
+
+export default function Footer() {
   return (
-    <div className="footer">
-      <div className="footer-content">{props.footerText}</div>
-    </div>
+    <>
+      <footer className="footer">
+        <div className="footer-content">{textForCopyright}</div>
+      </footer>
+    </>
   );
 }
-
-Footer.propTypes = {
-  className: PropTypes.string,
-  footerText: PropTypes.string,
-};
