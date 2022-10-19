@@ -31,9 +31,14 @@ import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import { DndContext } from "@dnd-kit/core";
-import { Draggable } from "./Draggable";
-import { Droppable } from "./Droppable";
+import { DragOverlay } from "@dnd-kit/core";
+// import { Draggable } from "./Draggable";
+// import { Droppable } from "./Droppable";
+import {
+  // arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -98,14 +103,17 @@ export default function GrantShowOverview() {
           as="section"
           centered
         >
-          <ol className="grants-show__section-list">
-            {grant.sections.length > 0 &&
-              grant.sections.map((section) => (
-                <SortableElement key={section.id} id={section.id}>
-                  <SectionListItem section={section} />
-                </SortableElement>
-              ))}
-          </ol>
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            <ol className="grants-show__section-list">
+              {grant.sections.length > 0 &&
+                grant.sections.map((section) => (
+                  <SortableElement key={section.id} id={section.id}>
+                    <SectionListItem section={section} />
+                  </SortableElement>
+                ))}
+            </ol>
+          </SortableContext>
+          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
         </Container>
       </div>
     </div>

@@ -21,9 +21,41 @@ import ReportsNew from "../Components/Reports/ReportsNew";
 import ReportsShow from "../Components/Reports/ReportsShow";
 import RedirectToDashboard from "../Components/Helpers/RedirectToDashboard";
 import UserIndexPage from "../pages/UserIndex/UserIndexPage";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+} from "@dnd-kit/core";
 
 export default function OrganizationRoutes() {
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  function handleDragStart(event) {
+    const { active } = event;
+
+    setActiveId(active.id);
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    // This would handle setting the section order
+
+    // if (active.id !== over.id) {
+    //   setItems((items) => {
+    //     const oldIndex = items.indexOf(active.id);
+    //     const newIndex = items.indexOf(over.id);
+
+    //     return arrayMove(items, oldIndex, newIndex);
+    //   });
+    // }
+
+    // setActiveId(null);
+  }
+}
+
   return (
     <Suspense fallback={<OrganizationLayoutFallback />}>
       <CurrentOrganizationProvider>
@@ -45,7 +77,12 @@ export default function OrganizationRoutes() {
             <Route
               path="/organizations/:organizationId/grants/:grantId/overview"
               render={() => (
-                <DndContext>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragStart={handleDragStart}
+                  onDragEnd={handleDragEnd}
+                >
                   <GrantShowOverview />
                 </DndContext>
               )}
