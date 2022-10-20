@@ -31,7 +31,7 @@ import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-import { DragOverlay } from "@dnd-kit/core";
+// import { DragOverlay } from "@dnd-kit/core";
 // import { Draggable } from "./Draggable";
 // import { Droppable } from "./Droppable";
 import {
@@ -47,7 +47,7 @@ function countTotalSectionsWords(sections = []) {
   );
 }
 
-export default function GrantShowOverview() {
+export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
   const {
@@ -60,6 +60,10 @@ export default function GrantShowOverview() {
   );
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
+
+  useEffect(() => {
+    props.setSortableSections(grant.sections);
+  }, []);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -82,7 +86,6 @@ export default function GrantShowOverview() {
   );
 
   return (
-    // <DndContext>
     <div className="grants-show-overview">
       <div className="grants-show-overview__content">
         <Hero
@@ -103,20 +106,22 @@ export default function GrantShowOverview() {
           as="section"
           centered
         >
-          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={grant.sections.map((item) => item.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <ol className="grants-show__section-list">
-              {grant.sections.length > 0 &&
-                grant.sections.map((section) => (
+              {props.sortableSections.length > 0 &&
+                props.sortableSections.map((section) => (
                   <SortableElement key={section.id} id={section.id}>
                     <SectionListItem section={section} />
                   </SortableElement>
                 ))}
             </ol>
           </SortableContext>
-          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+          {/* <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay> */}
         </Container>
       </div>
     </div>
-    // </DndContext>
   );
 }

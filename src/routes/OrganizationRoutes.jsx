@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
 import { PasteBoilerplateContentPopoutProvider } from "../Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -28,33 +28,21 @@ import {
   useSensors,
   closestCenter,
 } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
 export default function OrganizationRoutes() {
   const sensors = useSensors(useSensor(PointerSensor));
+  const [sortableSections, setSortableSections] = useState([]);
 
-  function handleDragStart(event) {
-    const { active } = event;
-
-    setActiveId(active.id);
+  function handleDragEnd({ active, over }) {
+    if (active.id !== over.id) {
+      setSortableSections((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
   }
-
-  function handleDragEnd(event) {
-    const { active, over } = event;
-
-    // This would handle setting the section order
-
-    // if (active.id !== over.id) {
-    //   setItems((items) => {
-    //     const oldIndex = items.indexOf(active.id);
-    //     const newIndex = items.indexOf(over.id);
-
-    //     return arrayMove(items, oldIndex, newIndex);
-    //   });
-    // }
-
-    // setActiveId(null);
-  }
-}
 
   return (
     <Suspense fallback={<OrganizationLayoutFallback />}>
@@ -80,10 +68,12 @@ export default function OrganizationRoutes() {
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
-                  onDragStart={handleDragStart}
                   onDragEnd={handleDragEnd}
                 >
-                  <GrantShowOverview />
+                  <GrantShowOverview
+                    sortableSections={sortableSections}
+                    setSortableSections={setSortableSections}
+                  />
                 </DndContext>
               )}
             />
