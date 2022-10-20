@@ -8,6 +8,7 @@ const mapInvitation = (apiInvitation) => ({
   updatedAt: new Date(apiInvitation.updated_at),
 });
 
+// TODO: use with create invitation
 // eslint-disable-next-line
 const mapInvitationToApiInvitation = (invitation) => ({
   ...invitation,
