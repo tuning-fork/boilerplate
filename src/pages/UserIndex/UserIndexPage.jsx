@@ -2,6 +2,7 @@ import React, { useState, useMemo, useContext } from "react";
 import { useQuery } from "react-query";
 import clsx from "clsx";
 import * as OrganizationService from "../../Services/OrganizationService";
+import * as InvitationsService from "../../Services/Organizations/InvitationsService";
 import { CurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import Button from "../../Components/design/Button/Button";
 import Table from "../../Components/design/Table/Table";
@@ -20,24 +21,30 @@ export default function UserIndexPage() {
   const { data: users } = useQuery("getUsers", () =>
     OrganizationService.getAllOrganizationUsers(organizationClient)
   );
-  const filteredResources = useMemo(() => {
+  const { data: invitations } = useQuery("getInvitations", () =>
+    InvitationsService.getAllInvitations(organizationClient)
+  );
+  const resources = useMemo(() => {
     if (tabSelect === Tabs.USERS) {
-      return users.filter((user) => {
-        const userFullName = `${user.firstName} ${user.lastName}`;
-        return userFullName
-          .toLowerCase()
-          .includes(searchString.toLowerCase().trim());
-      });
+      return users;
     } else if (tabSelect === Tabs.INVITATIONS) {
-      // todo
-      return [];
+      return invitations;
     }
-  }, [tabSelect, users, searchString]);
+  }, [tabSelect, users, invitations]);
+  const filteredResources = useMemo(() => {
+    return resources.filter((resource) => {
+      const resourceFullName = `${resource.firstName} ${resource.lastName}`;
+      return resourceFullName
+        .toLowerCase()
+        .includes(searchString.toLowerCase().trim());
+    });
+  }, [resources, searchString]);
 
   const columns = [
     { Header: "First Name", accessor: "firstName" },
     { Header: "Last Name", accessor: "lastName" },
     { Header: "Email", accessor: "email" },
+    // TODO: if tab is invitations, add column for "Sent At" that uses invitation.updatedAt
   ];
 
   return (
@@ -81,7 +88,7 @@ export default function UserIndexPage() {
           data={filteredResources}
         />
       ) : (
-        <p>No users found.</p>
+        <p>No {tabSelect === Tabs.USERS ? "users" : "invitations"} found.</p>
       )}
     </section>
   );
