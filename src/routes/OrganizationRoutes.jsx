@@ -29,6 +29,10 @@ import {
   closestCenter,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import {
+  restrictToFirstScrollableAncestor,
+  restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
 
 export default function OrganizationRoutes() {
   const sensors = useSensors(useSensor(PointerSensor));
@@ -69,6 +73,10 @@ export default function OrganizationRoutes() {
                   sensors={sensors}
                   collisionDetection={closestCenter}
                   onDragEnd={handleDragEnd}
+                  modifiers={[
+                    restrictToFirstScrollableAncestor,
+                    restrictToVerticalAxis,
+                  ]}
                 >
                   <GrantShowOverview
                     sortableSections={sortableSections}

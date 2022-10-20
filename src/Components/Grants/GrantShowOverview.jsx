@@ -5,20 +5,6 @@ import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
-// import {
-// DndContext,
-// closestCenter,
-// KeyboardSensor,
-//   PointerSensor,
-//   useSensor,
-//   useSensors,
-// } from "@dnd-kit/core";
-// import {
-// arrayMove,
-// SortableContext,
-// sortableKeyboardCoordinates,
-// verticalListSortingStrategy,
-// } from "@dnd-kit/sortable";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
@@ -31,14 +17,11 @@ import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
-// import { DragOverlay } from "@dnd-kit/core";
-// import { Draggable } from "./Draggable";
-// import { Droppable } from "./Droppable";
 import {
-  // arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import "./GrantShowOverview.css";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -119,7 +102,6 @@ export default function GrantShowOverview(props) {
                 ))}
             </ol>
           </SortableContext>
-          {/* <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay> */}
         </Container>
       </div>
     </div>

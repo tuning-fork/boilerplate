@@ -8,7 +8,7 @@ export default function SectionListItem(props) {
   const { section } = props;
 
   const { setNodeRef, attributes, listeners, transition, transform } =
-    useSortable({ id: props.section.id });
+    useSortable({ id: section.id });
 
   const style = {
     transition,
