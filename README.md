@@ -13,17 +13,9 @@ applications.
 For instructions on contributing, check out
 [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
-~~0. delete these two actions: organization_users#create and organization_users#show~~
-~~1. add a new tab for the user page that shows invitations~~
-~~  * fetch invitations from api through a new invitations service~~z
-~~2. create a popover reuseable component~~
-~~  * used for when you hover over the buttons and icons~~
 3. implement revinvite icon-button in invitations table
 4. implement unvinvite icon-button in invitations table
 5. implement remove user icon-button in user table
-6. implement invite user button 
-  * only available to admins
-  * create some modal with the form fields
 7. implement icons in invitations table
   * expired
   * pending

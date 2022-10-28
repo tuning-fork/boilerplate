@@ -1,13 +1,15 @@
 import React, { useState, useMemo, useContext } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import * as OrganizationService from "../../Services/OrganizationService";
 import * as InvitationsService from "../../Services/Organizations/InvitationsService";
 import { CurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
 import Button from "../../Components/design/Button/Button";
+import Modal from "../../Components/design/Modal/Modal";
 import Table from "../../Components/design/Table/Table";
 import TextBox from "../../Components/design/TextBox/TextBox";
 import "./UserIndexPage.css";
+import InviteUserForm from "./InviteUserForm/InviteUserForm";
 
 const Tabs = {
   USERS: "USERS",
@@ -18,12 +20,25 @@ export default function UserIndexPage() {
   const [tabSelect, setTabSelect] = useState(Tabs.USERS);
   const { organizationClient } = useContext(CurrentOrganizationContext);
   const [searchString, setSearchString] = useState("");
+  const [showingInviteUser, setShowingInviteUser] = useState(false);
+
   const { data: users } = useQuery("getUsers", () =>
     OrganizationService.getAllOrganizationUsers(organizationClient)
   );
   const { data: invitations } = useQuery("getInvitations", () =>
     InvitationsService.getAllInvitations(organizationClient)
   );
+  const { mutate: createInvitation } = useMutation(
+    (invitationFields) =>
+      InvitationsService.createInvitation(organizationClient, invitationFields),
+    {
+      onSuccess: () => {
+        alert("Invitation created!");
+        setShowingInviteUser(false);
+      },
+    }
+  );
+
   const resources = useMemo(() => {
     if (tabSelect === Tabs.USERS) {
       return users;
@@ -57,6 +72,7 @@ export default function UserIndexPage() {
           onChange={(event) => setSearchString(event.target.value)}
           className="user-index__search-input"
         />
+        <Button onClick={() => setShowingInviteUser(true)}>Invite User</Button>
       </div>
       <div className="user-index__table-tabs">
         <Button
@@ -90,6 +106,12 @@ export default function UserIndexPage() {
       ) : (
         <p>No {tabSelect === Tabs.USERS ? "users" : "invitations"} found.</p>
       )}
+      <Modal show={showingInviteUser} heading="Invite User">
+        <InviteUserForm
+          onSubmit={createInvitation}
+          onCancel={() => setShowingInviteUser(false)}
+        />
+      </Modal>
     </section>
   );
 }

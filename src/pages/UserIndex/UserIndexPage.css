@@ -3,6 +3,12 @@
   padding: 4rem;
 }
 
+.user-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .user-index__search-input {
   width: 40vw;
   margin-bottom: 0px;

@@ -24,3 +24,9 @@ export const getAllInvitations = (organizationClient) => {
     .get(`/invitations/`)
     .then((response) => response.data.map(mapInvitation));
 };
+
+export const createInvitation = (organizationClient, invitationFields) => {
+  return organizationClient
+    .post(`/invitations/`, mapInvitationToApiInvitation(invitationFields))
+    .then((response) => mapInvitation(response.data));
+};
