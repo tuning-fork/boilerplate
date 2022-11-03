@@ -1,0 +1,29 @@
+.popover {
+  position: relative;
+  cursor: pointer;
+  width: max-content;
+  margin-left: 100px;
+}
+
+.popover--right .popover__content {
+  right: 0;
+}
+
+.popover__content {
+  position: absolute;
+  top: 30px;
+  border: 1px solid rgba(25, 59, 103, 0.05);
+  border-radius: 4px;
+  box-shadow: 0px 3px 12px -1px rgba(28, 52, 84, 0.26), 0px 2px 4px -1px rgba(28, 55, 90, 0.16);
+  padding: 6px 8px;
+  animation: fade-in 200ms ease-in;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

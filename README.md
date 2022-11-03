@@ -15,9 +15,9 @@ For instructions on contributing, check out
 
 ~~0. delete these two actions: organization_users#create and organization_users#show~~
 ~~1. add a new tab for the user page that shows invitations~~
-~~  * fetch invitations from api through a new invitations service~~
-2. create a popover reuseable component
-  * used for when you hover over the buttons and icons
+~~  * fetch invitations from api through a new invitations service~~z
+~~2. create a popover reuseable component~~
+~~  * used for when you hover over the buttons and icons~~
 3. implement revinvite icon-button in invitations table
 4. implement unvinvite icon-button in invitations table
 5. implement remove user icon-button in user table
