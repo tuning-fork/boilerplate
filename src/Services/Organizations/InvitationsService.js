@@ -8,8 +8,6 @@ const mapInvitation = (apiInvitation) => ({
   updatedAt: new Date(apiInvitation.updated_at),
 });
 
-// TODO: use with create invitation
-// eslint-disable-next-line
 const mapInvitationToApiInvitation = (invitation) => ({
   ...invitation,
   first_name: invitation.firstName,
@@ -28,5 +26,11 @@ export const getAllInvitations = (organizationClient) => {
 export const createInvitation = (organizationClient, invitationFields) => {
   return organizationClient
     .post(`/invitations/`, mapInvitationToApiInvitation(invitationFields))
+    .then((response) => mapInvitation(response.data));
+};
+
+export const reinvite = (organizationClient, invitationId) => {
+  return organizationClient
+    .post(`/invitations/${invitationId}/reinvite`)
     .then((response) => mapInvitation(response.data));
 };

@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
+import { MdRestartAlt } from "react-icons/md";
 import clsx from "clsx";
+import formatDate from "../../Helpers/formatDate";
 import * as OrganizationService from "../../Services/OrganizationService";
 import * as InvitationsService from "../../Services/Organizations/InvitationsService";
 import { CurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
@@ -38,6 +40,15 @@ export default function UserIndexPage() {
       },
     }
   );
+  const { mutate: reinvite } = useMutation(
+    (invitationId) =>
+      InvitationsService.reinvite(organizationClient, invitationId),
+    {
+      onSuccess: () => {
+        alert("Invitation resent!");
+      },
+    }
+  );
 
   const resources = useMemo(() => {
     if (tabSelect === Tabs.USERS) {
@@ -55,12 +66,33 @@ export default function UserIndexPage() {
     });
   }, [resources, searchString]);
 
-  const columns = [
+  const sharedColumns = [
     { Header: "First Name", accessor: "firstName" },
     { Header: "Last Name", accessor: "lastName" },
     { Header: "Email", accessor: "email" },
-    // TODO: if tab is invitations, add column for "Sent At" that uses invitation.updatedAt
   ];
+  const columns =
+    tabSelect === Tabs.INVITATIONS
+      ? [
+          ...sharedColumns,
+          {
+            Header: "Sent At",
+            accessor: (invitation) => (
+              <>
+                {formatDate(invitation.updatedAt)}
+                <div className="user-index__row-actions">
+                  <Button
+                    onClick={() => reinvite(invitation.id)}
+                    variant="none"
+                  >
+                    <MdRestartAlt />
+                  </Button>
+                </div>
+              </>
+            ),
+          },
+        ]
+      : sharedColumns;
 
   return (
     <section className="user-index">

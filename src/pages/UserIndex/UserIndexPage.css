@@ -38,3 +38,20 @@
   outline: 0;
   border-bottom: 5px solid var(--primary-shade);
 }
+
+.user-index__table .table__cell {
+  position: relative;
+}
+
+.user-index__table .table__cell:last-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-index__row-actions {
+  margin-right: -1rem;
+}
+
+.user-index__row-actions > .button {
+  line-height: 1.5rem;
+}

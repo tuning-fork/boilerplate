@@ -13,10 +13,10 @@ applications.
 For instructions on contributing, check out
 [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
-3. implement revinvite icon-button in invitations table
-4. implement unvinvite icon-button in invitations table
-5. implement remove user icon-button in user table
-7. implement icons in invitations table
+1. implement revinvite icon-button in invitations table
+2. implement unvinvite icon-button in invitations table
+3. implement remove user icon-button in user table
+4. implement icons in invitations table
   * expired
   * pending
 8. follow up on giving frontend ability to know if current user is an admin and
