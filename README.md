@@ -13,8 +13,9 @@ applications.
 For instructions on contributing, check out
 [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
-1. implement icons in invitations table
+1. use popover for button icons
+2. implement icons in invitations table
   * expired
   * pending
-2. follow up on giving frontend ability to know if current user is an admin and
+3. follow up on giving frontend ability to know if current user is an admin and
    hiding users link from sidebar if not an admin
