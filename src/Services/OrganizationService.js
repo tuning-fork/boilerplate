@@ -35,3 +35,9 @@ export const createOrganization = async (authenticatedApiClient, fields) => {
     .post("/organizations", mapOrganizationToApiOrganization(fields))
     .then((response) => response.data);
 };
+
+export const deleteOrganizationUser = (organizationClient, userId) => {
+  return organizationClient
+    .delete(`/users/${userId}`)
+    .then((response) => mapUser(response.data));
+};

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
-import { MdRestartAlt, MdRemoveCircle } from "react-icons/md";
+import { MdRestartAlt, MdRemoveCircle, MdPersonRemove } from "react-icons/md";
 import clsx from "clsx";
 import formatDate from "../../Helpers/formatDate";
 import * as OrganizationService from "../../Services/OrganizationService";
@@ -29,6 +29,16 @@ export default function UserIndexPage() {
   );
   const { data: invitations } = useQuery("getInvitations", () =>
     InvitationsService.getAllInvitations(organizationClient)
+  );
+
+  const { mutate: deleteOrganizationUser } = useMutation(
+    (userId) =>
+      OrganizationService.deleteOrganizationUser(organizationClient, userId),
+    {
+      onSuccess: () => {
+        alert("User removed from organization!");
+      },
+    }
   );
   const { mutate: createInvitation } = useMutation(
     (invitationFields) =>
@@ -78,12 +88,12 @@ export default function UserIndexPage() {
   const sharedColumns = [
     { Header: "First Name", accessor: "firstName" },
     { Header: "Last Name", accessor: "lastName" },
-    { Header: "Email", accessor: "email" },
   ];
   const columns =
     tabSelect === Tabs.INVITATIONS
       ? [
           ...sharedColumns,
+          { Header: "Email", accessor: "email" },
           {
             Header: "Sent At",
             accessor: (invitation) => (
@@ -111,7 +121,29 @@ export default function UserIndexPage() {
             ),
           },
         ]
-      : sharedColumns;
+      : [
+          ...sharedColumns,
+          {
+            Header: "Email",
+            accessor: (user) => (
+              <>
+                {user.email}
+                <div className="user-index__row-actions">
+                  <Button
+                    onClick={() =>
+                      // eslint-disable-next-line no-restricted-globals
+                      confirm("Are you sure you want to remove this user?") &&
+                      deleteOrganizationUser(user.id)
+                    }
+                    variant="none"
+                  >
+                    <MdPersonRemove />
+                  </Button>
+                </div>
+              </>
+            ),
+          },
+        ];
 
   return (
     <section className="user-index">

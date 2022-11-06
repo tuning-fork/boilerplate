@@ -13,10 +13,8 @@ applications.
 For instructions on contributing, check out
 [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
-3. implement remove user icon-button in user table
-4. implement icons in invitations table
+1. implement icons in invitations table
   * expired
   * pending
-8. follow up on giving frontend ability to know if current user is an admin and
+2. follow up on giving frontend ability to know if current user is an admin and
    hiding users link from sidebar if not an admin
-8. follow up on restricting organization user methods on backend (index)
