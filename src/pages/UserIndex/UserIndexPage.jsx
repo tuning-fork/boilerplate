@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
-import { MdRestartAlt } from "react-icons/md";
+import { MdRestartAlt, MdRemoveCircle } from "react-icons/md";
 import clsx from "clsx";
 import formatDate from "../../Helpers/formatDate";
 import * as OrganizationService from "../../Services/OrganizationService";
@@ -10,8 +10,8 @@ import Button from "../../Components/design/Button/Button";
 import Modal from "../../Components/design/Modal/Modal";
 import Table from "../../Components/design/Table/Table";
 import TextBox from "../../Components/design/TextBox/TextBox";
-import "./UserIndexPage.css";
 import InviteUserForm from "./InviteUserForm/InviteUserForm";
+import "./UserIndexPage.css";
 
 const Tabs = {
   USERS: "USERS",
@@ -46,6 +46,15 @@ export default function UserIndexPage() {
     {
       onSuccess: () => {
         alert("Invitation resent!");
+      },
+    }
+  );
+  const { mutate: deleteInvitation } = useMutation(
+    (invitationId) =>
+      InvitationsService.deleteInvitation(organizationClient, invitationId),
+    {
+      onSuccess: () => {
+        alert("Invitation deleted!");
       },
     }
   );
@@ -86,6 +95,16 @@ export default function UserIndexPage() {
                     variant="none"
                   >
                     <MdRestartAlt />
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      // eslint-disable-next-line no-restricted-globals
+                      confirm("Are you sure you want to uninvite this user?") &&
+                      deleteInvitation(invitation.id)
+                    }
+                    variant="none"
+                  >
+                    <MdRemoveCircle />
                   </Button>
                 </div>
               </>

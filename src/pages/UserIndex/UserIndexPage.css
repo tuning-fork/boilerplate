@@ -50,6 +50,8 @@
 
 .user-index__row-actions {
   margin-right: -1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .user-index__row-actions > .button {

@@ -34,3 +34,9 @@ export const reinvite = (organizationClient, invitationId) => {
     .post(`/invitations/${invitationId}/reinvite`)
     .then((response) => mapInvitation(response.data));
 };
+
+export const deleteInvitation = (organizationClient, invitationId) => {
+  return organizationClient
+    .delete(`/invitations/${invitationId}`)
+    .then((response) => mapInvitation(response.data));
+};
