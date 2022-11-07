@@ -6,8 +6,4 @@ export default {
   component: Footer,
 };
 
-export const FooterRegular = (props) => (
-  <Footer {...props}>
-    <p>Welcome to the Footer! Enjoy your stay</p>
-  </Footer>
-);
+export const FooterRegular = (props) => <Footer {...props} />;

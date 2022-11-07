@@ -37,8 +37,6 @@
   left: 25%;
   transform: translate(-28%, -60%);
   color: #2c92a8;
-  /* font-size: var(--;font-size-small);
-    font-weight: var(--font-weight-bold); */
   font-size: var(--font-size-large-1);
   font-weight: var(--font-weight-extra-bold);
   text-transform: uppercase;

@@ -19,14 +19,6 @@
   padding: 0.7rem 1rem;
 }
 
-/* This is styling for clicking on a row, commenting out until we add that
-functionality */
-/* .table__row:hover,
-.table__header:hover {
-  color: var(--primary);
-  cursor: pointer;
-} */
-
 .table__header-container {
   display: inline-flex;
   align-items: center;

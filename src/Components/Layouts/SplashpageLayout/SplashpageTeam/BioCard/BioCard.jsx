@@ -3,7 +3,6 @@ import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiGithubFill } from "react-icons/ri";
 import "./BioCard.css";
-import mikeHeadshot from "./mikephoto1.jpg";
 
 export default function BioCard(props) {
   return (
@@ -50,7 +49,7 @@ export default function BioCard(props) {
           </div>
           <div className={"bio-card__headshot-frame"}>
             <img
-              src={mikeHeadshot}
+              src={props.currentBio.headshot_url}
               alt="Mike McFaddin Headshot"
               className="bio-card__headshot-image"
             />
