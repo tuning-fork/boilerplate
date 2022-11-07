@@ -2,7 +2,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  border-right: 1px solid var(--contrast-10);
 }
 
 .navbar-splashpage__logo {
@@ -14,4 +13,78 @@
 .navbar-splashpage__login {
   align-items: right;
   justify-content: space-around;
+}
+
+.navbar-items {
+  padding-right: 1rem;
+  margin-top: auto;
+}
+
+.navbar__tab {
+  padding-right: 1rem;
+}
+
+.navbar__tab-container {
+  position: relative;
+  text-align: center;
+  display: inline-flex;
+  padding-right: 2.2rem;
+}
+
+.navbar__tab-text {
+  position: absolute;
+  top: 60%;
+  left: 25%;
+  transform: translate(-28%, -60%);
+  color: #2c92a8;
+  font-size: var(--font-size-large-1);
+  font-weight: var(--font-weight-extra-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.tab-pink:hover {
+  color: #4b1e75;
+}
+
+.tab-blue:hover {
+  color: #237e74;
+}
+
+.tab-yellow:hover {
+  color: #f6a04d;
+}
+
+.tab-login {
+  color: #4b1e75;
+}
+
+.tab-login:hover {
+  color: #237e74;
+}
+
+.tab-signup {
+  color: #4b1e75;
+}
+
+.tab-signup:hover {
+  color: #e3ed55;
+}
+
+.navbar__button {
+  padding-right: 1.5rem;
+}
+
+.navbar__image {
+  width: 8rem;
+}
+
+.navbar__tab-image {
+  width: 10rem;
+  opacity: 0;
+}
+
+.navbar__tab-container:hover .navbar__tab-image {
+  width: 10rem;
+  opacity: 1;
 }

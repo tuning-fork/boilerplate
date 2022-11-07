@@ -8,38 +8,22 @@
   width: 100%;
   z-index: 1;
 }
+
+/* These conditional classes are designed to account for scrollbar widths from across multiple browsers - 
+the scrollBarWidth function calculates the scrollbar width and passes it into this class name */
+.splashpage-layout__scrollbar_padding_12 {
+  padding-right: 12px;
+}
+.splashpage-layout__scrollbar_padding_15 {
+  padding-right: 15px;
+}
+.splashpage-layout__scrollbar_padding_17 {
+  padding-right: 17px;
+}
+
 .splashpage-layout__content {
   display: flex;
   position: relative;
-}
-
-.splashpage-layout__sign-up-button {
-  z-index: 1;
-  position: absolute;
-  top: 79.5%;
-  left: 16.5%;
-  width: 23%;
-  height: 6%;
-  --focused: none;
-}
-
-.splashpage-layout__sign-up-button:focus {
-  border: 0.5rem solid rgba(88, 191, 205, 0.9);
-}
-
-.splashpage-layout__login-button {
-  z-index: 1;
-  position: absolute;
-  top: 86%;
-  left: 22.5%;
-  width: 10%;
-  height: 3%;
-  --focused: none;
-}
-
-.splashpage-layout__login-button:focus {
-  border: 0.5rem solid rgba(88, 191, 205, 0.9);
-  border-radius: 0px;
 }
 
 .splashpage-layout__background-image {
@@ -47,23 +31,7 @@
   height: auto;
 }
 
-.splashpage-layout__bottom-buttons {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
-.splashpage-layout__bottom-buttons:before {
-  content: " ";
-  display: block;
-  /* adjust 'height' to position overlay content vertically */
-  height: 50%;
-}
-
-.splashpage-layout__fancy-button {
-  display: flex;
-  height: auto;
+.splashpage-layout__noscroll {
+  overflow: hidden;
+  position: fixed;
 }
