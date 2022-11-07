@@ -5,10 +5,8 @@ const textForCopyright = `Copyright Jess White and Michael McFaddin 2020 - ${new
 
 export default function Footer() {
   return (
-    <>
-      <footer className="footer">
-        <div className="footer-content">{textForCopyright}</div>
-      </footer>
-    </>
+    <footer className="footer">
+      <div className="footer-content">{textForCopyright}</div>
+    </footer>
   );
 }
