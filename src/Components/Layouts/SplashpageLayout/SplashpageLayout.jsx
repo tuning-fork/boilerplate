@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import "./SplashpageLayout.css";
-import splashpageBackgroundImage from "./splashpage_background_image6.png";
+import splashpageBackgroundImage from "./splashpage_background_image7.png";
 import Modal from "../../design/Modal/Modal";
 import Panel from "../../design/Panel/Panel";
 import SignUp from "../../SignUp/SignUp";
@@ -9,6 +9,8 @@ import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
 import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.jsx";
+import FeaturePage from "./SplashpageFeatures/FeaturePage";
+import Footer from "../../design/Footer/Footer";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {
@@ -18,10 +20,20 @@ export default function SplashpageLayout() {
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
   const [panelView, setPanelView] = useState("");
+  const [scrollbarWidth, setScrollbarWidth] = useState(15);
+
+  useEffect(() => {
+    const currentWidth = calculateScrollbarWidth();
+    if (!panelView && currentWidth > 0) {
+      setScrollbarWidth(calculateScrollbarWidth());
+    }
+  }, [panelView]);
+
+  const calculateScrollbarWidth = () =>
+    window.innerWidth - document.documentElement.offsetWidth;
 
   const handleCloseSplashPageModal = () => setShowSplashPageModal(false);
   const handleSwitchSplashPageModal = (modalLabelInput) => {
-    console.log("handleSwitchSplashPageModal", modalLabelInput);
     setModalLabel(modalLabelInput);
     if (modalLabelInput === "Sign Up") {
       setModalContents(
@@ -70,33 +82,26 @@ export default function SplashpageLayout() {
         <Panel
           hide={() => setPanelView("")}
           show={true}
-          panelPalette={"bluePanel"}
           currentBio={currentBio}
           setCurrentBio={setCurrentBio}
         >
           <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
         </Panel>
       );
-    } else if (panelView === "Try It Out") {
+    } else if (panelView === "Features") {
       return (
         <Panel
           hide={() => {
-            setCurrentBio({});
             setPanelView("");
           }}
           show={true}
-          panelPalette={"pinkPanel"}
         >
-          <div>Try It Out</div>
+          <FeaturePage />
         </Panel>
       );
     } else if (panelView === "Contact") {
       return (
-        <Panel
-          hide={() => setPanelView("")}
-          show={true}
-          panelPalette={"tealPanel"}
-        >
+        <Panel hide={() => setPanelView("")} show={true}>
           <SplashpageContactForm setPanelView={setPanelView} />
         </Panel>
       );
@@ -104,34 +109,43 @@ export default function SplashpageLayout() {
   };
 
   return (
-    <main
-      className={clsx(
-        "splashpage-layout",
-        panelView && "splashpage-layout__noscroll"
-      )}
-    >
-      <div className="splashpage-layout__navbar-container">
+    <div>
+      <div
+        className={clsx(
+          "splashpage-layout__navbar-container",
+          panelView &&
+            `splashpage-layout__scrollbar_padding_${scrollbarWidth.toString()}`
+        )}
+      >
         <NavbarSplashpage
           toggleModalContents={handleSwitchSplashPageModal}
           togglePanelContents={setPanelView}
         />
       </div>
-      <div className="splashpage-layout__content">
-        <img
-          src={splashpageBackgroundImage}
-          alt="Splashpage graphics"
-          className="splashpage-layout__background-image"
-        />
-        <Modal
-          hide={handleCloseSplashPageModal}
-          show={showSplashPageModal}
-          heading={modalLabel}
-          splashpageForm={true}
-        >
-          {modalContents}
-        </Modal>
-        {handleSwitchSplashPagePanel()}
-      </div>
-    </main>
+      <main
+        className={clsx(
+          "splashpage-layout",
+          panelView && "splashpage-layout__noscroll"
+        )}
+      >
+        <div className="splashpage-layout__content">
+          <img
+            src={splashpageBackgroundImage}
+            alt="Splashpage graphics"
+            className="splashpage-layout__background-image"
+          />
+          <Modal
+            hide={handleCloseSplashPageModal}
+            show={showSplashPageModal}
+            heading={modalLabel}
+            splashpageForm={true}
+          >
+            {modalContents}
+          </Modal>
+          {handleSwitchSplashPagePanel()}
+        </div>
+        <Footer />
+      </main>
+    </div>
   );
 }

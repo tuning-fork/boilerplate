@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { ReactComponent as Logo } from "../BOILERPLATE.svg";
 import "./NavbarSplashpage.css";
-// import Login from "../../../Login/Login";
 import Button from "../../Button/Button";
 import customLogInButton from "./Login_Button_Blank.png";
 import customSignUpButton from "./sign_up_button_blank.png";
 import PixelBackgroundBlue from "./pixel_background_blue.png";
 import PixelBackgroundYellow from "./pixel_background_yellow.png";
 import PixelBackgroundPink from "./pixel_background_pink.png";
-// import "./NavbarLoginForm.css";
 import "../../Panel/Panel.css";
 
 export default function NavbarSplashpage(props) {
@@ -40,12 +38,10 @@ export default function NavbarSplashpage(props) {
           />
           <Button
             variant="none"
-            onClick={() => props.togglePanelContents("Try It Out")}
+            onClick={() => props.togglePanelContents("Features")}
             className="navbar__tab"
           >
-            <div className={clsx("navbar__tab-text", "tab-blue")}>
-              Try It Out
-            </div>
+            <div className={clsx("navbar__tab-text", "tab-blue")}>Features</div>
           </Button>
         </div>
         <div className="navbar__tab-container">

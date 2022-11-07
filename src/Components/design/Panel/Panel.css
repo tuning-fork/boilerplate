@@ -1,14 +1,15 @@
 .panel {
-    position: fixed;
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    top: 5.5rem;
-    left: 0;
-    overflow-y: auto;
-    z-index: 100;
-    background-color: #FCE353;
-    overflow: scroll;
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  top: 5.5rem;
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
+  overflow: scroll;
+  background-color: var(--primary-tint);
+  color: #e02780;
 }
 
 .panel-cancel-button {
@@ -20,28 +21,6 @@
   font-size: var(--font-size-large-3);
 }
 
-.yellowPanel {
-  background-color: #FCE353;
-  color: #237E74;
-} 
-.bluePanel {
-  background-color: #5cdacd;
-  color: #e02780;
-}
-.pinkPanel {
-  background-color: var(--secondary-tint);  
-  color: var(--secondary-text);
-}
-.tealPanel {
-  background-color: #3255A4;
-  color: #4B1E75;
-}
-
 .panel__background-image {
-  background-image: url('flame_background1.svg');
-  height: 100%;
-  width: 100%;
-  background-repeat:  no-repeat;
-  background-size: contain;
-  background-position: center;
+  background-image: url("flame_background2.svg");
 }

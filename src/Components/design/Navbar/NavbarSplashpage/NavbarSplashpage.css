@@ -2,7 +2,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  border-right: 1px solid var(--contrast-10);
 }
 
 .navbar-splashpage__logo {
@@ -33,45 +32,45 @@
 }
 
 .navbar__tab-text {
-    position: absolute;
-    top: 60%;
-    left: 25%;
-    transform: translate(-28%, -60%);
-    color: #2C92A8;
-    /* font-size: var(--;font-size-small);
+  position: absolute;
+  top: 60%;
+  left: 25%;
+  transform: translate(-28%, -60%);
+  color: #2c92a8;
+  /* font-size: var(--;font-size-small);
     font-weight: var(--font-weight-bold); */
-    font-size: var(--font-size-large-1);
-    font-weight: var(--font-weight-extra-bold);
-    text-transform: uppercase;
-    letter-spacing: .2rem;
+  font-size: var(--font-size-large-1);
+  font-weight: var(--font-weight-extra-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
 }
 
 .tab-pink:hover {
-  color: #4B1E75;
+  color: #4b1e75;
 }
 
 .tab-blue:hover {
-  color: #237E74
+  color: #237e74;
 }
 
 .tab-yellow:hover {
-  color: #F6A04D
+  color: #f6a04d;
 }
 
 .tab-login {
-  color: #4B1E75;
+  color: #4b1e75;
 }
 
 .tab-login:hover {
-  color: #237E74;
+  color: #237e74;
 }
 
 .tab-signup {
-  color: #4B1E75;
+  color: #4b1e75;
 }
 
 .tab-signup:hover {
-  color: #E3ED55
+  color: #e3ed55;
 }
 
 .navbar__button {

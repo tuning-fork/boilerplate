@@ -11,7 +11,7 @@ export default function Panel(props) {
 
   return (
     <div
-      className={clsx(props.className, props.panelPalette, "panel")}
+      className={clsx(props.className, "panel")}
       id="slice"
       aria-labelledby="panel-heading"
       aria-modal
@@ -45,7 +45,6 @@ Panel.propTypes = {
   heading: PropTypes.string,
   headingClassName: PropTypes.string,
   className: PropTypes.string,
-  panelPalette: PropTypes.string,
 };
 
 Panel.defaultProps = {

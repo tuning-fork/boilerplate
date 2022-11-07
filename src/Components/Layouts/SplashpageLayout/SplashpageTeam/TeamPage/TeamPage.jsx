@@ -1,5 +1,5 @@
 import React from "react";
-import BioFrame from "../BioFrame/BioFrame.jsx";
+import BioPortrait from "../BioPortrait/BioPortrait.jsx";
 import BioCard from "../BioCard/BioCard.jsx";
 import "./TeamPage.css";
 
@@ -53,7 +53,7 @@ export default function TeamPage(props) {
             </div>
           </div>
           <div>
-            <BioFrame setCurrentBio={props.setCurrentBio} />
+            <BioPortrait setCurrentBio={props.setCurrentBio} />
           </div>
         </>
       )}

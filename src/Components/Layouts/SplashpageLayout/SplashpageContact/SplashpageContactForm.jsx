@@ -1,11 +1,12 @@
 import { useState } from "react";
-import axios from "axios";
 import Button from "../../../design/Button/Button";
 import Container from "../../../design/Container/Container";
 import TextBox from "../../../design/TextBox/TextBox";
 import "./SplashpageContactForm.css";
+import * as ContactService from "../../../../Services/ContactService";
+import { useMutation } from "react-query";
 
-export default function SplashpageContactForm(props) {
+export default function SplashpageContactForm() {
   const [splashpageContactFields, setSplashpageContactFields] = useState({
     name: "",
     title: "",
@@ -16,17 +17,16 @@ export default function SplashpageContactForm(props) {
   const [displayContactSubmittedMessage, setDisplayContactSubmittedMessage] =
     useState("");
 
-  const sendContactSubmission = (splashpageContactFields) => {
-    axios
-      .post("/api/contact_us", { ...splashpageContactFields })
-      .then((response) => {
-        if (response.status === 201) {
-          setDisplayContactSubmittedMessage(response.data.message);
-          setSplashpageContactFields({});
-        }
-      })
-      .catch((error) => console.error(error.message));
-  };
+  const { mutate: sendContactSubmission } = useMutation(
+    (newContactFields) =>
+      ContactService.sendContactSubmission(newContactFields),
+    {
+      onSuccess: (newContactSubmission) => {
+        setDisplayContactSubmittedMessage(newContactSubmission.message);
+        setSplashpageContactFields({});
+      },
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,7 +34,7 @@ export default function SplashpageContactForm(props) {
   };
 
   return (
-    <>
+    <div className="splashpage-contact-form__div">
       <Container
         as="section"
         centered
@@ -54,6 +54,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Name"
+              placeholderText="Enter your name"
               value={splashpageContactFields.name}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -66,6 +67,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Title"
+              placeholderText="Enter your job title"
               value={splashpageContactFields.title}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -77,6 +79,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Email"
+              placeholderText="Enter your email address"
               value={splashpageContactFields.email}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -89,6 +92,7 @@ export default function SplashpageContactForm(props) {
             <TextBox
               type="text"
               labelText="Organization"
+              placeholderText="Enter your organization or business"
               value={splashpageContactFields.organization_name}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -101,6 +105,7 @@ export default function SplashpageContactForm(props) {
               type="text"
               inputType="textarea"
               labelText="Message"
+              placeholderText="Questions? Comments? Let us know what you think!"
               value={splashpageContactFields.message}
               onChange={(event) =>
                 setSplashpageContactFields({
@@ -110,14 +115,11 @@ export default function SplashpageContactForm(props) {
               }
             />
             <div className="splashpage-contact-form__actions">
-              <Button variant="text" onClick={() => props.setPanelView("")}>
-                Cancel
-              </Button>
               <Button type="submit">Save</Button>
             </div>
           </form>
         )}
       </Container>
-    </>
+    </div>
   );
 }
