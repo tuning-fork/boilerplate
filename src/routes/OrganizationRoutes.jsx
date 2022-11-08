@@ -41,6 +41,7 @@ export default function OrganizationRoutes() {
 
   function handleDragStart(event) {
     const { active } = event;
+    console.log(active.id);
 
     setActiveId(active.id);
   }
@@ -49,7 +50,9 @@ export default function OrganizationRoutes() {
     if (active.id !== over.id) {
       setSortableSections((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
+        console.log(oldIndex);
         const newIndex = items.findIndex((item) => item.id === over.id);
+        console.log(newIndex);
         return arrayMove(items, oldIndex, newIndex);
       });
     }

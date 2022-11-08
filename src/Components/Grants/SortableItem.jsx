@@ -21,7 +21,7 @@ export function SortableItem(props) {
     transition,
   };
 
-  console.log(props);
+  //   console.log(props);
 
   return (
     <Item

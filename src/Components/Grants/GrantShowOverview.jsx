@@ -109,11 +109,11 @@ export default function GrantShowOverview(props) {
             </ol>
           </SortableContext> */}
           <SortableContext
-            items={grant.sections}
+            items={props.sortableSections}
             strategy={verticalListSortingStrategy}
           >
             <>
-              {grant.sections.map((item) => (
+              {props.sortableSections.map((item) => (
                 <>
                   <SortableItem key={item.id} id={item.id} item={item} />
                 </>
