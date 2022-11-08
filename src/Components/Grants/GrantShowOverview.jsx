@@ -16,11 +16,15 @@ import SectionListItem from "../Sections/SectionListItem";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
+import { SortableItem } from "./SortableItem";
+import { Item } from "./Item";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { DragOverlay } from "@dnd-kit/core";
+
 import "./GrantShowOverview.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -68,6 +72,8 @@ export default function GrantShowOverview(props) {
     </>
   );
 
+  console.log(props.activeId);
+
   return (
     <div className="grants-show-overview">
       <div className="grants-show-overview__content">
@@ -89,7 +95,7 @@ export default function GrantShowOverview(props) {
           as="section"
           centered
         >
-          <SortableContext
+          {/* <SortableContext
             items={grant.sections.map((item) => item.id)}
             strategy={verticalListSortingStrategy}
           >
@@ -101,7 +107,22 @@ export default function GrantShowOverview(props) {
                   </SortableElement>
                 ))}
             </ol>
+          </SortableContext> */}
+          <SortableContext
+            items={grant.sections}
+            strategy={verticalListSortingStrategy}
+          >
+            <>
+              {grant.sections.map((item) => (
+                <>
+                  <SortableItem key={item.id} id={item.id} item={item} />
+                </>
+              ))}
+            </>
           </SortableContext>
+          <DragOverlay>
+            {props.activeId ? <Item id={props.activeId} /> : null}
+          </DragOverlay>
         </Container>
       </div>
     </div>

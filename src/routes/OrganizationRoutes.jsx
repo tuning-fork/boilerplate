@@ -37,6 +37,13 @@ import {
 export default function OrganizationRoutes() {
   const sensors = useSensors(useSensor(PointerSensor));
   const [sortableSections, setSortableSections] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+
+  function handleDragStart(event) {
+    const { active } = event;
+
+    setActiveId(active.id);
+  }
 
   function handleDragEnd({ active, over }) {
     if (active.id !== over.id) {
@@ -72,6 +79,7 @@ export default function OrganizationRoutes() {
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
+                  onDragStart={handleDragStart}
                   onDragEnd={handleDragEnd}
                   modifiers={[
                     restrictToFirstScrollableAncestor,
@@ -81,6 +89,7 @@ export default function OrganizationRoutes() {
                   <GrantShowOverview
                     sortableSections={sortableSections}
                     setSortableSections={setSortableSections}
+                    activeId={activeId}
                   />
                 </DndContext>
               )}
