@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     gap: 2.6rem;
+    padding: 1rem;
   }
   
   .sortable-item:hover,
@@ -21,5 +22,10 @@
     font-size: var(--font-size-large-1);
     font-weight: var(--font-weight-bold);
     color: var(--primary);
+  }
+
+  .sortable-item__icon {
+    font-size: 150%;
+    color: var(--contrast-60);
   }
   
