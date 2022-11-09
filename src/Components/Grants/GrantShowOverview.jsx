@@ -8,7 +8,6 @@ import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
-import SectionListItem from "../Sections/SectionListItem";
 // import {
 //   updateGrantSection,
 //   // reorderGrantSection,
@@ -72,8 +71,6 @@ export default function GrantShowOverview(props) {
     </>
   );
 
-  console.log(props.activeId);
-
   return (
     <div className="grants-show-overview">
       <div className="grants-show-overview__content">
@@ -95,19 +92,6 @@ export default function GrantShowOverview(props) {
           as="section"
           centered
         >
-          {/* <SortableContext
-            items={grant.sections.map((item) => item.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <ol className="grants-show__section-list">
-              {props.sortableSections.length > 0 &&
-                props.sortableSections.map((section) => (
-                  <SortableElement key={section.id} id={section.id}>
-                    <SectionListItem section={section} />
-                  </SortableElement>
-                ))}
-            </ol>
-          </SortableContext> */}
           <SortableContext
             items={props.sortableSections}
             strategy={verticalListSortingStrategy}

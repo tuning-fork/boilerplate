@@ -2,15 +2,8 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Item } from "./Item";
-
-{
-  /* <SortableContext 
-        items={items}
-        strategy={verticalListSortingStrategy}
-      >
-        {items.map(item => <SortableItem key={item.id} id={item.id} item={item}/>)}
-      </SortableContext> */
-}
+import countSectionWords from "../../Helpers/countSectionWords";
+import "./SortableItem.css";
 
 export function SortableItem(props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -21,8 +14,6 @@ export function SortableItem(props) {
     transition,
   };
 
-  //   console.log(props);
-
   return (
     <Item
       ref={setNodeRef}
@@ -32,29 +23,12 @@ export function SortableItem(props) {
       item={props.item}
       id={props.id}
     >
-      {props.id}
-      {props.item.title}
+      <article className="sortable-item">
+        <p className="sortable-item__title">{props.item.title}</p>
+        <div>
+          <b>WORD COUNT: {countSectionWords(props.item)}</b>
+        </div>
+      </article>
     </Item>
   );
 }
-
-// import React from "react";
-// import { useSortable } from "@dnd-kit/sortable";
-// import { CSS } from "@dnd-kit/utilities";
-
-// export default function SortableElement(props) {
-//   const { attributes, listeners, setNodeRef, transform, transition } =
-//     useSortable({ id: props.id });
-
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     transition,
-//     listStyle: "none",
-//   };
-
-//   return (
-//     <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
-//       {props.children}
-//     </li>
-//   );
-// }
