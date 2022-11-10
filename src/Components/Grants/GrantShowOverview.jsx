@@ -8,10 +8,10 @@ import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
-// import {
-//   updateGrantSection,
-//   // reorderGrantSection,
-// } from "../../Services/Organizations/Grants/GrantSectionsService";
+import {
+  updateSection,
+  reorderSection,
+} from "../../Services/Organizations/Grants/SectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
 import countWords from "../../Helpers/countWords";
 import SortableElement from "../Elements/SortableElement";
@@ -46,6 +46,29 @@ export default function GrantShowOverview(props) {
   );
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
+
+  const grantSectionReorder = () => {
+    const originalSortOrderArray = grant.sections.map(
+      (section) => section.sortOrder
+    );
+    const newSortOrderArray = props.sortableSections.map((section, index) => {
+      section.sortOrder = originalSortOrderArray[index];
+      return section;
+    });
+    newSortOrderArray.forEach((newSection) => {
+      const checkSection = grant.sections.find((section) => {
+        return section.id === newSection.id;
+      });
+      if (checkSection.sortOrder !== newSection.sortOrder) {
+        SectionsService.reorderSection(
+          organizationClient,
+          grantId,
+          checkSection.id,
+          newSection.sortOrder
+        );
+      }
+    });
+  };
 
   useEffect(() => {
     props.setSortableSections(grant.sections);
@@ -87,6 +110,13 @@ export default function GrantShowOverview(props) {
           grantId={grant.id}
           heroButtons={heroButtons()}
         />
+        <Button
+          onClick={() => {
+            grantSectionReorder();
+          }}
+        >
+          Save
+        </Button>
         <Container
           className="grants-show-overview__sections-container"
           as="section"
@@ -96,13 +126,9 @@ export default function GrantShowOverview(props) {
             items={props.sortableSections}
             strategy={verticalListSortingStrategy}
           >
-            <>
-              {props.sortableSections.map((item) => (
-                <>
-                  <SortableItem key={item.id} id={item.id} item={item} />
-                </>
-              ))}
-            </>
+            {props.sortableSections.map((item) => (
+              <SortableItem key={item.id} id={item.id} item={item} />
+            ))}
           </SortableContext>
           <DragOverlay>
             {props.activeId ? <Item id={props.activeId} /> : null}
