@@ -10,6 +10,7 @@ import Button from "../../Components/design/Button/Button";
 import Modal from "../../Components/design/Modal/Modal";
 import Table from "../../Components/design/Table/Table";
 import TextBox from "../../Components/design/TextBox/TextBox";
+import Popover from "../../Components/design/Popover/Popover";
 import InviteUserForm from "./InviteUserForm/InviteUserForm";
 import "./UserIndexPage.css";
 
@@ -100,22 +101,27 @@ export default function UserIndexPage() {
               <>
                 {formatDate(invitation.updatedAt)}
                 <div className="user-index__row-actions">
-                  <Button
-                    onClick={() => reinvite(invitation.id)}
-                    variant="none"
-                  >
-                    <MdRestartAlt />
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      // eslint-disable-next-line no-restricted-globals
-                      confirm("Are you sure you want to uninvite this user?") &&
-                      deleteInvitation(invitation.id)
-                    }
-                    variant="none"
-                  >
-                    <MdRemoveCircle />
-                  </Button>
+                  <Popover text="Resend invitation" direction="right">
+                    <Button
+                      onClick={() => reinvite(invitation.id)}
+                      variant="none"
+                    >
+                      <MdRestartAlt />
+                    </Button>
+                  </Popover>
+                  <Popover text="Remove invitation" direction="right">
+                    <Button
+                      onClick={() =>
+                        // eslint-disable-next-line no-restricted-globals
+                        confirm(
+                          "Are you sure you want to uninvite this user?"
+                        ) && deleteInvitation(invitation.id)
+                      }
+                      variant="none"
+                    >
+                      <MdRemoveCircle />
+                    </Button>
+                  </Popover>
                 </div>
               </>
             ),
@@ -129,16 +135,18 @@ export default function UserIndexPage() {
               <>
                 {user.email}
                 <div className="user-index__row-actions">
-                  <Button
-                    onClick={() =>
-                      // eslint-disable-next-line no-restricted-globals
-                      confirm("Are you sure you want to remove this user?") &&
-                      deleteOrganizationUser(user.id)
-                    }
-                    variant="none"
-                  >
-                    <MdPersonRemove />
-                  </Button>
+                  <Popover text="Remove user" direction="right">
+                    <Button
+                      onClick={() =>
+                        // eslint-disable-next-line no-restricted-globals
+                        confirm("Are you sure you want to remove this user?") &&
+                        deleteOrganizationUser(user.id)
+                      }
+                      variant="none"
+                    >
+                      <MdPersonRemove />
+                    </Button>
+                  </Popover>
                 </div>
               </>
             ),

@@ -18,6 +18,8 @@ export const PopoverRegular = (props) => (
 
 export const PopoverWithIcon = (props) => (
   <Popover {...props}>
-    <MdError />
+    <div style={{ marginLeft: "200px" }}>
+      <MdError />
+    </div>
   </Popover>
 );

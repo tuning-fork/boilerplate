@@ -20,5 +20,6 @@ export default function Popover(props) {
 }
 
 Popover.propTypes = {
+  text: PropTypes.string.isRequired,
   direction: PropTypes.oneOf(["left", "right"]),
 };
