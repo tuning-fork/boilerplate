@@ -1,4 +1,6 @@
-const mapInvitation = (apiInvitation) => ({
+import { isPast, isToday } from "date-fns";
+
+export const mapInvitation = (apiInvitation) => ({
   id: apiInvitation.id,
   firstName: apiInvitation.first_name,
   lastName: apiInvitation.last_name,
@@ -6,10 +8,14 @@ const mapInvitation = (apiInvitation) => ({
   expiresAt: new Date(apiInvitation.expires_at),
   createdAt: new Date(apiInvitation.created_at),
   updatedAt: new Date(apiInvitation.updated_at),
+  hasExpired() {
+    return isToday(this.expiresAt) || isPast(this.expiresAt);
+  },
 });
 
 const mapInvitationToApiInvitation = (invitation) => ({
-  ...invitation,
+  id: invitation.id,
+  email: invitation.email,
   first_name: invitation.firstName,
   last_name: invitation.lastName,
   expires_at: invitation.expiresAt,

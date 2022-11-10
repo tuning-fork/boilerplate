@@ -48,12 +48,29 @@
   justify-content: space-between;
 }
 
+.user-index-row-status {
+  position: absolute;
+  top: 0;
+  left: -30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.user-index-row-status svg {
+  font-size: var(--font-size-icon);
+  display: block;
+  color: var(--contrast-60);
+}
+.user-index-row-status--expired svg {
+  color: var(--error);
+}
+
 .user-index__row-actions {
   margin-right: -1rem;
   display: flex;
   gap: 1rem;
 }
 
-.user-index__row-actions > .button {
+.user-index__row-actions .button {
   line-height: 1.5rem;
 }

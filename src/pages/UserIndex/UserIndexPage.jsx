@@ -1,6 +1,12 @@
 import React, { useState, useMemo, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
-import { MdRestartAlt, MdRemoveCircle, MdPersonRemove } from "react-icons/md";
+import {
+  MdRestartAlt,
+  MdRemoveCircle,
+  MdPersonRemove,
+  MdError,
+  MdCached,
+} from "react-icons/md";
 import clsx from "clsx";
 import formatDate from "../../Helpers/formatDate";
 import * as OrganizationService from "../../Services/OrganizationService";
@@ -86,14 +92,34 @@ export default function UserIndexPage() {
     });
   }, [resources, searchString]);
 
-  const sharedColumns = [
-    { Header: "First Name", accessor: "firstName" },
-    { Header: "Last Name", accessor: "lastName" },
-  ];
   const columns =
     tabSelect === Tabs.INVITATIONS
       ? [
-          ...sharedColumns,
+          {
+            Header: "First Name",
+            accessor: (invitation) => (
+              <>
+                <div
+                  className={clsx(
+                    "user-index-row-status",
+                    invitation.hasExpired() && "user-index-row-status--expired"
+                  )}
+                >
+                  {invitation.hasExpired() ? (
+                    <Popover text="Invitation expired" direction="left">
+                      <MdError />
+                    </Popover>
+                  ) : (
+                    <Popover text="Invitation pending" direction="left">
+                      <MdCached />
+                    </Popover>
+                  )}
+                </div>
+                {invitation.firstName}
+              </>
+            ),
+          },
+          { Header: "Last Name", accessor: "lastName" },
           { Header: "Email", accessor: "email" },
           {
             Header: "Sent At",
@@ -128,7 +154,8 @@ export default function UserIndexPage() {
           },
         ]
       : [
-          ...sharedColumns,
+          { Header: "First Name", accessor: "firstName" },
+          { Header: "Last Name", accessor: "lastName" },
           {
             Header: "Email",
             accessor: (user) => (
