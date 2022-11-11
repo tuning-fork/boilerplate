@@ -48,23 +48,14 @@ export default function GrantShowOverview(props) {
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
   const grantSectionReorder = () => {
-    const originalSortOrderArray = grant.sections.map(
-      (section) => section.sortOrder
-    );
-    const newSortOrderArray = props.sortableSections.map((section, index) => {
-      section.sortOrder = originalSortOrderArray[index];
-      return section;
-    });
-    newSortOrderArray.forEach((newSection) => {
-      const checkSection = grant.sections.find((section) => {
-        return section.id === newSection.id;
-      });
-      if (checkSection.sortOrder !== newSection.sortOrder) {
+    props.sortableSections.forEach((newSection, index) => {
+      const checkSection = grant.sections[index];
+      if (newSection.sortOrder !== checkSection.sortOrder) {
         SectionsService.reorderSection(
           organizationClient,
           grantId,
-          checkSection.id,
-          newSection.sortOrder
+          newSection.id,
+          index
         );
       }
     });
