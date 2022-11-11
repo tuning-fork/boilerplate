@@ -105,6 +105,15 @@ export default function GrantsShow() {
     }
   );
 
+  const handleEditSection = (newSectionFields) => {
+    updateSection({
+      ...newSectionFields,
+      title: newSectionFields.title,
+      text: newSectionFields.html,
+      wordcount: countWords(newSectionFields.text),
+    });
+  };
+
   function handleCreateSection({ newSectionFields, precedingSection }) {
     createSection({
       title: newSectionFields.title,
@@ -114,15 +123,6 @@ export default function GrantsShow() {
       wordcount: countWords(newSectionFields.text),
     });
   }
-
-  const handleEditSection = (newSectionFields) => {
-    updateSection({
-      ...newSectionFields,
-      title: newSectionFields.title,
-      text: newSectionFields.html,
-      wordcount: countWords(newSectionFields.text),
-    });
-  };
 
   // const handleDeleteSection = (sectionFields) => {
   //   // eslint-disable-next-line no-restricted-globals

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -8,13 +7,7 @@ import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as SectionsService from "../../Services/Organizations/Grants/SectionsService";
-import {
-  updateSection,
-  reorderSection,
-} from "../../Services/Organizations/Grants/SectionsService";
 import countSectionWords from "../../Helpers/countSectionWords";
-import countWords from "../../Helpers/countWords";
-import SortableElement from "../Elements/SortableElement";
 import { SortableItem } from "./SortableItem";
 import { Item } from "./Item";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
@@ -44,22 +37,31 @@ export default function GrantShowOverview(props) {
   } = useQuery("getGrant", () =>
     GrantsService.getGrant(organizationClient, grantId)
   );
-  const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
   const grantSectionReorder = () => {
     props.sortableSections.forEach((newSection, index) => {
       const checkSection = grant.sections[index];
       if (newSection.sortOrder !== checkSection.sortOrder) {
-        SectionsService.reorderSection(
-          organizationClient,
-          grantId,
-          newSection.id,
-          index
-        );
+        reorderSection({ sectionId: newSection.id, sortOrder: index });
       }
     });
   };
+
+  const { mutate: reorderSection } = useMutation(
+    (reorderFields) =>
+      SectionsService.reorderSection(
+        organizationClient,
+        grantId,
+        reorderFields.sectionId,
+        reorderFields.sortOrder
+      ),
+    {
+      onSuccess: () => {
+        alert("Sections reordered!");
+      },
+    }
+  );
 
   useEffect(() => {
     props.setSortableSections(grant.sections);

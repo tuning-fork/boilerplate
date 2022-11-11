@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
 import { PasteBoilerplateContentPopoutProvider } from "../Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -48,22 +48,11 @@ export default function OrganizationRoutes() {
     if (active.id !== over.id) {
       setSortableSections((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
-        console.log(oldIndex);
         const newIndex = items.findIndex((item) => item.id === over.id);
-        console.log(newIndex);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   }
-
-  console.log(
-    sortableSections.map((section) => {
-      return {
-        sortOrder: section.sortOrder,
-        title: section.title,
-      };
-    })
-  );
 
   return (
     <Suspense fallback={<OrganizationLayoutFallback />}>
