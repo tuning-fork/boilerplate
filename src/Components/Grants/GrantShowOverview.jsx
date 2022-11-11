@@ -29,6 +29,7 @@ function countTotalSectionsWords(sections = []) {
 export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
+
   const {
     data: grant,
     isError,
@@ -39,22 +40,53 @@ export default function GrantShowOverview(props) {
   );
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
-  const grantSectionReorder = () => {
+  // const grantSectionReorder = () => {
+  //   props.sortableSections.forEach((newSection, index) => {
+  //     const checkSection = grant.sections[index];
+  //     if (newSection.sortOrder !== checkSection.sortOrder) {
+  //       reorderSection({ sectionId: newSection.id, sortOrder: index });
+  //     }
+  //   });
+  // };
+
+  // const { mutate: reorderSection } = useMutation(
+  //   (reorderFields) =>
+  //     SectionsService.reorderSection(
+  //       organizationClient,
+  //       grantId,
+  //       reorderFields.sectionId,
+  //       reorderFields.sortOrder
+  //     ),
+  //   {
+  //     onSuccess: () => {
+  //       alert("Sections reordered!");
+  //     },
+  //   }
+  // );
+
+  const grantSectionsReorder = () => {
+    const sectionsToReorder = [];
     props.sortableSections.forEach((newSection, index) => {
       const checkSection = grant.sections[index];
       if (newSection.sortOrder !== checkSection.sortOrder) {
-        reorderSection({ sectionId: newSection.id, sortOrder: index });
+        newSection.sortOrder = index;
+        console.log(newSection.title);
+        console.log(index);
+        // reorderSection({ sectionId: newSection.id, sortOrder: index });
+        sectionsToReorder.push(newSection);
       }
     });
+    if (sectionsToReorder.length > 0) {
+      reorderSections(sectionsToReorder);
+    }
   };
 
-  const { mutate: reorderSection } = useMutation(
-    (reorderFields) =>
-      SectionsService.reorderSection(
+  const { mutate: reorderSections } = useMutation(
+    (sectionsToReorder) =>
+      SectionsService.reorderSections(
         organizationClient,
         grantId,
-        reorderFields.sectionId,
-        reorderFields.sortOrder
+        sectionsToReorder
       ),
     {
       onSuccess: () => {
@@ -105,7 +137,7 @@ export default function GrantShowOverview(props) {
         />
         <Button
           onClick={() => {
-            grantSectionReorder();
+            grantSectionsReorder();
           }}
         >
           Save

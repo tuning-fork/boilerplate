@@ -53,3 +53,11 @@ export const reorderSection = (
     })
     .then((response) => response.data);
 };
+
+export const reorderSections = (organizationClient, grantId, sections) => {
+  return organizationClient
+    .patch(`/grants/${grantId}/actions/reorder_sections`, {
+      sections,
+    })
+    .then((response) => response.data);
+};
