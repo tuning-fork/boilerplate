@@ -1,0 +1,9 @@
+.invite-user-form {
+}
+
+.invite-user-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+}

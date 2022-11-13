@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
+import AdminRoute from "../Components/Helpers/AdminRoute";
 import { PasteBoilerplateContentPopoutProvider } from "../Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import OrganizationLayout from "../Components/Layouts/OrganizationLayout/OrganizationLayout";
 import OrganizationLayoutFallback from "../Components/Layouts/OrganizationLayout/OrganizationLayoutFallback";
@@ -92,7 +93,7 @@ export default function OrganizationRoutes() {
               path="/organizations/:organizationId/funding_orgs"
               component={FundingOrgsIndex}
             />
-            <Route
+            <AdminRoute
               path="/organizations/:organizationId/users"
               component={UserIndexPage}
             />
