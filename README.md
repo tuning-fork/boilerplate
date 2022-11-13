@@ -12,6 +12,3 @@ applications.
 
 For instructions on contributing, check out
 [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
-
-1. follow up on giving frontend ability to know if current user is an admin and
-   hiding users link from sidebar if not an admin

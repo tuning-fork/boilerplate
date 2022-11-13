@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useMemo } from "react";
 import axios from "axios";
 import { useCurrentUser } from "./currentUserContext";
-import { getOrganization } from "../Services/OrganizationService";
+import { getOrganization, isUserAdmin } from "../Services/OrganizationService";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
@@ -12,7 +12,7 @@ export const useCurrentOrganization = () =>
 
 export const CurrentOrganizationProvider = ({ children }) => {
   const { organizationId } = useParams();
-  const { authenticatedApiClient } = useCurrentUser();
+  const { authenticatedApiClient, user } = useCurrentUser();
 
   const organizationClient = useMemo(
     () =>
@@ -28,9 +28,16 @@ export const CurrentOrganizationProvider = ({ children }) => {
     () => getOrganization(authenticatedApiClient, organizationId)
   );
 
+  const { data: isCurrentUserAdmin } = useQuery(
+    ["isCurrentUserAdmin", organizationClient, user.id],
+    () => isUserAdmin(organizationClient, user.id),
+    { enabled: !!user && !!currentOrganization }
+  );
+
   const context = {
     currentOrganization,
     organizationClient,
+    isCurrentUserAdmin,
   };
 
   return (
