@@ -53,7 +53,10 @@ export default function AcceptInvitationPage() {
       {token && email ? (
         <>
           <h1 className="accept-invitation__header">Accept Invitation</h1>
-          <p>TODO.</p>
+          <p>
+            Please fill out the following form fields to accept your invitation
+            and create an account.
+          </p>
           <AcceptInvitationForm
             onSubmit={handleSubmit}
             firstName={firstName}
@@ -64,9 +67,10 @@ export default function AcceptInvitationPage() {
         <>
           <h1 className="accept-invitation__header">Something went wrong</h1>
           <p>
-            TODO
-            <Link to="/splashpage">from the splashpage.</Link>
+            The link you provided to accept an invitation is invalid. Please try
+            again or contact your organization admin to re-invite you.
           </p>
+          <Link to="/splashpage">Go to splashpage.</Link>
         </>
       )}
     </Container>
