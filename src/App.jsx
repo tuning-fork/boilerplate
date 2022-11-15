@@ -9,6 +9,7 @@ import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
 import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
 import OrganizationNew from "./Components/Organizations/OrganizationNew";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
+import AcceptInvitationPage from "./pages/AcceptInvitation/AcceptInvitationPage";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
             </Route>
             <Route path="/splashpage" component={Splashpage} />
             <Route path="/reset_password" component={ResetPassword} />
+            <Route path="/accept_invite" component={AcceptInvitationPage} />
             <PrivateRoute
               exact
               path="/organizations"

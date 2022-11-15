@@ -1,4 +1,5 @@
 import { isPast, isToday } from "date-fns";
+import apiClient from "../../config/apiClient";
 
 export const mapInvitation = (apiInvitation) => ({
   id: apiInvitation.id,
@@ -33,6 +34,18 @@ export const createInvitation = (organizationClient, invitationFields) => {
   return organizationClient
     .post(`/invitations/`, mapInvitationToApiInvitation(invitationFields))
     .then((response) => mapInvitation(response.data));
+};
+
+export const acceptInvitation = (fields) => {
+  return apiClient
+    .post(`/invitations/${fields.token}/accept`, {
+      first_name: fields.firstName,
+      last_name: fields.lastName,
+      password: fields.password,
+    })
+    .then((response) => ({
+      organizationId: response.data.organization_id,
+    }));
 };
 
 export const reinvite = (organizationClient, invitationId) => {
