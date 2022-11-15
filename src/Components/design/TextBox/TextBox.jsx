@@ -32,7 +32,6 @@ export default function TextBox(props) {
           <input
             className="text-box__input"
             type={type}
-            inputType={inputType}
             value={value}
             onChange={onChange}
             placeholder={placeholderText}
@@ -44,8 +43,6 @@ export default function TextBox(props) {
             rows="12"
             cols="80"
             className="text-box__input"
-            type={type}
-            inputType={inputType}
             value={value}
             onChange={onChange}
             placeholder={placeholderText}
