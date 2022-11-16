@@ -64,6 +64,14 @@ export default function GrantShowOverview(props) {
   //   }
   // );
 
+  // const grantSectionReorder = () => {
+  //   props.sortableSections.forEach((newSection, index) => {
+  //     const checkSection = grant.sections[index];
+  //     if (newSection.sortOrder !== checkSection.sortOrder) {
+  //       reorderSection({ sectionId: newSection.id, sortOrder: index });
+  //     }
+  //   });
+
   const grantSectionsReorder = () => {
     const sectionsToReorder = [];
     props.sortableSections.forEach((newSection, index) => {
@@ -76,8 +84,10 @@ export default function GrantShowOverview(props) {
         sectionsToReorder.push(newSection);
       }
     });
+    console.log(sectionsToReorder);
     if (sectionsToReorder.length > 0) {
       reorderSections(sectionsToReorder);
+      console.log(sectionsToReorder);
     }
   };
 
