@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -29,6 +29,15 @@ function countTotalSectionsWords(sections = []) {
 export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
+  const [reorderHistory, setReorderHistory] = useState([]);
+  const [reorderIndex, setReorderIndex] = useState([reorderHistory.length - 1]);
+
+  // useEffect =
+  //   (() => {
+  //   },
+  //   [reorderHistory]);
+
+  console.log(reorderHistory);
 
   const {
     data: grant,
@@ -54,6 +63,23 @@ export default function GrantShowOverview(props) {
     if (sectionsToReorder.length > 0) {
       reorderSections(sectionsToReorder);
     }
+  };
+
+  useEffect(() => {
+    if (props.sortableSections && props.sortableSections.length > 1) {
+      setReorderHistory([...reorderHistory, props.sortableSections]);
+      setReorderIndex(reorderHistory.length - 1);
+    }
+  }, [props.sortableSections]);
+
+  useEffect(() => {
+    setReorderHistory([]);
+    setReorderIndex(reorderHistory.length - 1);
+  }, [grantId]);
+
+  const onUndo = () => {
+    setReorderIndex(reorderIndex - 1);
+    console.log(reorderIndex);
   };
 
   const { mutate: reorderSections } = useMutation(
@@ -122,6 +148,20 @@ export default function GrantShowOverview(props) {
               }}
             >
               Save
+            </Button>
+            <Button
+              onClick={() => {
+                onUndo();
+              }}
+            >
+              Undo
+            </Button>
+            <Button
+              onClick={() => {
+                grantSectionsReorder();
+              }}
+            >
+              Redo
             </Button>
           </div>
           <SortableContext
