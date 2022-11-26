@@ -40,54 +40,19 @@ export default function GrantShowOverview(props) {
   );
   const totalWordCount = countTotalSectionsWords(grant?.sections);
 
-  // const grantSectionReorder = () => {
-  //   props.sortableSections.forEach((newSection, index) => {
-  //     const checkSection = grant.sections[index];
-  //     if (newSection.sortOrder !== checkSection.sortOrder) {
-  //       reorderSection({ sectionId: newSection.id, sortOrder: index });
-  //     }
-  //   });
-  // };
-
-  // const { mutate: reorderSection } = useMutation(
-  //   (reorderFields) =>
-  //     SectionsService.reorderSection(
-  //       organizationClient,
-  //       grantId,
-  //       reorderFields.sectionId,
-  //       reorderFields.sortOrder
-  //     ),
-  //   {
-  //     onSuccess: () => {
-  //       alert("Sections reordered!");
-  //     },
-  //   }
-  // );
-
-  // const grantSectionReorder = () => {
-  //   props.sortableSections.forEach((newSection, index) => {
-  //     const checkSection = grant.sections[index];
-  //     if (newSection.sortOrder !== checkSection.sortOrder) {
-  //       reorderSection({ sectionId: newSection.id, sortOrder: index });
-  //     }
-  //   });
-
   const grantSectionsReorder = () => {
     const sectionsToReorder = [];
     props.sortableSections.forEach((newSection, index) => {
       const checkSection = grant.sections[index];
       if (newSection.sortOrder !== checkSection.sortOrder) {
-        newSection.sortOrder = index;
-        console.log(newSection.title);
-        console.log(index);
-        // reorderSection({ sectionId: newSection.id, sortOrder: index });
-        sectionsToReorder.push(newSection);
+        sectionsToReorder.push({
+          id: newSection.id,
+          sort_order: index,
+        });
       }
     });
-    console.log(sectionsToReorder);
     if (sectionsToReorder.length > 0) {
       reorderSections(sectionsToReorder);
-      console.log(sectionsToReorder);
     }
   };
 
@@ -145,18 +110,20 @@ export default function GrantShowOverview(props) {
           grantId={grant.id}
           heroButtons={heroButtons()}
         />
-        <Button
-          onClick={() => {
-            grantSectionsReorder();
-          }}
-        >
-          Save
-        </Button>
         <Container
           className="grants-show-overview__sections-container"
           as="section"
           centered
         >
+          <div className="grants-show-overview__save-button">
+            <Button
+              onClick={() => {
+                grantSectionsReorder();
+              }}
+            >
+              Save
+            </Button>
+          </div>
           <SortableContext
             items={props.sortableSections}
             strategy={verticalListSortingStrategy}
