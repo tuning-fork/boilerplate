@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
 import { PasteBoilerplateContentPopoutProvider } from "../Components/PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -38,6 +38,28 @@ export default function OrganizationRoutes() {
   const sensors = useSensors(useSensor(PointerSensor));
   const [sortableSections, setSortableSections] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const [reorderHistory, setReorderHistory] = useState([]);
+  const [reorderIndex, setReorderIndex] = useState(0);
+  const ref = useRef(reorderIndex);
+
+  const updateState = (newState) => {
+    ref.current = newState;
+    setReorderIndex(newState);
+  };
+
+  // const [newIndex, setNewIndex] = useState(props.reorderHistory.length);
+  // const ref = useRef(newIndex);
+  // const [reorderHistory, setReorderHistory] = useState([]);
+  // const [reorderIndex, setReorderIndex] = useState([reorderHistory.length - 1]);
+
+  // console.log(reorderHistory);
+  // console.log(props.reorderHistory.length);
+  // console.log(newIndex);
+
+  // const updateState = (newState) => {
+  //   ref.current = newState;
+  //   setNewIndex(newState);
+  // };
 
   function handleDragStart(event) {
     const { active } = event;
@@ -46,11 +68,18 @@ export default function OrganizationRoutes() {
 
   function handleDragEnd({ active, over }) {
     if (active.id !== over.id) {
-      setSortableSections((items) => {
+      const newSectionOrder = (items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
         return arrayMove(items, oldIndex, newIndex);
-      });
+      };
+      setSortableSections(newSectionOrder);
+      // console.log(reorderHistory.length);
+      // const newLength = reorderHistory.length + 1;
+      setReorderHistory([...reorderHistory, newSectionOrder]);
+      // setReorderIndex(newLength);
+      updateState(reorderIndex + 1);
+      console.log(reorderIndex);
     }
   }
 
@@ -89,6 +118,12 @@ export default function OrganizationRoutes() {
                     sortableSections={sortableSections}
                     setSortableSections={setSortableSections}
                     activeId={activeId}
+                    handleDragEnd={handleDragEnd}
+                    reorderHistory={reorderHistory}
+                    reorderIndex={reorderIndex}
+                    setReorderHistory={setReorderHistory}
+                    setReorderIndex={setReorderIndex}
+                    updateState={updateState}
                   />
                 </DndContext>
               )}

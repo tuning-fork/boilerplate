@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -29,15 +29,6 @@ function countTotalSectionsWords(sections = []) {
 export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
-  const [reorderHistory, setReorderHistory] = useState([]);
-  const [reorderIndex, setReorderIndex] = useState([reorderHistory.length - 1]);
-
-  // useEffect =
-  //   (() => {
-  //   },
-  //   [reorderHistory]);
-
-  console.log(reorderHistory);
 
   const {
     data: grant,
@@ -66,20 +57,32 @@ export default function GrantShowOverview(props) {
   };
 
   useEffect(() => {
-    if (props.sortableSections && props.sortableSections.length > 1) {
-      setReorderHistory([...reorderHistory, props.sortableSections]);
-      setReorderIndex(reorderHistory.length - 1);
-    }
-  }, [props.sortableSections]);
-
-  useEffect(() => {
-    setReorderHistory([]);
-    setReorderIndex(reorderHistory.length - 1);
+    props.setReorderHistory([...[], props.sortableSections]);
+    props.setReorderIndex(0);
   }, [grantId]);
 
   const onUndo = () => {
-    setReorderIndex(reorderIndex - 1);
-    console.log(reorderIndex);
+    if (props.reorderIndex > 0) {
+      console.log("reorderIndex on Undo", props.reorderIndex);
+      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
+      console.log(props.reorderIndex);
+      props.updateState(props.reorderIndex - 1);
+    }
+  };
+
+  const onRedo = () => {
+    if (
+      props.reorderIndex < props.reorderHistory.length &&
+      props.reorderHistory.length > 1
+    ) {
+      console.log("reorderIndex on Redo", props.reorderIndex);
+      props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
+      props.updateState(props.reorderIndex + 1);
+      console.log(props.reorderIndex);
+    } else {
+      props.updateState(0);
+      props.setSortableSections(props.reorderHistory[props.reorderIndex]);
+    }
   };
 
   const { mutate: reorderSections } = useMutation(
@@ -95,6 +98,9 @@ export default function GrantShowOverview(props) {
       },
     }
   );
+
+  console.log("sortableSections", props.sortableSections);
+  console.log("reorderHistory", props.reorderHistory);
 
   useEffect(() => {
     props.setSortableSections(grant.sections);
@@ -153,13 +159,17 @@ export default function GrantShowOverview(props) {
               onClick={() => {
                 onUndo();
               }}
+              disabled={Boolean(props.reorderIndex === 0)}
             >
               Undo
             </Button>
             <Button
               onClick={() => {
-                grantSectionsReorder();
+                onRedo();
               }}
+              disabled={Boolean(
+                props.reorderIndex === props.reorderHistory.length + 1
+              )}
             >
               Redo
             </Button>
