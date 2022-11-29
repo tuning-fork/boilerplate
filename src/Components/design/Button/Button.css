@@ -87,6 +87,10 @@
   opacity: 0.5;
 }
 
+.button.button--disabled:hover {
+  opacity: 0.5;
+}
+
 .button--none {
   display: inline-block;
   padding: 0;

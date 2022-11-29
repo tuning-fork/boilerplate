@@ -40,26 +40,13 @@ export default function OrganizationRoutes() {
   const [activeId, setActiveId] = useState(null);
   const [reorderHistory, setReorderHistory] = useState([]);
   const [reorderIndex, setReorderIndex] = useState(0);
+  const [canSaveReorder, setCanSaveReorder] = useState(false);
   const ref = useRef(reorderIndex);
 
   const updateState = (newState) => {
     ref.current = newState;
     setReorderIndex(newState);
   };
-
-  // const [newIndex, setNewIndex] = useState(props.reorderHistory.length);
-  // const ref = useRef(newIndex);
-  // const [reorderHistory, setReorderHistory] = useState([]);
-  // const [reorderIndex, setReorderIndex] = useState([reorderHistory.length - 1]);
-
-  // console.log(reorderHistory);
-  // console.log(props.reorderHistory.length);
-  // console.log(newIndex);
-
-  // const updateState = (newState) => {
-  //   ref.current = newState;
-  //   setNewIndex(newState);
-  // };
 
   function handleDragStart(event) {
     const { active } = event;
@@ -74,12 +61,9 @@ export default function OrganizationRoutes() {
         return arrayMove(items, oldIndex, newIndex);
       };
       setSortableSections(newSectionOrder);
-      // console.log(reorderHistory.length);
-      // const newLength = reorderHistory.length + 1;
       setReorderHistory([...reorderHistory, newSectionOrder]);
-      // setReorderIndex(newLength);
       updateState(reorderIndex + 1);
-      console.log(reorderIndex);
+      setCanSaveReorder(true);
     }
   }
 
@@ -124,6 +108,8 @@ export default function OrganizationRoutes() {
                     setReorderHistory={setReorderHistory}
                     setReorderIndex={setReorderIndex}
                     updateState={updateState}
+                    canSaveReorder={canSaveReorder}
+                    setCanSaveReorder={setCanSaveReorder}
                   />
                 </DndContext>
               )}

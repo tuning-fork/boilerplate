@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -57,31 +57,27 @@ export default function GrantShowOverview(props) {
   };
 
   useEffect(() => {
-    props.setReorderHistory([...[], props.sortableSections]);
+    props.setSortableSections(grant.sections);
+    props.setReorderHistory([grant.sections]);
     props.setReorderIndex(0);
   }, [grantId]);
 
   const onUndo = () => {
     if (props.reorderIndex > 0) {
-      console.log("reorderIndex on Undo", props.reorderIndex);
-      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
-      console.log(props.reorderIndex);
+      props.setSortableSections(props.reorderHistory[props.reorderIndex]);
       props.updateState(props.reorderIndex - 1);
+      props.setCanSaveReorder(true);
     }
   };
 
   const onRedo = () => {
     if (
-      props.reorderIndex < props.reorderHistory.length &&
+      props.reorderIndex + 1 < props.reorderHistory.length &&
       props.reorderHistory.length > 1
     ) {
-      console.log("reorderIndex on Redo", props.reorderIndex);
       props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
       props.updateState(props.reorderIndex + 1);
-      console.log(props.reorderIndex);
-    } else {
-      props.updateState(0);
-      props.setSortableSections(props.reorderHistory[props.reorderIndex]);
+      props.setCanSaveReorder(true);
     }
   };
 
@@ -95,16 +91,10 @@ export default function GrantShowOverview(props) {
     {
       onSuccess: () => {
         alert("Sections reordered!");
+        props.setCanSaveReorder(false);
       },
     }
   );
-
-  console.log("sortableSections", props.sortableSections);
-  console.log("reorderHistory", props.reorderHistory);
-
-  useEffect(() => {
-    props.setSortableSections(grant.sections);
-  }, []);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -152,6 +142,7 @@ export default function GrantShowOverview(props) {
               onClick={() => {
                 grantSectionsReorder();
               }}
+              disabled={!props.canSaveReorder}
             >
               Save
             </Button>
@@ -168,7 +159,7 @@ export default function GrantShowOverview(props) {
                 onRedo();
               }}
               disabled={Boolean(
-                props.reorderIndex === props.reorderHistory.length + 1
+                props.reorderIndex + 1 === props.reorderHistory.length
               )}
             >
               Redo
