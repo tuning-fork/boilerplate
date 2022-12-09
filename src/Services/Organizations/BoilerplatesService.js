@@ -62,19 +62,3 @@ export const updateBoilerplate = (
     )
     .then((response) => response.data);
 };
-
-// copyBoilerplate
-// not implemented yet
-
-// export const copyBoilerplate = (
-//   organizationClient,
-//   boilerplateId,
-//   copyBoilerplateFields
-// ) => {
-//   return organizationClient
-//     .post(
-//       `/boilerplates/${boilerplateId}/copy`,
-//       mapBoilerplateToApiBoilerplate(copyBoilerplateFields)
-//     )
-//     .then((response) => response.data);
-// };

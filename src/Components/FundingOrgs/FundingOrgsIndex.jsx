@@ -28,55 +28,33 @@ export default function FundingOrgsIndex() {
     setSelectedFundingOrg(fundingOrg);
   };
 
-  const { data: fundingOrgs, refetch } = useQuery("getFundingOrgs", () =>
-    FundingOrgsService.getAllFundingOrgs(organizationClient)
+  const { data: fundingOrgs, refetch: refetchFundingOrgs } = useQuery(
+    "getFundingOrgs",
+    () => FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
 
   const { mutate: updateFundingOrg } = useMutation(
-    (newFundingOrgFields) =>
+    (fundingOrgFields) =>
       FundingOrgsService.updateFundingOrg(
         organizationClient,
-        newFundingOrgFields.id,
-        newFundingOrgFields
+        fundingOrgFields.id,
+        fundingOrgFields
       ),
     {
       onSuccess: () => {
-        alert("Funding Organization edited!");
-        refetch();
+        refetchFundingOrgs();
       },
     }
   );
-
-  // function handleCreateFundingOrg({
-  //   newFundingOrgFields,
-  //   precedingFundingOrg,
-  // }) {
-  //   createFundingOrg({
-  //     title: newFundingOrgFields.title,
-  //     text: newFundingOrgFields.html,
-  //     grantId: grantId,
-  //     sort_order: precedingFundingOrg ? precedingFundingOrg.sortOrder + 1 : 0,
-  //     wordcount: countWords(newFundingOrgFields.text),
-  //   });
-  // }
-
-  // const handleEditFundingOrg = (newFundingOrgFields) => {
-  //   updateFundingOrg({
-  //     ...newFundingOrgFields,
-  //     title: newFundingOrgFields.title,
-  //     text: newFundingOrgFields.html,
-  //     wordcount: countWords(newFundingOrgFields.text),
-  //   });
-  // };
 
   const handleDropdownMiniAction = async ({ option, fundingOrg }) => {
     try {
       switch (option.value) {
         case "REMOVE_FROM_ARCHIVED":
-          await updateFundingOrg({ id: fundingOrg.id, archived: false });
+          updateFundingOrg({ id: fundingOrg.id, archived: false });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateFundingOrg({ id: fundingOrg.id, archived: true });
+          updateFundingOrg({ id: fundingOrg.id, archived: true });
           break;
         case "EDIT":
           openEditFundingOrg(fundingOrg);
@@ -87,7 +65,6 @@ export default function FundingOrgsIndex() {
     } catch (error) {
       console.error(error);
     }
-    refetch();
   };
 
   const handleCloseFundingOrgModal = () => {
@@ -201,7 +178,7 @@ export default function FundingOrgsIndex() {
         {filteredFundingOrgs.length ? (
           <Table columns={columns} data={filteredFundingOrgs} />
         ) : (
-          <p>There are no funding orgs.</p>
+          <p>There are no funding orgs for this category.</p>
         )}
       </div>
       <FundingOrgNew

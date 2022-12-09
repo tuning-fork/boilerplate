@@ -2,12 +2,15 @@
   --primary: #009285;
   --primary-10: rgba(0, 146, 133, 0.1);
   --primary-20: rgba(0, 146, 133, 0.2);
+  --primary-30: rgba(0, 146, 133, 0.3);
   --primary-text: #3ea499;
   --primary-shade: #5cdacd;
+  --primary-tint: #bdf0eb;
   --primary-text-10: rgba(62, 164, 153, 0.1);
   --primary-contrast: rgba(255, 255, 255, 1);
   --secondary: #e02780;
   --secondary-text: #ec5fa3;
+  --secondary-tint: #FF96C5;
   --tertiary-light: #ffd759;
   --tertiary-dark: #b78b00;
   --error: #ff4238;

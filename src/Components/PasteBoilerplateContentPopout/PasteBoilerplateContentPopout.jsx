@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo } from "react";
+import { useQuery } from "react-query";
 import TextBox from "../design/TextBox/TextBox";
 import Dropdown from "../design/Dropdown/Dropdown";
 import AccordionTable from "../design/Accordion/AccordionTable/AccordionTable";
@@ -8,8 +9,8 @@ import PasteBoilerplateTextPanel from "./PasteBoilerplateTextPanel";
 
 import { MdClose } from "react-icons/md";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { getAllBoilerplates } from "../../Services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
+import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 
 export default function PasteBoilerplateContentPopout() {
   const columns = [
@@ -20,13 +21,20 @@ export default function PasteBoilerplateContentPopout() {
   const { organizationClient } = useCurrentOrganization();
   const { setIsOpen } = useContext(PasteBoilerplateContentPopoutContext);
 
+  const { data: boilerplates } = useQuery("getBoilerplates", () =>
+    BoilerplatesService.getAllBoilerplates(organizationClient)
+  );
+
+  const { data: categories } = useQuery("getCategories", () =>
+    CategoriesService.getAllCategories(organizationClient)
+  );
+
   const [searchFilters, setSearchFilters] = useState({
     text: "",
     category: "",
     maxWordCount: "",
   });
-  const [boilerplates, setBoilerplates] = useState([]);
-  const [categories, setCategories] = useState([]);
+
   const filteredBoilerplates = useMemo(() => {
     return boilerplates.filter((boilerplate) => {
       const matchesTitle = boilerplate.title
@@ -50,19 +58,6 @@ export default function PasteBoilerplateContentPopout() {
       ),
     }));
   }, [filteredBoilerplates]);
-
-  useEffect(() => {
-    getAllBoilerplates(organizationClient)
-      .then((boilerplates) => {
-        setBoilerplates(boilerplates);
-      })
-      .catch((error) => console.error(error));
-    getAllCategories(organizationClient)
-      .then((categories) => {
-        setCategories(categories);
-      })
-      .catch((error) => console.error(error));
-  }, [organizationClient]);
 
   return (
     <aside className="paste-boilerplate-content-popout">

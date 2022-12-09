@@ -10,7 +10,7 @@ import GrantForm from "./GrantForm";
 import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
-export default function GrantEdit(props) {
+export default function GrantEdit() {
   const { organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grantId } = useParams();
@@ -22,43 +22,15 @@ export default function GrantEdit(props) {
     FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
 
-  const handleDelete = () => {
-    // if (confirm(`Are you sure you want to delete this grant?`)) {
-    //   GrantsService.deleteGrant(organizationClient, props.grant.id)
-    //     .then(() => {
-    //       alert("Grant deleted!");
-    //       props.onClose();
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       alert(
-    //         "Eek! Something went wrong when deleting the grant. Try again soon."
-    //       );
-    //     });
-    // }
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm(`Are you sure you want to delete this grant?`)) {
-      handleEditGrant({ archived: true })
-        .then(() => {
-          alert("Grant deleted!");
-          props.onClose();
-        })
-        .catch((error) => {
-          console.error(error);
-          alert(
-            "Eek! Something went wrong when deleting the grant. Try again soon."
-          );
-        });
-    }
-  };
-
   const { mutate: updateGrant } = useMutation(
     (newGrantFields) =>
       GrantsService.updateGrant(organizationClient, grant.id, newGrantFields),
     {
-      onSuccess: () => {
+      onSuccess: (updateRes) => {
         alert("Grant edited!");
-        props.onClose();
+        if (updateRes.archived) {
+          history.push(buildOrganizationsLink(`/grants`));
+        } else goToGrant();
       },
     }
   );
@@ -68,6 +40,13 @@ export default function GrantEdit(props) {
       ...newGrantFields,
       name: newGrantFields.name,
     });
+  };
+
+  const handleDelete = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(`Are you sure you want to delete this grant?`)) {
+      handleEditGrant({ archived: true });
+    }
   };
 
   const goToGrant = () =>

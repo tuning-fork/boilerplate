@@ -1,15 +1,12 @@
 import React, { useState, useMemo } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import { Link, useHistory } from "react-router-dom";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import {
-  getAllGrants,
-  updateGrant,
-} from "../../Services/Organizations/GrantsService";
+import * as GrantsService from "../../Services/Organizations/GrantsService";
 import formatDate from "../../Helpers/formatDate";
 import DeadlineClock from "../design/DeadlineClock/DeadlineClock";
 import DropdownMini from "../design/DropdownMini/DropdownMini";
@@ -27,46 +24,44 @@ export default function GrantsIndex() {
     title: "",
   });
 
-  const {
-    data: grants,
-    isError,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery("getGrants", () => getAllGrants(organizationClient));
+  const { data: grants, refetch: refetchGrants } = useQuery("getGrants", () =>
+    GrantsService.getAllGrants(organizationClient)
+  );
+
+  const { mutate: updateGrant } = useMutation(
+    (grantFields) =>
+      GrantsService.updateGrant(
+        organizationClient,
+        grantFields.id,
+        grantFields
+      ),
+    {
+      onSuccess() {
+        refetchGrants();
+      },
+    }
+  );
 
   const handleDropdownMiniAction = async ({ option, grant }) => {
     try {
       switch (option.value) {
         case "REMOVE_FROM_SUBMITTED":
-          await updateGrant(organizationClient, grant.id, {
-            submitted: false,
-          });
+          updateGrant({ id: grant.id, submitted: false });
           break;
         case "REMOVE_FROM_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.id, {
-            successful: false,
-          });
+          updateGrant({ id: grant.id, successful: false });
           break;
         case "REMOVE_FROM_ARCHIVED":
-          await updateGrant(organizationClient, grant.id, {
-            archived: false,
-          });
+          updateGrant({ id: grant.id, archived: false });
           break;
         case "MARK_AS_SUCCESSFUL":
-          await updateGrant(organizationClient, grant.id, {
-            successful: true,
-          });
+          updateGrant({ id: grant.id, successful: true });
           break;
         case "MARK_AS_SUBMITTED":
-          await updateGrant(organizationClient, grant.id, {
-            submitted: true,
-          });
+          updateGrant({ id: grant.id, submitted: true });
           break;
         case "MARK_AS_ARCHIVED":
-          await updateGrant(organizationClient, grant.id, {
-            archived: true,
-          });
+          updateGrant({ id: grant.id, archived: true });
           break;
         case "MAKE_A_COPY":
           return history.push(
@@ -75,11 +70,9 @@ export default function GrantsIndex() {
         default:
           throw new Error(`Unexpected option given ${option.value}!`);
       }
-      await refetch();
     } catch (error) {
       console.error(error);
     }
-    refetch();
   };
 
   const columns = [
@@ -180,14 +173,6 @@ export default function GrantsIndex() {
       });
   }, [grants, searchFilters, tabSelect]);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
   return (
     <section className="grants-index">
       <h1>All Grants</h1>
@@ -266,7 +251,7 @@ export default function GrantsIndex() {
         {filteredGrants.length ? (
           <Table columns={columns} data={filteredGrants} />
         ) : (
-          <p>There are no grants for this category.</p>
+          <p>There are no grants to display in this tab.</p>
         )}
       </div>
     </section>

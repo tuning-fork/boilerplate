@@ -16,7 +16,6 @@ guidelines, and instructions on how to setup your local development environment.
 * [Project Guidelines](#project-guidelines)
   * [File Structure](#file-structure)
 * [Development Environment](#development-environment)
-  * [Setup using Docker](#setup-using-docker)
   * [Setup manually](#setup-manually)
     * [Prerequisites:](#prerequisites)
     * [Initial startup commands:](#initial-startup-commands)
@@ -125,6 +124,7 @@ TODO
 
 ## Development Environment
 
+<!--
 ### Setup using Docker
 
 If you have Docker (v20 and up recommended) installed, you can utilize the
@@ -135,6 +135,7 @@ $ docker compose up
 # Run initial database setup
 $ docker compose exec api rails db:create db:migrate db:seed
 ```
+-->
 
 ### Setup manually
 
@@ -148,9 +149,8 @@ $ docker compose exec api rails db:create db:migrate db:seed
 #### Initial startup commands:
 ```sh
 # Inside api directory
-$ bundle install
-$ bundle exec rails db:create db:migrate db:seed
-$ bundle exec rails server
+$ bin/setup
+$ bin/run # or bin/rails server
 => Booting Puma
 boilerplate-api-1  | => Rails 6.0.3.7 application starting in development
 boilerplate-api-1  | => Run `rails server --help` for more startup options

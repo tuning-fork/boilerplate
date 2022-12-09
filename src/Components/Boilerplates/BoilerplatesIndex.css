@@ -18,3 +18,40 @@
 .boilerplates-index .table {
   width: 100%;
 }
+
+.boilerplates-index__table-tabs {
+  display: flex;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 18px;
+  color: var(--primary-text);
+}
+
+.boilerplates-index__table-tab-button {
+  font-weight: var(--font-weight-normal);
+}
+
+.boilerplates-index__table-tab-button:hover,
+.boilerplates-index__table-tab-button:focus,
+.boilerplates-index__table-tab-button--selected {
+  border-radius: 0;
+  outline: 0;
+  border-bottom: 5px solid var(--primary-shade);
+}
+
+.boilerplates-index__table .table__cell {
+  position: relative;
+}
+.boilerplates-index__table__deadline {
+  position: absolute;
+  left: -2.6rem;
+}
+.boilerplates-index__see-more .dropdown-mini__listbox {
+  position: absolute;
+  z-index: 0;
+  right: calc(-1rem - 1vw);
+  top: 50%;
+  transform: translateY(-50%);
+}
+

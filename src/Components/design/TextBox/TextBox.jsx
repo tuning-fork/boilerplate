@@ -15,8 +15,10 @@ export default function TextBox(props) {
     align,
     required,
     type,
+    inputType,
     search,
     value,
+    maxLength,
     ...rest
   } = props;
 
@@ -26,15 +28,29 @@ export default function TextBox(props) {
       <span className="text-box__container">
         {prefix && <span className="text-box__prefix">{prefix}</span>}
         {search ? <MdSearch className="text-box__search_icon" /> : null}
-        <input
-          className="text-box__input"
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholderText}
-          required={required}
-          {...rest}
-        />
+        {inputType === "text" ? (
+          <input
+            className="text-box__input"
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholderText}
+            required={required}
+            {...rest}
+          />
+        ) : (
+          <textarea
+            rows="12"
+            cols="80"
+            className="text-box__input"
+            value={value}
+            onChange={onChange}
+            placeholder={placeholderText}
+            required={required}
+            maxlength={maxLength}
+            {...rest}
+          />
+        )}
         {suffix && <span className="text-box__suffix">{suffix}</span>}
       </span>
     </label>
@@ -51,7 +67,9 @@ TextBox.propTypes = {
   required: PropTypes.bool,
   suffix: PropTypes.node,
   type: PropTypes.string,
+  inputType: PropTypes.string,
   value: PropTypes.string,
+  maxLength: PropTypes.string,
   search: PropTypes.bool,
 };
 
@@ -59,4 +77,5 @@ TextBox.defaultProps = {
   align: "left",
   required: false,
   type: "text",
+  inputType: "text",
 };

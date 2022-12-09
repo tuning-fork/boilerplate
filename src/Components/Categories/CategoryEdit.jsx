@@ -9,21 +9,6 @@ import Modal from "../design/Modal/Modal";
 export default function CategoryEdit(props) {
   const { organizationClient } = useCurrentOrganization();
 
-  // const handleSubmit = (categoryFields) => {
-  //   CategoriesService.updateCategory(organizationClient, props.category.id, {
-  //     ...categoryFields,
-  //     organizationId: organizationClient,
-  //   })
-  //     .then((category) => {
-  //       if (category.id) {
-  //         props.onClose();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("category update error", error);
-  //     });
-  // };
-
   const { mutate: updateCategory } = useMutation(
     (newCategoryFields) =>
       CategoriesService.updateCategory(
