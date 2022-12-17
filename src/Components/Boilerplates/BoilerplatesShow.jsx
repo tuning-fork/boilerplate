@@ -8,7 +8,6 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
 import countWords from "../../Helpers/countWords";
 import { useHistory } from "react-router-dom";
-import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 
 import "./BoilerplatesShow.css";
 
@@ -16,7 +15,6 @@ export default function BoilerplatesShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { boilerplateId } = useParams();
   const history = useHistory();
-  const buildOrganizationsLink = useBuildOrganizationsLink();
 
   const {
     data: boilerplate,
@@ -27,7 +25,6 @@ export default function BoilerplatesShow() {
     BoilerplatesService.getBoilerplate(organizationClient, boilerplateId)
   );
   const [editingBoilerplate, setEditingBoilerplate] = useState(false);
-  const [deletedBoilerplate, setDeletedBoilerplate] = useState(false);
 
   const { mutate: updateBoilerplate } = useMutation(
     (newBoilerplateFields) =>
@@ -44,6 +41,17 @@ export default function BoilerplatesShow() {
     }
   );
 
+  const { mutate: deleteBoilerplate } = useMutation(
+    (boilerplateId) =>
+      BoilerplatesService.deleteBoilerplate(organizationClient, boilerplateId),
+    {
+      onSuccess: () => {
+        alert("Boilerplate Deleted");
+        history.push(`/organizations/${currentOrganization.id}/boilerplates`);
+      },
+    }
+  );
+
   const handleEditBoilerplate = (newBoilerplateFields) => {
     updateBoilerplate({
       ...newBoilerplateFields,
@@ -53,12 +61,7 @@ export default function BoilerplatesShow() {
   };
 
   const handleDeleteBoilerplate = (organizationClient, boilerplateId) => {
-    BoilerplatesService.deleteBoilerplate(organizationClient, boilerplateId);
-    setDeletedBoilerplate(true);
-    alert("Boilerplate deleted!");
-    if (deletedBoilerplate) {
-      history.push(buildOrganizationsLink(`/boilerplates`));
-    }
+    deleteBoilerplate(boilerplateId);
   };
 
   if (isLoading) {
@@ -86,9 +89,7 @@ export default function BoilerplatesShow() {
             <BoilerplateForm
               onSubmit={handleEditBoilerplate}
               onCancel={() => setEditingBoilerplate(false)}
-              onDelete={() =>
-                handleDeleteBoilerplate(organizationClient, boilerplate.id)
-              }
+              onDelete={handleDeleteBoilerplate}
               boilerplate={boilerplate}
             />
           ) : (

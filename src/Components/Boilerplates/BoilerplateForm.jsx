@@ -1,5 +1,7 @@
 import React, { useRef, useState, useMemo } from "react";
 import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
@@ -13,6 +15,7 @@ import CategoryNew from "../Categories/CategoryNew";
 
 export default function BoilerplateForm(props) {
   const { organizationClient } = useCurrentOrganization();
+  const { boilerplateId } = useParams();
   const [boilerplateFields, setBoilerplateFields] = useState({
     ...props.boilerplate,
     title: props.boilerplate?.title || "",
@@ -101,7 +104,10 @@ export default function BoilerplateForm(props) {
         </div>
         <div className="BoilerplateForm__Actions">
           <div className="BoilerplateForm__FormControls">
-            <Button variant="text" onClick={props.onDelete}>
+            <Button
+              variant="text"
+              onClick={() => props.onDelete(organizationClient, boilerplateId)}
+            >
               Delete
             </Button>
             <Button variant="text" onClick={() => props.onCancel(false)}>
