@@ -101,6 +101,9 @@ export default function BoilerplateForm(props) {
         </div>
         <div className="BoilerplateForm__Actions">
           <div className="BoilerplateForm__FormControls">
+            <Button variant="text" onClick={props.onDelete}>
+              Delete
+            </Button>
             <Button variant="text" onClick={() => props.onCancel(false)}>
               Cancel
             </Button>
