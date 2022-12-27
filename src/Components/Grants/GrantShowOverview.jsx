@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
+import Checkbox from "../design/Checkbox/Checkbox";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
@@ -29,9 +30,10 @@ import "./GrantShowOverview.css";
 export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
+  const [checked, setChecked] = useState(false);
 
-  const placeholderText =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Non tellus orci ac auctor augue. Adipiscing elit pellentesque habitant morbi. Mauris pellentesque pulvinar pellentesque habitant morbi. Faucibus ornare suspendisse sed nisi lacus. Id venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan. Maecenas pharetra convallis posuere morbi leo urna. Ipsum nunc aliquet bibendum enim facilisis gravida neque. Sagittis nisl rhoncus mattis rhoncus urna neque. In ornare quam viverra orci sagittis eu volutpat odio. Nascetur ridiculus mus mauris vitae ultricies leo integer. Et netus et malesuada fames ac turpis egestas sed. Mauris cursus mattis molestie a. Odio morbi quis commodo odio aenean sed adipiscing. Congue eu consequat ac felis donec et odio. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Dui sapien eget mi proin sed libero enim sed. Quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna. Mi quis hendrerit dolor magna eget est lorem. Bibendum neque egestas congue quisque egestas diam. Quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Aenean vel elit scelerisque mauris pellentesque. Enim ut tellus elementum sagittis vitae et leo duis. Varius duis at consectetur lorem donec. Tincidunt vitae semper quis lectus nulla. Praesent tristique magna sit amet purus gravida. Lobortis feugiat vivamus at augue. Blandit volutpat maecenas volutpat blandit. Nunc lobortis mattis aliquam faucibus. Lacus vel facilisis volutpat est velit. Tortor dignissim convallis aenean et tortor at risus viverra adipiscing. Cursus metus aliquam eleifend mi. Purus semper eget duis at tellus at urna condimentum mattis. Ut placerat orci nulla pellentesque dignissim enim. Porttitor leo a diam sollicitudin tempor id. Aliquam eleifend mi in nulla posuere sollicitudin aliquam. Id interdum velit laoreet id donec ultrices tincidunt arcu. Ultrices eros in cursus turpis massa tincidunt dui ut. Duis tristique sollicitudin nibh sit amet. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Suspendisse potenti nullam ac tortor vitae. Diam quam nulla porttitor massa id neque aliquam. Aliquam sem fringilla ut morbi tincidunt augue interdum velit. Venenatis a condimentum vitae sapien pellentesque. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Velit dignissim sodales ut eu. Arcu dui vivamus arcu felis bibendum ut tristique et. Rutrum quisque non tellus orci ac auctor. Pharetra convallis posuere morbi leo urna. Molestie at elementum eu facilisis sed odio morbi quis commodo. Sit amet commodo nulla facilisi nullam vehicula ipsum. Massa vitae tortor condimentum lacinia quis vel eros. Quam quisque id diam vel. Duis ut diam quam nulla. Orci nulla pellentesque dignissim enim. Scelerisque varius morbi enim nunc faucibus a pellentesque sit amet. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Vitae tortor condimentum lacinia quis vel. Nunc lobortis mattis aliquam faucibus purus in massa. Lacus suspendisse faucibus interdum posuere lorem ipsum. Cras adipiscing enim eu turpis. Tristique et egestas quis ipsum suspendisse ultrices. Ridiculus mus mauris vitae ultricies leo integer malesuada.";
+  // const placeholderText =
+  //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Non tellus orci ac auctor augue. Adipiscing elit pellentesque habitant morbi. Mauris pellentesque pulvinar pellentesque habitant morbi. Faucibus ornare suspendisse sed nisi lacus. Id venenatis a condimentum vitae sapien pellentesque habitant morbi tristique. Ullamcorper morbi tincidunt ornare massa eget egestas purus viverra accumsan. Maecenas pharetra convallis posuere morbi leo urna. Ipsum nunc aliquet bibendum enim facilisis gravida neque. Sagittis nisl rhoncus mattis rhoncus urna neque. In ornare quam viverra orci sagittis eu volutpat odio. Nascetur ridiculus mus mauris vitae ultricies leo integer. Et netus et malesuada fames ac turpis egestas sed. Mauris cursus mattis molestie a. Odio morbi quis commodo odio aenean sed adipiscing. Congue eu consequat ac felis donec et odio. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique. Dui sapien eget mi proin sed libero enim sed. Quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna. Mi quis hendrerit dolor magna eget est lorem. Bibendum neque egestas congue quisque egestas diam. Quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Aenean vel elit scelerisque mauris pellentesque. Enim ut tellus elementum sagittis vitae et leo duis. Varius duis at consectetur lorem donec. Tincidunt vitae semper quis lectus nulla. Praesent tristique magna sit amet purus gravida. Lobortis feugiat vivamus at augue. Blandit volutpat maecenas volutpat blandit. Nunc lobortis mattis aliquam faucibus. Lacus vel facilisis volutpat est velit. Tortor dignissim convallis aenean et tortor at risus viverra adipiscing. Cursus metus aliquam eleifend mi. Purus semper eget duis at tellus at urna condimentum mattis. Ut placerat orci nulla pellentesque dignissim enim. Porttitor leo a diam sollicitudin tempor id. Aliquam eleifend mi in nulla posuere sollicitudin aliquam. Id interdum velit laoreet id donec ultrices tincidunt arcu. Ultrices eros in cursus turpis massa tincidunt dui ut. Duis tristique sollicitudin nibh sit amet. Vitae tortor condimentum lacinia quis vel eros donec ac odio. Suspendisse potenti nullam ac tortor vitae. Diam quam nulla porttitor massa id neque aliquam. Aliquam sem fringilla ut morbi tincidunt augue interdum velit. Venenatis a condimentum vitae sapien pellentesque. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Velit dignissim sodales ut eu. Arcu dui vivamus arcu felis bibendum ut tristique et. Rutrum quisque non tellus orci ac auctor. Pharetra convallis posuere morbi leo urna. Molestie at elementum eu facilisis sed odio morbi quis commodo. Sit amet commodo nulla facilisi nullam vehicula ipsum. Massa vitae tortor condimentum lacinia quis vel eros. Quam quisque id diam vel. Duis ut diam quam nulla. Orci nulla pellentesque dignissim enim. Scelerisque varius morbi enim nunc faucibus a pellentesque sit amet. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Vitae tortor condimentum lacinia quis vel. Nunc lobortis mattis aliquam faucibus purus in massa. Lacus suspendisse faucibus interdum posuere lorem ipsum. Cras adipiscing enim eu turpis. Tristique et egestas quis ipsum suspendisse ultrices. Ridiculus mus mauris vitae ultricies leo integer malesuada.";
 
   const {
     data: grant,
@@ -66,22 +68,36 @@ export default function GrantShowOverview(props) {
   }, [grantId]);
 
   const onUndo = () => {
+    console.log(props.reorderIndex);
     if (props.reorderIndex > 0) {
       props.setSortableSections(props.reorderHistory[props.reorderIndex]);
       props.updateState(props.reorderIndex - 1);
       props.setCanSaveReorder(true);
     }
+    console.log(props.reorderIndex);
   };
 
   const onRedo = () => {
-    if (
-      props.reorderIndex + 1 < props.reorderHistory.length &&
-      props.reorderHistory.length > 1
+    console.log("before");
+    console.log(props.reorderIndex);
+    console.log(props.reorderHistory);
+    if (props.reorderIndex === 0) {
+      props.setSortableSections(props.reorderHistory[props.reorderIndex + 2]);
+      props.updateState(props.reorderIndex + 2);
+      props.setCanSaveReorder(true);
+    } else if (
+      props.reorderIndex < props.reorderHistory.length &&
+      props.reorderHistory.length > 0
     ) {
+      console.log(props.reorderIndex);
+      console.log(props.reorderHistory[props.reorderIndex]);
+      console.log(props.reorderHistory[props.reorderIndex + 1]);
       props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
       props.updateState(props.reorderIndex + 1);
       props.setCanSaveReorder(true);
     }
+    console.log("after");
+    console.log(props.reorderIndex);
   };
 
   const { mutate: reorderSections } = useMutation(
@@ -118,6 +134,10 @@ export default function GrantShowOverview(props) {
       </Button>
     </>
   );
+
+  console.log("reorder index: " + props.reorderIndex);
+  console.log("reorder history: " + props.reorderHistory.length);
+  console.log(props.sortableSections);
 
   return (
     <div className="grants-show-overview">
@@ -162,7 +182,8 @@ export default function GrantShowOverview(props) {
                   onRedo();
                 }}
                 disabled={Boolean(
-                  props.reorderIndex + 1 === props.reorderHistory.length
+                  props.reorderIndex + 1 === props.reorderHistory.length ||
+                    props.reorderHistory.length <= 1
                 )}
               >
                 Redo
@@ -181,7 +202,32 @@ export default function GrantShowOverview(props) {
             </DragOverlay>
           </Container>
           <Container className="grants-show-overview__preview-container">
-            {placeholderText}
+            <div className="grants-show-overview__preview-checkbox">
+              <Checkbox
+                labelText="Show Section Title"
+                checked={checked}
+                onChange={(event) => setChecked(event.target.checked)}
+              >
+                Show Section Title
+              </Checkbox>
+            </div>
+            <div className="grants-show-overview__preview-text">
+              {props.sortableSections.map((section) => {
+                return (
+                  <>
+                    {!!checked && (
+                      <div
+                        className="grants-show-overview__preview-title"
+                        dangerouslySetInnerHTML={{ __html: section.title }}
+                      ></div>
+                    )}
+                    <div
+                      dangerouslySetInnerHTML={{ __html: section.text }}
+                    ></div>
+                  </>
+                );
+              })}
+            </div>
           </Container>
         </div>
       </div>

@@ -29,9 +29,30 @@
 }
 
 .grants-show-overview__preview-container {
-  margin-top: 1.4rem;
+  margin-top: .7rem;
   width: 50%;
+}
+
+.grants-show-overview__preview-container p {
+  margin-top: .2rem;
+  margin-bottom: 1.4rem;
+}
+
+.grants-show-overview__preview-text {
   border: 1px solid var(--primary-text);
+  padding: 1rem;
+}
+
+.grants-show-overview__preview-checkbox {
+  display: flex;
+  margin-bottom: 1.5rem;
+  margin-right: .7rem;
+  justify-content: flex-end;
+}
+
+.grants-show-overview__preview-title {
+  font-size: var(--font-size-large-1);
+  font-weight: var(--font-weight-bold);
 }
 
 .grants-show-overview__welcome-alert {

@@ -61,7 +61,8 @@ export default function OrganizationRoutes() {
         return arrayMove(items, oldIndex, newIndex);
       };
       setSortableSections(newSectionOrder);
-      setReorderHistory([...reorderHistory, newSectionOrder]);
+      // setReorderHistory([...reorderHistory, newSectionOrder]);
+      setReorderHistory([...reorderHistory, sortableSections]);
       updateState(reorderIndex + 1);
       setCanSaveReorder(true);
     }
