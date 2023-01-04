@@ -58,10 +58,13 @@ export default function OrganizationRoutes() {
       const newSectionOrder = (items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
+        setReorderHistory([
+          ...reorderHistory,
+          arrayMove(items, oldIndex, newIndex),
+        ]);
         return arrayMove(items, oldIndex, newIndex);
       };
       setSortableSections(newSectionOrder);
-      setReorderHistory([...reorderHistory, newSectionOrder]);
       updateState(reorderIndex + 1);
       setCanSaveReorder(true);
     }
