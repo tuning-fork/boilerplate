@@ -70,7 +70,7 @@ export default function GrantShowOverview(props) {
   const onUndo = () => {
     console.log(props.reorderIndex);
     if (props.reorderIndex > 0) {
-      props.setSortableSections(props.reorderHistory[props.reorderIndex]);
+      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
       props.updateState(props.reorderIndex - 1);
       props.setCanSaveReorder(true);
     }
