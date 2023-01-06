@@ -9,25 +9,6 @@ import Modal from "../design/Modal/Modal";
 export default function FundingOrgEdit(props) {
   const { organizationClient } = useCurrentOrganization();
 
-  // const handleSubmit = (fundingOrgFields) => {
-  //   FundingOrgsService.updateFundingOrg(
-  //     organizationClient,
-  //     props.fundingOrg.id,
-  //     {
-  //       ...fundingOrgFields,
-  //       organizationId: organizationClient,
-  //     }
-  //   )
-  //     .then((fundingOrg) => {
-  //       if (fundingOrg.id) {
-  //         props.onClose();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("funding org update error", error);
-  //     });
-  // };
-
   const { mutate: updateFundingOrg } = useMutation(
     (newFundingOrgFields) =>
       FundingOrgsService.updateFundingOrg(

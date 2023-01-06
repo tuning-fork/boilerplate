@@ -3,6 +3,12 @@
   padding: 4rem;
 }
 
+.user-index__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .user-index__search-input {
   width: 40vw;
   margin-bottom: 0px;
@@ -10,4 +16,61 @@
 
 .user-index__table {
   width: 100%;
+}
+
+.user-index__table-tabs {
+  display: flex;
+  gap: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 18px;
+  color: var(--primary-text);
+}
+
+.user-index__table-tab-button {
+  font-weight: var(--font-weight-normal);
+}
+
+.user-index__table-tab-button:hover,
+.user-index__table-tab-button:focus,
+.user-index__table-tab-button--selected {
+  border-radius: 0;
+  outline: 0;
+  border-bottom: 5px solid var(--primary-shade);
+}
+
+.user-index__table .table__cell {
+  position: relative;
+}
+
+.user-index__table .table__cell:last-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-index-row-status {
+  position: absolute;
+  top: 0;
+  left: -30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.user-index-row-status svg {
+  font-size: var(--font-size-icon);
+  display: block;
+  color: var(--contrast-60);
+}
+.user-index-row-status--expired svg {
+  color: var(--error);
+}
+
+.user-index__row-actions {
+  margin-right: -1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.user-index__row-actions .button {
+  line-height: 1.5rem;
 }

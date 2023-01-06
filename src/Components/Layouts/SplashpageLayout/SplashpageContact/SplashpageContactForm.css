@@ -1,0 +1,58 @@
+.splashpage-contact-form__div {
+  padding-bottom: 15%;
+}
+
+.splashpage-contact-form__container {
+  padding: 3rem;
+  background-color: var(--primary-30);
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+}
+
+.splashpage-contact-form__confirmation-message {
+  color: #ffffff;
+  font-size: var(--font-size-large-1);
+}
+
+.splashpage-contact-form__header__container {
+  display: flex;
+  justify-content: left;
+  padding-left: 2rem;
+}
+
+.splashpage-contact-form__header {
+  padding-bottom: 1rem;
+  color: #ffffff;
+}
+
+.splashpage-contact-form {
+  padding: 3rem;
+  color: #ffffff;
+  height: 100%;
+}
+
+.splashpage-contact-form .text-box__label {
+  color: #ffffff;
+  font-size: var(--font-size-large-1);
+}
+
+.splashpage-contact-form .text-box__input {
+  color: #ffffff;
+  background: transparent;
+}
+
+.splashpage-contact-form ::placeholder {
+  color: #ffffff;
+}
+
+.splashpage-contact-form .text-box__container {
+  background: transparent;
+  background: var(--contrast-20);
+}
+
+.splashpage-contact-form__actions {
+  float: right;
+}
+.splashpage-contact-form__actions > button {
+  margin-left: 20px;
+}

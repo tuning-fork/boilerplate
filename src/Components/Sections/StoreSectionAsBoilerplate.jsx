@@ -1,53 +1,53 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useQuery, useMutation } from "react-query";
 import Label from "../design/Label/Label";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
 import Button from "../design/Button/Button";
 import Dropdown from "../design/Dropdown/Dropdown";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import { createBoilerplate } from "../../Services/Organizations/BoilerplatesService";
-import { getAllCategories } from "../../Services/Organizations/CategoriesService";
+import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
+import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import "./StoreSectionAsBoilerplate.css";
 import countWords from "../../Helpers/countWords";
 
 export default function StoreSectionAsBoilerplate(props) {
-  const [categories, setCategories] = useState([]);
+  const { organizationClient } = useCurrentOrganization();
+  const { data: categories } = useQuery("getCategories", () =>
+    CategoriesService.getAllCategories(organizationClient)
+  );
+
   const [newBoilerplateFields, setNewBoilerplateFields] = useState({
     title: props.section.title,
     text: props.section.text,
     categoryId: "",
     wordcount: "",
   });
-  const { organizationClient } = useCurrentOrganization();
-  const quillEl = useRef();
+
+  const { mutate: saveBoilerplate } = useMutation(
+    (newBoilerplateFields) =>
+      BoilerplatesService.createBoilerplate(organizationClient, {
+        title: newBoilerplateFields.title,
+        text: newBoilerplateFields.text,
+        categoryId: newBoilerplateFields.categoryId,
+        wordcount: countWords(newBoilerplateFields.text),
+      }),
+    {
+      onSuccess: () => {
+        alert("Section saved as boilerplate!");
+        props.onClose();
+      },
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createBoilerplate(organizationClient, {
+    saveBoilerplate({
       ...newBoilerplateFields,
-      wordcount: countWords(quillEl.current.getEditor().getText()),
-    })
-      .then((boilerplate) => {
-        if (boilerplate) {
-          alert("Section saved as boilerplate!");
-          props.onClose();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(
-          "Oh no! Something went wrong when you were trying to save the section as boilerplate."
-        );
-      });
+    });
   };
 
-  useEffect(() => {
-    if (!organizationClient) {
-      return;
-    }
-
-    getAllCategories(organizationClient).then(setCategories);
-  }, [organizationClient]);
+  const quillEl = useRef();
 
   return (
     <form className="store-section-as-boilerplate" onSubmit={handleSubmit}>
@@ -77,6 +77,7 @@ export default function StoreSectionAsBoilerplate(props) {
           value: category.id,
           label: category.name,
         }))}
+        required
       />
 
       <Label htmlFor="boilerplate-text">Text</Label>

@@ -72,7 +72,7 @@ export const CurrentUserProvider = ({ children }) => {
     });
   }, []);
 
-  const login = useCallback(async (email, password) => {
+  const login = async (email, password) => {
     try {
       const { jwt, user } = await createSession(email, password);
 
@@ -87,7 +87,7 @@ export const CurrentUserProvider = ({ children }) => {
       });
       throw error;
     }
-  }, []);
+  };
 
   const { data: organizations } = useQuery(
     ["organizations", state, authenticatedApiClient],

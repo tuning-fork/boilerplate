@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  height: 8rem;
+  background-color: var(--secondary);
+}
+
+.footer-content {
+  padding-top: 3rem;
+  color: #ffffff;
+  font-size: var(--font-size-large-1);
+}

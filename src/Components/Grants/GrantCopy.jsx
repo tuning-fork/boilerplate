@@ -1,19 +1,16 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import Container from "../design/Container/Container";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import {
-  copyGrant,
-  getGrant,
-} from "../../Services/Organizations/GrantsService";
-import { getAllFundingOrgs } from "../../Services/Organizations/FundingOrgsService";
+import * as GrantsService from "../../Services/Organizations/GrantsService";
+import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import useBuildOrganizationsLink from "../../Hooks/useBuildOrganizationsLink";
 import GrantForm from "./GrantForm";
 import "./GrantCopy.css";
 
 export default function GrantCopy() {
-  const { organizationClient } = useCurrentOrganization();
+  const { currentOrganization, organizationClient } = useCurrentOrganization();
   const buildOrganizationsLink = useBuildOrganizationsLink();
   const { grantId } = useParams();
   const history = useHistory();
@@ -23,26 +20,32 @@ export default function GrantCopy() {
     history.push(buildOrganizationsLink(`/grants/${grantId}`));
   };
 
-  const handleSubmit = (newGrantFields) => {
-    copyGrant(organizationClient, grantId, newGrantFields)
-      .then((copiedGrant) => {
-        alert("Grant copied!");
-        history.push(buildOrganizationsLink(`/grants/${copiedGrant.id}`));
-      })
-      .catch((error) => {
-        console.error(error);
-        alert(
-          "Eek! Something went wrong when copying the grant. Try again soon."
+  const { mutate: copyGrant } = useMutation(
+    (grantFields) =>
+      GrantsService.copyGrant(organizationClient, grantId, grantFields),
+    {
+      onSuccess: (copyRes) => {
+        alert("Grant created!");
+        history.push(
+          `/organizations/${currentOrganization.id}/grants/${copyRes.id}`
         );
-      });
-  };
+      },
+    }
+  );
 
   const { data: grant } = useQuery("grant", () =>
-    getGrant(organizationClient, grantId)
+    GrantsService.getGrant(organizationClient, grantId)
   );
   const { data: fundingOrgs } = useQuery("fundingOrgs", () =>
-    getAllFundingOrgs(organizationClient)
+    FundingOrgsService.getAllFundingOrgs(organizationClient)
   );
+
+  function handleCopyGrant(copyGrantFields) {
+    copyGrant({
+      ...copyGrantFields,
+      sections: grant.sections,
+    });
+  }
 
   return (
     <div className="grant-copy">
@@ -51,7 +54,7 @@ export default function GrantCopy() {
         <GrantForm
           grant={{ ...grant, title: `${grant.title} copy` }}
           fundingOrgs={fundingOrgs}
-          onSubmit={handleSubmit}
+          onSubmit={handleCopyGrant}
           onCancel={handleCancel}
         />
       </Container>
