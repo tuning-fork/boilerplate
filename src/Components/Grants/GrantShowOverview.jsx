@@ -17,15 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DragOverlay } from "@dnd-kit/core";
-
 import "./GrantShowOverview.css";
-
-// function countTotalSectionsWords(sections = []) {
-//   return sections?.reduce(
-//     (total, section) => total + countSectionWords(section),
-//     0
-//   );
-// }
 
 export default function GrantShowOverview(props) {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
@@ -43,7 +35,6 @@ export default function GrantShowOverview(props) {
   } = useQuery("getGrant", () =>
     GrantsService.getGrant(organizationClient, grantId)
   );
-  // const totalWordCount = countTotalSectionsWords(grant?.sections);
 
   const grantSectionsReorder = () => {
     const sectionsToReorder = [];
@@ -75,14 +66,25 @@ export default function GrantShowOverview(props) {
     }
   };
 
+  // const onRedo = () => {
+  //   if (props.reorderIndex === 0) {
+  //     props.setSortableSections(props.reorderHistory[props.reorderIndex + 2]);
+  //     props.updateState(props.reorderIndex + 2);
+  //     props.setCanSaveReorder(true);
+  //   } else if (
+  //     props.reorderIndex < props.reorderHistory.length &&
+  //     props.reorderHistory.length > 0
+  //   ) {
+  //     props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
+  //     props.updateState(props.reorderIndex + 1);
+  //     props.setCanSaveReorder(true);
+  //   }
+  // };
+
   const onRedo = () => {
-    if (props.reorderIndex === 0) {
-      props.setSortableSections(props.reorderHistory[props.reorderIndex + 2]);
-      props.updateState(props.reorderIndex + 2);
-      props.setCanSaveReorder(true);
-    } else if (
-      props.reorderIndex < props.reorderHistory.length &&
-      props.reorderHistory.length > 0
+    if (
+      props.reorderIndex + 1 < props.reorderHistory.length &&
+      props.reorderHistory.length > 1
     ) {
       props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
       props.updateState(props.reorderIndex + 1);
