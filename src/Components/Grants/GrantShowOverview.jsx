@@ -59,27 +59,16 @@ export default function GrantShowOverview(props) {
   }, [grantId]);
 
   const onUndo = () => {
-    if (props.reorderIndex > 0) {
+    if (props.reorderIndex > 0 && props.reorderIndex !== 1) {
       props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
       props.updateState(props.reorderIndex - 1);
       props.setCanSaveReorder(true);
+    } else if (props.reorderIndex === 1) {
+      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
+      props.updateState(props.reorderIndex - 1);
+      props.setCanSaveReorder(false);
     }
   };
-
-  // const onRedo = () => {
-  //   if (props.reorderIndex === 0) {
-  //     props.setSortableSections(props.reorderHistory[props.reorderIndex + 2]);
-  //     props.updateState(props.reorderIndex + 2);
-  //     props.setCanSaveReorder(true);
-  //   } else if (
-  //     props.reorderIndex < props.reorderHistory.length &&
-  //     props.reorderHistory.length > 0
-  //   ) {
-  //     props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
-  //     props.updateState(props.reorderIndex + 1);
-  //     props.setCanSaveReorder(true);
-  //   }
-  // };
 
   const onRedo = () => {
     if (
@@ -126,10 +115,6 @@ export default function GrantShowOverview(props) {
       </Button>
     </>
   );
-
-  console.log("reorder index: " + props.reorderIndex);
-  console.log("reorder history: " + props.reorderHistory.length);
-  console.log(props.sortableSections);
 
   return (
     <div className="grants-show-overview">
@@ -206,7 +191,7 @@ export default function GrantShowOverview(props) {
             <div className="grants-show-overview__preview-text">
               {props.sortableSections.map((section) => {
                 return (
-                  <>
+                  <React.Fragment key={section.id}>
                     {!!checked && (
                       <div
                         className="grants-show-overview__preview-title"
@@ -216,7 +201,7 @@ export default function GrantShowOverview(props) {
                     <div
                       dangerouslySetInnerHTML={{ __html: section.text }}
                     ></div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>
