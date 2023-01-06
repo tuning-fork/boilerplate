@@ -68,19 +68,14 @@ export default function GrantShowOverview(props) {
   }, [grantId]);
 
   const onUndo = () => {
-    console.log(props.reorderIndex);
     if (props.reorderIndex > 0) {
       props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
       props.updateState(props.reorderIndex - 1);
       props.setCanSaveReorder(true);
     }
-    console.log(props.reorderIndex);
   };
 
   const onRedo = () => {
-    console.log("before");
-    console.log(props.reorderIndex);
-    console.log(props.reorderHistory);
     if (props.reorderIndex === 0) {
       props.setSortableSections(props.reorderHistory[props.reorderIndex + 2]);
       props.updateState(props.reorderIndex + 2);
@@ -89,15 +84,10 @@ export default function GrantShowOverview(props) {
       props.reorderIndex < props.reorderHistory.length &&
       props.reorderHistory.length > 0
     ) {
-      console.log(props.reorderIndex);
-      console.log(props.reorderHistory[props.reorderIndex]);
-      console.log(props.reorderHistory[props.reorderIndex + 1]);
       props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
       props.updateState(props.reorderIndex + 1);
       props.setCanSaveReorder(true);
     }
-    console.log("after");
-    console.log(props.reorderIndex);
   };
 
   const { mutate: reorderSections } = useMutation(
