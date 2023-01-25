@@ -150,7 +150,7 @@ export default function GrantShowOverview(props) {
                 onClick={() => {
                   onUndo();
                 }}
-                disabled={Boolean(props.reorderIndex === 0)}
+                disabled={props.reorderIndex === 0}
               >
                 Undo
               </Button>
@@ -158,10 +158,10 @@ export default function GrantShowOverview(props) {
                 onClick={() => {
                   onRedo();
                 }}
-                disabled={Boolean(
+                disabled={
                   props.reorderIndex + 1 === props.reorderHistory.length ||
-                    props.reorderHistory.length <= 1
-                )}
+                  props.reorderHistory.length <= 1
+                }
               >
                 Redo
               </Button>
