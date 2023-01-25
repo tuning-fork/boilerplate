@@ -56,6 +56,31 @@ export default function GrantShowOverview(props) {
     }
   };
 
+  useEffect(() => {
+    props.setSortableSections(grant.sections);
+    props.setReorderHistory([grant.sections]);
+    props.setReorderIndex(0);
+  }, [grantId]);
+
+  const onUndo = () => {
+    if (props.reorderIndex > 0) {
+      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
+      props.updateState(props.reorderIndex - 1);
+      props.setCanSaveReorder(true);
+    }
+  };
+
+  const onRedo = () => {
+    if (
+      props.reorderIndex + 1 < props.reorderHistory.length &&
+      props.reorderHistory.length > 1
+    ) {
+      props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
+      props.updateState(props.reorderIndex + 1);
+      props.setCanSaveReorder(true);
+    }
+  };
+
   const { mutate: reorderSections } = useMutation(
     (sectionsToReorder) =>
       SectionsService.reorderSections(
@@ -66,13 +91,10 @@ export default function GrantShowOverview(props) {
     {
       onSuccess: () => {
         alert("Sections reordered!");
+        props.setCanSaveReorder(false);
       },
     }
   );
-
-  useEffect(() => {
-    props.setSortableSections(grant.sections);
-  }, []);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -120,8 +142,27 @@ export default function GrantShowOverview(props) {
               onClick={() => {
                 grantSectionsReorder();
               }}
+              disabled={!props.canSaveReorder}
             >
               Save
+            </Button>
+            <Button
+              onClick={() => {
+                onUndo();
+              }}
+              disabled={Boolean(props.reorderIndex === 0)}
+            >
+              Undo
+            </Button>
+            <Button
+              onClick={() => {
+                onRedo();
+              }}
+              disabled={Boolean(
+                props.reorderIndex + 1 === props.reorderHistory.length
+              )}
+            >
+              Redo
             </Button>
           </div>
           <SortableContext
