@@ -11,7 +11,7 @@ import { MdContentPaste } from "react-icons/md";
 export default function SectionForm(props) {
   const {
     onStoreSectionAsBoilerplate = () => {},
-    handleDeleteSection = () => {},
+    onDelete = () => {},
     section,
   } = props;
   const { onPasteBoilerplate, unsubscribeBoilerplate, setIsOpen } = useContext(
@@ -119,7 +119,7 @@ export default function SectionForm(props) {
       <Button
         color="error"
         onClick={() => {
-          handleDeleteSection(sectionFields);
+          onDelete(sectionFields);
         }}
       >
         Delete Section

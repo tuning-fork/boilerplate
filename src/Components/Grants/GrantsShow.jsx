@@ -30,14 +30,27 @@ function countTotalSectionsWords(sections = []) {
 export default function GrantsShow() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
   const { grantId } = useParams();
-  const {
-    data: grant,
-    isError,
-    isLoading,
-    error,
-  } = useQuery("getGrant", () =>
+  const { data: grant } = useQuery("getGrant", () =>
     GrantsService.getGrant(organizationClient, grantId)
   );
+
+  const { mutate: deleteSection } = useMutation(
+    (sectionId) =>
+      SectionsService.deleteSection(organizationClient, grantId, sectionId),
+    {
+      onSuccess() {
+        alert("Section deleted!");
+        setEditingSectionId(null);
+      },
+      onError(error) {
+        console.error(error);
+        alert(
+          "Eek! Something went wrong when deleting the section. Try again soon."
+        );
+      },
+    }
+  );
+
   const [newSectionId, setNewSectionId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
@@ -124,38 +137,19 @@ export default function GrantsShow() {
     });
   }
 
-  // const handleDeleteSection = (sectionFields) => {
-  //   // eslint-disable-next-line no-restricted-globals
-  //   if (confirm(`Are you sure you want to delete this section?`)) {
-  //     updateGrantSection(organizationClient, grantId, sectionFields.id, {
-  //       archived: true,
-  //     })
-  //       .then(() => {
-  //         alert("Section deleted!");
-  //         setEditingSectionId(null);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         alert(
-  //           "Eek! Something went wrong when deleting the section. Try again soon."
-  //         );
-  //       });
-  //   }
-  // };
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
+  const handleDeleteSection = (sectionFields) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(`Are you sure you want to delete this section?`)) {
+      deleteSection(sectionFields.id);
+    }
+  };
 
   const noSectionsContent = newSectionId ? (
     <SectionForm
       onStoreSectionAsBoilerplate={setSectionToStoreAsBoilerplate}
       onSubmit={(newSectionFields) => handleCreateSection({ newSectionFields })}
       onCancel={() => setNewSectionId(null)}
+      onDelete={handleDeleteSection}
     />
   ) : (
     <>
@@ -206,6 +200,7 @@ export default function GrantsShow() {
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
                       }
+                      onDelete={handleDeleteSection}
                       onSubmit={handleEditSection}
                       onCancel={() => setEditingSectionId(null)}
                       section={section}
@@ -221,6 +216,7 @@ export default function GrantsShow() {
                       onStoreSectionAsBoilerplate={
                         setSectionToStoreAsBoilerplate
                       }
+                      onDelete={handleDeleteSection}
                       onSubmit={(newSectionFields) =>
                         handleCreateSection({
                           newSectionFields,
