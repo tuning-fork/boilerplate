@@ -117,7 +117,7 @@ export default function GrantShowOverview(props) {
   );
 
   return (
-    <div className="grants-show-overview">
+    <div className="grants-show-overview" data-testid="grants-show-overview">
       <div className="grants-show-overview__content">
         <Hero
           headerText={grant.title}
@@ -171,7 +171,12 @@ export default function GrantShowOverview(props) {
               strategy={verticalListSortingStrategy}
             >
               {props.sortableSections.map((item) => (
-                <SortableItem key={item.id} id={item.id} item={item} />
+                <SortableItem
+                  key={item.id}
+                  id={item.id}
+                  item={item}
+                  data-testid="sortable-section"
+                />
               ))}
             </SortableContext>
             <DragOverlay>
