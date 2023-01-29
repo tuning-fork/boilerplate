@@ -12,6 +12,7 @@ import { useCurrentOrganization } from "../../Contexts/currentOrganizationContex
 import CategoryNew from "../Categories/CategoryNew";
 
 export default function BoilerplateForm(props) {
+  const { onDelete } = props;
   const { organizationClient } = useCurrentOrganization();
   const [boilerplateFields, setBoilerplateFields] = useState({
     ...props.boilerplate,
@@ -100,6 +101,11 @@ export default function BoilerplateForm(props) {
           />
         </div>
         <div className="BoilerplateForm__Actions">
+          {onDelete && (
+            <Button color="error" onClick={() => onDelete(props.boilerplate)}>
+              Delete
+            </Button>
+          )}
           <div className="BoilerplateForm__FormControls">
             <Button variant="text" onClick={() => props.onCancel(false)}>
               Cancel
