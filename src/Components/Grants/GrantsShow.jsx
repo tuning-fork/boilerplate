@@ -73,6 +73,7 @@ export default function GrantsShow() {
         Edit
       </Button>
       <Button
+        data-testid="overview"
         variant="outlined"
         as={CurrentOrganizationLink}
         to={`/grants/${grant.id}/overview/`}

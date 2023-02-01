@@ -91,7 +91,10 @@ export default function GrantsIndex() {
     {
       Header: "Title",
       accessor: (grant) => (
-        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
+        <CurrentOrganizationLink
+          to={`/grants/${grant.id}`}
+          data-testid={grant.title}
+        >
           {grant.title}
         </CurrentOrganizationLink>
       ),

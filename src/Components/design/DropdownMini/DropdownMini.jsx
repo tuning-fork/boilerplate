@@ -58,6 +58,7 @@ export default function DropdownMini(props) {
         }}
       >
         <div
+          data-testid="drop-down-mini"
           className="dropdown-mini__listbox"
           aria-haspopup="listbox"
           onClick={(event) => {

@@ -65,6 +65,7 @@ export default function NavbarSplashpage(props) {
             className="navbar__image"
           />
           <Button
+            data-testid="log-in-button"
             variant="none"
             onClick={() => props.toggleModalContents("Log In")}
             className="navbar__tab"
