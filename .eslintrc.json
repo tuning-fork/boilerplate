@@ -1,13 +1,15 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended", "plugin:cypress/recommended"],
+  "extends": [
+    "react-app",
+    "plugin:prettier/recommended",
+    "plugin:cypress/recommended"
+  ],
   "rules": {
     "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }]
   },
   "overrides": [
     {
-      "files": [
-        "**/*.stories.*"
-      ],
+      "files": ["**/*.stories.*"],
       "rules": {
         "import/no-anonymous-default-export": "off"
       }
@@ -15,5 +17,6 @@
   ],
   "globals": {
     "cy": true
-  }
+  },
+  "plugins": ["cypress"]
 }
