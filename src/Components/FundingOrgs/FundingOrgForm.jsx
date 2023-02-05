@@ -46,7 +46,7 @@ export default function FundingOrgForm(props) {
           </Button>
           <Button type="submit">Save</Button>
         </div>
-        {props.fundingOrg ? (
+        {props.fundingOrg && props.onDelete ? (
           <div>
             <Button color="error" onClick={props.onDelete}>
               Delete Funding Org
