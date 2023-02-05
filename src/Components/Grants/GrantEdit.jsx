@@ -7,7 +7,6 @@ import "./GrantEdit.css";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import GrantForm from "./GrantForm";
-import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
 export default function GrantEdit() {
