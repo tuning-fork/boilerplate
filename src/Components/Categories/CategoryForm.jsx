@@ -30,7 +30,7 @@ export default function CategoryForm(props) {
         </Button>
         <Button type="submit">Save</Button>
       </div>
-      {props.category ? (
+      {props.category && props.onDelete ? (
         <div>
           <Button color="error" onClick={props.onDelete}>
             Delete Category
