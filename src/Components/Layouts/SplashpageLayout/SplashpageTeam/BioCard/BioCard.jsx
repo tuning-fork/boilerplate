@@ -16,7 +16,10 @@ export default function BioCard(props) {
         </div>
         <div className={"bio-card__bio-content"}>
           <div className={"bio-card__text-frame"}>
-            <div className={"bio-card__text"}>{props.currentBio.bio_text}</div>
+            <div
+              className={"bio-card__text"}
+              dangerouslySetInnerHTML={{ __html: props.currentBio.bio_text }}
+            ></div>
             <div className={"bio-card__icon-links"}>
               {props.currentBio.personal_site && (
                 <a
