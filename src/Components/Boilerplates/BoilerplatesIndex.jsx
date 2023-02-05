@@ -168,7 +168,11 @@ export default function BoilerplatesIndex() {
         </Button>
       </div>
       {filteredBoilerplates.length ? (
-        <Table columns={columns} data={filteredBoilerplates} />
+        <Table
+          className="boilerplates-index__table"
+          columns={columns}
+          data={filteredBoilerplates}
+        />
       ) : (
         <p>There are no boilerplates to display in this tab.</p>
       )}
