@@ -1,20 +1,22 @@
+import "@4tw/cypress-drag-drop";
+
 describe("Splashpage", () => {
   it("Logs into the application", () => {
     // #1 --------------------------------------------------------------------------
-    // cy.viewport(2560, 1600);
-    // cy.visit("http://localhost:3001");
-    // cy.get('[data-testid="log-in-button"]').click();
-    // cy.get("input[type=email]").type(
-    //   "michael@thegoodplace.com" /* {
-    //   delay: 100,
-    // } */
-    // );
-    // cy.get("input[type=password]").type("password");
-    // cy.get("button[type=submit]").click();
-    // cy.get('[data-testid="The Good Place"]').click();
-    // cy.get('[data-testid="Grants"]').click();
-    // cy.get('[data-testid="Good Place Neighborhood Grant"]').click();
-    // cy.get('[data-testid="overview"]').click();
+    cy.viewport(2560, 1600);
+    cy.visit("http://localhost:3001");
+    cy.get('[data-testid="log-in-button"]').click();
+    cy.get("input[type=email]").type(
+      "michael@thegoodplace.com" /* {
+      delay: 100,
+    } */
+    );
+    cy.get("input[type=password]").type("password");
+    cy.get("button[type=submit]").click();
+    cy.get('[data-testid="The Good Place"]').click();
+    cy.get('[data-testid="Grants"]').click();
+    cy.get('[data-testid="Good Place Neighborhood Grant"]').click();
+    cy.get('[data-testid="overview"]').click();
     // const dataTransfer = new DataTransfer();
     // cy.get('[data-testid="Organization Overview"]').trigger("dragstart", {
     //   dataTransfer,
@@ -184,90 +186,169 @@ describe("Splashpage", () => {
     //   .trigger("dragend", { force: true });
     // ------------------------------------------------------
     // #5 --------------------------------------------------
-    const dataTransfer = new DataTransfer();
-    Cypress.Commands.add(
-      "loginGoToOverview",
-      {
-        prevSubject: false,
-      },
-      (email, pass) => {
-        cy.viewport(2560, 1600);
-        cy.visit("http://localhost:3001");
-        cy.get('[data-testid="log-in-button"]').click();
-        cy.get("input[type=email]").type(
-          email /* {
-      delay: 100,
-    } */
-        );
-        cy.get("input[type=password]").type(pass);
-        cy.get("button[type=submit]").click();
-        cy.get('[data-testid="The Good Place"]').click();
-        cy.get('[data-testid="Grants"]').click();
-        cy.get('[data-testid="Good Place Neighborhood Grant"]').click();
-        cy.get('[data-testid="overview"]').click();
-      }
-    );
-    Cypress.Commands.add("dragAndDrop", (subject, target) => {
-      Cypress.log({
-        name: "DRAGNDROP",
-        message: `Dragging element ${subject} to ${target}`,
-        consoleProps: () => {
-          return {
-            subject: subject,
-            target: target,
-          };
-        },
-      });
-      const BUTTON_INDEX = 0;
-      const SLOPPY_CLICK_THRESHOLD = 10;
-      cy.get(target)
-        .first()
-        .then(($target) => {
-          let coordsDrop = $target[0].getBoundingClientRect();
-          cy.get(subject)
-            .first()
-            .then((subject) => {
-              const coordsDrag = subject[0].getBoundingClientRect();
-              cy.wrap(subject)
-                .trigger("dragstart", {
-                  button: BUTTON_INDEX,
-                  clientX: coordsDrag.x,
-                  clientY: coordsDrag.y,
-                  force: true,
-                  dataTransfer,
-                })
-                .trigger("dragenter", {
-                  button: BUTTON_INDEX,
-                  clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
-                  clientY: coordsDrop.y,
-                  force: true,
-                  dataTransfer,
-                })
-                .trigger("dragover", {
-                  button: BUTTON_INDEX,
-                  clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
-                  clientY: coordsDrop.y,
-                  force: true,
-                  dataTransfer,
-                });
-              cy.get("body")
-                .trigger("drop", {
-                  button: BUTTON_INDEX,
-                  clientX: coordsDrop.x,
-                  clientY: coordsDrop.y,
-                  force: true,
-                  dataTransfer,
-                })
-                .trigger("dragend");
-            });
-        });
-    });
-    cy.loginGoToOverview("michael@thegoodplace.com", "password");
-    cy.dragAndDrop(
-      '[data-testid="Organization Overview"]',
-      '[data-testid="Programs"]'
-    );
+    // const dataTransfer = new DataTransfer();
+    // Cypress.Commands.add(
+    //   "loginGoToOverview",
+    //   {
+    //     prevSubject: false,
+    //   },
+    //   (email, pass) => {
+    //     cy.viewport(2560, 1600);
+    //     cy.visit("http://localhost:3001");
+    //     cy.get('[data-testid="log-in-button"]').click();
+    //     cy.get("input[type=email]").type(
+    //       email /* {
+    //   delay: 100,
+    //   } */
+    //     );
+    //     cy.get("input[type=password]").type(pass);
+    //     cy.get("button[type=submit]").click();
+    //     cy.get('[data-testid="The Good Place"]').click();
+    //     cy.get('[data-testid="Grants"]').click();
+    //     cy.get('[data-testid="Good Place Neighborhood Grant"]').click();
+    //     cy.get('[data-testid="overview"]').click();
+    //   }
+    // );
+    // Cypress.Commands.add("dragAndDrop", (subject, target) => {
+    //   Cypress.log({
+    //     name: "DRAGNDROP",
+    //     message: `Dragging element ${subject} to ${target}`,
+    //     consoleProps: () => {
+    //       return {
+    //         subject: subject,
+    //         target: target,
+    //       };
+    //     },
+    //   });
+    //   const BUTTON_INDEX = 0;
+    //   const SLOPPY_CLICK_THRESHOLD = 10;
+    //   cy.get(target)
+    //     .first()
+    //     .then(($target) => {
+    //       let coordsDrop = $target[0].getBoundingClientRect();
+    //       cy.get(subject)
+    //         .first()
+    //         .then((subject) => {
+    //           const coordsDrag = subject[0].getBoundingClientRect();
+    //           cy.wrap(subject)
+    //             .trigger("dragstart", {
+    //               button: BUTTON_INDEX,
+    //               clientX: coordsDrag.x,
+    //               clientY: coordsDrag.y,
+    //               force: true,
+    //               dataTransfer,
+    //             })
+    //             .trigger("dragenter", {
+    //               button: BUTTON_INDEX,
+    //               clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
+    //               clientY: coordsDrop.y,
+    //               force: true,
+    //               dataTransfer,
+    //             })
+    //             .trigger("dragover", {
+    //               button: BUTTON_INDEX,
+    //               clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
+    //               clientY: coordsDrop.y,
+    //               force: true,
+    //               dataTransfer,
+    //             });
+    //           cy.get("body")
+    //             .trigger("drop", {
+    //               button: BUTTON_INDEX,
+    //               clientX: coordsDrop.x,
+    //               clientY: coordsDrop.y,
+    //               force: true,
+    //               dataTransfer,
+    //             })
+    //             .trigger("dragend");
+    //         });
+    //     });
+    // });
+    // cy.loginGoToOverview("michael@thegoodplace.com", "password");
+    // cy.dragAndDrop(
+    //   '[data-testid="Organization Overview"]',
+    //   '[data-testid="Programs"]'
+    // );
     //--------------------------------------------------
+    // #6 ----------------------------------------------
+    // cy.get('[data-testid="Programs"]')
+    //   .then((res) => {
+    //     return res[0].getBoundingClientRect();
+    //   })
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     cy.get('[data-testid="Organization Overview"]')
+    //       .trigger("mousedown", { force: true })
+    //       // .wait(2000)
+    //       // .trigger("mousemove", { clientX: res.x, clientY: res.y, force: true })
+    //       .trigger("mousemove", {
+    //         clientX: res.x,
+    //         clientY: res.y,
+    //         force: true,
+    //       })
+    //       // .wait(2000)
+    //       .trigger("mouseup", { force: true });
+    //   });
+
+    // cy.get('[data-testid="Programs"]').drag(
+    //   '[data-testid="Organization Overview"]',
+    //   {
+    //     source: { x: 100, y: 400 }, // applies to the element being dragged
+    //     target: { position: "center" }, // applies to the drop target
+    //     force: true, // applied to both the source and target element
+    //   }
+    // );
+
+    // cy.get('[data-testid="Organization Overview"]').move({
+    //   deltaX: 100,
+    //   deltaY: 500,
+    // });
+
+    cy
+      // retrieving the slider HTML element
+      .get(".sortable-item")
+      .first()
+      .then((slider) => {
+        console.log(slider);
+        // defining the CSS selector for the slider handle HTML element
+        const sliderSelector = cy.get('[data-testid="Organization Overview"]');
+        // .first();
+        // console.log(sliderSelector);
+        const sliderHandle = cy.get(sliderSelector).firstChild;
+        console.log(cy.get(sliderSelector).first());
+
+        // getting the slider bounding box size
+        const sliderBoundingBox = slider.get(0).getBoundingClientRect();
+        console.log("sliderBoundingBox", sliderBoundingBox);
+        // performing the drag-and-drop interaction
+        // with the cypress-drag-drop drag function
+        sliderHandle.drag(sliderSelector, {
+          force: true,
+          target: {
+            // moving the slider to the target value in %
+            x: sliderBoundingBox.width,
+            y: 1000,
+          },
+        });
+        // slider.move({
+        //   deltaX: 100,
+        //   deltaY: 500,
+        // });
+
+        // cy
+        //   // retrieving the input HTML element
+        //   .get(".ant-input-number-input")
+        //   .first()
+        //   // getting the "value" HTML attribute
+        //   .invoke("attr", "value")
+        //   .then((value) => {
+        //     // calculating the expected value
+        //     const expectedValue = `${maxValue * targetValue}`;
+
+        //     cy.wrap(value).should("be.eq", expectedValue);
+        //   });
+      });
+    // #6 ----------------------------------------------
     // // cy.viewport(2560, 1600);
     // // cy.visit("http://localhost:3001");
     // // cy.get('[data-testid="log-in-button"]').click();
