@@ -8,7 +8,8 @@
   overflow-y: auto;
   z-index: 100;
   overflow: scroll;
-  background-color: var(--primary-tint);
+  /* background-color: var(--primary-tint); */
+  background-color: var(--primary-contrast);
   color: #e02780;
 }
 
@@ -21,6 +22,6 @@
   font-size: var(--font-size-large-3);
 }
 
-.panel__background-image {
+/* .panel__background-image {
   background-image: url("flame_background2.svg");
-}
+} */

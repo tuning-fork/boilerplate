@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  background-color: var(--contrast-5);
 }
 
 .navbar-splashpage__logo {
