@@ -36,7 +36,11 @@ export default function Dashboard() {
     <section className="dashboard">
       <header className="dashboard__header">
         <h1>Welcome, {user.firstName}!</h1>
-        <Button as={CurrentOrganizationLink} to="/grants-new">
+        <Button
+          as={CurrentOrganizationLink}
+          to="/grants-new"
+          data-testid="new-grant-button"
+        >
           Add New Grant
         </Button>
       </header>

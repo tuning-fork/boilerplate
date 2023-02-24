@@ -46,6 +46,7 @@ export default function GrantForm(props) {
           onChange={(option) =>
             setGrantFields({ ...grantFields, fundingOrgId: option.value })
           }
+          testId="funding-org-dropdown"
         />
         <TextBox
           labelText="Title"
