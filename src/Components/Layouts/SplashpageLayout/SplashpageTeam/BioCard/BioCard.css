@@ -1,24 +1,30 @@
+.bio-card__container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4rem 6rem 0rem 6rem;
+  justify-content: space-around;
+}
+
+.bio-card__bio-content {
+  width: 40%;
+  padding: 2rem;
+  background-color: var(--base);
+}
+
 .bio-card__info {
   display: flex;
   gap: 2rem;
   align-items: center;
   margin-bottom: 2rem;
-  vertical-align: middle;
 }
 
-.bio-card__bio-frame {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
-.bio-card__container {
-  padding-left: 6rem;
-  padding-right: 6rem;
+.bio-card__info a > svg {
+  color: var(--contrast-100);
+  font-size: var(--font-size-icon-bigger);
+  display: block;
 }
 
 .bio-card__bio-name {
-  padding-top: 4rem;
   margin-bottom: 1rem;
   color: var(--contrast-100);
 }
@@ -30,19 +36,8 @@
   font-weight: var(--font-weight-normal);
 }
 
-.bio-card__bio-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--font-size-large-1);
-  height: 40rem;
-}
-
 .bio-card__text-frame {
   border-radius: 5px;
-  width: 60%;
-  min-width: 50%;
-  margin-right: 6rem;
   min-height: 40rem;
   height: 100%;
   color: var(--contrast-100);
@@ -53,15 +48,12 @@
   min-width: 0;
 }
 
-.bio-card__headshot-frame {
-  border: 2px solid #ffffff;
-  border-radius: 5px;
-  width: 30%;
-  padding: 4rem;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.bio-card__container svg {
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: -40vh;
+  right: 0;
 }
 
 .bio-card__headshot-image {
@@ -69,11 +61,4 @@
   max-height: 30rem;
   max-width: 30rem;
   border-radius: 4%;
-}
-
-/* .bio-card__icon-links a { */
-.bio-card__info a {
-  color: var(--contrast-100);
-  /* padding-right: 2rem; */
-  font-size: x-large;
 }

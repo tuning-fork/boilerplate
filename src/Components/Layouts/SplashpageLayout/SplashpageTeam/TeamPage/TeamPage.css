@@ -14,9 +14,3 @@
   justify-content: center;
   color: var(--primary-text);
 }
-
-.team-page__content {
-  padding-left: 7%;
-  padding-right: 7%;
-  padding-bottom: 20%;
-}
