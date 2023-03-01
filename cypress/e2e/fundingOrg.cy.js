@@ -1,6 +1,6 @@
 import "@4tw/cypress-drag-drop";
 
-describe("Splashpage", () => {
+describe("Create a new funding org", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
@@ -10,7 +10,22 @@ describe("Splashpage", () => {
     cy.get("button[type=submit]").click();
     cy.get('[data-testid="The Good Place"]').click();
     cy.get('[data-testid="Funding Organizations"]').click();
-    cy.get("button[value=Add New Funding Org").click();
+    cy.get("button:contains('Add New Funding Org')").click();
+    cy.get("form").within(() => {
+      cy.get("button").first().click();
+    });
+    cy.get("button:contains('Add New Funding Org')").click();
+    let fundingOrgCount;
+    cy.get("tr").then((res) => {
+      fundingOrgCount = res.length;
+    });
+    cy.get("form").within(() => {
+      cy.get("input")
+        .first()
+        .type(`Test New Funding Org ${fundingOrgCount + 1}`);
+      cy.get("input").last().type("testnewfundingorgwebsite.org");
+      cy.get("button").last().click();
+    });
     // cy.get('[data-testid="funding-org-dropdown"]').click();
     // cy.get('[data-testid="Funds For All"]').click();
     // cy.get('[data-testid="Title"]').type("Test Grant");
