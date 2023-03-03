@@ -131,7 +131,8 @@ export default function FundingOrgsIndex() {
           return fundingOrgs.archived === true;
         }
         return fundingOrgs;
-      });
+      })
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   }, [fundingOrgs, searchFilters, tabSelect]);
 
   return (
