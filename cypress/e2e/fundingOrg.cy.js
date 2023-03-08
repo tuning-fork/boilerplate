@@ -27,7 +27,16 @@ describe("Create a new funding org", () => {
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Edit"]').last().click();
     cy.get("form").within(() => {
-      cy.get("input").first().contains("Unique Funding Org Name");
+      cy.get("input:first").should(
+        "have.attr",
+        "value",
+        "Unique Funding Org Name"
+      );
+      cy.get("input:last").should(
+        "have.attr",
+        "value",
+        "uniquefundingorgwebsite.org"
+      );
     });
     cy.get("form").within(() => {
       cy.get("input").first().clear();
@@ -50,5 +59,25 @@ describe("Create a new funding org", () => {
     cy.get("form").within(() => {
       cy.get("button:contains('Delete')").last().click();
     });
+
+    // Search
+    cy.get('[data-testid="Search Funding Organizations by Title"]').type(
+      "Funds for all"
+    );
+    cy.get("tr")
+      .last()
+      .within(() => {
+        cy.get("td").first().should("contain", "Funds For All");
+        cy.get("td").should("have.length", 4);
+      });
+    cy.get('[data-testid="Search Funding Organizations by Title"]').clear();
+
+    // Check archived
+    cy.get("button:contains('Archived')").click();
+    cy.get("tr")
+      .last()
+      .within(() => {
+        cy.get("td").first().should("contain", "Test Updated Funding Org");
+      });
   });
 });

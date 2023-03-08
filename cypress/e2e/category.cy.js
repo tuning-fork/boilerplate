@@ -10,27 +10,42 @@ describe("Create a new category", () => {
     cy.get("button[type=submit]").click();
     cy.get('[data-testid="The Good Place"]').click();
     cy.get('[data-testid="Categories"]').click();
+
+    // Create category
     cy.get("button:contains('Add New Category')").click();
-    let categoryCount;
-    cy.get("tr").then((res) => {
-      categoryCount = res.length;
-    });
     cy.get("form").within(() => {
       cy.get("button").first().click();
     });
     cy.get("button:contains('Add New Category')").click();
     cy.get("form").within(() => {
-      cy.get("input")
-        .first()
-        .type(`Test New Category Name ${categoryCount + 1}`);
-      cy.get("button")
-        .last()
-        .click()
-        .then((res) => {
-          cy.get(`tr:contains("Test New Category Name ${categoryCount + 1}")`);
-        });
+      cy.get("input").first().type("New Unique Category");
+      cy.get("button").last().click();
     });
-    // console.log(categoryCount);
-    // cy.get(`tr:contains("Test New Category Name ${categoryCount + 1}")`);
+
+    // Edit category
+    cy.get('[data-testid="drop-down-mini"]').last().click();
+    cy.get('[data-testid="Edit"]').last().click();
+    cy.get("form").within(() => {
+      cy.get("input:first").should("have.attr", "value", "New Unique Category");
+    });
+    cy.get("form").within(() => {
+      cy.get("input").first().clear();
+      cy.get("input").first().type(`Test Updated New Unique Category`);
+      cy.get("button[type=submit]").click();
+    });
+
+    // Cancel edit
+    cy.get('[data-testid="drop-down-mini"]').last().click();
+    cy.get('[data-testid="Edit"]').last().click();
+    cy.get("form").within(() => {
+      cy.get("button:contains('Cancel')").click();
+    });
+
+    // Delete category
+    cy.get('[data-testid="drop-down-mini"]').last().click();
+    cy.get('[data-testid="Edit"]').last().click();
+    cy.get("form").within(() => {
+      cy.get("button:contains('Delete Category')").click(); // find the dialog box and select confirm
+    });
   });
 });

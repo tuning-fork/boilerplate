@@ -126,7 +126,8 @@ export default function CategoriesIndex() {
           return category.archived;
         }
         return category;
-      });
+      })
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   }, [categories, searchFilters, tabSelect]);
 
   if (isLoading) {
