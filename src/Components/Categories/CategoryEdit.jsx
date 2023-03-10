@@ -36,26 +36,11 @@ export default function CategoryEdit(props) {
   };
 
   const handleDelete = () => {
-    // console.log("you deleted this category!");
-    // if (confirm(`Are you sure you want to delete this category?`)) {
-    //   CategoriesService.deleteCategory(organizationClient, props.category.id)
-    //     .then(() => {
-    //       alert("Category deleted!");
-    //       props.onClose();
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       alert(
-    //         "Eek! Something went wrong when deleting the category. Try again soon."
-    //       );
-    //     });
-    // }
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Are you sure you want to delete this category?`)) {
-      // CategoriesService.updateCategory(organizationClient, props.category.id, {
-      //   archived: true,
-      // })
-      handleEditCategory({ archived: true })
+      CategoriesService.updateCategory(organizationClient, props.category.id, {
+        archived: true,
+      })
         .then(() => {
           alert("Category deleted!");
           props.onClose();

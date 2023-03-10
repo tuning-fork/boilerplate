@@ -47,5 +47,39 @@ describe("Create a new category", () => {
     cy.get("form").within(() => {
       cy.get("button:contains('Delete Category')").click(); // find the dialog box and select confirm
     });
+
+    // Search
+    cy.get('[data-testid="Search Categories by Title"]').type(
+      "Save The Whales"
+    );
+    cy.get("tr")
+      .last()
+      .within(() => {
+        cy.get("td").first().should("contain", "Save The Whales");
+        cy.get("td").should("have.length", 3);
+      });
+    cy.get('[data-testid="Search Categories by Title"]').clear();
+
+    // Check archived
+    cy.get("button:contains('Archived')").click();
+    cy.get("tr")
+      .last()
+      .within(() => {
+        cy.get("td")
+          .first()
+          .should("contain", "Test Updated New Unique Category");
+      });
+    cy.get("button:contains('All')").click();
+
+    // Archive category from the row menu
+    cy.get('[data-testid="drop-down-mini"]').last().click();
+    cy.get('[data-testid="Archive"]').last().click();
+    cy.get('[data-testid="Funding Organizations"]').click();
+    // cy.get("button:contains('Archived')").click();
+    // cy.get("tr")
+    //   .last()
+    //   .within(() => {
+    //     cy.get("td").first().should("equal", "New Unique Category");
+    //   });
   });
 });
