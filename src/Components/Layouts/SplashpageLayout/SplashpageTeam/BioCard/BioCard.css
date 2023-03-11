@@ -4,6 +4,8 @@
   padding: 4rem 6rem 0rem 6rem;
   gap: 2rem;
   justify-content: space-around;
+  position: relative;
+  overflow-y: hidden;
 }
 
 .bio-card__bio-content {

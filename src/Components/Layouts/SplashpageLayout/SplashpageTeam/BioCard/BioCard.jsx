@@ -14,7 +14,6 @@ export default function BioCard(props) {
         </h1>
         <div className="bio-card__info">
           <h3 className="bio-card__bio-title">{props.currentBio.title}</h3>
-          {/* <div className={"bio-card__icon-links"}> */}
           {props.currentBio.personal_site && (
             <a
               href={props.currentBio.personal_site}
@@ -42,7 +41,6 @@ export default function BioCard(props) {
               <RiGithubFill />
             </a>
           )}
-          {/* </div> */}
         </div>
         <div className={"bio-card__text-frame"}>
           <div

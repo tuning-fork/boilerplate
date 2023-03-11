@@ -10,6 +10,8 @@ import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
 import OrganizationNew from "./Components/Organizations/OrganizationNew";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import AcceptInvitationPage from "./pages/AcceptInvitation/AcceptInvitationPage";
+import TeamPage from "./pages/Team/TeamPage";
+import TeamMemberPage from "./pages/TeamMember/TeamMemberPage";
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
               <Redirect to="/splashpage" />
             </Route>
             <Route path="/splashpage" component={Splashpage} />
+            <Route path="/team" component={TeamPage} exact />
+            <Route path="/team/:memberId" component={TeamMemberPage} />
             <Route path="/reset_password" component={ResetPassword} />
             <Route path="/accept_invite" component={AcceptInvitationPage} />
             <PrivateRoute

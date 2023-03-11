@@ -1,5 +1,6 @@
 export const TEAM_BIOS = [
   {
+    id: "mike",
     first_name: "Mike",
     last_name: "McFaddin",
     headshot_url: "/imgs/mike.jpg",
@@ -25,6 +26,7 @@ export const TEAM_BIOS = [
     `,
   },
   {
+    id: "cain",
     first_name: "Cain",
     last_name: "Watson",
     title: "Senior Software Engineer",
@@ -49,6 +51,7 @@ export const TEAM_BIOS = [
     `,
   },
   {
+    id: "jess",
     first_name: "Jess",
     last_name: "White",
     title: "Software Engineer",
@@ -73,6 +76,7 @@ export const TEAM_BIOS = [
     `,
   },
   {
+    id: "taylor",
     first_name: "Taylor",
     last_name: "Shepard",
     title: "Software Engineer",
@@ -82,6 +86,7 @@ export const TEAM_BIOS = [
     bio_text: "",
   },
   {
+    id: "amy",
     first_name: "Amy",
     last_name: "Johnson",
     title: "Designer (emeritus)",
@@ -100,6 +105,7 @@ export const TEAM_BIOS = [
       In her spare time, Amy can be found painting, walking her two very spoiled dogs or playing in a Magic: The Gathering Tournament.`,
   },
   {
+    id: "eli",
     first_name: "Eli",
     last_name: "Sidman",
     title: "Designer (emeritus)",
