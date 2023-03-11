@@ -1,0 +1,26 @@
+.bio-portrait {
+  background-color: var(--primary-30);
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
+  padding: 2rem;
+  color: #FFFFFF;
+}
+
+.bio-portrait__headshot {
+  max-height: 20rem;
+  max-width: 20rem;
+}
+
+.bio-portrait > h3, .bio-portrait > p {
+  color: inherit;
+}
+
+.bio-portrait > h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.bio-portrait > p {
+  margin: 0;
+  font-size: var(--font-size-large-1);
+}

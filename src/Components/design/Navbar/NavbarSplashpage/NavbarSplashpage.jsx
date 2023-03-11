@@ -10,6 +10,7 @@ import PixelBackgroundBlue from "./pixel_background_blue.png";
 import PixelBackgroundYellow from "./pixel_background_yellow.png";
 import PixelBackgroundPink from "./pixel_background_pink.png";
 import "../../Panel/Panel.css";
+import { Link } from "react-router-dom";
 
 export default function NavbarSplashpage(props) {
   return (
@@ -22,13 +23,9 @@ export default function NavbarSplashpage(props) {
             alt="Custom button"
             className="navbar__tab-image"
           />
-          <Button
-            variant="none"
-            onClick={() => props.togglePanelContents("Our Team")}
-            className="navbar__tab"
-          >
+          <Link to="/team" className="navbar__tab">
             <dt className={clsx("navbar__tab-text", "tab-yellow")}>Our Team</dt>
-          </Button>
+          </Link>
         </div>
         <div className="navbar__tab-container">
           <img

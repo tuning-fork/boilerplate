@@ -8,7 +8,6 @@ import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
 import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
-import TeamPage from "./SplashpageTeam/TeamPage/TeamPage.jsx";
 import FeaturePage from "./SplashpageFeatures/FeaturePage";
 import Footer from "../../design/Footer/Footer";
 import clsx from "clsx";
@@ -77,18 +76,7 @@ export default function SplashpageLayout() {
   };
 
   const handleSwitchSplashPagePanel = () => {
-    if (panelView === "Our Team") {
-      return (
-        <Panel
-          hide={() => setPanelView("")}
-          show={true}
-          currentBio={currentBio}
-          setCurrentBio={setCurrentBio}
-        >
-          <TeamPage currentBio={currentBio} setCurrentBio={setCurrentBio} />
-        </Panel>
-      );
-    } else if (panelView === "Features") {
+   if (panelView === "Features") {
       return (
         <Panel
           hide={() => {
