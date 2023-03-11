@@ -29,7 +29,7 @@ export const TEAM_BIOS = [
     last_name: "Watson",
     title: "Senior Software Engineer",
     headshot_alt: "",
-    // headshot_url: "/imgs/Cain.jpg",
+    headshot_url: "/imgs/cain.jpg",
     github: "https://github.com/cainwatson",
     linkedin: "https://www.linkedin.com/in/cainwatson/",
     bio_text: `
@@ -89,7 +89,7 @@ export const TEAM_BIOS = [
     headshot_alt: "",
     linkedin: "https://www.linkedin.com/in/johnsonjustified/",
     personal_site: "https://johnsonjustified.com",
-    bio_text: `Amy is a Senior Product Designer and accessibility advocate. She currently works at Sprout Social on the Engagement team where she works with product and customers alike on Sprout’s social media management tool. She formerly worked at Tandem, Arity, Allstate, NextRadio, and Motorola Mobility. 
+    bio_text: `Amy is a Senior Product Designer and accessibility advocate. She currently works at Sprout Social on the Engagement team where she works with product and customers alike on Sprout’s social media management tool. She formerly worked at Tandem, Arity, Allstate, NextRadio, and Motorola Mobility.
       <br>
       <br>
 
