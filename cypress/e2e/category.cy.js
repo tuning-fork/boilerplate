@@ -69,17 +69,21 @@ describe("Create a new category", () => {
           .first()
           .should("contain", "Test Updated New Unique Category");
       });
-    cy.get("button:contains('All')").click();
 
-    // Archive category from the row menu
+    // Add new row to send to archive
+    cy.get("button:contains('All')").click();
+    cy.get("button:contains('Add New Category')").click();
+    cy.get("form").within(() => {
+      cy.get("input").first().type("New Unique Category");
+      cy.get("button").last().click();
+    });
+    cy.reload();
+    cy.wait(3000);
+
+    // Send new row to archive from row dropdown menu and check archived
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Archive"]').last().click();
-    cy.get('[data-testid="Funding Organizations"]').click();
-    // cy.get("button:contains('Archived')").click();
-    // cy.get("tr")
-    //   .last()
-    //   .within(() => {
-    //     cy.get("td").first().should("equal", "New Unique Category");
-    //   });
+    cy.get("button:contains('Archived')").click();
+    cy.get("tr").last().should("contain", "New Unique Category");
   });
 });

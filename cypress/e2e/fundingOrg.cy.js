@@ -73,11 +73,28 @@ describe("Create a new funding org", () => {
     cy.get('[data-testid="Search Funding Organizations by Title"]').clear();
 
     // Check archived
-    cy.get("button:contains('Archived')").click();
+    cy.get("button:contains('Archived')").last().click();
     cy.get("tr")
       .last()
       .within(() => {
         cy.get("td").first().should("contain", "Test Updated Funding Org");
       });
+
+    // Add new row to send to archive
+    cy.get("button:contains('All')").click();
+    cy.get("button:contains('Add New Funding Org')").click();
+    cy.get("form").within(() => {
+      cy.get("input").first().type("Going To Archived");
+      cy.get("input").last().type("goingtoarchived.org");
+      cy.get("button").last().click();
+    });
+    cy.reload();
+    cy.wait(3000);
+
+    // Send new row to archive from row dropdown menu and check archived
+    cy.get('[data-testid="drop-down-mini"]').last().click();
+    cy.get('[data-testid="Archive"]').last().click();
+    cy.get("button:contains('Archived')").click();
+    cy.get("tr").last().should("contain", "Going To Archived");
   });
 });
