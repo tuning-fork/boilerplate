@@ -3,9 +3,21 @@ import { MdCode } from "react-icons/md";
 import { BsLinkedin } from "react-icons/bs";
 import { RiGithubFill } from "react-icons/ri";
 import { ReactComponent as Fire } from "./bigfire.svg";
+import randomElement from "../../../../../Helpers/array/randomElement";
 import "./BioCard.css";
 
+const COLORS = [
+  "var(--primary)",
+  "var(--primary-text)",
+  "var(--secondary)",
+  "var(--secondary-text)",
+  "var(--tertiary-light)",
+  "var(--tertiary-dark)",
+];
+
 export default function BioCard(props) {
+  const color = randomElement(COLORS, props.currentBio.id);
+
   return (
     <div className={"bio-card__container"}>
       <div className={"bio-card__bio-content"}>
@@ -56,7 +68,7 @@ export default function BioCard(props) {
           className="bio-card__headshot-image"
         />
       </div>
-      <Fire />
+      <Fire style={{ color }} />
     </div>
   );
 }

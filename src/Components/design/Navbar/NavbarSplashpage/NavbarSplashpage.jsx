@@ -24,7 +24,9 @@ export default function NavbarSplashpage(props) {
             className="navbar__tab-image"
           />
           <Link to="/team" className="navbar__tab">
-            <dt className={clsx("navbar__tab-text", "tab-yellow")}>Our Team</dt>
+            <span className={clsx("navbar__tab-text", "tab-yellow")}>
+              Our Team
+            </span>
           </Link>
         </div>
         <div className="navbar__tab-container">
@@ -33,13 +35,11 @@ export default function NavbarSplashpage(props) {
             alt="Custom button"
             className="navbar__tab-image"
           />
-          <Button
-            variant="none"
-            onClick={() => props.togglePanelContents("Features")}
-            className="navbar__tab"
-          >
-            <div className={clsx("navbar__tab-text", "tab-blue")}>Features</div>
-          </Button>
+          <Link to="/features" className="navbar__tab">
+            <span className={clsx("navbar__tab-text", "tab-blue")}>
+              Features
+            </span>
+          </Link>
         </div>
         <div className="navbar__tab-container">
           <img
@@ -85,24 +85,6 @@ export default function NavbarSplashpage(props) {
             </div>
           </Button>
         </div>
-        {/* <div className="navbar__tab-container">
-          <img
-            src={customSignUpButton}
-            alt="Custom button"
-            className="navbar__image"
-          />
-          <Button
-            variant="none"
-            onClick={() => props.togglePanelContents("Contact")}
-            className={clsx("navbar__tab-text", "tab-signup", "navbar__button")}
-            href="#slice"
-            data-hover="Slice"
-          >
-            <div className={clsx("navbar__button", "menu__link")}>
-              Test Slice
-            </div>
-          </Button>
-        </div> */}
       </div>
     </div>
   );
@@ -110,8 +92,4 @@ export default function NavbarSplashpage(props) {
 
 NavbarSplashpage.propTypes = {
   className: PropTypes.string,
-  // user: PropTypes.object.isRequired,
-  // organizationName: PropTypes.string,
 };
-
-NavbarSplashpage.defaultProps = {};

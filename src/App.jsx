@@ -12,6 +12,8 @@ import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import AcceptInvitationPage from "./pages/AcceptInvitation/AcceptInvitationPage";
 import TeamPage from "./pages/Team/TeamPage";
 import TeamMemberPage from "./pages/TeamMember/TeamMemberPage";
+import ContactPage from "./pages/Contact/ContactPage";
+import FeaturesPage from "./pages/Features/FeaturesPage";
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
             <Route path="/splashpage" component={Splashpage} />
             <Route path="/team" component={TeamPage} exact />
             <Route path="/team/:memberId" component={TeamMemberPage} />
+            <Route path="/features" component={FeaturesPage} />
+            <Route path="/contact" component={ContactPage} />
             <Route path="/reset_password" component={ResetPassword} />
             <Route path="/accept_invite" component={AcceptInvitationPage} />
             <PrivateRoute

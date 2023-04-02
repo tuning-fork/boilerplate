@@ -3,19 +3,14 @@ import NavbarSplashpage from "../../design/Navbar/NavbarSplashpage/NavbarSplashp
 import "./SplashpageLayout.css";
 import splashpageBackgroundImage from "./splashpage_background_image7.png";
 import Modal from "../../design/Modal/Modal";
-import Panel from "../../design/Panel/Panel";
 import SignUp from "../../SignUp/SignUp";
 import Login from "../../Login/Login";
 import ForgotPassword from "../../Login/ForgotPassword/ForgotPassword";
-import SplashpageContactForm from "./SplashpageContact/SplashpageContactForm";
-import FeaturePage from "./SplashpageFeatures/FeaturePage";
 import Footer from "../../design/Footer/Footer";
 import clsx from "clsx";
 
 export default function SplashpageLayout() {
   const [showSplashPageModal, setShowSplashPageModal] = useState(false);
-  const [currentBio, setCurrentBio] = useState({});
-
   const [modalLabel, setModalLabel] = useState("Loading");
   const [modalContents, setModalContents] = useState(<></>);
   const [panelView, setPanelView] = useState("");
@@ -75,27 +70,6 @@ export default function SplashpageLayout() {
     setShowSplashPageModal(true);
   };
 
-  const handleSwitchSplashPagePanel = () => {
-   if (panelView === "Features") {
-      return (
-        <Panel
-          hide={() => {
-            setPanelView("");
-          }}
-          show={true}
-        >
-          <FeaturePage />
-        </Panel>
-      );
-    } else if (panelView === "Contact") {
-      return (
-        <Panel hide={() => setPanelView("")} show={true}>
-          <SplashpageContactForm setPanelView={setPanelView} />
-        </Panel>
-      );
-    }
-  };
-
   return (
     <div>
       <div
@@ -130,7 +104,6 @@ export default function SplashpageLayout() {
           >
             {modalContents}
           </Modal>
-          {handleSwitchSplashPagePanel()}
         </div>
         <Footer />
       </main>
