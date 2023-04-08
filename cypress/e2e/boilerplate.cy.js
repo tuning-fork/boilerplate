@@ -10,20 +10,40 @@ describe("Create a new boilerplate", () => {
     cy.get("button[type=submit]").click();
     cy.get('[data-testid="The Good Place"]').click();
     cy.get('[data-testid="Boilerplates"]').click();
-    cy.get("button:contains('Add New Boilerplate')").click();
-    let boilerplateCount;
+
+    // Create boilerplate
+
     cy.get("tr").then((res) => {
-      boilerplateCount = res.length;
-    });
-    cy.get("form").within(() => {
-      cy.get("button").first().click();
-    });
-    cy.get("button:contains('Add New Boilerplate')").click();
-    cy.get("form").within(() => {
-      cy.get("input")
-        .first()
-        .type(`Test New Category Name ${boilerplateCount + 1}`);
-      cy.get("button").last().click();
+      const boilerplateCount = res.length;
+      cy.get("a:contains('Add New Boilerplate')").click();
+      cy.get('[data-testid="boilerplate-dropdown"]').click();
+
+      cy.get("form").within(() => {
+        cy.get('[data-testid="General Purpose"]').first().click();
+        cy.get('[data-testid="Title"]').type(
+          `Test New Boilerplate ${boilerplateCount + 1}`
+        );
+        cy.get(".ql-editor").type(`This is some new boilerplate text!`);
+        cy.get("button[type=submit]").click();
+      });
+
+      // Check boilerplate index for the new boilerplate
+      cy.get("a:contains('Back to All Boilerplates')").click();
+      cy.get("tr")
+        .last()
+        .within(() => {
+          cy.get("td")
+            .first()
+            .should("contain", `Test New Boilerplate ${boilerplateCount + 1}`);
+          cy.get("td").should("have.length", 5);
+        });
+
+      // Archive boilerplate
+      cy.get('[data-testid="drop-down-mini"]').last().click();
+      cy.get('[data-testid="Archive"]').last().click();
+      cy.get("button:contains('Archived')").click();
     });
   });
 });
+
+// Test the show page functionality

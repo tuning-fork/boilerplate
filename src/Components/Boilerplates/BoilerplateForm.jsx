@@ -69,6 +69,7 @@ export default function BoilerplateForm(props) {
               categoryId: option.value,
             })
           }
+          testId="boilerplate-dropdown"
         />
         <TextBox
           labelText="Title"

@@ -1,6 +1,6 @@
 import "@4tw/cypress-drag-drop";
 
-describe("Splashpage", () => {
+describe("Grant overview DnD", () => {
   it("Logs into the application", () => {
     // #1 --------------------------------------------------------------------------
     cy.viewport(2560, 1600);
@@ -25,24 +25,52 @@ describe("Splashpage", () => {
     // const targetValue = 0.4; // 40%
 
     // #6 ----------------------------------------------
-    cy.get('[data-testid="Programs"]')
-      .then((res) => {
-        return res[0].getBoundingClientRect();
-      })
-      .then((res) => {
-        console.log("res", res);
-        cy.get('[data-testid="Organization Overview"]')
-          .trigger("mousedown", { force: true })
-          // .wait(2000)
-          // .trigger("mousemove", { clientX: res.x, clientY: res.y, force: true })
-          .trigger("mousemove", {
-            clientX: res.x,
-            clientY: res.y,
-            force: true,
-          })
-          // .wait(2000)
-          .trigger("mouseup", { force: true });
-      });
+    cy.get('[data-testid="Organization Overview"]').move({ deltaY: 300 });
+    // cy.get('[data-testid="Organization Overview"]').drag(
+    //   '[data-testid="Programs"]',
+    //   {
+    //     source: { x: 100, y: 100 }, // applies to the element being dragged
+    //     target: { position: "left" }, // applies to the drop target
+    //     force: true,
+    //   }
+    // );
+    // cy.get('[data-testid="Organization Overview"]').trigger("dragstart");
+
+    // cy.get('[data-testid="Programs"]')
+    //   .trigger("dragenter", { force: true })
+    //   .trigger("dragover", { force: true })
+    //   .trigger("drop", { force: true })
+    //   .wait(50)
+    //   .trigger("dragend", { force: true });
+
+    // cy.get('[data-testid="Programs"]')
+    //   .then((res) => {
+    //     return res[0].getBoundingClientRect();
+    //   })
+    //   .then((res) => {
+    //     console.log("res", res);
+    // cy.get('[data-testid="Organization Overview"]')
+    //   .wait(500)
+    //   .trigger("mousedown", { which: 1, force: true });
+
+    // cy.get('[data-testid="Organization Overview"]')
+    //   .wait(500)
+    //   .trigger("mousemove", {
+    //     // .wait(500)
+    //     // .trigger("mousemove", { clientX: res.x, clientY: res.y, force: true })
+    //     // clientX: res.x,
+    //     // clientY: res.y,
+    //     force: true,
+
+    //     which: 1,
+    //     clientX: 839,
+    //     clientY: 720, // res.y + 300, // 1300
+    //   });
+
+    // cy.get('[data-testid="Organization Overview"]')
+    //   .wait(500)
+    //   .trigger("mouseup", { force: true });
+    // });
 
     cy
       // retrieving the slider HTML element
