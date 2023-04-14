@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import Button from "../design/Button/Button";
@@ -16,13 +16,31 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DragOverlay } from "@dnd-kit/core";
+import {
+  DndContext,
+  MouseSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+} from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import {
+  restrictToFirstScrollableAncestor,
+  restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
 import "./GrantShowOverview.css";
 
-export default function GrantShowOverview(props) {
+export default function GrantShowOverview() {
   const { currentOrganization, organizationClient } = useCurrentOrganization();
+  const sensors = useSensors(useSensor(MouseSensor));
+  const [sortableSections, setSortableSections] = useState([]);
+  const [activeId, setActiveId] = useState(null);
   const { grantId } = useParams();
   const [checked, setChecked] = useState(false);
-  const { setSortableSections, setReorderHistory, setReorderIndex } = props;
+  const [reorderHistory, setReorderHistory] = useState([]);
+  const [reorderIndex, setReorderIndex] = useState(0);
+  const [canSaveReorder, setCanSaveReorder] = useState(false);
+  const ref = useRef(reorderIndex);
 
   const {
     data: grant,
@@ -35,7 +53,7 @@ export default function GrantShowOverview(props) {
 
   const grantSectionsReorder = () => {
     const sectionsToReorder = [];
-    props.sortableSections.forEach((newSection, index) => {
+    sortableSections.forEach((newSection, index) => {
       const checkSection = grant.sections[index];
       if (newSection.sortOrder !== checkSection.sortOrder) {
         sectionsToReorder.push({
@@ -61,26 +79,52 @@ export default function GrantShowOverview(props) {
     setReorderIndex,
   ]);
 
+  const updateState = (newState) => {
+    ref.current = newState;
+    setReorderIndex(newState);
+  };
+
+  function handleDragStart(event) {
+    const { active } = event;
+    console.log(event);
+    setActiveId(active.id);
+    console.log(activeId);
+  }
+
+  function handleDragEnd({ active, over }) {
+    if (active.id !== over.id) {
+      const newSectionOrder = (items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        setReorderHistory([
+          ...reorderHistory,
+          arrayMove(items, oldIndex, newIndex),
+        ]);
+        return arrayMove(items, oldIndex, newIndex);
+      };
+      setSortableSections(newSectionOrder);
+      updateState(reorderIndex + 1);
+      setCanSaveReorder(true);
+    }
+  }
+
   const onUndo = () => {
-    if (props.reorderIndex > 0 && props.reorderIndex !== 1) {
-      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
-      props.updateState(props.reorderIndex - 1);
-      props.setCanSaveReorder(true);
-    } else if (props.reorderIndex === 1) {
-      props.setSortableSections(props.reorderHistory[props.reorderIndex - 1]);
-      props.updateState(props.reorderIndex - 1);
-      props.setCanSaveReorder(false);
+    if (reorderIndex > 0 && reorderIndex !== 1) {
+      setSortableSections(reorderHistory[reorderIndex - 1]);
+      updateState(reorderIndex - 1);
+      setCanSaveReorder(true);
+    } else if (reorderIndex === 1) {
+      setSortableSections(reorderHistory[reorderIndex - 1]);
+      updateState(reorderIndex - 1);
+      setCanSaveReorder(false);
     }
   };
 
   const onRedo = () => {
-    if (
-      props.reorderIndex + 1 < props.reorderHistory.length &&
-      props.reorderHistory.length > 1
-    ) {
-      props.setSortableSections(props.reorderHistory[props.reorderIndex + 1]);
-      props.updateState(props.reorderIndex + 1);
-      props.setCanSaveReorder(true);
+    if (reorderIndex + 1 < reorderHistory.length && reorderHistory.length > 1) {
+      setSortableSections(reorderHistory[reorderIndex + 1]);
+      updateState(reorderIndex + 1);
+      setCanSaveReorder(true);
     }
   };
 
@@ -94,7 +138,7 @@ export default function GrantShowOverview(props) {
     {
       onSuccess: () => {
         alert("Sections reordered!");
-        props.setCanSaveReorder(false);
+        setCanSaveReorder(false);
       },
     }
   );
@@ -136,51 +180,62 @@ export default function GrantShowOverview(props) {
           heroButtons={heroButtons()}
         />
         <div className="grants-show-overview__content-panels">
-          <Container
-            className="grants-show-overview__draggable-sections-container"
-            as="section"
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            modifiers={[
+              restrictToFirstScrollableAncestor,
+              restrictToVerticalAxis,
+            ]}
           >
-            <div className="grants-show-overview__save-button">
-              <Button
-                onClick={() => {
-                  grantSectionsReorder();
-                }}
-                disabled={!props.canSaveReorder}
-              >
-                Save
-              </Button>
-              <Button
-                onClick={() => {
-                  onUndo();
-                }}
-                disabled={props.reorderIndex === 0}
-              >
-                Undo
-              </Button>
-              <Button
-                onClick={() => {
-                  onRedo();
-                }}
-                disabled={
-                  props.reorderIndex + 1 === props.reorderHistory.length ||
-                  props.reorderHistory.length <= 1
-                }
-              >
-                Redo
-              </Button>
-            </div>
-            <SortableContext
-              items={props.sortableSections}
-              strategy={verticalListSortingStrategy}
+            <Container
+              className="grants-show-overview__draggable-sections-container"
+              as="section"
             >
-              {props.sortableSections.map((item) => (
-                <SortableItem key={item.id} id={item.id} item={item} />
-              ))}
-            </SortableContext>
-            <DragOverlay>
-              {props.activeId ? <Item id={props.activeId} /> : null}
-            </DragOverlay>
-          </Container>
+              <div className="grants-show-overview__save-button">
+                <Button
+                  onClick={() => {
+                    grantSectionsReorder();
+                  }}
+                  disabled={!canSaveReorder}
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={() => {
+                    onUndo();
+                  }}
+                  disabled={reorderIndex === 0}
+                >
+                  Undo
+                </Button>
+                <Button
+                  onClick={() => {
+                    onRedo();
+                  }}
+                  disabled={
+                    reorderIndex + 1 === reorderHistory.length ||
+                    reorderHistory.length <= 1
+                  }
+                >
+                  Redo
+                </Button>
+              </div>
+              <SortableContext
+                items={sortableSections}
+                strategy={verticalListSortingStrategy}
+              >
+                {sortableSections.map((item) => (
+                  <SortableItem key={item.id} id={item.id} item={item} />
+                ))}
+              </SortableContext>
+              <DragOverlay>
+                {activeId ? <Item id={activeId} /> : null}
+              </DragOverlay>
+            </Container>
+          </DndContext>
           <Container className="grants-show-overview__preview-container">
             <div className="grants-show-overview__preview-checkbox">
               <Checkbox
@@ -192,7 +247,7 @@ export default function GrantShowOverview(props) {
               </Checkbox>
             </div>
             <div className="grants-show-overview__preview-text">
-              {props.sortableSections.map((section) => {
+              {sortableSections.map((section) => {
                 return (
                   <React.Fragment key={section.id}>
                     {!!checked && (

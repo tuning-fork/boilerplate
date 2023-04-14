@@ -15,7 +15,8 @@ import "./GrantShowOverview.css";
 
 import {
   DndContext,
-  PointerSensor,
+  // PointerSensor,
+  MouseSensor,
   useSensor,
   useSensors,
   closestCenter,
@@ -27,7 +28,7 @@ import {
 } from "@dnd-kit/modifiers";
 
 export default function GrantShowOverview() {
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(useSensor(MouseSensor));
   const [sortableSections, setSortableSections] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const { organizationClient } = useCurrentOrganization();
@@ -56,7 +57,9 @@ export default function GrantShowOverview() {
 
   function handleDragStart(event) {
     const { active } = event;
+    console.log(event);
     setActiveId(active.id);
+    console.log(activeId);
   }
 
   function handleDragEnd({ active, over }) {

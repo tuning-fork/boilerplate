@@ -1,4 +1,3 @@
-// import { Suspense, useState, useRef } from "react";
 import { Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CurrentOrganizationProvider } from "../Contexts/currentOrganizationContext";
@@ -16,63 +15,15 @@ import FundingOrgsIndex from "../Components/FundingOrgs/FundingOrgsIndex";
 import GrantCopy from "../Components/Grants/GrantCopy";
 import GrantEdit from "../Components/Grants/GrantEdit";
 import GrantShow from "../Components/Grants/GrantsShow";
-// import GrantShowOverview from "../Components/Grants/GrantShowOverview";
-import GrantShowOverviewTest from "../Components/Grants/GrantShowOverviewTest";
+import GrantShowOverview from "../Components/Grants/GrantShowOverview";
 import GrantsIndex from "../Components/Grants/GrantsIndex";
 import GrantsNew from "../Components/Grants/GrantsNew";
 import ReportsNew from "../Components/Reports/ReportsNew";
 import ReportsShow from "../Components/Reports/ReportsShow";
 import RedirectToDashboard from "../Components/Helpers/RedirectToDashboard";
 import UserIndexPage from "../pages/UserIndex/UserIndexPage";
-// import {
-//   DndContext,
-//   PointerSensor,
-//   useSensor,
-//   useSensors,
-//   closestCenter,
-// } from "@dnd-kit/core";
-// import { arrayMove } from "@dnd-kit/sortable";
-// import {
-//   restrictToFirstScrollableAncestor,
-//   restrictToVerticalAxis,
-// } from "@dnd-kit/modifiers";
 
 export default function OrganizationRoutes() {
-  // const sensors = useSensors(useSensor(PointerSensor));
-  // const [sortableSections, setSortableSections] = useState([]);
-  // const [activeId, setActiveId] = useState(null);
-  // const [reorderHistory, setReorderHistory] = useState([]);
-  // const [reorderIndex, setReorderIndex] = useState(0);
-  // const [canSaveReorder, setCanSaveReorder] = useState(false);
-  // const ref = useRef(reorderIndex);
-
-  // const updateState = (newState) => {
-  //   ref.current = newState;
-  //   setReorderIndex(newState);
-  // };
-
-  // function handleDragStart(event) {
-  //   const { active } = event;
-  //   setActiveId(active.id);
-  // }
-
-  // function handleDragEnd({ active, over }) {
-  //   if (active.id !== over.id) {
-  //     const newSectionOrder = (items) => {
-  //       const oldIndex = items.findIndex((item) => item.id === active.id);
-  //       const newIndex = items.findIndex((item) => item.id === over.id);
-  //       setReorderHistory([
-  //         ...reorderHistory,
-  //         arrayMove(items, oldIndex, newIndex),
-  //       ]);
-  //       return arrayMove(items, oldIndex, newIndex);
-  //     };
-  //     setSortableSections(newSectionOrder);
-  //     updateState(reorderIndex + 1);
-  //     setCanSaveReorder(true);
-  //   }
-  // }
-
   return (
     <Suspense fallback={<OrganizationLayoutFallback />}>
       <CurrentOrganizationProvider>
@@ -91,63 +42,9 @@ export default function OrganizationRoutes() {
               path="/organizations/:organizationId/grants/:grantId/copy"
               component={GrantCopy}
             />
-            {/* <Route
-              path="/organizations/:organizationId/grants/:grantId/overview"
-              render={() => (
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragStart={handleDragStart}
-                  onDragEnd={handleDragEnd}
-                  modifiers={[
-                    restrictToFirstScrollableAncestor,
-                    restrictToVerticalAxis,
-                  ]}
-                >
-                  <GrantShowOverview
-                    sortableSections={sortableSections}
-                    setSortableSections={setSortableSections}
-                    activeId={activeId}
-                    handleDragEnd={handleDragEnd}
-                    reorderHistory={reorderHistory}
-                    reorderIndex={reorderIndex}
-                    setReorderHistory={setReorderHistory}
-                    setReorderIndex={setReorderIndex}
-                    updateState={updateState}
-                    canSaveReorder={canSaveReorder}
-                    setCanSaveReorder={setCanSaveReorder}
-                  />
-                </DndContext>
-              )}
-            /> */}
             <Route
               path="/organizations/:organizationId/grants/:grantId/overview"
-              render={() => (
-                // <DndContext
-                //   sensors={sensors}
-                //   collisionDetection={closestCenter}
-                //   onDragStart={handleDragStart}
-                //   onDragEnd={handleDragEnd}
-                //   modifiers={[
-                //     restrictToFirstScrollableAncestor,
-                //     restrictToVerticalAxis,
-                //   ]}
-                // >
-                <GrantShowOverviewTest
-                // sortableSections={sortableSections}
-                // setSortableSections={setSortableSections}
-                // activeId={activeId}
-                // handleDragEnd={handleDragEnd}
-                // reorderHistory={reorderHistory}
-                // reorderIndex={reorderIndex}
-                // setReorderHistory={setReorderHistory}
-                // setReorderIndex={setReorderIndex}
-                // updateState={updateState}
-                // canSaveReorder={canSaveReorder}
-                // setCanSaveReorder={setCanSaveReorder}
-                />
-                // </DndContext>
-              )}
+              component={GrantShowOverview}
             />
             <Route
               exact
