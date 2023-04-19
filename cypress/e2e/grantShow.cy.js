@@ -29,6 +29,17 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("dd").should("contain", "Apr 13, 2023");
     cy.get("b").should("contain", "TOTAL WORD COUNT");
 
+    // Copy
+    cy.get("a[type=button]:contains('Copy')").click();
+    cy.get("h1:contains('Copy Grant')");
+    cy.get("form").within(() => {
+      cy.get('[data-testid="Purpose"]')
+        .clear()
+        .type("To test the copy process");
+      cy.get("button:contains('Save')").click();
+    });
+    cy.get("h1:contains('Grant to Test Drag and Drop copy')");
+
     // Edit grant
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("h1:contains('Edit Grant')");
@@ -44,19 +55,53 @@ describe("View a Grant on the Grants Show page", () => {
         .type("To test the edit process");
       cy.get("button[type=submit]").click();
     });
-    // Copy
-    cy.get("a[type=button]:contains('Copy')").click();
-    cy.get("h1:contains('Copy Grant')");
-    cy.get("form").within(() => {
-      cy.get('[data-testid="Purpose"]')
-        .clear()
-        .type("To test the copy process");
-      cy.get("button:contains('Save')").click();
-    });
-    cy.get("h1:contains('Grant to Test Drag and Drop copy')");
+
     // Delete copy
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("button:contains('Delete Grant')").click();
+
+    // Add sections
+    cy.wait(2000);
+    cy.get("h1:contains('All Grants')");
+    cy.get("td:contains('Grant to Test Drag and Drop')").click();
+    cy.get("dd").should("contain", "Funds For All");
+    cy.get("button:contains('Add Section')").first().click();
+    cy.get("form").within(() => {
+      cy.get("input").first().type("New Section Title");
+      cy.get(".ql-editor").type(`This is a new section!`);
+      cy.get("button[type=submit]").click();
+    });
+    // cy.wait(2000);
+    cy.reload();
+    cy.get("h2:contains('New Section Title')").within(() => {
+      cy.get("button").first().click();
+    });
+    cy.get("form").within(() => {
+      cy.get("input").first().type(" edited");
+      cy.get(".ql-editor").clear().type(`This is the edited section.`);
+      cy.get("button[type=submit]").click();
+    });
+    cy.reload();
+    cy.get("h2:contains('New Section Title')").within(() => {
+      cy.get("button").first().click();
+      // // Store section as boilerplate
+      // cy.get("button:contains('Store Section as Boilerplate')").click();
+      // cy.get("h1:contains('Store Section as Boilerplate')");
+    });
+    // Store section as boilerplate
+    cy.get("button:contains('Store Section as Boilerplate')").click();
+    cy.wait(2000);
+    cy.get("h1:contains('Store Section as Boilerplate')");
+    cy.get("form")
+      .eq(1)
+      .within(() => {
+        cy.get("input").first().clear().type("Section To Boilerplate Test");
+        cy.get('[data-testid="category-dropdown"]').click();
+        cy.get(".ql-editor")
+          .clear()
+          .type(`This is the newly created boilerplate text.`);
+        cy.get("button[type=submit]").click();
+      });
 
     // cy.get("h1:contains('Grant to Test Drag and Drop Edit')");
     // cy.get("dt")
@@ -86,8 +131,6 @@ describe("View a Grant on the Grants Show page", () => {
     //   //click on link
     //   //should see show page
     // });
-
-    // Add sections
 
     // Add section between sections
 

@@ -78,6 +78,7 @@ export default function StoreSectionAsBoilerplate(props) {
           label: category.name,
         }))}
         required
+        data-testid="category-dropdown"
       />
 
       <Label htmlFor="boilerplate-text">Text</Label>
