@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Button from "../../../design/Button/Button";
-import Container from "../../../design/Container/Container";
 import TextBox from "../../../design/TextBox/TextBox";
 import "./SplashpageContactForm.css";
 import * as ContactService from "../../../../Services/ContactService";
 import { useMutation } from "react-query";
+import Spinner from "../../../Helpers/Spinner";
 
 export default function SplashpageContactForm() {
   const [splashpageContactFields, setSplashpageContactFields] = useState({
@@ -17,7 +17,7 @@ export default function SplashpageContactForm() {
   const [displayContactSubmittedMessage, setDisplayContactSubmittedMessage] =
     useState("");
 
-  const { mutate: sendContactSubmission } = useMutation(
+  const { mutate: sendContactSubmission, isLoading } = useMutation(
     (newContactFields) =>
       ContactService.sendContactSubmission(newContactFields),
     {
@@ -36,11 +36,15 @@ export default function SplashpageContactForm() {
   return (
     <div className="splashpage-contact-form__container">
       {displayContactSubmittedMessage ? (
-        <div className="splashpage-contact-form__confirmation-message">
-          <p>Thanks for contacting us! We will be in touch soon.</p>
-          <p>This is the text of the message you sent us:</p>
-          <div>{displayContactSubmittedMessage}</div>
-        </div>
+        <>
+          <div className="splashpage-contact-form__confirmation-message">
+            <p>Thanks for contacting us! We will be in touch soon.</p>
+            <p>This is the text of the message you sent us:</p>
+          </div>
+          <blockquote className="splashpage-contact-form__submitted-message">
+            {displayContactSubmittedMessage}
+          </blockquote>
+        </>
       ) : (
         <form onSubmit={handleSubmit} className="splashpage-contact-form">
           <TextBox
@@ -107,7 +111,9 @@ export default function SplashpageContactForm() {
             }
           />
           <div className="splashpage-contact-form__actions">
-            <Button type="submit">Save</Button>
+            <Button type="submit">
+              Save {isLoading && <Spinner size="xs" />}
+            </Button>
           </div>
         </form>
       )}

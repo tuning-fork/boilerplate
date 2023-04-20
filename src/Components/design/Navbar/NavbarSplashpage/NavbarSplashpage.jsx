@@ -47,13 +47,11 @@ export default function NavbarSplashpage(props) {
             alt="Custom button"
             className="navbar__tab-image"
           />
-          <Button
-            variant="none"
-            onClick={() => props.togglePanelContents("Contact")}
-            className="navbar__tab"
-          >
-            <div className={clsx("navbar__tab-text", "tab-pink")}>Contact</div>
-          </Button>
+          <Link to="/contact" className="navbar__tab">
+            <span className={clsx("navbar__tab-text", "tab-pink")}>
+              Contact
+            </span>
+          </Link>
         </div>
         <div className="navbar__tab-container">
           <img

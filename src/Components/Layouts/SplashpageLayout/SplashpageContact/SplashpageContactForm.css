@@ -5,9 +5,13 @@
   border-radius: 5px;
 }
 
-.splashpage-contact-form__confirmation-message {
-  color: #ffffff;
+.splashpage-contact-form__confirmation-message > p {
   font-size: var(--font-size-large-1);
+  margin-top: 0;
+}
+
+.splashpage-contact-form__submitted-message {
+  font-style: italic;
 }
 
 .splashpage-contact-form__header__container {
@@ -44,4 +48,5 @@
 }
 .splashpage-contact-form__actions > button {
   margin-left: 20px;
+  gap: .4rem;
 }
