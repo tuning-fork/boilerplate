@@ -60,7 +60,7 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("button:contains('Delete Grant')").click();
 
-    // Add sections
+    // Add section
     cy.wait(2000);
     cy.get("h1:contains('All Grants')");
     cy.get("td:contains('Grant to Test Drag and Drop')").click();
@@ -71,8 +71,9 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get(".ql-editor").type(`This is a new section!`);
       cy.get("button[type=submit]").click();
     });
-    // cy.wait(2000);
     cy.reload();
+
+    // Edit the newly created section
     cy.get("h2:contains('New Section Title')").within(() => {
       cy.get("button").first().click();
     });
@@ -88,6 +89,7 @@ describe("View a Grant on the Grants Show page", () => {
       // cy.get("button:contains('Store Section as Boilerplate')").click();
       // cy.get("h1:contains('Store Section as Boilerplate')");
     });
+
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
     cy.wait(2000);
@@ -97,11 +99,30 @@ describe("View a Grant on the Grants Show page", () => {
       .within(() => {
         cy.get("input").first().clear().type("Section To Boilerplate Test");
         cy.get('[data-testid="category-dropdown"]').click();
+        cy.get('[data-testid="General Purpose"]').first().click();
         cy.get(".ql-editor")
           .clear()
           .type(`This is the newly created boilerplate text.`);
         cy.get("button[type=submit]").click();
       });
+
+    // Delete the section that was saved as a boilerplate
+    cy.get('[data-testid="Boilerplates"]').click();
+    cy.get("a:contains('Section To Boilerplate Test')").first().click();
+    cy.get("button:contains('Edit')").click();
+    cy.get("button:contains('Delete')").click();
+    cy.reload();
+    cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
+
+    // Delete the newly added section
+    cy.get("a:contains('Grants')").click();
+    cy.wait(2000);
+    cy.get("td:contains('Grant to Test Drag and Drop')").click();
+    cy.wait(2000);
+    cy.get("h2:contains('New Section Title edited')").within(() => {
+      cy.get("button").first().click();
+    });
+    cy.get("button:contains('Delete Section')").click();
 
     // cy.get("h1:contains('Grant to Test Drag and Drop Edit')");
     // cy.get("dt")
@@ -134,34 +155,12 @@ describe("View a Grant on the Grants Show page", () => {
 
     // Add section between sections
 
-    // Edit section
-
     // Cancel edit
-
-    // Delete section
 
     // Open paste boilerplate content window
 
     // Select and paste boilerplates
 
     // Cancel/close select and paste boilerplates
-
-    // Create a copy of the grant
-    //   cy.get("tr")
-    //     .last()
-    //     .should("contain", `Test New Grant Name ${grantCount + 1}`)
-    //     .then(() => {
-    //       cy.get('[data-testid="drop-down-mini"]').last().click();
-    //       cy.get('[data-testid="Make a Copy"]').last().click();
-    //       cy.get("button:contains('Save')").click();
-    //       cy.get("a:contains('Back to All Grants')").click();
-    //     });
-
-    //   // Go to All and check that new copy exists
-    //   cy.reload();
-    //   cy.wait(3000);
-    //   cy.get("tr")
-    //     .last()
-    //     .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
   });
 });

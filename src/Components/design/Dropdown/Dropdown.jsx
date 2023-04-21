@@ -93,6 +93,7 @@ export default function Dropdown(props) {
               setIsMenuOpen((isOpen) => !isOpen);
             }
           }}
+          data-testid={props.testid}
         >
           {selectedOption ? (
             <span>{selectedOption.label}</span>
