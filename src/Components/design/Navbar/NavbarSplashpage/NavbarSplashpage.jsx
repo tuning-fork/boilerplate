@@ -59,13 +59,11 @@ export default function NavbarSplashpage(props) {
             alt="Custom button"
             className="navbar__image"
           />
-          <Button
-            variant="none"
-            onClick={() => props.toggleModalContents("Log In")}
-            className="navbar__tab"
-          >
-            <div className={clsx("navbar__tab-text", "tab-login")}>Log In</div>
-          </Button>
+          <Link to="/login" className="navbar__tab">
+            <span className={clsx("navbar__tab-text", "tab-login")}>
+              Log In
+            </span>
+          </Link>
         </div>
         <div className="navbar__tab-container">
           <img
@@ -73,15 +71,11 @@ export default function NavbarSplashpage(props) {
             alt="Custom button"
             className="navbar__image"
           />
-          <Button
-            variant="none"
-            onClick={() => props.toggleModalContents("Sign Up")}
-            className="navbar__button"
-          >
-            <div className={clsx("navbar__tab-text", "tab-signup")}>
+          <Link to="/signup" className="navbar__tab">
+            <span className={clsx("navbar__tab-text", "tab-signup")}>
               Sign Up
-            </div>
-          </Button>
+            </span>
+          </Link>
         </div>
       </div>
     </div>

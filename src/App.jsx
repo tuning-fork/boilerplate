@@ -14,6 +14,7 @@ import TeamPage from "./pages/Team/TeamPage";
 import TeamMemberPage from "./pages/TeamMember/TeamMemberPage";
 import ContactPage from "./pages/Contact/ContactPage";
 import FeaturesPage from "./pages/Features/FeaturesPage";
+import SignUpPage from "./pages/SignUp/SignUpPage";
 
 export default function App() {
   return (
@@ -29,6 +30,9 @@ export default function App() {
             <Route path="/team/:memberId" component={TeamMemberPage} />
             <Route path="/features" component={FeaturesPage} />
             <Route path="/contact" component={ContactPage} />
+            <Route path="/signup" component={SignUpPage} />
+            {/* <Route path="/login" component={ContactPage} /> */}
+            {/* <Route path="/forgot_password" component={ContactPage} /> */}
             <Route path="/reset_password" component={ResetPassword} />
             <Route path="/accept_invite" component={AcceptInvitationPage} />
             <PrivateRoute
