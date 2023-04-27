@@ -83,12 +83,57 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get("button[type=submit]").click();
     });
     cy.reload();
+    // cy.get("h2:contains('New Section Title')").within(() => {
+    //   cy.get("button").first().click();
+    // });
+
+    //Paste boilerplate into section
     cy.get("h2:contains('New Section Title')").within(() => {
       cy.get("button").first().click();
-      // // Store section as boilerplate
-      // cy.get("button:contains('Store Section as Boilerplate')").click();
-      // cy.get("h1:contains('Store Section as Boilerplate')");
     });
+    cy.get("form").within(() => {
+      // Press Paste Boilerplate Content
+      cy.get("button:contains('Paste Boilerplate Content')").click();
+      cy.get("h2").should("contain", "Paste Boilerplate Content");
+      cy.get('[data-testid="Search"]').type(`mission`);
+      cy.get(".accordion-table").within(() => {
+        cy.get("li.accordion-item").should("have.length", 4); // should be 1
+      });
+      cy.get('[data-testid="Search"]').clear();
+      cy.get("button.dropdown__input").within(() => {
+        cy.get("button:contains('Family Services')").click();
+        cy.get("li.accordion-item").should("have.length", 4); // should be 2
+      });
+      cy.get('[data-testid="Max Word Count"]').type("42");
+      cy.get("li.accordion-item").should("have.length", 4); // should be 1
+      cy.get("h6.accordion-item__header").click();
+      cy.get("button:contains('Paste Boilerplate')").should("be.visible");
+      // Then check for paste menu
+      // cy.get("input").first().type(" edited");
+      // cy.get(".ql-editor").clear().type(`This is the edited section.`);
+      // cy.get("button[type=submit]").click();
+    });
+    cy.reload();
+    cy.get("h2:contains('New Section Title')").within(() => {
+      cy.get("button").first().click();
+    });
+
+    // Open section form
+    // Open paste boilerplate content window
+    // Select and paste boilerplate
+    // Search boilerplates
+    // Filter by category
+    // Filter by wordcount
+    // Expand
+    // Expand multiple
+    // See Boilerplate text
+    // Click on Paste Boilerplate
+    // Boilerplate pastes
+    // Checkmark appears
+    // Paste multiple boilerplates?
+    // Text appears multiple times?
+    // Type inside new section and save
+    // Cancel/close select and paste boilerplates
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
@@ -124,43 +169,8 @@ describe("View a Grant on the Grants Show page", () => {
     });
     cy.get("button:contains('Delete Section')").click();
 
-    // cy.get("h1:contains('Grant to Test Drag and Drop Edit')");
-    // cy.get("dt")
-    //   .first()
-    //   .then((res) => console.log("res", res));
-    //   // Create a grant
-    //   cy.get("a:contains('Add New Grant')").click();
-    //   cy.get('[data-testid="funding-org-dropdown"]').click();
-    //   cy.get("form").within(() => {
-    //     cy.get('[data-testid="Funds For All"]').click();
-    //     cy.get('[data-testid="Title"]').type(
-    //       `Test New Grant Name ${grantCount + 1}`
-    //     );
-    //     cy.get('[data-testid="RFP URL"]').type("https://www.testgrant.com");
-    //     cy.get('[data-testid="Deadline"]').type("2023-01-01T12:00:00");
-    //     cy.get('[data-testid="Purpose"]').type("testing purposes");
-    //     cy.get("button[type=submit]").click();
-    //   });
-
-    // Click on grant in grants index to navigate to Show page
-    // cy.get('[data-testid="Grants"]').click();
-    // cy.get("tr").then(() => {
-    //   cy.get("tr")
-    //     .last()
-    //     .should("contain", `Test New Grant Name ${grantCount + 1}`);
-    //   //cy.get name field clickable link
-    //   //click on link
-    //   //should see show page
-    // });
-
+    // TODO: use create section and edit flow pattern to build add section between sections + cancel edit
     // Add section between sections
-
     // Cancel edit
-
-    // Open paste boilerplate content window
-
-    // Select and paste boilerplates
-
-    // Cancel/close select and paste boilerplates
   });
 });
