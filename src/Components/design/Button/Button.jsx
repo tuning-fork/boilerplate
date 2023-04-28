@@ -14,6 +14,7 @@ export const ButtonVariant = {
 };
 export const ButtonColor = {
   Primary: "primary",
+  Secondary: "secondary",
   Success: "success",
   Error: "error",
   Contrast: "contrast",

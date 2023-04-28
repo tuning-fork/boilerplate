@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHistory, Link } from "react-router-dom";
 import Footer from "../../Components/design/Footer/Footer";
 import NavbarSplashpage from "../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import SignUpForm from "./SignUpForm/SignUpForm";
 import { createUser } from "../../Services/Auth/SignupService";
-import "./SignUpPage.css";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
+import "./SignUpPage.css";
 
 export default function SignUpPage() {
   const history = useHistory();

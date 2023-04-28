@@ -47,7 +47,7 @@ export default function TextBox(props) {
             onChange={onChange}
             placeholder={placeholderText}
             required={required}
-            maxlength={maxLength}
+            maxLength={maxLength}
             {...rest}
           />
         )}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "../design/Button/Button";
-import TextBox from "../design/TextBox/TextBox";
+import Button from "../../../Components/design/Button/Button";
+import TextBox from "../../../Components/design/TextBox/TextBox";
+import { useCurrentUser } from "../../../Contexts/currentUserContext";
 import "./LoginForm.css";
-import { useCurrentUser } from "../../Contexts/currentUserContext";
 
 export default function LoginForm(props) {
   const [loginFields, setLoginFields] = useState({});
@@ -12,7 +12,6 @@ export default function LoginForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoginFields({ ...loginFields });
     props.onSubmit(loginFields);
   };
 
@@ -50,29 +49,12 @@ export default function LoginForm(props) {
           required
         />
         <div className="login-form__actions">
-          <p>
-            New to Boilerplate?
-            <Button
-              className="login-form__signup-toggle"
-              variant="none"
-              onClick={() => props.toggleModalContents("Sign Up")}
-            >
-              Create an Account
-            </Button>
-          </p>
           <Button
-            variant="login"
+            color="secondary"
             type="submit"
             className="login-form__login-submit-button"
           >
             Log In
-          </Button>
-          <Button
-            variant="none"
-            className="login-form__forgot-password"
-            onClick={() => props.toggleModalContents("Forgot Password")}
-          >
-            Forgot Password?
           </Button>
         </div>
       </form>

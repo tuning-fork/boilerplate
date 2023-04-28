@@ -1,0 +1,27 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.login-page__content {
+  flex: 1;
+  padding: 4rem;
+}
+
+.login-page__header {
+  margin-bottom: 2rem;
+  color: inherit;
+}
+
+.login-page__text {
+  margin-bottom: 2rem;
+}
+
+.login-page__sign-up {
+  text-align: center;
+}
+.login-page__sign-up > a {
+  color: var(--body-text);
+  font-weight: var(--font-weight-bold);
+}

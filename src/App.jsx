@@ -5,7 +5,7 @@ import OrganizationRoutes from "./routes/OrganizationRoutes";
 import { PrivateRoute } from "./Components/Helpers/PrivateRoute";
 import Spinner from "./Components/Helpers/Spinner";
 import Splashpage from "./Components/Splashpage";
-import ResetPassword from "./Components/Login/ResetPassword/ResetPassword";
+import ResetPasswordPage from "./pages/ResetPassword/ResetPasswordPage";
 import OrganizationIndex from "./Components/Organizations/OrganizationIndex";
 import OrganizationNew from "./Components/Organizations/OrganizationNew";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
@@ -15,6 +15,8 @@ import TeamMemberPage from "./pages/TeamMember/TeamMemberPage";
 import ContactPage from "./pages/Contact/ContactPage";
 import FeaturesPage from "./pages/Features/FeaturesPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
+import LoginPage from "./pages/Login/LoginPage";
+import ForgotPasswordPage from "./pages/ForgotPassword/ForgotPasswordPage";
 
 export default function App() {
   return (
@@ -31,9 +33,9 @@ export default function App() {
             <Route path="/features" component={FeaturesPage} />
             <Route path="/contact" component={ContactPage} />
             <Route path="/signup" component={SignUpPage} />
-            {/* <Route path="/login" component={ContactPage} /> */}
-            {/* <Route path="/forgot_password" component={ContactPage} /> */}
-            <Route path="/reset_password" component={ResetPassword} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/forgot_password" component={ForgotPasswordPage} />
+            <Route path="/reset_password" component={ResetPasswordPage} />
             <Route path="/accept_invite" component={AcceptInvitationPage} />
             <PrivateRoute
               exact

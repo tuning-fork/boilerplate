@@ -2,13 +2,13 @@ import React, { useMemo } from "react";
 import { useMutation } from "react-query";
 import { useHistory, Link } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
-import Container from "../../design/Container/Container";
-import useQuery from "../../../Hooks/useQuery";
-import ResetPasswordForm from "./ResetPasswordForm";
-import * as PasswordService from "../../../Services/Auth/PasswordService";
-import "./ResetPassword.css";
+import Container from "../../Components/design/Container/Container";
+import useQuery from "../../Hooks/useQuery";
+import ResetPasswordForm from "./ResetPasswordForm/ResetPasswordForm";
+import * as PasswordService from "../../Services/Auth/PasswordService";
+import "./ResetPasswordPage.css";
 
-export default function ResetPassword() {
+export default function ResetPasswordPage() {
   const history = useHistory();
   const query = useQuery();
   const token = useMemo(() => query.get("token"), [query]);
