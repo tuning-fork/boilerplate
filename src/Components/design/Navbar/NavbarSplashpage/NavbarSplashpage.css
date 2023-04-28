@@ -1,14 +1,16 @@
 .navbar-splashpage {
   width: 100%;
   display: flex;
+  gap: 1rem;
+  padding: 0.6rem;
   justify-content: space-between;
   background-color: var(--contrast-5);
 }
 
 .navbar-splashpage__logo {
   margin: auto 0;
-  padding: 13px;
-  max-width: 30%;
+  min-width: 400px;
+  max-width: 400px;
 }
 
 .navbar-splashpage__login {
@@ -17,6 +19,9 @@
 }
 
 .navbar-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   padding-right: 1rem;
   margin-top: auto;
 }
@@ -29,7 +34,6 @@
   position: relative;
   text-align: center;
   display: inline-flex;
-  padding-right: 2.2rem;
 }
 
 .navbar__tab-text {
