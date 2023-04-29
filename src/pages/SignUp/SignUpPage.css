@@ -18,10 +18,10 @@
   margin-bottom: 2rem;
 }
 
-.sign-up__login {
+.sign-up-page__login {
   text-align: center;
 }
-.sign-up__login > a {
+.sign-up-page__login > a {
   color: var(--body-text);
   font-weight: var(--font-weight-bold);
 }

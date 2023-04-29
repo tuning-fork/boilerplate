@@ -41,7 +41,7 @@ export default function SignUpPage() {
           </p>
         </section>
         <SignUpForm onSubmit={createAndLoginUser} />
-        <p className="sign-up__login">
+        <p className="sign-up-page__login">
           Already have an account? <Link to="/login">Log In</Link>
         </p>
       </main>
