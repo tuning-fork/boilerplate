@@ -3,11 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../BOILERPLATE.svg";
-import customLogInButton from "./Login_Button_Blank.png";
-import customSignUpButton from "./sign_up_button_blank.png";
-import PixelBackgroundBlue from "./pixel_background_blue.png";
-import PixelBackgroundYellow from "./pixel_background_yellow.png";
-import PixelBackgroundPink from "./pixel_background_pink.png";
 import "../../Panel/Panel.css";
 import "./NavbarSplashpage.css";
 
@@ -17,68 +12,33 @@ export default function NavbarSplashpage(props) {
       <Link to="/">
         <Logo className="navbar-splashpage__logo" />
       </Link>
-      <div className="navbar__items">
-        <div className="navbar__tab-container">
-          <img
-            src={PixelBackgroundYellow}
-            alt="Custom button"
-            className="navbar__tab-image"
-          />
-          <Link to="/team" className="navbar__tab">
-            <span className={clsx("navbar__tab-text", "tab-yellow")}>
-              Our Team
-            </span>
+      <ul className="navbar__items">
+        <li className={clsx("navbar__tab", "navbar__tab--yellow")}>
+          <Link to="/team" className="navbar__tab-link">
+            Our Team
           </Link>
-        </div>
-        <div className="navbar__tab-container">
-          <img
-            src={PixelBackgroundBlue}
-            alt="Custom button"
-            className="navbar__tab-image"
-          />
-          <Link to="/features" className="navbar__tab">
-            <span className={clsx("navbar__tab-text", "tab-blue")}>
-              Features
-            </span>
+        </li>
+        <li className={clsx("navbar__tab", "navbar__tab--blue")}>
+          <Link to="/features" className="navbar__tab-link">
+            Features
           </Link>
-        </div>
-        <div className="navbar__tab-container">
-          <img
-            src={PixelBackgroundPink}
-            alt="Custom button"
-            className="navbar__tab-image"
-          />
-          <Link to="/contact" className="navbar__tab">
-            <span className={clsx("navbar__tab-text", "tab-pink")}>
-              Contact
-            </span>
+        </li>
+        <li className={clsx("navbar__tab", "navbar__tab--pink")}>
+          <Link to="/contact" className="navbar__tab-link">
+            Contact
           </Link>
-        </div>
-        <div className="navbar__tab-container">
-          <img
-            src={customLogInButton}
-            alt="Custom button"
-            className="navbar__image"
-          />
-          <Link to="/login" className="navbar__tab">
-            <span className={clsx("navbar__tab-text", "tab-login")}>
-              Log In
-            </span>
+        </li>
+        <li className={clsx("navbar__tab", "navbar__tab--login")}>
+          <Link to="/login" className="navbar__tab-link">
+            Log In
           </Link>
-        </div>
-        <div className="navbar__tab-container">
-          <img
-            src={customSignUpButton}
-            alt="Custom button"
-            className="navbar__image"
-          />
-          <Link to="/signup" className="navbar__tab">
-            <span className={clsx("navbar__tab-text", "tab-signup")}>
-              Sign Up
-            </span>
+        </li>
+        <li className={clsx("navbar__tab", "navbar__tab--signup")}>
+          <Link to="/signup" className="navbar__tab-link">
+            Sign Up
           </Link>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   );
 }

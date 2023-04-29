@@ -18,78 +18,76 @@
   justify-content: space-around;
 }
 
-.navbar-items {
+.navbar__items {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-right: 1rem;
-  margin-top: auto;
+  align-items: center;
+  justify-content: end;
+  list-style: none;
+  padding: 0;
 }
 
 .navbar__tab {
-  padding-right: 1rem;
-}
-
-.navbar__tab-container {
-  position: relative;
-  text-align: center;
-  display: inline-flex;
-}
-
-.navbar__tab-text {
-  position: absolute;
-  top: 60%;
-  left: 25%;
-  transform: translate(-28%, -60%);
   color: #2c92a8;
+  height: fit-content;
+}
+
+.navbar__tab-link {
   font-size: var(--font-size-large-1);
   font-weight: var(--font-weight-extra-bold);
   text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem;
+  display: block;
   letter-spacing: 0.2rem;
 }
 
-.tab-pink:hover {
+.navbar__tab--pink:hover {
   color: #4b1e75;
+  background-image: url("/src/Components/design/Navbar/NavbarSplashpage/pixel_background_pink.png");
 }
 
-.tab-blue:hover {
+.navbar__tab--blue:hover {
   color: #237e74;
+  background-image: url("/src/Components/design/Navbar/NavbarSplashpage/pixel_background_blue.png");
 }
 
-.tab-yellow:hover {
+.navbar__tab--yellow:hover {
   color: #f6a04d;
+  background-image: url("/src/Components/design/Navbar/NavbarSplashpage/pixel_background_yellow.png");
 }
 
-.tab-login {
+.navbar__tab--login,
+.navbar__tab--signup
+ {
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-align: center;
+  width: 13ch;
+}
+
+.navbar__tab--login {
   color: #4b1e75;
+  background-image: url("/src/Components/design/Navbar/NavbarSplashpage/Login_Button_Blank.png");
 }
 
-.tab-login:hover {
+.navbar__tab--login:hover {
   color: #237e74;
 }
 
-.tab-signup {
+.navbar__tab--signup {
   color: #4b1e75;
+  background-image: url("/src/Components/design/Navbar/NavbarSplashpage/sign_up_button_blank.png");
 }
 
-.tab-signup:hover {
+.navbar__tab--signup:hover {
   color: #e3ed55;
 }
 
-.navbar__button {
-  padding-right: 1.5rem;
-}
-
-.navbar__image {
-  width: 8rem;
-}
-
-.navbar__tab-image {
-  width: 10rem;
-  opacity: 0;
-}
-
-.navbar__tab-container:hover .navbar__tab-image {
-  width: 10rem;
-  opacity: 1;
-}
+/* sign up default: pink background square, teal pixel decoration, neon yellow
+text */
+/* login default: teal background square, pink pixel decoration, neon yellow
+text */
+/* hover text dark purple */
