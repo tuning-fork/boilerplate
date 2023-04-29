@@ -14,7 +14,9 @@ import "./NavbarSplashpage.css";
 export default function NavbarSplashpage(props) {
   return (
     <div className={clsx(props.className, "navbar-splashpage")}>
-      <Logo className="navbar-splashpage__logo" />
+      <Link to="/">
+        <Logo className="navbar-splashpage__logo" />
+      </Link>
       <div className="navbar__items">
         <div className="navbar__tab-container">
           <img
