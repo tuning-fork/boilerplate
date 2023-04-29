@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import BioCard from "../../Components/Layouts/SplashpageLayout/SplashpageTeam/BioCard/BioCard";
-import { TEAM_BIOS } from "../../config/TeamBios";
+import { TEAM_BIOS } from "../../config/teamBios";
 import NavbarSplashpage from "../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import Footer from "../../Components/design/Footer/Footer";
 import "./TeamMemberPage.css";
