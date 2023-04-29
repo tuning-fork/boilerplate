@@ -18,8 +18,7 @@ function OrganizationNew() {
       <h1> Welcome to Boilerplate!</h1>
       <p>
         Now that you've created a user profile, the next step is to create an
-        organization. Your user profile will automatically be added to this
-        organization.
+        organization. Your user profile will be added automatically.
       </p>
       <OrganizationForm onSubmit={createOrganization} onCancel={handleCancel} />
     </Container>

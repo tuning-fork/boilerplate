@@ -25,19 +25,14 @@ export default function LoginPage() {
       <main className="login-page__content">
         <section>
           <h1 className="login-page__header">Login</h1>
-          <p className="login-page__text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
-            odio ut sem nulla pharetra diam sit amet.
+          <LoginForm onSubmit={handleSubmit} />
+          <p className="login-page__sign-up">
+            <Link to="/forgot_password">Forgot Password?</Link>
+          </p>
+          <p className="login-page__sign-up">
+            New to Boilerplate? <Link to="/signup">Create an Account</Link>
           </p>
         </section>
-        <LoginForm onSubmit={handleSubmit} />
-        <p className="login-page__sign-up">
-          <Link to="/forgot_password">Forgot Password?</Link>
-        </p>
-        <p className="login-page__sign-up">
-          New to Boilerplate? <Link to="/signup">Create an Account</Link>
-        </p>
       </main>
       <Footer />
     </div>

@@ -37,9 +37,7 @@ export default function SignUpPage() {
         <section>
           <h1 className="sign-up-page__header">Sign Up</h1>
           <p className="sign-up-page__text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
-            odio ut sem nulla pharetra diam sit amet.
+            Create a user profile to start exploring Boilerplate.
           </p>
         </section>
         <SignUpForm onSubmit={createAndLoginUser} />
