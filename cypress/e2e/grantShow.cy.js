@@ -83,9 +83,6 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get("button[type=submit]").click();
     });
     cy.reload();
-    // cy.get("h2:contains('New Section Title')").within(() => {
-    //   cy.get("button").first().click();
-    // });
 
     //Paste boilerplate into section
     cy.get("h2:contains('New Section Title')").within(() => {
@@ -94,46 +91,53 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("form").within(() => {
       // Press Paste Boilerplate Content
       cy.get("button:contains('Paste Boilerplate Content')").click();
-      cy.get("h2").should("contain", "Paste Boilerplate Content");
-      cy.get('[data-testid="Search"]').type(`mission`);
-      cy.get(".accordion-table").within(() => {
-        cy.get("li.accordion-item").should("have.length", 4); // should be 1
-      });
-      cy.get('[data-testid="Search"]').clear();
-      cy.get("button.dropdown__input").within(() => {
-        cy.get("button:contains('Family Services')").click();
-        cy.get("li.accordion-item").should("have.length", 4); // should be 2
-      });
-      cy.get('[data-testid="Max Word Count"]').type("42");
-      cy.get("li.accordion-item").should("have.length", 4); // should be 1
-      cy.get("h6.accordion-item__header").click();
-      cy.get("button:contains('Paste Boilerplate')").should("be.visible");
-      // Then check for paste menu
-      // cy.get("input").first().type(" edited");
-      // cy.get(".ql-editor").clear().type(`This is the edited section.`);
-      // cy.get("button[type=submit]").click();
     });
+    cy.get("h2").should("contain", "Paste Boilerplate Content");
+    cy.get('[data-testid="Search"]').type(`mission`);
+    cy.get(".accordion-table").within(() => {
+      cy.get("li.accordion-item").should("have.length", 1);
+    });
+    cy.get('[data-testid="Search"]').clear();
+
+    cy.get("button.dropdown__input").click();
+    cy.get(".dropdown__menu")
+      .last()
+      .within(() => {
+        cy.get("button:contains('Family Services')").click();
+      });
+    cy.get(".accordion-item").should("have.length", 2);
+    cy.get('[data-testid="Max Word Count"]').type("42");
+    cy.get(".accordion-item").should("have.length", 1);
+    cy.get("h6.accordion-item__header").click();
+    cy.get("button:contains('Paste Boilerplate')").first().click();
+    // Confirm that checkmark appears
+    cy.get(".paste-boilerplate-text-panel__bottom")
+      .children()
+      .should("have.length", 2);
+    // Then check for the pasted boilerplate inside the form
+    cy.get(".ql-editor").should(
+      "contain",
+      "MIRA helps Middle Eastern refugees"
+    );
+    // Clear search inputs and display all boilerplates
+    // cy.get('[data-testid="Max Word Count"]').clear();
+    // cy.get(".dropdown__menu").last().clear(); // !!!!!! This won't work because the dropdown can't be cleared. Need all boilerplate option
+    // Paste another boilerplate
+    // cy.get("h6.accordion-item__header:contains('Mission)").click();
+    // Then check for the pasted boilerplate inside the form
+    // cy.get(".ql-editor").should(
+    //   "contain",
+    //   "With the introduction of a new shorter (4 hour) course, MIRA staff"
+    // );
+    // Text appears multiple times?
+
+    // Cancel/close select and paste boilerplates
+    cy.get(".paste-boilerplate-content-popout__close-button").click();
     cy.reload();
+
     cy.get("h2:contains('New Section Title')").within(() => {
       cy.get("button").first().click();
     });
-
-    // Open section form
-    // Open paste boilerplate content window
-    // Select and paste boilerplate
-    // Search boilerplates
-    // Filter by category
-    // Filter by wordcount
-    // Expand
-    // Expand multiple
-    // See Boilerplate text
-    // Click on Paste Boilerplate
-    // Boilerplate pastes
-    // Checkmark appears
-    // Paste multiple boilerplates?
-    // Text appears multiple times?
-    // Type inside new section and save
-    // Cancel/close select and paste boilerplates
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
@@ -157,6 +161,7 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("button:contains('Edit')").click();
     cy.get("button:contains('Delete')").click();
     cy.reload();
+    cy.wait(2000);
     cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
 
     // Delete the newly added section
