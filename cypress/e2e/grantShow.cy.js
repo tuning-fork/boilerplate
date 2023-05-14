@@ -3,12 +3,12 @@ describe("View a Grant on the Grants Show page", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
     cy.get('[data-testid="log-in-button"]').click();
-    cy.get("input[type=email]").type("michael@thegoodplace.com");
+    cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
 
     // Navigate to the grants index
-    cy.get('[data-testid="The Good Place"]').click();
+    cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
 
     // Select grant to view

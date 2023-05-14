@@ -12,7 +12,7 @@ describe("Grant overview DnD", () => {
     );
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
-    cy.get('[data-testid="The Good Place"]').click();
+    cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
     cy.get('[data-testid="Good Place Neighborhood Grant"]').click();
     cy.get('[data-testid="overview"]').click();

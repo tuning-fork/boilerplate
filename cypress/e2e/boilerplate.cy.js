@@ -5,10 +5,10 @@ describe("Create a new boilerplate", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
     cy.get('[data-testid="log-in-button"]').click();
-    cy.get("input[type=email]").type("michael@thegoodplace.com");
+    cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
-    cy.get('[data-testid="The Good Place"]').click();
+    cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Boilerplates"]').click();
 
     // Create boilerplate
@@ -26,6 +26,7 @@ describe("Create a new boilerplate", () => {
         cy.get(".ql-editor").type(`This is some new boilerplate text!`);
         cy.get("button[type=submit]").click();
       });
+      cy.reload();
 
       // Check boilerplate index for the new boilerplate
       cy.get("a:contains('Back to All Boilerplates')").click();
