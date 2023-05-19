@@ -179,7 +179,7 @@ export default function FundingOrgsIndex() {
         {filteredFundingOrgs.length ? (
           <Table columns={columns} data={filteredFundingOrgs} />
         ) : (
-          <p>There are no funding orgs for this category.</p>
+          <p>There are no funding organizations to display in this tab.</p>
         )}
       </div>
       <FundingOrgNew

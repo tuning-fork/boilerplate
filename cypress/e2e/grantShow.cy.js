@@ -2,31 +2,38 @@ describe("View a Grant on the Grants Show page", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
+    cy.intercept("POST", "/api/sessions").as("createSession");
     cy.get('[data-testid="log-in-button"]').click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
 
     // Navigate to the grants index
+    cy.wait("@createSession");
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
 
     // Select grant to view
-    cy.get("td:contains('Grant to Test Drag and Drop')").click();
+    cy.intercept("GET", "/api/organizations/**").as("getGrant");
+    cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
     // Find grant fields on show page
+    cy.wait("@getGrant");
     cy.get("a:contains('Back to All Grants')");
-    cy.get("h1:contains('Grant to Test Drag and Drop')");
+    cy.get("h1:contains('Cypress Tree Neighborhood Grant')");
     cy.get("dt").should("contain", "Funding Organization");
-    cy.get("dd").should("contain", "Funds For All");
+    cy.get("dd").should("contain", "The Hinoki Foundation");
     cy.get("dt").should("contain", "RFP Website");
-    cy.get("dd").should("contain", "http://www.dndkit.com");
+    cy.get("dd").should(
+      "contain",
+      "https://thehinokifoundation.org/neighborhood_seed_grants"
+    );
     cy.get("dt").should("contain", "Purpose");
-    cy.get("dd").should("contain", "Testing drag and drop functionality");
+    cy.get("dd").should("contain", "general funding");
     cy.get("a[type=button]:contains('Copy')");
     cy.get("a[type=button]:contains('Edit')");
     cy.get("a[type=button]:contains('Overview')");
     cy.get("dt").should("contain", "DEADLINE");
-    cy.get("dd").should("contain", "Apr 13, 2023");
+    cy.get("dd").should("contain", "May 15, 2023");
     cy.get("b").should("contain", "TOTAL WORD COUNT");
 
     // Copy
@@ -38,14 +45,14 @@ describe("View a Grant on the Grants Show page", () => {
         .type("To test the copy process");
       cy.get("button:contains('Save')").click();
     });
-    cy.get("h1:contains('Grant to Test Drag and Drop copy')");
+    cy.get("h1:contains('Cypress Tree Neighborhood Grant copy')");
 
     // Edit grant
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("h1:contains('Edit Grant')");
     cy.get('[data-testid="funding-org-dropdown"]').click();
     cy.get("form").within(() => {
-      cy.get('[data-testid="The Good Place"]').click();
+      cy.get('[data-testid="The Arles Fund"]').click();
       cy.get('[data-testid="RFP URL"]')
         .clear()
         .type("http://www.dndkitedit.com");
@@ -63,8 +70,8 @@ describe("View a Grant on the Grants Show page", () => {
     // Add section
     cy.wait(2000);
     cy.get("h1:contains('All Grants')");
-    cy.get("td:contains('Grant to Test Drag and Drop')").click();
-    cy.get("dd").should("contain", "Funds For All");
+    cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
+    cy.get("dd").should("contain", "The Hinoki Foundation");
     cy.get("button:contains('Add Section')").first().click();
     cy.get("form").within(() => {
       cy.get("input").first().type("New Section Title");
@@ -74,9 +81,11 @@ describe("View a Grant on the Grants Show page", () => {
     cy.reload();
 
     // Edit the newly created section
-    cy.get("h2:contains('New Section Title')").within(() => {
-      cy.get("button").first().click();
-    });
+    cy.get("h2:contains('New Section Title')")
+      .first()
+      .within(() => {
+        cy.get("button").first().click();
+      });
     cy.get("form").within(() => {
       cy.get("input").first().type(" edited");
       cy.get(".ql-editor").clear().type(`This is the edited section.`);
@@ -85,15 +94,17 @@ describe("View a Grant on the Grants Show page", () => {
     cy.reload();
 
     //Paste boilerplate into section
-    cy.get("h2:contains('New Section Title')").within(() => {
-      cy.get("button").first().click();
-    });
+    cy.get("h2:contains('New Section Title')")
+      .first()
+      .within(() => {
+        cy.get("button").first().click();
+      });
     cy.get("form").within(() => {
       // Press Paste Boilerplate Content
       cy.get("button:contains('Paste Boilerplate Content')").click();
     });
     cy.get("h2").should("contain", "Paste Boilerplate Content");
-    cy.get('[data-testid="Search"]').type(`mission`);
+    cy.get('[data-testid="Search"]').type(`Ask Us More`);
     cy.get(".accordion-table").within(() => {
       cy.get("li.accordion-item").should("have.length", 1);
     });
@@ -106,7 +117,7 @@ describe("View a Grant on the Grants Show page", () => {
         cy.get("button:contains('Family Services')").click();
       });
     cy.get(".accordion-item").should("have.length", 2);
-    cy.get('[data-testid="Max Word Count"]').type("42");
+    cy.get('[data-testid="Max Word Count"]').type("15");
     cy.get(".accordion-item").should("have.length", 1);
     cy.get("h6.accordion-item__header").click();
     cy.get("button:contains('Paste Boilerplate')").first().click();
@@ -117,7 +128,7 @@ describe("View a Grant on the Grants Show page", () => {
     // Then check for the pasted boilerplate inside the form
     cy.get(".ql-editor").should(
       "contain",
-      "MIRA helps Middle Eastern refugees"
+      "Ekram Hanna, MIRA Community Engagement Manager, Certified Mental Health First Aid Trainer"
     );
     // Clear search inputs and display all boilerplates
     // cy.get('[data-testid="Max Word Count"]').clear();
@@ -135,9 +146,11 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get(".paste-boilerplate-content-popout__close-button").click();
     cy.reload();
 
-    cy.get("h2:contains('New Section Title')").within(() => {
-      cy.get("button").first().click();
-    });
+    cy.get("h2:contains('New Section Title')")
+      .first()
+      .within(() => {
+        cy.get("button").first().click();
+      });
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
@@ -165,13 +178,15 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
 
     // Delete the newly added section
-    cy.get("a:contains('Grants')").click();
+    cy.get("a:contains('Grants')").click({ force: true });
     cy.wait(2000);
-    cy.get("td:contains('Grant to Test Drag and Drop')").click();
+    cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
     cy.wait(2000);
-    cy.get("h2:contains('New Section Title edited')").within(() => {
-      cy.get("button").first().click();
-    });
+    cy.get("h2:contains('New Section Title edited')")
+      .first()
+      .within(() => {
+        cy.get("button").first().click();
+      });
     cy.get("button:contains('Delete Section')").click();
 
     // TODO: use create section and edit flow pattern to build add section between sections + cancel edit

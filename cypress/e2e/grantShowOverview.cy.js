@@ -10,7 +10,9 @@ describe("Grant overview DnD", () => {
     cy.get("button[type=submit]").click();
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
-    cy.get('[data-testid="Grant to Test Drag and Drop"]').click();
+    cy.get(
+      '[data-testid="Cypress Tree Overview Drag and Drop Test Grant"]'
+    ).click();
     cy.get('[data-testid="overview"]').click();
 
     // Check that the preview panel is visible and has the same number of items
@@ -31,11 +33,11 @@ describe("Grant overview DnD", () => {
     });
 
     // Drag and drop one section and check that Save and Undo are enabled
-    cy.get('[data-testid="Section #1"]').move({
+    cy.get('[data-testid="Section 1"]').move({
       deltaY: 500,
       force: true,
     });
-    cy.wait(2000);
+    cy.wait(3000);
     cy.get("button:contains('Save')").should(
       "not.have.class",
       "button--disabled"
@@ -54,7 +56,7 @@ describe("Grant overview DnD", () => {
     cy.get("button:contains('Redo')").should("have.class", "button--disabled");
 
     // Drag another section, select Undo and check that Save and Undo are disabled and Redo is enabled
-    cy.get('[data-testid="Section #2"]').move({
+    cy.get('[data-testid="Section 2"]').move({
       deltaY: 400,
       force: true,
     });
@@ -68,7 +70,7 @@ describe("Grant overview DnD", () => {
     );
 
     // Drag a section, select Rndo and check that Save and Uedo is active
-    cy.get('[data-testid="Section #3"]').move({
+    cy.get('[data-testid="Section 3"]').move({
       deltaY: 300,
       force: true,
     });
@@ -86,17 +88,17 @@ describe("Grant overview DnD", () => {
 
     /* Drag remaining sections so that the original order is 
     reversed */
-    cy.get('[data-testid="Section #2"]').move({
+    cy.get('[data-testid="Section 2"]').move({
       deltaY: 400,
       force: true,
     });
     cy.wait(2000);
-    cy.get('[data-testid="Section #4"]').move({
+    cy.get('[data-testid="Section 4"]').move({
       deltaY: 200,
       force: true,
     });
     cy.wait(2000);
-    cy.get('[data-testid="Section #5"]').move({
+    cy.get('[data-testid="Section 5"]').move({
       deltaY: 200,
       force: true,
     });
