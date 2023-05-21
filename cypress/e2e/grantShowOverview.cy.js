@@ -37,11 +37,15 @@ describe("Grant overview DnD", () => {
       deltaY: 500,
       force: true,
     });
-    cy.wait(3000);
-    cy.get("button:contains('Save')").should(
-      "not.have.class",
-      "button--disabled"
-    );
+    // cy.wait(3000);
+    cy.get("button:contains('Save')").should((saveButton) => {
+      // but no worries, we will retry until these pass or until timeout
+      expect(saveButton).not.to.have.class("button--disabled");
+    });
+    // cy.get("button:contains('Save')").should(
+    //   "not.have.class",
+    //   "button--disabled"
+    // );
     cy.get("button:contains('Undo')").should(
       "not.have.class",
       "button--disabled"

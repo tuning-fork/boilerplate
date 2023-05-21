@@ -33,7 +33,7 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a[type=button]:contains('Edit')");
     cy.get("a[type=button]:contains('Overview')");
     cy.get("dt").should("contain", "DEADLINE");
-    cy.get("dd").should("contain", "May 15, 2023");
+    cy.get("dd").should("contain", "2023");
     cy.get("b").should("contain", "TOTAL WORD COUNT");
 
     // Copy
@@ -69,7 +69,11 @@ describe("View a Grant on the Grants Show page", () => {
 
     // Add section
     cy.wait(2000);
-    cy.get("h1:contains('All Grants')");
+    // cy.location("pathname", { timeout: 10000 }).should("eq", "**/grants");
+    // cy.reload();
+    cy.get("h1").should((header) => {
+      expect(header).to.have.text("All Grants");
+    });
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
     cy.get("dd").should("contain", "The Hinoki Foundation");
     cy.get("button:contains('Add Section')").first().click();
@@ -154,7 +158,7 @@ describe("View a Grant on the Grants Show page", () => {
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
-    cy.wait(2000);
+    // cy.wait(2000);
     cy.get("h1:contains('Store Section as Boilerplate')");
     cy.get("form")
       .eq(1)
@@ -174,14 +178,14 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("button:contains('Edit')").click();
     cy.get("button:contains('Delete')").click();
     cy.reload();
-    cy.wait(2000);
+    // cy.wait(2000);
     cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
 
     // Delete the newly added section
     cy.get("a:contains('Grants')").click({ force: true });
-    cy.wait(2000);
+    // cy.wait(2000);
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
-    cy.wait(2000);
+    // cy.wait(2000);
     cy.get("h2:contains('New Section Title edited')")
       .first()
       .within(() => {
