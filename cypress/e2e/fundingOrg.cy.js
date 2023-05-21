@@ -4,14 +4,12 @@ describe("Create a new funding org", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
-    cy.intercept("POST", "/api/sessions").as("createSession");
     cy.get('[data-testid="log-in-button"]').click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
 
     // Open cypress test organization dashboard
-    cy.wait("@createSession");
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Funding Organizations"]').click();
 
@@ -36,7 +34,6 @@ describe("Create a new funding org", () => {
     cy.get('[data-testid="Search Funding Organizations by Title"]').clear();
 
     // Create funding org
-    cy.intercept("POST", "/api/organizations/**").as("createFundingOrg");
     cy.get("button:contains('Add New Funding Org')").click();
     cy.get("form").within(() => {
       cy.get("button").first().click();
@@ -47,11 +44,12 @@ describe("Create a new funding org", () => {
       cy.get("input").last().type("uniquefundingorgwebsite.org");
       cy.get("button").last().click();
     });
+    cy.reload();
+    cy.get('[data-testid="drop-down-mini"]').should("have.length", 4);
 
     // Edit funding org
-    cy.wait("@createFundingOrg");
     cy.get('[data-testid="drop-down-mini"]').last().click();
-    cy.get('[data-testid="Edit"]').last().click({ force: true });
+    cy.get('[data-testid="Edit"]').last().click();
     cy.get("form").within(() => {
       cy.get("input:first").should(
         "have.attr",
@@ -64,6 +62,7 @@ describe("Create a new funding org", () => {
         "uniquefundingorgwebsite.org"
       );
     });
+    cy.intercept("PATCH", "api/organizations/**").as("editFundingOrg");
     cy.get("form").within(() => {
       cy.get("input").first().clear();
       cy.get("input").first().type(`Test Updated Funding Org`);
@@ -71,30 +70,36 @@ describe("Create a new funding org", () => {
       cy.get("input").last().type("testnewfundingorgwebsiteupdated.org");
       cy.get("button[type=submit]").click();
     });
+    cy.wait("@editFundingOrg");
+    cy.reload();
+    cy.get("td").should("have.length", 12);
+    cy.get("td").should("contain", "Test Updated Funding Org");
 
     // Cancel edit
-    cy.intercept("PATCH", "/api/organizations/**").as("archiveUpdate");
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Edit"]').last().click();
     cy.get("form").within(() => {
       cy.get("button:contains('Cancel')").click();
     });
+    cy.get("dialog").should("not.exist");
 
     // Delete funding org
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Edit"]').last().click();
+
     cy.get("form").within(() => {
       cy.get("button:contains('Delete')").last().click();
     });
+    cy.reload();
+    cy.intercept("GET", "api/organizations/**/funding_orgs/").as(
+      "getFundingOrgs"
+    );
+    cy.get('[data-testid="drop-down-mini"]').should("have.length", 3);
 
     // Check archived
-    cy.wait("@archiveUpdate");
     cy.get("button:contains('Archived')").last().click();
-    cy.get("tr")
-      .last()
-      .within(() => {
-        cy.get("td").first().should("contain", "Test Updated Funding Org");
-      });
+    cy.wait("@getFundingOrgs");
+    cy.get('td:contains("Test Updated Funding Org")').should("have.length", 1);
 
     // Add new row to send to archive
     cy.intercept("POST", "/api/organizations/**").as("createSecondFundingOrg");
@@ -105,14 +110,15 @@ describe("Create a new funding org", () => {
       cy.get("input").last().type("goingtoarchived.org");
       cy.get("button").last().click();
     });
+    cy.reload();
+    cy.get('td:contains("Going To Archived")').should("have.length", 1);
 
     // Send new row to archive from row dropdown menu and check archived
     cy.wait("@createSecondFundingOrg");
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Archive"]').last().click();
-    cy.intercept("PATCH", "/api/organizations/**").as("archiveUpdate");
     cy.get("button:contains('Archived')").click();
-    cy.wait("@archiveUpdate");
-    cy.get("tr").last().should("contain", "Going To Archived");
+    cy.wait("@editFundingOrg");
+    cy.get('td:contains("Going To Archived")').should("have.length", 1);
   });
 });
