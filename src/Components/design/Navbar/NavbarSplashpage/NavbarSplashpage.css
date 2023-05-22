@@ -50,7 +50,7 @@
 }
 
 .navbar__tab--blue:hover {
-  color: #237e74;
+  color: var(--secondary);
   background-image: url("/src/Components/design/Navbar/NavbarSplashpage/pixel_background_blue.png");
 }
 
@@ -78,12 +78,12 @@
 }
 
 .navbar__tab--signup {
-  color: #4b1e75;
+  color: #e3ed55;
   background-image: url("/src/Components/design/Navbar/NavbarSplashpage/sign_up_button_blank.png");
 }
 
 .navbar__tab--signup:hover {
-  color: #e3ed55;
+  color: #4b1e75;
 }
 
 /* sign up default: pink background square, teal pixel decoration, neon yellow

@@ -1,11 +1,19 @@
 import React from "react";
-import organizations_screenshot from "./organizations_screenshot.png";
+import dashboard_screenshot from "./dashboard_screenshot.png";
+import grant_screenshot from "./grant_screenshot.png";
+import boilerplates_screenshot from "./boilerplates_screenshot.png";
 import "./FeatureCard.css";
 
 export default function FeatureCard({ feature }) {
   let imageToUse;
   if (feature.image === "Organizations Screenshot") {
-    imageToUse = organizations_screenshot;
+    imageToUse = dashboard_screenshot;
+  }
+  if (feature.image === "Boilerplates Screenshot") {
+    imageToUse = boilerplates_screenshot;
+  }
+  if (feature.image === "Grant Screenshot") {
+    imageToUse = grant_screenshot;
   }
 
   return (

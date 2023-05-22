@@ -56,7 +56,7 @@ export const TEAM_BIOS = [
     last_name: "White",
     title: "Software Engineer",
     headshot_alt: "Jess White headshot",
-    // headshot_url: "/imgs/Jess.jpg",
+    headshot_url: "/imgs/Jess.jpeg",
     github: "https://github.com/jess-white",
     linkedin: "https://www.linkedin.com/in/jess-white-chicago/",
     bio_text: `

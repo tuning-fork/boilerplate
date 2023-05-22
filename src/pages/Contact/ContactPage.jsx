@@ -12,9 +12,7 @@ export default function ContactPage() {
         <section>
           <h1 className="contact-page__header">Contact Us</h1>
           <p className="contact-page__text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu
-            odio ut sem nulla pharetra diam sit amet.
+            We'd love to hear your feedback. Send us a message below!
           </p>
         </section>
         <SplashpageContactForm />
