@@ -85,49 +85,45 @@ describe("Create a new grant from Grants index", () => {
 
       // Check that grant is not in Drafts
       cy.get('[data-testid="drafts-button"]').click();
-      cy.get("tr")
-        .last()
-        .not("contain", `Test New Grant Name ${grantCount + 1}`);
+      cy.get("td").should(
+        "not.contain",
+        `Test New Grant Name ${grantCount + 1}`
+      );
 
       // Mark grant as Successful
-      cy.intercept("PATCH", "/api/organizations/**").as("successfulUpdate");
+      cy.intercept("PATCH", "/api/organizations/**").as("patchGrant");
+      cy.get('[data-testid="all-button"]').click();
       cy.get('[data-testid="drop-down-mini"]').last().click();
       cy.get('[data-testid="Mark as Successful"]').last().click();
 
       // Check that grant is in Successful
-      cy.wait("@successfulUpdate");
+      cy.wait("@patchGrant");
       cy.get('[data-testid="successful-button"]').click();
-      cy.get("tr")
-        .last()
-        .should("contain", `Test New Grant Name ${grantCount + 1}`);
+      cy.get("td").should("contain", `Test New Grant Name ${grantCount + 1}`);
 
       // Remove from Successful
-      cy.intercept("PATCH", "/api/organizations/**").as("removeSuccessUpdate");
       cy.get('[data-testid="drop-down-mini"]').last().click();
       cy.get('[data-testid="Remove from Successful"]').last().click();
 
       // Check that grant is not in Successful
-      cy.wait("@removeSuccessUpdate");
+      cy.wait("@patchGrant");
       cy.get('[data-testid="successful-button"]').click();
-      cy.get("tr")
-        .last()
-        .not("contain", `Test New Grant Name ${grantCount + 1}`);
+      cy.get("td").should(
+        "not.contain",
+        `Test New Grant Name ${grantCount + 1}`
+      );
 
       // Remove from submitted
-      cy.intercept("PATCH", "/api/organizations/**").as("removeSubmitUpdate");
       cy.get('[data-testid="submitted-button"]').click();
       cy.get('[data-testid="drop-down-mini"]').last().click();
       cy.get('[data-testid="Remove from Submitted"]').last().click();
 
-      // Check that grant is in Drafts
-      cy.wait("@removeSubmitUpdate");
+      // // Check that grant is in Drafts
+      cy.wait("@patchGrant");
       cy.get('[data-testid="drafts-button"]').click();
-      cy.get("tr")
-        .last()
-        .should("contain", `Test New Grant Name ${grantCount + 1}`);
+      cy.get("td").should("contain", `Test New Grant Name ${grantCount + 1}`);
 
       // Create a copy of the last grant
-      cy.intercept("POST", "/api/organizations/**").as("copyGrant");
       cy.get("tr")
         .last()
         .should("contain", `Test New Grant Name ${grantCount + 1}`)
@@ -139,7 +135,8 @@ describe("Create a new grant from Grants index", () => {
         });
 
       // Go to All and send the new copy to Archived
-      cy.wait("@copyGrant");
+      cy.wait("@createGrant");
+      cy.reload();
       cy.get("tr")
         .last()
         .should("contain", `Test New Grant Name ${grantCount + 1} copy`)
