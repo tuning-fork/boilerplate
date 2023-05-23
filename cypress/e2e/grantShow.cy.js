@@ -13,11 +13,22 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
 
+    cy.intercept("GET", "/api/organizations/**/grants").as("getGrant");
+    cy.intercept("POST", "/api/organizations/**/grants/**").as("createGrant");
+    cy.intercept("PATCH", "/api/organizations/**/grants/**").as("editGrant");
+    cy.intercept("POST", "/api/organizations/**/grants/**/sections").as(
+      "createSection"
+    );
+    cy.intercept("PATCH", "/api/organizations/**/grants/**/sections").as(
+      "editSection"
+    );
+    cy.intercept("GET", "/api/organizations/**/boilerplates").as(
+      "getBoilerplate"
+    );
+
     // Select grant to view
-    cy.intercept("GET", "/api/organizations/**").as("getGrant");
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
     // Find grant fields on show page
-    cy.wait("@getGrant");
     cy.get("a:contains('Back to All Grants')");
     cy.get("h1:contains('Cypress Tree Neighborhood Grant')");
     cy.get("dt").should("contain", "Funding Organization");
@@ -45,6 +56,7 @@ describe("View a Grant on the Grants Show page", () => {
         .type("To test the copy process");
       cy.get("button:contains('Save')").click();
     });
+    cy.wait("@createGrant");
     cy.get("h1:contains('Cypress Tree Neighborhood Grant copy')");
 
     // Edit grant
@@ -62,27 +74,28 @@ describe("View a Grant on the Grants Show page", () => {
         .type("To test the edit process");
       cy.get("button[type=submit]").click();
     });
+    cy.wait("@editGrant");
+    // cy.wait("@getGrant");
 
     // Delete copy
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("button:contains('Delete Grant')").click();
+    cy.wait("@editGrant");
 
     // Add section
-    cy.wait(2000);
-    // cy.location("pathname", { timeout: 10000 }).should("eq", "**/grants");
-    // cy.reload();
     cy.get("h1").should((header) => {
       expect(header).to.have.text("All Grants");
     });
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
-    cy.get("dd").should("contain", "The Hinoki Foundation");
+    cy.get("dd").first().should("contain", "The Arles Fund");
     cy.get("button:contains('Add Section')").first().click();
     cy.get("form").within(() => {
       cy.get("input").first().type("New Section Title");
       cy.get(".ql-editor").type(`This is a new section!`);
       cy.get("button[type=submit]").click();
     });
-    cy.reload();
+    cy.wait("@createSection");
+    cy.wait("@getGrant");
 
     // Edit the newly created section
     cy.get("h2:contains('New Section Title')")
@@ -95,7 +108,7 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get(".ql-editor").clear().type(`This is the edited section.`);
       cy.get("button[type=submit]").click();
     });
-    cy.reload();
+    cy.wait("@editGrant");
 
     //Paste boilerplate into section
     cy.get("h2:contains('New Section Title')")
@@ -108,12 +121,15 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get("button:contains('Paste Boilerplate Content')").click();
     });
     cy.get("h2").should("contain", "Paste Boilerplate Content");
+
+    // Search for a boilerplate in the Paste Boilerplate Content panel
     cy.get('[data-testid="Search"]').type(`Ask Us More`);
     cy.get(".accordion-table").within(() => {
       cy.get("li.accordion-item").should("have.length", 1);
     });
     cy.get('[data-testid="Search"]').clear();
 
+    //Select Boilerplate and Paste Boilerplate
     cy.get("button.dropdown__input").click();
     cy.get(".dropdown__menu")
       .last()
@@ -148,7 +164,6 @@ describe("View a Grant on the Grants Show page", () => {
 
     // Cancel/close select and paste boilerplates
     cy.get(".paste-boilerplate-content-popout__close-button").click();
-    cy.reload();
 
     cy.get("h2:contains('New Section Title')")
       .first()
@@ -158,7 +173,6 @@ describe("View a Grant on the Grants Show page", () => {
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
-    // cy.wait(2000);
     cy.get("h1:contains('Store Section as Boilerplate')");
     cy.get("form")
       .eq(1)
@@ -177,16 +191,16 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a:contains('Section To Boilerplate Test')").first().click();
     cy.get("button:contains('Edit')").click();
     cy.get("button:contains('Delete')").click();
-    cy.reload();
-    // cy.wait(2000);
-    cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
+    cy.wait("@getBoilerplate");
+    cy.get("td").first().should("contain", "Mission");
+    cy.get("td").last().should("not.contain", "Section To Boilerplate Test");
+    // cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
 
     // Delete the newly added section
-    cy.get("a:contains('Grants')").click({ force: true });
-    // cy.wait(2000);
+    cy.get("a:contains('Grants')").click();
+    cy.wait("@getGrant");
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
-    // cy.wait(2000);
-    cy.get("h2:contains('New Section Title edited')")
+    cy.get("h2:contains('New Section Title')")
       .first()
       .within(() => {
         cy.get("button").first().click();

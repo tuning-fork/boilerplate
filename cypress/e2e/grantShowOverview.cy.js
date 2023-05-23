@@ -15,6 +15,10 @@ describe("Grant overview DnD", () => {
     ).click();
     cy.get('[data-testid="overview"]').click();
 
+    cy.intercept("GET", "/api/organizations/**/grants/**").as("getGrant");
+    cy.intercept("POST", "/api/organizations/**").as("createGrant");
+    cy.intercept("PATCH", "/api/organizations/**").as("editGrant");
+
     // Check that the preview panel is visible and has the same number of items
     cy.get(".grants-show-overview__preview-container").within(() => {
       cy.get(".grants-show-overview__preview-text")
@@ -31,40 +35,43 @@ describe("Grant overview DnD", () => {
           );
         });
     });
-
     // Drag and drop one section and check that Save and Undo are enabled
     cy.get('[data-testid="Section 1"]').move({
       deltaY: 500,
       force: true,
     });
-    // cy.wait(3000);
-    // cy.get("button:contains('Save')").should((saveButton) => {
-    //   // but no worries, we will retry until these pass or until timeout
-    //   expect(saveButton).not.to.have.class("button--disabled");
-    // });
-    // cy.get("button:contains('Save')").should(
-    //   "not.have.class",
-    //   "button--disabled"
-    // );
-    // cy.get("button:contains('Undo')").should(
-    //   "not.have.class",
-    //   "button--disabled"
-    // );
-    // cy.get("button:contains('Redo')").should("have.class", "button--disabled");
+    cy.get(".checkbox__input").click({ force: true });
+    cy.get(".grants-show-overview__preview-title").should("have.length", 6);
+    cy.get(".grants-show-overview__preview-title")
+      .last()
+      .should("contain", "Section 1");
+    cy.get(".sortable-item").should("have.length", 6);
+    cy.get(".sortable-item").last().should("contain", "Section 1");
+    cy.get("button:contains('Save')").should(
+      "not.have.class",
+      "button--disabled"
+    );
+    cy.get("button:contains('Undo')").should(
+      "not.have.class",
+      "button--disabled"
+    );
+    cy.get("button:contains('Redo')").should("have.class", "button--disabled");
 
     // Save and check that all buttons are disabled
-    // cy.get("button:contains('Save')").click();
-    // cy.get("button:contains('Save')").should("have.class", "button--disabled");
-    // cy.reload();
-    // cy.get("button:contains('Undo')").should("have.class", "button--disabled");
-    // cy.get("button:contains('Redo')").should("have.class", "button--disabled");
+    cy.get("button:contains('Save')").click();
+    cy.wait("@editGrant");
+    cy.get(".sortable-item").should("have.length", 6);
+    cy.get(".sortable-item").last().should("contain", "Section 1");
+    cy.get("button:contains('Save')").should("have.class", "button--disabled");
+    cy.get("button:contains('Undo')").should("have.class", "button--disabled");
+    cy.get("button:contains('Redo')").should("have.class", "button--disabled");
 
     // Drag another section, select Undo and check that Save and Undo are disabled and Redo is enabled
     cy.get('[data-testid="Section 2"]').move({
       deltaY: 400,
       force: true,
     });
-    cy.wait(2000);
+    // cy.wait(2000);
     // cy.get("button:contains('Undo')").click();
     // cy.get("button:contains('Save')").should("have.class", "button--disabled");
     // cy.get("button:contains('Undo')").should("have.class", "button--disabled");
@@ -74,7 +81,7 @@ describe("Grant overview DnD", () => {
     // );
 
     // Drag a section, select Rndo and check that Save and Uedo is active
-    cy.get('[data-testid="Section 3"]').move({
+    cy.get('[data-testid="Section 4"]').move({
       deltaY: 300,
       force: true,
     });

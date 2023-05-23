@@ -15,6 +15,7 @@ describe("Create a new grant from Grants index", () => {
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Grants"]').click();
 
+    cy.intercept("GET", "/api/organizations/**/grants").as("getGrant");
     cy.intercept("POST", "/api/organizations/**").as("createGrant");
     cy.intercept("PATCH", "/api/organizations/**").as("updateGrant");
 
@@ -131,25 +132,35 @@ describe("Create a new grant from Grants index", () => {
           cy.get('[data-testid="drop-down-mini"]').last().click();
           cy.get('[data-testid="Make a Copy"]').last().click();
           cy.get("button:contains('Save')").click();
-          cy.get("a:contains('Back to All Grants')").click();
         });
+      cy.wait("@createGrant");
+      cy.get("h1:contains('copy')");
 
-      // // Go to All and send the new copy to Archived
-      // cy.wait("@createGrant");
-      // // cy.reload();
-      // cy.get("tr")
-      //   // .last()
-      //   .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
-      // cy.get(`td:contains('Test New Grant Name ${grantCount + 1} copy')`).then(
-      //   () => {
-      //     cy.get('[data-testid="drop-down-mini"]').last().click();
-      //     cy.get('[data-testid="Archive"]').last().click();
-      //     cy.get('[data-testid="archived-button"]').click();
-      //     cy.get("tr")
-      //       .last()
-      //       .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
-      //   }
-      // );
+      // Go to All and send the new copy to Archived
+      cy.get("a:contains('Back to All Grants')").click();
+      cy.wait("@getGrant");
+      cy.get("h1:contains('All Grants')");
+      cy.get("tr").should("have.length.greaterThan", grantCount);
+      cy.get("tr")
+        .last()
+        .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
+      cy.get("tr")
+        .last()
+        .should("contain", `Test New Grant Name ${grantCount + 1} copy`)
+        .then(() => {
+          cy.get('[data-testid="drop-down-mini"]').last().click();
+          cy.get('[data-testid="Archive"]').last().click();
+          cy.get('[data-testid="archived-button"]')
+            .click()
+            .then(() => {
+              cy.get("tr")
+                .last()
+                .should(
+                  "contain",
+                  `Test New Grant Name ${grantCount + 1} copy`
+                );
+            });
+        });
     });
   });
 });

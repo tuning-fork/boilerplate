@@ -4,20 +4,22 @@ describe("Create a new category", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
-    // cy.intercept("POST", "/api/sessions").as("createSession");
     cy.get('[data-testid="log-in-button"]').click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
 
+    cy.intercept("GET", "/api/organizations/**/categories").as("getCategory");
+    cy.intercept("POST", "/api/organizations/**/categories").as(
+      "createCategory"
+    );
+    cy.intercept("PATCH", "/api/organizations/**/categories/**").as(
+      "editCategory"
+    );
+
     // Open cypress test organization dashboard
-    // cy.wait("@createSession");
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Categories"]').click();
-
-    // cy.intercept("POST", "/api/organizations/**").as("createFirstCategory");
-    // cy.intercept("PATCH", "/api/organizations/**").as("updateCategory");
-    // cy.intercept("GET", "**/categories").as("getCategories");
 
     // Check that search bar input is there
     cy.get('[data-testid="Search Categories by Title"]');
@@ -48,18 +50,16 @@ describe("Create a new category", () => {
       cy.get("input").first().type("New Unique Category First");
       cy.get("button").last().click();
     });
-
-    // Edit category
-    // cy.wait("@createFirstCategory");
-    // cy.wait("@getCategories");
-    cy.reload();
-    // cy.get("tr");
+    cy.wait("@createCategory");
+    cy.wait("@getCategory");
     cy.get("tr")
       .last()
       .within(() => {
         cy.get("td").should("have.length", 3);
       });
     cy.get("tr").last().should("contain", "New Unique Category First");
+
+    // Edit category
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Edit"]').last().click();
     cy.get("form").within(() => {
@@ -74,6 +74,9 @@ describe("Create a new category", () => {
       cy.get("input").first().type(`Test Updated New Unique Category First`);
       cy.get("button[type=submit]").click();
     });
+    cy.wait("@editCategory");
+    cy.wait("@getCategory");
+    cy.get("td").last().should("contain", "Test Updated New Category First");
 
     // Cancel edit
     cy.get('[data-testid="drop-down-mini"]').last().click();
@@ -81,20 +84,18 @@ describe("Create a new category", () => {
     cy.get("form").within(() => {
       cy.get("button:contains('Cancel')").click();
     });
+    cy.get("dialog").should("not.exist");
 
     //   // Delete category
-    // cy.intercept("PATCH", "/api/organizations/**").as("updateCategory");
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Edit"]').last().click();
     cy.get("form").within(() => {
       cy.get("button:contains('Delete Category')").click(); // find the dialog box and select confirm
     });
-    cy.reload();
 
     // Check archived
     cy.get("button:contains('Archived')").click({ force: true });
-    //   // cy.wait("@updateCategory");
-    //   // cy.wait("@getCategories");
+    cy.wait("@getCategory");
     cy.get("tr")
       .last()
       .within(() => {
@@ -104,16 +105,14 @@ describe("Create a new category", () => {
       });
 
     // Add new row to send to archive
-    // cy.intercept("POST", "/api/organizations/**").as("createSecondCategory");
     cy.get("button:contains('All')").click();
     cy.get("button:contains('Add New Category')").click();
     cy.get("form").within(() => {
       cy.get("input").first().type("New Unique Category Second");
       cy.get("button").last().click();
     });
-    cy.reload();
-    // cy.wait("@createFirstCategory");
-    // cy.get("button:contains('All')").click();
+    cy.wait("@createCategory");
+    cy.wait("@getCategory");
     cy.get("tr")
       .last()
       .within(() => {
@@ -121,16 +120,10 @@ describe("Create a new category", () => {
       });
 
     // Send new row to archive from row dropdown menu and check archived
-    // cy.intercept("PATCH", "/api/organizations/**").as("updateCategory");
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Archive"]').last().click({ force: true });
-    cy.reload();
-    // cy.reload();
-    // cy.wait("@updateCategory");
-    // cy.wait("@getCategories");
+    cy.wait("@editCategory");
     cy.get("button:contains('Archived')").click();
-    // cy.wait("@getCategories");
-
     cy.get("tr").last().should("contain", "New Unique Category Second");
   });
 });
