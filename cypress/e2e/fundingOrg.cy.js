@@ -8,7 +8,12 @@ describe("Create a new funding org", () => {
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
-
+    cy.intercept("GET", "/api/organizations/**/funding_orgs/").as(
+      "getFundingOrg"
+    );
+    cy.intercept("POST", "/api/organizations/**/funding_orgs/").as(
+      "createFundingOrg"
+    );
     // Open cypress test organization dashboard
     cy.get('[data-testid="The Cypress Tree"]').click();
     cy.get('[data-testid="Funding Organizations"]').click();
@@ -44,8 +49,11 @@ describe("Create a new funding org", () => {
       cy.get("input").last().type("uniquefundingorgwebsite.org");
       cy.get("button").last().click();
     });
-    cy.reload();
+    cy.wait("@createFundingOrg");
+    cy.wait("@getFundingOrg");
+    // cy.reload();
     cy.get('[data-testid="drop-down-mini"]').should("have.length", 4);
+    cy.get("td").should("contain", "Unique Funding Org Name");
 
     // Edit funding org
     cy.get('[data-testid="drop-down-mini"]').last().click();
@@ -71,7 +79,7 @@ describe("Create a new funding org", () => {
       cy.get("button[type=submit]").click();
     });
     cy.wait("@editFundingOrg");
-    cy.reload();
+    cy.wait("@getFundingOrg");
     cy.get("td").should("have.length", 12);
     cy.get("td").should("contain", "Test Updated Funding Org");
 
@@ -90,19 +98,14 @@ describe("Create a new funding org", () => {
     cy.get("form").within(() => {
       cy.get("button:contains('Delete')").last().click();
     });
-    cy.reload();
-    cy.intercept("GET", "api/organizations/**/funding_orgs/").as(
-      "getFundingOrgs"
-    );
     cy.get('[data-testid="drop-down-mini"]').should("have.length", 3);
 
     // Check archived
     cy.get("button:contains('Archived')").last().click();
-    cy.wait("@getFundingOrgs");
+    cy.wait("@getFundingOrg");
     cy.get('td:contains("Test Updated Funding Org")').should("have.length", 1);
 
     // Add new row to send to archive
-    cy.intercept("POST", "/api/organizations/**").as("createSecondFundingOrg");
     cy.get("button:contains('All')").click();
     cy.get("button:contains('Add New Funding Org')").click();
     cy.get("form").within(() => {
@@ -110,11 +113,11 @@ describe("Create a new funding org", () => {
       cy.get("input").last().type("goingtoarchived.org");
       cy.get("button").last().click();
     });
-    cy.reload();
+    cy.wait("@createFundingOrg");
+    cy.wait("@getFundingOrg");
     cy.get('td:contains("Going To Archived")').should("have.length", 1);
 
     // Send new row to archive from row dropdown menu and check archived
-    cy.wait("@createSecondFundingOrg");
     cy.get('[data-testid="drop-down-mini"]').last().click();
     cy.get('[data-testid="Archive"]').last().click();
     cy.get("button:contains('Archived')").click();

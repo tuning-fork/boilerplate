@@ -67,12 +67,6 @@ export default function FundingOrgsIndex() {
     }
   };
 
-  const handleCloseFundingOrgModal = () => {
-    setShowingFundingOrgNew(false);
-    setShowingFundingOrgEdit(false);
-    return fundingOrgs;
-  };
-
   const columns = [
     { Header: "Name", accessor: "name" },
     {
@@ -134,6 +128,12 @@ export default function FundingOrgsIndex() {
       })
       .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   }, [fundingOrgs, searchFilters, tabSelect]);
+
+  const handleCloseFundingOrgModal = () => {
+    setShowingFundingOrgNew(false);
+    setShowingFundingOrgEdit(false);
+    refetchFundingOrgs();
+  };
 
   return (
     <section className="fundingorgs-index">
