@@ -4,7 +4,7 @@
   "private": true,
   "engineStrict": true,
   "engines": {
-    "node": "~16"
+    "node": ">=16"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.5",
