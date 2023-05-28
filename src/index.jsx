@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MantineProvider } from "@mantine/core";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./Components/design.css";
@@ -16,7 +17,9 @@ const queryClient = new QueryClient({
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <App />
+      </MantineProvider>
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")
