@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../BOILERPLATE.svg";
-import "../../Panel/Panel.css";
 import "./NavbarSplashpage.css";
 
 export default function NavbarSplashpage(props) {
