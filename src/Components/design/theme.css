@@ -10,7 +10,7 @@
   --primary-contrast: rgba(255, 255, 255, 1);
   --secondary: #e02780;
   --secondary-text: #ec5fa3;
-  --secondary-tint: #FF96C5;
+  --secondary-tint: #ff96c5;
   --tertiary-light: #ffd759;
   --tertiary-dark: #b78b00;
   --error: #ff4238;
@@ -63,7 +63,13 @@ a:visited {
   color: var(--primary-contrast-alt);
 }
 
-a, button:focus {
+a,
+button:focus {
   outline-color: var(--primary);
   outline-offset: 4px;
+}
+
+button > svg {
+  width: inherit;
+  height: inherit;
 }
