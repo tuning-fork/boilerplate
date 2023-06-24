@@ -13,10 +13,6 @@
   margin: 0;
 }
 
-.organization-index__header > button {
-  height: min-content;
-}
-
 .organization-index__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, 40ch);
