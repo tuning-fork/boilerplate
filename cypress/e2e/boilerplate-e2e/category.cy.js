@@ -76,7 +76,9 @@ describe("Create a new category", () => {
     });
     cy.wait("@editCategory");
     cy.wait("@getCategory");
-    cy.get("td").last().should("contain", "Test Updated New Category First");
+    cy.get("tr")
+      .last()
+      .should("contain", "Test Updated New Unique Category First");
 
     // Cancel edit
     cy.get('[data-testid="drop-down-mini"]').last().click();
