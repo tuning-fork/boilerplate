@@ -133,14 +133,14 @@ describe("Create a new grant from Grants index", () => {
           cy.get('[data-testid="Make a Copy"]').last().click();
           cy.get("button:contains('Save')").click();
         });
-      cy.wait("@createGrant");
       cy.get("h1:contains('copy')");
-
+      cy.wait("@getGrant");
       // Go to All and send the new copy to Archived
       cy.get("a:contains('Back to All Grants')").click();
-      cy.wait("@getGrant");
+
+      cy.reload(); // TODO: See about removing this reload
       cy.get("h1:contains('All Grants')");
-      cy.get("tr").should("have.length.greaterThan", grantCount);
+      cy.get("tr").should("have.length.greaterThan", grantCount + 1);
       cy.get("tr")
         .last()
         .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
