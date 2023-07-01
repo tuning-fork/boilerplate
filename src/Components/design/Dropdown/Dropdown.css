@@ -74,3 +74,8 @@
 .dropdown__menu-item > button:focus {
   outline: none;
 }
+
+.dropdown__input > svg {
+  width: unset;
+  height: unset;
+}
