@@ -56,13 +56,6 @@ h6 {
   color: var(--heading-text);
 }
 
-a {
-  color: var(--primary-text);
-}
-a:visited {
-  color: var(--primary-contrast-alt);
-}
-
 a,
 button:focus {
   outline-color: var(--primary);
