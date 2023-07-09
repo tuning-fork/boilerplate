@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../../../design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../design/TextBox/TextBox";
 import "./SplashpageContactForm.css";
 import * as ContactService from "../../../../Services/ContactService";

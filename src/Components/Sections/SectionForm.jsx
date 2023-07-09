@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import Label from "../design/Label/Label";
 import "./SectionForm.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
@@ -92,7 +92,7 @@ export default function SectionForm(props) {
         <Button
           className="SectionForm__PasteBoilerplateContent"
           onClick={() => setIsOpen(true)}
-          variant="text"
+          variant="subtle"
         >
           <MdContentPaste />
           Paste Boilerplate Content
@@ -101,7 +101,7 @@ export default function SectionForm(props) {
       <div className="SectionForm__Actions">
         <div>
           <Button
-            variant="outlined"
+            variant="outline"
             onClick={() => {
               onStoreSectionAsBoilerplate(sectionFields);
             }}
@@ -111,7 +111,7 @@ export default function SectionForm(props) {
         </div>
       </div>
       <div className="SectionForm__FormControls">
-        <Button variant="text" onClick={handleCancel}>
+        <Button variant="subtle" onClick={handleCancel}>
           Cancel
         </Button>
         <Button type="submit">Save</Button>

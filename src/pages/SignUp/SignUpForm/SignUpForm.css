@@ -13,9 +13,3 @@
   font-weight: var(--font-weight-bold);
   padding-left: 0.5rem;
 }
-
-.signup-form__signup-submit-button {
-  padding: 12px 48px 12px 48px;
-  background-color: var(--secondary);
-  color: var(--primary-contrast);
-}

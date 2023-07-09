@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Container } from "@mantine/core";
 import Footer from "../../Components/design/Footer/Footer";
 import NavbarSplashpage from "../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import ForgotPasswordForm from "./ForgotPasswordForm/ForgotPasswordForm";
@@ -18,8 +19,8 @@ export default function ForgotPasswordPage() {
     <div className="forgot-password-page">
       <NavbarSplashpage />
       <main className="forgot-password-page__content">
-        <section>
-          <h1 className="forgot-password-page__header">Forgot Password</h1>
+        <Container component="section" size="sm">
+          <h1>Forgot Password</h1>
           {message ? (
             <p className="forgot-password-form__header-text">{message}</p>
           ) : (
@@ -30,7 +31,7 @@ export default function ForgotPasswordPage() {
               <ForgotPasswordForm onSubmit={handleSubmit} />
             </>
           )}
-        </section>
+        </Container>
       </main>
       <Footer />
     </div>

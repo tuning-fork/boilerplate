@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../Components/design/TextBox/TextBox";
 import "./AcceptInvitationForm.css";
 
@@ -57,7 +57,7 @@ export default function AcceptInvitationForm(props) {
         required
       />
       <div className="accept-invitation-form__actions">
-        <Button type="submit" className="accept-invitation-form__submit-button">
+        <Button type="submit">
           Submit
         </Button>
       </div>

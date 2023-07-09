@@ -19,9 +19,3 @@
   font-weight: var(--font-weight-bold);
   padding-top: 1rem;
 }
-
-.login-form__login-submit-button {
-  padding: 12px 72px 12px 72px;
-  background-color: var(--secondary);
-  color: var(--primary-contrast);
-}

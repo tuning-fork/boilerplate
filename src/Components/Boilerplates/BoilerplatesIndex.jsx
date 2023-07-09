@@ -2,9 +2,9 @@ import React, { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
+import { Button } from "@mantine/core";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
 import formatDate from "../../Helpers/formatDate";
@@ -137,7 +137,7 @@ export default function BoilerplatesIndex() {
           className="boilerplates-index__search-input"
         />
         <Button
-          as={Link}
+          component={Link}
           to={`/organizations/${currentOrganization.id}/boilerplates-new/`}
         >
           Add New Boilerplate

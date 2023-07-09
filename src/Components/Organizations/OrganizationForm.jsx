@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextBox from "..//design/TextBox/TextBox";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import "./OrganizationForm.css";
 
 export default function OrganizationForm(props) {
@@ -23,7 +23,7 @@ export default function OrganizationForm(props) {
         required
       />
       <div className="organization-form__actions">
-        <Button variant="text" onClick={onCancel}>
+        <Button variant="subtle" onClick={onCancel}>
           Cancel
         </Button>
         <Button type="submit">Add</Button>
