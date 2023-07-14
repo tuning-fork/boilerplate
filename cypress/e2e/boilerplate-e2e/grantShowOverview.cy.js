@@ -66,6 +66,7 @@ describe("Grant overview DnD", () => {
     cy.get("button:contains('Undo')").should("have.class", "button--disabled");
     cy.get("button:contains('Redo')").should("have.class", "button--disabled");
 
+    // TODO: Could not get this to work
     // Drag another section, select Undo and check that Save and Undo are disabled and Redo is enabled
     cy.get('[data-testid="Section 2"]').move({
       deltaY: 400,
@@ -80,6 +81,7 @@ describe("Grant overview DnD", () => {
     //   "button--disabled"
     // );
 
+    // TODO: Could not get this to work
     // Drag a section, select Rndo and check that Save and Uedo is active
     cy.get('[data-testid="Section 4"]').move({
       deltaY: 300,
@@ -115,6 +117,7 @@ describe("Grant overview DnD", () => {
     });
     cy.wait(2000);
 
+    // TODO
     // Save
 
     // Grab the sections and check that the order is reversed

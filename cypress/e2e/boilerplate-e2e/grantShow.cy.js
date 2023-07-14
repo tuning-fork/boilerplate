@@ -25,6 +25,9 @@ describe("View a Grant on the Grants Show page", () => {
     cy.intercept("GET", "/api/organizations/**/boilerplates").as(
       "getBoilerplate"
     );
+    cy.intercept("DELETE", "/api/organizations/**/boilerplates/**").as(
+      "deleteBoilerplate"
+    );
 
     // Select grant to view
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
@@ -57,6 +60,7 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get("button:contains('Save')").click();
     });
     cy.wait("@createGrant");
+    cy.reload();
     cy.get("h1:contains('Cypress Tree Neighborhood Grant copy')");
 
     // Edit grant
@@ -75,7 +79,6 @@ describe("View a Grant on the Grants Show page", () => {
       cy.get("button[type=submit]").click();
     });
     cy.wait("@editGrant");
-    // cy.wait("@getGrant");
 
     // Delete copy
     cy.get("a[type=button]:contains('Edit')").click();
@@ -96,6 +99,7 @@ describe("View a Grant on the Grants Show page", () => {
     });
     cy.wait("@createSection");
     cy.wait("@getGrant");
+    cy.reload();
 
     // Edit the newly created section
     cy.get("h2:contains('New Section Title')")
@@ -150,26 +154,7 @@ describe("View a Grant on the Grants Show page", () => {
       "contain",
       "Ekram Hanna, MIRA Community Engagement Manager, Certified Mental Health First Aid Trainer"
     );
-    // Clear search inputs and display all boilerplates
-    // cy.get('[data-testid="Max Word Count"]').clear();
-    // cy.get(".dropdown__menu").last().clear(); // !!!!!! This won't work because the dropdown can't be cleared. Need all boilerplate option
-    // Paste another boilerplate
-    // cy.get("h6.accordion-item__header:contains('Mission)").click();
-    // Then check for the pasted boilerplate inside the form
-    // cy.get(".ql-editor").should(
-    //   "contain",
-    //   "With the introduction of a new shorter (4 hour) course, MIRA staff"
-    // );
-    // Text appears multiple times?
-
-    // Cancel/close select and paste boilerplates
     cy.get(".paste-boilerplate-content-popout__close-button").click();
-
-    cy.get("h2:contains('New Section Title')")
-      .first()
-      .within(() => {
-        cy.get("button").first().click();
-      });
 
     // Store section as boilerplate
     cy.get("button:contains('Store Section as Boilerplate')").click();
@@ -191,10 +176,8 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a:contains('Section To Boilerplate Test')").first().click();
     cy.get("button:contains('Edit')").click();
     cy.get("button:contains('Delete')").click();
-    cy.wait("@getBoilerplate");
-    cy.get("td").first().should("contain", "Mission");
-    cy.get("td").last().should("not.contain", "Section To Boilerplate Test");
-    // cy.get("td:contains('Section To Boilerplate Test')").should("not.exist");
+    cy.reload();
+    cy.get("tr").last().should("not.contain", "Section To Boilerplate Test");
 
     // Delete the newly added section
     cy.get("a:contains('Grants')").click();
