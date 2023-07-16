@@ -16,7 +16,6 @@ export const Sidebar = (props) => (
           <Route path="/organizations/:organizationId/dashboard">
             Dashboard
           </Route>
-          <Route path="/organizations/:organizationId/reports">Reports</Route>
           <Route path="/organizations/:organizationId/grants">Grants</Route>
           <Route path="/organizations/:organizationId/boilerplates">
             Boilerplates
