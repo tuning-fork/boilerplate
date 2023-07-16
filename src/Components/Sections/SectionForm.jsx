@@ -117,7 +117,7 @@ export default function SectionForm(props) {
         <Button type="submit">Save</Button>
       </div>
       <Button
-        color="error"
+        color="red"
         onClick={() => {
           onDelete(sectionFields);
         }}

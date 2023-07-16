@@ -67,12 +67,3 @@
   order: 1;
 }
 
-.grants-show-overview__save-button {
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 1.4rem;
-}
-
-.grants-show-overview__save-button .button{
-  margin-left: 1rem;
-}

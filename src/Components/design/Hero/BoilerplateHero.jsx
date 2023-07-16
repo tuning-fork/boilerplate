@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@mantine/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import Button from "../Button/Button";
 import "./BoilerplateHero.css";
-// import formatDate from "../../../Helpers/formatDate";
 
 export default function BoilerplateHero(props) {
   return (
@@ -16,15 +15,7 @@ export default function BoilerplateHero(props) {
         <div className="hero__header">
           <h1>{props.headerText}</h1>
           <div className="hero__buttons">
-            {/* <Button
-              variant="outlined"
-              as={CurrentOrganizationLink}
-              to={props.copyLink}
-            >
-              Copy
-            </Button> */}
-
-            <Button variant="outlined" onClick={() => props.setIsOpen(true)}>
+            <Button variant="light" onClick={() => props.setIsOpen(true)}>
               Edit
             </Button>
           </div>

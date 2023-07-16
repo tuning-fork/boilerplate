@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "react-query";
 import { MdAddCircle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import Modal from "../design/Modal/Modal";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
@@ -15,10 +15,10 @@ import SectionsShow from "../Sections/SectionsShow";
 import SectionForm from "../Sections/SectionForm";
 import SortableElement from "../Elements/SortableElement";
 import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
-import "./GrantsShow.css";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import "./GrantsShow.css";
 
 function countTotalSectionsWords(sections = []) {
   return sections?.reduce(
@@ -59,22 +59,22 @@ export default function GrantsShow() {
   const heroButtons = () => (
     <>
       <Button
-        variant="outlined"
-        as={CurrentOrganizationLink}
+        variant="light"
+        component={CurrentOrganizationLink}
         to={`/grants/${grant.id}/copy/`}
       >
         Copy
       </Button>
       <Button
-        variant="outlined"
-        as={CurrentOrganizationLink}
+        variant="light"
+        component={CurrentOrganizationLink}
         to={`/grants/${grant.id}/edit/`}
       >
         Edit
       </Button>
       <Button
-        variant="outlined"
-        as={CurrentOrganizationLink}
+        variant="light"
+        component={CurrentOrganizationLink}
         to={`/grants/${grant.id}/overview/`}
       >
         Overview
