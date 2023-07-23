@@ -12,9 +12,7 @@ export default function SectionsShow(props) {
       <div className="section__header">
         <Group position="apart">
           <Flex align="center" gap="sm">
-            <h2 className="section__title heading-4">
-              {section.title}
-            </h2>
+            <h2 className="section__title heading-4">{section.title}</h2>
             <ActionIcon onClick={() => onClickEdit(section.id)}>
               <MdEditNote className="section__edit-icon" />
             </ActionIcon>

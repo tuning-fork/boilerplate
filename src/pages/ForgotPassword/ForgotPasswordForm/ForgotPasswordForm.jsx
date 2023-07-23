@@ -22,11 +22,7 @@ export default function ForgotPasswordForm(props) {
         required
       />
       <div className="forgot-password-form__actions">
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );

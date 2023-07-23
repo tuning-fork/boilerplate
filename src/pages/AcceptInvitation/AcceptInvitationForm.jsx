@@ -57,9 +57,7 @@ export default function AcceptInvitationForm(props) {
         required
       />
       <div className="accept-invitation-form__actions">
-        <Button type="submit">
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );

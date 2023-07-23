@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from '@mantine/core'
+import { Container } from "@mantine/core";
 import Footer from "../../Components/design/Footer/Footer";
 import NavbarSplashpage from "../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import SplashpageContactForm from "../../Components/Layouts/SplashpageLayout/SplashpageContact/SplashpageContactForm";

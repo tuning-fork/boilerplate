@@ -76,10 +76,7 @@ export default function SignUpForm(props) {
         required
       />
       <div className="signup-form__actions">
-        <Button
-          type="submit"
-          size="md"
-        >
+        <Button type="submit" size="md">
           Create Account
         </Button>
       </div>

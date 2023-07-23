@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "react-query";
 import { useHistory, Link } from "react-router-dom";
-import { Container } from "@mantine/core"
+import { Container } from "@mantine/core";
 import Footer from "../../Components/design/Footer/Footer";
 import NavbarSplashpage from "../../Components/design/Navbar/NavbarSplashpage/NavbarSplashpage";
 import SignUpForm from "./SignUpForm/SignUpForm";

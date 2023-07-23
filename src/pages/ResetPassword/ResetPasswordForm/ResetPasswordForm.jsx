@@ -37,11 +37,7 @@ export default function ResetPasswordForm(props) {
         required
       />
       <div className="reset-password-form__actions">
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );
