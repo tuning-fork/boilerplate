@@ -176,6 +176,7 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a:contains('Section To Boilerplate Test')").first().click();
     cy.get("button:contains('Edit')").click();
     cy.get("button:contains('Delete')").click();
+    cy.wait("@deleteBoilerplate");
     cy.reload();
     cy.get("tr").last().should("not.contain", "Section To Boilerplate Test");
 
