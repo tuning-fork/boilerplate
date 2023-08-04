@@ -7,7 +7,6 @@ import "./GrantEdit.css";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
 import GrantForm from "./GrantForm";
-import Button from "../design/Button/Button";
 import Container from "../design/Container/Container";
 
 export default function GrantEdit() {
@@ -42,13 +41,6 @@ export default function GrantEdit() {
     });
   };
 
-  const handleDelete = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm(`Are you sure you want to delete this grant?`)) {
-      handleEditGrant({ archived: true });
-    }
-  };
-
   const goToGrant = () =>
     history.push(buildOrganizationsLink(`/grants/${grantId}`));
 
@@ -57,9 +49,6 @@ export default function GrantEdit() {
       <Container as="section" centered>
         <header className="grant-edit__header">
           <h1>Edit Grant</h1>
-          <Button color="error" onClick={handleDelete}>
-            Delete Grant
-          </Button>
         </header>
         <GrantForm
           grant={grant}

@@ -1,7 +1,6 @@
 .footer {
   display: flex;
   justify-content: center;
-  margin-top: auto;
   height: 8rem;
   background-color: var(--secondary);
 }

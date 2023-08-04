@@ -33,6 +33,10 @@
   background-color: var(--primary);
 }
 
+.button--contained.button--secondary {
+  background-color: var(--secondary);
+}
+
 .button--contained.button--success {
   background-color: var(--success);
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import Button from "../design/Button/Button";
+import { Button, Group } from "@mantine/core";
 import Checkbox from "../design/Checkbox/Checkbox";
 import Container from "../design/Container/Container";
 import Hero from "../design/Hero/Hero";
@@ -154,8 +154,8 @@ export default function GrantShowOverview() {
   const heroButtons = () => (
     <>
       <Button
-        variant="outlined"
-        as={CurrentOrganizationLink}
+        variant="light"
+        component={CurrentOrganizationLink}
         to={`/grants/${grant.id}/`}
       >
         Content View
@@ -194,35 +194,40 @@ export default function GrantShowOverview() {
               className="grants-show-overview__draggable-sections-container"
               as="section"
             >
-              <div className="grants-show-overview__save-button">
-                <Button
-                  onClick={() => {
-                    grantSectionsReorder();
-                  }}
-                  disabled={!canSaveReorder}
-                >
-                  Save
-                </Button>
-                <Button
-                  onClick={() => {
-                    onUndo();
-                  }}
-                  disabled={reorderIndex === 0}
-                >
-                  Undo
-                </Button>
-                <Button
-                  onClick={() => {
-                    onRedo();
-                  }}
-                  disabled={
-                    reorderIndex + 1 === reorderHistory.length ||
-                    reorderHistory.length <= 1
-                  }
-                >
-                  Redo
-                </Button>
-              </div>
+              <Group position="right">
+                <Button.Group>
+                  <Button
+                    variant="light"
+                    onClick={() => {
+                      grantSectionsReorder();
+                    }}
+                    disabled={!canSaveReorder}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="light"
+                    onClick={() => {
+                      onUndo();
+                    }}
+                    disabled={reorderIndex === 0}
+                  >
+                    Undo
+                  </Button>
+                  <Button
+                    variant="light"
+                    onClick={() => {
+                      onRedo();
+                    }}
+                    disabled={
+                      reorderIndex + 1 === reorderHistory.length ||
+                      reorderHistory.length <= 1
+                    }
+                  >
+                    Redo
+                  </Button>
+                </Button.Group>
+              </Group>
               <SortableContext
                 items={sortableSections}
                 strategy={verticalListSortingStrategy}

@@ -1,8 +1,8 @@
 import React, { useRef, useState, useMemo } from "react";
 import { useQuery } from "react-query";
+import { Button } from "@mantine/core";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
-import Button from "../design/Button/Button";
 import Label from "../design/Label/Label";
 import Dropdown from "../design/Dropdown/Dropdown";
 import "./BoilerplateForm.css";
@@ -103,12 +103,12 @@ export default function BoilerplateForm(props) {
         </div>
         <div className="BoilerplateForm__Actions">
           {onDelete && (
-            <Button color="error" onClick={() => onDelete(props.boilerplate)}>
+            <Button color="red" onClick={() => onDelete(props.boilerplate)}>
               Delete
             </Button>
           )}
           <div className="BoilerplateForm__FormControls">
-            <Button variant="text" onClick={() => props.onCancel(false)}>
+            <Button variant="subtle" onClick={() => props.onCancel(false)}>
               Cancel
             </Button>
             <Button type="submit">Save</Button>

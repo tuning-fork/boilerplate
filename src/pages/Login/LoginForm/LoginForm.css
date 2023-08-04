@@ -1,0 +1,21 @@
+.login-form {
+  height: 100%;
+}
+
+.login-form__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form__signup-toggle {
+  text-decoration: underline;
+  font-weight: var(--font-weight-bold);
+  padding-left: 0.5rem;
+}
+
+.login-form__forgot-password {
+  text-decoration: underline;
+  font-weight: var(--font-weight-bold);
+  padding-top: 1rem;
+}

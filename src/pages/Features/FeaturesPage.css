@@ -1,0 +1,23 @@
+.features-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.features-page__content {
+  flex: 1;
+  padding: 4rem;
+}
+
+.features-page__header {
+  margin-bottom: 2rem;
+}
+
+.features-page__list {
+  list-style: none;
+  padding: 0;
+}
+
+.features-page__list > li {
+  margin-bottom: 4rem;
+}

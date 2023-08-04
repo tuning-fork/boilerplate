@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import Dropdown from "../design/Dropdown/Dropdown";
 import TextBox from "../design/TextBox/TextBox";
 import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
@@ -86,7 +86,7 @@ export default function GrantForm(props) {
           required
         />
         <div className="grant-form__actions">
-          <Button variant="text" onClick={props.onCancel}>
+          <Button variant="subtle" onClick={props.onCancel}>
             Cancel
           </Button>
           <Button type="submit">Save</Button>

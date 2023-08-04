@@ -1,0 +1,29 @@
+.team-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.team-page__content {
+  flex: 1;
+  padding: 4rem;
+}
+
+.team-page__text {
+  margin-bottom: 4rem;
+}
+
+.team-page__header {
+  margin-bottom: 2rem;
+  color: inherit;
+}
+
+.bio-frame {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.bio-frame > a {
+  text-decoration: none;
+}

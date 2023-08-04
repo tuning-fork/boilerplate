@@ -1,0 +1,14 @@
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contact-page__content {
+  flex: 1;
+  padding: 4rem;
+}
+
+.contact-page__text {
+  margin-bottom: 2rem;
+}

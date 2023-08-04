@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { useQuery } from "react-query";
 import { MdAccessTime, MdAlarm } from "react-icons/md";
+import { Button } from "@mantine/core";
 import { useCurrentUser } from "../Contexts/currentUserContext";
 import isRecent from "../Helpers/date/isRecent";
 import isSoon from "../Helpers/date/isSoon";
-import Button from "./design/Button/Button";
 import CurrentOrganizationLink from "./Helpers/CurrentOrganizationLink";
 import GrantListItem from "./Dashboard/GrantListItem";
 import UserListItem from "./Dashboard/UserListItem";
@@ -36,11 +36,7 @@ export default function Dashboard() {
     <section className="dashboard">
       <header className="dashboard__header">
         <h1>Welcome, {user.firstName}!</h1>
-        <Button
-          as={CurrentOrganizationLink}
-          to="/grants-new"
-          data-testid="new-grant-button"
-        >
+        <Button component={CurrentOrganizationLink} to="/grants-new">
           Add New Grant
         </Button>
       </header>

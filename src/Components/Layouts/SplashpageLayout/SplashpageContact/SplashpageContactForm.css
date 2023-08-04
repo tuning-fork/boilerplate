@@ -1,17 +1,17 @@
-.splashpage-contact-form__div {
-  padding-bottom: 15%;
-}
-
 .splashpage-contact-form__container {
   padding: 3rem;
-  background-color: var(--primary-30);
+  background-color: var(--contrast-5);
   border: 2px solid #ffffff;
   border-radius: 5px;
 }
 
-.splashpage-contact-form__confirmation-message {
-  color: #ffffff;
+.splashpage-contact-form__confirmation-message > p {
   font-size: var(--font-size-large-1);
+  margin-top: 0;
+}
+
+.splashpage-contact-form__submitted-message {
+  font-style: italic;
 }
 
 .splashpage-contact-form__header__container {
@@ -20,29 +20,22 @@
   padding-left: 2rem;
 }
 
-.splashpage-contact-form__header {
-  padding-bottom: 1rem;
-  color: #ffffff;
-}
-
 .splashpage-contact-form {
-  padding: 3rem;
-  color: #ffffff;
   height: 100%;
 }
 
 .splashpage-contact-form .text-box__label {
-  color: #ffffff;
+  color: #2c92a8;
   font-size: var(--font-size-large-1);
 }
 
 .splashpage-contact-form .text-box__input {
-  color: #ffffff;
+  color: var(--contrast-100);
   background: transparent;
 }
 
 .splashpage-contact-form ::placeholder {
-  color: #ffffff;
+  color: var(--contrast-100);
 }
 
 .splashpage-contact-form .text-box__container {
@@ -55,4 +48,5 @@
 }
 .splashpage-contact-form__actions > button {
   margin-left: 20px;
+  gap: .4rem;
 }

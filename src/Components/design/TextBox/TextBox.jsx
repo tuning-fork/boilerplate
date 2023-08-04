@@ -41,14 +41,14 @@ export default function TextBox(props) {
           />
         ) : (
           <textarea
-            rows="12"
+            rows="6"
             cols="80"
             className="text-box__input"
             value={value}
             onChange={onChange}
             placeholder={placeholderText}
             required={required}
-            maxlength={maxLength}
+            maxLength={maxLength}
             {...rest}
           />
         )}

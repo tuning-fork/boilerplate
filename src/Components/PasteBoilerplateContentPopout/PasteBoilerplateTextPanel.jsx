@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import { PasteBoilerplateContentPopoutContext } from "./PasteBoilerplateContentPopoutContext";
 import { MdCheckCircle } from "react-icons/md";
 import "./PasteBoilerplateTextPanel.css";

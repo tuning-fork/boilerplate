@@ -1,0 +1,60 @@
+.feature-card__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1rem;
+  position: relative;
+  margin-left: 3rem;
+}
+
+.feature-card__name {
+  position: absolute;
+  top: 0;
+  left: -3.6rem;
+  /* NOTE: This forces all the headings to be 300px, if any of them are longer
+  than that (a super long word) this will not work and must be re-tuned. */
+  width: 300px;
+  margin-top: 19rem;
+  text-align: right;
+  transform: rotate(270deg);
+  transform-origin: top left;
+}
+
+.feature-card__text {
+  margin-top: auto;
+  margin-bottom: 0rem;
+}
+
+.feature-card__screenshot-image {
+  max-width: min(100%, 38rem);
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  /* ... */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  /* ... */
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .feature-card__container {
+    flex-wrap: nowrap;
+  }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  /* ... */
+}

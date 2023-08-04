@@ -1,40 +1,48 @@
-.bio-card__bio-frame {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
 .bio-card__container {
-  padding-left: 6rem;
-  padding-right: 6rem;
-}
-
-.bio-card__bio-name {
-  padding-top: 4rem;
-  color: var(--primary-text);
-}
-
-.bio-card__bio-title {
-  color: var(--primary-text);
-  padding-bottom: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4rem 6rem 0rem 6rem;
+  gap: 2rem;
+  justify-content: space-around;
+  position: relative;
+  overflow-y: hidden;
 }
 
 .bio-card__bio-content {
+  padding: 0 2rem 2rem 2rem;
+  background-color: var(--base);
+}
+
+.bio-card__info {
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
   align-items: center;
-  font: var(--font-size-base);
-  height: 40rem;
+  margin-bottom: 2rem;
+}
+
+.bio-card__info a > svg {
+  color: var(--contrast-100);
+  font-size: var(--font-size-icon-bigger);
+  display: block;
+}
+
+.bio-card__bio-name {
+  margin-bottom: 1rem;
+  color: var(--contrast-100);
+}
+
+.bio-card__bio-title {
+  color: var(--contrast-100);
+  margin: 0;
+  font-size: var(--font-size-large-3);
+  font-weight: var(--font-weight-normal);
 }
 
 .bio-card__text-frame {
   border-radius: 5px;
-  width: 60%;
-  min-width: 50%;
-  margin-right: 6rem;
   min-height: 40rem;
   height: 100%;
-  color: var(--primary-text);
+  color: var(--contrast-100);
 }
 
 .bio-card__text {
@@ -42,30 +50,56 @@
   min-width: 0;
 }
 
+.bio-card__container > svg {
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: 0vh;
+  right: -10vh;
+}
+
 .bio-card__headshot-frame {
-  background-color: var(--primary-30);
-  border: 2px solid #ffffff;
-  border-radius: 5px;
-  width: 30%;
-  padding: 4rem;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  order: -1;
 }
 
 .bio-card__headshot-image {
-  padding-top: 2.5rem;
   max-height: 30rem;
   max-width: 30rem;
+  border-radius: 4%;
 }
 
-.bio-card__icon-links {
-  padding-top: 1rem;
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  /* ... */
 }
 
-.bio-card__icon-links a {
-  color: var(--primary-text);
-  padding-right: 2rem;
-  font-size: x-large;
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  /* ... */
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .bio-card__bio-content {
+    width: 40%;
+  }
+
+  .bio-card__headshot-frame {
+    order: 1;
+  }
+
+  .bio-card__container > svg {
+    top: -40vh;
+    right: 0;
+  }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  /* ... */
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  /* ... */
 }

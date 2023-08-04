@@ -1,16 +1,16 @@
 import React, { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
+import { Button } from "@mantine/core";
 import clsx from "clsx";
-import Button from "../design/Button/Button";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
+import DropdownMini from "../design/DropdownMini/DropdownMini";
 import CategoryNew from "./CategoryNew";
 import CategoryEdit from "./CategoryEdit";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import formatDate from "../../Helpers/formatDate";
 import "./CategoriesIndex.css";
-import DropdownMini from "../design/DropdownMini/DropdownMini";
 
 export default function CategoriesIndex() {
   const [tabSelect, setTabSelect] = useState("All");

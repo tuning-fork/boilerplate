@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "react-query";
 import Label from "../design/Label/Label";
 import TextBox from "../design/TextBox/TextBox";
 import RichTextEditor from "../design/RichTextEditor/RichTextEditor";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import Dropdown from "../design/Dropdown/Dropdown";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as BoilerplatesService from "../../Services/Organizations/BoilerplatesService";
@@ -94,7 +94,7 @@ export default function StoreSectionAsBoilerplate(props) {
         }}
       />
       <div className="store-section-as-boilerplate__actions">
-        <Button variant="outlined" onClick={props.onClose}>
+        <Button variant="outline" onClick={props.onClose}>
           Cancel
         </Button>
         <Button type="submit">Save</Button>

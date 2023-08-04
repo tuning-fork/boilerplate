@@ -35,25 +35,6 @@ export default function CategoryEdit(props) {
     props.onClose();
   };
 
-  const handleDelete = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm(`Are you sure you want to delete this category?`)) {
-      CategoriesService.updateCategory(organizationClient, props.category.id, {
-        archived: true,
-      })
-        .then(() => {
-          alert("Category deleted!");
-          props.onClose();
-        })
-        .catch((error) => {
-          console.error(error);
-          alert(
-            "Eek! Something went wrong when deleting the category. Try again soon."
-          );
-        });
-    }
-  };
-
   return (
     <div className="category-edit">
       <Modal
@@ -65,7 +46,6 @@ export default function CategoryEdit(props) {
           category={props.category}
           onSubmit={handleEditCategory}
           onCancel={handleCancel}
-          onDelete={handleDelete}
         />
       </Modal>
     </div>

@@ -36,46 +36,6 @@ export default function FundingOrgEdit(props) {
     props.onClose();
   };
 
-  const handleDelete = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm(`Are you sure you want to delete this funding org?`)) {
-      FundingOrgsService.updateFundingOrg(
-        organizationClient,
-        props.fundingOrg.id,
-        {
-          archived: true,
-        }
-      )
-        .then(() => {
-          alert("Funding org deleted!");
-          props.onClose();
-        })
-        .catch((error) => {
-          console.error(error);
-          alert(
-            "Eek! Something went wrong when deleting the funding org. Try again soon."
-          );
-        });
-    }
-    // eslint-disable-next-line no-restricted-globals
-    // if (confirm(`Are you sure you want to delete this funding org?`)) {
-    //   FundingOrgsService.deleteFundingOrg(
-    //     organizationClient,
-    //     props.fundingOrg.id
-    //   )
-    //     .then(() => {
-    //       alert("Funding org deleted!");
-    //       props.onClose();
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       alert(
-    //         "Eek! Something went wrong when deleting the funding org. Try again soon."
-    //       );
-    //     });
-    // }
-  };
-
   return (
     <div className="fundingorg-edit">
       <Modal
@@ -87,7 +47,6 @@ export default function FundingOrgEdit(props) {
           fundingOrg={props.fundingOrg}
           onSubmit={handleEditFundingOrg}
           onCancel={handleCancel}
-          onDelete={handleDelete}
         />
       </Modal>
     </div>

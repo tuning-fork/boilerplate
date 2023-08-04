@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../Components/design/TextBox/TextBox";
 import "./InviteUserForm.css";
 
@@ -51,7 +51,7 @@ export default function InviteUserForm(props) {
         required
       />
       <div className="invite-user-form__actions">
-        <Button variant="text" onClick={props.onCancel}>
+        <Button variant="subtle" onClick={props.onCancel}>
           Cancel
         </Button>
         <Button type="submit">Invite</Button>

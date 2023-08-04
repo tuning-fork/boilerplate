@@ -18,8 +18,6 @@ import GrantShow from "../Components/Grants/GrantsShow";
 import GrantShowOverview from "../Components/Grants/GrantShowOverview";
 import GrantsIndex from "../Components/Grants/GrantsIndex";
 import GrantsNew from "../Components/Grants/GrantsNew";
-import ReportsNew from "../Components/Reports/ReportsNew";
-import ReportsShow from "../Components/Reports/ReportsShow";
 import RedirectToDashboard from "../Components/Helpers/RedirectToDashboard";
 import UserIndexPage from "../pages/UserIndex/UserIndexPage";
 
@@ -58,17 +56,6 @@ export default function OrganizationRoutes() {
             <Route
               path="/organizations/:organizationId/grants-new"
               component={GrantsNew}
-            />
-            <Route
-              exact
-              path={
-                "/organizations/:organizationId/grants/:grantId/reports/:reportId"
-              }
-              component={ReportsShow}
-            />
-            <Route
-              path="/organizations/:organizationId/grants/:grantId/reports-new"
-              component={ReportsNew}
             />
             <Route
               path="/organizations/:organizationId/grants/"

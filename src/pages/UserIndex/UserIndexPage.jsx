@@ -7,12 +7,12 @@ import {
   MdError,
   MdCached,
 } from "react-icons/md";
+import { Tabs, Button, Space, ActionIcon } from "@mantine/core";
 import clsx from "clsx";
 import formatDate from "../../Helpers/formatDate";
 import * as OrganizationService from "../../Services/OrganizationService";
 import * as InvitationsService from "../../Services/Organizations/InvitationsService";
 import { CurrentOrganizationContext } from "../../Contexts/currentOrganizationContext";
-import Button from "../../Components/design/Button/Button";
 import Modal from "../../Components/design/Modal/Modal";
 import Table from "../../Components/design/Table/Table";
 import TextBox from "../../Components/design/TextBox/TextBox";
@@ -20,13 +20,7 @@ import Popover from "../../Components/design/Popover/Popover";
 import InviteUserForm from "./InviteUserForm/InviteUserForm";
 import "./UserIndexPage.css";
 
-const Tabs = {
-  USERS: "USERS",
-  INVITATIONS: "INVITATIONS",
-};
-
 export default function UserIndexPage() {
-  const [tabSelect, setTabSelect] = useState(Tabs.USERS);
   const { organizationClient } = useContext(CurrentOrganizationContext);
   const [searchString, setSearchString] = useState("");
   const [showingInviteUser, setShowingInviteUser] = useState(false);
@@ -76,113 +70,28 @@ export default function UserIndexPage() {
     }
   );
 
-  const resources = useMemo(() => {
-    if (tabSelect === Tabs.USERS) {
-      return users;
-    } else if (tabSelect === Tabs.INVITATIONS) {
-      return invitations;
-    }
-  }, [tabSelect, users, invitations]);
-  const filteredResources = useMemo(() => {
-    return resources.filter((resource) => {
-      const resourceFullName = `${resource.firstName} ${resource.lastName}`;
-      return resourceFullName
+  const filteredUsers = useMemo(() => {
+    return users.filter((user) => {
+      const userFullName = `${user.firstName} ${user.lastName}`;
+      return userFullName
         .toLowerCase()
         .includes(searchString.toLowerCase().trim());
     });
-  }, [resources, searchString]);
+  }, [users, searchString]);
 
-  const columns =
-    tabSelect === Tabs.INVITATIONS
-      ? [
-          {
-            Header: "First Name",
-            accessor: (invitation) => (
-              <>
-                <div
-                  className={clsx(
-                    "user-index-row-status",
-                    invitation.hasExpired() && "user-index-row-status--expired"
-                  )}
-                >
-                  {invitation.hasExpired() ? (
-                    <Popover text="Invitation expired" direction="left">
-                      <MdError />
-                    </Popover>
-                  ) : (
-                    <Popover text="Invitation pending" direction="left">
-                      <MdCached />
-                    </Popover>
-                  )}
-                </div>
-                {invitation.firstName}
-              </>
-            ),
-          },
-          { Header: "Last Name", accessor: "lastName" },
-          { Header: "Email", accessor: "email" },
-          {
-            Header: "Sent At",
-            accessor: (invitation) => (
-              <>
-                {formatDate(invitation.updatedAt)}
-                <div className="user-index__row-actions">
-                  <Popover text="Resend invitation" direction="right">
-                    <Button
-                      onClick={() => reinvite(invitation.id)}
-                      variant="none"
-                    >
-                      <MdRestartAlt />
-                    </Button>
-                  </Popover>
-                  <Popover text="Remove invitation" direction="right">
-                    <Button
-                      onClick={() =>
-                        // eslint-disable-next-line no-restricted-globals
-                        confirm(
-                          "Are you sure you want to uninvite this user?"
-                        ) && deleteInvitation(invitation.id)
-                      }
-                      variant="none"
-                    >
-                      <MdRemoveCircle />
-                    </Button>
-                  </Popover>
-                </div>
-              </>
-            ),
-          },
-        ]
-      : [
-          { Header: "First Name", accessor: "firstName" },
-          { Header: "Last Name", accessor: "lastName" },
-          {
-            Header: "Email",
-            accessor: (user) => (
-              <>
-                {user.email}
-                <div className="user-index__row-actions">
-                  <Popover text="Remove user" direction="right">
-                    <Button
-                      onClick={() =>
-                        // eslint-disable-next-line no-restricted-globals
-                        confirm("Are you sure you want to remove this user?") &&
-                        deleteOrganizationUser(user.id)
-                      }
-                      variant="none"
-                    >
-                      <MdPersonRemove />
-                    </Button>
-                  </Popover>
-                </div>
-              </>
-            ),
-          },
-        ];
+  const filteredInvitations = useMemo(() => {
+    return invitations.filter((invitation) => {
+      const invitationFullName = `${invitation.firstName} ${invitation.lastName}`;
+      return invitationFullName
+        .toLowerCase()
+        .includes(searchString.toLowerCase().trim());
+    });
+  }, [invitations, searchString]);
 
   return (
     <section className="user-index">
       <h1>All Users</h1>
+
       <div className="user-index__actions">
         <TextBox
           labelText="Search Users by Name"
@@ -192,38 +101,128 @@ export default function UserIndexPage() {
         />
         <Button onClick={() => setShowingInviteUser(true)}>Invite User</Button>
       </div>
-      <div className="user-index__table-tabs">
-        <Button
-          onClick={() => setTabSelect(Tabs.USERS)}
-          className={clsx(
-            "user-index__table-tab-button",
-            tabSelect === Tabs.USERS && "user-index__table-tab-button--selected"
+
+      <Space h="md" />
+
+      <Tabs defaultValue="users" variant="pills">
+        <Tabs.List>
+          <Tabs.Tab value="users">Users</Tabs.Tab>
+          <Tabs.Tab value="invitations">Invitations</Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="users" pt="xs">
+          {filteredUsers.length ? (
+            <Table
+              className="user-index__table"
+              columns={[
+                { Header: "First Name", accessor: "firstName" },
+                { Header: "Last Name", accessor: "lastName" },
+                {
+                  Header: "Email",
+                  accessor: (user) => (
+                    <>
+                      {user.email}
+                      <div className="user-index__row-actions">
+                        <Popover text="Remove user" direction="right">
+                          <ActionIcon
+                            color="dark"
+                            size="sm"
+                            onClick={() =>
+                              // eslint-disable-next-line no-restricted-globals
+                              confirm(
+                                "Are you sure you want to remove this user?"
+                              ) && deleteOrganizationUser(user.id)
+                            }
+                          >
+                            <MdPersonRemove />
+                          </ActionIcon>
+                        </Popover>
+                      </div>
+                    </>
+                  ),
+                },
+              ]}
+              data={filteredUsers}
+            />
+          ) : (
+            <p>No users found.</p>
           )}
-          variant="text"
-        >
-          Users
-        </Button>
-        <Button
-          onClick={() => setTabSelect(Tabs.INVITATIONS)}
-          className={clsx(
-            "user-index__table-tab-button",
-            tabSelect === Tabs.INVITATIONS &&
-              "user-index__table-tab-button--selected"
+        </Tabs.Panel>
+
+        <Tabs.Panel value="invitations" pt="xs">
+          {filteredInvitations.length ? (
+            <Table
+              className="user-index__table"
+              columns={[
+                {
+                  Header: "First Name",
+                  accessor: (invitation) => (
+                    <>
+                      <div
+                        className={clsx(
+                          "user-index-row-status",
+                          invitation.hasExpired() &&
+                            "user-index-row-status--expired"
+                        )}
+                      >
+                        {invitation.hasExpired() ? (
+                          <Popover text="Invitation expired" direction="left">
+                            <MdError />
+                          </Popover>
+                        ) : (
+                          <Popover text="Invitation pending" direction="left">
+                            <MdCached />
+                          </Popover>
+                        )}
+                      </div>
+                      {invitation.firstName}
+                    </>
+                  ),
+                },
+                { Header: "Last Name", accessor: "lastName" },
+                { Header: "Email", accessor: "email" },
+                {
+                  Header: "Sent At",
+                  accessor: (invitation) => (
+                    <>
+                      {formatDate(invitation.updatedAt)}
+                      <div className="user-index__row-actions">
+                        <Popover text="Resend invitation" direction="right">
+                          <ActionIcon
+                            onClick={() => reinvite(invitation.id)}
+                            color="dark"
+                            size="sm"
+                          >
+                            <MdRestartAlt />
+                          </ActionIcon>
+                        </Popover>
+                        <Popover text="Remove invitation" direction="right">
+                          <ActionIcon
+                            color="dark"
+                            size="sm"
+                            onClick={() =>
+                              // eslint-disable-next-line no-restricted-globals
+                              confirm(
+                                "Are you sure you want to uninvite this user?"
+                              ) && deleteInvitation(invitation.id)
+                            }
+                          >
+                            <MdRemoveCircle />
+                          </ActionIcon>
+                        </Popover>
+                      </div>
+                    </>
+                  ),
+                },
+              ]}
+              data={filteredInvitations}
+            />
+          ) : (
+            <p>No invitations found.</p>
           )}
-          variant="text"
-        >
-          Invitations
-        </Button>
-      </div>
-      {filteredResources.length ? (
-        <Table
-          className="user-index__table"
-          columns={columns}
-          data={filteredResources}
-        />
-      ) : (
-        <p>No {tabSelect === Tabs.USERS ? "users" : "invitations"} found.</p>
-      )}
+        </Tabs.Panel>
+      </Tabs>
+
       <Modal show={showingInviteUser} heading="Invite User">
         <InviteUserForm
           onSubmit={createInvitation}
