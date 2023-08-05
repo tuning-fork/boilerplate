@@ -28,17 +28,13 @@ export default function BoilerplateForm(props) {
   );
   const { mutate: createCategory } = useMutation(
     (categoryFields) =>
-      CategoriesService.createCatpegory(organizationClient, categoryFields),
+      CategoriesService.createCategory(organizationClient, categoryFields),
     {
       onSuccess: () => {
         refetchCategories();
       },
     }
   );
-
-  React.useEffect(() => {
-    console.log({ categories });
-  }, [categories]);
 
   const wordCount = useMemo(() => {
     return countWords(boilerplateFields.text);
@@ -49,7 +45,7 @@ export default function BoilerplateForm(props) {
 
     props.onSubmit({
       ...boilerplateFields,
-      categoryId: categories.filter(
+      categoryId: categories.find(
         (category) => category.name === boilerplateFields.categoryName
       ).id,
     });
