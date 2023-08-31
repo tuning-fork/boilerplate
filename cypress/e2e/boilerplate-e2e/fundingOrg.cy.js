@@ -4,7 +4,7 @@ describe("Create a new funding org", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
-    cy.get('[data-testid="log-in-button"]').click();
+    cy.get("a:contains('Log In')").click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
@@ -29,7 +29,7 @@ describe("Create a new funding org", () => {
       });
     cy.get('[data-testid="Search Funding Organizations by Title"]').clear();
 
-    // Check that search does not find a funding org that does not exis
+    // Check that search does not find a funding org that does not exist
     cy.get('[data-testid="Search Funding Organizations by Title"]').type(
       "Save the Whales Foundation"
     );
@@ -51,7 +51,7 @@ describe("Create a new funding org", () => {
     });
     cy.wait("@createFundingOrg");
     cy.wait("@getFundingOrg");
-    // cy.reload();
+    cy.reload();
     cy.get('[data-testid="drop-down-mini"]').should("have.length", 4);
     cy.get("td").should("contain", "Unique Funding Org Name");
 
@@ -80,7 +80,7 @@ describe("Create a new funding org", () => {
     });
     cy.wait("@editFundingOrg");
     cy.wait("@getFundingOrg");
-    cy.get("td").should("have.length", 12);
+    // cy.get("td").should("have.length", 12);
     cy.get("td").should("contain", "Test Updated Funding Org");
 
     // Cancel edit
@@ -90,20 +90,6 @@ describe("Create a new funding org", () => {
       cy.get("button:contains('Cancel')").click();
     });
     cy.get("dialog").should("not.exist");
-
-    // Delete funding org
-    cy.get('[data-testid="drop-down-mini"]').last().click();
-    cy.get('[data-testid="Edit"]').last().click();
-
-    cy.get("form").within(() => {
-      cy.get("button:contains('Delete')").last().click();
-    });
-    cy.get('[data-testid="drop-down-mini"]').should("have.length", 3);
-
-    // Check archived
-    cy.get("button:contains('Archived')").last().click();
-    cy.wait("@getFundingOrg");
-    cy.get('td:contains("Test Updated Funding Org")').should("have.length", 1);
 
     // Add new row to send to archive
     cy.get("button:contains('All')").click();

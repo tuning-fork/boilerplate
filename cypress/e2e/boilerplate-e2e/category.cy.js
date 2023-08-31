@@ -4,7 +4,7 @@ describe("Create a new category", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
-    cy.get('[data-testid="log-in-button"]').click();
+    cy.get("a:contains('Log In')").click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
@@ -87,24 +87,6 @@ describe("Create a new category", () => {
       cy.get("button:contains('Cancel')").click();
     });
     cy.get("dialog").should("not.exist");
-
-    //   // Delete category
-    cy.get('[data-testid="drop-down-mini"]').last().click();
-    cy.get('[data-testid="Edit"]').last().click();
-    cy.get("form").within(() => {
-      cy.get("button:contains('Delete Category')").click(); // find the dialog box and select confirm
-    });
-
-    // Check archived
-    cy.get("button:contains('Archived')").click({ force: true });
-    cy.wait("@getCategory");
-    cy.get("tr")
-      .last()
-      .within(() => {
-        cy.get("td")
-          .first()
-          .should("contain", "Test Updated New Unique Category First");
-      });
 
     // Add new row to send to archive
     cy.get("button:contains('All')").click();

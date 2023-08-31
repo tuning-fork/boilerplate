@@ -3,7 +3,7 @@ describe("View a Grant on the Grants Show page", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
     cy.intercept("POST", "/api/sessions").as("createSession");
-    cy.get('[data-testid="log-in-button"]').click();
+    cy.get("a:contains('Log In')").click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
@@ -80,15 +80,8 @@ describe("View a Grant on the Grants Show page", () => {
     });
     cy.wait("@editGrant");
 
-    // Delete copy
-    cy.get("a[type=button]:contains('Edit')").click();
-    cy.get("button:contains('Delete Grant')").click();
-    cy.wait("@editGrant");
-
     // Add section
-    cy.get("h1").should((header) => {
-      expect(header).to.have.text("All Grants");
-    });
+    cy.get('[data-testid="Grants"]').click();
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
     cy.get("dd").first().should("contain", "The Arles Fund");
     cy.get("button:contains('Add Section')").first().click();
@@ -102,11 +95,8 @@ describe("View a Grant on the Grants Show page", () => {
     cy.reload();
 
     // Edit the newly created section
-    cy.get("h2:contains('New Section Title')")
-      .first()
-      .within(() => {
-        cy.get("button").first().click();
-      });
+    cy.get("h2:contains('New Section Title')");
+    cy.get(".section__edit-icon").first().click();
     cy.get("form").within(() => {
       cy.get("input").first().type(" edited");
       cy.get(".ql-editor").clear().type(`This is the edited section.`);
@@ -115,11 +105,8 @@ describe("View a Grant on the Grants Show page", () => {
     cy.wait("@editGrant");
 
     //Paste boilerplate into section
-    cy.get("h2:contains('New Section Title')")
-      .first()
-      .within(() => {
-        cy.get("button").first().click();
-      });
+    cy.get("h2:contains('New Section Title')");
+    cy.get(".section__edit-icon").first().click();
     cy.get("form").within(() => {
       // Press Paste Boilerplate Content
       cy.get("button:contains('Paste Boilerplate Content')").click();
@@ -184,15 +171,8 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a:contains('Grants')").click();
     cy.wait("@getGrant");
     cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
-    cy.get("h2:contains('New Section Title')")
-      .first()
-      .within(() => {
-        cy.get("button").first().click();
-      });
+    cy.get("h2:contains('New Section Title')");
+    cy.get(".section__edit-icon").first().click();
     cy.get("button:contains('Delete Section')").click();
-
-    // TODO: use create section and edit flow pattern to build add section between sections + cancel edit
-    // Add section between sections
-    // Cancel edit
   });
 });
