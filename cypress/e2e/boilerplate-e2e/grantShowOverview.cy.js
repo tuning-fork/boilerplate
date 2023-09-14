@@ -4,7 +4,7 @@ describe("Grant overview DnD", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);
     cy.visit("http://localhost:3001");
-    cy.get('[data-testid="log-in-button"]').click();
+    cy.get("a:contains('Log In')").click();
     cy.get("input[type=email]").type("abarnes@thecypresstree.org");
     cy.get("input[type=password]").type("password");
     cy.get("button[type=submit]").click();
@@ -13,10 +13,8 @@ describe("Grant overview DnD", () => {
     cy.get(
       '[data-testid="Cypress Tree Overview Drag and Drop Test Grant"]'
     ).click();
-    cy.get('[data-testid="overview"]').click();
+    cy.get("a:contains('Overview')").click();
 
-    cy.intercept("GET", "/api/organizations/**/grants/**").as("getGrant");
-    cy.intercept("POST", "/api/organizations/**").as("createGrant");
     cy.intercept("PATCH", "/api/organizations/**").as("editGrant");
 
     // Check that the preview panel is visible and has the same number of items
@@ -35,6 +33,7 @@ describe("Grant overview DnD", () => {
           );
         });
     });
+
     // Drag and drop one section and check that Save and Undo are enabled
     cy.get('[data-testid="Section 1"]').move({
       deltaY: 500,
@@ -47,95 +46,94 @@ describe("Grant overview DnD", () => {
       .should("contain", "Section 1");
     cy.get(".sortable-item").should("have.length", 6);
     cy.get(".sortable-item").last().should("contain", "Section 1");
-    cy.get("button:contains('Save')").should(
-      "not.have.class",
-      "button--disabled"
-    );
+    cy.get("button:contains('Save')").should("not.have.attr", "data-disabled");
     cy.get("button:contains('Undo')").should(
-      "not.have.class",
-      "button--disabled"
+      "not.have.attr",
+      "data-disabled",
+      "true"
     );
-    cy.get("button:contains('Redo')").should("have.class", "button--disabled");
+    cy.get("button:contains('Redo')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
 
     // Save and check that all buttons are disabled
     cy.get("button:contains('Save')").click();
     cy.wait("@editGrant");
+    cy.reload();
     cy.get(".sortable-item").should("have.length", 6);
     cy.get(".sortable-item").last().should("contain", "Section 1");
-    cy.get("button:contains('Save')").should("have.class", "button--disabled");
-    cy.get("button:contains('Undo')").should("have.class", "button--disabled");
-    cy.get("button:contains('Redo')").should("have.class", "button--disabled");
+    cy.get("button:contains('Save')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Undo')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Redo')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
 
-    // TODO: Could not get this to work
-    // Drag another section, select Undo and check that Save and Undo are disabled and Redo is enabled
+    // Drag another section, click on Undo and check that Save and Undo are disabled and Redo is enabled
     cy.get('[data-testid="Section 2"]').move({
       deltaY: 400,
       force: true,
     });
-    // cy.wait(2000);
-    // cy.get("button:contains('Undo')").click();
-    // cy.get("button:contains('Save')").should("have.class", "button--disabled");
-    // cy.get("button:contains('Undo')").should("have.class", "button--disabled");
-    // cy.get("button:contains('Redo')").should(
-    //   "not.have.class",
-    //   "button--disabled"
-    // );
+    cy.get("button:contains('Undo')").click();
+    cy.get("button:contains('Save')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Undo')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Redo')").should(
+      "not.have.attr",
+      "data-disabled",
+      "true"
+    );
 
-    // TODO: Could not get this to work
-    // Drag a section, select Rndo and check that Save and Uedo is active
-    cy.get('[data-testid="Section 4"]').move({
-      deltaY: 300,
-      force: true,
-    });
-    // cy.wait(2000);
-    // cy.get("button:contains('Redo')").click();
-    // cy.get("button:contains('Save')").should(
-    //   "not.have.class",
-    //   "button--disabled"
-    // );
-    // cy.get("button:contains('Undo')").should(
-    //   "not.have.class",
-    //   "button--disabled"
-    // );
-    // cy.get("button:contains('Redo')").should("have.class", "button--disabled");
+    // Click on Redo and check that Save and Undo are not disabled and Redo is disabled
+    cy.get("button:contains('Redo')").click();
+    cy.get("button:contains('Save')").should(
+      "not.have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Undo')").should(
+      "not.have.attr",
+      "data-disabled",
+      "true"
+    );
+    cy.get("button:contains('Redo')").should(
+      "have.attr",
+      "data-disabled",
+      "true"
+    );
 
     /* Drag remaining sections so that the original order is 
-    reversed */
+    restored */
     cy.get('[data-testid="Section 2"]').move({
-      deltaY: 400,
+      deltaY: -500,
       force: true,
     });
-    cy.wait(2000);
-    cy.get('[data-testid="Section 4"]').move({
-      deltaY: 200,
+    cy.get('[data-testid="Section 1"]').move({
+      deltaY: -500,
       force: true,
     });
-    cy.wait(2000);
-    cy.get('[data-testid="Section 5"]').move({
-      deltaY: 200,
-      force: true,
-    });
-    cy.wait(2000);
-
-    // TODO
-    // Save
-
-    // Grab the sections and check that the order is reversed
-
-    // Select redo and after each selection check that the order is as expected
-
-    // Undo one section
-    // Drag and drop one section
-    // Save one section
-    // Drag and drop multiple sections
-    // Drag and drop with reverses
-    // Redo action
-    // Undo action
-    // Redo and Undo chain multiple
-    // Save/Redo/Undo buttons disabled
-    // Switch back to Grant Show
-    // Preview pane shows all text from grant sections
-    // Preview pane toggle show title on and off
-    // Preview pane updates automatically on drag and drop action
+    cy.get(".sortable-item").last().should("contain", "Section 6");
+    cy.get(".sortable-item").first().should("contain", "Section 1");
+    cy.get("button:contains('Save')").click();
+    cy.get(".sortable-item").last().should("contain", "Section 6");
+    cy.get(".sortable-item").first().should("contain", "Section 1");
   });
 });
