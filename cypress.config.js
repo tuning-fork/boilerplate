@@ -2,6 +2,11 @@ const { defineConfig } = require("cypress");
 // const customViteConfig = require("./vite.config");
 
 module.exports = defineConfig({
+  // e2e: {
+  //   setupNodeEvents(on, config) {
+  //     // implement node event listeners here
+  //   },
+  // },
   component: {
     devServer: {
       framework: "react",
@@ -18,9 +23,9 @@ module.exports = defineConfig({
     },
   },
 
-  // e2e: {
-  //   setupNodeEvents(on, config) {
-  //     // implement node event listeners here
-  //   },
-  // },
+  e2e: {
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
 });
