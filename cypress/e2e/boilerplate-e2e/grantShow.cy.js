@@ -53,12 +53,10 @@ describe("View a Grant on the Grants Show page", () => {
     // Copy
     cy.get("a[type=button]:contains('Copy')").click();
     cy.get("h1:contains('Copy Grant')");
-    cy.get("form").within(() => {
-      cy.get('[data-testid="Purpose"]')
-        .clear()
-        .type("To test the copy process");
-      cy.get("button:contains('Save')").click();
-    });
+    cy.get('[data-testid="Purpose"]').clear();
+    cy.get('[data-testid="Purpose"]').type("To test the copy process");
+    cy.get("button:contains('Save')").click();
+
     cy.wait("@createGrant");
     cy.reload();
     cy.get("h1:contains('Cypress Tree Neighborhood Grant copy')");
@@ -67,17 +65,26 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("h1:contains('Edit Grant')");
     cy.get('[data-testid="funding-org-dropdown"]').click();
-    cy.get("form").within(() => {
-      cy.get('[data-testid="The Arles Fund"]').click();
-      cy.get('[data-testid="RFP URL"]')
-        .clear()
-        .type("http://www.dndkitedit.com");
-      cy.get('[data-testid="Deadline"]').type("2023-06-01T12:00:00");
-      cy.get('[data-testid="Purpose"]')
-        .clear()
-        .type("To test the edit process");
-      cy.get("button[type=submit]").click();
-    });
+    // cy.get("form").within(() => {
+    //   cy.get('[data-testid="The Arles Fund"]').click();
+    //   cy.get('[data-testid="RFP URL"]')
+    //     .clear()
+    //     .type("http://www.dndkitedit.com");
+    //   cy.get('[data-testid="Deadline"]').type("2023-06-01T12:00:00");
+    //   cy.get('[data-testid="Purpose"]')
+    //     .clear()
+    //     .type("To test the edit process");
+    //   cy.get("button[type=submit]").click();
+    // });
+
+    cy.get('[data-testid="The Arles Fund"]').click();
+    cy.get('[data-testid="RFP URL"]').clear();
+    cy.get('[data-testid="RFP URL"]').type("http://www.dndkitedit.com");
+    cy.get('[data-testid="Deadline"]').type("2023-06-01T12:00:00");
+    cy.get('[data-testid="Purpose"]').clear();
+    cy.get('[data-testid="Purpose"]').type("To test the edit process");
+    cy.get("button[type=submit]").click();
+
     cy.wait("@editGrant");
 
     // Add section
@@ -97,13 +104,12 @@ describe("View a Grant on the Grants Show page", () => {
     // Edit the newly created section
     cy.get("h2:contains('New Section Title')");
     cy.get(".section__edit-icon").first().click();
-    cy.get("form").within(() => {
-      cy.get("input").first().type(" edited");
-      cy.get(".ql-editor").clear().type(`This is the edited section.`);
-      cy.get("button[type=submit]").click();
-    });
+    cy.get("form");
+    cy.get("input").first().type(" edited");
+    cy.get(".ql-editor").clear();
+    cy.get(".ql-editor").type(`This is the edited section.`);
+    cy.get("button[type=submit]").click();
     cy.wait("@editGrant");
-
     //Paste boilerplate into section
     cy.get("h2:contains('New Section Title')");
     cy.get(".section__edit-icon").first().click();
@@ -149,12 +155,14 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("form")
       .eq(1)
       .within(() => {
-        cy.get("input").first().clear().type("Section To Boilerplate Test");
+        cy.get("input").first().clear();
+        cy.get("input").first().type("Section To Boilerplate Test");
         cy.get('[data-testid="category-dropdown"]').click();
         cy.get('[data-testid="General Purpose"]').first().click();
-        cy.get(".ql-editor")
-          .clear()
-          .type(`This is the newly created boilerplate text.`);
+        cy.get(".ql-editor").clear();
+        cy.get(".ql-editor").type(
+          `This is the newly created boilerplate text.`
+        );
         cy.get("button[type=submit]").click();
       });
 

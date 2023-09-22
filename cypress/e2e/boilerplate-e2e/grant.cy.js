@@ -150,16 +150,10 @@ describe("Create a new grant from Grants index", () => {
         .then(() => {
           cy.get('[data-testid="drop-down-mini"]').last().click();
           cy.get('[data-testid="Archive"]').last().click();
-          cy.get('[data-testid="archived-button"]')
-            .click()
-            .then(() => {
-              cy.get("tr")
-                .last()
-                .should(
-                  "contain",
-                  `Test New Grant Name ${grantCount + 1} copy`
-                );
-            });
+          cy.get('[data-testid="archived-button"]').click();
+          cy.get("tr")
+            .last()
+            .should("contain", `Test New Grant Name ${grantCount + 1} copy`);
         });
     });
   });

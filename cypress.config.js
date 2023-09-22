@@ -2,11 +2,12 @@ const { defineConfig } = require("cypress");
 // const customViteConfig = require("./vite.config");
 
 module.exports = defineConfig({
-  // e2e: {
-  //   setupNodeEvents(on, config) {
-  //     // implement node event listeners here
-  //   },
-  // },
+  e2e: {
+    // eslint-disable-next-line no-unused-vars
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
   component: {
     devServer: {
       framework: "react",
@@ -20,12 +21,6 @@ module.exports = defineConfig({
       //   const modifiedConfig = await injectCustomConfig(baseConfig);
       //   return modifiedConfig;
       // },
-    },
-  },
-
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
     },
   },
 });
