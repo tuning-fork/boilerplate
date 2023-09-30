@@ -19,9 +19,9 @@ describe("Create a new boilerplate", () => {
     cy.intercept("POST", "/api/organizations/**").as("createFirstBoilerplate");
     cy.get("tr").then(() => {
       cy.get("a:contains('Add New Boilerplate')").click();
-      cy.get('[data-testid="boilerplate-dropdown"]').click();
       cy.get("form").within(() => {
-        cy.get('[data-testid="General Purpose"]').first().click();
+        cy.get("[data-testid='boilerplate-dropdown']").click();
+        cy.get(".mantine-Select-item").first().click();
         cy.get('[data-testid="Title"]').type("New Unique Boilerplate");
         cy.get(".ql-editor").type(`This is some new boilerplate text!`);
         cy.get("button[type=submit]").click();
@@ -46,17 +46,17 @@ describe("Create a new boilerplate", () => {
       // Edit boilerplate
       cy.get("button:contains('Edit')").click();
       cy.get("form").within(() => {
-        cy.get("input:first").should(
+        cy.get('[data-testid="Title"]').should(
           "have.attr",
           "value",
           "New Unique Boilerplate"
         );
       });
       cy.get("form").within(() => {
-        cy.get(".dropdown").within(() => {
-          cy.get("button:contains('General Purpose')").first().click();
-          cy.get("button:contains('Gender Equality')").first().click();
-        });
+        cy.get("[data-testid='boilerplate-dropdown']").click();
+        cy.get(".mantine-Select-item:contains('Gender Equality')")
+          .first()
+          .click();
         cy.get('[data-testid="Title"]').clear();
         cy.get('[data-testid="Title"]').type(
           "Test Updated New Unique Boilerplate"
