@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Button from "../../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../Components/design/TextBox/TextBox";
 import { useCurrentUser } from "../../../Contexts/currentUserContext";
 import "./LoginForm.css";
@@ -49,11 +49,7 @@ export default function LoginForm(props) {
           required
         />
         <div className="login-form__actions">
-          <Button
-            color="secondary"
-            type="submit"
-            className="login-form__login-submit-button"
-          >
+          <Button type="submit" size="md">
             Log In
           </Button>
         </div>

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Button } from "@mantine/core";
+import { Button, Container, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useCurrentUser } from "../../Contexts/currentUserContext";
 import useCreateOrganization from "../../Hooks/useCreateOrganization";
 import OrganizationCard from "./OrganizationIndex/OrganizationCard";
 import OrganizationForm from "./OrganizationForm";
-import Container from "../design/Container/Container";
-import Modal from "../design/Modal/Modal";
 import Background from "../design/Background/Background";
 import { withNavbarLayout } from "../Layouts/NavbarLayout/NavbarLayout";
 import "./OrganizationIndex.css";
@@ -14,11 +13,12 @@ import "./OrganizationIndex.css";
 function OrganizationIndex() {
   const { organizations } = useCurrentUser();
   const history = useHistory();
-  const [isNewOrganizationModalOpen, setIsNewOrganizationModalOpen] =
-    useState(false);
-
+  const [
+    newOrgModalOpened,
+    { open: openNewOrgModal, close: closeNewOrgModal },
+  ] = useDisclosure(false);
   const createOrganization = useCreateOrganization({
-    onSuccess: () => setIsNewOrganizationModalOpen(false),
+    onSuccess: closeNewOrgModal,
   });
 
   useEffect(() => {
@@ -29,12 +29,10 @@ function OrganizationIndex() {
 
   return (
     <Background>
-      <Container as="section" className="organization-index">
+      <Container component="section" size="xl" className="organization-index">
         <header className="organization-index__header">
           <h1>Organizations</h1>
-          <Button onClick={() => setIsNewOrganizationModalOpen(true)}>
-            Add New Organization
-          </Button>
+          <Button onClick={openNewOrgModal}>Add New Organization</Button>
         </header>
         <ul className="organization-index__list">
           {organizations.map((organization) => (
@@ -45,10 +43,16 @@ function OrganizationIndex() {
             </li>
           ))}
         </ul>
-        <Modal show={isNewOrganizationModalOpen} heading="Add Organization">
+        <Modal
+          opened={newOrgModalOpened}
+          title="Add Organization"
+          size="md"
+          centered
+          onClose={closeNewOrgModal}
+        >
           <OrganizationForm
             onSubmit={createOrganization}
-            onCancel={() => setIsNewOrganizationModalOpen(false)}
+            onCancel={closeNewOrgModal}
           />
         </Modal>
       </Container>

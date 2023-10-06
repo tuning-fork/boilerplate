@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../Components/design/TextBox/TextBox";
 import "./SignUpForm.css";
 
@@ -76,11 +76,7 @@ export default function SignUpForm(props) {
         required
       />
       <div className="signup-form__actions">
-        <Button
-          variant="none"
-          type="submit"
-          className="signup-form__signup-submit-button"
-        >
+        <Button type="submit" size="md">
           Create Account
         </Button>
       </div>

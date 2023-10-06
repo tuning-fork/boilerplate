@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../Components/design/TextBox/TextBox";
 import "./ForgotPasswordForm.css";
 
@@ -22,13 +22,7 @@ export default function ForgotPasswordForm(props) {
         required
       />
       <div className="forgot-password-form__actions">
-        <Button
-          color="secondary"
-          type="submit"
-          className="forgot-password-form__submit-button"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );

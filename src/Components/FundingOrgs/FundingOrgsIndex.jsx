@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useQuery, useMutation } from "react-query";
 import clsx from "clsx";
-import Button from "../design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../design/TextBox/TextBox";
 import Table from "../design/Table/Table";
 import FundingOrgNew from "./FundingOrgNew";

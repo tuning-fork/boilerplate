@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useMutation } from "react-query";
 import { useHistory, Link } from "react-router-dom";
 import { MdChevronLeft } from "react-icons/md";
-import Container from "../../Components/design/Container/Container";
+import { Container } from "@mantine/core";
 import useQuery from "../../Hooks/useQuery";
 import ResetPasswordForm from "./ResetPasswordForm/ResetPasswordForm";
 import * as PasswordService from "../../Services/Auth/PasswordService";
@@ -42,7 +42,7 @@ export default function ResetPasswordPage() {
   );
 
   return (
-    <Container as="section" centered className="reset-password">
+    <Container component="section" size="md" className="reset-password">
       {token && email ? (
         <>
           <Link className="reset-password__back-button" to="/splashpage">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../../../Components/design/Button/Button";
+import { Button } from "@mantine/core";
 import TextBox from "../../../Components/design/TextBox/TextBox";
 import "./ResetPasswordForm.css";
 
@@ -37,13 +37,7 @@ export default function ResetPasswordForm(props) {
         required
       />
       <div className="reset-password-form__actions">
-        <Button
-          variant="none"
-          type="submit"
-          className="reset-password-form__reset-password-submit-button"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );
