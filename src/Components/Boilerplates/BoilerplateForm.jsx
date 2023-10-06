@@ -10,6 +10,8 @@ import countWords from "../../Helpers/countWords";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import CategoryNew from "../Categories/CategoryNew";
+import { saveAs } from "file-saver";
+import * as quillToWord from "quill-to-word";
 
 export default function BoilerplateForm(props) {
   const { onDelete } = props;
@@ -48,6 +50,14 @@ export default function BoilerplateForm(props) {
         categoryId: createdCategory.id,
       });
     }
+  };
+
+  const handleNewDocExport = async () => {
+    const quillDelta = quillEl.current.getEditor().getContents();
+    const blob = await quillToWord.generateWord(quillDelta, {
+      exportAs: "blob",
+    });
+    saveAs(blob, "word-export.docx");
   };
 
   return (
@@ -114,6 +124,10 @@ export default function BoilerplateForm(props) {
           </div>
         </div>
       </form>
+      <Button onClick={handleNewDocExport} variant="text">
+        {/* <MdAddCircle /> */}
+        Export to Docx
+      </Button>
       <CategoryNew
         show={showingCategoriesNew}
         onClose={handleCloseCategoryNew}
