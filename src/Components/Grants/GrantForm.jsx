@@ -1,8 +1,7 @@
-import React from "react";
-import { Button, TextInput } from "@mantine/core";
+import React, { useState } from "react";
+import { Button, TextInput, Select, Stack, Flex, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DateTimePicker } from "@mantine/dates";
-import Dropdown from "../design/Dropdown/Dropdown";
 import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
 import "./GrantForm.css";
 
@@ -13,28 +12,21 @@ export default function GrantForm(props) {
       rfpUrl: props.grant?.rfpUrl || "",
       deadline: props.grant?.deadline || "",
       purpose: props.grant?.purpose || "",
+      fundingOrgId: props.grant?.fundingOrgId || null,
     },
     // validate: {
     //   email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     // },
   });
+  const [showingAddFundingOrgModal, setShowingAddFundingOrgModal] =
+    useState(false);
 
-  // const [grantFields, setGrantFields] = useState({
-  //   ...props.grant,
-  //   title: props.grant?.title || "",
-  //   rfpUrl: props.grant?.rfpUrl || "",
-  //   deadline: props.grant?.deadline || "",
-  //   purpose: props.grant?.purpose || "",
-  // });
-  // const [showingAddFundingOrgModal, setShowingAddFundingOrgModal] =
-  //   useState(false);
-
-  // const handleCloseFundingOrgModal = (fundingOrgId) => {
-  //   setShowingAddFundingOrgModal(false);
-  //   if (fundingOrgId) {
-  //     setGrantFields({ ...grantFields, fundingOrgId });
-  //   }
-  // };
+  const handleCloseFundingOrgModal = (fundingOrgId) => {
+    setShowingAddFundingOrgModal(false);
+    if (fundingOrgId) {
+      form.setFieldValue("fundingOrgId", fundingOrgId);
+    }
+  };
 
   const handleSubmit = (grant) => {
     console.log({ grant });
@@ -44,40 +36,49 @@ export default function GrantForm(props) {
   return (
     <>
       <form onSubmit={form.onSubmit(handleSubmit)} className="grant-form">
-        {/* <Dropdown
-          altLabel="Add Funding Organization"
-          onClickAltLabel={() => setShowingAddFundingOrgModal(true)}
-          labelText="Funding Organization"
-          placeholder="Select a Funding Organization"
-          value={grantFields.fundingOrgId}
-          options={props.fundingOrgs.map((fundingOrg) => ({
-            value: fundingOrg.id,
-            label: fundingOrg.name,
-          }))}
-          onChange={(option) =>
-            setGrantFields({ ...grantFields, fundingOrgId: option.value })
-          }
-        /> */}
-        {/* TODO: can we pass required attr? */}
-        <TextInput label="Title" {...form.getInputProps("title")} />
-        <TextInput
-          label="RFP URL"
-          type="url"
-          {...form.getInputProps("rfpUrl")}
-        />
-        <DateTimePicker label="Deadline" {...form.getInputProps("deadline")} />
-        <TextInput label="Purpose" {...form.getInputProps("purpose")} />
-        <div className="grant-form__actions">
-          <Button variant="subtle" onClick={props.onCancel}>
-            Cancel
-          </Button>
-          <Button type="submit">Save</Button>
-        </div>
+        <Stack>
+          {/* TODO: can we pass required attr? */}
+          <Flex gap="md" align="flex-end">
+            <Select
+              style={{ flex: 1 }}
+              label="Funding Organization"
+              placeholder="Select a Funding Organization"
+              data={props.fundingOrgs.map((fundingOrg) => ({
+                value: fundingOrg.id,
+                label: fundingOrg.name,
+              }))}
+              searchable
+              nothingFound="No funding org found"
+              clearable
+              {...form.getInputProps("fundingOrgId")}
+            />
+            <Button onClick={() => setShowingAddFundingOrgModal(true)}>
+              Add Funding Organization
+            </Button>
+          </Flex>
+          <TextInput label="Title" {...form.getInputProps("title")} />
+          <TextInput
+            label="RFP URL"
+            type="url"
+            {...form.getInputProps("rfpUrl")}
+          />
+          <DateTimePicker
+            label="Deadline"
+            {...form.getInputProps("deadline")}
+          />
+          <TextInput label="Purpose" {...form.getInputProps("purpose")} />
+          <div className="grant-form__actions">
+            <Button variant="subtle" onClick={props.onCancel}>
+              Cancel
+            </Button>
+            <Button type="submit">Save</Button>
+          </div>
+        </Stack>
       </form>
-      {/* <FundingOrgNew
+      <FundingOrgNew
         show={showingAddFundingOrgModal}
         onClose={handleCloseFundingOrgModal}
-      /> */}
+      />
     </>
   );
 }

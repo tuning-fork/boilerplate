@@ -60,7 +60,6 @@ export default function BoilerplateForm(props) {
         value={boilerplateFields.categoryName}
         data={categories.map((category) => category.name)}
         onChange={(categoryName) => {
-          console.log({ categoryName });
           setBoilerplateFields({
             ...boilerplateFields,
             categoryName,
