@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button, TextInput, Select, Stack, Flex, Group } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Button, TextInput, Select, Stack, Flex } from "@mantine/core";
+import { useForm, hasLength } from "@mantine/form";
 import { DateTimePicker } from "@mantine/dates";
 import FundingOrgNew from "../FundingOrgs/FundingOrgNew";
 import "./GrantForm.css";
@@ -14,9 +14,9 @@ export default function GrantForm(props) {
       purpose: props.grant?.purpose || "",
       fundingOrgId: props.grant?.fundingOrgId || null,
     },
-    // validate: {
-    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    // },
+    validate: {
+      title: hasLength({ min: 2 }, "Title must be at least two characters"),
+    },
   });
   const [showingAddFundingOrgModal, setShowingAddFundingOrgModal] =
     useState(false);
@@ -29,7 +29,6 @@ export default function GrantForm(props) {
   };
 
   const handleSubmit = (grant) => {
-    console.log({ grant });
     props.onSubmit(grant);
   };
 
@@ -48,7 +47,7 @@ export default function GrantForm(props) {
                 label: fundingOrg.name,
               }))}
               searchable
-              nothingFound="No funding org found"
+              nothingFound="No funding organizations found"
               clearable
               {...form.getInputProps("fundingOrgId")}
             />

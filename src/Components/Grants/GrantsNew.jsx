@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
+import { useHistory } from "react-router-dom";
+import { MdChevronLeft } from "react-icons/md";
+import { Title, Stack } from "@mantine/core";
+import ErrorAlert from "../ErrorAlert";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
 import * as GrantsService from "../../Services/Organizations/GrantsService";
 import * as FundingOrgsService from "../../Services/Organizations/FundingOrgsService";
-import { useHistory } from "react-router-dom";
-import { MdChevronLeft } from "react-icons/md";
 import Container from "../design/Container/Container";
-import "./GrantsNew.css";
 import GrantForm from "./GrantForm";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import "./GrantsNew.css";
 
 export default function GrantsNew() {
   const history = useHistory();
@@ -22,8 +24,16 @@ export default function GrantsNew() {
     history.push(`/organizations/${currentOrganization.id}/grants`);
   };
 
-  const { mutate: createGrant } = useMutation(
-    (grantFields) => GrantsService.createGrant(organizationClient, grantFields),
+  const { mutate: createGrant, error } = useMutation(
+    (grantFields) =>
+      GrantsService.createGrant(organizationClient, {
+        title: grantFields.title,
+        fundingOrgId: grantFields.fundingOrgId,
+        rfpUrl: grantFields.rfpUrl,
+        purpose: grantFields.purpose,
+        deadline: grantFields.deadline,
+        totalWordCount: grantFields.totalWordCount,
+      }),
     {
       onSuccess: (newGrant) => {
         alert("Grant created!");
@@ -33,17 +43,6 @@ export default function GrantsNew() {
       },
     }
   );
-
-  function handleCreateGrant(newGrantFields) {
-    createGrant({
-      title: newGrantFields.title,
-      fundingOrgId: newGrantFields.fundingOrgId,
-      rfpUrl: newGrantFields.rfpUrl,
-      purpose: newGrantFields.purpose,
-      deadline: newGrantFields.deadline,
-      totalWordCount: newGrantFields.totalWordCount,
-    });
-  }
 
   if (isLoading) {
     return "Loading...";
@@ -63,15 +62,18 @@ export default function GrantsNew() {
           <MdChevronLeft />
           Back to All Grants
         </CurrentOrganizationLink>
-        <h1 className="grants-new__header">Add New Grant</h1>
-        <GrantForm
-          fundingOrgs={fundingOrgs}
-          onSubmit={handleCreateGrant}
-          onCancel={handleCancel}
-          handleFundingOrg={handleFundingOrg}
-          showingFundingOrgNew={showingFundingOrgNew}
-          setShowingFundingOrgNew={setShowingFundingOrgNew}
-        />
+        <Stack>
+          <Title order={1}>Add New Grant</Title>
+          {error && <ErrorAlert error={error} />}
+          <GrantForm
+            fundingOrgs={fundingOrgs}
+            onSubmit={createGrant}
+            onCancel={handleCancel}
+            handleFundingOrg={handleFundingOrg}
+            showingFundingOrgNew={showingFundingOrgNew}
+            setShowingFundingOrgNew={setShowingFundingOrgNew}
+          />
+        </Stack>
       </Container>
     </div>
   );
