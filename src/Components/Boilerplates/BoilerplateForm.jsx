@@ -7,9 +7,6 @@ import Label from "../design/Label/Label";
 import countWords from "../../Helpers/countWords";
 import * as CategoriesService from "../../Services/Organizations/CategoriesService";
 import { useCurrentOrganization } from "../../Contexts/currentOrganizationContext";
-import CategoryNew from "../Categories/CategoryNew";
-import { saveAs } from "file-saver";
-import * as quillToWord from "quill-to-word";
 import "./BoilerplateForm.css";
 
 export default function BoilerplateForm(props) {
@@ -52,14 +49,6 @@ export default function BoilerplateForm(props) {
         (category) => category.name === boilerplateFields.categoryName
       ).id,
     });
-  };
-
-  const handleNewDocExport = async () => {
-    const quillDelta = quillEl.current.getEditor().getContents();
-    const blob = await quillToWord.generateWord(quillDelta, {
-      exportAs: "blob",
-    });
-    saveAs(blob, "word-export.docx");
   };
 
   return (
@@ -132,7 +121,6 @@ export default function BoilerplateForm(props) {
           </Button>
           <Button type="submit">Save</Button>
         </div>
-        <Button onClick={handleNewDocExport}>Export To Docx</Button>
       </div>
     </form>
   );

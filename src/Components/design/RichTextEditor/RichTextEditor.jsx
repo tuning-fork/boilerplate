@@ -9,8 +9,9 @@ const RichTextEditor = forwardRef((props, ref) => {
   return (
     <ReactQuill
       className={props.className}
-      modules={modules}
+      modules={{ ...modules, toolbar: !props.readOnly }}
       format={formats}
+      readOnly={props.readOnly}
       {...props}
       ref={ref}
     />
@@ -19,6 +20,7 @@ const RichTextEditor = forwardRef((props, ref) => {
 
 RichTextEditor.propTypes = {
   className: PropTypes.string,
+  readOnly: PropTypes.bool,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
