@@ -15,10 +15,18 @@ export default function ExportModal({ exportData, open, setOpen }) {
     // const quillDelta = quillEl.current.getEditor().getContents();
     console.log(quillEl.current.getEditor().getContents());
     const quillDelta = quillEl.current.getEditor().getContents();
-    const blob = await quillToWord.generateWord(quillDelta, {
+    const configuration = {
       exportAs: "blob",
-    });
-    saveAs(blob, "word-export.docx");
+    };
+    const exportDoc = await quillToWord.generateWord(quillDelta, configuration);
+    // var file = new File(exportDoc, "word-export.docx");
+    // FileSaver.saveAs(file);
+    var file = new File([exportDoc], "word-export-file.docx");
+    saveAs(file);
+    // var exportDocBlob = new Blob([exportDoc], {
+    //   type: "text/plain;charset=utf-8",
+    // });
+    // saveAs(exportDocBlob, "word-export.docx");
   };
 
   const exportText = useMemo(() => {
