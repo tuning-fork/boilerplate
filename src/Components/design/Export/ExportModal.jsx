@@ -29,6 +29,20 @@ export default function ExportModal({ exportData, open, setOpen }) {
     const quillDelta = quillEl.current.getEditor().getContents();
     console.log("quillDelta", quillDelta);
     console.log(quillDelta.ops[0].insert);
+    console.log(
+      quillDelta.ops.map((op) => {
+        return [op.insert, op.attributes];
+      })
+    );
+    console.log(quillDelta.ops.map((op) => op.attributes));
+    const quillDeltas = quillDelta.ops.map(
+      (op) =>
+        new TextRun({
+          children: [op.insert],
+          ...op.attributes,
+        })
+    );
+
     // const blob = quillDelta.ops[0].insert;
     // // const blob = await quillToWord.generateWord(quillDelta, {
     // //   exportAs: "blob",
@@ -40,6 +54,12 @@ export default function ExportModal({ exportData, open, setOpen }) {
     // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
     // This simple example will only contain one section
     console.log("split", quillDelta.ops[0].insert.split("\n"));
+    // const paragraphChildren = quillDelta.ops.map((op, index) => {
+    //     new TextRun({
+    //       children: [new Tab(), quillDelta.ops[index].insert],
+    //     });
+    // })
+    // ]
     const doc = new Document({
       // type: PatchType.DOCUMENT,
       sections: [
@@ -47,18 +67,16 @@ export default function ExportModal({ exportData, open, setOpen }) {
           properties: {},
           children: [
             new Paragraph({
-              children: [
-                new TextRun(quillDelta.ops[0].insert.split("\n")),
-                // new TextRun({
-                //   text: "Foo Bar",
-                //   bold: true,
-                //   size: 40,
-                // }),
-                new TextRun({
-                  children: [new Tab(), quillDelta.ops[0].insert],
-                  bold: true,
-                }),
-              ],
+              children: quillDeltas,
+              // new TextRun(quillDelta.ops[0].insert.split("\n")),
+              // new TextRun({
+              //   text: "Foo Bar",
+              //   bold: true,
+              //   size: 40,
+              // }),
+              // new TextRun({
+              //   children: [new Tab(), quillDelta.ops[0].insert],
+              // }),
             }),
           ],
         },
