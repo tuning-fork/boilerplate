@@ -17,40 +17,46 @@ import {
   PatchType,
 } from "docx";
 import * as fs from "fs";
+import {  parseQuillDelta } from 'quilljs-parser';
+import { parseWithOptions } from "date-fns/fp";
 
 export default function ExportModal({ exportData, open, setOpen }) {
   const quillEl = useRef(null);
   const [includeTitle, setIncludeTitle] = useState(false);
 
+  list
+: 
+"bullet"
+
   const handleDocxExport = async () => {
-    // const quillDelta = quillEl.current.getEditor().getContents();
-    console.log(quillEl.current.getEditor().getContents());
-    console.log(quillEl.current.getEditor());
     const quillDelta = quillEl.current.getEditor().getContents();
-    console.log("quillDelta", quillDelta);
-    console.log(quillDelta.ops[0].insert);
     console.log(
       quillDelta.ops.map((op) => {
         return [op.insert, op.attributes];
       })
     );
-    console.log(quillDelta.ops.map((op) => op.attributes));
+    console.log(quillDelta.ops);
     const quillDeltas = quillDelta.ops.map(
-      (op) =>
-        new TextRun({
+      (op, index) => {
+        return new TextRun({
           children: [op.insert],
           ...op.attributes,
         })
+      }
     );
+    console.log(quillDeltas);
 
-    // const blob = quillDelta.ops[0].insert;
-    // // const blob = await quillToWord.generateWord(quillDelta, {
-    // //   exportAs: "blob",
-    // //   // paragraphStyles: {},
-    // //   // customLevels: {},
-    // //   // customBulletLevels: {},
-    // // });
-    // // console.log(blob);
+    const rawQuillDelta = quillEl.current.getEditor().getContents();
+    const parsedQuill = parseQuillDelta(rawQuillDelta);
+    console.log(parsedQuill);
+    const formattedQuill = parsedQuill.paragraphs.map((pq) => {
+      return new TextRun({
+        text: pq.textRuns[0]?.text,
+        ...pq.textRuns[1]?.attributes,
+      });
+    });
+    console.log(formattedQuill)
+
     // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
     // This simple example will only contain one section
     console.log("split", quillDelta.ops[0].insert.split("\n"));
@@ -67,16 +73,7 @@ export default function ExportModal({ exportData, open, setOpen }) {
           properties: {},
           children: [
             new Paragraph({
-              children: quillDeltas,
-              // new TextRun(quillDelta.ops[0].insert.split("\n")),
-              // new TextRun({
-              //   text: "Foo Bar",
-              //   bold: true,
-              //   size: 40,
-              // }),
-              // new TextRun({
-              //   children: [new Tab(), quillDelta.ops[0].insert],
-              // }),
+              children: formattedQuill,
             }),
           ],
         },

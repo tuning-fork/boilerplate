@@ -7360,7 +7360,7 @@
     "parchment" "^1.1.4"
     "quill-delta" "^3.6.2"
 
-"quilljs-parser@^1.0.12":
+"quilljs-parser@^1.0.12", "quilljs-parser@^1.0.14":
   "integrity" "sha512-tycXmRQRcAp3Mq4vb+8Je+u8s3zoBEtwJmc3dZn4N6rFDYdBl1LlkzXJMBCvnpapHyejoOIViYq558MF2Ca7hg=="
   "resolved" "https://registry.npmjs.org/quilljs-parser/-/quilljs-parser-1.0.14.tgz"
   "version" "1.0.14"
