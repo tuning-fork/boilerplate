@@ -89,9 +89,9 @@ export default function ExportModal({ exportData, open, setOpen }) {
 
   const newExport = async () => {
     const quillDelta = quillEl.current.getEditor().getContents();
-    const doc = await generateWord(quillDelta, { exportAs: "buffer" }); // TODO: left off trying to get this work
+    const doc = await generateWord(quillDelta, { exportAs: "blob" }); // TODO: left off trying to get this work
     console.log("doc", doc);
-    // saveAs(doc, `new-doc-export-${new Date().getTime()}.docx`);
+    saveAs(doc, `example.docx`);
   };
 
   //   const styles = {

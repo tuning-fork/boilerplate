@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import * as docx from "docx";
 import * as fs from "fs";
+// import { writeFileSync } from "fs";
+import { saveAs } from "file-saver";
 import { parseQuillDelta } from "quilljs-parser";
 import {
   Document,
@@ -40,6 +42,7 @@ export async function generateWord(delta, config) {
   // if input is a raw quill delta
   if (delta.ops) {
     const parsedDelta = parseQuillDelta(delta);
+    console.log("parsedDelta", parsedDelta);
     parsedDeltas.push(parsedDelta);
     // if input is an array of parsed quill deltas
   } else if (Array.isArray(delta)) {
@@ -56,57 +59,18 @@ export async function generateWord(delta, config) {
     );
   }
   // set up the docx document based on configuration
-
-  console.log("parsedDeltas[0]", parsedDeltas[0]);
-
-  styles = defaultStyles; // reset back to original
-  levels = customNumberedLevels; // reset back to original
-  if (config) {
-    setupConfig(config);
-  }
-  let hyperlinks = undefined;
-  let numbering = undefined;
-  // build the hyperlinks property
-  if (parsedDeltas[0].setup.hyperlinks.length > 0) {
-    hyperlinks = buildHyperlinks(parsedDeltas[0].setup.hyperlinks);
-  }
-  // build the numbering property
-  if (parsedDeltas[0].setup.numberedLists > 0) {
-    numbering = buildNumbering(parsedDeltas[0].setup.numberedLists);
-  }
-  if (config?.customBulletLevels) {
-    numbering = addCustomBullets(numbering, config.customBulletLevels);
-    customBullets = true;
-  }
-  // parsedDeltas[0].paragraphs[parsedDeltas[0].paragraphs.length - 1].textRuns = [
-  //   { text: "" },
-  // ];
-  // doc = setupDoc(parsedDeltas[0], config);
-  // console.log("doc", doc);
+  doc = setupDoc(parsedDeltas[0], config);
   // build docx sections
   for (const delta of parsedDeltas) {
+    console.log("delta", delta);
     sections.push(buildSection(delta.paragraphs, doc));
   }
   // add docx sections to doc
-  // for (const section of sections) {
-  //   doc.addSection({
-  //     children: section,
-  //   });
-  // }
-  console.log("sections", sections);
-  doc = new Document({
-    styles: {
-      paragraphStyles: styles,
-    },
-    numbering: numbering,
-    hyperlinks: hyperlinks,
-    sections: [
-      {
-        properties: {},
-        children: [...sections],
-      },
-    ],
-  });
+  for (const section of sections) {
+    doc.addSection({
+      children: section,
+    });
+  }
   // return the appropriate export object based on configuration
   return exportDoc(doc, config);
 }
@@ -132,14 +96,16 @@ function setupDoc(parsedDelta, config) {
     numbering = addCustomBullets(numbering, config.customBulletLevels);
     customBullets = true;
   }
-
-  const doc = new Document({
+  console.log("styles", styles);
+  const doc = new docx.Document({
     styles: {
-      paragraphStyles: styles,
+      // paragraphStyles: styles,
     },
-    // numbering: numbering,
-    // hyperlinks: hyperlinks,
+    numbering: numbering,
+    hyperlinks: hyperlinks,
+    sections: [],
   });
+
   return doc;
 }
 
@@ -183,7 +149,6 @@ function buildSection(quillParagraphs, doc) {
 
 // export the appropriate object based on configuration
 async function exportDoc(doc, config) {
-  console.log("config", config);
   if (!config || !config.exportAs || config.exportAs === "doc") {
     return doc;
   }
@@ -191,13 +156,7 @@ async function exportDoc(doc, config) {
     return Packer.toBlob(doc);
   }
   if (config.exportAs === "buffer") {
-    // TODO: left off trying to get this work
-    console.log("returning buffer");
-    // return Packer.toBuffer(doc);
-    return Packer.toBuffer(doc).then((buffer) => {
-      console.log("buffer", buffer);
-      fs.writeFileSync("My Document.docx", buffer);
-    });
+    return Packer.toBuffer(doc);
   }
   if (config.exportAs === "base64") {
     return Packer.toBase64String(doc);
@@ -293,6 +252,7 @@ function buildParagraph(paragraph) {
       textRuns.push(buildTextRun(run, paragraph));
     }
   }
+
   const docxParagraph = new Paragraph({
     children: textRuns,
 
@@ -364,26 +324,26 @@ function buildTextRun(run, paragraph) {
   } else {
     textRun = new TextRun({
       text: run.text,
-      bold: run.attributes?.bold ? true : false,
-      italics: run.attributes?.italic ? true : false,
-      subScript: run.attributes?.script === "sub" ? true : false,
-      superScript: run.attributes?.script === "super" ? true : false,
-      strike: run.attributes?.strike ? true : false,
-      underline: run.attributes?.underline
-        ? { type: UnderlineType.SINGLE, color: "auto" }
-        : undefined,
-      color: run.attributes?.color ? run.attributes?.color.slice(1) : undefined,
-      size:
-        run.attributes?.size === "huge"
-          ? 36
-          : run.attributes?.size === "large"
-          ? 32
-          : run.attributes?.size === "small"
-          ? 20
-          : undefined,
-      // rightToLeft: paragraph.attributes?.direction === 'rtl' ? true : undefined
-      // font
-      highlight: run.attributes?.background ? "yellow" : undefined,
+      // bold: run.attributes?.bold ? true : false,
+      // italics: run.attributes?.italic ? true : false,
+      // subScript: run.attributes?.script === "sub" ? true : false,
+      // superScript: run.attributes?.script === "super" ? true : false,
+      // strike: run.attributes?.strike ? true : false,
+      // underline: run.attributes?.underline
+      //   ? { type: UnderlineType.SINGLE, color: "auto" }
+      //   : undefined,
+      // color: run.attributes?.color ? run.attributes?.color.slice(1) : undefined,
+      // size:
+      //   run.attributes?.size === "huge"
+      //     ? 36
+      //     : run.attributes?.size === "large"
+      //     ? 32
+      //     : run.attributes?.size === "small"
+      //     ? 20
+      //     : undefined,
+      // // rightToLeft: paragraph.attributes?.direction === 'rtl' ? true : undefined
+      // // font
+      // highlight: run.attributes?.background ? "yellow" : undefined,
     });
   }
   return textRun;
