@@ -1,8 +1,3 @@
-/* eslint-disable no-unused-vars */
-import * as docx from "docx";
-import * as fs from "fs";
-// import { writeFileSync } from "fs";
-import { saveAs } from "file-saver";
 import { parseQuillDelta } from "quilljs-parser";
 import {
   Document,
@@ -16,14 +11,15 @@ import {
   Paragraph,
   TextRun,
   UnderlineType,
+  HeadingLevel,
 } from "docx";
 import {
-  // customBulletLevels,
+  // customBulletLevels, // TODO: check this with the original package
   customNumberedLevels,
   defaultStyles,
 } from "./defaultStyles";
 
-let linkTracker = 0;
+// let linkTracker = 0;
 let numberedTracker = -1;
 let styles = defaultStyles;
 let levels = customNumberedLevels;
@@ -31,7 +27,7 @@ let customBullets = false;
 
 // main public function to generate docx document
 export async function generateWord(delta, config) {
-  linkTracker = 0; // reset link tracker
+  // linkTracker = 0; // reset link tracker
   numberedTracker = -1; // reset numered list tracker
   customBullets = false; // reset custom bullets
   let doc;
@@ -96,13 +92,13 @@ function setupDoc(parsedDelta, config) {
     numbering = addCustomBullets(numbering, config.customBulletLevels);
     customBullets = true;
   }
-  console.log("styles", styles);
-  const doc = new docx.Document({
+  console.log("hyperlinks", hyperlinks);
+  const doc = new Document({
     styles: {
-      // paragraphStyles: styles,
+      paragraphStyles: styles,
     },
-    numbering: numbering,
-    hyperlinks: hyperlinks,
+    numbering,
+    hyperlinks,
     sections: [],
   });
 
@@ -193,6 +189,7 @@ function buildHyperlinks(quillLinks) {
     };
     linkTracker++;
   }
+
   return hyperlinks;
 }
 
@@ -258,9 +255,9 @@ function buildParagraph(paragraph) {
 
     heading:
       paragraph.attributes?.header === 1
-        ? docx.HeadingLevel.HEADING_1
+        ? HeadingLevel.HEADING_1
         : paragraph.attributes?.header === 2
-        ? docx.HeadingLevel.HEADING_2
+        ? HeadingLevel.HEADING_2
         : undefined,
 
     bullet:
@@ -314,36 +311,44 @@ function buildParagraph(paragraph) {
 }
 
 // generate a docx text run from quill text run
-// eslint-disable-next-line no-unused-vars
-function buildTextRun(run, paragraph) {
+function buildTextRun(run) {
   let textRun;
   if (run.attributes?.link) {
     // textRun = new HyperlinkRef(`link${linkTracker}`);
-    textRun = new ExternalHyperlink(`link${linkTracker}`);
-    linkTracker++;
+    // textRun = new ExternalHyperlink(`link${linkTracker}`);
+    textRun = new ExternalHyperlink({
+      children: [
+        new TextRun({
+          text: run.text,
+          style: "Hyperlink",
+        }),
+      ],
+      link: run.attributes?.link,
+    });
+    // linkTracker++;
   } else {
     textRun = new TextRun({
       text: run.text,
-      // bold: run.attributes?.bold ? true : false,
-      // italics: run.attributes?.italic ? true : false,
-      // subScript: run.attributes?.script === "sub" ? true : false,
-      // superScript: run.attributes?.script === "super" ? true : false,
-      // strike: run.attributes?.strike ? true : false,
-      // underline: run.attributes?.underline
-      //   ? { type: UnderlineType.SINGLE, color: "auto" }
-      //   : undefined,
-      // color: run.attributes?.color ? run.attributes?.color.slice(1) : undefined,
-      // size:
-      //   run.attributes?.size === "huge"
-      //     ? 36
-      //     : run.attributes?.size === "large"
-      //     ? 32
-      //     : run.attributes?.size === "small"
-      //     ? 20
-      //     : undefined,
-      // // rightToLeft: paragraph.attributes?.direction === 'rtl' ? true : undefined
-      // // font
-      // highlight: run.attributes?.background ? "yellow" : undefined,
+      bold: run.attributes?.bold ? true : false,
+      italics: run.attributes?.italic ? true : false,
+      subScript: run.attributes?.script === "sub" ? true : false,
+      superScript: run.attributes?.script === "super" ? true : false,
+      strike: run.attributes?.strike ? true : false,
+      underline: run.attributes?.underline
+        ? { type: UnderlineType.SINGLE, color: "auto" }
+        : undefined,
+      color: run.attributes?.color ? run.attributes?.color.slice(1) : undefined,
+      size:
+        run.attributes?.size === "huge"
+          ? 36
+          : run.attributes?.size === "large"
+          ? 32
+          : run.attributes?.size === "small"
+          ? 20
+          : undefined,
+      // rightToLeft: paragraph.attributes?.direction === 'rtl' ? true : undefined
+      // font
+      highlight: run.attributes?.background ? "yellow" : undefined,
     });
   }
   return textRun;

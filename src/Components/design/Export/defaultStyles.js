@@ -2,8 +2,8 @@ export const defaultStyles = [
   {
     id: "normal",
     name: "Normal",
-    next: "normal",
-    basedOn: "normal",
+    next: "Normal",
+    basedOn: "Normal",
     quickFormat: true,
     run: {
       size: 24,
@@ -19,7 +19,7 @@ export const defaultStyles = [
   {
     id: "header_1",
     name: "Heading 1",
-    next: "normal",
+    next: "Normal",
     quickFormat: true,
     run: {
       font: "Calibri",
@@ -28,16 +28,16 @@ export const defaultStyles = [
     },
     paragraph: {
       spacing: {
-        before: 300,
-        after: 200,
+        before: 50,
+        after: 50,
       },
     },
   },
   {
     id: "header_2",
     name: "Heading 2",
-    basedOn: "normal",
-    next: "normal",
+    basedOn: "Normal",
+    next: "Normal",
     quickFormat: true,
     run: {
       font: "Calibri",
@@ -46,15 +46,15 @@ export const defaultStyles = [
     },
     paragraph: {
       spacing: {
-        before: 200,
-        after: 100,
+        before: 50,
+        after: 50,
       },
     },
   },
   {
     id: "list_paragraph",
     name: "List Paragraph",
-    basedOn: "normal",
+    basedOn: "Normal",
     quickFormat: true,
     run: {
       size: 24,
@@ -63,7 +63,7 @@ export const defaultStyles = [
   {
     id: "code_block",
     name: "Code Block",
-    basedOn: "normal",
+    basedOn: "Normal",
     quickFormat: true,
     run: {
       size: 24,
@@ -76,7 +76,7 @@ export const defaultStyles = [
   {
     id: "block_quote",
     name: "Block Quote",
-    basedOn: "normal",
+    basedOn: "Normal",
     quickFormat: true,
     run: {
       italics: true,
