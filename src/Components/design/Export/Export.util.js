@@ -38,7 +38,6 @@ export async function generateWord(delta, config) {
   // if input is a raw quill delta
   if (delta.ops) {
     const parsedDelta = parseQuillDelta(delta);
-    console.log("parsedDelta", parsedDelta);
     parsedDeltas.push(parsedDelta);
     // if input is an array of parsed quill deltas
   } else if (Array.isArray(delta)) {
@@ -58,7 +57,6 @@ export async function generateWord(delta, config) {
   doc = setupDoc(parsedDeltas[0], config);
   // build docx sections
   for (const delta of parsedDeltas) {
-    console.log("delta", delta);
     sections.push(buildSection(delta.paragraphs, doc));
   }
   // add docx sections to doc
@@ -92,7 +90,6 @@ function setupDoc(parsedDelta, config) {
     numbering = addCustomBullets(numbering, config.customBulletLevels);
     customBullets = true;
   }
-  console.log("hyperlinks", hyperlinks);
   const doc = new Document({
     styles: {
       paragraphStyles: styles,

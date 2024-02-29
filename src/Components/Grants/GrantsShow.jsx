@@ -255,7 +255,12 @@ export default function GrantsShow() {
           onClose={() => setSectionToStoreAsBoilerplate(null)}
         />
       </Modal>
-      <ExportModal exportData={grant.sections} open={open} setOpen={setOpen} />{" "}
+      <ExportModal
+        exportData={grant.sections}
+        grantTitle={grant.title}
+        open={open}
+        setOpen={setOpen}
+      />{" "}
     </div>
   );
 }

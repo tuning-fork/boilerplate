@@ -7,7 +7,7 @@ import { saveAs } from "file-saver";
 import "./ExportModal.css";
 import { generateWord } from "./Export.util";
 
-export default function ExportModal({ exportData, open, setOpen }) {
+export default function ExportModal({ exportData, grantTitle, open, setOpen }) {
   const quillEl = useRef(null);
   const [includeTitle, setIncludeTitle] = useState();
   // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
@@ -16,11 +16,11 @@ export default function ExportModal({ exportData, open, setOpen }) {
   const newExport = async () => {
     const quillDelta = quillEl.current.getEditor().getContents();
     const doc = await generateWord(quillDelta, { exportAs: "blob" });
-    saveAs(doc, `example.docx`);
+    saveAs(doc, `${grantTitle}.docx`);
+    setOpen(!open);
   };
 
   const exportText = useMemo(() => {
-    // TODO: make this generic and also add a flag to access title or some other property
     const newText = [];
     exportData.forEach((item) => {
       includeTitle && newText.push(item.title);
@@ -46,6 +46,7 @@ export default function ExportModal({ exportData, open, setOpen }) {
         ref={quillEl}
         readOnly={true}
         value={exportText}
+        showToolbar={false}
       />
       <div className="export-editor-buttons">
         <Button onClick={() => setIncludeTitle(!includeTitle)}>
@@ -68,7 +69,8 @@ export default function ExportModal({ exportData, open, setOpen }) {
 ExportModal.propTypes = {
   exportData: PropTypes.array,
   open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  grantTitle: PropTypes.string.isRequired,
 };
 
 ExportModal.defaultProps = {
