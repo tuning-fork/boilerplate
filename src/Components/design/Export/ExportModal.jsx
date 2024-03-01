@@ -15,9 +15,16 @@ export default function ExportModal({ exportData, grantTitle, open, setOpen }) {
 
   const newExport = async () => {
     const quillDelta = quillEl.current.getEditor().getContents();
-    const doc = await generateWord(quillDelta, { exportAs: "blob" });
-    saveAs(doc, `${grantTitle}.docx`);
-    setOpen(!open);
+    try {
+      const doc = await generateWord(quillDelta, { exportAs: "blob" });
+      saveAs(doc, `${grantTitle}.docx`);
+      setOpen(!open);
+    } catch (error) {
+      console.error(error);
+      alert(
+        `Eek! Something went wrong when you tried to export ${grantTitle} to docx format. Try again soon.`
+      );
+    }
   };
 
   const exportText = useMemo(() => {
