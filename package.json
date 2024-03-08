@@ -15,7 +15,7 @@
     "@mantine/dates": "^6.0.20",
     "@mantine/form": "^6.0.20",
     "@mantine/hooks": "^6.0.11",
-    "axios": "^0.21.4",
+    "axios": "^0.28.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "dayjs": "^1.11.9",
