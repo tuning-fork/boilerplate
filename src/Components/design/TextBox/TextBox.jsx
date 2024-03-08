@@ -37,6 +37,7 @@ export default function TextBox(props) {
             placeholder={placeholderText}
             required={required}
             {...rest}
+            data-testid={labelText}
           />
         ) : (
           <textarea

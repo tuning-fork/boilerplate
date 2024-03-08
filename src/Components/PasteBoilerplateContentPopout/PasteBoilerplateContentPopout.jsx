@@ -67,6 +67,7 @@ export default function PasteBoilerplateContentPopout() {
           onClick={() => {
             setIsOpen(false);
           }}
+          className="paste-boilerplate-content-popout__close-button"
         />
       </header>
 

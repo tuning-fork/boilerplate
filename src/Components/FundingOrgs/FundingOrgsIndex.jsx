@@ -67,12 +67,6 @@ export default function FundingOrgsIndex() {
     }
   };
 
-  const handleCloseFundingOrgModal = () => {
-    setShowingFundingOrgNew(false);
-    setShowingFundingOrgEdit(false);
-    return fundingOrgs;
-  };
-
   const columns = [
     { Header: "Name", accessor: "name" },
     {
@@ -131,8 +125,15 @@ export default function FundingOrgsIndex() {
           return fundingOrgs.archived === true;
         }
         return fundingOrgs;
-      });
+      })
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   }, [fundingOrgs, searchFilters, tabSelect]);
+
+  const handleCloseFundingOrgModal = () => {
+    setShowingFundingOrgNew(false);
+    setShowingFundingOrgEdit(false);
+    refetchFundingOrgs();
+  };
 
   return (
     <section className="fundingorgs-index">
@@ -178,7 +179,7 @@ export default function FundingOrgsIndex() {
         {filteredFundingOrgs.length ? (
           <Table columns={columns} data={filteredFundingOrgs} />
         ) : (
-          <p>There are no funding orgs for this category.</p>
+          <p>There are no funding organizations to display in this tab.</p>
         )}
       </div>
       <FundingOrgNew

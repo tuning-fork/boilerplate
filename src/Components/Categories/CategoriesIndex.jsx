@@ -72,12 +72,6 @@ export default function CategoriesIndex() {
     }
   };
 
-  const handleCloseCategoryModal = () => {
-    setShowingCategoryNew(false);
-    setShowingCategoryEdit(false);
-    return categories;
-  };
-
   const columns = [
     { Header: "Name", accessor: "name" },
     {
@@ -126,8 +120,16 @@ export default function CategoriesIndex() {
           return category.archived;
         }
         return category;
-      });
+      })
+      .sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
   }, [categories, searchFilters, tabSelect]);
+
+  const handleCloseCategoryModal = () => {
+    setShowingCategoryNew(false);
+    setShowingCategoryEdit(false);
+    refetchCategories();
+    // return categories;
+  };
 
   if (isLoading) {
     return <span>Loading...</span>;

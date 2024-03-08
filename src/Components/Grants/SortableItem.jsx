@@ -24,7 +24,7 @@ export function SortableItem(props) {
       item={props.item}
       id={props.id}
     >
-      <article className="sortable-item">
+      <article className="sortable-item" data-testid={props.item.title}>
         <MdDragIndicator className="sortable-item__icon" />
         <p className="sortable-item__title">{props.item.title}</p>
         <div>

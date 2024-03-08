@@ -41,10 +41,12 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint --ext=js,jsx .",
     "storybook": "start-storybook -p 6006 --host 0.0.0.0",
-    "build-storybook": "build-storybook -o public/storybook"
+    "build-storybook": "build-storybook -o public/storybook",
+    "cypress:open": "cypress open"
   },
   "proxy": "http://localhost:3000",
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.3",
     "@storybook/addon-a11y": "^6.5.9",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^7.0.9",
@@ -56,9 +58,11 @@
     "@testing-library/user-event": "^13.5.0",
     "@vitejs/plugin-react": "^2.0.0",
     "@vitest/ui": "^0.18.1",
+    "cypress": "^12.4.1",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^3.4.0",
     "jsdom": "^20.0.0",
     "prettier": "^2.3.1",

@@ -57,6 +57,7 @@ export default function BoilerplateForm(props) {
       <Select
         label="Category"
         placeholder="Select a Category"
+        data-testid="boilerplate-dropdown"
         value={boilerplateFields.categoryName}
         data={categories.map((category) => category.name)}
         onChange={(categoryName) => {
