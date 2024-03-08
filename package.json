@@ -47,7 +47,7 @@
   "proxy": "http://localhost:3000",
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.2.3",
-    "@storybook/addon-a11y": "^6.5.9",
+    "@storybook/addon-a11y": "^7.6.17",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^7.0.9",
     "@storybook/addon-links": "^6.5.9",
