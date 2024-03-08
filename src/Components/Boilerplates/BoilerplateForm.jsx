@@ -53,6 +53,7 @@ export default function BoilerplateForm(props) {
 
   return (
     <form className="BoilerplateForm" onSubmit={handleSubmit}>
+      {/* TODO: extract into a CategorySelect component */}
       <Select
         label="Category"
         placeholder="Select a Category"
@@ -60,7 +61,6 @@ export default function BoilerplateForm(props) {
         value={boilerplateFields.categoryName}
         data={categories.map((category) => category.name)}
         onChange={(categoryName) => {
-          console.log({ categoryName });
           setBoilerplateFields({
             ...boilerplateFields,
             categoryName,

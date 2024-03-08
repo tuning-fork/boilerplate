@@ -23,17 +23,15 @@ describe("Create a new grant from Grants index", () => {
       const grantCount = res.length;
       // Create a grant
       cy.get("a:contains('Add New Grant')").click();
-      cy.get('[data-testid="funding-org-dropdown"]').click();
-      cy.get("form").within(() => {
-        cy.get('[data-testid="The Arles Fund"]').click();
-        cy.get('[data-testid="Title"]').type(
-          `Test New Grant Name ${grantCount + 1}`
-        );
-        cy.get('[data-testid="RFP URL"]').type("https://www.testgrant.com");
-        cy.get('[data-testid="Deadline"]').type("2023-01-01T12:00:00");
-        cy.get('[data-testid="Purpose"]').type("testing purposes");
-        cy.get("button[type=submit]").click();
-      });
+      cy.get('[placeholder="Select a Funding Organization"]').click();
+      cy.contains("The Arles Fund").click();
+      cy.contains("Title")
+        .next()
+        .type(`Test New Grant Name ${grantCount + 1}`);
+      cy.contains("RFP URL").next().type("https://www.testgrant.com");
+      cy.contains("Deadline").next().type("2023-01-01T12:00:00");
+      cy.contains("Purpose").next().type("testing purposes");
+      cy.get("button[type=submit]").click();
 
       // Check for newly created grant in 'All'
       cy.wait("@createGrant");

@@ -47,14 +47,14 @@ describe("View a Grant on the Grants Show page", () => {
     cy.get("a[type=button]:contains('Edit')");
     cy.get("a[type=button]:contains('Overview')");
     cy.get("dt").should("contain", "DEADLINE");
-    cy.get("dd").should("contain", "2023");
+    cy.get("dd").should("contain", "2024");
     cy.get("b").should("contain", "TOTAL WORD COUNT");
 
     // Copy
     cy.get("a[type=button]:contains('Copy')").click();
     cy.get("h1:contains('Copy Grant')");
-    cy.get('[data-testid="Purpose"]').clear();
-    cy.get('[data-testid="Purpose"]').type("To test the copy process");
+    cy.contains("Purpose").next().find("input").clear();
+    cy.contains("Purpose").next().type("To test the copy process");
     cy.get("button:contains('Save')").click();
 
     cy.wait("@createGrant");
@@ -64,32 +64,24 @@ describe("View a Grant on the Grants Show page", () => {
     // Edit grant
     cy.get("a[type=button]:contains('Edit')").click();
     cy.get("h1:contains('Edit Grant')");
-    cy.get('[data-testid="funding-org-dropdown"]').click();
-    // cy.get("form").within(() => {
-    //   cy.get('[data-testid="The Arles Fund"]').click();
-    //   cy.get('[data-testid="RFP URL"]')
-    //     .clear()
-    //     .type("http://www.dndkitedit.com");
-    //   cy.get('[data-testid="Deadline"]').type("2023-06-01T12:00:00");
-    //   cy.get('[data-testid="Purpose"]')
-    //     .clear()
-    //     .type("To test the edit process");
-    //   cy.get("button[type=submit]").click();
-    // });
-
-    cy.get('[data-testid="The Arles Fund"]').click();
-    cy.get('[data-testid="RFP URL"]').clear();
-    cy.get('[data-testid="RFP URL"]').type("http://www.dndkitedit.com");
-    cy.get('[data-testid="Deadline"]').type("2023-06-01T12:00:00");
-    cy.get('[data-testid="Purpose"]').clear();
-    cy.get('[data-testid="Purpose"]').type("To test the edit process");
+    cy.get('[placeholder="Select a Funding Organization"]').click();
+    cy.contains("The Arles Fund").click();
+    cy.contains("Title").next().type("Cypress Tree Neighborhood Grant Edit");
+    cy.contains("RFP URL").next().find("input").clear();
+    cy.contains("RFP URL").next().type("http://www.dndkitedit.com");
+    cy.contains("Deadline").next().type("2023-06-01T12:00:00");
+    cy.contains("Purpose").next().find("input").clear();
+    cy.contains("Purpose").next().type("To test the edit process");
     cy.get("button[type=submit]").click();
 
     cy.wait("@editGrant");
 
     // Add section
     cy.get('[data-testid="Grants"]').click();
-    cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
+    cy.get("td:contains('Cypress Tree Neighborhood Grant')")
+      .first()
+      .find("a")
+      .click();
     cy.get("dd").first().should("contain", "The Arles Fund");
     cy.get("button:contains('Add Section')").first().click();
     cy.get("form").within(() => {
@@ -178,7 +170,10 @@ describe("View a Grant on the Grants Show page", () => {
     // Delete the newly added section
     cy.get("a:contains('Grants')").click();
     cy.wait("@getGrant");
-    cy.get("td:contains('Cypress Tree Neighborhood Grant')").first().click();
+    cy.get("td:contains('Cypress Tree Neighborhood Grant')")
+      .first()
+      .find("a")
+      .click();
     cy.get("h2:contains('New Section Title')");
     cy.get(".section__edit-icon").first().click();
     cy.get("button:contains('Delete Section')").click();
