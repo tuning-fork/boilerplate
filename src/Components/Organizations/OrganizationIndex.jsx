@@ -36,7 +36,11 @@ function OrganizationIndex() {
         </header>
         <ul className="organization-index__list">
           {organizations.map((organization) => (
-            <li key={organization.id} className="organization-index__list-item">
+            <li
+              data-testid={organization.name}
+              key={organization.id}
+              className="organization-index__list-item"
+            >
               <Link to={`/organizations/${organization.id}/dashboard`}>
                 <OrganizationCard organization={organization} />
               </Link>

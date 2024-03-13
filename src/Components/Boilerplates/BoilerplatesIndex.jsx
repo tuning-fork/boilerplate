@@ -44,16 +44,27 @@ export default function BoilerplatesIndex() {
     }
   );
 
-  const handleDropdownMiniAction = ({ option, boilerplate }) => {
-    switch (option.value) {
-      case "REMOVE_FROM_ARCHIVED":
-        updateBoilerplate({ id: boilerplate.id, archived: false });
-        break;
-      case "MARK_AS_ARCHIVED":
-        updateBoilerplate({ id: boilerplate.id, archived: true });
-        break;
-      default:
-        console.error(`Unexpected option given ${option.value}!`);
+  const handleDropdownMiniAction = async ({ option, boilerplate }) => {
+    console.log("handleDropdownMiniAction", option, boilerplate);
+    try {
+      switch (option.value) {
+        case "REMOVE_FROM_ARCHIVED":
+          updateBoilerplate({
+            id: boilerplate.id,
+            archived: false,
+          });
+          break;
+        case "MARK_AS_ARCHIVED":
+          updateBoilerplate({
+            ...boilerplate,
+            archived: true,
+          });
+          break;
+        default:
+          throw new Error(`Unexpected option given ${option.value}!`);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -75,10 +86,10 @@ export default function BoilerplatesIndex() {
     {
       Header: "Last Modified",
       accessor: (boilerplate) => (
-        <div className="boilerplates-index__Last-Modified-Cell">
+        <div className="boilerplates-index__last-modified-cell">
           {formatDate(boilerplate.updatedAt)}
           <DropdownMini
-            className="grants-index__see-more"
+            className="boilerplates-index__see-more"
             labelText="Further Actions"
             placeholder="Pick One"
             options={[
@@ -113,7 +124,8 @@ export default function BoilerplatesIndex() {
           return boilerplate.archived === true;
         }
         return boilerplate;
-      });
+      })
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   }, [boilerplates, searchFilters, tabSelect]);
 
   if (isLoading) {

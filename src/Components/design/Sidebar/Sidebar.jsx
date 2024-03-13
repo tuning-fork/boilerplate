@@ -36,7 +36,7 @@ export default function Sidebar(props) {
     <nav className={clsx(props.className, "sidebar")}>
       <ul className="sidebar__list">
         {links.map(({ icon, title, path }) => (
-          <li key={title}>
+          <li data-testid={title} key={title}>
             <CurrentOrganizationLink
               as={NavLink}
               className="sidebar__navitem"

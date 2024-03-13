@@ -19,6 +19,7 @@ export default function Dropdown(props) {
     labelText,
     altLabel,
     onClickAltLabel,
+    testId,
   } = props;
   const dropdownEl = useRef(null);
 
@@ -63,6 +64,7 @@ export default function Dropdown(props) {
             setIsMenuOpen(false);
           }
         }}
+        data-testid={testId}
       >
         <span id={labelId} className="dropdown__label">
           <div onClick={() => setIsMenuOpen(true)}>{labelText}</div>
@@ -91,6 +93,7 @@ export default function Dropdown(props) {
               setIsMenuOpen((isOpen) => !isOpen);
             }
           }}
+          data-testid={props.testid}
         >
           {selectedOption ? (
             <span>{selectedOption.label}</span>
@@ -117,6 +120,7 @@ Dropdown.propTypes = {
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,
+  testId: PropTypes.string,
 };
 
 Dropdown.defaultProps = {

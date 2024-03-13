@@ -12,6 +12,7 @@ export default function DropdownMenu(props) {
       {...restProps}
       className={clsx(className, "dropdown__menu")}
       role="listbox"
+      data-testid="drop-down-mini-menu"
     >
       {options?.map((option, index) => (
         <DropdownMenuItem key={index} option={option} index={index} />

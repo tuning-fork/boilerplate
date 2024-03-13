@@ -55,3 +55,11 @@
   transform: translateY(-50%);
 }
 
+.boilerplates-index__see-more .dropdown__menu {
+  right: calc(-0.4rem - 1vw);
+  transform: translateY(-28%);
+}
+
+.boilerplates-index__table .table__cell {
+  position: relative;
+}

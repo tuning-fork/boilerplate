@@ -91,7 +91,10 @@ export default function GrantsIndex() {
     {
       Header: "Title",
       accessor: (grant) => (
-        <CurrentOrganizationLink to={`/grants/${grant.id}`}>
+        <CurrentOrganizationLink
+          to={`/grants/${grant.id}`}
+          data-testid={grant.title}
+        >
           {grant.title}
         </CurrentOrganizationLink>
       ),
@@ -170,7 +173,8 @@ export default function GrantsIndex() {
           return grant.submitted === true;
         }
         return grant;
-      });
+      })
+      .sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt));
   }, [grants, searchFilters, tabSelect]);
 
   return (
@@ -200,6 +204,7 @@ export default function GrantsIndex() {
             tabSelect === "All" && "grants-index__table-tab-button--selected"
           )}
           variant="text"
+          data-testid="all-button"
         >
           All
         </Button>
@@ -210,6 +215,7 @@ export default function GrantsIndex() {
             tabSelect === "Drafts" && "grants-index__table-tab-button--selected"
           )}
           variant="text"
+          data-testid="drafts-button"
         >
           Drafts
         </Button>
@@ -221,6 +227,7 @@ export default function GrantsIndex() {
               "grants-index__table-tab-button--selected"
           )}
           variant="text"
+          data-testid="submitted-button"
         >
           Submitted
         </Button>
@@ -232,6 +239,7 @@ export default function GrantsIndex() {
               "grants-index__table-tab-button--selected"
           )}
           variant="text"
+          data-testid="successful-button"
         >
           Successful
         </Button>
@@ -243,6 +251,7 @@ export default function GrantsIndex() {
               "grants-index__table-tab-button--selected"
           )}
           variant="text"
+          data-testid="archived-button"
         >
           Archived
         </Button>

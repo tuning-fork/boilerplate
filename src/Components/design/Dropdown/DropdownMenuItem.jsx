@@ -52,6 +52,7 @@ export default function DropdownMenuItem(props) {
             setFocusedOption(options[index + 1]);
           }
         }}
+        data-testid={option.label}
       >
         {option.label}
       </Button>
