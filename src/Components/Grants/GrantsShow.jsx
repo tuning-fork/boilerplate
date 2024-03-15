@@ -18,6 +18,7 @@ import StoreSectionAsBoilerplate from "../Sections/StoreSectionAsBoilerplate";
 import { PasteBoilerplateContentPopoutContext } from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopoutContext";
 import PasteBoilerplateContentPopout from "../PasteBoilerplateContentPopout/PasteBoilerplateContentPopout";
 import CurrentOrganizationLink from "../Helpers/CurrentOrganizationLink";
+import ExportModal from "../design/Export/ExportModal";
 import "./GrantsShow.css";
 
 function countTotalSectionsWords(sections = []) {
@@ -55,6 +56,7 @@ export default function GrantsShow() {
   const [editingSectionId, setEditingSectionId] = useState(null);
   const totalWordCount = countTotalSectionsWords(grant?.sections);
   const [overview, setOverview] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const heroButtons = () => (
     <>
@@ -78,6 +80,9 @@ export default function GrantsShow() {
         to={`/grants/${grant.id}/overview/`}
       >
         Overview
+      </Button>
+      <Button variant="light" onClick={() => setOpen(!open)}>
+        Export
       </Button>
     </>
   );
@@ -250,6 +255,12 @@ export default function GrantsShow() {
           onClose={() => setSectionToStoreAsBoilerplate(null)}
         />
       </Modal>
+      <ExportModal
+        exportData={grant.sections}
+        grantTitle={grant.title}
+        open={open}
+        setOpen={setOpen}
+      />{" "}
     </div>
   );
 }

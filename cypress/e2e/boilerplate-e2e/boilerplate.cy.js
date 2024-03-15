@@ -1,5 +1,3 @@
-import "@4tw/cypress-drag-drop";
-
 describe("Create a new boilerplate", () => {
   it("Logs into the application", () => {
     cy.viewport(2560, 1600);

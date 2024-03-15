@@ -1,0 +1,18 @@
+.export-editor-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.export-editor {
+  padding-top: 1rem;
+}
+
+.export-editor .ql-editor {
+  max-height: 600px;
+}
+
+.export-close-button {
+  margin-right: 0.5rem;
+}
