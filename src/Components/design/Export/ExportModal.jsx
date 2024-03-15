@@ -10,8 +10,6 @@ import { generateWord } from "./Export.util";
 export default function ExportModal({ exportData, grantTitle, open, setOpen }) {
   const quillEl = useRef(null);
   const [includeTitle, setIncludeTitle] = useState();
-  // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
-  // This simple example will only contain one section
 
   const newExport = async () => {
     const quillDelta = quillEl.current.getEditor().getContents();
